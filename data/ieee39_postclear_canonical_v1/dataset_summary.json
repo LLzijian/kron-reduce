@@ -1,0 +1,31 @@
+{
+  "dataset_name": "ieee39_postclear_canonical_v1",
+  "dataset_revision": "ieee39_postclear_canonical_v1",
+  "build_timestamp": "2026-07-22T02:27:39.824799+00:00",
+  "build_id": "canonical_rebuild_20260722T022739",
+  "content_revision": "postclear_provenance_v2",
+  "disturbance_calibration_revision": "empirical_rank_v1",
+  "harness_contract_revision": "causal_windowed_v2",
+  "counts": {
+    "source_npz_records": 623,
+    "active_events": 315,
+    "active_extended": 100,
+    "active_reduced": 215,
+    "active_stable": 264,
+    "active_unstable": 51,
+    "v1_duplicates": 111,
+    "dense_cct_bisection_excluded": 13,
+    "v4_excluded": 184
+  },
+  "label_mapping": {
+    "highorder_loss_of_synchronism_flag_false": "stable",
+    "dense_stable": "stable",
+    "dense_near_critical": "stable",
+    "dense_unstable": "unstable"
+  },
+  "views": {
+    "general_dynamics": "highorder 100 events (extended states)",
+    "binary_stability": "dense 215 events (164 stable / 51 unstable)",
+    "combined_dynamics": "all 315 events (common channels only)"
+  }
+}

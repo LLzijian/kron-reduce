@@ -1,0 +1,66 @@
+{
+  "project": "kron-reduce",
+  "schema_version": "1.0",
+  "default_dataset": "ieee39_postclear_canonical_v1",
+  "default_experiment": "paper_smoke",
+  "datasets": {
+    "ieee39_postclear_canonical_v1": {
+      "revision": "ieee39_postclear_canonical_v1",
+      "path": "data/ieee39_postclear_canonical_v1",
+      "h5": "ieee39_postclear_canonical_v1.h5",
+      "index": "dataset_index.csv",
+      "checksum_manifest": "checksums.sha256",
+      "expected_events": 315,
+      "views": ["general_dynamics", "binary_stability", "combined_dynamics"]
+    }
+  },
+  "experiments": {
+    "paper_smoke": {
+      "status": "smoke",
+      "module": "kron_reduce.workflows.paper_smoke",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "split_name": "combined_line_5fold_v1",
+      "fold": "F1",
+      "representation": "clustered_7",
+      "pm_mode": "zoh",
+      "methods": ["M0", "M2A", "M2A-energy", "SINDYc", "PINN", "LSTM"]
+    },
+    "paper_support_audit": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.paper_support_audit",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "support_audit",
+      "reads_test_performance": false
+    },
+    "paper_v1_full": {
+      "status": "gated",
+      "module": "kron_reduce.workflows.paper_full",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "split_name": "combined_line_5fold_v1",
+      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "representation": "clustered_7",
+      "pm_mode": "zoh",
+      "required_gate": "full_run_approved"
+    },
+    "paper_summarize": {
+      "status": "postprocess",
+      "module": "kron_reduce.workflows.paper_postprocess",
+      "stage": "summarize"
+    },
+    "paper_adversarial_audit": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.paper_postprocess",
+      "stage": "adversarial_audit"
+    },
+    "paper_tables": {
+      "status": "reporting",
+      "module": "kron_reduce.workflows.paper_postprocess",
+      "stage": "paper_tables"
+    },
+    "paper_manuscript": {
+      "status": "reporting",
+      "module": "kron_reduce.workflows.paper_postprocess",
+      "stage": "manuscript"
+    }
+  }
+}

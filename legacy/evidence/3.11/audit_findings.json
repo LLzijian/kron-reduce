@@ -1,0 +1,7 @@
+[
+  {
+    "severity": "OK",
+    "check": "audit",
+    "message": "No blocking findings."
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "dataset": "ieee39_postclear_canonical_v1",
+  "build_id": "canonical_rebuild_20260722T022739",
+  "content_revision": "postclear_provenance_v2",
+  "harness_contract_revision": "causal_windowed_v2",
+  "expected": {
+    "events": 315,
+    "stable": 264,
+    "unstable": 51,
+    "extended": 100,
+    "reduced": 215
+  },
+  "primary_view": "combined_dynamics",
+  "primary_split": "combined_line_5fold_v1"
+}

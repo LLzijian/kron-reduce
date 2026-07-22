@@ -1,0 +1,11 @@
+{
+  "source_repository": "swing_equation",
+  "source_git_commit": "8f78124cddd74ff116f5a13948059de93283a90f",
+  "copied_at": "2026-07-22T06:46:00.444663+00:00",
+  "copy_policy": "byte_for_byte_no_materialization",
+  "dataset_revision": "ieee39_postclear_canonical_v1",
+  "build_id": "canonical_rebuild_20260722T022739",
+  "verified_files": 30,
+  "verified_events": 315,
+  "h5_sha256": "3f6546411f3cdbea4de7977968a779b62228fa843e62fbc4f606972eff0e9636"
+}

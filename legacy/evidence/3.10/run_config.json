@@ -1,0 +1,228 @@
+{
+  "task": "3.10 final paper comparison Protocol A/B",
+  "mode": "full",
+  "quick_smoke": false,
+  "seeds": [
+    324,
+    325,
+    326,
+    327,
+    328
+  ],
+  "windows": [
+    20,
+    40,
+    100,
+    200
+  ],
+  "pm_mode": "Pm(t) observed exogenous input",
+  "epochs_m2a": 1500,
+  "epochs_m2a_lyap": 500,
+  "epochs_lstm_rollout": 30,
+  "epochs_direct_classifiers": 30,
+  "protocol_a": "highorder stable train/val/test plus untouched v1 external stability test",
+  "protocol_b": "dense boundary fault-line group split; v1 is not used as a separate test set",
+  "dataset_audit": {
+    "quick": false,
+    "highorder_path": "E:\\03-nn_Transfer_Func\\swing_equation\\data\\external_sim\\andes\\ieee39_highorder_dataset",
+    "v1_path": "E:\\03-nn_Transfer_Func\\swing_equation\\data\\external_sim\\andes\\ieee39_near_critical_unstable_v1",
+    "dense_path": "E:\\03-nn_Transfer_Func\\swing_equation\\data\\external_sim\\andes\\ieee39_near_critical_unstable_v1_dense",
+    "highorder_counts": {
+      "train": 70,
+      "val": 15,
+      "test": 15
+    },
+    "v1_counts": {
+      "total": 143,
+      "stable": 67,
+      "near_critical": 13,
+      "unstable": 63
+    },
+    "dense_counts": {
+      "total": 262,
+      "stable": 112,
+      "near_critical": 34,
+      "unstable": 116
+    },
+    "dense_contains_v1_cases": 143,
+    "v1_not_in_dense": 0,
+    "dense_extra_cases": 119,
+    "near_critical_overlap_v1_dense": 11,
+    "highorder_external_fault_line_overlap": [],
+    "dense_fault_line_counts": {
+      "Line_2": {
+        "stable": 18,
+        "near_critical": 0,
+        "unstable": 0,
+        "total": 18
+      },
+      "Line_35": {
+        "stable": 15,
+        "near_critical": 4,
+        "unstable": 14,
+        "total": 33
+      },
+      "Line_36": {
+        "stable": 11,
+        "near_critical": 6,
+        "unstable": 14,
+        "total": 31
+      },
+      "Line_37": {
+        "stable": 10,
+        "near_critical": 4,
+        "unstable": 14,
+        "total": 28
+      },
+      "Line_41": {
+        "stable": 0,
+        "near_critical": 3,
+        "unstable": 16,
+        "total": 19
+      },
+      "Line_42": {
+        "stable": 2,
+        "near_critical": 2,
+        "unstable": 21,
+        "total": 25
+      },
+      "Line_43": {
+        "stable": 15,
+        "near_critical": 3,
+        "unstable": 9,
+        "total": 27
+      },
+      "Line_44": {
+        "stable": 11,
+        "near_critical": 4,
+        "unstable": 12,
+        "total": 27
+      },
+      "Line_45": {
+        "stable": 14,
+        "near_critical": 5,
+        "unstable": 8,
+        "total": 27
+      },
+      "Line_46": {
+        "stable": 16,
+        "near_critical": 3,
+        "unstable": 8,
+        "total": 27
+      }
+    },
+    "protocol_b_splits": [
+      {
+        "split_id": "B1",
+        "train_lines": [
+          "Line_2",
+          "Line_37",
+          "Line_42",
+          "Line_43",
+          "Line_44",
+          "Line_46"
+        ],
+        "val_lines": [
+          "Line_36"
+        ],
+        "test_lines": [
+          "Line_35",
+          "Line_41",
+          "Line_45"
+        ],
+        "train_val_overlap": [],
+        "train_test_overlap": [],
+        "val_test_overlap": []
+      },
+      {
+        "split_id": "B2",
+        "train_lines": [
+          "Line_2",
+          "Line_37",
+          "Line_41",
+          "Line_43",
+          "Line_44",
+          "Line_45"
+        ],
+        "val_lines": [
+          "Line_35"
+        ],
+        "test_lines": [
+          "Line_36",
+          "Line_42",
+          "Line_46"
+        ],
+        "train_val_overlap": [],
+        "train_test_overlap": [],
+        "val_test_overlap": []
+      },
+      {
+        "split_id": "B3",
+        "train_lines": [
+          "Line_2",
+          "Line_35",
+          "Line_36",
+          "Line_41",
+          "Line_42",
+          "Line_45"
+        ],
+        "val_lines": [
+          "Line_46"
+        ],
+        "test_lines": [
+          "Line_37",
+          "Line_43",
+          "Line_44"
+        ],
+        "train_val_overlap": [],
+        "train_test_overlap": [],
+        "val_test_overlap": []
+      },
+      {
+        "split_id": "B4",
+        "train_lines": [
+          "Line_2",
+          "Line_36",
+          "Line_37",
+          "Line_41",
+          "Line_43",
+          "Line_45"
+        ],
+        "val_lines": [
+          "Line_44"
+        ],
+        "test_lines": [
+          "Line_35",
+          "Line_42",
+          "Line_46"
+        ],
+        "train_val_overlap": [],
+        "train_test_overlap": [],
+        "val_test_overlap": []
+      },
+      {
+        "split_id": "B5",
+        "train_lines": [
+          "Line_2",
+          "Line_35",
+          "Line_41",
+          "Line_42",
+          "Line_44",
+          "Line_46"
+        ],
+        "val_lines": [
+          "Line_37"
+        ],
+        "test_lines": [
+          "Line_36",
+          "Line_43",
+          "Line_45"
+        ],
+        "train_val_overlap": [],
+        "train_test_overlap": [],
+        "val_test_overlap": []
+      }
+    ],
+    "note": "Dense contains all v1 cases, so Protocol B never uses v1 as a held-out test set."
+  }
+}

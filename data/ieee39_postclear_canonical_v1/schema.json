@@ -1,0 +1,292 @@
+{
+  "dataset_name": "ieee39_postclear_canonical_v1",
+  "dataset_revision": "ieee39_postclear_canonical_v1",
+  "schema_version": "1.0",
+  "n_active_events": 315,
+  "n_extended_events": 100,
+  "n_reduced_events": 215,
+  "n_stable": 264,
+  "n_unstable": 51,
+  "n_excluded": 308,
+  "channels_common": [
+    "t",
+    "delta",
+    "omega",
+    "Pm",
+    "Pe",
+    "bus_v",
+    "bus_a"
+  ],
+  "channels_extended": [
+    "Qe",
+    "Vt",
+    "vf",
+    "exc_vp",
+    "exc_LS_y",
+    "exc_LL_x",
+    "exc_LA_y",
+    "exc_W_x",
+    "gov_LAG_y",
+    "gov_LL_x"
+  ],
+  "n_generators": 10,
+  "n_buses": 39,
+  "M_prior": [
+    87.36,
+    50.6616,
+    60.40892,
+    67.19856,
+    56.1704,
+    75.56472,
+    54.13056,
+    47.15172,
+    116.2029,
+    1199.0
+  ],
+  "omega_s_rad_per_s": 376.99111843077515,
+  "compression": "gzip",
+  "compression_level": 4,
+  "shuffle": true,
+  "fletcher32": true,
+  "build_id": "canonical_rebuild_20260722T022739",
+  "build_timestamp": "2026-07-22T02:27:39.824799+00:00",
+  "source_datasets": {
+    "highorder": "ieee39_highorder_dataset",
+    "dense": "ieee39_near_critical_unstable_v1_dense",
+    "v1_excluded": "ieee39_near_critical_unstable_v1",
+    "v4_excluded": "ieee39_protocol_ab_late_event_v4"
+  },
+  "content_revision": "postclear_provenance_v2",
+  "disturbance_calibration_revision": "empirical_rank_v1",
+  "harness_contract_revision": "causal_windowed_v2",
+  "field_specifications": {
+    "t": {
+      "shape": "(T,)",
+      "dtype": "float64",
+      "unit": "s",
+      "coordinate_frame": "postclear_relative",
+      "transformation": "t - clearing_time",
+      "role": "streaming_exogenous"
+    },
+    "delta": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "rad",
+      "coordinate_frame": "inertia_weighted_COI_relative",
+      "transformation": "delta_i - sum(M_i*delta_i)/sum(M_i)",
+      "role": "target"
+    },
+    "omega": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "rad/s",
+      "coordinate_frame": "inertia_weighted_COI_speed_deviation",
+      "formula": "(omega_pu_i - omega_COI_pu) * omega_s",
+      "role": "target"
+    },
+    "Pm": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "source_power_unit",
+      "coordinate_frame": "COI_balanced",
+      "formula": "Pm_raw_i - M_i/sum(M)*sum(Pm_raw)",
+      "role": "streaming_exogenous"
+    },
+    "tm": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "source_power_unit",
+      "coordinate_frame": "COI_balanced",
+      "note": "alias for Pm",
+      "role": "streaming_exogenous"
+    },
+    "Pe": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "source_power_unit",
+      "coordinate_frame": "COI_balanced",
+      "role": "offline_audit"
+    },
+    "bus_v": {
+      "shape": "(T, 39)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "bus_absolute",
+      "role": "offline_audit"
+    },
+    "bus_a": {
+      "shape": "(T, 39)",
+      "dtype": "float64",
+      "unit": "rad",
+      "coordinate_frame": "bus_absolute",
+      "role": "offline_audit"
+    },
+    "Qe": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "source_reactive_power_unit",
+      "coordinate_frame": "generator_absolute",
+      "role": "offline_audit"
+    },
+    "Vt": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "generator_terminal",
+      "role": "offline_audit"
+    },
+    "vf": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "exciter_field_voltage",
+      "role": "offline_audit"
+    },
+    "exc_vp": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "exciter_PSS_output",
+      "role": "offline_audit"
+    },
+    "exc_LS_y": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "exciter_sensor_lag",
+      "role": "offline_audit"
+    },
+    "exc_LL_x": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "exciter_leadlag",
+      "role": "offline_audit"
+    },
+    "exc_LA_y": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "exciter_amplifier",
+      "role": "offline_audit"
+    },
+    "exc_W_x": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "exciter_washout",
+      "role": "offline_audit"
+    },
+    "gov_LAG_y": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "governor_lag",
+      "role": "offline_audit"
+    },
+    "gov_LL_x": {
+      "shape": "(T, 10)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "governor_leadlag",
+      "role": "offline_audit"
+    },
+    "equilibrium.delta0": {
+      "shape": "(10,)",
+      "dtype": "float64",
+      "unit": "rad",
+      "coordinate_frame": "generator_absolute",
+      "role": "static_input"
+    },
+    "equilibrium.omega0": {
+      "shape": "(10,)",
+      "dtype": "float64",
+      "unit": "pu",
+      "coordinate_frame": "generator_absolute",
+      "role": "static_input"
+    },
+    "equilibrium.Pm0": {
+      "shape": "(10,)",
+      "dtype": "float64",
+      "unit": "source_power_unit",
+      "coordinate_frame": "generator_absolute",
+      "role": "static_input"
+    },
+    "equilibrium.Pe0": {
+      "shape": "(10,)",
+      "dtype": "float64",
+      "unit": "source_power_unit",
+      "coordinate_frame": "generator_absolute",
+      "role": "offline_audit"
+    },
+    "event_observed": {
+      "dtype": "bool",
+      "description": "True if ANDES simulator observed a loss-of-synchronism event"
+    },
+    "event_time_s": {
+      "dtype": "float64",
+      "unit": "s",
+      "description": "Relative time from clearing to event (NaN for stable)"
+    },
+    "censoring_time_s": {
+      "dtype": "float64",
+      "unit": "s",
+      "description": "Observation horizon end (NaN for unstable)"
+    },
+    "trajectory_end_s": {
+      "dtype": "float64",
+      "unit": "s",
+      "description": "Last time point in the postclear trajectory"
+    },
+    "is_censored": {
+      "dtype": "bool",
+      "description": "True if stable (right-censored), False if unstable (event observed)"
+    },
+    "event_time_source": {
+      "dtype": "str",
+      "description": "source_metadata for unstable events, none for stable"
+    },
+    "source_npz_path": {
+      "dtype": "str",
+      "role": "metadata",
+      "description": "Project-relative immutable source NPZ path"
+    },
+    "source_meta_path": {
+      "dtype": "str",
+      "role": "metadata",
+      "description": "Project-relative source metadata path when present"
+    },
+    "source_npz_sha256": {
+      "dtype": "sha256",
+      "role": "metadata",
+      "description": "Byte hash of the source NPZ"
+    },
+    "event_signature_sha256": {
+      "dtype": "sha256",
+      "role": "metadata",
+      "description": "Canonical content hash over t/delta/omega/Pm"
+    },
+    "clear_angle_rms_rad": {
+      "unit": "rad",
+      "description": "RMS of absolute (non-COI) generator angles at clearing time"
+    },
+    "clear_speed_rms": {
+      "unit": "pu",
+      "note": "deprecated alias \u2014 use clear_speed_rms_pu",
+      "description": "RMS of absolute (non-COI) generator speed deviations at clearing time"
+    },
+    "clear_speed_range": {
+      "unit": "pu",
+      "note": "deprecated alias \u2014 use clear_speed_range_pu",
+      "description": "Range (max-min) of absolute speed deviations at clearing time"
+    },
+    "clear_speed_rms_pu": {
+      "unit": "pu",
+      "description": "RMS of absolute (non-COI) generator speed deviations at clearing time"
+    },
+    "clear_speed_range_pu": {
+      "unit": "pu",
+      "description": "Range (max-min) of absolute speed deviations at clearing time"
+    }
+  }
+}

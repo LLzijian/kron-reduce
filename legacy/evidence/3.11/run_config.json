@@ -1,0 +1,160 @@
+{
+  "task": "3.11 Protocol B M2A/M2A-LYAP accuracy improvement",
+  "mode": "full",
+  "quick": false,
+  "seeds": [
+    324,
+    325,
+    326,
+    327,
+    328
+  ],
+  "epochs_m2a": 1500,
+  "epochs_m2a_lyap": 500,
+  "epochs_cls": 120,
+  "run_cls": true,
+  "run_passh": true,
+  "run_passh_val": false,
+  "run_passh_robust": true,
+  "passh_only": true,
+  "passh_robust_only": true,
+  "reuse_310_models": true,
+  "reuse_310_dir": "results\\03_kron_graph_sindy\\02_cluster\\3.10-final_paper_comparison_protocol_ab",
+  "m0_anchors": [
+    "all",
+    "stable_near",
+    "stable_only"
+  ],
+  "passh_horizons": [
+    50,
+    100,
+    200,
+    400
+  ],
+  "passh_residual_alphas": [
+    0.0,
+    0.5,
+    1.0
+  ],
+  "passh_gate_pi": 0.95,
+  "passh_damp": 0.0,
+  "passh_robust_objective": "line_mean_accuracy_then_balanced_accuracy_long_horizon",
+  "angle_thr_pi": [
+    1.0,
+    1.1,
+    1.25,
+    1.5,
+    2.0,
+    3.0
+  ],
+  "freq_thr_pu": [
+    0.05,
+    0.075,
+    0.1,
+    0.15,
+    0.2
+  ],
+  "tail_thr": [
+    2.0,
+    3.0,
+    5.0,
+    8.0,
+    "inf"
+  ],
+  "protocol_b_splits": {
+    "B1": {
+      "test": [
+        "Line_35",
+        "Line_41",
+        "Line_45"
+      ],
+      "val": [
+        "Line_36"
+      ],
+      "train": [
+        "Line_2",
+        "Line_37",
+        "Line_42",
+        "Line_43",
+        "Line_44",
+        "Line_46"
+      ]
+    },
+    "B2": {
+      "test": [
+        "Line_36",
+        "Line_42",
+        "Line_46"
+      ],
+      "val": [
+        "Line_35"
+      ],
+      "train": [
+        "Line_2",
+        "Line_37",
+        "Line_41",
+        "Line_43",
+        "Line_44",
+        "Line_45"
+      ]
+    },
+    "B3": {
+      "test": [
+        "Line_37",
+        "Line_43",
+        "Line_44"
+      ],
+      "val": [
+        "Line_46"
+      ],
+      "train": [
+        "Line_2",
+        "Line_35",
+        "Line_36",
+        "Line_41",
+        "Line_42",
+        "Line_45"
+      ]
+    },
+    "B4": {
+      "test": [
+        "Line_35",
+        "Line_42",
+        "Line_46"
+      ],
+      "val": [
+        "Line_44"
+      ],
+      "train": [
+        "Line_2",
+        "Line_36",
+        "Line_37",
+        "Line_41",
+        "Line_43",
+        "Line_45"
+      ]
+    },
+    "B5": {
+      "test": [
+        "Line_36",
+        "Line_43",
+        "Line_45"
+      ],
+      "val": [
+        "Line_37"
+      ],
+      "train": [
+        "Line_2",
+        "Line_35",
+        "Line_41",
+        "Line_42",
+        "Line_44",
+        "Line_46"
+      ]
+    }
+  },
+  "pm_mode": "Pm(t) observed exogenous input",
+  "code_fingerprint": "f7f3a08e6262ebf88bd97acfea2a0568aae14a539a5a73cea24d6532acd78d44",
+  "dataset_fingerprint": "cd239d18b35dbc2d6958534d9452b032fb6f19691e1be9413e71d98cff17554f",
+  "source_310_dir": "discovery\\3.2-kron\\310_final_paper_comparison"
+}

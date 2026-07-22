@@ -1,0 +1,16 @@
+{
+  "build_timestamp": "2026-07-22T02:27:39.824799+00:00",
+  "build_id": "canonical_rebuild_20260722T022739",
+  "content_revision": "postclear_provenance_v2",
+  "disturbance_calibration_revision": "empirical_rank_v1",
+  "harness_contract_revision": "causal_windowed_v2",
+  "active_events": 315,
+  "excluded_events": 308,
+  "source_hashes": {
+    "highorder": "5c545388542e0fdde2b5c7b4ff0e139e267ea0b2487794e85e92a4449ed90a8d",
+    "v1": "4c5060989f8ae219bda8bc14aab9f3b10356aab05a1e0d85d0c0849f6cb65ad9",
+    "dense": "9b06cb178f9e42641cbe2e97e5d1fc2566c592fa295bee48a5a4e2708bae7bdf",
+    "v4": "fd8cd6da964593695c452b83f5eb45478abdcb2469468056bfe0d34968e343bd"
+  },
+  "elapsed_s": 44.67729115486145
+}

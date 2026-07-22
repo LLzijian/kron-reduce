@@ -1,0 +1,12 @@
+task_type = "closed_loop_rollout_smoke"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+representation = "clustered_7"
+pm_mode = "zoh"
+seed = 324
+train_cases = 2
+val_cases = 1
+horizon_steps = 20
+epochs = 2

@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.h5 binary
+*.npz binary
+*.pt binary
+*.pdf binary
+*.png binary
+*.zip binary
+data/ieee39_postclear_canonical_v1/** -text
+legacy/source/** -text
+legacy/evidence/** -text
+legacy/source_manifest.sha256 -text

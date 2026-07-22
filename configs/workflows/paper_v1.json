@@ -1,0 +1,29 @@
+{
+  "workflow": "paper_v1",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "smoke",
+    "source_commit",
+    "support_audit",
+    "full_run_approved",
+    "full_run",
+    "summarize",
+    "adversarial_audit",
+    "paper_tables",
+    "manuscript",
+    "publication_gate"
+  ],
+  "approval_required": [
+    "full_run_approved",
+    "publication_gate"
+  ],
+  "locked_claims": [
+    "lyapunov_certificate",
+    "safety_guarantee",
+    "publication_ready"
+  ]
+}

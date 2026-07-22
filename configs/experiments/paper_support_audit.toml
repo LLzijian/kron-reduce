@@ -1,0 +1,4 @@
+task_type = "offline_support_audit"
+dataset = "ieee39_postclear_canonical_v1"
+horizon_steps = [20, 40, 100]
+folds = ["F1", "F2", "F3", "F4", "F5"]

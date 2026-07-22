@@ -1,0 +1,12 @@
+{
+  "source_repository": "swing_equation",
+  "source_git_commit": "8f78124cddd74ff116f5a13948059de93283a90f",
+  "dataset_build_id": "canonical_rebuild_20260722T022739",
+  "dataset_revision": "ieee39_postclear_canonical_v1",
+  "historical_sources": [
+    "discovery/3.2-kron/hist_310_final_paper_comparison",
+    "discovery/3.2-kron/hist_311_protocol_b_m2a_acc",
+    "discovery/3.2-kron/hist_337r1_protocol_ab_310_spec_reaudit"
+  ],
+  "policy": "clean implementation; historical sources are isolated provenance only"
+}

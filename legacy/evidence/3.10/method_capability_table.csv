@@ -1,0 +1,10 @@
+method,family,pm_mode,classifier_capable,equation_available,input_form,physical_constraints,reference,required_input_window,rollout_capable
+M0,physics_equation_rollout,Pm(t) observed exogenous input,rollout-derived,yes,clustered 7-area only,swing backbone; nonnegative D/K after fit,This work baseline; report 3.5,1 point,yes
+M2A,physics_equation_rollout,Pm(t) observed exogenous input,rollout-derived,yes,clustered 7-area only,M0 backbone plus sparse residual library,This work residual Graph-SINDy,1 point,yes
+M2A-LYAP,physics_equation_rollout,Pm(t) observed exogenous input,rollout-derived,yes,clustered 7-area only,M-weighted energy/Lyapunov channel,This work Lyapunov-constrained residual; report 3.8.4,1 point,yes
+SINDYc,sparse_identification,Pm(t) observed exogenous input,rollout-derived,identified surrogate,clustered and unclustered,sparsity only,Brunton et al. 2016,1 point,yes
+DMD,operator_forecast,Pm(t) observed exogenous input,rollout-derived,linear operator,clustered and unclustered,none,Schmid 2010,20/40/100/200,forecast
+HODMD,operator_forecast,Pm(t) observed exogenous input,rollout-derived,delay linear operator,clustered and unclustered,none,Higher-order DMD literature,20/40/100/200,forecast
+EDMD-Koopman,operator_forecast,Pm(t) observed exogenous input,rollout-derived,lifted operator,clustered and unclustered,dictionary only,Williams et al. 2015,20/40/100/200,forecast
+LSTM-rollout,blackbox_rollout,Pm(t) observed exogenous input,rollout-derived,no,clustered and unclustered,none,Sequence forecasting baseline,20/40/100/200,forecast
+CNN / LSTM / CNN+LSTM / Transformer,direct_classifier,Pm(t) observed exogenous input,Protocol B only,no,clustered and unclustered,none,Supervised TSA baselines,20/40/100/200,no

@@ -1,0 +1,14 @@
+task_type = "closed_loop_rollout"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+folds = ["F1", "F2", "F3", "F4", "F5"]
+representation = "clustered_7"
+main_pm_mode = "zoh"
+sensitivity_pm_mode = "observed"
+seeds = [324, 325, 326]
+horizon_steps = [20, 40, 100]
+epochs = 100
+learning_rate = 0.001
+bootstrap_draws = 2000
+methods = ["M0", "M2A", "M2A-energy", "SINDYc", "PINN", "LSTM"]
