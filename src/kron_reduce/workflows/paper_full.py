@@ -75,8 +75,8 @@ def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
 
 
 def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: str) -> None:
-    if stage != "full":
-        raise RuntimeError("paper full runner only implements the gated full stage")
+    if stage != "full_run":
+        raise RuntimeError("paper full runner only implements the gated full_run stage")
     config = tomllib.loads(
         (root / "configs" / "experiments" / "paper_full.toml").read_text(
             encoding="utf-8"
