@@ -10,7 +10,7 @@ def collate_samples(samples: list[dict[str, Any]]) -> dict[str, Any]:
         raise ValueError("cannot collate an empty batch")
     static = {
         key: np.stack([sample["model_inputs"]["static"][key] for sample in samples])
-        for key in ("delta0", "omega0", "Pm0")
+        for key in ("delta0", "omega0", "Pm_equilibrium", "Pm_clear", "Pm0")
     }
     lengths = [len(sample["training_context"]["targets"]["t"]) for sample in samples]
     width = max(lengths)

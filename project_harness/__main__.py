@@ -16,7 +16,7 @@ def main(argv: list[str] | None = None) -> None:
     sub = parser.add_subparsers(dest="command", required=True)
     for name in ("list", "audit", "git-check", "data-check"): sub.add_parser(name)
     run_parser = sub.add_parser("run"); run_parser.add_argument("experiment"); run_parser.add_argument("--stage", required=True)
-    loop_parser = sub.add_parser("loop"); loop_sub = loop_parser.add_subparsers(dest="loop_command", required=True)
+    loop_parser = sub.add_parser("loop"); loop_parser.add_argument("--workflow", default="paper_v1"); loop_sub = loop_parser.add_subparsers(dest="loop_command", required=True)
     loop_sub.add_parser("status"); loop_sub.add_parser("next"); loop_sub.add_parser("run-one")
     approve_parser = loop_sub.add_parser("approve"); approve_parser.add_argument("gate")
     args = parser.parse_args(argv); root = project_root()
@@ -28,10 +28,10 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "git-check":
         assert_clean(root); print(json.dumps({"status":"PASS","dirty":status_lines(root)},indent=2))
     elif args.command == "run": print(run_experiment(root,args.experiment,args.stage))
-    elif args.loop_command == "status": print(json.dumps(load_state(root),indent=2))
-    elif args.loop_command == "next": print(next_stage(root))
-    elif args.loop_command == "run-one": print(json.dumps(run_one(root),indent=2))
-    elif args.loop_command == "approve": print(json.dumps(approve(root,args.gate),indent=2))
+    elif args.loop_command == "status": print(json.dumps(load_state(root,args.workflow),indent=2))
+    elif args.loop_command == "next": print(next_stage(root,args.workflow))
+    elif args.loop_command == "run-one": print(json.dumps(run_one(root,args.workflow),indent=2))
+    elif args.loop_command == "approve": print(json.dumps(approve(root,args.gate,args.workflow),indent=2))
 
 
 if __name__ == "__main__": main()

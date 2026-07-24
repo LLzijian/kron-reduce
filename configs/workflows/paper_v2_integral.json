@@ -1,0 +1,27 @@
+{
+  "workflow": "paper_v2_integral",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "smoke",
+    "source_commit",
+    "integral_v2_full_run_approved",
+    "full_run",
+    "summarize",
+    "final_report",
+    "round_review"
+  ],
+  "approval_required": [
+    "integral_v2_full_run_approved",
+    "round_review"
+  ],
+  "locked_claims": [
+    "omega_r2_above_0_9",
+    "instability_fsr_below_0_2",
+    "m2a_lyap_certificate",
+    "round_accepted"
+  ]
+}

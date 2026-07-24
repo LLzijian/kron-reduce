@@ -42,6 +42,37 @@
       "pm_mode": "zoh",
       "required_gate": "full_run_approved"
     },
+    "paper_v2_integral_full": {
+      "status": "gated",
+      "module": "kron_reduce.workflows.paper_full",
+      "workflow": "paper_v2_integral",
+      "config": "paper_integral_v2.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "split_name": "combined_line_5fold_v1",
+      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "representation": "clustered_7",
+      "pm_mode": "zoh",
+      "required_gate": "integral_v2_full_run_approved"
+    },
+    "paper_v2_integral_smoke": {
+      "status": "smoke",
+      "module": "kron_reduce.workflows.paper_smoke",
+      "workflow": "paper_v2_integral",
+      "config": "paper_integral_v2_smoke.toml",
+      "dataset": "ieee39_postclear_canonical_v1"
+    },
+    "paper_v2_integral_summarize": {
+      "status": "postprocess",
+      "module": "kron_reduce.workflows.integral_v2_postprocess",
+      "workflow": "paper_v2_integral",
+      "stage": "summarize"
+    },
+    "paper_v2_integral_report": {
+      "status": "reporting",
+      "module": "kron_reduce.workflows.integral_v2_postprocess",
+      "workflow": "paper_v2_integral",
+      "stage": "final_report"
+    },
     "paper_summarize": {
       "status": "postprocess",
       "module": "kron_reduce.workflows.paper_postprocess",

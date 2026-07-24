@@ -23,12 +23,13 @@ def run_experiment(root: Path, experiment_name: str, stage: str) -> Path:
     experiment = manifest["experiments"].get(experiment_name)
     if experiment is None:
         raise KeyError(f"unregistered experiment: {experiment_name}")
+    workflow_name = experiment.get("workflow", "paper_v1")
     required_gate = experiment.get("required_gate")
-    if required_gate and not is_approved(root, required_gate):
+    if required_gate and not is_approved(root, required_gate, workflow_name):
         raise RuntimeError(f"experiment is locked by gate: {required_gate}")
     if experiment.get("status") == "gated" or stage == "full":
         assert_clean(root)
-    expected_stage = next_stage(root)
+    expected_stage = next_stage(root, workflow_name)
     if stage != expected_stage:
         raise RuntimeError(
             f"workflow permits only the next registered stage: expected "
@@ -44,5 +45,5 @@ def run_experiment(root: Path, experiment_name: str, stage: str) -> Path:
     except Exception:
         (result_dir / "RUN_FAILED.json").write_text(json.dumps({"run_id": run_id, "status": "failed"}, indent=2), encoding="utf-8")
         raise
-    record_stage(root, stage, {"status": "PASS", "result_dir": result_dir.name})
+    record_stage(root, stage, {"status": "PASS", "result_dir": result_dir.name}, workflow_name)
     return result_dir

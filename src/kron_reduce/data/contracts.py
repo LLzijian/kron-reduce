@@ -18,7 +18,8 @@ class RequestMode(str, Enum):
 class InputContract:
     name: str = "causal_postclear_v1"
     allowed_static: tuple[str, ...] = (
-        "delta0", "omega0", "Pm0", "equilibrium_delta", "mass", "incidence"
+        "delta0", "omega0", "Pm_equilibrium", "Pm_clear", "Pm0",
+        "equilibrium_delta", "mass", "incidence"
     )
     allowed_exogenous: tuple[str, ...] = ("t", "Pm")
     forbidden: tuple[str, ...] = (

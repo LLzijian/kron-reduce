@@ -11,3 +11,9 @@ The repository has five non-overlapping layers:
 `project_harness` controls registry, Git state, run lifecycle, and gates. It must
 not contain scientific model logic. `src/kron_reduce` contains the scientific
 implementation and must not contain task numbers or result-directory constants.
+
+The physics stack uses mass-weighted COI coordinates and one shared,
+COI-preserving RK4 definition. M0 and graph-SINDy M2A identify integral
+weak-form equations instead of numerically differentiated targets. The energy
+candidate is an augmented port-Hamiltonian edge-memory system; its public name
+is assigned only by the numerical certificate gate.

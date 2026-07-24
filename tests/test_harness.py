@@ -26,3 +26,17 @@ def test_loop_starts_at_scaffold_and_cannot_skip(root, tmp_path):
     assert next_stage(tmp_path) == "data_verified"
     with pytest.raises(RuntimeError, match="expected 'data_verified'"):
         record_stage(tmp_path, "smoke", {"status": "PASS"})
+
+
+def test_named_workflow_has_independent_state(root, tmp_path):
+    workflow_dir = tmp_path / "configs" / "workflows"
+    workflow_dir.mkdir(parents=True)
+    shutil.copy2(root / "configs" / "workflows" / "paper_v1.json", workflow_dir)
+    shutil.copy2(root / "configs" / "workflows" / "paper_v2_integral.json", workflow_dir)
+    v1 = load_state(tmp_path, "paper_v1")
+    v2 = load_state(tmp_path, "paper_v2_integral")
+    assert v1["workflow"] == "paper_v1"
+    assert v2["workflow"] == "paper_v2_integral"
+    record_stage(tmp_path, "data_verified", {"status": "PASS"}, "paper_v2_integral")
+    assert load_state(tmp_path, "paper_v1")["current_stage"] == "scaffold"
+    assert load_state(tmp_path, "paper_v2_integral")["current_stage"] == "data_verified"

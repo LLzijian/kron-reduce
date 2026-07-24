@@ -16,6 +16,12 @@ class RunContext:
     max_cases: int = 2
     device: str = "cpu"
     learning_rate: float = 1e-3
+    ridge_values: tuple[float, ...] = (1e-8, 1e-6, 1e-4, 1e-2)
+    integral_windows: tuple[int, ...] = (1, 5, 20)
+    sindy_thresholds: tuple[float, ...] = (0.0, 1e-6, 1e-4, 1e-3, 1e-2)
+    rollout_refine: bool = False
+    refinement_min_improvement: float = 0.02
+    max_internal_step: float = 0.01
 
 
 @dataclass
@@ -68,5 +74,8 @@ def sample_rollout_inputs(
     return (
         sample_initial_state(sample),
         np.asarray(sample["model_inputs"]["exogenous"]["t"], dtype=np.float64),
-        {"Pm": np.asarray(sample["model_inputs"]["exogenous"]["Pm"], dtype=np.float64)},
+        {
+            "Pm": np.asarray(sample["model_inputs"]["exogenous"]["Pm"], dtype=np.float64),
+            "interpolation": "zoh" if sample["training_context"]["claim_type"] == "causal_zoh_rollout" else "linear",
+        },
     )

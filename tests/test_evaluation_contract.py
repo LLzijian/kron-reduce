@@ -5,7 +5,7 @@ import math
 import numpy as np
 
 from kron_reduce.evaluation.cohorts import prospective_eligibility
-from kron_reduce.evaluation.metrics import trajectory_metrics
+from kron_reduce.evaluation.metrics import aggregate_trajectory_metrics, trajectory_metrics
 from kron_reduce.evaluation.status import evaluation_status
 from kron_reduce.evaluation.stability import classification_metrics
 
@@ -31,3 +31,12 @@ def test_prospective_event_window():
 def test_missing_class_metric_is_nan_not_zero():
     metrics = classification_metrics(["stable"], ["stable"])
     assert math.isnan(metrics["FSR"])
+
+
+def test_omega_r2_is_reported_and_pooled_from_sse():
+    truth = np.arange(12, dtype=float).reshape(6, 2)
+    prediction = truth + 0.1
+    row = trajectory_metrics(truth, truth, prediction, prediction)
+    aggregate = aggregate_trajectory_metrics([row, row])
+    assert row["omega_r2"] > 0.99
+    assert aggregate["pooled_omega_r2"] == row["omega_r2"]

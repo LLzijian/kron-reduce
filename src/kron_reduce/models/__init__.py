@@ -1,6 +1,8 @@
 from .base import DynamicsModel, FitResult, RunContext
 from .classifiers import DirectPrefixClassifier, PrefixClassifier
 from .energy import EnergyM2AModel
+from .dynamic_m2a import DynamicM2AModel
+from .governor import FirstOrderGovernor, GovernorM0Model
 from .lstm import AutoregressiveLSTMModel
 from .m0 import M0Model
 from .m2a import M2AModel
@@ -14,6 +16,9 @@ __all__ = [
     "DirectPrefixClassifier",
     "DynamicsModel",
     "EnergyM2AModel",
+    "DynamicM2AModel",
+    "FirstOrderGovernor",
+    "GovernorM0Model",
     "EDMDKoopmanModel",
     "FitResult",
     "M0Model",
