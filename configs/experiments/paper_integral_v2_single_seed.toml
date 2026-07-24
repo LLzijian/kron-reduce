@@ -1,0 +1,28 @@
+task_type = "closed_loop_rollout"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+folds = ["F1", "F2", "F3", "F4", "F5"]
+representation = "clustered_7"
+main_pm_mode = "zoh"
+sensitivity_pm_mode = "observed"
+seeds = [324]
+horizon_steps = [20, 40, 100]
+epochs = 100
+learning_rate = 0.001
+bootstrap_draws = 2000
+methods = ["M0", "M2A", "M2A-dynamic", "M0-governor", "M2A-energy", "SINDYc", "PINN", "LSTM"]
+final_candidate_methods = ["M0", "M2A", "M2A-dynamic", "M2A-energy"]
+target_omega_r2 = 0.9
+target_instability_fsr = 0.2
+
+# One-shot weak-form selection.
+integral_windows = [1, 5, 20]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+sindy_thresholds = [0.0, 1e-6, 1e-4, 1e-3, 1e-2]
+
+# Nonlinear optimisation is an optional, validation-gated post-processing step.
+rollout_refine = true
+refinement_min_improvement = 0.02
+max_internal_step = 0.01
+old_m0_h100_mean_rmse = 9.695
