@@ -1,13 +1,13 @@
-# 基于积分弱形式与端口哈密顿约束的故障后降阶动力学：方法与阶段性结果报告
+# 基于积分弱形式与端口哈密顿约束的故障后降阶动力学：方法与单 seed 确认实验报告
 
 **项目：** `kron-reduce`  
 **数据：** canonical IEEE39 post-clear dataset  
 **报告日期：** 2026-07-24  
-**证据状态：** 方法实现完成；旧版五折基线已封存；新版完成 F1 工程验收，尚未执行受门控的五折完整实验
+**证据状态：** 方法、五折单-seed（324）完整运行、独立指标复算、积分收敛审计和证书审计均已完成；本轮判定为 **REJECT**
 
 ## English abstract
 
-Accurate causal reintegration of post-clear power-system dynamics requires a correct forcing convention before additional model complexity is introduced. We revised the M0, M2A and Lyapunov-constrained models by separating equilibrium mechanical power, clearing-time mechanical power and the observed post-clear power schedule. All swing equations now use the centered input, `Delta Pm = Pm(t) - Pm_equilibrium`, in mass-weighted centre-of-inertia coordinates. M0 and static M2A were reformulated as single weak-form constrained regression problems over 1-, 5- and 20-step windows, whereas multi-horizon rollout optimization was retained only as a validation-gated, support-preserving candidate. A causal first-order governor and a dynamic edge-memory closure were implemented as ablations. The former energy residual was replaced by an augmented port-Hamiltonian system with an explicit storage function and numerical certificate gates. On the F1 validation fold at a 100-step horizon, the corrected weak-form M0 achieved a mean trajectory RMSE of 0.3690 and a median RMSE of 0.0768 across 34 validation cases, with a maximum centre-of-inertia drift of $4.44\times10^{-16}$. This satisfies the predeclared F1 engineering gate of mean RMSE no greater than 0.5. These results establish the deterministic correction but do not yet establish five-fold superiority of M2A, governor dynamics or the Lyapunov-constrained model; those claims remain conditional on the registered full-run gates.
+Accurate causal reintegration of post-clear power-system dynamics requires a correct forcing convention before additional model complexity is introduced. We revised the M0, M2A and Lyapunov-constrained models by separating equilibrium mechanical power, clearing-time mechanical power and the observed post-clear power schedule. All swing equations use the centred input `Delta Pm = Pm(t) - Pm_equilibrium` in mass-weighted centre-of-inertia coordinates. M0 and static M2A were reformulated as single weak-form constrained regression problems over 1-, 5- and 20-step windows. A causal first-order governor, dynamic edge-memory closure and augmented port-Hamiltonian residual were evaluated in a registered five-fold, single-seed confirmation run. The deterministic correction passed its engineering gate: five-fold validation mean RMSE decreased by 96.9% relative to the old M0 reference and the maximum COI drift was $1.33\times10^{-15}$. However, static M2A was rejected back to M0 in every fold and dynamic M2A was never adopted. The certified port-Hamiltonian candidate improved the H=100 test pooled omega $R^2$ from 0.5276 (M0) to 0.5998, but remained far below the target. The final predicted-trajectory classifier produced 0 true positives and 51 false negatives (FSR=1.0). An interpretation-only audit further showed that the same rule also labels every truncated true unstable trajectory as stable. Consequently, the round is rejected: numerical integration is convergent and the Lyapunov certificates pass, but neither reintegration accuracy nor instability detection meets the required objective.
 
 ## 摘要
 
@@ -17,7 +17,7 @@ Accurate causal reintegration of post-clear power-system dynamics requires a cor
 \Delta P_m(t)=P_m(t)-P_{m,\mathrm{eq}},
 \]
 
-并明确区分平衡点功率 `Pm_equilibrium`、清除时刻功率 `Pm_clear` 与条件观测日程 `Pm(t)`。M0 和静态 M2A 被改写为积分弱形式的一次约束求解；多视界闭环训练只保留为验证集晋级的候选后处理。进一步实现了因果一阶 governor、动态边记忆闭包和具有显式供能恒等式的端口哈密顿 LYAP 模型。新版 M0 在 F1、H=100 的 34 个验证事件上获得 mean RMSE 0.3690、median RMSE 0.0768，最大 COI 漂移为 $4.44\times10^{-16}$，通过预设的 F1 工程门。该结果支持“先修正方程口径，再讨论模型复杂度”的结论；M2A、governor 和 `M2A-LYAP` 的五折性能与证书结论仍需独立完整运行确认。
+并明确区分平衡点功率 `Pm_equilibrium`、清除时刻功率 `Pm_clear` 与条件观测日程 `Pm(t)`。M0 和静态 M2A 被改写为积分弱形式的一次约束求解；多视界闭环训练只保留为验证集晋级的候选后处理。进一步实现了因果一阶 governor、动态边记忆闭包和具有显式供能恒等式的端口哈密顿 LYAP 模型。五折、单 seed（324）完整运行表明：确定性修复门通过，五折 validation mean RMSE 相对旧 M0 下降 96.9%，最大 COI 漂移为 $1.33\times10^{-15}$；但静态 M2A 五折全部回退 M0，动态 M2A 五折均未采用。通过全部证书的端口哈密顿候选将 H=100 test pooled omega $R^2$ 从 M0 的 0.5276 提高到 0.5998，仍未达到目标。最终预测轨迹的 TP=0、FN=51，FSR=1.0；解释性审计还发现，相同规则对截断的真实失稳轨迹同样得到 FSR=1.0。因此本轮判定为 **REJECT**：方程和积分器修复有效，但当前残差库、长视界精度和分类视界均不足。
 
 ## 1. 问题定义与设计原则
 
@@ -39,9 +39,23 @@ m_i=M_i/\omega_s
 
 1. **旧版完整运行证据：** 已封存的五折、三随机种子测试结果，用于描述原始问题。
 2. **新版工程验收证据：** 本轮 F1 训练/验证诊断，用于验证确定性方程修复。
-3. **待完成的确认性证据：** 新版五折完整运行、fault-line cluster bootstrap、governor 跨折门和 LYAP 证书门。
+3. **确认性证据：** 新版五折、单 seed（324）完整运行，以及由此生成的 fault-line cluster bootstrap、governor 跨折门、LYAP 证书门、最终轨迹稳定性结果和独立复算证据。
 
-因此，F1 结果不能替代五折测试结论，也不用于宣称新版 M2A 或 LYAP 已显著优于全部基线。
+F1 结果只用于确定性工程验收；最终接受判定完全依据五折冻结选择后的 test 结果和独立复算。
+
+### 1.3 确认实验的冻结谱系
+
+| 项目 | 冻结值 |
+|---|---|
+| 工作分支 | `codex/integral-v2-round1` |
+| 方法实现提交 | `88c9314a07e786c8fc6c8b9b0af23f9c6ae64a59` |
+| 单-seed 配置提交 | `474cfd117a630adfc4b1b96e7dfcedcab6402cfc` |
+| 注册实验 | `paper_v2_integral_single_seed` |
+| 配置文件 | `configs/experiments/paper_integral_v2_single_seed.toml` |
+| folds / seed | `F1`–`F5` / `324` |
+| 不可变完整运行 | `paper_v2_integral_single_seed-full_run-20260724T081902Z-474cfd11` |
+
+本轮只允许上述 run 进入最终确认结论。早期 smoke run 只证明流水线可执行；按原三-seed配置启动后被用户要求停止的未完成目录继续保留，但不得用于性能、证书或接受判定。运行时不会覆盖任何历史结果目录。
 
 ## 2. 方法
 
@@ -177,7 +191,7 @@ z^\top\Lambda z.
 
 ### 2.8 训练、选择与统计
 
-所有归一化、ridge、稀疏阈值、早停和 governor 参数仅使用 train/validation。M0、静态 M2A、动态记忆的线性阶段和 governor 不设置 epoch，只记录求解器迭代次数。测试事件只能在所有折和随机种子的 selection marker 写入后读取。
+所有归一化、ridge、稀疏阈值、早停和 governor 参数仅使用 train/validation。M0、静态 M2A、动态记忆的线性阶段和 governor 不设置 epoch，只记录求解器迭代次数。确认实验固定使用 seed 324；测试事件只能在五折的 selection marker 全部写入后读取。
 
 轨迹误差同时报告 mean、median、pooled RMSE、pooled $R^2$、最坏 10% CVaR 和 failure rate。最终 M2A–M0 差异按 fault-line cluster bootstrap 计算 95% 置信区间；只有 RMSE 差值的置信区间上界小于零时才声称显著改善。稳定性标签只由预测轨迹事后推导，不参与动力学选择。
 
@@ -212,13 +226,13 @@ observed `Pm(t)` 并未系统性修复旧版模型：旧 M0 的 H=100 conditiona
 | weak-form residual RMSE | 0.05995 |
 | maximum COI drift | $4.44\times10^{-16}$ |
 
-mean RMSE 低于预注册工程门 0.5，COI 漂移低于 (10^{-10})。若仅将该数值与旧版完整运行的 M0 mean RMSE 9.695 作尺度参照，降幅约为 96.2%。但两者对应不同证据层级：前者是 F1 validation 工程验收，后者是五折 test 聚合，因此该百分比不能作为正式的配对性能结论。正式结论仍需在新版五折完整运行中形成。
+mean RMSE 低于预注册工程门 0.5，COI 漂移低于 $10^{-10}$。完整五折 validation 的 raw mean RMSE 为 0.3016，相对旧 M0 参考 9.695 降低 96.9%，最大 COI 漂移为 $1.33\times10^{-15}$，确定性修复门正式通过。
 
 该结果直接支持两个判断。第一，机械功率必须先减去平衡点功率，再与以平衡点中心化的电气耦合项组合。第二，SINDy 主问题在给定库和弱形式后是一次线性/约束求解；增加 epoch 不能修复错误的方程口径。
 
 ### 3.3 软件与物理一致性验证
 
-最终测试套件共 21 项，全部通过。新增测试覆盖：
+最终测试套件共 24 项，全部通过。新增测试覆盖：
 
 - `Pm_equilibrium`/`Pm_clear` 语义和 \(\Delta P_m\) 中心化；
 - COI 投影、质量零空间、共同角平移不变性和内部力平衡；
@@ -231,17 +245,55 @@ mean RMSE 低于预注册工程门 0.5，COI 漂移低于 (10^{-10})。若仅将
 
 `project_harness audit` 与 `data-check` 均通过；canonical 数据检查确认 315 个事件和数据构建标识保持不变。未覆盖或修改历史结果目录，也未修改用户已有的 `reports/full_run_report.md`。
 
-### 3.4 M2A、governor 与 LYAP 的当前证据状态
+### 3.4 五折单-seed完整重积分结果
 
-| 模块 | 实现状态 | 当前可支持结论 | 尚缺证据 |
-|---|---|---|---|
-| 静态 M2A | 完成 | 一次 STRidge 与固定支撑微调已实现 | 新版五折是否优于修正 M0 |
-| 动态 M2A | 完成 | 因果准稳态初值、验证回退可用 | 记忆项是否在多数折稳定改善 |
-| M0-governor | 完成 | 训练与部署输入满足因果约束 | H=100 改善≥2%、4/5 folds 同向 |
-| 端口哈密顿 LYAP | 完成 | 结构供能恒等式与人工违例测试通过 | 数据域全证书、精度不退化和零失败 |
-| `M2A-LYAP` 名称 | 门控完成 | 只有全部证书通过才会自动采用 | 尚无新版五折证书结果 |
+主 ZOH 条件下，H=100 的 test 结果如下。population=264，因为只有这些稳定事件具有至少 100 个真实有效步。
 
-因此，本报告不声称 M2A、governor 或 LYAP 已经超过新版 M0，也不提前使用 `M2A-LYAP` 作为确认性结果名称。
+| 方法 | mean RMSE | median RMSE | pooled RMSE | omega $R^2$ | delta $R^2$ | worst-10% CVaR | failure rate |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| M0 | 0.3480 | 0.2971 | 0.4569 | 0.5276 | 0.8886 | 0.9149 | 0 |
+| M2A | 0.3480 | 0.2971 | 0.4569 | 0.5276 | 0.8886 | 0.9149 | 0 |
+| M2A-dynamic | 0.3480 | 0.2971 | 0.4569 | 0.5276 | 0.8886 | 0.9149 | 0 |
+| M0-governor | 0.3360 | 0.2813 | 0.4442 | 0.5515 | 0.9037 | 0.9082 | 0 |
+| M2A-LYAP | **0.3196** | **0.2678** | **0.4213** | **0.5998** | 0.8979 | **0.8532** | 0 |
+| PINN | 0.3693 | 0.2886 | 0.4737 | 0.4965 | 0.8600 | 0.9652 | 0 |
+| LSTM | 0.6694 | 0.4974 | 0.8533 | -0.6627 | 0.6822 | 1.7099 | 0 |
+
+端口哈密顿候选相对 M0 将 mean RMSE 降低 8.17%，omega $R^2$ 绝对提高 0.0722，但仍远低于目标。FINAL 在五折均由 validation 选择该候选，其视界退化为：
+
+| Horizon | population | mean RMSE | pooled omega $R^2$ | failure rate |
+|---:|---:|---:|---:|---:|
+| 20 | 280 | 0.1940 | 0.7666 | 0 |
+| 40 | 264 | 0.2330 | 0.6232 | 0 |
+| 100 | 264 | 0.3196 | 0.5998 | 0 |
+
+### 3.5 静态与动态 M2A 未形成有效残差
+
+静态 M2A 的一次弱形式候选在五折 validation 上相对冻结 M0 的改善分别为 0.95%、0.79%、0%、0.47% 和 0%，全部低于预注册 2% 晋级门。因而五折的最终静态残差支撑均为空，部署结果严格回退为 M0。动态边记忆五折的相对改善均为 0，亦全部回退。相应 test 上 M2A、M2A-dynamic 与 M0 完全相同；fault-line cluster bootstrap 得到配对效应和 95% CI 均为 0。这不是“显著改善失败但略有收益”，而是当前残差没有进入最终模型。
+
+governor 在五折 validation 中有四折同向，但平均改善仅 1.49%，未达到门槛；因此它是负消融，不替代主 ZOH。
+
+### 3.6 LYAP证书与积分收敛
+
+五折端口哈密顿候选均通过全部证书门并可正式命名为 `M2A-LYAP`。各折的 COI 商空间 Hessian 最小特征值均为 0.13665，最大解析供能恒等式误差不超过 $2.13\times10^{-14}$，人工反阻尼违例均被拒绝，且无 rollout failure。
+
+独立 RK4 审计在每折各选一个 validation 事件，对主 ZOH 与 observed-Pm 两种模式比较内部步长 0.01、0.005 和 0.0025 s，共 10 行全部收敛。粗/中与中/细误差比为 6.81–6.91，证明本轮长视界误差不是内部步长未收敛造成的。
+
+### 3.7 最终轨迹稳定性结果与不可辨识审计
+
+FINAL 在 315 个互不重复的 test 事件上得到：TP=0、FN=51、FP=0、TN=264，故 FSR=1.0、FUR=0、balanced accuracy=0.5。独立复算逐案例预测标签后得到完全相同的混淆矩阵。
+
+更关键的是，post-selection解释性审计把同一轨迹阈值规则直接应用于真实 test 轨迹，也得到 TP=0、FN=51。全部 51 个失稳事件只保留 2–37 个有效步，在阈值越界之前轨迹已截断。因此，“按每个事件最后一个可用点分类”对当前数据天然不可辨识。后续若继续使用最终预测轨迹判稳，应从清除状态在统一、因果的固定视界上外推，而不是把真实 `valid_length` 作为分类终点；`valid_length` 仍不得进入模型输入。
+
+### 3.8 接受判定
+
+| 门 | 结果 | 阈值 | 判定 |
+|---|---:|---:|---|
+| H=100 pooled omega $R^2$ | 0.59985 | $>0.9$ | FAIL |
+| 最终预测轨迹 FSR | 1.0 | $<0.2$ | FAIL |
+| rollout failure rate | 0 | $=0$ | PASS |
+
+因此本轮严格判定为 **REJECT**。确定性 M0 修复和 LYAP 证书被保留为有效工程成果，但当前 M2A残差设计、长视界精度和分类视界不能被接受。
 
 ## 4. 讨论
 
@@ -261,20 +313,25 @@ mean RMSE 低于预注册工程门 0.5，COI 漂移低于 (10^{-10})。若仅将
 
 动态记忆用于处理降阶后未解析状态导致的非 Markov 残差；LYAP 结构用于约束供能与耗散。两者解决的问题不同：记忆可以提高表达能力，却不自动提供稳定性证书；端口哈密顿结构提供可审计的供能关系，却不保证轨迹精度一定优于 M0。因此，LYAP 命名门同时要求数学证书和精度不退化，避免用“结构正确”替代“预测有效”。
 
-## 5. 局限性与后续确认实验
+## 5. 局限性与下一轮候选假设
 
-1. 新版目前只有 F1 validation 工程验收，尚未产生五折 test 结果和 fault-line clustered 置信区间。
-2. F1 误差分布明显偏斜，mean RMSE 0.3690 高于 median 0.0768，且最大个案为 1.7603；后续必须报告 CVaR 与失败事件，而不能只报告中位数。
-3. 一阶 governor 是辨识性优先的低阶消融，不代表详细汽轮机、阀门、限幅和死区动力学。
-4. 动态边记忆采用确定性准稳态初值；本轮未引入概率隐初态、best-of-N 或真实未来状态初始化。
-5. 学得的 (K) 是当前降阶库中的有效参数，不应被解释为真实 Kron 网络参数。
-6. `M2A-LYAP` 的最终名称必须由新完整运行生成的证书文件决定，不能根据单元测试或解析推导提前授予。
+1. 本轮只使用一个随机种子；五折覆盖了数据划分差异，但不能估计训练随机性的跨 seed 方差。
+2. H=100 omega $R^2$ 只覆盖 264 个具有完整 100 步真实轨迹的稳定事件，不能代表 51 个截断失稳事件的长期重积分精度。
+3. 当前分类终点跟随真实 `valid_length`，而全部失稳事件在阈值越界前终止，因此连真实轨迹都无法通过现有规则恢复标签。FSR=1.0 既反映模型失败，也反映评估视界定义失败。
+4. 静态残差库在五折都没有越过 2% validation 门；动态记忆也没有改善。仅扩大 epoch 无法解决表达能力和闭环可辨识性不足。
+5. 一阶 governor 是辨识性优先的低阶消融，不代表详细汽轮机、阀门、限幅和死区动力学。
+6. 学得的 $K$ 是当前降阶库中的有效参数，不应解释为真实 Kron 网络参数。
 
-下一步应使用已注册配置 `configs/experiments/paper_integral_v2.toml` 创建新的不可变 run ID，依次完成五折 train/validation 选择、写入 selection marker、打开 test、生成 cluster bootstrap 和自动命名结果。旧完整运行继续作为基线保留。
+若用户批准下一轮，建议保持严格的 leakage-free 五折口径，并按每折冻结本轮 validation 选定的 M0 checkpoint，而不是用一个跨折全数据 checkpoint。随后只学习投影到 COI 零总力空间的 M2A 残差，并同时解决两个问题：
+
+- **残差表达：** 在冻结 M0 上增加可解释的角度依赖刚度修正、状态依赖阻尼和低阶因果记忆；先用积分残差筛选支撑，再用固定支撑的多视界闭环目标校正幅值。
+- **分类视界：** 对所有事件从清除状态统一因果外推到固定 H=100；真实可用段只用于轨迹误差，预测的完整固定视界用于事后稳定性判断。不得把标签、`valid_length` 或未来状态作为动力学输入。
+
+该方案目前只是由本轮失败证据导出的候选假设，尚未创建分支或执行。按既定流程，本报告提交用户评估后，只有获得批准才启动下一轮。
 
 ## 6. 结论
 
-本轮改进的主要成果不是增加了训练轮数，而是恢复了机械功率、平衡点、电气耦合和数值积分之间的一致性。以 \(\Delta P_m=P_m-P_{m,\mathrm{eq}}\) 为输入、采用积分弱形式一次求解并统一 COI-RK4 后，M0 在 F1/H=100 上通过 mean RMSE 0.5 的工程门，且数值 COI 漂移接近机器精度。这一结果将修正后的 M0 建立为后续模型比较的新基线。M2A、动态记忆、governor 与端口哈密顿 LYAP 已具备可复现实现和严格晋级门，但其性能和证书结论仍应等待新版五折完整证据，而不应从 F1 或结构推导中外推。
+本轮恢复了机械功率、平衡点、电气耦合和数值积分之间的一致性，并建立了零失败、数值收敛的 M0 基线。端口哈密顿残差通过五折全部证书，并把 H=100 omega $R^2$ 从 0.5276 提高到 0.5998；但静态和动态 M2A 残差均未被采用，最终精度仍低于目标，分类 FSR 为 1.0。独立审计确认这些结果不是汇总或积分步长错误，同时证明当前截断终点分类规则本身无法识别失稳。故本轮结论为 **REJECT**。后续应冻结每折 M0，只学习更有表达力且守恒投影的残差，并将稳定性评估改为统一固定视界的预测轨迹；在用户批准前不执行该方案。
 
 ## 参考文献
 
@@ -302,8 +359,9 @@ mean RMSE 低于预注册工程门 0.5，COI 漂移低于 (10^{-10})。若仅将
 | 主张 | 证据 | 状态 |
 |---|---|---|
 | 原始 M0 存在严重长视界误差 | 旧五折 H=100 ZOH mean RMSE 9.695 | 已支持 |
-| Pm 中心化与统一积分能显著改善 M0 | 新 F1/H=100 mean RMSE 0.3690，COI drift $4.44\times10^{-16}$ | 工程验收支持；待五折确认 |
-| 静态 M2A 应以一次 SINDy 解为主 | 算法结构与单元/集成测试 | 方法已实现；性能待确认 |
-| governor 可替代 ZOH | 尚无跨折晋级结果 | 未支持 |
-| 动态记忆优于静态 M2A | 尚无新版五折比较 | 未支持 |
-| 模型可命名为 `M2A-LYAP` | 尚无新版全证书文件 | 未支持，名称保持门控 |
+| Pm 中心化与统一积分显著改善 M0 | 五折 validation mean RMSE 下降 96.9%，COI drift $1.33\times10^{-15}$ | 已支持 |
+| 当前静态 M2A 优于冻结 M0 | 五折均低于 2% 晋级门，test 与 M0 完全相同 | 不支持 |
+| governor 可替代 ZOH | 平均 validation 改善 1.49%，未过门 | 不支持 |
+| 当前动态记忆优于静态 M2A | 五折改善均为 0 | 不支持 |
+| 模型可命名为 `M2A-LYAP` | 五折全部证书通过且精度不劣于 M0 | 已支持命名，但精度目标失败 |
+| 本轮满足 omega $R^2$ 与 FSR 目标 | 0.59985 与 1.0 | 不支持；本轮 REJECT |
