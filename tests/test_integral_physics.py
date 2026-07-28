@@ -4,7 +4,7 @@ import numpy as np
 
 from kron_reduce.data import ModelDataRequest, adapt_event
 from kron_reduce.evaluation.energy import evaluate_energy_gate, supply_violation_loss
-from kron_reduce.models import DynamicM2AModel, EnergyM2AModel, GovernorM0Model, M0Model, M2AModel, RunContext
+from kron_reduce.models import DynamicM2AModel, EnergyM2AModel, GovernorM0Model, M0Model, M2AModel, RunContext, SwingSINDyModel
 from kron_reduce.models.base import sample_rollout_inputs
 from kron_reduce.models.integration import integration_convergence_audit, rk4_rollout, torch_rk4_rollout
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
@@ -136,6 +136,60 @@ def test_round3_linear_residual_projection_cannot_add_antidamping():
     assert np.all(node[:, 0] <= 0.0)
     assert np.all(edge[:, 5] >= 0.0)
     assert np.allclose(edge[:, 5], edge[0, 5])
+
+
+def test_swing_sindy_enforces_kinematics_balance_and_gauge_invariance():
+    static = _two_node_static()
+    coefficients = np.zeros((27, 2), dtype=float)
+    coefficients[0, 0] = -1.0
+    coefficients[1, 1] = -1.0
+    coefficients[2, 0] = -0.2
+    coefficients[3, 1] = -0.2
+    coefficients[4, 0] = 1.0
+    coefficients[5, 1] = 1.0
+    model = SwingSINDyModel(coefficients, 2)
+    delta = np.array([0.1, -0.1])
+    omega = np.array([0.03, -0.03])
+    pm = np.array([0.02, -0.02])
+    ddelta, domega = model.vector_field(delta, omega, pm, static)
+    shifted = model.force(delta + 8.0, omega, pm, static)
+    force = model.force(delta, omega, pm, static)
+    equilibrium_force = model.force(
+        static["equilibrium_delta"], np.zeros(2), static["Pm_equilibrium"], static
+    )
+    assert np.allclose(ddelta, omega)
+    assert abs(np.sum(force)) < 1e-14
+    assert np.allclose(force, shifted, atol=1e-14)
+    assert np.allclose(equilibrium_force, 0.0, atol=1e-14)
+
+
+def test_swing_sindy_stridge_and_save_load(tmp_path):
+    rng = np.random.default_rng(324)
+    matrix = rng.normal(size=(400, 12))
+    truth = np.zeros((12, 2))
+    truth[[0, 3, 7], 0] = [0.8, -0.3, 0.1]
+    truth[[1, 5], 1] = [-0.6, 0.25]
+    target = matrix @ truth
+    recovered, details = SwingSINDyModel._stridge(
+        matrix, target, ridge=1e-10, threshold=1e-4
+    )
+    assert np.allclose(recovered, truth, atol=1e-8)
+    assert details["active_parameters"] == 5
+
+    static = _two_node_static()
+    coefficients = np.zeros((27, 2), dtype=float)
+    coefficients[0, 0] = coefficients[1, 1] = -1.0
+    model = SwingSINDyModel(coefficients, 2)
+    t = np.linspace(0.0, 0.1, 11)
+    pm = np.zeros((len(t), 2))
+    expected = model.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    path = tmp_path / "swing_sindy.npz"
+    model.save(path)
+    actual = SwingSINDyModel.load(path).rollout(
+        static, t, {"Pm": pm, "interpolation": "linear"}
+    )
+    assert np.allclose(expected[0], actual[0])
+    assert np.allclose(expected[1], actual[1])
 
 
 def test_numpy_torch_rk4_match_and_converge():

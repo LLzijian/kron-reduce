@@ -24,6 +24,7 @@ from kron_reduce.models import (
     PINNModel,
     RunContext,
     SINDYcModel,
+    SwingSINDyModel,
 )
 from kron_reduce.models.base import FitResult
 from kron_reduce.training.lineage import (
@@ -39,6 +40,7 @@ LOADERS = {
     "M2A-dynamic": DynamicM2AModel,
     "M0-governor": GovernorM0Model,
     "SINDYc": SINDYcModel,
+    "Swing-SINDy": SwingSINDyModel,
     "PINN": PINNModel,
     "LSTM": AutoregressiveLSTMModel,
 }
@@ -73,6 +75,7 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
         ("M0-governor", GovernorM0Model(_clone_m0(m0))),
         ("M2A-energy", EnergyM2AModel(_clone_m0(m0))),
         ("SINDYc", SINDYcModel()),
+        ("Swing-SINDy", SwingSINDyModel()),
         ("PINN", PINNModel(_clone_m0(m0))),
         ("LSTM", AutoregressiveLSTMModel()),
     ]

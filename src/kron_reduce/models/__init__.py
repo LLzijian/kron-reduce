@@ -9,6 +9,7 @@ from .m2a import M2AModel
 from .operators import DMDModel, EDMDKoopmanModel, HODMDPrefixModel
 from .pinn import PINNModel
 from .sindyc import SINDYcModel
+from .swing_sindy import SwingSINDyModel
 
 __all__ = [
     "AutoregressiveLSTMModel",
@@ -28,4 +29,5 @@ __all__ = [
     "PrefixClassifier",
     "RunContext",
     "SINDYcModel",
+    "SwingSINDyModel",
 ]
