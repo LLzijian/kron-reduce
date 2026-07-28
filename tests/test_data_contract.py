@@ -44,7 +44,9 @@ def test_zoh_and_observed_pm_are_separate(store):
     assert np.all(zoh["model_inputs"]["exogenous"]["Pm"] == zoh["model_inputs"]["exogenous"]["Pm"][0])
     assert np.array_equal(observed["model_inputs"]["exogenous"]["Pm"], observed["training_context"]["Pm_observed"])
     assert zoh["training_context"]["claim_type"] == "causal_zoh_rollout"
+    assert observed["training_context"]["claim_type"] == "conditional_rollout_not_causal_forecast"
     audit_model_sample(zoh)
+    audit_model_sample(observed)
 
 
 def test_clustered_shape_and_prefix_rules(store):

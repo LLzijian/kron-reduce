@@ -1,0 +1,19 @@
+{
+  "workflow": "paper_m2a_round3_observed",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "validation_run",
+    "round3_full_run_approved",
+    "full_run",
+    "round_review"
+  ],
+  "approval_required": [
+    "round3_full_run_approved",
+    "round_review"
+  ]
+}

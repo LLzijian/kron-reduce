@@ -24,6 +24,9 @@ class RunContext:
     max_internal_step: float = 0.01
     m2a_rollout_shortlist: int = 4
     m2a_residual_scales: tuple[float, ...] = (0.01, 0.02, 0.05, 0.1)
+    m2a_validation_cvar_fraction: float = 0.1
+    m2a_max_cvar_degradation: float = 0.0
+    m2a_enforce_dissipative_linear_terms: bool = False
 
 
 @dataclass

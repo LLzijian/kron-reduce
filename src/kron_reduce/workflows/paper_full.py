@@ -161,8 +161,10 @@ def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
 
 
 def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: str) -> None:
-    if stage != "full_run":
-        raise RuntimeError("paper full runner only implements the gated full_run stage")
+    if stage not in {"validation_run", "full_run"}:
+        raise RuntimeError(
+            "paper full runner implements validation_run and gated full_run stages"
+        )
     config_name = experiment.get("config", "paper_full.toml")
     config = tomllib.loads(
         (root / "configs" / "experiments" / config_name).read_text(
@@ -173,10 +175,21 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
     store = CanonicalStore.open(dataset_dir)
     inertia = store.dataset_metadata.M_prior
     main_request = ModelDataRequest.initial_state_rollout(config["main_pm_mode"])
-    sensitivity_request = ModelDataRequest.initial_state_rollout(
-        config["sensitivity_pm_mode"]
+    sensitivity_mode = config.get("sensitivity_pm_mode")
+    sensitivity_request = (
+        ModelDataRequest.initial_state_rollout(sensitivity_mode)
+        if sensitivity_mode is not None
+        else None
     )
     maximum_horizon = max(config["horizon_steps"])
+    primary_analysis = str(
+        config.get(
+            "primary_analysis",
+            "main_zoh"
+            if config["main_pm_mode"] == "zoh"
+            else "conditional_observed_pm",
+        )
+    )
     model_status: list[dict[str, object]] = []
     metric_rows: list[dict[str, object]] = []
     exclusion_rows: list[dict[str, object]] = []
@@ -184,17 +197,26 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
     energy_rows: list[dict[str, object]] = []
     selection_records: list[dict[str, object]] = []
     frozen_m0_rows: list[dict[str, object]] = []
+    validation_metric_rows: list[dict[str, object]] = []
 
     run_config = {
         "run_id": run_id,
-        "evidence_status": "full",
+        "evidence_status": "validation_only" if stage == "validation_run" else "full",
         "config": config,
         "dataset_revision": store.dataset_metadata.dataset_revision,
         "dataset_build_id": store.dataset_metadata.build_id,
         "test_access": "locked_until_all_fold_seed_selection_records_exist",
         "input_contract": {
-            "main": "initial_state_plus_Pm_tc_ZOH",
-            "sensitivity": "initial_state_plus_observed_Pm_conditional",
+            "main": (
+                "initial_state_plus_Pm_clear_ZOH_causal"
+                if config["main_pm_mode"] == "zoh"
+                else "initial_state_plus_observed_Pm_conditional_noncausal"
+            ),
+            "sensitivity": (
+                None
+                if sensitivity_mode is None
+                else "initial_state_plus_observed_Pm_conditional"
+            ),
             "forbidden": [
                 "Pe",
                 "bus_v",
@@ -287,6 +309,15 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                 m2a_residual_scales=tuple(
                     config.get("m2a_residual_scales", (0.01, 0.02, 0.05, 0.1))
                 ),
+                m2a_validation_cvar_fraction=float(
+                    config.get("m2a_validation_cvar_fraction", 0.1)
+                ),
+                m2a_max_cvar_degradation=float(
+                    config.get("m2a_max_cvar_degradation", 0.0)
+                ),
+                m2a_enforce_dissipative_linear_terms=bool(
+                    config.get("m2a_enforce_dissipative_linear_terms", False)
+                ),
             )
             fold_seed_dir = checkpoint_root / fold / str(seed)
             fold_seed_dir.mkdir(parents=True)
@@ -361,6 +392,76 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                             "error": repr(exc),
                         }
                     )
+            # Validation evidence is materialized before any test event is
+            # opened.  It uses the same declared exogenous policy as fitting;
+            # for round 3 this is conditional observed Pm with linear RK-stage
+            # interpolation.  Labels are not read or used for selection.
+            for method, model in fitted.items():
+                for sample in val:
+                    target = sample["training_context"]["targets"]
+                    static = sample["model_inputs"]["static"]
+                    claim_type = sample["training_context"]["claim_type"]
+                    interpolation = (
+                        "zoh" if claim_type == "causal_zoh_rollout" else "linear"
+                    )
+                    rollout_steps = min(len(target["t"]), maximum_horizon)
+                    metadata = sample["training_context"]["metadata"]
+                    try:
+                        predicted_delta, predicted_omega = model.rollout(
+                            static,
+                            target["t"][:rollout_steps],
+                            {
+                                "Pm": sample["model_inputs"]["exogenous"]["Pm"][:rollout_steps],
+                                "interpolation": interpolation,
+                            },
+                        )
+                        for horizon in config["horizon_steps"]:
+                            if len(target["t"]) < horizon:
+                                exclusion_rows.append(
+                                    {
+                                        "fold": fold,
+                                        "role": "val",
+                                        "event_id": sample["event_id"],
+                                        "method": method,
+                                        "analysis": primary_analysis,
+                                        "horizon_steps": horizon,
+                                        "reason": "insufficient_real_horizon",
+                                    }
+                                )
+                                continue
+                            metrics = trajectory_metrics(
+                                target["delta"][:horizon],
+                                target["omega"][:horizon],
+                                predicted_delta[:horizon],
+                                predicted_omega[:horizon],
+                            )
+                            validation_metric_rows.append(
+                                {
+                                    "fold": fold,
+                                    "seed": seed,
+                                    "event_id": sample["event_id"],
+                                    "fault_line": metadata["fault_line"],
+                                    "method": method,
+                                    "analysis": primary_analysis,
+                                    "horizon_steps": horizon,
+                                    "status": "completed",
+                                    **metrics,
+                                }
+                            )
+                    except Exception as exc:
+                        validation_metric_rows.append(
+                            {
+                                "fold": fold,
+                                "seed": seed,
+                                "event_id": sample["event_id"],
+                                "fault_line": metadata["fault_line"],
+                                "method": method,
+                                "analysis": primary_analysis,
+                                "horizon_steps": maximum_horizon,
+                                "status": "failed",
+                                "error": repr(exc),
+                            }
+                        )
             if "M2A-energy" in fitted:
                 gate = evaluate_energy_gate(fitted["M2A-energy"], train + val).to_dict()
                 energy_rows.append({"fold": fold, "seed": seed, **gate})
@@ -473,6 +574,176 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
         json.dumps(selection_records, indent=2), encoding="utf-8"
     )
 
+    # FINAL validation rows are exact copies of the already evaluated source
+    # model selected within each fold.  No trajectory is recomputed and no
+    # test identifier or test array is touched here.
+    for selection in final_selections:
+        source_rows = [
+            row for row in validation_metric_rows
+            if row["fold"] == selection["fold"]
+            and row["seed"] == selection["seed"]
+            and row["method"] == selection["source_method"]
+        ]
+        validation_metric_rows.extend(
+            {**row, "method": "FINAL", "source_method": selection["source_method"]}
+            for row in source_rows
+        )
+
+    validation_aggregate_rows: list[dict[str, object]] = []
+    validation_groups = sorted({
+        (row["method"], row["analysis"], row["horizon_steps"])
+        for row in validation_metric_rows
+    })
+    for method, analysis, horizon in validation_groups:
+        group = [
+            row for row in validation_metric_rows
+            if row["method"] == method
+            and row["analysis"] == analysis
+            and row["horizon_steps"] == horizon
+        ]
+        validation_aggregate_rows.append(
+            {
+                "method": method,
+                "analysis": analysis,
+                "horizon_steps": horizon,
+                "population": len(group),
+                **aggregate_trajectory_metrics(group),
+            }
+        )
+    validation_final = next(
+        (
+            row for row in validation_aggregate_rows
+            if row["method"] == "FINAL"
+            and row["analysis"] == primary_analysis
+            and row["horizon_steps"] == maximum_horizon
+        ),
+        None,
+    )
+    validation_m0 = next(
+        (
+            row for row in validation_aggregate_rows
+            if row["method"] == "M0"
+            and row["analysis"] == primary_analysis
+            and row["horizon_steps"] == maximum_horizon
+        ),
+        None,
+    )
+    if validation_final is None or validation_m0 is None:
+        raise RuntimeError("missing primary H100 validation evidence")
+    validation_m0_index = {
+        (row["fold"], row["seed"], row["event_id"]): row
+        for row in validation_metric_rows
+        if row["method"] == "M0"
+        and row["analysis"] == primary_analysis
+        and row["horizon_steps"] == maximum_horizon
+        and row.get("status") == "completed"
+    }
+    validation_pairs = []
+    for row in validation_metric_rows:
+        if not (
+            row["method"] == "FINAL"
+            and row["analysis"] == primary_analysis
+            and row["horizon_steps"] == maximum_horizon
+            and row.get("status") == "completed"
+        ):
+            continue
+        key = (row["fold"], row["seed"], row["event_id"])
+        if key in validation_m0_index:
+            validation_pairs.append(
+                {
+                    "fault_line": row["fault_line"],
+                    "rmse_difference_FINAL_minus_M0": (
+                        row["rmse"] - validation_m0_index[key]["rmse"]
+                    ),
+                }
+            )
+    validation_bootstrap = fault_line_cluster_bootstrap(
+        validation_pairs,
+        "rmse_difference_FINAL_minus_M0",
+        n_bootstrap=config["bootstrap_draws"],
+        seed=config["seeds"][0],
+    )
+    validation_relative_improvement = (
+        float(validation_m0["mean_rmse"]) - float(validation_final["mean_rmse"])
+    ) / max(float(validation_m0["mean_rmse"]), np.finfo(float).eps)
+    validation_gate = {
+        "stage": "conditional_observed_pm_accuracy_before_governor_ode",
+        "analysis": primary_analysis,
+        "horizon_steps": maximum_horizon,
+        "conditional_noncausal_upper_bound": config["main_pm_mode"] == "observed",
+        "test_data_read": False,
+        "omega_r2": float(validation_final["pooled_omega_r2"]),
+        "omega_r2_target": float(config.get("target_omega_r2", 0.9)),
+        "relative_mean_rmse_improvement_vs_M0": validation_relative_improvement,
+        "minimum_relative_improvement": float(
+            config.get("validation_min_improvement", 0.02)
+        ),
+        "failure_rate": float(validation_final["failure_rate"]),
+        "cluster_bootstrap": validation_bootstrap,
+        "stability_labels_used_for_selection": False,
+        "governor_ode_permitted_after_this_gate_only": True,
+    }
+    validation_gate["passed"] = bool(
+        np.isfinite(validation_gate["omega_r2"])
+        and validation_gate["omega_r2"] > validation_gate["omega_r2_target"]
+        and validation_relative_improvement
+        >= validation_gate["minimum_relative_improvement"]
+        and validation_gate["failure_rate"] == 0.0
+        and validation_bootstrap.get("status") == "completed"
+        and float(validation_bootstrap.get("ci95_high", np.inf)) < 0.0
+    )
+    _write_csv(result_dir / "validation_per_case_metrics.csv", validation_metric_rows)
+    _write_csv(result_dir / "validation_aggregate_metrics.csv", validation_aggregate_rows)
+    (result_dir / "validation_cluster_bootstrap.json").write_text(
+        json.dumps(validation_bootstrap, indent=2), encoding="utf-8"
+    )
+    (result_dir / "validation_gate.json").write_text(
+        json.dumps(validation_gate, indent=2), encoding="utf-8"
+    )
+
+    if stage == "validation_run":
+        run_config["test_access"] = "remained_locked_validation_only"
+        run_config["test_ids_read"] = []
+        (result_dir / "run_config.json").write_text(
+            json.dumps(run_config, indent=2), encoding="utf-8"
+        )
+        _write_csv(result_dir / "model_status.csv", model_status)
+        _write_csv(result_dir / "exclusions.csv", exclusion_rows)
+        _write_csv(result_dir / "energy_gate.csv", energy_rows)
+        audit = {
+            "status": "PASS",
+            "validation_gate_passed": bool(validation_gate["passed"]),
+            "test_opened": False,
+            "test_ids_read": [],
+            "stability_labels_used_for_selection": False,
+            "completed_model_fits": sum(
+                row["status"] == "completed" for row in model_status
+            ),
+            "failed_model_fits": sum(
+                row["status"] == "failed" for row in model_status
+            ),
+        }
+        (result_dir / "audit.json").write_text(
+            json.dumps(audit, indent=2), encoding="utf-8"
+        )
+        artifacts = {
+            path.relative_to(result_dir).as_posix(): _sha(path)
+            for path in result_dir.rglob("*")
+            if path.is_file() and path.name != "artifact_hashes.json"
+        }
+        (result_dir / "artifact_hashes.json").write_text(
+            json.dumps(artifacts, indent=2), encoding="utf-8"
+        )
+        return
+
+    if (
+        bool(config.get("require_validation_gate_before_test", False))
+        and not validation_gate["passed"]
+    ):
+        raise RuntimeError(
+            "validation accuracy gate failed; test access remains locked and Pm ODE is not permitted"
+        )
+
     classification_steps = int(config.get("classification_horizon_steps", maximum_horizon))
     classification_dt_s = float(config.get("classification_dt_s", 0.01))
     for fold in config["folds"]:
@@ -491,19 +762,24 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                 continue
             event = store.load_event(event_id)
             samples = {
-                "main_zoh": adapt_event(
+                primary_analysis: adapt_event(
                     event,
                     inertia_prior=inertia,
                     request=main_request,
                     representation=config["representation"],
-                ),
-                "conditional_observed_pm": adapt_event(
-                    event,
-                    inertia_prior=inertia,
-                    request=sensitivity_request,
-                    representation=config["representation"],
-                ),
+                )
             }
+            if sensitivity_request is not None:
+                sensitivity_analysis = str(
+                    config.get("sensitivity_analysis", "conditional_observed_pm")
+                )
+                if sensitivity_analysis != primary_analysis:
+                    samples[sensitivity_analysis] = adapt_event(
+                        event,
+                        inertia_prior=inertia,
+                        request=sensitivity_request,
+                        representation=config["representation"],
+                    )
             for sample in samples.values():
                 audit_model_sample(sample)
             for seed in config["seeds"]:
@@ -519,7 +795,13 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                                 {
                                     "Pm": sample["model_inputs"]["exogenous"]["Pm"][
                                         :rollout_steps
-                                    ]
+                                    ],
+                                    "interpolation": (
+                                        "zoh"
+                                        if sample["training_context"]["claim_type"]
+                                        == "causal_zoh_rollout"
+                                        else "linear"
+                                    ),
                                 },
                             )
                             for horizon in config["horizon_steps"]:
@@ -571,14 +853,16 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                                     "error": repr(exc),
                                 }
                             )
+                    if not bool(config.get("evaluate_stability", True)):
+                        continue
                     try:
                         stability_t, stability_exogenous = fixed_causal_classification_inputs(
-                            samples["main_zoh"]["model_inputs"]["static"],
+                            samples[primary_analysis]["model_inputs"]["static"],
                             steps=classification_steps,
                             dt_s=classification_dt_s,
                         )
                         stability_delta, stability_omega = model.rollout(
-                            samples["main_zoh"]["model_inputs"]["static"],
+                            samples[primary_analysis]["model_inputs"]["static"],
                             stability_t,
                             stability_exogenous,
                         )
@@ -643,7 +927,16 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
         (
             row for row in aggregate_rows
             if row["method"] == "FINAL"
-            and row["analysis"] == "main_zoh"
+            and row["analysis"] == primary_analysis
+            and row["horizon_steps"] == maximum_horizon
+        ),
+        None,
+    )
+    m0_aggregate = next(
+        (
+            row for row in aggregate_rows
+            if row["method"] == "M0"
+            and row["analysis"] == primary_analysis
             and row["horizon_steps"] == maximum_horizon
         ),
         None,
@@ -652,70 +945,126 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
     final_stability = [
         row for row in final_stability_all if row.get("status") == "completed"
     ]
-    if final_aggregate is None or not final_stability:
+    evaluate_stability = bool(config.get("evaluate_stability", True))
+    if final_aggregate is None or m0_aggregate is None:
         raise RuntimeError("FINAL model did not produce complete acceptance evidence")
-    stability_metrics = classification_metrics(
-        [str(row["true_label"]) for row in final_stability],
-        [str(row["predicted_label"]) for row in final_stability],
+    if evaluate_stability and not final_stability:
+        raise RuntimeError("FINAL model did not produce stability evidence")
+    stability_metrics = (
+        classification_metrics(
+            [str(row["true_label"]) for row in final_stability],
+            [str(row["predicted_label"]) for row in final_stability],
+        )
+        if evaluate_stability
+        else {}
+    )
+    test_m0_index = {
+        (row["fold"], row["seed"], row["event_id"]): row
+        for row in metric_rows
+        if row["method"] == "M0"
+        and row["analysis"] == primary_analysis
+        and row["horizon_steps"] == maximum_horizon
+        and row.get("status") == "completed"
+    }
+    paired_rows: list[dict[str, object]] = []
+    for row in metric_rows:
+        if not (
+            row["method"] == "FINAL"
+            and row["analysis"] == primary_analysis
+            and row["horizon_steps"] == maximum_horizon
+            and row.get("status") == "completed"
+        ):
+            continue
+        key = (row["fold"], row["seed"], row["event_id"])
+        if key in test_m0_index:
+            paired_rows.append(
+                {
+                    "fault_line": row["fault_line"],
+                    "rmse_difference_FINAL_minus_M0": (
+                        row["rmse"] - test_m0_index[key]["rmse"]
+                    ),
+                }
+            )
+    bootstrap = fault_line_cluster_bootstrap(
+        paired_rows,
+        "rmse_difference_FINAL_minus_M0",
+        n_bootstrap=config["bootstrap_draws"],
+        seed=config["seeds"][0],
     )
     omega_target = float(config.get("target_omega_r2", 0.9))
     fsr_target = float(config.get("target_instability_fsr", 0.2))
     omega_value = float(final_aggregate["pooled_omega_r2"])
-    fsr_value = float(stability_metrics["FSR"])
-    stability_failure_rate = 1.0 - len(final_stability) / len(final_stability_all)
-    round_accepted = bool(
+    fsr_value = float(stability_metrics.get("FSR", np.nan))
+    stability_failure_rate = (
+        1.0 - len(final_stability) / len(final_stability_all)
+        if evaluate_stability else float("nan")
+    )
+    relative_improvement = (
+        float(m0_aggregate["mean_rmse"]) - float(final_aggregate["mean_rmse"])
+    ) / max(float(m0_aggregate["mean_rmse"]), np.finfo(float).eps)
+    accuracy_accepted = bool(
         np.isfinite(omega_value) and omega_value > omega_target
-        and np.isfinite(fsr_value) and fsr_value < fsr_target
+        and relative_improvement >= float(config.get("validation_min_improvement", 0.02))
         and float(final_aggregate["failure_rate"]) == 0.0
-        and stability_failure_rate == 0.0
+        and bootstrap.get("status") == "completed"
+        and float(bootstrap.get("ci95_high", np.inf)) < 0.0
+    )
+    round_accepted = bool(
+        accuracy_accepted
+        and (
+            not evaluate_stability
+            or (
+                np.isfinite(fsr_value) and fsr_value < fsr_target
+                and stability_failure_rate == 0.0
+            )
+        )
     )
     acceptance = {
         "decision": "ACCEPT" if round_accepted else "REJECT",
         "method": "FINAL",
         "horizon_steps": maximum_horizon,
-        "analysis": "main_zoh",
+        "analysis": primary_analysis,
+        "conditional_noncausal_upper_bound": config["main_pm_mode"] == "observed",
         "omega_r2": omega_value,
         "omega_r2_strict_target": omega_target,
         "omega_r2_gate_passed": bool(np.isfinite(omega_value) and omega_value > omega_target),
+        "relative_mean_rmse_improvement_vs_M0": relative_improvement,
+        "minimum_relative_improvement": float(
+            config.get("validation_min_improvement", 0.02)
+        ),
+        "relative_improvement_gate_passed": bool(
+            relative_improvement
+            >= float(config.get("validation_min_improvement", 0.02))
+        ),
+        "cluster_bootstrap": bootstrap,
+        "cluster_bootstrap_gate_passed": bool(
+            bootstrap.get("status") == "completed"
+            and float(bootstrap.get("ci95_high", np.inf)) < 0.0
+        ),
+        "stability_evaluated": evaluate_stability,
         "instability_FSR": fsr_value,
         "instability_FSR_strict_target": fsr_target,
-        "instability_FSR_gate_passed": bool(np.isfinite(fsr_value) and fsr_value < fsr_target),
+        "instability_FSR_gate_passed": bool(
+            not evaluate_stability
+            or (np.isfinite(fsr_value) and fsr_value < fsr_target)
+        ),
         "failure_rate": float(final_aggregate["failure_rate"]),
         "failure_gate_passed": float(final_aggregate["failure_rate"]) == 0.0,
         "classification_failure_rate": stability_failure_rate,
-        "classification_failure_gate_passed": stability_failure_rate == 0.0,
+        "classification_failure_gate_passed": bool(
+            not evaluate_stability or stability_failure_rate == 0.0
+        ),
         "classification_horizon_steps": classification_steps,
         "classification_dt_s": classification_dt_s,
-        "classification_is_independent_of_real_valid_length": True,
+        "classification_is_independent_of_real_valid_length": (
+            True if evaluate_stability else None
+        ),
         "stability_is_derived_from_final_predicted_trajectories": True,
         "final_model_was_frozen_before_test_access": True,
         "classification_counts": stability_metrics,
     }
     (result_dir / "round_acceptance.json").write_text(
         json.dumps(acceptance, indent=2), encoding="utf-8"
-    )
-    paired_rows: list[dict[str, object]] = []
-    m0_index = {
-        (row["fold"], row["seed"], row["event_id"], row["analysis"], row["horizon_steps"]): row
-        for row in metric_rows
-        if row["method"] == "M0" and row.get("status") == "completed"
-    }
-    for row in metric_rows:
-        if row["method"] != "M2A" or row.get("status") != "completed":
-            continue
-        key = (row["fold"], row["seed"], row["event_id"], row["analysis"], row["horizon_steps"])
-        if key in m0_index:
-            paired_rows.append(
-                {
-                    "fault_line": row["fault_line"],
-                    "rmse_difference_M2A_minus_M0": row["rmse"] - m0_index[key]["rmse"],
-                }
-            )
-    bootstrap = fault_line_cluster_bootstrap(
-        paired_rows,
-        "rmse_difference_M2A_minus_M0",
-        n_bootstrap=config["bootstrap_draws"],
-        seed=config["seeds"][0],
     )
     completed_model_count = sum(row["status"] == "completed" for row in model_status)
     if completed_model_count == 0:
@@ -734,6 +1083,10 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
     _write_csv(result_dir / "exclusions.csv", exclusion_rows)
     _write_csv(result_dir / "energy_gate.csv", energy_rows)
     _write_csv(result_dir / "final_stability_metrics.csv", [{"method": "FINAL", **stability_metrics}])
+    (result_dir / "final_minus_m0_cluster_bootstrap.json").write_text(
+        json.dumps(bootstrap, indent=2), encoding="utf-8"
+    )
+    # Backward-compatible artifact name retained for existing postprocessors.
     (result_dir / "m2a_minus_m0_cluster_bootstrap.json").write_text(
         json.dumps(bootstrap, indent=2), encoding="utf-8"
     )

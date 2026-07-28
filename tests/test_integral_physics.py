@@ -5,6 +5,7 @@ import numpy as np
 from kron_reduce.data import ModelDataRequest, adapt_event
 from kron_reduce.evaluation.energy import evaluate_energy_gate, supply_violation_loss
 from kron_reduce.models import DynamicM2AModel, EnergyM2AModel, GovernorM0Model, M0Model, M2AModel, RunContext
+from kron_reduce.models.base import sample_rollout_inputs
 from kron_reduce.models.integration import integration_convergence_audit, rk4_rollout, torch_rk4_rollout
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
 
@@ -103,6 +104,40 @@ def test_integral_weak_form_recovers_known_parameters():
     assert result.details["n_integration_windows"] > 0
 
 
+def test_observed_pm_validation_uses_linear_rk_stage_interpolation():
+    sample = _synthetic_sample()
+    _, _, exogenous = sample_rollout_inputs(sample)
+    assert exogenous["interpolation"] == "linear"
+    model = M0Model(
+        np.array([0.35, 0.35]), np.array([1.2]), max_internal_step=0.0025
+    )
+    model.validation_scales = {"omega": 1.0, "edge_angle": 1.0}
+    summary = model.validation_summary(
+        [sample],
+        RunContext(horizon_steps=100, max_cases=1),
+    )
+    assert summary["standardized_loss"] < 1e-20
+
+
+def test_round3_linear_residual_projection_cannot_add_antidamping():
+    rng = np.random.default_rng(324)
+    theta = rng.normal(size=7 + 4 + 20 + 8)
+    constrained = M2AModel._project_stability_constraints(
+        theta,
+        n_nodes=7,
+        n_edges=20,
+        feature_version="projected_fourier_tied_v2",
+        n_node_features=5,
+        n_edge_features=9,
+    )
+    node, edge = M2AModel._unpack_solution(
+        constrained, 7, 20, "projected_fourier_tied_v2", 5, 9
+    )
+    assert np.all(node[:, 0] <= 0.0)
+    assert np.all(edge[:, 5] >= 0.0)
+    assert np.allclose(edge[:, 5], edge[0, 5])
+
+
 def test_numpy_torch_rk4_match_and_converge():
     import torch
 
@@ -153,7 +188,7 @@ def test_m2a_uses_exact_m0_fallback_when_all_learned_candidates_fail(monkeypatch
     def reject_learned_residuals(*_args, **_kwargs):
         raise FloatingPointError("synthetic unstable residual")
 
-    monkeypatch.setattr(model, "_validation_loss", reject_learned_residuals)
+    monkeypatch.setattr(model, "_validation_summary", reject_learned_residuals)
     result = model.fit([sample], [sample], context)
 
     assert result.status == "completed"

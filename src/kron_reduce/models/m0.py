@@ -9,7 +9,7 @@ from scipy.optimize import lsq_linear
 
 from kron_reduce.physics.coordinates import coi_project_power
 
-from .base import DynamicsModel, FitResult, RunContext
+from .base import DynamicsModel, FitResult, RunContext, sample_rollout_inputs
 from .integration import integration_convergence_audit, rk4_rollout
 
 
@@ -143,11 +143,14 @@ class M0Model(DynamicsModel):
         for sample in samples[: context.max_cases]:
             target = sample["training_context"]["targets"]
             steps = min(len(target["t"]), context.horizon_steps)
-            static = sample["model_inputs"]["static"]
+            static, sample_t, exogenous = sample_rollout_inputs(sample)
             dp, wp = self.rollout(
                 static,
-                target["t"][:steps],
-                {"Pm": sample["model_inputs"]["exogenous"]["Pm"][:steps], "interpolation": "zoh"},
+                sample_t[:steps],
+                {
+                    "Pm": exogenous["Pm"][:steps],
+                    "interpolation": exogenous["interpolation"],
+                },
             )
             incidence = np.asarray(static["incidence"])
             edge_error = (dp - target["delta"][:steps]) @ incidence
@@ -160,7 +163,18 @@ class M0Model(DynamicsModel):
             raw_rmse.append(float(np.sqrt(np.mean(raw_error**2))))
             mass = np.asarray(static["mass"])
             coi_drift.append(float(max(np.max(np.abs(dp@mass)), np.max(np.abs(wp@mass)))))
-        return {"standardized_loss": float(np.mean(losses)), "raw_mean_rmse": float(np.mean(raw_rmse)), "raw_median_rmse": float(np.median(raw_rmse)), "maximum_coi_drift": float(np.max(coi_drift))}
+        tail_count = max(
+            1,
+            int(np.ceil(float(context.m2a_validation_cvar_fraction) * len(losses))),
+        )
+        standardized_cvar = float(np.mean(np.sort(losses)[-tail_count:]))
+        return {
+            "standardized_loss": float(np.mean(losses)),
+            "standardized_cvar": standardized_cvar,
+            "raw_mean_rmse": float(np.mean(raw_rmse)),
+            "raw_median_rmse": float(np.median(raw_rmse)),
+            "maximum_coi_drift": float(np.max(coi_drift)),
+        }
 
     def validation_loss(self, samples: list[dict[str, Any]], context: RunContext) -> float:
         return self.validation_summary(samples, context)["standardized_loss"]

@@ -7,7 +7,7 @@ from typing import Any
 import numpy as np
 import torch
 
-from .base import DynamicsModel, FitResult, RunContext
+from .base import DynamicsModel, FitResult, RunContext, sample_rollout_inputs
 from .integration import rk4_rollout, torch_rk4_rollout
 from .m0 import M0Model, _pm_equilibrium, _trapz
 
@@ -168,10 +168,10 @@ class M2AModel(DynamicsModel):
             t = np.asarray(target["t"], dtype=np.float64)
             delta = np.asarray(target["delta"], dtype=np.float64)
             omega = np.asarray(target["omega"], dtype=np.float64)
-            # Fit the closure against the same causal exogenous policy used at
-            # deployment.  Using observed future Pm here would subtract a force
-            # that is unavailable to the main ZOH rollout and leave the learned
-            # residual unable to compensate for that missing input channel.
+            # Fit the closure against the same registered exogenous policy used
+            # for the corresponding rollout.  In the causal experiment this is
+            # Pm-clear ZOH; in round 3A it is the explicitly conditional,
+            # non-causal observed Pm schedule.
             pm = np.asarray(
                 sample["model_inputs"]["exogenous"]["Pm"], dtype=np.float64
             )
@@ -290,6 +290,39 @@ class M2AModel(DynamicsModel):
             raise ValueError("compact M2A parameter layout mismatch")
         return node, edge
 
+    @classmethod
+    def _project_stability_constraints(
+        cls, theta, *, n_nodes, n_edges, feature_version,
+        n_node_features, n_edge_features,
+    ):
+        """Project identifiable linear residual terms onto dissipative signs.
+
+        In COI coordinates, a non-positive node ``omega`` coefficient and a
+        non-negative edge ``B.T @ omega`` coefficient cannot add linear
+        anti-damping.  Higher-order closure terms remain data identified and
+        are controlled by the validation mean/CVaR trust region.
+        """
+        constrained = np.asarray(theta, dtype=np.float64).copy()
+        node, edge = cls._unpack_solution(
+            constrained, n_nodes, n_edges, feature_version,
+            n_node_features, n_edge_features,
+        )
+        node[:, 0] = np.minimum(node[:, 0], 0.0)
+        edge[:, 5] = np.maximum(edge[:, 5], 0.0)
+        if feature_version != "projected_fourier_tied_v2":
+            return cls._pack(node, edge)
+
+        # Preserve the compact tied layout instead of expanding it to the
+        # heterogeneous parameterization used by the legacy feature library.
+        offset = 0
+        constrained[offset:offset + n_nodes] = node[:, 0]
+        offset += n_nodes + (n_node_features - 1)
+        offset += n_edges  # heterogeneous delta-sine coefficients
+        shared_edge_features = [index for index in range(n_edge_features) if index != 1]
+        edge_speed_offset = shared_edge_features.index(5)
+        constrained[offset + edge_speed_offset] = edge[0, 5]
+        return constrained
+
     @staticmethod
     def _residual_force_numpy(
         node_theta, edge_theta, delta, omega, pm, static, feature_version=None
@@ -363,8 +396,20 @@ class M2AModel(DynamicsModel):
                     if not 0.0 < residual_scale <= 1.0:
                         raise ValueError("M2A residual scales must lie in (0, 1]")
                     scaled_theta = float(residual_scale) * theta
+                    if run_context.m2a_enforce_dissipative_linear_terms:
+                        scaled_theta = self._project_stability_constraints(
+                            scaled_theta,
+                            n_nodes=n_nodes,
+                            n_edges=n_edges,
+                            feature_version=self.feature_version,
+                            n_node_features=len(node_names),
+                            n_edge_features=len(edge_names),
+                        )
+                    scaled_support = support.copy() & (
+                        np.abs(scaled_theta) > np.finfo(float).eps
+                    )
                     solved_candidates.append((
-                        ridge, threshold, scaled_theta, support.copy(),
+                        ridge, threshold, scaled_theta, scaled_support,
                         {**diagnostics, "residual_scale": float(residual_scale)},
                     ))
         validation_matrix, validation_vector, _ = self.build_weak_residual_system(
@@ -396,21 +441,43 @@ class M2AModel(DynamicsModel):
         )
         shortlist = shortlist[:shortlist_size]
         candidates = []
+        base_summary = self.base.validation_summary(val, run_context)
+        base_cvar = float(base_summary["standardized_cvar"])
         for _, ridge, threshold, theta, support, diagnostics in shortlist:
             self.node_theta, self.edge_theta = self._unpack_solution(
                 theta, n_nodes, n_edges, self.feature_version,
                 len(node_names), len(edge_names),
             )
             try:
-                loss = self._validation_loss(val, run_context)
+                validation = self._validation_summary(val, run_context)
+                loss = float(validation["standardized_loss"])
+                cvar = float(validation["standardized_cvar"])
+                cvar_eligible = bool(
+                    cvar <= base_cvar * (1.0 + run_context.m2a_max_cvar_degradation)
+                )
                 failed = False
             except (FloatingPointError, ValueError):
-                loss, failed = float("inf"), True
+                loss, cvar, cvar_eligible, failed = (
+                    float("inf"), float("inf"), False, True
+                )
             candidates.append((
-                loss, failed, ridge, threshold, theta, support, diagnostics,
+                loss if cvar_eligible else float("inf"), failed,
+                ridge, threshold, theta, support,
+                {
+                    **diagnostics,
+                    "validation_loss": loss,
+                    "validation_cvar": cvar,
+                    "cvar_eligible": cvar_eligible,
+                },
             ))
         candidates.append((
-            base_loss, False, 0.0, 0.0, zero_theta, zero_support, fallback_diagnostics,
+            base_loss, False, 0.0, 0.0, zero_theta, zero_support,
+            {
+                **fallback_diagnostics,
+                "validation_loss": base_loss,
+                "validation_cvar": base_cvar,
+                "cvar_eligible": True,
+            },
         ))
         selected = min(candidates, key=lambda item: item[0])
         loss, failed, ridge, threshold, theta, support, diagnostics = selected
@@ -457,7 +524,20 @@ class M2AModel(DynamicsModel):
             }
         self.diagnostics = {
             "objective": "single_integral_weak_form_STRidge",
-            "residual_exogenous_policy": "registered_causal_zoh",
+            "residual_exogenous_policy": (
+                "registered_causal_zoh"
+                if train[0]["training_context"]["claim_type"] == "causal_zoh_rollout"
+                else "conditional_observed_pm_linear_interpolation"
+            ),
+            "dissipative_linear_sign_constraints": bool(
+                run_context.m2a_enforce_dissipative_linear_terms
+            ),
+            "validation_cvar_fraction": float(
+                run_context.m2a_validation_cvar_fraction
+            ),
+            "maximum_validation_cvar_degradation": float(
+                run_context.m2a_max_cvar_degradation
+            ),
             "feature_version": self.feature_version,
             "node_features": list(node_names),
             "edge_features": list(edge_names),
@@ -469,6 +549,13 @@ class M2AModel(DynamicsModel):
             "closed_loop_candidates": [
                 {
                     "validation_loss": float(item[0]),
+                    "unconstrained_validation_loss": float(
+                        item[6].get("validation_loss", item[0])
+                    ),
+                    "validation_cvar": float(
+                        item[6].get("validation_cvar", np.nan)
+                    ),
+                    "cvar_eligible": bool(item[6].get("cvar_eligible", False)),
                     "failed": bool(item[1]),
                     "ridge": float(item[2]),
                     "threshold": float(item[3]),
@@ -485,6 +572,10 @@ class M2AModel(DynamicsModel):
             "active_parameters": int(np.sum(support)),
             "one_step_validation_loss": float(one_step_loss),
             "base_validation_loss": float(base_loss),
+            "selected_validation_cvar": float(
+                diagnostics.get("validation_cvar", base_cvar)
+            ),
+            "base_validation_cvar": float(base_cvar),
             "one_step_relative_improvement": float(one_step_improvement),
             "one_step_promoted": bool(one_step_improvement >= run_context.refinement_min_improvement),
             "raw_candidate_parameters": candidate_theta.tolist(),
@@ -499,21 +590,36 @@ class M2AModel(DynamicsModel):
             float(loss), self.diagnostics,
         )
 
-    def _validation_loss(self, val, context):
+    def _validation_summary(self, val, context):
         losses = []
         for sample in val[: context.max_cases]:
             target = sample["training_context"]["targets"]
             steps = min(len(target["t"]), context.horizon_steps)
+            static, sample_t, exogenous = sample_rollout_inputs(sample)
             dp, wp = self.rollout(
-                sample["model_inputs"]["static"], target["t"][:steps],
-                {"Pm": sample["model_inputs"]["exogenous"]["Pm"][:steps], "interpolation": "zoh"},
+                static, sample_t[:steps],
+                {
+                    "Pm": exogenous["Pm"][:steps],
+                    "interpolation": exogenous["interpolation"],
+                },
             )
-            incidence = np.asarray(sample["model_inputs"]["static"]["incidence"])
+            incidence = np.asarray(static["incidence"])
             losses.append(
                 np.mean((((dp - target["delta"][:steps]) @ incidence) / self.base.validation_scales["edge_angle"]) ** 2)
                 + np.mean(((wp - target["omega"][:steps]) / self.base.validation_scales["omega"]) ** 2)
             )
-        return float(np.mean(losses))
+        tail_count = max(
+            1,
+            int(np.ceil(float(context.m2a_validation_cvar_fraction) * len(losses))),
+        )
+        return {
+            "standardized_loss": float(np.mean(losses)),
+            "standardized_cvar": float(np.mean(np.sort(losses)[-tail_count:])),
+            "failure_count": 0,
+        }
+
+    def _validation_loss(self, val, context):
+        return float(self._validation_summary(val, context)["standardized_loss"])
 
     def _refine(self, train, val, context, theta0, support):
         """Optional closed-loop correction; sparse support is immutable."""
@@ -594,7 +700,8 @@ class M2AModel(DynamicsModel):
         static = {key: torch.as_tensor(value, dtype=torch.float64) for key, value in static_np.items() if isinstance(value, np.ndarray)}
         target = sample["training_context"]["targets"]
         t = torch.as_tensor(target["t"][:steps], dtype=torch.float64)
-        pm = torch.as_tensor(sample["model_inputs"]["exogenous"]["Pm"][:steps], dtype=torch.float64)
+        _, _, exogenous = sample_rollout_inputs(sample)
+        pm = torch.as_tensor(exogenous["Pm"][:steps], dtype=torch.float64)
         n, e = static["mass"].numel(), static["incidence"].shape[1]
         node_feature_count = self.node_theta.shape[1]
         edge_feature_count = self.edge_theta.shape[1]
@@ -636,7 +743,8 @@ class M2AModel(DynamicsModel):
 
         pd, pw = torch_rk4_rollout(
             derivative, static["delta0"].reshape(-1), static["omega0"].reshape(-1),
-            t, pm, static, interpolation="zoh", max_step=context.max_internal_step,
+            t, pm, static, interpolation=exogenous["interpolation"],
+            max_step=context.max_internal_step,
         )
         td, tw = torch.as_tensor(target["delta"][:steps]), torch.as_tensor(target["omega"][:steps])
         return torch.mean((((pd-td) @ static["incidence"])/self.base.validation_scales["edge_angle"])**2) + torch.mean(((pw-tw)/self.base.validation_scales["omega"])**2)
