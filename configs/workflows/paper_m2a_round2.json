@@ -1,0 +1,21 @@
+{
+  "workflow": "paper_m2a_round2",
+  "initial_stage": "model_unit_gate",
+  "stages": [
+    "model_unit_gate",
+    "source_commit",
+    "round2_full_run_approved",
+    "full_run",
+    "round_review"
+  ],
+  "approval_required": [
+    "round2_full_run_approved",
+    "round_review"
+  ],
+  "locked_claims": [
+    "omega_r2_above_0_9",
+    "instability_fsr_below_0_2",
+    "m2a_improves_frozen_m0",
+    "round_accepted"
+  ]
+}
