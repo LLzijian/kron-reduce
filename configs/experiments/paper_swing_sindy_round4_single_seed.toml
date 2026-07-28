@@ -21,9 +21,13 @@ require_validation_gate_before_test = true
 # Frozen comparator; its loss is recomputed with the observed-Pm policy.
 frozen_m0_run = "results/paper_m2a_round2_single_seed-full_run-20260728T015611Z-72327e35"
 
-# Direct derivative SINDy needs at least three points for a second-order finite
-# difference.  No event length or mask is exposed to the learned vector field.
-minimum_fit_steps = 3
+# The fold-level eligibility rule remains identical to the frozen round-2 M0
+# lineage. Swing-SINDy itself skips trajectories with fewer than three points
+# when constructing its second-order finite-difference target.
+# Keep the eligibility policy identical to the immutable round-2 M0 lineage.
+# Changing this threshold changes the optimizer population and must not be
+# hidden behind a frozen-checkpoint load.
+minimum_fit_steps = 2
 ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
 sindy_thresholds = [0.0, 1e-6, 1e-4, 1e-3, 1e-2, 1e-1]
 m2a_rollout_shortlist = 12

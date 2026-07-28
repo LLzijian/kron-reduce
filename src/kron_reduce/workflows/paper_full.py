@@ -346,6 +346,10 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                         "error": repr(exc),
                     }
                 )
+                if config.get("frozen_m0_run"):
+                    raise RuntimeError(
+                        f"{fold}/{seed}: frozen M0 load or lineage validation failed"
+                    ) from exc
             if m0_fit is None:
                 candidates = [("SINDYc", SINDYcModel()), ("LSTM", AutoregressiveLSTMModel())]
             else:
