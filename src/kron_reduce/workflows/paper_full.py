@@ -25,6 +25,7 @@ from kron_reduce.models import (
     RunContext,
     SINDYcModel,
 )
+from kron_reduce.models.base import FitResult
 from kron_reduce.training.lineage import (
     assert_fit_result_lineage,
     assert_optimizer_lineage,
@@ -78,6 +79,76 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
     return [(name, model) for name, model in available if name in methods]
 
 
+def fixed_causal_classification_inputs(
+    static: dict[str, np.ndarray], *, steps: int, dt_s: float
+) -> tuple[np.ndarray, dict[str, np.ndarray | str]]:
+    """Build a label- and truncation-independent causal stability rollout."""
+    if steps < 2 or not np.isfinite(dt_s) or dt_s <= 0.0:
+        raise ValueError("classification rollout requires steps >= 2 and dt_s > 0")
+    pm_clear = np.asarray(static["Pm_clear"], dtype=np.float64).reshape(1, -1)
+    time_grid = np.arange(steps, dtype=np.float64) * float(dt_s)
+    return time_grid, {
+        "Pm": np.repeat(pm_clear, steps, axis=0),
+        "interpolation": "zoh",
+    }
+
+
+def _load_frozen_m0(
+    *, root: Path, config: dict, fold: str, seed: int,
+    train: list[dict], val: list[dict], context: RunContext,
+    split,
+) -> tuple[M0Model, FitResult, dict[str, object]]:
+    source_dir = root / str(config["frozen_m0_run"])
+    checkpoint = source_dir / "checkpoints" / fold / str(seed) / "M0.npz"
+    metadata = checkpoint.with_suffix(".json")
+    artifact_manifest = json.loads(
+        (source_dir / "artifact_hashes.json").read_text(encoding="utf-8")
+    )
+    checkpoint_key = checkpoint.relative_to(source_dir).as_posix()
+    metadata_key = metadata.relative_to(source_dir).as_posix()
+    for path, key in ((checkpoint, checkpoint_key), (metadata, metadata_key)):
+        if key not in artifact_manifest or _sha(path) != artifact_manifest[key]:
+            raise RuntimeError(f"frozen M0 artifact hash mismatch: {key}")
+    records = json.loads(
+        (source_dir / "selection_complete.json").read_text(encoding="utf-8")
+    )
+    source = next(
+        (row for row in records if row["fold"] == fold and int(row["seed"]) == seed),
+        None,
+    )
+    if source is None:
+        raise RuntimeError(f"frozen M0 source lineage missing for {fold}/{seed}")
+    source_train_ids = tuple(source["train_ids"])
+    source_val_ids = tuple(source["val_ids"])
+    assert_optimizer_lineage(source_train_ids, source_val_ids, split.test_ids)
+    train_by_id = {sample["event_id"]: sample for sample in train}
+    scale_samples = [train_by_id[event_id] for event_id in source_train_ids]
+    model = M0Model.load(checkpoint)
+    model.validation_scales = M0Model._training_scales(scale_samples, len(scale_samples))
+    model.max_internal_step = context.max_internal_step
+    audit = model.physics_audit()
+    if audit.get("status") != "pass" or not audit.get("nonnegative_parameters"):
+        raise RuntimeError(f"frozen M0 failed physical audit for {fold}/{seed}")
+    validation = model.validation_summary(val, context)
+    details = {
+        "optimizer": "none_frozen_checkpoint",
+        "solution_kind": "frozen_round1_M0",
+        "validation_raw_mean_rmse": validation["raw_mean_rmse"],
+        "validation_raw_median_rmse": validation["raw_median_rmse"],
+        "maximum_validation_coi_drift": validation["maximum_coi_drift"],
+        "source_run": str(config["frozen_m0_run"]),
+        "source_checkpoint": checkpoint_key,
+        "source_checkpoint_sha256": artifact_manifest[checkpoint_key],
+        "source_train_ids": list(source_train_ids),
+        "source_val_ids": list(source_val_ids),
+    }
+    result = FitResult(
+        "M0", "completed", source_train_ids, source_val_ids,
+        validation["standardized_loss"], details,
+    )
+    return model, result, details
+
+
 def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
     if not rows:
         path.write_text("", encoding="utf-8")
@@ -112,6 +183,7 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
     stability_rows: list[dict[str, object]] = []
     energy_rows: list[dict[str, object]] = []
     selection_records: list[dict[str, object]] = []
+    frozen_m0_rows: list[dict[str, object]] = []
 
     run_config = {
         "run_id": run_id,
@@ -152,15 +224,16 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
         )
         fold_splits[fold] = split
         assert_optimizer_lineage(split.train_ids, split.val_ids, split.test_ids)
+        minimum_fit_steps = int(config.get("minimum_fit_steps", maximum_horizon))
         train_ids = [
             event_id
             for event_id in split.train_ids
-            if store.metadata(event_id).valid_length >= maximum_horizon
+            if store.metadata(event_id).valid_length >= minimum_fit_steps
         ]
         val_ids = [
             event_id
             for event_id in split.val_ids
-            if store.metadata(event_id).valid_length >= maximum_horizon
+            if store.metadata(event_id).valid_length >= minimum_fit_steps
         ]
         for role, all_ids, eligible_ids in (
             ("train", split.train_ids, train_ids),
@@ -210,12 +283,23 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                 rollout_refine=bool(config.get("rollout_refine", False)),
                 refinement_min_improvement=float(config.get("refinement_min_improvement", 0.02)),
                 max_internal_step=float(config.get("max_internal_step", 0.01)),
+                m2a_rollout_shortlist=int(config.get("m2a_rollout_shortlist", 4)),
+                m2a_residual_scales=tuple(
+                    config.get("m2a_residual_scales", (0.01, 0.02, 0.05, 0.1))
+                ),
             )
             fold_seed_dir = checkpoint_root / fold / str(seed)
             fold_seed_dir.mkdir(parents=True)
             m0 = M0Model()
             try:
-                m0_fit = m0.fit(train, val, context)
+                if config.get("frozen_m0_run"):
+                    m0, m0_fit, frozen_details = _load_frozen_m0(
+                        root=root, config=config, fold=fold, seed=seed,
+                        train=train, val=val, context=context, split=split,
+                    )
+                    frozen_m0_rows.append({"fold": fold, "seed": seed, **frozen_details})
+                else:
+                    m0_fit = m0.fit(train, val, context)
                 assert_fit_result_lineage(m0_fit, split.train_ids, split.val_ids)
             except Exception as exc:
                 m0_fit = None
@@ -232,6 +316,8 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                 candidates = [("SINDYc", SINDYcModel()), ("LSTM", AutoregressiveLSTMModel())]
             else:
                 candidates = _models(m0, config["methods"])
+            frozen_damping = None if m0.damping is None else m0.damping.copy()
+            frozen_coupling = None if m0.coupling is None else m0.coupling.copy()
             fitted: dict[str, object] = {}
             for name, model in candidates:
                 try:
@@ -243,6 +329,11 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                     model.save(checkpoint)
                     loaded = LOADERS[name].load(checkpoint)
                     fitted[name] = loaded
+                    if frozen_damping is not None and (
+                        not np.array_equal(m0.damping, frozen_damping)
+                        or not np.array_equal(m0.coupling, frozen_coupling)
+                    ):
+                        raise RuntimeError("M2A candidate mutated the frozen M0 parameters")
                     model_status.append(
                         {
                             "fold": fold,
@@ -252,6 +343,9 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                             "best_validation_loss": fit.best_validation_loss,
                             "checkpoint": checkpoint.relative_to(result_dir).as_posix(),
                             "solution_kind": fit.details.get("solution_kind", ""),
+                            "feature_version": fit.details.get("feature_version", ""),
+                            "active_parameters": fit.details.get("active_parameters", ""),
+                            "residual_scale": fit.details.get("residual_scale", ""),
                             "relative_validation_improvement": fit.details.get("relative_validation_improvement", fit.details.get("one_step_relative_improvement", "")),
                             "validation_raw_mean_rmse": fit.details.get("validation_raw_mean_rmse", ""),
                             "maximum_validation_coi_drift": fit.details.get("maximum_validation_coi_drift", ""),
@@ -329,6 +423,10 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
     }
     deterministic_gate["passed"] = bool(len(m0_fold_rmse)==5 and m0_fold_rmse.get("F1",float("inf"))<=0.5 and old_baseline and deterministic_gate["relative_reduction"]>=0.8 and deterministic_gate["maximum_validation_coi_drift"]<1e-10)
     (result_dir / "deterministic_repair_gate.json").write_text(json.dumps(deterministic_gate,indent=2),encoding="utf-8")
+    if frozen_m0_rows:
+        (result_dir / "frozen_m0_lineage.json").write_text(
+            json.dumps(frozen_m0_rows, indent=2), encoding="utf-8"
+        )
 
     # Freeze one deployable physics model per fold/seed using validation only.
     # Test trajectories remain unopened until this mapping is durable.
@@ -375,6 +473,8 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
         json.dumps(selection_records, indent=2), encoding="utf-8"
     )
 
+    classification_steps = int(config.get("classification_horizon_steps", maximum_horizon))
+    classification_dt_s = float(config.get("classification_dt_s", 0.01))
     for fold in config["folds"]:
         split = fold_splits[fold]
         for event_id in split.test_ids:
@@ -456,20 +556,6 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                                         **metrics,
                                     }
                                 )
-                            if analysis == "main_zoh":
-                                stability_rows.append(
-                                    {
-                                        "fold": fold,
-                                        "seed": seed,
-                                        "event_id": event_id,
-                                        "method": method,
-                                        "true_label": meta.outcome_label,
-                                        "predicted_label": classify_predicted_trajectory(
-                                            predicted_delta, predicted_omega
-                                        ),
-                                        "evidence_status": "exploratory_from_rollout",
-                                    }
-                                )
                         except Exception as exc:
                             metric_rows.append(
                                 {
@@ -485,6 +571,49 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                                     "error": repr(exc),
                                 }
                             )
+                    try:
+                        stability_t, stability_exogenous = fixed_causal_classification_inputs(
+                            samples["main_zoh"]["model_inputs"]["static"],
+                            steps=classification_steps,
+                            dt_s=classification_dt_s,
+                        )
+                        stability_delta, stability_omega = model.rollout(
+                            samples["main_zoh"]["model_inputs"]["static"],
+                            stability_t,
+                            stability_exogenous,
+                        )
+                        stability_rows.append(
+                            {
+                                "fold": fold,
+                                "seed": seed,
+                                "event_id": event_id,
+                                "method": method,
+                                "true_label": meta.outcome_label,
+                                "predicted_label": classify_predicted_trajectory(
+                                    stability_delta, stability_omega
+                                ),
+                                "classification_horizon_steps": classification_steps,
+                                "classification_dt_s": classification_dt_s,
+                                "status": "completed",
+                                "evidence_status": "exploratory_fixed_causal_rollout",
+                            }
+                        )
+                    except Exception as exc:
+                        stability_rows.append(
+                            {
+                                "fold": fold,
+                                "seed": seed,
+                                "event_id": event_id,
+                                "method": method,
+                                "true_label": meta.outcome_label,
+                                "predicted_label": "",
+                                "classification_horizon_steps": classification_steps,
+                                "classification_dt_s": classification_dt_s,
+                                "status": "failed",
+                                "error": repr(exc),
+                                "evidence_status": "exploratory_fixed_causal_rollout",
+                            }
+                        )
 
     aggregate_rows: list[dict[str, object]] = []
     completed_groups = sorted(
@@ -519,7 +648,10 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
         ),
         None,
     )
-    final_stability = [row for row in stability_rows if row["method"] == "FINAL"]
+    final_stability_all = [row for row in stability_rows if row["method"] == "FINAL"]
+    final_stability = [
+        row for row in final_stability_all if row.get("status") == "completed"
+    ]
     if final_aggregate is None or not final_stability:
         raise RuntimeError("FINAL model did not produce complete acceptance evidence")
     stability_metrics = classification_metrics(
@@ -530,10 +662,12 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
     fsr_target = float(config.get("target_instability_fsr", 0.2))
     omega_value = float(final_aggregate["pooled_omega_r2"])
     fsr_value = float(stability_metrics["FSR"])
+    stability_failure_rate = 1.0 - len(final_stability) / len(final_stability_all)
     round_accepted = bool(
         np.isfinite(omega_value) and omega_value > omega_target
         and np.isfinite(fsr_value) and fsr_value < fsr_target
         and float(final_aggregate["failure_rate"]) == 0.0
+        and stability_failure_rate == 0.0
     )
     acceptance = {
         "decision": "ACCEPT" if round_accepted else "REJECT",
@@ -548,6 +682,11 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
         "instability_FSR_gate_passed": bool(np.isfinite(fsr_value) and fsr_value < fsr_target),
         "failure_rate": float(final_aggregate["failure_rate"]),
         "failure_gate_passed": float(final_aggregate["failure_rate"]) == 0.0,
+        "classification_failure_rate": stability_failure_rate,
+        "classification_failure_gate_passed": stability_failure_rate == 0.0,
+        "classification_horizon_steps": classification_steps,
+        "classification_dt_s": classification_dt_s,
+        "classification_is_independent_of_real_valid_length": True,
         "stability_is_derived_from_final_predicted_trajectories": True,
         "final_model_was_frozen_before_test_access": True,
         "classification_counts": stability_metrics,

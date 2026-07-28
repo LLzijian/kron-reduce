@@ -22,6 +22,8 @@ class RunContext:
     rollout_refine: bool = False
     refinement_min_improvement: float = 0.02
     max_internal_step: float = 0.01
+    m2a_rollout_shortlist: int = 4
+    m2a_residual_scales: tuple[float, ...] = (0.01, 0.02, 0.05, 0.1)
 
 
 @dataclass

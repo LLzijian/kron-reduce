@@ -72,6 +72,28 @@ def test_raw_coordinate_coi_basis_and_shift_invariance():
     assert np.allclose(force, shifted, atol=1e-12)
 
 
+def test_round2_projected_fourier_library_is_balanced_and_equilibrium_anchored():
+    static = _two_node_static()
+    node = np.arange(10, dtype=float).reshape(2, 5) * 0.01
+    edge = np.arange(9, dtype=float).reshape(1, 9) * 0.01
+    equilibrium = static["equilibrium_delta"]
+    force = M2AModel._residual_force_numpy(
+        node, edge, equilibrium, np.zeros(2), static["Pm_equilibrium"], static,
+        "projected_fourier_v2",
+    )
+    assert np.allclose(force, 0.0, atol=1e-14)
+    moved = M2AModel._residual_force_numpy(
+        node, edge, np.array([0.2, -0.2]), np.array([0.1, -0.1]),
+        np.array([0.03, -0.03]), static, "projected_fourier_v2",
+    )
+    shifted = M2AModel._residual_force_numpy(
+        node, edge, np.array([5.2, 4.8]), np.array([0.1, -0.1]),
+        np.array([0.03, -0.03]), static, "projected_fourier_v2",
+    )
+    assert abs(np.sum(moved)) < 1e-12
+    assert np.allclose(moved, shifted, atol=1e-12)
+
+
 def test_integral_weak_form_recovers_known_parameters():
     sample = _synthetic_sample()
     model = M0Model()

@@ -21,6 +21,26 @@ class M2AModel(DynamicsModel):
     """Static graph-SINDy residual with optional support-preserving refinement."""
 
     method_name = "M2A"
+    LEGACY_NODE_FEATURES = ("omega_abs_omega", "delta_pm_omega")
+    LEGACY_EDGE_FEATURES = ("delta_sin", "edge_speed", "edge_speed_delta_sin")
+    ROUND2_NODE_FEATURES = (
+        "omega",
+        "omega_abs_omega",
+        "omega_cubed",
+        "delta_pm",
+        "delta_pm_omega",
+    )
+    ROUND2_EDGE_FEATURES = (
+        "delta_eta",
+        "delta_sin",
+        "delta_cos",
+        "delta_sin_second_harmonic",
+        "delta_cos_second_harmonic",
+        "edge_speed",
+        "edge_speed_abs_edge_speed",
+        "edge_speed_delta_eta",
+        "edge_speed_delta_sin",
+    )
 
     def __init__(
         self,
@@ -29,12 +49,21 @@ class M2AModel(DynamicsModel):
         edge_theta: np.ndarray | None = None,
         *,
         solution_kind: str = "one_step_solution",
+        feature_version: str | None = None,
         diagnostics: dict[str, Any] | None = None,
     ):
         self.base = base or M0Model()
         self.node_theta = None if node_theta is None else np.asarray(node_theta, dtype=np.float64)
         self.edge_theta = None if edge_theta is None else np.asarray(edge_theta, dtype=np.float64)
         self.solution_kind = solution_kind
+        if feature_version is None:
+            feature_version = (
+                "legacy_v1"
+                if self.node_theta is not None
+                and self.node_theta.shape[1] == len(self.LEGACY_NODE_FEATURES)
+                else "projected_fourier_tied_v2"
+            )
+        self.feature_version = feature_version
         self.diagnostics = diagnostics or {}
 
     @staticmethod
@@ -58,33 +87,101 @@ class M2AModel(DynamicsModel):
             )
 
     @classmethod
-    def _instantaneous_design(cls, delta, omega, pm, static):
-        projection, node_1, node_2, edge_1, edge_2, edge_3 = cls._library(
-            delta, omega, pm, static
-        )
+    def _feature_library(cls, delta, omega, pm, static, feature_version):
+        if feature_version == "legacy_v1":
+            projection, *features = cls._library(delta, omega, pm, static)
+            return projection, np.column_stack(features[:2]), np.column_stack(features[2:])
+        if feature_version not in ("projected_fourier_v2", "projected_fourier_tied_v2"):
+            raise ValueError(f"unknown M2A feature version: {feature_version}")
         incidence = np.asarray(static["incidence"], dtype=np.float64)
-        return np.column_stack((
-            projection @ np.diag(node_1),
-            projection @ np.diag(node_2),
-            -incidence * edge_1,
-            -incidence * edge_2,
-            -incidence * edge_3,
-        ))
+        equilibrium = np.asarray(static["equilibrium_delta"], dtype=np.float64).reshape(-1)
+        mass = np.asarray(static["mass"], dtype=np.float64).reshape(-1)
+        eta = incidence.T @ delta
+        eta0 = incidence.T @ equilibrium
+        delta_eta = eta - eta0
+        edge_speed = incidence.T @ omega
+        delta_sin = np.sin(eta) - np.sin(eta0)
+        delta_cos = np.cos(eta) - np.cos(eta0)
+        delta_pm = np.asarray(pm).reshape(-1) - _pm_equilibrium(static)
+        with np.errstate(over="raise", invalid="raise"):
+            node_features = np.column_stack((
+                omega,
+                omega * np.abs(omega),
+                omega**3,
+                delta_pm,
+                delta_pm * omega,
+            ))
+            edge_features = np.column_stack((
+                delta_eta,
+                delta_sin,
+                delta_cos,
+                np.sin(2.0 * eta) - np.sin(2.0 * eta0),
+                np.cos(2.0 * eta) - np.cos(2.0 * eta0),
+                edge_speed,
+                edge_speed * np.abs(edge_speed),
+                edge_speed * delta_eta,
+                edge_speed * delta_sin,
+            ))
+        return _zero_sum_projector(mass), node_features, edge_features
 
     @classmethod
-    def build_weak_residual_system(cls, base, samples, context):
+    def _instantaneous_design(
+        cls, delta, omega, pm, static, feature_version="projected_fourier_tied_v2"
+    ):
+        projection, node_features, edge_features = cls._feature_library(
+            delta, omega, pm, static, feature_version
+        )
+        incidence = np.asarray(static["incidence"], dtype=np.float64)
+        if feature_version == "projected_fourier_tied_v2":
+            # The leading linear-damping and delta-sine corrections remain
+            # heterogeneous. Higher-order closure terms are shared to avoid a
+            # 224-parameter weak system whose rollout selection is both slow
+            # and poorly conditioned.
+            node_blocks = [projection @ np.diag(node_features[:, 0])]
+            node_blocks.extend(
+                (projection @ node_features[:, index]).reshape(-1, 1)
+                for index in range(1, node_features.shape[1])
+            )
+            edge_blocks = [-incidence * edge_features[:, 1]]
+            edge_blocks.extend(
+                (-incidence @ edge_features[:, index]).reshape(-1, 1)
+                for index in range(edge_features.shape[1]) if index != 1
+            )
+        else:
+            node_blocks = [
+                projection @ np.diag(node_features[:, index])
+                for index in range(node_features.shape[1])
+            ]
+            edge_blocks = [
+                -incidence * edge_features[:, index]
+                for index in range(edge_features.shape[1])
+            ]
+        return np.column_stack((*node_blocks, *edge_blocks))
+
+    @classmethod
+    def build_weak_residual_system(
+        cls, base, samples, context, feature_version="projected_fourier_tied_v2"
+    ):
         rows, targets = [], []
         for sample in samples[: context.max_cases]:
             target = sample["training_context"]["targets"]
             t = np.asarray(target["t"], dtype=np.float64)
             delta = np.asarray(target["delta"], dtype=np.float64)
             omega = np.asarray(target["omega"], dtype=np.float64)
-            pm = np.asarray(sample["training_context"]["Pm_observed"], dtype=np.float64)
+            # Fit the closure against the same causal exogenous policy used at
+            # deployment.  Using observed future Pm here would subtract a force
+            # that is unavailable to the main ZOH rollout and leave the learned
+            # residual unable to compensate for that missing input channel.
+            pm = np.asarray(
+                sample["model_inputs"]["exogenous"]["Pm"], dtype=np.float64
+            )
             static = sample["model_inputs"]["static"]
             mass = np.asarray(static["mass"], dtype=np.float64)
             limit = min(len(t), max(context.horizon_steps * 5, max(context.integral_windows) + 1))
             designs = np.stack([
-                cls._instantaneous_design(delta[k], omega[k], pm[k], static)
+                cls._instantaneous_design(
+                    delta[k], omega[k], pm[k], static, feature_version
+                )
                 for k in range(limit)
             ])
             base_force = np.stack([
@@ -106,21 +203,32 @@ class M2AModel(DynamicsModel):
         return np.concatenate(rows), np.concatenate(targets), len(rows)
 
     @staticmethod
-    def _stridge(matrix, vector, ridge, threshold, max_iterations=25):
-        scale = np.sqrt(np.mean(matrix**2, axis=0))
-        scale = np.where(scale > np.finfo(float).eps, scale, 1.0)
-        x = matrix / scale
-        support = np.ones(x.shape[1], dtype=bool)
-        beta = np.zeros(x.shape[1])
+    def _stridge(
+        matrix, vector, ridge, threshold, max_iterations=25,
+        design_diagnostics=None, normal_equations=None,
+    ):
+        if normal_equations is None:
+            scale = np.sqrt(np.mean(matrix**2, axis=0))
+            scale = np.where(scale > np.finfo(float).eps, scale, 1.0)
+            x = matrix / scale
+            full_gram = x.T @ x
+            full_rhs = x.T @ vector
+        else:
+            scale, full_gram, full_rhs = normal_equations
+            x = None
+        support = np.ones(scale.size, dtype=bool)
+        beta = np.zeros(scale.size)
         iterations = 0
         for iterations in range(1, max_iterations + 1):
             active = np.flatnonzero(support)
             if not active.size:
                 break
-            xa = x[:, active]
-            augmented = np.vstack((xa, np.sqrt(ridge) * np.eye(active.size)))
-            augmented_y = np.concatenate((vector, np.zeros(active.size)))
-            fitted = np.linalg.lstsq(augmented, augmented_y, rcond=None)[0]
+            gram = full_gram[np.ix_(active, active)] + ridge * np.eye(active.size)
+            rhs = full_rhs[active]
+            try:
+                fitted = np.linalg.solve(gram, rhs)
+            except np.linalg.LinAlgError:
+                fitted = np.linalg.lstsq(gram, rhs, rcond=None)[0]
             beta[:] = 0.0
             beta[active] = fitted
             updated = np.abs(beta) >= threshold
@@ -128,43 +236,95 @@ class M2AModel(DynamicsModel):
                 break
             support = updated
         theta = beta / scale
-        return theta, support, {
+        diagnostics = {
             "solver_iterations": iterations,
-            "effective_rank": int(np.linalg.matrix_rank(x)),
-            "matrix_condition_number": float(np.linalg.cond(x)),
             "weak_residual_rmse": float(np.sqrt(np.mean((matrix @ theta - vector) ** 2))),
         }
+        if design_diagnostics is None:
+            if x is None:
+                x = matrix / scale
+            diagnostics.update({
+                "effective_rank": int(np.linalg.matrix_rank(x)),
+                "matrix_condition_number": float(np.linalg.cond(x)),
+            })
+        else:
+            diagnostics.update(design_diagnostics)
+        return theta, support, diagnostics
 
     @staticmethod
-    def _unpack(theta, n_nodes, n_edges):
-        node = np.column_stack((theta[:n_nodes], theta[n_nodes:2 * n_nodes]))
-        offset = 2 * n_nodes
-        edge = np.column_stack([
-            theta[offset + j * n_edges: offset + (j + 1) * n_edges] for j in range(3)
-        ])
+    def _unpack(theta, n_nodes, n_edges, n_node_features=5, n_edge_features=9):
+        node_size = n_nodes * n_node_features
+        node = theta[:node_size].reshape(n_node_features, n_nodes).T
+        edge = theta[node_size:].reshape(n_edge_features, n_edges).T
         return node, edge
 
     @staticmethod
     def _pack(node, edge):
-        return np.concatenate((node[:, 0], node[:, 1], edge[:, 0], edge[:, 1], edge[:, 2]))
+        return np.concatenate((node.T.reshape(-1), edge.T.reshape(-1)))
+
+    @classmethod
+    def _unpack_solution(
+        cls, theta, n_nodes, n_edges, feature_version,
+        n_node_features, n_edge_features,
+    ):
+        if feature_version != "projected_fourier_tied_v2":
+            return cls._unpack(
+                theta, n_nodes, n_edges, n_node_features, n_edge_features
+            )
+        node = np.zeros((n_nodes, n_node_features), dtype=np.float64)
+        edge = np.zeros((n_edges, n_edge_features), dtype=np.float64)
+        offset = 0
+        node[:, 0] = theta[offset:offset + n_nodes]
+        offset += n_nodes
+        for feature_index in range(1, n_node_features):
+            node[:, feature_index] = theta[offset]
+            offset += 1
+        edge[:, 1] = theta[offset:offset + n_edges]
+        offset += n_edges
+        for feature_index in range(n_edge_features):
+            if feature_index == 1:
+                continue
+            edge[:, feature_index] = theta[offset]
+            offset += 1
+        if offset != len(theta):
+            raise ValueError("compact M2A parameter layout mismatch")
+        return node, edge
 
     @staticmethod
-    def _residual_force_numpy(node_theta, edge_theta, delta, omega, pm, static):
-        projection, node_1, node_2, edge_1, edge_2, edge_3 = M2AModel._library(
-            delta, omega, pm, static
+    def _residual_force_numpy(
+        node_theta, edge_theta, delta, omega, pm, static, feature_version=None
+    ):
+        if feature_version is None:
+            feature_version = (
+                "legacy_v1"
+                if node_theta.shape[1] == len(M2AModel.LEGACY_NODE_FEATURES)
+                else "projected_fourier_v2"
+            )
+        projection, node_features, edge_features = M2AModel._feature_library(
+            delta, omega, pm, static, feature_version
         )
         incidence = np.asarray(static["incidence"])
-        node = projection @ (node_theta[:, 0] * node_1 + node_theta[:, 1] * node_2)
-        edge = edge_theta[:, 0] * edge_1 + edge_theta[:, 1] * edge_2 + edge_theta[:, 2] * edge_3
+        node = projection @ np.sum(node_theta * node_features, axis=1)
+        edge = np.sum(edge_theta * edge_features, axis=1)
         return node - incidence @ edge
 
     def fit(self, train, val, run_context):
         if self.base.damping is None:
             self.base.fit(train, val, run_context)
         self.base.max_internal_step = run_context.max_internal_step
-        matrix, vector, n_windows = self.build_weak_residual_system(self.base, train, run_context)
+        matrix, vector, n_windows = self.build_weak_residual_system(
+            self.base, train, run_context, self.feature_version
+        )
         n_nodes = train[0]["model_inputs"]["static"]["mass"].size
         n_edges = train[0]["model_inputs"]["static"]["incidence"].shape[1]
+        node_names = (
+            self.LEGACY_NODE_FEATURES
+            if self.feature_version == "legacy_v1" else self.ROUND2_NODE_FEATURES
+        )
+        edge_names = (
+            self.LEGACY_EDGE_FEATURES
+            if self.feature_version == "legacy_v1" else self.ROUND2_EDGE_FEATURES
+        )
         # M2A is an optional correction to an already selected M0.  The exact
         # zero-residual model must therefore remain in the validation set: on
         # small or poorly conditioned folds every learned residual candidate
@@ -179,17 +339,76 @@ class M2AModel(DynamicsModel):
             "matrix_condition_number": float(np.linalg.cond(matrix)),
             "weak_residual_rmse": float(np.sqrt(np.mean(vector ** 2))),
         }
-        candidates = []
+        matrix_scale = np.sqrt(np.mean(matrix**2, axis=0))
+        matrix_scale = np.where(matrix_scale > np.finfo(float).eps, matrix_scale, 1.0)
+        normalized_matrix = matrix / matrix_scale
+        normal_equations = (
+            matrix_scale,
+            normalized_matrix.T @ normalized_matrix,
+            normalized_matrix.T @ vector,
+        )
+        design_diagnostics = {
+            "effective_rank": int(np.linalg.matrix_rank(normalized_matrix)),
+            "matrix_condition_number": float(np.linalg.cond(normalized_matrix)),
+        }
+        solved_candidates = []
         for ridge in run_context.ridge_values:
             for threshold in run_context.sindy_thresholds:
-                theta, support, diagnostics = self._stridge(matrix, vector, ridge, threshold)
-                self.node_theta, self.edge_theta = self._unpack(theta, n_nodes, n_edges)
-                try:
-                    loss = self._validation_loss(val, run_context)
-                    failed = False
-                except (FloatingPointError, ValueError):
-                    loss, failed = float("inf"), True
-                candidates.append((loss, failed, ridge, threshold, theta.copy(), support.copy(), diagnostics))
+                theta, support, diagnostics = self._stridge(
+                    matrix, vector, ridge, threshold,
+                    design_diagnostics=design_diagnostics,
+                    normal_equations=normal_equations,
+                )
+                for residual_scale in run_context.m2a_residual_scales:
+                    if not 0.0 < residual_scale <= 1.0:
+                        raise ValueError("M2A residual scales must lie in (0, 1]")
+                    scaled_theta = float(residual_scale) * theta
+                    solved_candidates.append((
+                        ridge, threshold, scaled_theta, support.copy(),
+                        {**diagnostics, "residual_scale": float(residual_scale)},
+                    ))
+        validation_matrix, validation_vector, _ = self.build_weak_residual_system(
+            self.base, val, run_context, self.feature_version
+        )
+        unique_candidates = {}
+        for ridge, threshold, theta, support, diagnostics in solved_candidates:
+            key = np.ascontiguousarray(theta).tobytes()
+            weak_validation_rmse = float(np.sqrt(np.mean(
+                (validation_matrix @ theta - validation_vector) ** 2
+            )))
+            item = (
+                weak_validation_rmse, ridge, threshold, theta, support,
+                {**diagnostics, "weak_validation_rmse": weak_validation_rmse},
+            )
+            if key not in unique_candidates or item[0] < unique_candidates[key][0]:
+                unique_candidates[key] = item
+        shortlist_size = max(1, int(run_context.m2a_rollout_shortlist))
+        ranked = sorted(unique_candidates.values(), key=lambda item: item[0])
+        best_by_scale = {}
+        for item in ranked:
+            scale = float(item[5]["residual_scale"])
+            best_by_scale.setdefault(scale, item)
+        shortlist = list(best_by_scale.values())
+        shortlisted_keys = {np.ascontiguousarray(item[3]).tobytes() for item in shortlist}
+        shortlist.extend(
+            item for item in ranked
+            if np.ascontiguousarray(item[3]).tobytes() not in shortlisted_keys
+        )
+        shortlist = shortlist[:shortlist_size]
+        candidates = []
+        for _, ridge, threshold, theta, support, diagnostics in shortlist:
+            self.node_theta, self.edge_theta = self._unpack_solution(
+                theta, n_nodes, n_edges, self.feature_version,
+                len(node_names), len(edge_names),
+            )
+            try:
+                loss = self._validation_loss(val, run_context)
+                failed = False
+            except (FloatingPointError, ValueError):
+                loss, failed = float("inf"), True
+            candidates.append((
+                loss, failed, ridge, threshold, theta, support, diagnostics,
+            ))
         candidates.append((
             base_loss, False, 0.0, 0.0, zero_theta, zero_support, fallback_diagnostics,
         ))
@@ -197,30 +416,70 @@ class M2AModel(DynamicsModel):
         loss, failed, ridge, threshold, theta, support, diagnostics = selected
         if failed or not np.isfinite(loss):
             raise FloatingPointError("all one-step M2A candidates failed validation rollout")
-        self.node_theta, self.edge_theta = self._unpack(theta, n_nodes, n_edges)
+        self.node_theta, self.edge_theta = self._unpack_solution(
+            theta, n_nodes, n_edges, self.feature_version,
+            len(node_names), len(edge_names),
+        )
         one_step_loss = loss
         one_step_improvement = (base_loss - one_step_loss) / max(base_loss, np.finfo(float).eps)
         candidate_theta = theta.copy()
         if one_step_improvement < run_context.refinement_min_improvement:
             theta = np.zeros_like(theta)
             support = np.zeros_like(support)
-            self.node_theta, self.edge_theta = self._unpack(theta, n_nodes, n_edges)
+            self.node_theta, self.edge_theta = self._unpack_solution(
+                theta, n_nodes, n_edges, self.feature_version,
+                len(node_names), len(edge_names),
+            )
             self.solution_kind = "one_step_rejected_to_M0"
             loss = base_loss
         refinement = {"attempted": False, "adopted": False}
-        if run_context.rollout_refine and np.any(support):
+        refinement_supported = self.feature_version != "projected_fourier_tied_v2"
+        if run_context.rollout_refine and np.any(support) and refinement_supported:
             refinement = self._refine(train, val, run_context, theta, support)
             if refinement["adopted"]:
                 theta = np.asarray(refinement.pop("theta"))
-                self.node_theta, self.edge_theta = self._unpack(theta, n_nodes, n_edges)
+                self.node_theta, self.edge_theta = self._unpack_solution(
+                    theta, n_nodes, n_edges, self.feature_version,
+                    len(node_names), len(edge_names),
+                )
                 self.solution_kind = "rollout_refined"
                 loss = float(refinement["validation_loss"])
             else:
-                self.node_theta, self.edge_theta = self._unpack(theta, n_nodes, n_edges)
+                self.node_theta, self.edge_theta = self._unpack_solution(
+                    theta, n_nodes, n_edges, self.feature_version,
+                    len(node_names), len(edge_names),
+                )
+        elif run_context.rollout_refine and np.any(support):
+            refinement = {
+                "attempted": False,
+                "adopted": False,
+                "reason": "compact_tied_support_refinement_not_enabled",
+            }
         self.diagnostics = {
             "objective": "single_integral_weak_form_STRidge",
+            "residual_exogenous_policy": "registered_causal_zoh",
+            "feature_version": self.feature_version,
+            "node_features": list(node_names),
+            "edge_features": list(edge_names),
             "epochs": 0,
             "n_integration_windows": n_windows,
+            "total_linear_candidates": len(solved_candidates),
+            "unique_linear_candidates": len(unique_candidates),
+            "closed_loop_shortlist_size": len(shortlist),
+            "closed_loop_candidates": [
+                {
+                    "validation_loss": float(item[0]),
+                    "failed": bool(item[1]),
+                    "ridge": float(item[2]),
+                    "threshold": float(item[3]),
+                    "active_parameters": int(np.sum(item[5])),
+                    "weak_validation_rmse": float(
+                        item[6].get("weak_validation_rmse", np.nan)
+                    ),
+                    "residual_scale": float(item[6].get("residual_scale", 0.0)),
+                }
+                for item in candidates
+            ],
             "selected_ridge": float(ridge),
             "selected_threshold": float(threshold),
             "active_parameters": int(np.sum(support)),
@@ -288,7 +547,11 @@ class M2AModel(DynamicsModel):
                 parameter.copy_(anchor + mask * (parameter - anchor))
                 candidate = parameter.detach().cpu().numpy()
                 self.node_theta, self.edge_theta = self._unpack(
-                    candidate, self.node_theta.shape[0], self.edge_theta.shape[0]
+                    candidate,
+                    self.node_theta.shape[0],
+                    self.edge_theta.shape[0],
+                    self.node_theta.shape[1],
+                    self.edge_theta.shape[1],
                 )
                 try:
                     val_loss = self._validation_loss(val, context)
@@ -313,11 +576,18 @@ class M2AModel(DynamicsModel):
 
     def _validation_loss_with_theta(self, val, context, theta):
         current = self._pack(self.node_theta, self.edge_theta)
-        self.node_theta, self.edge_theta = self._unpack(theta, self.node_theta.shape[0], self.edge_theta.shape[0])
+        node_count, edge_count = self.node_theta.shape[1], self.edge_theta.shape[1]
+        self.node_theta, self.edge_theta = self._unpack(
+            theta, self.node_theta.shape[0], self.edge_theta.shape[0],
+            node_count, edge_count,
+        )
         try:
             return self._validation_loss(val, context)
         finally:
-            self.node_theta, self.edge_theta = self._unpack(current, self.node_theta.shape[0], self.edge_theta.shape[0])
+            self.node_theta, self.edge_theta = self._unpack(
+                current, self.node_theta.shape[0], self.edge_theta.shape[0],
+                node_count, edge_count,
+            )
 
     def _torch_rollout_loss(self, sample, steps, theta, context):
         static_np = sample["model_inputs"]["static"]
@@ -326,21 +596,42 @@ class M2AModel(DynamicsModel):
         t = torch.as_tensor(target["t"][:steps], dtype=torch.float64)
         pm = torch.as_tensor(sample["model_inputs"]["exogenous"]["Pm"][:steps], dtype=torch.float64)
         n, e = static["mass"].numel(), static["incidence"].shape[1]
-        node = torch.stack((theta[:n], theta[n:2*n]), dim=1)
-        offset = 2*n
-        edge = torch.stack(tuple(theta[offset+j*e:offset+(j+1)*e] for j in range(3)), dim=1)
+        node_feature_count = self.node_theta.shape[1]
+        edge_feature_count = self.edge_theta.shape[1]
+        node_size = n * node_feature_count
+        node = theta[:node_size].reshape(node_feature_count, n).T
+        edge = theta[node_size:].reshape(edge_feature_count, e).T
         base_d = torch.as_tensor(self.base.damping, dtype=torch.float64)
         base_k = torch.as_tensor(self.base.coupling, dtype=torch.float64)
 
         def derivative(d, w, p, s):
             inc, mass = s["incidence"], s["mass"]
             eta, eta0 = inc.T @ d, inc.T @ s["equilibrium_delta"]
+            deta = eta - eta0
             dsin, ew = torch.sin(eta) - torch.sin(eta0), inc.T @ w
             dpm = p - s["Pm_equilibrium"]
             base_force = dpm - base_d*w - inc @ (base_k*dsin)
-            raw_node = node[:, 0]*w*torch.abs(w) + node[:, 1]*dpm*w
+            if self.feature_version == "legacy_v1":
+                node_features = torch.stack((w*torch.abs(w), dpm*w), dim=1)
+                edge_features = torch.stack((dsin, ew, ew*dsin), dim=1)
+            else:
+                node_features = torch.stack((
+                    w, w*torch.abs(w), w**3, dpm, dpm*w,
+                ), dim=1)
+                edge_features = torch.stack((
+                    deta,
+                    dsin,
+                    torch.cos(eta)-torch.cos(eta0),
+                    torch.sin(2.0*eta)-torch.sin(2.0*eta0),
+                    torch.cos(2.0*eta)-torch.cos(2.0*eta0),
+                    ew,
+                    ew*torch.abs(ew),
+                    ew*deta,
+                    ew*dsin,
+                ), dim=1)
+            raw_node = torch.sum(node*node_features, dim=1)
             node_force = raw_node - mass*torch.sum(raw_node)/torch.sum(mass)
-            edge_force = edge[:, 0]*dsin + edge[:, 1]*ew + edge[:, 2]*ew*dsin
+            edge_force = torch.sum(edge*edge_features, dim=1)
             return w, (base_force + node_force - inc @ edge_force)/mass
 
         pd, pw = torch_rk4_rollout(
@@ -354,7 +645,8 @@ class M2AModel(DynamicsModel):
         if self.node_theta is None or self.edge_theta is None:
             raise RuntimeError("M2A is not fitted")
         return self.base.force(delta, omega, pm, static) + self._residual_force_numpy(
-            self.node_theta, self.edge_theta, delta, omega, pm, static
+            self.node_theta, self.edge_theta, delta, omega, pm, static,
+            self.feature_version,
         )
 
     def vector_field(self, delta, omega, pm, static):
@@ -373,8 +665,9 @@ class M2AModel(DynamicsModel):
             path, damping=self.base.damping, coupling=self.base.coupling,
             node_theta=self.node_theta, edge_theta=self.edge_theta,
             max_internal_step=self.base.max_internal_step,
+            feature_version=np.asarray(self.feature_version),
         )
-        path.with_suffix(".json").write_text(json.dumps({"method": self.method_name, "solution_kind": self.solution_kind, "diagnostics": self.diagnostics}, indent=2), encoding="utf-8")
+        path.with_suffix(".json").write_text(json.dumps({"method": self.method_name, "solution_kind": self.solution_kind, "feature_version": self.feature_version, "diagnostics": self.diagnostics}, indent=2), encoding="utf-8")
 
     @classmethod
     def load(cls, path):
@@ -382,7 +675,8 @@ class M2AModel(DynamicsModel):
         meta = json.loads(path.with_suffix(".json").read_text(encoding="utf-8")) if path.with_suffix(".json").exists() else {}
         with np.load(path) as data:
             base = M0Model(data["damping"], data["coupling"], max_internal_step=float(data["max_internal_step"]) if "max_internal_step" in data else 0.01)
-            return cls(base, data["node_theta"], data["edge_theta"], solution_kind=meta.get("solution_kind", "one_step_solution"), diagnostics=meta.get("diagnostics", {}))
+            feature_version = str(data["feature_version"]) if "feature_version" in data else meta.get("feature_version")
+            return cls(base, data["node_theta"], data["edge_theta"], solution_kind=meta.get("solution_kind", "one_step_solution"), feature_version=feature_version, diagnostics=meta.get("diagnostics", {}))
 
     def physics_audit(self):
         if self.node_theta is None:

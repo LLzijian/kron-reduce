@@ -1,0 +1,42 @@
+task_type = "closed_loop_rollout"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+folds = ["F1", "F2", "F3", "F4", "F5"]
+representation = "clustered_7"
+main_pm_mode = "zoh"
+sensitivity_pm_mode = "observed"
+seeds = [324]
+horizon_steps = [20, 40, 100]
+epochs = 60
+learning_rate = 0.0005
+bootstrap_draws = 2000
+methods = ["M0", "M2A"]
+final_candidate_methods = ["M0", "M2A"]
+target_omega_r2 = 0.9
+target_instability_fsr = 0.2
+
+# The round-1 M0 checkpoints were selected using train/validation only.  They
+# are loaded read-only, hash-verified, and never refitted in this round.
+frozen_m0_run = "results/paper_v2_integral_single_seed-full_run-20260724T081902Z-474cfd11"
+
+# Short train/validation trajectories contribute every available weak window.
+# Their length is never exposed to the model as an input feature.
+minimum_fit_steps = 2
+integral_windows = [1, 5, 20]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+sindy_thresholds = [0.0, 1e-6, 1e-4, 1e-3, 1e-2, 1e-1]
+m2a_rollout_shortlist = 4
+m2a_residual_scales = [0.01, 0.02, 0.05, 0.1]
+
+# Closed-loop refinement remains optional and cannot alter the selected sparse
+# support.  It is attempted only after the one-shot residual clears the 2% gate.
+rollout_refine = false
+refinement_min_improvement = 0.02
+max_internal_step = 0.01
+
+# Stability is derived from a causal ZOH rollout with a fixed clock, independent
+# of the measured trajectory's termination time or valid_length.
+classification_horizon_steps = 100
+classification_dt_s = 0.01
+old_m0_h100_mean_rmse = 9.695

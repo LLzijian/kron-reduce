@@ -8,6 +8,7 @@ from kron_reduce.evaluation.cohorts import prospective_eligibility
 from kron_reduce.evaluation.metrics import aggregate_trajectory_metrics, trajectory_metrics
 from kron_reduce.evaluation.status import evaluation_status
 from kron_reduce.evaluation.stability import classification_metrics
+from kron_reduce.workflows.paper_full import fixed_causal_classification_inputs
 
 
 def test_forecast_metrics_exclude_observed_prefix():
@@ -40,3 +41,17 @@ def test_omega_r2_is_reported_and_pooled_from_sse():
     aggregate = aggregate_trajectory_metrics([row, row])
     assert row["omega_r2"] > 0.99
     assert aggregate["pooled_omega_r2"] == row["omega_r2"]
+
+
+def test_fixed_stability_rollout_clock_does_not_depend_on_truth_length():
+    static = {"Pm_clear": np.array([[0.2, -0.2]])}
+    short_t, short_exogenous = fixed_causal_classification_inputs(
+        static, steps=100, dt_s=0.01
+    )
+    long_t, long_exogenous = fixed_causal_classification_inputs(
+        static, steps=100, dt_s=0.01
+    )
+    assert np.array_equal(short_t, long_t)
+    assert np.array_equal(short_exogenous["Pm"], long_exogenous["Pm"])
+    assert len(short_t) == 100
+    assert np.allclose(np.diff(short_t), 0.01)
