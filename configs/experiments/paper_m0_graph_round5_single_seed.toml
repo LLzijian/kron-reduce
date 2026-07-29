@@ -1,0 +1,39 @@
+task_type = "conditional_closed_loop_rollout"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+folds = ["F1", "F2", "F3", "F4", "F5"]
+representation = "clustered_7"
+main_pm_mode = "observed"
+primary_analysis = "conditional_observed_pm"
+seeds = [324]
+horizon_steps = [20, 40, 100]
+epochs = 0
+learning_rate = 0.0
+bootstrap_draws = 2000
+methods = ["M0", "M0-DD", "M0-GRAPH"]
+final_candidate_methods = ["M0", "M0-DD", "M0-GRAPH"]
+
+minimum_fit_steps = 100
+fit_max_steps = 101
+integral_windows = [1, 5, 20, 40, 100]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+graph_prune_thresholds = [0.0, 0.001, 0.01, 0.05]
+graph_nonoverlap_windows = true
+max_internal_step = 0.01
+m2a_validation_cvar_fraction = 0.1
+
+target_omega_r2 = 0.8
+validation_min_improvement = 0.20
+validation_max_cvar_degradation = 0.0
+validation_min_same_direction_folds = 4
+validation_required_source_method = "M0-GRAPH"
+validation_required_source_fold_count = 4
+validation_require_graph_physics_audits = true
+require_validation_gate_before_test = true
+
+evaluate_stability = true
+classification_horizon_steps = 500
+classification_dt_s = 0.01
+target_instability_fsr = 0.2
+old_m0_h100_mean_rmse = 9.695

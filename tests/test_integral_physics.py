@@ -4,7 +4,7 @@ import numpy as np
 
 from kron_reduce.data import ModelDataRequest, adapt_event
 from kron_reduce.evaluation.energy import evaluate_energy_gate, supply_violation_loss
-from kron_reduce.models import DynamicM2AModel, EnergyM2AModel, GovernorM0Model, M0Model, M2AModel, RunContext, SwingSINDyModel
+from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, M0Model, M2AModel, RunContext, SwingSINDyModel
 from kron_reduce.models.base import sample_rollout_inputs
 from kron_reduce.models.integration import integration_convergence_audit, rk4_rollout, torch_rk4_rollout
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
@@ -102,6 +102,118 @@ def test_integral_weak_form_recovers_known_parameters():
     assert np.allclose(model.damping, [0.35, 0.35], rtol=0.05, atol=0.02)
     assert np.allclose(model.coupling, [1.2], rtol=0.05, atol=0.03)
     assert result.details["n_integration_windows"] > 0
+
+
+def test_derivative_m0_is_a_fair_current_contract_baseline():
+    sample = _synthetic_sample()
+    model = DerivativeM0Model()
+    result = model.fit(
+        [sample], [sample],
+        RunContext(horizon_steps=100, max_cases=1, ridge_values=(1e-10,)),
+    )
+    assert result.details["epochs"] == 0
+    assert np.allclose(model.damping, [0.35, 0.35], rtol=0.1, atol=0.03)
+    assert np.allclose(model.coupling, [1.2], rtol=0.1, atol=0.05)
+
+
+def _graph_synthetic_samples():
+    mass = np.array([1.0, 1.4, 1.9])
+    incidence = np.array([
+        [1.0, 1.0, 0.0],
+        [-1.0, 0.0, 1.0],
+        [0.0, -1.0, -1.0],
+    ])
+    equilibrium = coi_project(np.array([0.09, -0.04, -0.015]), mass)
+    truth = GraphM0Model(
+        np.array([0.22, 0.31, 0.39]),
+        np.array([0.85, 1.05, 0.92]),
+        np.array([0.08, -0.06, 0.05]),
+        np.array([0.045, 0.075, 0.055]),
+        max_internal_step=0.0025,
+        diagnostics={"minimum_local_stiffness": 0.8, "maximum_linearized_mode_real_part": -0.01},
+    )
+    t = np.linspace(0.0, 1.5, 151)
+    samples = []
+    for index in range(5):
+        delta0 = coi_project(
+            equilibrium + np.array([0.035, -0.018, -0.008]) * (index + 1), mass
+        )
+        omega0 = coi_project(
+            np.array([0.012, -0.006, -0.002]) * (index + 1), mass
+        )
+        static = {
+            "delta0": delta0,
+            "omega0": omega0,
+            "Pm_equilibrium": np.zeros(3),
+            "Pm_clear": np.zeros(3),
+            "Pm0": np.zeros(3),
+            "equilibrium_delta": equilibrium,
+            "mass": mass,
+            "incidence": incidence,
+        }
+        raw_pm = np.column_stack((
+            0.08 * np.sin((1.4 + 0.1*index) * t),
+            0.05 * np.cos((1.1 + 0.2*index) * t),
+            -0.03 * np.sin((0.8 + 0.15*index) * t),
+        ))
+        pm = coi_project_power(raw_pm, mass)
+        delta, omega = truth.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+        samples.append({
+            "event_id": f"graph-synthetic-{index}",
+            "model_inputs": {"static": static, "exogenous": {"t": t, "Pm": pm}},
+            "training_context": {
+                "targets": {"t": t, "delta": delta, "omega": omega},
+                "Pm_observed": pm,
+                "claim_type": "conditional_rollout_not_causal_forecast",
+            },
+        })
+    return truth, samples
+
+
+def test_graph_m0_recovers_closed_loop_physics_and_save_load(tmp_path):
+    truth, samples = _graph_synthetic_samples()
+    model = GraphM0Model()
+    context = RunContext(
+        horizon_steps=150,
+        max_cases=len(samples),
+        ridge_values=(1e-10,),
+        integral_windows=(1, 5, 20, 40),
+        graph_prune_thresholds=(0.0,),
+    )
+    result = model.fit(samples, samples, context)
+    assert result.details["epochs"] == 0
+    assert result.details["n_case_window_strata"] == 20
+    assert model.physics_audit()["status"] == "pass"
+
+    sample = samples[-1]
+    static = sample["model_inputs"]["static"]
+    target = sample["training_context"]["targets"]
+    predicted = model.rollout(
+        static, target["t"],
+        {"Pm": sample["training_context"]["Pm_observed"], "interpolation": "linear"},
+    )
+    error = np.concatenate(((predicted[0]-target["delta"]).ravel(), (predicted[1]-target["omega"]).ravel()))
+    assert np.sqrt(np.mean(error**2)) < 2e-3
+
+    equilibrium_force = model.force(
+        static["equilibrium_delta"], np.zeros(3), static["Pm_equilibrium"], static
+    )
+    moved = model.force(static["delta0"], static["omega0"], np.zeros(3), static)
+    shifted = model.force(static["delta0"] + 9.0, static["omega0"], np.zeros(3), static)
+    assert np.allclose(equilibrium_force, 0.0, atol=1e-13)
+    assert abs(np.sum(moved)) < 1e-12
+    assert np.allclose(moved, shifted, atol=1e-12)
+
+    path = tmp_path / "graph_m0.npz"
+    model.save(path)
+    loaded = GraphM0Model.load(path)
+    actual = loaded.rollout(
+        static, target["t"],
+        {"Pm": sample["training_context"]["Pm_observed"], "interpolation": "linear"},
+    )
+    assert np.allclose(predicted[0], actual[0])
+    assert np.allclose(predicted[1], actual[1])
+    assert loaded.physics_audit()["status"] == "pass"
 
 
 def test_observed_pm_validation_uses_linear_rk_stage_interpolation():

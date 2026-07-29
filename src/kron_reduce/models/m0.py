@@ -65,6 +65,7 @@ class M0Model(DynamicsModel):
         windows: tuple[int, ...] = (1, 5, 20),
         max_cases: int | None = None,
         horizon_steps: int = 100,
+        max_fit_steps: int = 0,
     ) -> tuple[np.ndarray, np.ndarray, dict[str, float | int]]:
         rows, targets = [], []
         selected = samples if max_cases is None else samples[:max_cases]
@@ -79,7 +80,11 @@ class M0Model(DynamicsModel):
             incidence = np.asarray(static["incidence"], dtype=np.float64)
             equilibrium = np.asarray(static["equilibrium_delta"], dtype=np.float64).reshape(-1)
             delta_pm = pm - _pm_equilibrium(static)
-            limit = min(len(t), max(horizon_steps * 5, max(windows, default=1) + 1))
+            limit = min(
+                len(t),
+                int(max_fit_steps) if int(max_fit_steps) > 0
+                else max(horizon_steps * 5, max(windows, default=1) + 1),
+            )
             designs = np.stack([
                 cls._instantaneous_design(delta[k], omega[k], equilibrium, incidence, mass)
                 for k in range(limit)
@@ -189,6 +194,7 @@ class M0Model(DynamicsModel):
             windows=run_context.integral_windows,
             max_cases=run_context.max_cases,
             horizon_steps=run_context.horizon_steps,
+            max_fit_steps=run_context.fit_max_steps,
         )
         self.validation_scales = self._training_scales(train, run_context.max_cases)
         self.max_internal_step = run_context.max_internal_step

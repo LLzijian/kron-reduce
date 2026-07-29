@@ -18,6 +18,8 @@ from kron_reduce.models import (
     AutoregressiveLSTMModel,
     DynamicM2AModel,
     EnergyM2AModel,
+    DerivativeM0Model,
+    GraphM0Model,
     GovernorM0Model,
     M0Model,
     M2AModel,
@@ -39,6 +41,8 @@ LOADERS = {
     "M2A-energy": EnergyM2AModel,
     "M2A-dynamic": DynamicM2AModel,
     "M0-governor": GovernorM0Model,
+    "M0-DD": DerivativeM0Model,
+    "M0-GRAPH": GraphM0Model,
     "SINDYc": SINDYcModel,
     "Swing-SINDy": SwingSINDyModel,
     "PINN": PINNModel,
@@ -73,6 +77,8 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
         ("M2A", static_m2a),
         ("M2A-dynamic", DynamicM2AModel(M2AModel(_clone_m0(m0)))),
         ("M0-governor", GovernorM0Model(_clone_m0(m0))),
+        ("M0-DD", DerivativeM0Model()),
+        ("M0-GRAPH", GraphM0Model()),
         ("M2A-energy", EnergyM2AModel(_clone_m0(m0))),
         ("SINDYc", SINDYcModel()),
         ("Swing-SINDy", SwingSINDyModel()),
@@ -321,6 +327,13 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                 m2a_enforce_dissipative_linear_terms=bool(
                     config.get("m2a_enforce_dissipative_linear_terms", False)
                 ),
+                graph_prune_thresholds=tuple(
+                    config.get("graph_prune_thresholds", (0.0, 1e-3, 1e-2))
+                ),
+                graph_nonoverlap_windows=bool(
+                    config.get("graph_nonoverlap_windows", True)
+                ),
+                fit_max_steps=int(config.get("fit_max_steps", 0)),
             )
             fold_seed_dir = checkpoint_root / fold / str(seed)
             fold_seed_dir.mkdir(parents=True)
@@ -367,6 +380,7 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                     model.save(checkpoint)
                     loaded = LOADERS[name].load(checkpoint)
                     fitted[name] = loaded
+                    physics_audit = loaded.physics_audit()
                     if frozen_damping is not None and (
                         not np.array_equal(m0.damping, frozen_damping)
                         or not np.array_equal(m0.coupling, frozen_coupling)
@@ -387,6 +401,18 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
                             "relative_validation_improvement": fit.details.get("relative_validation_improvement", fit.details.get("one_step_relative_improvement", "")),
                             "validation_raw_mean_rmse": fit.details.get("validation_raw_mean_rmse", ""),
                             "maximum_validation_coi_drift": fit.details.get("maximum_validation_coi_drift", ""),
+                            "physics_audit_status": physics_audit.get("status", ""),
+                            "selected_ridge": fit.details.get("selected_ridge", ""),
+                            "selected_prune_threshold": fit.details.get("selected_prune_threshold", ""),
+                            "minimum_node_damping": fit.details.get("minimum_node_damping", ""),
+                            "minimum_edge_damping": fit.details.get("minimum_edge_damping", ""),
+                            "minimum_local_stiffness": fit.details.get("minimum_local_stiffness", ""),
+                            "minimum_quotient_damping_eigenvalue": fit.details.get("minimum_quotient_damping_eigenvalue", ""),
+                            "minimum_quotient_stiffness_eigenvalue": fit.details.get("minimum_quotient_stiffness_eigenvalue", ""),
+                            "maximum_linearized_mode_real_part": fit.details.get("maximum_linearized_mode_real_part", ""),
+                            "active_edge_count": fit.details.get("active_edge_count", ""),
+                            "matrix_condition_number": fit.details.get("matrix_condition_number", ""),
+                            "effective_rank": fit.details.get("effective_rank", ""),
                         }
                     )
                 except Exception as exc:
@@ -673,6 +699,44 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
     validation_relative_improvement = (
         float(validation_m0["mean_rmse"]) - float(validation_final["mean_rmse"])
     ) / max(float(validation_m0["mean_rmse"]), np.finfo(float).eps)
+    validation_cvar_degradation = (
+        float(validation_final["worst_10pct_cvar_rmse"])
+        - float(validation_m0["worst_10pct_cvar_rmse"])
+    ) / max(float(validation_m0["worst_10pct_cvar_rmse"]), np.finfo(float).eps)
+    fold_relative_improvements = {}
+    for fold in config["folds"]:
+        final_fold = [
+            float(row["rmse"]) for row in validation_metric_rows
+            if row["fold"] == fold and row["method"] == "FINAL"
+            and row["analysis"] == primary_analysis
+            and row["horizon_steps"] == maximum_horizon
+            and row.get("status") == "completed"
+        ]
+        m0_fold = [
+            float(row["rmse"]) for row in validation_metric_rows
+            if row["fold"] == fold and row["method"] == "M0"
+            and row["analysis"] == primary_analysis
+            and row["horizon_steps"] == maximum_horizon
+            and row.get("status") == "completed"
+        ]
+        if final_fold and m0_fold:
+            fold_relative_improvements[fold] = (
+                float(np.mean(m0_fold)) - float(np.mean(final_fold))
+            ) / max(float(np.mean(m0_fold)), np.finfo(float).eps)
+    same_direction_fold_count = sum(value > 0.0 for value in fold_relative_improvements.values())
+    required_source_method = config.get("validation_required_source_method")
+    required_source_fold_count = sum(
+        selection["source_method"] == required_source_method
+        for selection in final_selections
+    ) if required_source_method else 0
+    graph_audit_rows = [
+        row for row in model_status
+        if row.get("method") == "M0-GRAPH" and row.get("status") == "completed"
+    ]
+    graph_physics_audits_passed = bool(
+        graph_audit_rows
+        and all(row.get("physics_audit_status") == "pass" for row in graph_audit_rows)
+    )
     validation_gate = {
         "stage": "conditional_observed_pm_accuracy_before_governor_ode",
         "analysis": primary_analysis,
@@ -686,6 +750,21 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
             config.get("validation_min_improvement", 0.02)
         ),
         "failure_rate": float(validation_final["failure_rate"]),
+        "worst_10pct_cvar_relative_degradation_vs_M0": validation_cvar_degradation,
+        "maximum_cvar_relative_degradation": float(
+            config.get("validation_max_cvar_degradation", np.inf)
+        ),
+        "fold_relative_improvements_vs_M0": fold_relative_improvements,
+        "same_direction_fold_count": same_direction_fold_count,
+        "minimum_same_direction_fold_count": int(
+            config.get("validation_min_same_direction_folds", 0)
+        ),
+        "required_source_method": required_source_method,
+        "required_source_fold_count": required_source_fold_count,
+        "minimum_required_source_fold_count": int(
+            config.get("validation_required_source_fold_count", 0)
+        ),
+        "graph_physics_audits_passed": graph_physics_audits_passed,
         "cluster_bootstrap": validation_bootstrap,
         "stability_labels_used_for_selection": False,
         "governor_ode_permitted_after_this_gate_only": True,
@@ -698,6 +777,19 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
         and validation_gate["failure_rate"] == 0.0
         and validation_bootstrap.get("status") == "completed"
         and float(validation_bootstrap.get("ci95_high", np.inf)) < 0.0
+        and validation_cvar_degradation
+        <= float(config.get("validation_max_cvar_degradation", np.inf))
+        and same_direction_fold_count
+        >= int(config.get("validation_min_same_direction_folds", 0))
+        and (
+            not required_source_method
+            or required_source_fold_count
+            >= int(config.get("validation_required_source_fold_count", 0))
+        )
+        and (
+            not bool(config.get("validation_require_graph_physics_audits", False))
+            or graph_physics_audits_passed
+        )
     )
     _write_csv(result_dir / "validation_per_case_metrics.csv", validation_metric_rows)
     _write_csv(result_dir / "validation_aggregate_metrics.csv", validation_aggregate_rows)

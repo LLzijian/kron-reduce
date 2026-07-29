@@ -3,6 +3,7 @@ from .classifiers import DirectPrefixClassifier, PrefixClassifier
 from .energy import EnergyM2AModel
 from .dynamic_m2a import DynamicM2AModel
 from .governor import FirstOrderGovernor, GovernorM0Model
+from .graph_m0 import DerivativeM0Model, GraphM0Model
 from .lstm import AutoregressiveLSTMModel
 from .m0 import M0Model
 from .m2a import M2AModel
@@ -18,8 +19,10 @@ __all__ = [
     "DynamicsModel",
     "EnergyM2AModel",
     "DynamicM2AModel",
+    "DerivativeM0Model",
     "FirstOrderGovernor",
     "GovernorM0Model",
+    "GraphM0Model",
     "EDMDKoopmanModel",
     "FitResult",
     "M0Model",

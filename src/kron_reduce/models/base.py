@@ -27,6 +27,9 @@ class RunContext:
     m2a_validation_cvar_fraction: float = 0.1
     m2a_max_cvar_degradation: float = 0.0
     m2a_enforce_dissipative_linear_terms: bool = False
+    graph_prune_thresholds: tuple[float, ...] = (0.0, 1e-3, 1e-2)
+    graph_nonoverlap_windows: bool = True
+    fit_max_steps: int = 0
 
 
 @dataclass
