@@ -147,6 +147,29 @@
       "pm_mode": "observed",
       "required_gate": "round5_full_run_approved"
     },
+    "paper_m0_graph_round5_solver_fix_validation": {
+      "status": "gated",
+      "module": "kron_reduce.workflows.paper_full",
+      "workflow": "paper_m0_graph_round5_solver_fix",
+      "config": "paper_m0_graph_round5_single_seed.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "split_name": "combined_line_5fold_v1",
+      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "representation": "clustered_7",
+      "pm_mode": "observed"
+    },
+    "paper_m0_graph_round5_solver_fix_single_seed": {
+      "status": "gated",
+      "module": "kron_reduce.workflows.paper_full",
+      "workflow": "paper_m0_graph_round5_solver_fix",
+      "config": "paper_m0_graph_round5_single_seed.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "split_name": "combined_line_5fold_v1",
+      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "representation": "clustered_7",
+      "pm_mode": "observed",
+      "required_gate": "round5_solver_fix_full_run_approved"
+    },
     "paper_v2_integral_smoke": {
       "status": "smoke",
       "module": "kron_reduce.workflows.paper_smoke",

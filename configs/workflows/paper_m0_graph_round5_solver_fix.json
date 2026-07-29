@@ -1,0 +1,19 @@
+{
+  "workflow": "paper_m0_graph_round5_solver_fix",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "validation_run",
+    "round5_solver_fix_full_run_approved",
+    "full_run",
+    "round_review"
+  ],
+  "approval_required": [
+    "round5_solver_fix_full_run_approved",
+    "round_review"
+  ]
+}
