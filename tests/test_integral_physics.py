@@ -216,6 +216,26 @@ def test_graph_m0_recovers_closed_loop_physics_and_save_load(tmp_path):
     assert loaded.physics_audit()["status"] == "pass"
 
 
+def test_graph_potential_cone_parameterization_enforces_constraints():
+    _, samples = _graph_synthetic_samples()
+    static = samples[0]["model_inputs"]["static"]
+    transform, lower, upper = GraphM0Model._potential_cone_transform(static)
+    rng = np.random.default_rng(324)
+    cone = rng.uniform(0.0, 2.0, transform.shape[1])
+    signed = np.isneginf(lower)
+    cone[signed] = rng.normal(size=np.sum(signed))
+    theta = transform @ cone
+    n_nodes = len(static["mass"])
+    n_edges = static["incidence"].shape[1]
+    ks = theta[n_nodes:n_nodes+n_edges]
+    kc = theta[n_nodes+n_edges:n_nodes+2*n_edges]
+    eta0 = static["incidence"].T @ static["equilibrium_delta"]
+    curvature = ks*np.cos(eta0) - kc*np.sin(eta0)
+    assert np.all(ks >= -1e-14)
+    assert np.all(curvature >= -1e-14)
+    assert np.all(np.isinf(upper))
+
+
 def test_observed_pm_validation_uses_linear_rk_stage_interpolation():
     sample = _synthetic_sample()
     _, _, exogenous = sample_rollout_inputs(sample)

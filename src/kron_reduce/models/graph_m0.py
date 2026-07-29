@@ -67,14 +67,16 @@ def _solve_quadratic(
         )
     x0 = np.zeros(len(rhs), dtype=np.float64) if initial is None else initial * scale
     x0 = np.minimum(np.maximum(x0, lower * scale), upper * scale)
+    if constraints:
+        method = "SLSQP"
+        options = {"maxiter": 3000, "ftol": 1e-11}
+    else:
+        method = "L-BFGS-B"
+        options = {"maxiter": 5000, "ftol": 1e-14, "gtol": 1e-9, "maxls": 100}
     result = minimize(
-        objective,
-        x0,
-        jac=gradient,
-        method="SLSQP",
+        objective, x0, jac=gradient, method=method,
         bounds=Bounds(lower * scale, upper * scale),
-        constraints=constraints,
-        options={"maxiter": 3000, "ftol": 1e-11},
+        constraints=constraints, options=options,
     )
     theta = result.x / scale
     residual_sse = float(theta @ gram @ theta - 2.0 * rhs @ theta)
@@ -306,6 +308,45 @@ class GraphM0Model(M0Model):
         return matrix
 
     @staticmethod
+    def _potential_cone_transform(static: dict[str, np.ndarray]):
+        """Map simple bounds to Ks>=0 and local-curvature>=0 exactly.
+
+        For nonzero equilibrium sine, the feasible two-dimensional cone is
+        represented by its two extreme rays.  This removes the linear
+        inequality from the numerical optimizer and leaves a bounded convex
+        quadratic problem.  Near zero sine, Ks is nonnegative and Kc remains
+        an ordinary signed coordinate.
+        """
+        mass = np.asarray(static["mass"]).reshape(-1)
+        incidence = np.asarray(static["incidence"])
+        equilibrium = np.asarray(static["equilibrium_delta"]).reshape(-1)
+        n_nodes, n_edges = len(mass), incidence.shape[1]
+        n_parameters = n_nodes + 3*n_edges
+        transform = np.eye(n_parameters, dtype=np.float64)
+        lower = np.zeros(n_parameters, dtype=np.float64)
+        upper = np.full(n_parameters, np.inf, dtype=np.float64)
+        eta0 = incidence.T @ equilibrium
+        for edge, angle in enumerate(eta0):
+            sine, cosine = float(np.sin(angle)), float(np.cos(angle))
+            ks_index = n_nodes + edge
+            kc_index = n_nodes + n_edges + edge
+            transform[np.ix_([ks_index, kc_index], [ks_index, kc_index])] = 0.0
+            if abs(sine) <= 1e-6:
+                if cosine < 0.0:
+                    raise ValueError("equilibrium edge outside the convex local-potential domain")
+                transform[ks_index, ks_index] = 1.0
+                transform[kc_index, kc_index] = 1.0
+                lower[kc_index] = -np.inf
+            else:
+                sign = float(np.sign(sine))
+                # First ray: (Ks,Kc)=(0,-sign(sin)); second ray lies
+                # exactly on Ks*cos(eta0)-Kc*sin(eta0)=0.
+                transform[kc_index, ks_index] = -sign
+                transform[ks_index, kc_index] = abs(sine)
+                transform[kc_index, kc_index] = sign * cosine
+        return transform, lower, upper
+
+    @staticmethod
     def _parameter_diagnostics(theta, static):
         mass = np.asarray(static["mass"], dtype=np.float64).reshape(-1)
         incidence = np.asarray(static["incidence"], dtype=np.float64)
@@ -373,18 +414,21 @@ class GraphM0Model(M0Model):
             max_fit_steps=run_context.fit_max_steps,
             nonoverlap=run_context.graph_nonoverlap_windows,
         )
-        lower = np.zeros(n_parameters)
-        upper = np.full(n_parameters, np.inf)
-        lower[n_nodes+n_edges:n_nodes+2*n_edges] = -np.inf
-        inequalities = self._curvature_inequalities(static)
+        transform, lower, upper = self._potential_cone_transform(static)
+        transformed_gram = transform.T @ gram @ transform
+        transformed_rhs = transform.T @ rhs
         self.validation_scales = self._training_scales(train, run_context.max_cases)
         self.max_internal_step = run_context.max_internal_step
         candidates = []
         for ridge in run_context.ridge_values:
-            full_theta, solve_details = _solve_quadratic(
-                gram, rhs, system_details["n_scalar_equations"], ridge,
-                lower=lower, upper=upper, inequalities=inequalities,
+            cone_theta, solve_details = _solve_quadratic(
+                transformed_gram, transformed_rhs,
+                system_details["n_scalar_equations"], ridge,
+                lower=lower, upper=upper,
             )
+            full_theta = transform @ cone_theta
+            if not solve_details["solver_success"]:
+                continue
             for threshold in run_context.graph_prune_thresholds:
                 theta = full_theta.copy()
                 if threshold > 0:
@@ -424,6 +468,7 @@ class GraphM0Model(M0Model):
             "integral_windows": list(run_context.integral_windows),
             "window_sampling": "deterministic_nonoverlap" if run_context.graph_nonoverlap_windows else "all_overlapping",
             "case_window_weighting": "equal_per_case_by_window_length",
+            "constraint_parameterization": "two_extreme_rays_per_edge_potential_cone",
             "epochs": 0,
             "candidate_validation_losses": {
                 f"ridge={row[1]}|prune={row[2]}": row[0] for row in candidates
