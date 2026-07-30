@@ -27,6 +27,9 @@ from kron_reduce.models import (
     RunContext,
     SINDYcModel,
     SwingSINDyModel,
+    ThirdOrderM0Model,
+    StructuredThirdOrderM0Model,
+    LargeSignalThirdOrderM0Model,
 )
 from kron_reduce.models.base import FitResult
 from kron_reduce.training.lineage import (
@@ -45,6 +48,9 @@ LOADERS = {
     "M0-GRAPH": GraphM0Model,
     "SINDYc": SINDYcModel,
     "Swing-SINDy": SwingSINDyModel,
+    "M0-3": ThirdOrderM0Model,
+    "M0-3S": StructuredThirdOrderM0Model,
+    "M0-3L": LargeSignalThirdOrderM0Model,
     "PINN": PINNModel,
     "LSTM": AutoregressiveLSTMModel,
 }
@@ -79,6 +85,9 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
         ("M0-governor", GovernorM0Model(_clone_m0(m0))),
         ("M0-DD", DerivativeM0Model()),
         ("M0-GRAPH", GraphM0Model()),
+        ("M0-3", ThirdOrderM0Model()),
+        ("M0-3S", StructuredThirdOrderM0Model()),
+        ("M0-3L", LargeSignalThirdOrderM0Model()),
         ("M2A-energy", EnergyM2AModel(_clone_m0(m0))),
         ("SINDYc", SINDYcModel()),
         ("Swing-SINDy", SwingSINDyModel()),

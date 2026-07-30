@@ -4,7 +4,7 @@ import numpy as np
 
 from kron_reduce.data import ModelDataRequest, adapt_event
 from kron_reduce.evaluation.energy import evaluate_energy_gate, supply_violation_loss
-from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, M0Model, M2AModel, RunContext, SwingSINDyModel
+from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, LargeSignalThirdOrderM0Model, M0Model, M2AModel, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model
 from kron_reduce.models.base import sample_rollout_inputs
 from kron_reduce.models.integration import integration_convergence_audit, rk4_rollout, torch_rk4_rollout
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
@@ -323,7 +323,6 @@ def test_swing_sindy_stridge_and_save_load(tmp_path):
     assert np.allclose(expected[0], actual[0])
     assert np.allclose(expected[1], actual[1])
 
-
 def test_numpy_torch_rk4_match_and_converge():
     import torch
 
@@ -345,6 +344,170 @@ def test_dynamic_memory_save_load_reproducible(tmp_path):
     t = np.linspace(0, 0.1, 11); pm = np.zeros((len(t), 2)); expected = model.rollout(static, t, {"Pm": pm, "interpolation": "zoh"})
     path = tmp_path / "dynamic.npz"; model.save(path); loaded = DynamicM2AModel.load(path); actual = loaded.rollout(static, t, {"Pm": pm, "interpolation": "zoh"})
     assert np.allclose(expected[0], actual[0]); assert np.allclose(expected[1], actual[1])
+
+
+def test_third_order_m0_recovers_augmented_physics_and_save_load(tmp_path):
+    static = _two_node_static()
+    truth = ThirdOrderM0Model(
+        np.array([0.35, 0.35]), np.array([1.2]), np.array([0.08]), 0.08,
+        max_internal_step=0.005,
+    )
+    t = np.linspace(0.0, 0.5, 51)
+    signal = 0.08 * np.sin(2 * np.pi * t)
+    pm = np.column_stack((signal, -signal))
+    delta, omega = truth.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    sample = {
+        "event_id": "third-order-synthetic",
+        "model_inputs": {"static": static, "exogenous": {"t": t, "Pm": pm}},
+        "training_context": {
+            "targets": {"t": t, "delta": delta, "omega": omega},
+            "Pm_observed": pm,
+            "claim_type": "conditional_rollout_not_causal_forecast",
+        },
+    }
+    model = ThirdOrderM0Model(tau_candidates=(0.08,))
+    result = model.fit(
+        [sample], [sample],
+        RunContext(
+            horizon_steps=50, max_cases=1, ridge_values=(1e-10,),
+            integral_windows=(1, 5, 20), fit_max_steps=51,
+            max_internal_step=0.005,
+        ),
+    )
+    assert result.details["epochs"] == 0
+    assert np.allclose(model.damping, [0.35, 0.35], rtol=0.02, atol=0.01)
+    assert np.allclose(model.coupling, [1.2], rtol=0.02, atol=0.01)
+    assert np.allclose(model.edge_damping, [0.08], rtol=0.03, atol=0.01)
+    assert model.physics_audit()["uses_measured_Pe_or_voltage"] is False
+    assert model.convergence_audit(
+        static, t[:20], {"Pm": pm[:20], "interpolation": "linear"}
+    )["convergent"]
+
+    path = tmp_path / "third_order_m0.npz"
+    model.save(path)
+    loaded = ThirdOrderM0Model.load(path)
+    expected = model.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    actual = loaded.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    assert np.allclose(expected[0], actual[0])
+    assert np.allclose(expected[1], actual[1])
+
+def test_third_order_m0_preserves_equilibrium_and_internal_force_balance():
+    static = _two_node_static()
+    static["delta0"] = np.zeros((1, 2))
+    static["omega0"] = np.zeros((1, 2))
+    model = ThirdOrderM0Model(
+        np.array([0.3, 0.4]), np.array([1.1]), np.array([0.06]), 0.1
+    )
+    t = np.linspace(0.0, 0.2, 21)
+    pm = np.zeros((len(t), 2))
+    delta, omega = model.rollout(static, t, {"Pm": pm, "interpolation": "zoh"})
+    assert np.allclose(delta, 0.0, atol=1e-14)
+    assert np.allclose(omega, 0.0, atol=1e-14)
+    assert model.physics_audit()["internal_force_balance_by_construction"]
+
+
+def test_structured_third_order_m0_recovers_damping_without_redundant_edge_basis(tmp_path):
+    mass = np.array([1.0, 1.4, 1.9])
+    incidence = np.array([
+        [1.0, 1.0, 0.0],
+        [-1.0, 0.0, 1.0],
+        [0.0, -1.0, -1.0],
+    ])
+    equilibrium = coi_project(np.array([0.09, -0.04, -0.015]), mass)
+    truth = StructuredThirdOrderM0Model(
+        np.array([0.25, 0.35, 0.45]), np.array([0.9, 1.1, 0.8]), 0.08, 0.05,
+        max_internal_step=0.005,
+    )
+    t = np.linspace(0.0, 0.8, 81)
+    samples = []
+    for index in range(5):
+        static = {
+            "delta0": coi_project(
+                equilibrium + np.array([0.025, -0.014, -0.005])*(index+1), mass
+            ),
+            "omega0": coi_project(
+                np.array([0.012, -0.006, -0.002])*(index+1), mass
+            ),
+            "Pm_equilibrium": np.zeros(3), "Pm_clear": np.zeros(3),
+            "Pm0": np.zeros(3), "equilibrium_delta": equilibrium,
+            "mass": mass, "incidence": incidence,
+        }
+        raw_pm = np.column_stack((
+            0.06*np.sin((1.2+0.1*index)*t),
+            0.04*np.cos((0.9+0.1*index)*t),
+            -0.025*np.sin((0.7+0.1*index)*t),
+        ))
+        pm = coi_project_power(raw_pm, mass)
+        delta, omega = truth.rollout(
+            static, t, {"Pm": pm, "interpolation": "linear"}
+        )
+        samples.append({
+            "event_id": f"structured-third-order-{index}",
+            "model_inputs": {"static": static, "exogenous": {"t": t, "Pm": pm}},
+            "training_context": {
+                "targets": {"t": t, "delta": delta, "omega": omega},
+                "Pm_observed": pm,
+                "claim_type": "conditional_rollout_not_causal_forecast",
+            },
+        })
+    model = StructuredThirdOrderM0Model(
+        tau_candidates=(0.08,), gamma_candidates=(0.05,)
+    )
+    result = model.fit(
+        samples, samples,
+        RunContext(
+            horizon_steps=80, max_cases=len(samples), ridge_values=(1e-10,),
+            integral_windows=(1, 5, 20), fit_max_steps=81,
+            max_internal_step=0.005,
+        ),
+    )
+    assert result.details["n_parameters"] == 6
+    assert result.details["effective_rank"] == 6
+    assert np.allclose(model.damping, [0.25, 0.35, 0.45], rtol=0.02, atol=0.01)
+    assert np.allclose(model.coupling, [0.9, 1.1, 0.8], rtol=0.02, atol=0.01)
+    assert np.allclose(model.edge_damping, [0.045, 0.055, 0.04], rtol=0.02, atol=0.01)
+    audit = model.physics_audit()
+    assert audit["status"] == "pass"
+    assert audit["same_support_stiffness_and_dissipation"]
+
+    path = tmp_path/"structured_third_order_m0.npz"
+    model.save(path)
+    loaded = StructuredThirdOrderM0Model.load(path)
+    sample = samples[0]
+    static = sample["model_inputs"]["static"]
+    pm = sample["model_inputs"]["exogenous"]["Pm"]
+    expected = model.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    actual = loaded.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    assert np.allclose(expected[0], actual[0])
+    assert np.allclose(expected[1], actual[1])
+
+    large_signal = LargeSignalThirdOrderM0Model(
+        tau_candidates=(0.08,), gamma_candidates=(0.05,), beta_candidates=(0.0,)
+    )
+    large_signal.fit(
+        samples, samples,
+        RunContext(
+            horizon_steps=80, max_cases=len(samples), ridge_values=(1e-10,),
+            integral_windows=(1, 5, 20), fit_max_steps=81,
+            max_internal_step=0.005,
+        ),
+    )
+    assert large_signal.softening_beta == 0.0
+    assert large_signal.physics_audit()["status"] == "pass"
+
+    softened = LargeSignalThirdOrderM0Model(
+        model.damping, model.coupling, model.tau, model.gamma, 0.1,
+        diagnostics={"softening_monotonic_margin": 0.5},
+    )
+    assert not np.allclose(
+        softened.initial_electrical_power(static["delta0"], static["omega0"], static),
+        model.initial_electrical_power(static["delta0"], static["omega0"], static),
+    )
+    soft_path = tmp_path/"large_signal_third_order_m0.npz"
+    softened.save(soft_path)
+    soft_loaded = LargeSignalThirdOrderM0Model.load(soft_path)
+    assert soft_loaded.softening_beta == 0.1
+    assert soft_loaded.physics_audit()["status"] == "pass"
 
 
 def test_governor_and_dynamic_candidates_fit_without_future_inputs():

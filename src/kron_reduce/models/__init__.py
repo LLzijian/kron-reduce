@@ -11,6 +11,11 @@ from .operators import DMDModel, EDMDKoopmanModel, HODMDPrefixModel
 from .pinn import PINNModel
 from .sindyc import SINDYcModel
 from .swing_sindy import SwingSINDyModel
+from .third_order_m0 import (
+    LargeSignalThirdOrderM0Model,
+    StructuredThirdOrderM0Model,
+    ThirdOrderM0Model,
+)
 
 __all__ = [
     "AutoregressiveLSTMModel",
@@ -33,4 +38,7 @@ __all__ = [
     "RunContext",
     "SINDYcModel",
     "SwingSINDyModel",
+    "ThirdOrderM0Model",
+    "StructuredThirdOrderM0Model",
+    "LargeSignalThirdOrderM0Model",
 ]
