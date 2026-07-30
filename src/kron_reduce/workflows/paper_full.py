@@ -30,6 +30,7 @@ from kron_reduce.models import (
     ThirdOrderM0Model,
     StructuredThirdOrderM0Model,
     LargeSignalThirdOrderM0Model,
+    TransientEmfM0Model,
 )
 from kron_reduce.models.base import FitResult
 from kron_reduce.training.lineage import (
@@ -51,6 +52,7 @@ LOADERS = {
     "M0-3": ThirdOrderM0Model,
     "M0-3S": StructuredThirdOrderM0Model,
     "M0-3L": LargeSignalThirdOrderM0Model,
+    "M0-3E": TransientEmfM0Model,
     "PINN": PINNModel,
     "LSTM": AutoregressiveLSTMModel,
 }
@@ -88,6 +90,7 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
         ("M0-3", ThirdOrderM0Model()),
         ("M0-3S", StructuredThirdOrderM0Model()),
         ("M0-3L", LargeSignalThirdOrderM0Model()),
+        ("M0-3E", TransientEmfM0Model()),
         ("M2A-energy", EnergyM2AModel(_clone_m0(m0))),
         ("SINDYc", SINDYcModel()),
         ("Swing-SINDy", SwingSINDyModel()),

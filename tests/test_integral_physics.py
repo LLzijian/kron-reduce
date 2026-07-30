@@ -4,7 +4,7 @@ import numpy as np
 
 from kron_reduce.data import ModelDataRequest, adapt_event
 from kron_reduce.evaluation.energy import evaluate_energy_gate, supply_violation_loss
-from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, LargeSignalThirdOrderM0Model, M0Model, M2AModel, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model
+from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, LargeSignalThirdOrderM0Model, M0Model, M2AModel, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model, TransientEmfM0Model
 from kron_reduce.models.base import sample_rollout_inputs
 from kron_reduce.models.integration import integration_convergence_audit, rk4_rollout, torch_rk4_rollout
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
@@ -404,6 +404,78 @@ def test_third_order_m0_preserves_equilibrium_and_internal_force_balance():
     assert np.allclose(delta, 0.0, atol=1e-14)
     assert np.allclose(omega, 0.0, atol=1e-14)
     assert model.physics_audit()["internal_force_balance_by_construction"]
+
+
+def test_transient_emf_m0_has_exact_second_order_fallback():
+    static = _two_node_static()
+    base = M0Model(np.array([0.3, 0.4]), np.array([1.1]), max_internal_step=0.005)
+    model = TransientEmfM0Model(
+        anchor=base, alpha=0.0, tau=0.2, max_internal_step=0.005
+    )
+    t = np.linspace(0.0, 0.4, 41)
+    signal = 0.06*np.sin(3.0*t)
+    pm = np.column_stack((signal, -signal))
+    expected = base.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    actual = model.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    assert np.allclose(expected[0], actual[0], rtol=0.0, atol=2e-15)
+    assert np.allclose(expected[1], actual[1], rtol=0.0, atol=2e-15)
+    _, _, q = model.rollout_augmented(
+        static, t, {"Pm": pm, "interpolation": "linear"}
+    )
+    assert np.array_equal(q, np.ones_like(q))
+
+
+def test_transient_emf_m0_causal_initialization_equilibrium_and_save_load(tmp_path):
+    static = _two_node_static()
+    base = M0Model(np.array([0.3, 0.4]), np.array([1.2]), max_internal_step=0.005)
+    model = TransientEmfM0Model(
+        anchor=base, alpha=0.5, tau=0.1, max_internal_step=0.005,
+        diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    stressed = dict(static)
+    stressed["delta0"] = np.array([[0.4, -0.4]])
+    q0 = model.initial_emf(stressed["delta0"], stressed)
+    assert np.all(q0 < 1.0)
+    assert model.equilibrium_residual(static) < 1e-14
+    assert model.physics_audit()["kirchhoff_graph_current_by_construction"]
+
+    t = np.linspace(0.0, 0.3, 31)
+    pm = np.zeros((len(t), 2))
+    assert model.convergence_audit(
+        stressed, t, {"Pm": pm, "interpolation": "zoh"}
+    )["convergent"]
+    path = tmp_path/"transient_emf_m0.npz"
+    model.save(path)
+    loaded = TransientEmfM0Model.load(path)
+    expected = model.rollout(stressed, t, {"Pm": pm, "interpolation": "zoh"})
+    actual = loaded.rollout(stressed, t, {"Pm": pm, "interpolation": "zoh"})
+    assert np.allclose(expected[0], actual[0])
+    assert np.allclose(expected[1], actual[1])
+
+    gated = TransientEmfM0Model(
+        anchor=base, alpha=0.5, tau=0.1, activation_threshold=0.1,
+        activation_width=0.05,
+    )
+    mild = dict(static)
+    mild["delta0"] = np.array([[0.02, -0.02]])
+    assert np.array_equal(gated.initial_emf(mild["delta0"], mild), np.ones(2))
+    assert np.all(gated.initial_emf(stressed["delta0"], stressed) < 1.0)
+
+
+def test_transient_emf_m0_fit_selects_exact_fallback_for_second_order_truth():
+    sample = _synthetic_sample()
+    anchor = M0Model(np.array([0.35, 0.35]), np.array([1.2]))
+    model = TransientEmfM0Model(
+        anchor=anchor, alpha_candidates=(0.0, 0.3), tau_candidates=(0.05,)
+    )
+    result = model.fit(
+        [sample], [sample],
+        RunContext(horizon_steps=100, max_cases=1, max_internal_step=0.005),
+    )
+    assert model.alpha == 0.0
+    assert result.details["strict_M0_fallback_included"]
+    assert result.details["damping_frozen_after_anchor"]
+    assert model.physics_audit()["status"] == "pass"
 
 
 def test_structured_third_order_m0_recovers_damping_without_redundant_edge_basis(tmp_path):

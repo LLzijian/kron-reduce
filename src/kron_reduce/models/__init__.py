@@ -16,6 +16,7 @@ from .third_order_m0 import (
     StructuredThirdOrderM0Model,
     ThirdOrderM0Model,
 )
+from .transient_emf_m0 import TransientEmfM0Model
 
 __all__ = [
     "AutoregressiveLSTMModel",
@@ -41,4 +42,5 @@ __all__ = [
     "ThirdOrderM0Model",
     "StructuredThirdOrderM0Model",
     "LargeSignalThirdOrderM0Model",
+    "TransientEmfM0Model",
 ]
