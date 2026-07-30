@@ -313,3 +313,330 @@ class M0Model(DynamicsModel):
             "pm_is_equilibrium_centered": True,
             "physical_topology_claim": False,
         }
+
+
+class MassProportionalM0Model(M0Model):
+    """Swing M0 with the identifiable structure ``D_i = rho * m_i``.
+
+    A uniform damping-to-inertia ratio is a standard modal simplification for
+    network swing dynamics.  It replaces seven weak nodal damping directions
+    with one positive dissipation rate while retaining independent nonnegative
+    graph couplings.  The model remains a single integral weak-form solve.
+    """
+
+    method_name = "M0-MD"
+
+    def fit(
+        self, train: list[dict[str, Any]], val: list[dict[str, Any]], run_context: RunContext
+    ) -> FitResult:
+        if not train or not val:
+            raise ValueError("M0-MD requires nonempty train and validation sets")
+        matrix, vector, system_details = self.build_weak_system(
+            train, windows=run_context.integral_windows,
+            max_cases=run_context.max_cases, horizon_steps=run_context.horizon_steps,
+            max_fit_steps=run_context.fit_max_steps,
+        )
+        self.validation_scales = self._training_scales(train, run_context.max_cases)
+        self.max_internal_step = run_context.max_internal_step
+        mass = np.asarray(train[0]["model_inputs"]["static"]["mass"], dtype=np.float64).reshape(-1)
+        for sample in train[1:run_context.max_cases]:
+            other = np.asarray(sample["model_inputs"]["static"]["mass"], dtype=np.float64).reshape(-1)
+            if not np.allclose(other, mass, rtol=0.0, atol=1e-14):
+                raise ValueError("M0-MD requires a common clustered mass prior")
+        n_nodes = len(mass)
+        reduced_matrix = np.column_stack((matrix[:, :n_nodes]@mass, matrix[:, n_nodes:]))
+        candidates = []
+        for ridge in run_context.ridge_values:
+            theta, solver = self._solve_nonnegative_ridge(reduced_matrix, vector, ridge)
+            rho = float(theta[0])
+            self.damping, self.coupling = rho*mass, theta[1:]
+            summary = self.validation_summary(val, run_context)
+            candidates.append({
+                "ridge": float(ridge), "rho": rho, "theta": theta.copy(),
+                "solver": solver, "validation": summary,
+            })
+        selected = min(
+            candidates,
+            key=lambda row: (
+                row["validation"]["standardized_loss"],
+                row["validation"]["raw_mean_rmse"], row["ridge"],
+            ),
+        )
+        self.damping = selected["rho"]*mass
+        self.coupling = selected["theta"][1:]
+        self.selected_ridge = selected["ridge"]
+        self.diagnostics = {
+            **system_details, **selected["solver"],
+            "n_parameters": int(reduced_matrix.shape[1]),
+            "selected_ridge": self.selected_ridge,
+            "selected_damping_to_inertia_ratio": selected["rho"],
+            "damping_structure": "D_i_equals_rho_times_m_i",
+            "uniform_D_over_m": True,
+            "candidate_table": [
+                {
+                    "ridge": row["ridge"], "damping_to_inertia_ratio": row["rho"],
+                    "standardized_loss": row["validation"]["standardized_loss"],
+                    "raw_mean_rmse": row["validation"]["raw_mean_rmse"],
+                    "weak_residual_rmse": row["solver"]["weak_residual_rmse"],
+                    "condition_number": row["solver"]["matrix_condition_number"],
+                    "effective_rank": row["solver"]["effective_rank"],
+                }
+                for row in candidates
+            ],
+            "epochs": 0,
+            "optimizer": "single_bounded_mass_proportional_integral_ridge",
+            "identifiable_quantity": "uniform damping-to-inertia ratio and graph K",
+            "physical_topology_claim": False,
+            "validation_raw_mean_rmse": selected["validation"]["raw_mean_rmse"],
+            "validation_raw_median_rmse": selected["validation"]["raw_median_rmse"],
+            "maximum_validation_coi_drift": selected["validation"]["maximum_coi_drift"],
+        }
+        return FitResult(
+            method=self.method_name, status="completed",
+            train_case_ids=tuple(sample["event_id"] for sample in train[:run_context.max_cases]),
+            val_case_ids=tuple(sample["event_id"] for sample in val[:run_context.max_cases]),
+            best_validation_loss=float(selected["validation"]["standardized_loss"]),
+            details=self.diagnostics,
+        )
+
+    def physics_audit(self) -> dict[str, float | str | bool]:
+        audit = super().physics_audit()
+        if audit["status"] == "not_fitted":
+            return audit
+        ratio = self.diagnostics.get("selected_damping_to_inertia_ratio")
+        positive_ratio = bool(ratio is not None and float(ratio) > 0)
+        audit.update({
+            "method": self.method_name,
+            "damping_structure": "D_i_equals_rho_times_m_i",
+            "uniform_D_over_m": True,
+            "damping_to_inertia_ratio_positive": positive_ratio,
+            "all_damping_strictly_positive": bool(np.all(self.damping > 0)),
+            "status": "pass" if audit["status"] == "pass" and positive_ratio else "fail",
+        })
+        return audit
+
+
+class MassFloorM0Model(M0Model):
+    """M0 with a profiled common dissipative floor and nodal heterogeneity.
+
+    ``D_i = rho_floor * m_i + D_residual_i`` with ``D_residual_i >= 0``.
+    The largest floor whose validation loss remains within a declared tolerance
+    of the best candidate is selected.  This turns a positive damping floor
+    into a falsifiable profile constraint instead of an arbitrary epsilon.
+    """
+
+    method_name = "M0-MF"
+
+    def __init__(
+        self,
+        damping: np.ndarray | None = None,
+        coupling: np.ndarray | None = None,
+        *,
+        rho_floor_candidates: tuple[float, ...] = (0.0,),
+        floor_validation_tolerance: float = 0.02,
+        freeze_reference_coupling: bool = False,
+        floor_residual_tolerance: float = 0.02,
+        selected_ridge: float | None = None,
+        max_internal_step: float = 0.01,
+        diagnostics: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(
+            damping, coupling, selected_ridge=selected_ridge,
+            max_internal_step=max_internal_step, diagnostics=diagnostics,
+        )
+        self.rho_floor_candidates = tuple(float(value) for value in rho_floor_candidates)
+        if (
+            not self.rho_floor_candidates or 0.0 not in self.rho_floor_candidates
+            or any(not np.isfinite(value) or value < 0 for value in self.rho_floor_candidates)
+        ):
+            raise ValueError("mass-floor candidates must be finite, nonnegative, and include zero")
+        self.floor_validation_tolerance = float(floor_validation_tolerance)
+        self.freeze_reference_coupling = bool(freeze_reference_coupling)
+        self.floor_residual_tolerance = float(floor_residual_tolerance)
+        if not np.isfinite(self.floor_validation_tolerance) or self.floor_validation_tolerance < 0:
+            raise ValueError("mass-floor validation tolerance must be nonnegative")
+        if not np.isfinite(self.floor_residual_tolerance) or self.floor_residual_tolerance < 0:
+            raise ValueError("mass-floor residual tolerance must be nonnegative")
+
+    def fit(
+        self, train: list[dict[str, Any]], val: list[dict[str, Any]], run_context: RunContext
+    ) -> FitResult:
+        if not train or not val:
+            raise ValueError("M0-MF requires nonempty train and validation sets")
+        reference_damping = None if self.damping is None else self.damping.copy()
+        reference_coupling = None if self.coupling is None else self.coupling.copy()
+        matrix, vector, system_details = self.build_weak_system(
+            train, windows=run_context.integral_windows,
+            max_cases=run_context.max_cases, horizon_steps=run_context.horizon_steps,
+            max_fit_steps=run_context.fit_max_steps,
+        )
+        self.validation_scales = self._training_scales(train, run_context.max_cases)
+        self.max_internal_step = run_context.max_internal_step
+        mass = np.asarray(train[0]["model_inputs"]["static"]["mass"], dtype=np.float64).reshape(-1)
+        for sample in train[1:run_context.max_cases]:
+            other = np.asarray(sample["model_inputs"]["static"]["mass"], dtype=np.float64).reshape(-1)
+            if not np.allclose(other, mass, rtol=0.0, atol=1e-14):
+                raise ValueError("M0-MF requires a common clustered mass prior")
+        n_nodes = len(mass)
+        node_matrix = matrix[:, :n_nodes]
+        if self.freeze_reference_coupling:
+            if reference_damping is None or reference_coupling is None:
+                raise ValueError("frozen-coupling mass floor requires fitted reference D and K")
+            profile_rows = []
+            for rho_floor in self.rho_floor_candidates:
+                damping = np.maximum(reference_damping, rho_floor*mass)
+                theta = np.concatenate((damping, reference_coupling))
+                residual = matrix@theta-vector
+                profile_rows.append({
+                    "rho_floor": rho_floor, "damping": damping,
+                    "weak_residual_rmse": float(np.sqrt(np.mean(residual**2))),
+                })
+            best_residual = min(row["weak_residual_rmse"] for row in profile_rows)
+            profile = [
+                row for row in profile_rows
+                if row["weak_residual_rmse"]
+                <= best_residual*(1.0+self.floor_residual_tolerance)+1e-15
+            ]
+            selected = min(profile, key=lambda row: -row["rho_floor"])
+            self.damping = selected["damping"]
+            self.coupling = reference_coupling
+            self.selected_ridge = None
+            normalized_scale = np.sqrt(np.mean(matrix**2, axis=0))
+            normalized_scale = np.where(
+                normalized_scale > np.finfo(float).eps, normalized_scale, 1.0
+            )
+            normalized = matrix/normalized_scale
+            validation = self.validation_summary(val, run_context)
+            self.diagnostics = {
+                **system_details,
+                "n_parameters": int(matrix.shape[1]),
+                "matrix_condition_number": float(np.linalg.cond(normalized)),
+                "effective_rank": int(np.linalg.matrix_rank(normalized)),
+                "weak_residual_rmse": selected["weak_residual_rmse"],
+                "selected_ridge": None,
+                "selected_mass_damping_floor": selected["rho_floor"],
+                "minimum_mass_damping_floor": float(np.min(selected["rho_floor"]*mass)),
+                "damping_structure": "D_i_equals_max_reference_D_i_and_rho_floor_times_m_i",
+                "rho_floor_candidates": list(self.rho_floor_candidates),
+                "floor_residual_tolerance": self.floor_residual_tolerance,
+                "profile_candidate_count": len(profile),
+                "freeze_reference_coupling": True,
+                "candidate_table": [
+                    {
+                        "rho_floor": row["rho_floor"],
+                        "weak_residual_rmse": row["weak_residual_rmse"],
+                        "minimum_damping": float(np.min(row["damping"])),
+                        "median_damping": float(np.median(row["damping"])),
+                        "maximum_damping": float(np.max(row["damping"])),
+                    }
+                    for row in profile_rows
+                ],
+                "epochs": 0,
+                "optimizer": "train_weak_residual_profile_with_frozen_K",
+                "identifiable_quantity": "largest train-residual-supported common damping floor with frozen K",
+                "physical_topology_claim": False,
+                "validation_raw_mean_rmse": validation["raw_mean_rmse"],
+                "validation_raw_median_rmse": validation["raw_median_rmse"],
+                "maximum_validation_coi_drift": validation["maximum_coi_drift"],
+                "reference_damping": reference_damping.tolist(),
+                "reference_coupling": reference_coupling.tolist(),
+            }
+            return FitResult(
+                method=self.method_name, status="completed",
+                train_case_ids=tuple(sample["event_id"] for sample in train[:run_context.max_cases]),
+                val_case_ids=tuple(sample["event_id"] for sample in val[:run_context.max_cases]),
+                best_validation_loss=float(validation["standardized_loss"]),
+                details=self.diagnostics,
+            )
+        candidates = []
+        for rho_floor in self.rho_floor_candidates:
+            adjusted_vector = vector-node_matrix@(rho_floor*mass)
+            for ridge in run_context.ridge_values:
+                theta, solver = self._solve_nonnegative_ridge(matrix, adjusted_vector, ridge)
+                residual_damping = theta[:n_nodes]
+                self.damping = rho_floor*mass+residual_damping
+                self.coupling = theta[n_nodes:]
+                summary = self.validation_summary(val, run_context)
+                candidates.append({
+                    "rho_floor": rho_floor, "ridge": float(ridge),
+                    "residual_damping": residual_damping.copy(),
+                    "coupling": self.coupling.copy(), "solver": solver,
+                    "validation": summary,
+                })
+        best_loss = min(row["validation"]["standardized_loss"] for row in candidates)
+        profile = [
+            row for row in candidates
+            if row["validation"]["standardized_loss"]
+            <= best_loss*(1.0+self.floor_validation_tolerance)+1e-12
+        ]
+        selected = min(
+            profile,
+            key=lambda row: (
+                -row["rho_floor"], row["validation"]["standardized_loss"],
+                row["validation"]["raw_mean_rmse"], row["ridge"],
+            ),
+        )
+        self.damping = selected["rho_floor"]*mass+selected["residual_damping"]
+        self.coupling = selected["coupling"]
+        self.selected_ridge = selected["ridge"]
+        self.diagnostics = {
+            **system_details, **selected["solver"],
+            "n_parameters": int(matrix.shape[1]),
+            "selected_ridge": self.selected_ridge,
+            "selected_mass_damping_floor": selected["rho_floor"],
+            "minimum_mass_damping_floor": float(np.min(selected["rho_floor"]*mass)),
+            "damping_structure": "D_i_equals_rho_floor_times_m_i_plus_nonnegative_residual",
+            "rho_floor_candidates": list(self.rho_floor_candidates),
+            "floor_validation_tolerance": self.floor_validation_tolerance,
+            "profile_candidate_count": len(profile),
+            "candidate_table": [
+                {
+                    "rho_floor": row["rho_floor"], "ridge": row["ridge"],
+                    "standardized_loss": row["validation"]["standardized_loss"],
+                    "raw_mean_rmse": row["validation"]["raw_mean_rmse"],
+                    "minimum_damping": float(np.min(row["rho_floor"]*mass+row["residual_damping"])),
+                    "median_damping": float(np.median(row["rho_floor"]*mass+row["residual_damping"])),
+                    "maximum_damping": float(np.max(row["rho_floor"]*mass+row["residual_damping"])),
+                    "weak_residual_rmse": row["solver"]["weak_residual_rmse"],
+                    "condition_number": row["solver"]["matrix_condition_number"],
+                    "effective_rank": row["solver"]["effective_rank"],
+                }
+                for row in candidates
+            ],
+            "epochs": 0,
+            "optimizer": "profiled_mass_floor_bounded_integral_ridge",
+            "identifiable_quantity": "validated common damping floor, nodal residual D, and graph K",
+            "physical_topology_claim": False,
+            "validation_raw_mean_rmse": selected["validation"]["raw_mean_rmse"],
+            "validation_raw_median_rmse": selected["validation"]["raw_median_rmse"],
+            "maximum_validation_coi_drift": selected["validation"]["maximum_coi_drift"],
+        }
+        return FitResult(
+            method=self.method_name, status="completed",
+            train_case_ids=tuple(sample["event_id"] for sample in train[:run_context.max_cases]),
+            val_case_ids=tuple(sample["event_id"] for sample in val[:run_context.max_cases]),
+            best_validation_loss=float(selected["validation"]["standardized_loss"]),
+            details=self.diagnostics,
+        )
+
+    def physics_audit(self) -> dict[str, float | str | bool]:
+        audit = super().physics_audit()
+        if audit["status"] == "not_fitted":
+            return audit
+        floor = self.diagnostics.get("selected_mass_damping_floor")
+        positive_floor = bool(floor is not None and float(floor) > 0)
+        structure = str(self.diagnostics.get(
+            "damping_structure",
+            "D_i_equals_rho_floor_times_m_i_plus_nonnegative_residual",
+        ))
+        audit.update({
+            "method": self.method_name,
+            "damping_structure": structure,
+            "validated_mass_damping_floor_positive": positive_floor,
+            "reference_coupling_frozen": bool(
+                self.diagnostics.get("freeze_reference_coupling", False)
+            ),
+            "all_damping_strictly_positive": bool(np.all(self.damping > 0)),
+            "status": "pass" if audit["status"] == "pass" and positive_floor else "fail",
+        })
+        return audit

@@ -4,7 +4,7 @@ import numpy as np
 
 from kron_reduce.data import ModelDataRequest, adapt_event
 from kron_reduce.evaluation.energy import evaluate_energy_gate, supply_violation_loss
-from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, LargeSignalThirdOrderM0Model, M0Model, M2AModel, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model, TransientEmfM0Model
+from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, LargeSignalThirdOrderM0Model, M0Model, MassFloorM0Model, MassProportionalM0Model, M2AModel, ReidentifiedTransientEmfM0Model, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model, TransientEmfM0Model
 from kron_reduce.models.base import sample_rollout_inputs
 from kron_reduce.models.integration import integration_convergence_audit, rk4_rollout, torch_rk4_rollout
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
@@ -102,6 +102,57 @@ def test_integral_weak_form_recovers_known_parameters():
     assert np.allclose(model.damping, [0.35, 0.35], rtol=0.05, atol=0.02)
     assert np.allclose(model.coupling, [1.2], rtol=0.05, atol=0.03)
     assert result.details["n_integration_windows"] > 0
+
+
+def test_mass_proportional_integral_m0_recovers_positive_uniform_ratio():
+    sample = _synthetic_sample()
+    model = MassProportionalM0Model()
+    result = model.fit(
+        [sample], [sample],
+        RunContext(
+            horizon_steps=100, max_cases=1, ridge_values=(1e-10,),
+            integral_windows=(1, 5, 20), fit_max_steps=101,
+        ),
+    )
+    assert result.details["n_parameters"] == 2
+    assert np.allclose(model.damping, [0.35, 0.35], rtol=0.05, atol=0.02)
+    assert np.allclose(model.coupling, [1.2], rtol=0.05, atol=0.03)
+    assert model.physics_audit()["damping_to_inertia_ratio_positive"]
+
+
+def test_profiled_mass_floor_selects_largest_supported_positive_floor():
+    sample = _synthetic_sample()
+    model = MassFloorM0Model(
+        rho_floor_candidates=(0.0, 0.1, 0.2, 0.3, 0.35, 0.5),
+        floor_validation_tolerance=0.02,
+    )
+    model.fit(
+        [sample], [sample],
+        RunContext(
+            horizon_steps=100, max_cases=1, ridge_values=(1e-10,),
+            integral_windows=(1, 5, 20), fit_max_steps=101,
+        ),
+    )
+    assert model.diagnostics["selected_mass_damping_floor"] == 0.3
+    assert np.allclose(model.damping, [0.35, 0.35], rtol=0.05, atol=0.02)
+    assert np.all(model.damping > 0)
+    assert model.physics_audit()["validated_mass_damping_floor_positive"]
+
+    frozen = MassFloorM0Model(
+        np.array([0.35, 0.35]), np.array([1.2]),
+        rho_floor_candidates=(0.0, 0.1, 0.2, 0.3, 0.35, 0.5),
+        freeze_reference_coupling=True, floor_residual_tolerance=0.02,
+    )
+    frozen.fit(
+        [sample], [sample],
+        RunContext(
+            horizon_steps=100, max_cases=1, ridge_values=(1e-10,),
+            integral_windows=(1, 5, 20), fit_max_steps=101,
+        ),
+    )
+    assert frozen.diagnostics["selected_mass_damping_floor"] == 0.35
+    assert np.array_equal(frozen.coupling, np.array([1.2]))
+    assert frozen.physics_audit()["reference_coupling_frozen"]
 
 
 def test_derivative_m0_is_a_fair_current_contract_baseline():
@@ -476,6 +527,104 @@ def test_transient_emf_m0_fit_selects_exact_fallback_for_second_order_truth():
     assert result.details["strict_M0_fallback_included"]
     assert result.details["damping_frozen_after_anchor"]
     assert model.physics_audit()["status"] == "pass"
+
+
+def test_transient_emf_minimum_intervention_prefers_higher_threshold(monkeypatch):
+    sample = _synthetic_sample()
+    anchor = M0Model(np.array([0.35, 0.35]), np.array([1.2]))
+    model = TransientEmfM0Model(
+        anchor=anchor, alpha_candidates=(0.0, 0.3), tau_candidates=(0.1,),
+        activation_threshold_candidates=(0.0, 0.1, 0.2),
+        activation_sparsity_tolerance=0.02,
+    )
+
+    def synthetic_summary(_samples, _context):
+        losses = {0.0: 2.0, 0.1: 1.0, 0.2: 1.01}
+        loss = losses[model.activation_threshold]
+        return {
+            "standardized_loss": loss, "raw_mean_rmse": loss,
+            "raw_median_rmse": loss, "omega_mean_rmse": loss,
+            "edge_angle_mean_rmse": loss, "maximum_coi_drift": 0.0,
+            "minimum_q": 0.9, "maximum_q": 1.0, "failure_rate": 0.0,
+            "source_standardized_loss": {"all": loss},
+        }
+
+    monkeypatch.setattr(model, "_validation_summary", synthetic_summary)
+    model.fit([sample], [sample], RunContext(horizon_steps=20, max_cases=1))
+    assert model.activation_threshold == 0.2
+    assert model.diagnostics["selection_policy"] == (
+        "highest_activation_threshold_within_validation_tolerance"
+    )
+
+
+def test_transient_emf_reidentification_recovers_mass_proportional_damping(tmp_path):
+    mass = np.array([1.0, 1.5])
+    truth_anchor = M0Model(0.25*mass, np.array([1.2]), max_internal_step=0.0025)
+    truth = TransientEmfM0Model(
+        anchor=truth_anchor, alpha=0.4, tau=0.1, max_internal_step=0.0025
+    )
+    t = np.linspace(0.0, 0.6, 61)
+    samples = []
+    for index in range(4):
+        static = _two_node_static()
+        static["mass"] = mass
+        static["delta0"] = coi_project(
+            np.array([0.04, -0.025])*(index+1), mass
+        ).reshape(1, -1)
+        static["omega0"] = coi_project(
+            np.array([0.008, -0.004])*(index+1), mass
+        ).reshape(1, -1)
+        signal = (0.04+0.01*index)*np.sin((2.0+0.2*index)*np.pi*t)
+        pm = coi_project_power(np.column_stack((signal, -0.7*signal)), mass)
+        delta, omega = truth.rollout(
+            static, t, {"Pm": pm, "interpolation": "linear"}
+        )
+        samples.append({
+            "event_id": f"transient-reid-{index}",
+            "model_inputs": {"static": static, "exogenous": {"t": t, "Pm": pm}},
+            "training_context": {
+                "targets": {"t": t, "delta": delta, "omega": omega},
+                "Pm_observed": pm,
+                "claim_type": "conditional_rollout_not_causal_forecast",
+            },
+        })
+    initial_anchor = M0Model(0.1*mass, np.array([0.8]), max_internal_step=0.005)
+    model = ReidentifiedTransientEmfM0Model(
+        anchor=initial_anchor, alpha=0.4, tau=0.1,
+        damping_modes=("mass_proportional",),
+        max_reidentification_iterations=4,
+        structural_validation_tolerance=0.02,
+        max_internal_step=0.005,
+    )
+    result = model.fit(
+        samples, samples,
+        RunContext(
+            horizon_steps=60, max_cases=4, ridge_values=(1e-10,),
+            integral_windows=(1, 5, 20), fit_max_steps=61,
+            max_internal_step=0.005,
+        ),
+    )
+    assert result.details["epochs"] == 0
+    assert model.damping_mode == "mass_proportional"
+    assert np.all(model.damping > 0)
+    assert np.allclose(model.damping, 0.25*mass, rtol=0.12, atol=0.02)
+    assert np.allclose(model.coupling, [1.2], rtol=0.12, atol=0.05)
+    assert model.physics_audit()["status"] == "pass"
+
+    path = tmp_path/"transient_emf_reidentified.npz"
+    model.save(path)
+    loaded = ReidentifiedTransientEmfM0Model.load(path)
+    assert loaded.damping_mode == "mass_proportional"
+    expected = model.rollout(
+        samples[0]["model_inputs"]["static"], t,
+        {"Pm": samples[0]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    actual = loaded.rollout(
+        samples[0]["model_inputs"]["static"], t,
+        {"Pm": samples[0]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    assert np.allclose(expected[0], actual[0])
+    assert np.allclose(expected[1], actual[1])
 
 
 def test_structured_third_order_m0_recovers_damping_without_redundant_edge_basis(tmp_path):

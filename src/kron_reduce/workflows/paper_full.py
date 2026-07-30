@@ -22,6 +22,8 @@ from kron_reduce.models import (
     GraphM0Model,
     GovernorM0Model,
     M0Model,
+    MassProportionalM0Model,
+    MassFloorM0Model,
     M2AModel,
     PINNModel,
     RunContext,
@@ -31,6 +33,7 @@ from kron_reduce.models import (
     StructuredThirdOrderM0Model,
     LargeSignalThirdOrderM0Model,
     TransientEmfM0Model,
+    ReidentifiedTransientEmfM0Model,
 )
 from kron_reduce.models.base import FitResult
 from kron_reduce.training.lineage import (
@@ -41,6 +44,8 @@ from kron_reduce.training.lineage import (
 
 LOADERS = {
     "M0": M0Model,
+    "M0-MD": MassProportionalM0Model,
+    "M0-MF": MassFloorM0Model,
     "M2A": M2AModel,
     "M2A-energy": EnergyM2AModel,
     "M2A-dynamic": DynamicM2AModel,
@@ -53,6 +58,7 @@ LOADERS = {
     "M0-3S": StructuredThirdOrderM0Model,
     "M0-3L": LargeSignalThirdOrderM0Model,
     "M0-3E": TransientEmfM0Model,
+    "M0-3ER": ReidentifiedTransientEmfM0Model,
     "PINN": PINNModel,
     "LSTM": AutoregressiveLSTMModel,
 }
@@ -82,6 +88,8 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
     static_m2a = M2AModel(_clone_m0(m0))
     available = [
         ("M0", m0),
+        ("M0-MD", MassProportionalM0Model()),
+        ("M0-MF", MassFloorM0Model()),
         ("M2A", static_m2a),
         ("M2A-dynamic", DynamicM2AModel(M2AModel(_clone_m0(m0)))),
         ("M0-governor", GovernorM0Model(_clone_m0(m0))),
@@ -91,6 +99,7 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
         ("M0-3S", StructuredThirdOrderM0Model()),
         ("M0-3L", LargeSignalThirdOrderM0Model()),
         ("M0-3E", TransientEmfM0Model()),
+        ("M0-3ER", ReidentifiedTransientEmfM0Model()),
         ("M2A-energy", EnergyM2AModel(_clone_m0(m0))),
         ("SINDYc", SINDYcModel()),
         ("Swing-SINDy", SwingSINDyModel()),
