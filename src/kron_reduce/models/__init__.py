@@ -3,6 +3,8 @@ from .classifiers import DirectPrefixClassifier, PrefixClassifier
 from .energy import EnergyM2AModel
 from .dynamic_m2a import DynamicM2AModel
 from .governor import FirstOrderGovernor, GovernorM0Model
+from .graph_memory_discovery import GraphMemoryDiscoveryM0Model
+from .graph_modal_discovery import GraphModalDiscoveryM0Model
 from .graph_m0 import DerivativeM0Model, GraphM0Model
 from .lstm import AutoregressiveLSTMModel
 from .m0 import M0Model, MassFloorM0Model, MassProportionalM0Model
@@ -28,6 +30,8 @@ __all__ = [
     "DerivativeM0Model",
     "FirstOrderGovernor",
     "GovernorM0Model",
+    "GraphMemoryDiscoveryM0Model",
+    "GraphModalDiscoveryM0Model",
     "GraphM0Model",
     "EDMDKoopmanModel",
     "FitResult",

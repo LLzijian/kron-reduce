@@ -4,10 +4,11 @@ import numpy as np
 
 from kron_reduce.data import ModelDataRequest, adapt_event
 from kron_reduce.evaluation.energy import evaluate_energy_gate, supply_violation_loss
-from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, LargeSignalThirdOrderM0Model, M0Model, MassFloorM0Model, MassProportionalM0Model, M2AModel, ReidentifiedTransientEmfM0Model, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model, TransientEmfM0Model
+from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, GraphMemoryDiscoveryM0Model, GraphModalDiscoveryM0Model, LargeSignalThirdOrderM0Model, M0Model, MassFloorM0Model, MassProportionalM0Model, M2AModel, ReidentifiedTransientEmfM0Model, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model, TransientEmfM0Model
 from kron_reduce.models.base import sample_rollout_inputs
 from kron_reduce.models.integration import integration_convergence_audit, rk4_rollout, torch_rk4_rollout
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
+from kron_reduce.workflows.paper_full import _models as paper_models
 
 
 def _two_node_static():
@@ -625,6 +626,169 @@ def test_transient_emf_reidentification_recovers_mass_proportional_damping(tmp_p
     )
     assert np.allclose(expected[0], actual[0])
     assert np.allclose(expected[1], actual[1])
+
+
+def test_graph_memory_discovery_recovers_hidden_edge_mode_and_save_load(tmp_path):
+    t = np.linspace(0.0, 0.8, 81)
+    truth_backbone = TransientEmfM0Model(
+        anchor=M0Model(
+            np.array([0.3, 0.3]), np.array([1.1]), max_internal_step=0.0025
+        ),
+        alpha=0.0, tau=0.1, max_internal_step=0.0025,
+        diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    truth = GraphMemoryDiscoveryM0Model(
+        backbone=truth_backbone, taus=np.array([0.1]),
+        coefficients=np.array([[[0.4]]]), feature_names=("delta_sin",),
+        max_internal_step=0.0025,
+    )
+    samples = []
+    for index in range(4):
+        static = _two_node_static()
+        static["delta0"] = np.array([[0.04+0.015*index, -0.04-0.015*index]])
+        static["omega0"] = np.array([[0.008+0.002*index, -0.008-0.002*index]])
+        signal = (0.05+0.01*index)*np.sin((2.0+0.2*index)*np.pi*t)
+        pm = np.column_stack((signal, -signal))
+        delta, omega = truth.rollout(
+            static, t, {"Pm": pm, "interpolation": "linear"}
+        )
+        samples.append({
+            "event_id": f"graph-memory-{index}",
+            "model_inputs": {"static": static, "exogenous": {"t": t, "Pm": pm}},
+            "training_context": {
+                "targets": {"t": t, "delta": delta, "omega": omega},
+                "Pm_observed": pm,
+                "claim_type": "conditional_rollout_not_causal_forecast",
+                "metadata": {"source_dataset": "synthetic"},
+            },
+        })
+    fitted_backbone = TransientEmfM0Model(
+        anchor=M0Model(np.array([0.3, 0.3]), np.array([1.1])),
+        alpha=0.0, tau=0.1, diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    model = GraphMemoryDiscoveryM0Model(
+        backbone=fitted_backbone, feature_names=("delta_sin",),
+        tau_mode_candidates=((0.1,),), group_thresholds=(0.0,),
+        coefficient_scales=(1.0,), ridge_values=(1e-10,),
+        train_shortlist_per_order=1, max_internal_step=0.005,
+    )
+    result = model.fit(
+        samples[:3], samples[3:],
+        RunContext(
+            horizon_steps=81, max_cases=3, integral_windows=(1, 5, 20),
+            fit_max_steps=81, max_internal_step=0.005,
+        ),
+    )
+    assert result.details["structure_discovery"]
+    assert result.details["selected_memory_order"] == 1
+    assert result.details["selected_feature_names"] == ["delta_sin"]
+    assert np.allclose(model.coefficients, [[[0.4]]], rtol=0.03, atol=0.01)
+    assert model.physics_audit()["internal_force_balance_by_incidence"]
+
+    path = tmp_path/"graph_memory_discovery.npz"
+    model.save(path)
+    loaded = GraphMemoryDiscoveryM0Model.load(path)
+    expected = model.rollout(
+        samples[-1]["model_inputs"]["static"], t,
+        {"Pm": samples[-1]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    actual = loaded.rollout(
+        samples[-1]["model_inputs"]["static"], t,
+        {"Pm": samples[-1]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    assert np.allclose(actual[0], expected[0])
+    assert np.allclose(actual[1], expected[1])
+
+
+def test_graph_modal_discovery_recovers_train_only_basis_and_closure(tmp_path):
+    t = np.linspace(0.0, 0.8, 81)
+    backbone = TransientEmfM0Model(
+        anchor=M0Model(
+            np.array([0.3, 0.3]), np.array([1.1]), max_internal_step=0.0025
+        ),
+        alpha=0.0, tau=0.1, max_internal_step=0.0025,
+        diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    basis = np.array([[1.0], [-1.0]])/np.sqrt(2.0)
+    truth = GraphModalDiscoveryM0Model(
+        backbone=backbone, modal_basis=basis, taus=np.array([0.1]),
+        static_coefficients=np.array([[0.2]]),
+        memory_coefficients=np.array([[[0.4]]]),
+        feature_names=("delta_sin",), max_internal_step=0.0025,
+    )
+    samples = []
+    for index in range(5):
+        static = _two_node_static()
+        static["delta0"] = np.array([[0.04+0.012*index, -0.04-0.012*index]])
+        static["omega0"] = np.array([[0.008+0.002*index, -0.008-0.002*index]])
+        signal = (0.05+0.01*index)*np.sin((2.0+0.2*index)*np.pi*t)
+        pm = np.column_stack((signal, -signal))
+        delta, omega = truth.rollout(
+            static, t, {"Pm": pm, "interpolation": "linear"}
+        )
+        samples.append({
+            "event_id": f"graph-modal-{index}",
+            "model_inputs": {"static": static, "exogenous": {"t": t, "Pm": pm}},
+            "training_context": {
+                "targets": {"t": t, "delta": delta, "omega": omega},
+                "Pm_observed": pm,
+                "claim_type": "conditional_rollout_not_causal_forecast",
+                "metadata": {"source_dataset": "synthetic"},
+            },
+        })
+    fit_backbone = TransientEmfM0Model(
+        anchor=M0Model(np.array([0.3, 0.3]), np.array([1.1])),
+        alpha=0.0, tau=0.1, diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    model = GraphModalDiscoveryM0Model(
+        backbone=fit_backbone, feature_names=("delta_sin",),
+        rank_candidates=(1,), tau_mode_candidates=((0.1,),),
+        group_thresholds=(0.0,), coefficient_scales=(1.0,),
+        ridge_values=(1e-10,), train_shortlist=1,
+        rollout_long_shortlist=1, max_internal_step=0.005,
+    )
+    result = model.fit(
+        samples[:4], samples[4:],
+        RunContext(
+            horizon_steps=81, max_cases=4, integral_windows=(1, 5, 20),
+            fit_max_steps=81, max_internal_step=0.005,
+        ),
+    )
+    assert result.details["structure_discovery"]
+    assert result.details["selected_modal_rank"] == 1
+    assert result.details["selected_memory_order"] == 1
+    assert result.details["selected_feature_names"] == ["delta_sin"]
+    assert np.allclose(model.modal_basis.T@model.modal_basis, 1.0, atol=1e-12)
+    assert np.max(np.abs(np.sum(model.modal_basis, axis=0))) < 1e-12
+    assert np.allclose(model.static_coefficients, [[0.2]], rtol=0.04, atol=0.015)
+    assert np.allclose(model.memory_coefficients, [[[0.4]]], rtol=0.08, atol=0.03)
+    assert model.physics_audit()["status"] == "pass"
+
+    path = tmp_path/"graph_modal_discovery.npz"
+    model.save(path)
+    loaded = GraphModalDiscoveryM0Model.load(path)
+    sample = samples[-1]
+    expected = model.rollout(
+        sample["model_inputs"]["static"], t,
+        {"Pm": sample["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    actual = loaded.rollout(
+        sample["model_inputs"]["static"], t,
+        {"Pm": sample["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    assert np.allclose(actual[0], expected[0])
+    assert np.allclose(actual[1], expected[1])
+
+
+def test_paper_workflow_constructs_graph_modal_composite_from_fitted_m0():
+    anchor = M0Model(np.array([0.3, 0.3]), np.array([1.1]))
+    models = dict(paper_models(anchor, ["M0-GMD"]))
+    assert set(models) == {"M0-GMD"}
+    composite = models["M0-GMD"]
+    assert isinstance(composite, GraphModalDiscoveryM0Model)
+    assert isinstance(composite.backbone, TransientEmfM0Model)
+    assert np.array_equal(composite.backbone.anchor.damping, anchor.damping)
+    assert composite.weak_windows == (1, 5, 20, 40, 80)
 
 
 def test_structured_third_order_m0_recovers_damping_without_redundant_edge_basis(tmp_path):

@@ -20,6 +20,8 @@ from kron_reduce.models import (
     EnergyM2AModel,
     DerivativeM0Model,
     GraphM0Model,
+    GraphMemoryDiscoveryM0Model,
+    GraphModalDiscoveryM0Model,
     GovernorM0Model,
     M0Model,
     MassProportionalM0Model,
@@ -59,6 +61,8 @@ LOADERS = {
     "M0-3L": LargeSignalThirdOrderM0Model,
     "M0-3E": TransientEmfM0Model,
     "M0-3ER": ReidentifiedTransientEmfM0Model,
+    "M0-GSD": GraphMemoryDiscoveryM0Model,
+    "M0-GMD": GraphModalDiscoveryM0Model,
     "PINN": PINNModel,
     "LSTM": AutoregressiveLSTMModel,
 }
@@ -100,6 +104,12 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
         ("M0-3L", LargeSignalThirdOrderM0Model()),
         ("M0-3E", TransientEmfM0Model()),
         ("M0-3ER", ReidentifiedTransientEmfM0Model()),
+        (
+            "M0-GMD",
+            GraphModalDiscoveryM0Model(
+                backbone=TransientEmfM0Model(anchor=_clone_m0(m0))
+            ),
+        ),
         ("M2A-energy", EnergyM2AModel(_clone_m0(m0))),
         ("SINDYc", SINDYcModel()),
         ("Swing-SINDy", SwingSINDyModel()),
