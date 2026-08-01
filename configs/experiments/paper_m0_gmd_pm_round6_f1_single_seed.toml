@@ -1,0 +1,43 @@
+task_type = "causal_closed_loop_reintegration"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+folds = ["F1"]
+representation = "clustered_7"
+main_pm_mode = "observed"
+primary_analysis = "train_observed_pm_then_deploy_causal_pm_ode"
+seeds = [324]
+horizon_steps = [20, 40, 100]
+epochs = 0
+learning_rate = 0.0
+methods = ["M0-GMD-PM"]
+
+minimum_fit_steps = 100
+fit_max_steps = 101
+integral_windows = [1, 5, 20, 40, 80]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2, 1e-1, 1.0]
+pm_relative_thresholds = [0.0, 0.01, 0.03, 0.1]
+pm_spectral_margins = [0.4, 0.5, 1.0]
+pm_maximum_effective_time_constant_s = 2.5
+max_internal_step = 0.01
+
+validation_min_improvement_vs_zoh = 0.02
+validation_require_zero_failure = true
+validation_require_pm_balance = true
+validation_require_hurwitz = true
+validation_require_time_constant_bound = true
+require_validation_gate_before_test = true
+
+evaluate_stability = true
+classification_horizon_steps = 500
+classification_dt_s = 0.01
+classification_is_separate_frozen_gate = true
+target_instability_fsr = 0.2
+
+[causality]
+training_observed_pm_allowed = true
+deployment_future_observed_pm_allowed = false
+deployment_initial_pm = "Pm_clear"
+common_frequency_available = false
+machine_level_governor_recovery_claim = false
+

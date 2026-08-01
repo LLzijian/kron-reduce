@@ -22,6 +22,8 @@ from kron_reduce.models import (
     GraphM0Model,
     GraphMemoryDiscoveryM0Model,
     GraphModalDiscoveryM0Model,
+    CausalPmGraphModalM0Model,
+    GraphModalPmDynamics,
     GovernorM0Model,
     M0Model,
     MassProportionalM0Model,
@@ -63,6 +65,7 @@ LOADERS = {
     "M0-3ER": ReidentifiedTransientEmfM0Model,
     "M0-GSD": GraphMemoryDiscoveryM0Model,
     "M0-GMD": GraphModalDiscoveryM0Model,
+    "M0-GMD-PM": CausalPmGraphModalM0Model,
     "PINN": PINNModel,
     "LSTM": AutoregressiveLSTMModel,
 }
@@ -108,6 +111,18 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
             "M0-GMD",
             GraphModalDiscoveryM0Model(
                 backbone=TransientEmfM0Model(anchor=_clone_m0(m0))
+            ),
+        ),
+        (
+            "M0-GMD-PM",
+            CausalPmGraphModalM0Model(
+                backbone=GraphModalDiscoveryM0Model(
+                    backbone=TransientEmfM0Model(anchor=_clone_m0(m0))
+                ),
+                pm_dynamics=GraphModalPmDynamics(
+                    spectral_margins=(0.4, 0.5, 1.0)
+                ),
+                maximum_effective_time_constant=2.5,
             ),
         ),
         ("M2A-energy", EnergyM2AModel(_clone_m0(m0))),

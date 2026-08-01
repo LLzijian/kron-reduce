@@ -5,6 +5,7 @@ from .dynamic_m2a import DynamicM2AModel
 from .governor import FirstOrderGovernor, GovernorM0Model
 from .graph_memory_discovery import GraphMemoryDiscoveryM0Model
 from .graph_modal_discovery import GraphModalDiscoveryM0Model
+from .pm_modal_discovery import CausalPmGraphModalM0Model, GraphModalPmDynamics
 from .graph_m0 import DerivativeM0Model, GraphM0Model
 from .lstm import AutoregressiveLSTMModel
 from .m0 import M0Model, MassFloorM0Model, MassProportionalM0Model
@@ -32,6 +33,8 @@ __all__ = [
     "GovernorM0Model",
     "GraphMemoryDiscoveryM0Model",
     "GraphModalDiscoveryM0Model",
+    "GraphModalPmDynamics",
+    "CausalPmGraphModalM0Model",
     "GraphM0Model",
     "EDMDKoopmanModel",
     "FitResult",

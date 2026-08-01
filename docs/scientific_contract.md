@@ -11,6 +11,10 @@
 - A fitted governor is a causal ablation. It is trained on train-only observed
   `Pm(t)` and deployed from `Pm_clear`, equilibrium and predicted speed; it
   never reads the future observed schedule.
+- A discovered reduced `Pm` ODE follows the same causality rule. Its learned
+  modal poles and cross-node response are reduced closed-loop structure, not
+  machine-level governor parameters. Accuracy and long-horizon stability are
+  gated separately.
 - Predictions are future `delta, omega`; stability is derived post hoc from the
   predicted trajectory.
 - Test IDs may not enter fitting, normalization, checkpoint selection,

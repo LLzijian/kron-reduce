@@ -4,9 +4,10 @@ import numpy as np
 
 from kron_reduce.data import ModelDataRequest, adapt_event
 from kron_reduce.evaluation.energy import evaluate_energy_gate, supply_violation_loss
-from kron_reduce.models import DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, GraphMemoryDiscoveryM0Model, GraphModalDiscoveryM0Model, LargeSignalThirdOrderM0Model, M0Model, MassFloorM0Model, MassProportionalM0Model, M2AModel, ReidentifiedTransientEmfM0Model, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model, TransientEmfM0Model
+from kron_reduce.models import CausalPmGraphModalM0Model, DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, GraphMemoryDiscoveryM0Model, GraphModalDiscoveryM0Model, GraphModalPmDynamics, LargeSignalThirdOrderM0Model, M0Model, MassFloorM0Model, MassProportionalM0Model, M2AModel, ReidentifiedTransientEmfM0Model, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model, TransientEmfM0Model
 from kron_reduce.models.base import sample_rollout_inputs
 from kron_reduce.models.integration import integration_convergence_audit, rk4_rollout, torch_rk4_rollout
+from kron_reduce.models.pm_modal_discovery import power_balance_basis
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
 from kron_reduce.workflows.paper_full import _models as paper_models
 
@@ -782,13 +783,122 @@ def test_graph_modal_discovery_recovers_train_only_basis_and_closure(tmp_path):
 
 def test_paper_workflow_constructs_graph_modal_composite_from_fitted_m0():
     anchor = M0Model(np.array([0.3, 0.3]), np.array([1.1]))
-    models = dict(paper_models(anchor, ["M0-GMD"]))
-    assert set(models) == {"M0-GMD"}
+    models = dict(paper_models(anchor, ["M0-GMD", "M0-GMD-PM"]))
+    assert set(models) == {"M0-GMD", "M0-GMD-PM"}
     composite = models["M0-GMD"]
     assert isinstance(composite, GraphModalDiscoveryM0Model)
     assert isinstance(composite.backbone, TransientEmfM0Model)
     assert np.array_equal(composite.backbone.anchor.damping, anchor.damping)
     assert composite.weak_windows == (1, 5, 20, 40, 80)
+    causal_pm = models["M0-GMD-PM"]
+    assert isinstance(causal_pm, CausalPmGraphModalM0Model)
+    assert isinstance(causal_pm.backbone, GraphModalDiscoveryM0Model)
+    assert isinstance(causal_pm.backbone.backbone, TransientEmfM0Model)
+    assert np.array_equal(causal_pm.backbone.backbone.anchor.damping, anchor.damping)
+    assert causal_pm.maximum_effective_time_constant == 2.5
+    assert causal_pm.pm_dynamics.spectral_margins == (0.4, 0.5, 1.0)
+
+
+def test_graph_modal_pm_weak_form_recovers_stable_cross_node_ode():
+    t = np.linspace(0.0, 1.2, 241)
+    basis = power_balance_basis(3)
+    state = np.array([[-2.0, 0.35], [-0.2, -4.0]])
+    inputs = np.array([[0.6, -0.1], [0.15, 0.45]])
+    samples = []
+    for index in range(5):
+        modal_omega = np.column_stack((
+            0.03*np.sin((1.2+0.1*index)*np.pi*t+0.2*index),
+            0.02*np.cos((0.8+0.07*index)*np.pi*t-0.1*index),
+        ))
+        modal_pm = np.empty_like(modal_omega)
+        modal_pm[0] = np.array([0.04+0.01*index, -0.025+0.003*index])
+        for step in range(len(t)-1):
+            dt = t[step+1]-t[step]
+            speed0, speed1 = modal_omega[step], modal_omega[step+1]
+
+            def field(value, speed):
+                return state@value+inputs@speed
+
+            k1 = field(modal_pm[step], speed0)
+            k2 = field(modal_pm[step]+0.5*dt*k1, 0.5*(speed0+speed1))
+            k3 = field(modal_pm[step]+0.5*dt*k2, 0.5*(speed0+speed1))
+            k4 = field(modal_pm[step]+dt*k3, speed1)
+            modal_pm[step+1] = modal_pm[step]+dt*(k1+2*k2+2*k3+k4)/6.0
+        pm, omega = modal_pm@basis.T, modal_omega@basis.T
+        static = {
+            "mass": np.ones(3), "Pm_equilibrium": np.zeros(3),
+            "Pm_clear": pm[0], "Pm0": pm[0],
+        }
+        samples.append({
+            "event_id": f"pm-ode-{index}",
+            "model_inputs": {"static": static},
+            "training_context": {
+                "targets": {"t": t, "omega": omega},
+                "Pm_observed": pm,
+                "metadata": {"source_dataset": "synthetic"},
+            },
+        })
+
+    discovery = GraphModalPmDynamics(
+        weak_windows=(1, 5, 20, 40), ridge_values=(1e-10,),
+        relative_thresholds=(0.0,), spectral_margins=(0.1,),
+    )
+    matrix, targets, diagnostics = discovery.build_weak_system(
+        samples, horizon_steps=len(t), max_fit_steps=len(t)
+    )
+    candidates = discovery.train_candidates(matrix, targets)
+    selected = min(candidates[1:], key=lambda row: row["weak_residual_rmse"])
+    discovery.set_candidate(selected)
+    assert diagnostics["n_cases"] == len(samples)
+    assert diagnostics["weak_weighting"] == "equal_case_equal_horizon"
+    assert np.allclose(discovery.basis@discovery.basis.T, basis@basis.T, atol=1e-12)
+    assert np.allclose(discovery.state_matrix, state, rtol=0.01, atol=0.01)
+    assert np.allclose(discovery.input_matrix, inputs, rtol=0.02, atol=0.015)
+    prediction = discovery.teacher_forced_rollout(
+        samples[-1], horizon_steps=len(t), max_step=0.005
+    )
+    assert np.sqrt(np.mean((prediction-samples[-1]["training_context"]["Pm_observed"])**2)) < 2e-4
+
+
+def test_causal_pm_rollout_ignores_future_schedule_and_preserves_cap_on_load(tmp_path):
+    electrical = TransientEmfM0Model(
+        anchor=M0Model(np.array([0.3, 0.3]), np.array([1.1])),
+        alpha=0.0, tau=0.1, diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    modal_basis = np.array([[1.0], [-1.0]])/np.sqrt(2.0)
+    backbone = GraphModalDiscoveryM0Model(
+        backbone=electrical, modal_basis=modal_basis, taus=np.array([0.1]),
+        static_coefficients=np.zeros((1, 1)),
+        memory_coefficients=np.zeros((1, 1, 1)),
+        feature_names=("delta_sin",),
+    )
+    model = CausalPmGraphModalM0Model(
+        backbone=backbone,
+        pm_dynamics=GraphModalPmDynamics(
+            basis=modal_basis, state_matrix=np.array([[-2.0]]),
+            input_matrix=np.array([[0.3]]),
+        ),
+        maximum_effective_time_constant=0.75,
+    )
+    static = _two_node_static()
+    static["Pm_clear"] = np.array([0.04, -0.04])
+    static["Pm0"] = static["Pm_clear"].copy()
+    t = np.linspace(0.0, 0.4, 41)
+    future_a = np.zeros((len(t), 2))
+    future_b = np.column_stack((0.5*np.sin(20*t), -0.5*np.sin(20*t)))
+    rollout_a = model.rollout_with_pm(static, t, {"Pm": future_a, "interpolation": "linear"})
+    rollout_b = model.rollout_with_pm(static, t, {"Pm": future_b, "interpolation": "linear"})
+    assert all(np.allclose(left, right) for left, right in zip(rollout_a, rollout_b))
+    assert np.allclose(rollout_a[2][0], static["Pm_clear"], atol=1e-15)
+    assert np.max(np.abs(np.sum(rollout_a[2], axis=1))) < 1e-12
+    assert model.physics_audit()["status"] == "pass"
+
+    path = tmp_path/"causal_pm.npz"
+    model.save(path)
+    loaded = CausalPmGraphModalM0Model.load(path)
+    assert loaded.maximum_effective_time_constant == 0.75
+    loaded_rollout = loaded.rollout_with_pm(static, t, {})
+    assert all(np.allclose(left, right) for left, right in zip(rollout_a, loaded_rollout))
 
 
 def test_structured_third_order_m0_recovers_damping_without_redundant_edge_basis(tmp_path):

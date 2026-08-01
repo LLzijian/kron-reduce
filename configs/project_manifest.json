@@ -170,6 +170,19 @@
       "pm_mode": "observed",
       "required_gate": "round5_solver_fix_full_run_approved"
     },
+    "paper_m0_gmd_pm_round6_f1_single_seed": {
+      "status": "gated",
+      "module": "kron_reduce.workflows.paper_full",
+      "workflow": "paper_m0_gmd_pm_round6",
+      "config": "paper_m0_gmd_pm_round6_f1_single_seed.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "split_name": "combined_line_5fold_v1",
+      "folds": ["F1"],
+      "seeds": [324],
+      "representation": "clustered_7",
+      "pm_mode": "train_observed_deploy_causal_ode",
+      "required_gate": "round6_test_read_approved"
+    },
     "paper_v2_integral_smoke": {
       "status": "smoke",
       "module": "kron_reduce.workflows.paper_smoke",
