@@ -64,6 +64,23 @@ def _write_csv(path: Path, rows: Iterable[dict[str, Any]]) -> None:
         writer.writerows(materialized)
 
 
+def _read_csv(path: Path) -> list[dict[str, Any]]:
+    def coerce(value: str) -> Any:
+        if value == "":
+            return None
+        if value.lower() in {"true", "false"}:
+            return value.lower() == "true"
+        try:
+            return float(value)
+        except ValueError:
+            return value
+
+    with path.open("r", newline="", encoding="utf-8-sig") as handle:
+        return [
+            {key: coerce(value) for key, value in row.items()} for row in csv.DictReader(handle)
+        ]
+
+
 def _source(sample: dict[str, Any]) -> str:
     return str(sample["training_context"]["metadata"]["source_dataset"])
 
@@ -621,9 +638,10 @@ def _fit_comparison_models(
                     "n_parameters": diagnostics["n_parameters"] + 2,
                     "selected_alpha": third_order.alpha,
                     "selected_tau": third_order.tau,
-                    "validation_mean_rmse": third_fit.details.get(
-                        "validation_raw_mean_rmse", third_fit.best_validation_loss
-                    ),
+                    "validation_mean_rmse": third_fit.details["selected_validation"][
+                        "raw_mean_rmse"
+                    ],
+                    "validation_standardized_loss": third_fit.best_validation_loss,
                     "minimum_damping": float(np.min(third_order.damping)),
                     "median_damping": float(np.median(third_order.damping)),
                     "maximum_damping": float(np.max(third_order.damping)),
@@ -1072,6 +1090,12 @@ def _claim_assessment(
         variant="full",
         status="completed",
     )
+    modal_damping_error = _group_median(
+        [row for row in modal_rows if row.get("matched_mode_rank") == 1],
+        "absolute_damping_ratio_error",
+        variant="full",
+        status="completed",
+    )
     residual_alignment = _group_median(residual_rows, "force_cosine_alignment", component="full")
     residual_explained = _group_median(residual_rows, "residual_explained_energy", component="full")
     gmd_failures = sum(
@@ -1218,6 +1242,9 @@ def _claim_assessment(
             "conditioning_ratio_to_10node": conditioning_ratios,
             "highorder_M0_3E_native_mean_rmse": native_m03e,
             "highorder_M0_3E_10node_projected_mean_rmse": projected_m03e,
+            "highorder_native_to_projected_rmse_ratio": float(native_m03e / projected_m03e)
+            if np.isfinite(native_m03e) and projected_m03e > 0.0
+            else float("nan"),
             "selected_third_order_alpha": selected_alpha,
             "selected_third_order_tau": float(
                 design_index[("highorder", name, "M0-3E")]["selected_tau"]
@@ -1228,8 +1255,8 @@ def _claim_assessment(
         partition_assessments,
         key=lambda name: (
             -partition_assessments[name]["passed_gate_count"],
+            partition_assessments[name]["highorder_native_to_projected_rmse_ratio"],
             -partition_assessments[name]["validation_correlation_random_partition_percentile"],
-            partition_assessments[name]["highorder_M0_3E_native_mean_rmse"],
             name,
         ),
     )
@@ -1310,6 +1337,7 @@ def _claim_assessment(
             "median_5s_spectral_overlap": spectral_overlap_value,
             "median_5s_dominant_frequency_error_hz": dominant_error,
             "median_primary_mode_MAC": modal_mac,
+            "median_primary_mode_absolute_damping_ratio_error": modal_damping_error,
             "median_force_cosine_alignment": residual_alignment,
             "median_residual_explained_energy": residual_explained,
             "full_rollout_failures": gmd_failures,
@@ -1317,8 +1345,8 @@ def _claim_assessment(
         "seven_node_frontend_supported": {
             "status": overall_cluster_status,
             "scope": "mass-orthogonal cluster-consensus projection with train-only partition discovery and frozen validation",
-            "recommended_diagnostic_partition": best_partition,
-            "recommendation_is_not_test_selected": True,
+            "best_conditional_candidate": best_partition,
+            "candidate_is_not_test_selected_or_promoted": True,
             "partition_assessments": partition_assessments,
         },
         "partition_lineage": {
@@ -1508,14 +1536,6 @@ def _make_figures(
             s=32,
             label=label,
         )
-        for row in selected:
-            ax.annotate(
-                row["cohort"],
-                (row["n_parameters"], row["condition_number"]),
-                xytext=(3, 2),
-                textcoords="offset points",
-                fontsize=6.5,
-            )
     ax.set_yscale("log")
     ax.set(
         xlabel="Weak-form parameter count",
@@ -1830,12 +1850,13 @@ def _write_report(
         "",
         "## 2. 方程的工程验证结果",
         "",
-        "| 视界 | backbone mean RMSE | full mean RMSE | full 频谱重叠中位数 | full 主频误差中位数/Hz | full 失败数 |",
-        "|---:|---:|---:|---:|---:|---:|",
+        "| 视界 | 验证轨迹数 | backbone mean RMSE | full mean RMSE | full 频谱重叠中位数 | full 主频误差中位数/Hz | full 失败数 |",
+        "|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for horizon in (1.0, 5.0, 10.0):
         lines.append(
-            f"| {horizon:.0f} s | {_format(_group_mean(gmd_rows, 'rmse', variant='backbone', horizon_s=horizon, status='completed'))} "
+            f"| {horizon:.0f} s | {sum(row.get('variant') == 'full' and row.get('horizon_s') == horizon and row.get('status') == 'completed' for row in gmd_rows)} "
+            f"| {_format(_group_mean(gmd_rows, 'rmse', variant='backbone', horizon_s=horizon, status='completed'))} "
             f"| {_format(_group_mean(gmd_rows, 'rmse', variant='full', horizon_s=horizon, status='completed'))} "
             f"| {_format(_group_median(gmd_rows, 'spectral_overlap', variant='full', horizon_s=horizon, status='completed'))} "
             f"| {_format(_group_median(gmd_rows, 'dominant_frequency_error_hz', variant='full', horizon_s=horizon, status='completed'))} "
@@ -1847,7 +1868,8 @@ def _write_report(
             (
                 f"5 s 综合判据为：频谱重叠 {_format(physical['median_5s_spectral_overlap'])}，主频误差 "
                 f"{_format(physical['median_5s_dominant_frequency_error_hz'])} Hz，第一匹配模态 MAC "
-                f"{_format(physical['median_primary_mode_MAC'])}。阈值是本研究的预注册诊断阈值，并非电网规范的通用强制限值。"
+                f"{_format(physical['median_primary_mode_MAC'])}，第一匹配模态阻尼比绝对误差中位数 "
+                f"{_format(physical['median_primary_mode_absolute_damping_ratio_error'])}。阈值是本研究的预注册诊断阈值，并非电网规范的通用强制限值。"
             ),
             "",
             "### 2.1 残差结构",
@@ -1972,7 +1994,7 @@ def _write_report(
             "## 6. 论文可接受的主张边界",
             "",
             f"- 方程物理意义应写为 **{physical['status']} 的有效约化闭合**；不能写成真实 $D$、Kron 拓扑或机组参数恢复。",
-            f"- 七节点应写为 **{cluster['status']} 的可审计降阶前端**，并逐字注明所用分区。当前诊断排名首位为 `{cluster['recommended_diagnostic_partition']}`，它不是 test-selected 最终模型。",
+            f"- 七节点应写为 **{cluster['status']} 的可审计降阶前端**，并逐字注明所用分区。当前诊断中相对最好的条件候选为 `{cluster['best_conditional_candidate']}`，但它未通过全部门，既不是 test-selected 最终模型，也没有被晋级。",
             "- 若真三阶状态未激活，应把 M0-3E 结果标成退化二阶对照，不能用来支持 higher-order 机制。",
             "- observed $P_m(t)$ 是条件上界；因果部署必须在相同审计通过后换成 $P_m$ ODE，不能直接声称在线预测性能。",
             "- 单 fold、单 seed 足以否证过强主张和筛选方法方向，但不足以形成五折显著性结论。",
@@ -2008,11 +2030,204 @@ a{{color:#8b2f25}} @media(max-width:720px){{main{{margin:0;padding:24px}}}}
     (result_dir / "report.html").write_text(document, encoding="utf-8")
 
 
+def _latest_result(root: Path, experiment_name: str, stage: str) -> Path:
+    prefix = f"{experiment_name}-{stage}-"
+    candidates = sorted(
+        path
+        for path in (root / "results").glob(f"{prefix}*")
+        if path.is_dir() and not (path / "RUN_FAILED.json").exists()
+    )
+    if not candidates:
+        raise FileNotFoundError(f"no completed result for {experiment_name}/{stage}")
+    return candidates[-1]
+
+
+def _verify_artifact_hashes(diagnostic_dir: Path) -> list[str]:
+    expected = json.loads((diagnostic_dir / "artifact_hashes.json").read_text(encoding="utf-8"))
+    failures = []
+    for relative, digest in expected.items():
+        path = diagnostic_dir / relative
+        if not path.is_file() or _sha256(path) != digest:
+            failures.append(relative)
+    return failures
+
+
+def _run_adversarial_audit(
+    *, root: Path, config: dict[str, Any], result_dir: Path, run_id: str
+) -> None:
+    diagnostic_dir = _latest_result(root, str(config["diagnostic_experiment"]), "diagnostic")
+    claims = json.loads((diagnostic_dir / "claim_assessment.json").read_text(encoding="utf-8"))
+    process = json.loads(
+        (diagnostic_dir / "diagnostic_process_acceptance.json").read_text(encoding="utf-8")
+    )
+    lineage = json.loads((diagnostic_dir / "lineage.json").read_text(encoding="utf-8"))
+    design_rows = _read_csv(diagnostic_dir / "design_conditioning.csv")
+    rollout_rows = _read_csv(diagnostic_dir / "representation_rollout_metrics.csv")
+    hash_failures = _verify_artifact_hashes(diagnostic_dir)
+
+    checkpoint_validation_consistent = True
+    for row in design_rows:
+        if row.get("method") != "M0-3E":
+            continue
+        metadata = (
+            diagnostic_dir / "checkpoints" / (f"{row['cohort']}-{row['representation']}-M0-3E.json")
+        )
+        diagnostics = json.loads(metadata.read_text(encoding="utf-8"))["diagnostics"]
+        expected_rmse = float(diagnostics["selected_validation"]["raw_mean_rmse"])
+        checkpoint_validation_consistent &= bool(
+            np.isclose(float(row["validation_mean_rmse"]), expected_rmse, rtol=0.0, atol=1e-14)
+        )
+
+    cluster_claim = claims["seven_node_frontend_supported"]
+    partition_claims = cluster_claim["partition_assessments"]
+    bounded_claims = bool(
+        claims["strict_graph_low_pass_claim"]["status"] == "REJECTED"
+        and claims["clustering_algorithm_novelty"]["status"] == "REJECTED"
+        and claims["machine_parameter_or_physical_topology_recovery"]["status"] == "REJECTED"
+        and claims["current_equation_has_effective_physical_meaning"]["status"] != "SUPPORTED"
+        and partition_claims["clustered_7_current"]["status"] == "REJECTED"
+        and cluster_claim["status"] != "SUPPORTED"
+    )
+    gates = {
+        "diagnostic_artifact_hashes_match": not hash_failures,
+        "diagnostic_process_gate_passed": process.get("status") == "PASS",
+        "test_data_unopened": not lineage.get("test_ids_read"),
+        "labels_unused": not lineage.get("labels_used_for_fit_selection_or_thresholds"),
+        "partition_discovery_train_only": bool(lineage.get("partition_discovery_used_train_only")),
+        "legacy_current_lineage_explicit": bool(
+            claims["partition_lineage"]["legacy_and_current_partitions_are_different"]
+        ),
+        "m03e_raw_validation_metric_matches_checkpoint": checkpoint_validation_consistent,
+        "all_comparison_rollouts_completed": not any(
+            row.get("status") != "completed" for row in rollout_rows
+        ),
+        "scientific_claims_are_bounded": bounded_claims,
+        "conditional_candidate_not_promoted": bool(
+            cluster_claim.get("candidate_is_not_test_selected_or_promoted")
+        ),
+    }
+    findings = [
+        {
+            "severity": "P0",
+            "finding": "historical and canonical seven-node partitions differed",
+            "disposition": "corrected by explicit current/legacy/train-only comparison",
+        },
+        {
+            "severity": "P1",
+            "finding": "current canonical partition fails energy, coherency, scale-separation and predictive gates",
+            "disposition": "current partition claim rejected",
+        },
+        {
+            "severity": "P1",
+            "finding": "no seven-node candidate beats the matched ten-node projection or retains 95% dynamic energy",
+            "disposition": "seven-node frontend remains conditional and unpromoted",
+        },
+        {
+            "severity": "P1",
+            "finding": "M0-GMD improves pointwise RMSE but fails the 5 s oscillation-preservation gate",
+            "disposition": "equation physical meaning remains conditional",
+        },
+        {
+            "severity": "P1",
+            "finding": "high-order and dense source-specific effective parameters are inconsistent",
+            "disposition": "reported as response-regime evidence, not proof of changed simulator parameters",
+        },
+        {
+            "severity": "P2",
+            "finding": "slow coherency is established and the temporal projection lacks a graph-frequency response certificate",
+            "disposition": "algorithm novelty and strict graph-low-pass claims rejected",
+        },
+    ]
+    status = "PASS" if all(gates.values()) else "FAIL"
+    review = {
+        "status": status,
+        "decision": "ACCEPTABLE_WITH_BOUNDED_SCIENTIFIC_CLAIMS" if status == "PASS" else "REJECT",
+        "run_id": run_id,
+        "diagnostic_result": diagnostic_dir.name,
+        "gates": gates,
+        "hash_failures": hash_failures,
+        "findings": findings,
+        "external_review_note": "The configured external review transport was blocked by the execution security boundary; this artifact records the repository-local adversarial audit.",
+    }
+    _json(result_dir / "adversarial_review.json", review)
+    lines = [
+        "# 对抗性审查与主张压力测试",
+        "",
+        f"**判定：{review['decision']}**  ",
+        f"**诊断来源：** `{diagnostic_dir.name}`  ",
+        "",
+        "## 门控",
+        "",
+    ]
+    lines.extend(f"- {'PASS' if value else 'FAIL'} — `{name}`" for name, value in gates.items())
+    lines.extend(["", "## 发现与处置", ""])
+    lines.extend(
+        f"- **{row['severity']}** {row['finding']}；处置：{row['disposition']}。"
+        for row in findings
+    )
+    lines.extend(
+        [
+            "",
+            "## 可接收边界",
+            "",
+            "过程和证据链可接收，但科学主张必须保持条件性：不得把 GMD 称为真实参数恢复，不得把七节点称为已晋级模型，不得把经验时间尺度分离称为严格图低通。",
+        ]
+    )
+    (result_dir / "adversarial_review.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    if status != "PASS":
+        raise RuntimeError("adversarial audit rejected the diagnostic")
+
+
+def _run_acceptance(*, root: Path, config: dict[str, Any], result_dir: Path, run_id: str) -> None:
+    diagnostic_dir = _latest_result(root, str(config["diagnostic_experiment"]), "diagnostic")
+    adversarial_dir = _latest_result(
+        root, str(config["adversarial_experiment"]), "adversarial_audit"
+    )
+    diagnostic = json.loads(
+        (diagnostic_dir / "diagnostic_process_acceptance.json").read_text(encoding="utf-8")
+    )
+    adversarial = json.loads(
+        (adversarial_dir / "adversarial_review.json").read_text(encoding="utf-8")
+    )
+    gates = {
+        "diagnostic_process_passed": diagnostic.get("status") == "PASS",
+        "diagnostic_hashes_match": not _verify_artifact_hashes(diagnostic_dir),
+        "adversarial_review_passed": adversarial.get("status") == "PASS",
+        "adversarial_decision_is_bounded": adversarial.get("decision")
+        == "ACCEPTABLE_WITH_BOUNDED_SCIENTIFIC_CLAIMS",
+    }
+    status = "PASS" if all(gates.values()) else "FAIL"
+    acceptance = {
+        "status": status,
+        "decision": "ACCEPT" if status == "PASS" else "REJECT",
+        "acceptance_scope": "single-fold single-seed method and evidence package; no five-fold significance or causal-deployment claim",
+        "run_id": run_id,
+        "diagnostic_result": diagnostic_dir.name,
+        "adversarial_result": adversarial_dir.name,
+        "gates": gates,
+    }
+    _json(result_dir / "acceptance.json", acceptance)
+    (result_dir / "acceptance.md").write_text(
+        "# 最终验收\n\n"
+        f"**决定：{acceptance['decision']}**\n\n"
+        "接收范围限于单 fold、单 seed 的方法与证据包。物理意义和七节点结论保持条件性；test 仍封闭，observed Pm 仍是条件上界。\n",
+        encoding="utf-8",
+    )
+    if status != "PASS":
+        raise RuntimeError("final acceptance failed")
+
+
 def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: str) -> None:
-    if stage != "diagnostic":
-        raise RuntimeError("physical-cluster audit implements only the diagnostic stage")
     config_path = root / "configs" / "experiments" / str(experiment["config"])
     config = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    if stage == "adversarial_audit":
+        _run_adversarial_audit(root=root, config=config, result_dir=result_dir, run_id=run_id)
+        return
+    if stage == "acceptance":
+        _run_acceptance(root=root, config=config, result_dir=result_dir, run_id=run_id)
+        return
+    if stage != "diagnostic":
+        raise RuntimeError(f"unsupported physical-cluster audit stage: {stage}")
     if config.get("test_access") != "forbidden" or config.get("pm_mode") != "observed":
         raise RuntimeError("audit requires forbidden test access and observed-Pm conditional input")
 

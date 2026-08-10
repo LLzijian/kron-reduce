@@ -65,6 +65,37 @@
       "stage": "diagnostic",
       "reads_test_performance": false
     },
+    "paper_physical_cluster_audit_f1_single_seed_v3": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.physical_cluster_audit",
+      "workflow": "physical_cluster_audit_v3",
+      "config": "paper_physical_cluster_audit_f1_single_seed_v3.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "split_name": "combined_line_5fold_v1",
+      "fold": "F1",
+      "seed": 324,
+      "pm_mode": "observed",
+      "stage": "diagnostic",
+      "reads_test_performance": false
+    },
+    "paper_physical_cluster_adversarial_audit_f1_single_seed_v3": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.physical_cluster_audit",
+      "workflow": "physical_cluster_audit_v3",
+      "config": "paper_physical_cluster_audit_f1_single_seed_v3.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "adversarial_audit",
+      "reads_test_performance": false
+    },
+    "paper_physical_cluster_acceptance_f1_single_seed_v3": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.physical_cluster_audit",
+      "workflow": "physical_cluster_audit_v3",
+      "config": "paper_physical_cluster_audit_f1_single_seed_v3.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "acceptance",
+      "reads_test_performance": false
+    },
     "paper_v1_full": {
       "status": "gated",
       "module": "kron_reduce.workflows.paper_full",
