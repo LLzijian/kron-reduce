@@ -1,0 +1,22 @@
+{
+  "workflow": "physical_cluster_audit_v1",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "diagnostic",
+    "adversarial_audit",
+    "acceptance",
+    "merge_gate"
+  ],
+  "approval_required": ["merge_gate"],
+  "locked_claims": [
+    "machine_parameter_recovery",
+    "physical_topology_recovery",
+    "strict_graph_low_pass_filter",
+    "clustering_algorithm_novelty"
+  ]
+}
