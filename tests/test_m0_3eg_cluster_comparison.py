@@ -3,6 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 from kron_reduce.workflows.m0_3eg_cluster_comparison import (
+    _clearing_stress,
     _cluster_bootstrap_difference,
     _summary,
 )
@@ -54,3 +55,16 @@ def test_summary_keeps_routes_separate() -> None:
     assert np.isclose(by_route["native_7"]["mean_rmse"], 2.0)
     assert np.isclose(by_route["generator_10_then_project"]["mean_rmse"], 3.0)
     assert all(row["failure_rate"] == 0.0 for row in summary)
+
+
+def test_clearing_stress_accepts_adapter_row_vectors() -> None:
+    sample = {
+        "model_inputs": {
+            "static": {
+                "incidence": np.asarray([[1.0], [-1.0]]),
+                "delta0": np.asarray([[0.2, -0.2]]),
+                "equilibrium_delta": np.asarray([[0.0, 0.0]]),
+            }
+        }
+    }
+    assert np.isclose(_clearing_stress(sample), np.sin(0.4))

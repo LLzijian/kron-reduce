@@ -95,8 +95,8 @@ def _verify_artifact_hashes(diagnostic_dir: Path) -> list[str]:
 def _clearing_stress(sample: dict[str, Any]) -> float:
     static = sample["model_inputs"]["static"]
     incidence = np.asarray(static["incidence"], dtype=float)
-    delta0 = np.asarray(static["delta0"], dtype=float)
-    equilibrium = np.asarray(static["equilibrium_delta"], dtype=float)
+    delta0 = np.asarray(static["delta0"], dtype=float).reshape(-1)
+    equilibrium = np.asarray(static["equilibrium_delta"], dtype=float).reshape(-1)
     return float(
         np.max(np.abs(np.sin(incidence.T @ delta0) - np.sin(incidence.T @ equilibrium)))
     )
