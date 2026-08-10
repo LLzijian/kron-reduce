@@ -1,0 +1,29 @@
+task_type = "frozen_equation_physical_meaning_and_cluster_reduction_audit"
+protocol_revision = "partition_lineage_and_source_consistency_v2"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "observed"
+test_access = "forbidden"
+
+frozen_gmd_checkpoint = "results/diagnostics/m0-gmd-horizon-balanced-f1-seed324-20260731/checkpoints/M0-GMD.npz"
+minimum_fit_steps = 101
+fit_steps = 101
+modal_horizon_s = 10.0
+rollout_horizons_s = [1.0, 5.0, 10.0]
+integral_windows = [1, 5, 20]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+third_order_alpha_candidates = [0.0, 0.03, 0.1, 0.3, 1.0]
+third_order_tau_candidates = [0.05, 0.1, 0.2, 0.5, 1.0]
+random_partition_draws = 2000
+bootstrap_draws = 2000
+max_internal_step = 0.01
+
+# Claim-calibration thresholds, not universal grid-code limits.
+minimum_spectral_overlap = 0.80
+maximum_dominant_frequency_error_hz = 0.10
+minimum_modal_assurance_criterion = 0.80
+minimum_dynamic_energy_retention = 0.95
+minimum_random_partition_percentile = 0.95
