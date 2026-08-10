@@ -1,0 +1,24 @@
+task_type = "basic_m0_3eg_seven_node_vs_ten_machine_comparison"
+protocol_revision = "m0_3eg_cluster_compare_v1"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F2"
+seed = 324
+pm_mode = "observed"
+test_access = "forbidden"
+
+diagnostic_experiment = "paper_m0_3eg_cluster_compare_f2_seed324"
+adversarial_experiment = "paper_m0_3eg_cluster_adversarial_f2_seed324"
+primary_partition = "clustered_7_train_discovered"
+minimum_train_steps = 9
+selection_horizon_steps = 100
+partition_discovery_horizon_s = 10.0
+integral_windows = [1, 5, 20]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+alpha_candidates = [0.0, 0.3, 1.0, 3.0]
+tau_candidates = [0.5, 1.0, 2.0]
+max_source_loss_degradation = 0.0
+max_internal_step = 0.01
+bootstrap_draws = 2000
+

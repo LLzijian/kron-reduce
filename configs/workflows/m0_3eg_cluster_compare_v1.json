@@ -1,0 +1,24 @@
+{
+  "workflow": "m0_3eg_cluster_compare_v1",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "diagnostic",
+    "adversarial_audit",
+    "acceptance",
+    "merge_gate"
+  ],
+  "approval_required": ["merge_gate"],
+  "locked_claims": [
+    "test_performance",
+    "causal_online_prediction",
+    "five_fold_generalization",
+    "strict_graph_low_pass_filter",
+    "machine_parameter_recovery"
+  ]
+}
+

@@ -96,6 +96,43 @@
       "stage": "acceptance",
       "reads_test_performance": false
     },
+    "paper_m0_3eg_cluster_compare_f2_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_3eg_cluster_comparison",
+      "workflow": "m0_3eg_cluster_compare_v1",
+      "config": "paper_m0_3eg_cluster_compare_f2_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "split_name": "combined_line_5fold_v1",
+      "fold": "F2",
+      "seed": 324,
+      "representation": [
+        "generator_10",
+        "clustered_7_current",
+        "clustered_7_legacy",
+        "clustered_7_train_discovered"
+      ],
+      "pm_mode": "observed",
+      "stage": "diagnostic",
+      "reads_test_performance": false
+    },
+    "paper_m0_3eg_cluster_adversarial_f2_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.m0_3eg_cluster_comparison",
+      "workflow": "m0_3eg_cluster_compare_v1",
+      "config": "paper_m0_3eg_cluster_compare_f2_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "adversarial_audit",
+      "reads_test_performance": false
+    },
+    "paper_m0_3eg_cluster_acceptance_f2_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.m0_3eg_cluster_comparison",
+      "workflow": "m0_3eg_cluster_compare_v1",
+      "config": "paper_m0_3eg_cluster_compare_f2_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "acceptance",
+      "reads_test_performance": false
+    },
     "paper_v1_full": {
       "status": "gated",
       "module": "kron_reduce.workflows.paper_full",
