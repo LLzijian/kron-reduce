@@ -1,0 +1,29 @@
+task_type = "graph_constrained_source_robust_adaptive_coarsening_for_basic_m0_3eg"
+protocol_revision = "graph_coherent_m0_3eg_v1"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F3"
+seed = 324
+pm_mode = "observed"
+test_access = "forbidden"
+
+diagnostic_experiment = "paper_graph_coherent_m0_3eg_f3_seed324"
+adversarial_experiment = "paper_graph_coherent_m0_3eg_adversarial_f3_seed324"
+primary_partition = "clustered_graph_consensus"
+minimum_train_steps = 101
+selection_horizon_steps = 100
+coherency_horizon_s = 1.0
+candidate_pair_merges = 3
+partition_bootstrap_draws = 1000
+bootstrap_majority_lower_bound = 0.5
+comparison_bootstrap_draws = 2000
+
+graph_anchor_ridge = 1e-2
+graph_fit_max_steps = 0
+integral_windows = [1, 5, 20]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+alpha_candidates = [0.0, 0.3, 1.0, 3.0]
+tau_candidates = [0.5, 1.0, 2.0]
+max_source_loss_degradation = 0.0
+max_internal_step = 0.01

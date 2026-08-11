@@ -133,6 +133,42 @@
       "stage": "acceptance",
       "reads_test_performance": false
     },
+    "paper_graph_coherent_m0_3eg_f3_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.graph_coherent_m0_3eg",
+      "workflow": "graph_coherent_m0_3eg_v1",
+      "config": "paper_graph_coherent_m0_3eg_f3_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "split_name": "combined_line_5fold_v1",
+      "fold": "F3",
+      "seed": 324,
+      "representation": [
+        "generator_10",
+        "clustered_graph_consensus",
+        "clustered_7_trajectory"
+      ],
+      "pm_mode": "observed",
+      "stage": "diagnostic",
+      "reads_test_performance": false
+    },
+    "paper_graph_coherent_m0_3eg_adversarial_f3_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.graph_coherent_m0_3eg",
+      "workflow": "graph_coherent_m0_3eg_v1",
+      "config": "paper_graph_coherent_m0_3eg_f3_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "adversarial_audit",
+      "reads_test_performance": false
+    },
+    "paper_graph_coherent_m0_3eg_acceptance_f3_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.graph_coherent_m0_3eg",
+      "workflow": "graph_coherent_m0_3eg_v1",
+      "config": "paper_graph_coherent_m0_3eg_f3_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "acceptance",
+      "reads_test_performance": false
+    },
     "paper_v1_full": {
       "status": "gated",
       "module": "kron_reduce.workflows.paper_full",
