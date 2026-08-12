@@ -7,6 +7,7 @@
     "contracts_verified",
     "model_unit_gate",
     "source_commit",
+    "source_recommit",
     "diagnostic",
     "adversarial_audit",
     "acceptance",

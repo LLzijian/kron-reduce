@@ -1552,15 +1552,29 @@ class CausalPmPortStructuredM0Model(CausalPmGraphModalM0Model):
         maximum_sum = float(np.max(np.abs(np.sum(basis, axis=0))))
         orthogonality = float(np.max(np.abs(basis.T @ basis - np.eye(basis.shape[1]))))
         spectral_abscissa = float(np.max(np.real(np.linalg.eigvals(state))))
-        maximum_time_constant = 1.0 / max(abs(spectral_abscissa), np.finfo(float).eps)
+        selected = self.diagnostics.get("selected_candidate", {})
+        exact_zoh = bool(
+            selected.get("candidate") == "Pm_clear_ZOH"
+            and np.array_equal(state, np.zeros_like(state))
+            and np.array_equal(inputs, np.zeros_like(inputs))
+        )
+        maximum_time_constant = (
+            float("inf")
+            if exact_zoh
+            else 1.0 / max(abs(spectral_abscissa), np.finfo(float).eps)
+        )
         finite = bool(np.isfinite(state).all() and np.isfinite(inputs).all())
         backbone_audit = self.backbone.physics_audit()
+        hurwitz_and_bounded = bool(
+            spectral_abscissa < 0
+            and maximum_time_constant
+            <= self.maximum_effective_time_constant + 1e-12
+        )
         passed = bool(
             finite
             and maximum_sum < 1e-10
             and orthogonality < 1e-10
-            and spectral_abscissa < 0
-            and maximum_time_constant <= self.maximum_effective_time_constant + 1e-12
+            and (exact_zoh or hurwitz_and_bounded)
             and backbone_audit.get("status") == "pass"
         )
         return {
@@ -1569,6 +1583,8 @@ class CausalPmPortStructuredM0Model(CausalPmGraphModalM0Model):
             "causal_inputs_only": True,
             "future_observed_Pm_consumed_at_deployment": False,
             "Pm_clear_exact_initialization": True,
+            "selected_is_exact_ZOH_fallback": exact_zoh,
+            "stable_or_exact_ZOH": exact_zoh or hurwitz_and_bounded,
             "zero_total_power_invariant": maximum_sum < 1e-10,
             "maximum_basis_sum": maximum_sum,
             "basis_orthogonality_error": orthogonality,
@@ -1577,7 +1593,7 @@ class CausalPmPortStructuredM0Model(CausalPmGraphModalM0Model):
             "maximum_effective_time_constant": maximum_time_constant,
             "time_constant_cap": self.maximum_effective_time_constant,
             "time_constant_bound_pass": (
-                maximum_time_constant <= self.maximum_effective_time_constant + 1e-12
+                exact_zoh or hurwitz_and_bounded
             ),
             "finite_coefficients": finite,
             "backbone_method": self.backbone.method_name,

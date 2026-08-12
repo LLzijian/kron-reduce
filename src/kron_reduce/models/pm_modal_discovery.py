@@ -566,8 +566,12 @@ class CausalPmGraphModalM0Model(DynamicsModel):
         state = np.asarray(self.pm_dynamics.state_matrix)
         eigenvalues = np.linalg.eigvals(state)
         nonzero_real = np.abs(np.real(eigenvalues)) > np.finfo(float).eps
-        time_constants = np.where(
-            nonzero_real, 1.0/np.abs(np.real(eigenvalues)), np.inf
+        time_constants = np.full(eigenvalues.shape, np.inf, dtype=np.float64)
+        np.divide(
+            1.0,
+            np.abs(np.real(eigenvalues)),
+            out=time_constants,
+            where=nonzero_real,
         )
         self.pm_dynamics.diagnostics = {
             "optimizer": "equal_case_equal_horizon_integral_ridge_plus_Hurwitz_projection_plus_validation_rollout",
@@ -687,12 +691,25 @@ class CausalPmGraphModalM0Model(DynamicsModel):
         maximum_sum = float(np.max(np.abs(np.sum(basis, axis=0))))
         orthogonality = float(np.max(np.abs(basis.T@basis-np.eye(basis.shape[1]))))
         spectral_abscissa = float(np.max(np.real(np.linalg.eigvals(state))))
-        maximum_time_constant = 1.0/max(abs(spectral_abscissa), np.finfo(float).eps)
+        selected = self.diagnostics.get("selected_candidate", {})
+        exact_zoh = bool(
+            selected.get("candidate") == "Pm_clear_ZOH"
+            and np.array_equal(state, np.zeros_like(state))
+            and np.array_equal(inputs, np.zeros_like(inputs))
+        )
+        maximum_time_constant = (
+            float("inf")
+            if exact_zoh
+            else 1.0/max(abs(spectral_abscissa), np.finfo(float).eps)
+        )
         finite = bool(np.isfinite(state).all() and np.isfinite(inputs).all())
+        hurwitz_and_bounded = bool(
+            spectral_abscissa < 0
+            and maximum_time_constant <= self.maximum_effective_time_constant+1e-12
+        )
         passed = bool(
             finite and maximum_sum < 1e-10 and orthogonality < 1e-10
-            and spectral_abscissa < 0
-            and maximum_time_constant <= self.maximum_effective_time_constant+1e-12
+            and (exact_zoh or hurwitz_and_bounded)
             and self.backbone.physics_audit().get("status") == "pass"
         )
         return {
@@ -701,6 +718,8 @@ class CausalPmGraphModalM0Model(DynamicsModel):
             "causal_inputs_only": True,
             "future_observed_Pm_consumed_at_deployment": False,
             "Pm_clear_exact_initialization": True,
+            "selected_is_exact_ZOH_fallback": exact_zoh,
+            "stable_or_exact_ZOH": exact_zoh or hurwitz_and_bounded,
             "zero_total_power_invariant": maximum_sum < 1e-10,
             "maximum_basis_sum": maximum_sum,
             "basis_orthogonality_error": orthogonality,
@@ -708,7 +727,7 @@ class CausalPmGraphModalM0Model(DynamicsModel):
             "spectral_abscissa": spectral_abscissa,
             "maximum_effective_time_constant": maximum_time_constant,
             "time_constant_cap": self.maximum_effective_time_constant,
-            "time_constant_bound_pass": maximum_time_constant <= self.maximum_effective_time_constant+1e-12,
+            "time_constant_bound_pass": exact_zoh or hurwitz_and_bounded,
             "finite_coefficients": finite,
             "common_frequency_available": False,
             "machine_level_governor_recovery_claim": False,

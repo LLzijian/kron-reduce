@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import shutil
 
 import pytest
@@ -40,3 +41,17 @@ def test_named_workflow_has_independent_state(root, tmp_path):
     record_stage(tmp_path, "data_verified", {"status": "PASS"}, "paper_v2_integral")
     assert load_state(tmp_path, "paper_v1")["current_stage"] == "scaffold"
     assert load_state(tmp_path, "paper_v2_integral")["current_stage"] == "data_verified"
+
+
+def test_corrective_workflow_has_source_recommit_before_diagnostic(root):
+    workflow = json.loads(
+        (
+            root
+            / "configs"
+            / "workflows"
+            / "ten_machine_physical_discovery_v1.json"
+        ).read_text(encoding="utf-8")
+    )
+    stages = workflow["stages"]
+    assert stages.index("source_recommit") == stages.index("source_commit") + 1
+    assert stages.index("diagnostic") == stages.index("source_recommit") + 1

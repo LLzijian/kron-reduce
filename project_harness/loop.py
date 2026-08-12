@@ -94,11 +94,11 @@ def run_one(root: Path, workflow_name: str = "paper_v1") -> dict:
         raise RuntimeError(f"next stage requires explicit approval: {target}")
     if target == "data_verified": evidence = verify_data(root)
     elif target in {"contracts_verified", "model_unit_gate"}: evidence = audit_project(root)
-    elif target == "source_commit":
+    elif target in {"source_commit", "source_recommit"}:
         assert_clean(root)
         head = git_head(root)
         if head == "UNCOMMITTED":
-            raise RuntimeError("source_commit requires a real Git commit")
+            raise RuntimeError(f"{target} requires a real Git commit")
         evidence = {"status": "PASS", "git_commit": head}
     elif target in workflow["approval_required"]:
         evidence = {"status": "PASS", "explicit_approval": target}

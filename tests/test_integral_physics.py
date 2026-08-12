@@ -1099,6 +1099,69 @@ def test_causal_pm_rollout_ignores_future_schedule_and_preserves_cap_on_load(tmp
     assert all(np.allclose(left, right) for left, right in zip(rollout_a, loaded_rollout))
 
 
+def test_causal_pm_physics_audits_accept_exact_zoh_negative_fallback():
+    electrical = TransientEmfM0Model(
+        anchor=M0Model(np.array([0.3, 0.3]), np.array([1.1])),
+        alpha=0.0,
+        tau=0.1,
+        diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    modal_basis = np.array([[1.0], [-1.0]]) / np.sqrt(2.0)
+    graph_backbone = GraphModalDiscoveryM0Model(
+        backbone=electrical,
+        modal_basis=modal_basis,
+        taus=np.array([0.1]),
+        static_coefficients=np.zeros((1, 1)),
+        memory_coefficients=np.zeros((1, 1, 1)),
+        feature_names=("delta_sin",),
+    )
+    physical_backbone = PortStructuredDiscoveryM0Model(
+        backbone=electrical,
+        static_coefficients=np.zeros((5, 1)),
+        taus=np.array([1.0]),
+        memory_coefficients=np.zeros((1, 1)),
+        diagnostics={
+            "selected_support": {"active_edges": 0},
+            "storage_audit": {
+                "minimum_conservative_potential_on_train_val_domain": 0.0,
+                "maximum_conservative_chain_rule_error": 0.0,
+                "minimum_quotient_stiffness_eigenvalue": 2.0,
+                "memory_supply_identity_error": 0.0,
+            },
+        },
+    )
+    fallback = GraphModalPmDynamics(
+        basis=modal_basis,
+        state_matrix=np.zeros((1, 1)),
+        input_matrix=np.zeros((1, 1)),
+    )
+    diagnostics = {
+        "selected_candidate": {"candidate": "Pm_clear_ZOH"},
+        "promoted": False,
+    }
+    graph_model = CausalPmGraphModalM0Model(
+        backbone=graph_backbone,
+        pm_dynamics=fallback,
+        diagnostics=diagnostics,
+    )
+    physical_model = CausalPmPortStructuredM0Model(
+        backbone=physical_backbone,
+        pm_dynamics=GraphModalPmDynamics(
+            basis=modal_basis,
+            state_matrix=np.zeros((1, 1)),
+            input_matrix=np.zeros((1, 1)),
+        ),
+        diagnostics=diagnostics,
+    )
+
+    for model in (graph_model, physical_model):
+        audit = model.physics_audit()
+        assert audit["status"] == "pass"
+        assert audit["selected_is_exact_ZOH_fallback"]
+        assert audit["stable_or_exact_ZOH"]
+        assert not audit["Hurwitz_state_matrix"]
+
+
 def test_structured_third_order_m0_recovers_damping_without_redundant_edge_basis(tmp_path):
     mass = np.array([1.0, 1.4, 1.9])
     incidence = np.array([
