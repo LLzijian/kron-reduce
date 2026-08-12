@@ -54,11 +54,12 @@ per trajectory and window width. Every trajectory/width block has equal total
 least-squares weight; dense overlapping windows therefore cannot make a long
 trajectory dominate merely by sample count.
 
-All 5--10 node views first receive the inexpensive B2 solve. Only spatial views
-within the predeclared validation tolerance, plus the fixed-seven and raw-ten
-controls, proceed to B3. The best B3 spatial view in each corpus proceeds to
-GMD, and C3 additionally proceeds to port-structured edge discovery. This is
-successive scientific screening, not arbitrary epoch training.
+All 5--10 node views first receive the inexpensive B2 solve and an H=100
+screen. Only spatial views within the predeclared validation tolerance, plus
+the fixed-seven and raw-ten controls, receive H=500/H=1000 evaluation and
+proceed to B3. The best B3 spatial view in each corpus proceeds to GMD, and C3
+additionally proceeds to port-structured edge discovery. This is successive
+scientific screening, not arbitrary epoch training.
 
 ## Selection and claims
 

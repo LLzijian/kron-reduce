@@ -466,6 +466,9 @@ def _fit_models(
     candidates: list[dict[str, Any]] = []
     metric_rows: list[dict[str, Any]] = []
     horizons = tuple(int(value) for value in config["report_horizons"])
+    screening_horizon = int(config["selection_horizon_steps"])
+    screening_horizons = (screening_horizon,)
+    long_horizons = tuple(value for value in horizons if value != screening_horizon)
 
     for cohort in ("C1", "C2", "C3"):
         train_ids = {sample["event_id"] for sample in raw_train_cohorts[cohort]}
@@ -490,7 +493,7 @@ def _fit_models(
                 val,
                 raw_val_cohorts[cohort],
                 partition,
-                horizons,
+                screening_horizons,
                 cohort=cohort,
                 branch="B2",
             )
@@ -498,9 +501,7 @@ def _fit_models(
             summary = next(
                 row
                 for row in _aggregate(rows)
-                if int(row["horizon_steps"]) == min(
-                    int(config["selection_horizon_steps"]), max(horizons)
-                )
+                if int(row["horizon_steps"]) == screening_horizon
             )
             b2_summaries.append((float(summary["mean_rmse"]), representation))
             candidates.append(
@@ -538,6 +539,26 @@ def _fit_models(
             *[name for name in shortlist if name not in required_controls][:capacity],
             *required_controls,
         ]
+
+        # The complete 5--10-node B2 family is a cheap H=100 spatial screen.
+        # Only shortlisted representations incur the H=500/H=1000 evidence
+        # cost.  This preserves the decisive long-horizon comparison without
+        # spending it on candidates already rejected by the predeclared screen.
+        if long_horizons:
+            for representation in shortlist:
+                val = _subset(val_views[representation], val_ids)
+                metric_rows.extend(
+                    _evaluate_candidate(
+                        models[f"{cohort}::{representation}::B2"],
+                        representation,
+                        val,
+                        raw_val_cohorts[cohort],
+                        partitions[representation],
+                        long_horizons,
+                        cohort=cohort,
+                        branch="B2",
+                    )
+                )
 
         b3_summaries = []
         for representation in shortlist:
