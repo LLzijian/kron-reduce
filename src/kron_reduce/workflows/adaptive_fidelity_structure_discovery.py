@@ -114,6 +114,9 @@ def _context(config: dict[str, Any], train: list[dict[str, Any]]) -> RunContext:
         integral_windows=tuple(int(value) for value in config["integral_windows"]),
         max_internal_step=float(config["max_internal_step"]),
         fit_max_steps=int(config["fit_max_steps"]),
+        weak_max_windows_per_case_horizon=int(
+            config["weak_max_windows_per_case_horizon"]
+        ),
     )
 
 

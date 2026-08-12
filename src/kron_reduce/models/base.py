@@ -30,6 +30,7 @@ class RunContext:
     graph_prune_thresholds: tuple[float, ...] = (0.0, 1e-3, 1e-2)
     graph_nonoverlap_windows: bool = True
     fit_max_steps: int = 0
+    weak_max_windows_per_case_horizon: int = 0
 
 
 @dataclass
@@ -63,7 +64,7 @@ class DynamicsModel(ABC):
 
     @classmethod
     @abstractmethod
-    def load(cls, path: str | Path) -> "DynamicsModel": ...
+    def load(cls, path: str | Path) -> DynamicsModel: ...
 
     @abstractmethod
     def physics_audit(self) -> dict[str, float | str | bool]: ...

@@ -66,6 +66,7 @@ class M0Model(DynamicsModel):
         max_cases: int | None = None,
         horizon_steps: int = 100,
         max_fit_steps: int = 0,
+        max_windows_per_case_horizon: int = 0,
     ) -> tuple[np.ndarray, np.ndarray, dict[str, float | int]]:
         rows, targets = [], []
         case_horizon_blocks = 0
@@ -92,7 +93,7 @@ class M0Model(DynamicsModel):
             ])
             eligible_widths = [
                 width
-                for width in sorted(set(int(w) for w in windows if int(w) > 0))
+                for width in sorted({int(w) for w in windows if int(w) > 0})
                 if width < limit
             ]
             for width in eligible_widths:
@@ -103,11 +104,26 @@ class M0Model(DynamicsModel):
                 # trajectories contribute more overlapping windows and can
                 # dominate a pooled weak solve merely because they contain
                 # more samples.
+                starts = np.arange(limit - width, dtype=int)
+                if (
+                    int(max_windows_per_case_horizon) > 0
+                    and len(starts) > int(max_windows_per_case_horizon)
+                ):
+                    starts = np.unique(
+                        np.linspace(
+                            0,
+                            len(starts) - 1,
+                            int(max_windows_per_case_horizon),
+                        )
+                        .round()
+                        .astype(int)
+                    )
                 block_weight = 1.0 / np.sqrt(
-                    max(len(eligible_widths), 1) * (limit - width) * len(mass)
+                    max(len(eligible_widths), 1) * len(starts) * len(mass)
                 )
                 case_horizon_blocks += 1
-                for start in range(limit - width):
+                for start in starts:
+                    start = int(start)
                     stop = start + width
                     segment = slice(start, stop + 1)
                     integrated_design = _trapz(designs[segment], t[segment])
@@ -122,9 +138,10 @@ class M0Model(DynamicsModel):
         return matrix, vector, {
             "n_scalar_equations": int(matrix.shape[0]),
             "n_parameters": int(matrix.shape[1]),
-            "n_integration_windows": int(len(rows)),
+            "n_integration_windows": len(rows),
             "n_equal_case_horizon_blocks": int(case_horizon_blocks),
             "weak_window_weighting": "equal_case_equal_horizon",
+            "maximum_windows_per_case_horizon": int(max_windows_per_case_horizon),
         }
 
     @staticmethod
@@ -212,6 +229,7 @@ class M0Model(DynamicsModel):
             max_cases=run_context.max_cases,
             horizon_steps=run_context.horizon_steps,
             max_fit_steps=run_context.fit_max_steps,
+            max_windows_per_case_horizon=run_context.weak_max_windows_per_case_horizon,
         )
         self.validation_scales = self._training_scales(train, run_context.max_cases)
         self.max_internal_step = run_context.max_internal_step
@@ -307,7 +325,7 @@ class M0Model(DynamicsModel):
         )
 
     @classmethod
-    def load(cls, path: str | Path) -> "M0Model":
+    def load(cls, path: str | Path) -> M0Model:
         path = Path(path)
         with np.load(path) as data:
             ridge = float(data["selected_ridge"]) if "selected_ridge" in data else np.nan
@@ -352,6 +370,7 @@ class MassProportionalM0Model(M0Model):
             train, windows=run_context.integral_windows,
             max_cases=run_context.max_cases, horizon_steps=run_context.horizon_steps,
             max_fit_steps=run_context.fit_max_steps,
+            max_windows_per_case_horizon=run_context.weak_max_windows_per_case_horizon,
         )
         self.validation_scales = self._training_scales(train, run_context.max_cases)
         self.max_internal_step = run_context.max_internal_step
@@ -486,6 +505,7 @@ class MassFloorM0Model(M0Model):
             train, windows=run_context.integral_windows,
             max_cases=run_context.max_cases, horizon_steps=run_context.horizon_steps,
             max_fit_steps=run_context.fit_max_steps,
+            max_windows_per_case_horizon=run_context.weak_max_windows_per_case_horizon,
         )
         self.validation_scales = self._training_scales(train, run_context.max_cases)
         self.max_internal_step = run_context.max_internal_step

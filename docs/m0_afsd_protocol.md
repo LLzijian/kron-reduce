@@ -49,6 +49,11 @@ The temporal hierarchy is:
 - `PSD-BS/PSD-B4`: edge-group-sparse port-structured closure on the C3
   shortlist.
 
+Weak windows are deterministically and uniformly sampled to at most 8 starts
+per trajectory and window width. Every trajectory/width block has equal total
+least-squares weight; dense overlapping windows therefore cannot make a long
+trajectory dominate merely by sample count.
+
 All 5--10 node views first receive the inexpensive B2 solve. Only spatial views
 within the predeclared validation tolerance, plus the fixed-seven and raw-ten
 controls, proceed to B3. The best B3 spatial view in each corpus proceeds to

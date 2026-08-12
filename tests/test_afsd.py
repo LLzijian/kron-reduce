@@ -11,6 +11,7 @@ from kron_reduce.data import (
     stratify_samples,
     trajectory_information,
 )
+from kron_reduce.models import M0Model
 from kron_reduce.physics import (
     aggregate_model_sample,
     discover_nested_partitions,
@@ -143,3 +144,27 @@ def test_afsd_protocol_is_registered_and_test_locked(root) -> None:
     ] is False
     assert "absolute_true_system_order" in workflow["locked_claims"]
     assert "merge_gate" in workflow["approval_required"]
+
+
+def test_weak_window_sampling_is_bounded_and_deterministic() -> None:
+    sample = _sample("bounded", 0.4, 0.7, steps=101)
+    first = M0Model.build_weak_system(
+        [sample],
+        windows=(1, 5, 20),
+        horizon_steps=100,
+        max_fit_steps=101,
+        max_windows_per_case_horizon=4,
+    )
+    second = M0Model.build_weak_system(
+        [sample],
+        windows=(1, 5, 20),
+        horizon_steps=100,
+        max_fit_steps=101,
+        max_windows_per_case_horizon=4,
+    )
+    matrix, vector, diagnostics = first
+    assert matrix.shape[0] <= 3 * 4 * 4
+    assert diagnostics["maximum_windows_per_case_horizon"] == 4
+    assert diagnostics["weak_window_weighting"] == "equal_case_equal_horizon"
+    assert np.array_equal(matrix, second[0])
+    assert np.array_equal(vector, second[1])

@@ -22,17 +22,18 @@ maximum_hankel_condition = 1e8
 
 cluster_counts = [5, 6, 7, 8, 9]
 spatial_shortlist_tolerance = 0.05
-maximum_spatial_shortlist = 5
+maximum_spatial_shortlist = 3
 
 fit_max_steps = 1001
+weak_max_windows_per_case_horizon = 8
 integral_windows = [1, 5, 20, 40, 80]
 ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
 max_internal_step = 0.01
 minimum_model_improvement = 0.02
 maximum_source_loss_degradation = 0.02
 
-b3_alpha_candidates = [0.0, 0.3, 1.0, 3.0]
-b3_tau_candidates = [0.5, 1.0, 2.0]
+b3_alpha_candidates = [0.0, 1.0, 3.0]
+b3_tau_candidates = [0.5, 1.5]
 b3_activation_width = 0.02
 
 gmd_rank_candidates = [1, 2, 4, 6]
