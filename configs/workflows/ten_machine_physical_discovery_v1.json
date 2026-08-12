@@ -1,0 +1,24 @@
+{
+  "workflow": "ten_machine_physical_discovery_v1",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "diagnostic",
+    "adversarial_audit",
+    "acceptance",
+    "merge_gate"
+  ],
+  "approval_required": ["merge_gate"],
+  "locked_claims": [
+    "test_performance",
+    "five_fold_generalization",
+    "physical_transmission_line_recovery",
+    "machine_parameter_recovery",
+    "full_Lyapunov_certificate",
+    "M2A-LYAP"
+  ]
+}

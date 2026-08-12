@@ -1,0 +1,52 @@
+task_type = "raw_ten_machine_closed_loop_physical_structure_discovery"
+protocol_revision = "ten_machine_physical_discovery_v1"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+representation = "generator_10"
+test_access = "forbidden"
+training_pm_mode = "observed"
+
+diagnostic_experiment = "paper_ten_machine_physical_discovery_f1_seed324"
+adversarial_experiment = "paper_ten_machine_physical_discovery_adversarial_f1_seed324"
+minimum_train_steps = 100
+minimum_validation_steps = 100
+selection_horizon_steps = 100
+report_horizons = [20, 40, 100]
+fit_max_steps = 101
+integral_windows = [1, 5, 20, 40, 80]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+max_internal_step = 0.01
+bootstrap_draws = 2000
+
+m0_3eg_alpha_candidates = [0.0, 0.3, 1.0, 3.0]
+m0_3eg_tau_candidates = [0.5, 1.0, 2.0]
+m0_3eg_max_source_loss_degradation = 0.0
+
+pm_ridge_values = [1e-8, 1e-6, 1e-4, 1e-2, 1e-1, 1.0]
+pm_relative_thresholds = [0.0, 0.01, 0.03, 0.1]
+pm_spectral_margins = [0.4, 0.5, 1.0]
+pm_maximum_effective_time_constant_s = 2.5
+
+psd_tau_mode_candidates = [[], [0.05], [0.2], [1.0], [0.05, 0.2], [0.2, 1.0]]
+psd_ridge_values = [1e-6, 1e-4, 1e-2]
+psd_group_thresholds = [0.0, 0.01, 0.03, 0.1]
+psd_coefficient_scales = [0.25, 0.5, 0.75, 1.0]
+psd_minimum_validation_improvement = 0.02
+psd_maximum_source_loss_degradation = 0.02
+
+minimum_model_improvement = 0.02
+maximum_physical_discovery_degradation_vs_gmd = 0.02
+minimum_cross_source_support_jaccard = 0.5
+
+[claim_boundaries]
+single_fold_single_seed = true
+validation_only = true
+observed_pm_is_conditional = true
+physical_line_recovery = false
+machine_parameter_recovery = false
+five_fold_generalization = false
+test_performance = false
+

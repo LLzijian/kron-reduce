@@ -4,9 +4,36 @@ import numpy as np
 
 from kron_reduce.data import ModelDataRequest, adapt_event
 from kron_reduce.evaluation.energy import evaluate_energy_gate, supply_violation_loss
-from kron_reduce.models import CausalPmGraphModalM0Model, DerivativeM0Model, DynamicM2AModel, EnergyM2AModel, GovernorM0Model, GraphM0Model, GraphMemoryDiscoveryM0Model, GraphModalDiscoveryM0Model, GraphModalPmDynamics, LargeSignalThirdOrderM0Model, M0Model, MassFloorM0Model, MassProportionalM0Model, M2AModel, ReidentifiedTransientEmfM0Model, RunContext, StructuredThirdOrderM0Model, SwingSINDyModel, ThirdOrderM0Model, TransientEmfM0Model
+from kron_reduce.models import (
+    CausalPmGraphModalM0Model,
+    CausalPmPortStructuredM0Model,
+    DerivativeM0Model,
+    DynamicM2AModel,
+    EnergyM2AModel,
+    GovernorM0Model,
+    GraphM0Model,
+    GraphMemoryDiscoveryM0Model,
+    GraphModalDiscoveryM0Model,
+    GraphModalPmDynamics,
+    LargeSignalThirdOrderM0Model,
+    M0Model,
+    M2AModel,
+    MassFloorM0Model,
+    MassProportionalM0Model,
+    PortStructuredDiscoveryM0Model,
+    ReidentifiedTransientEmfM0Model,
+    RunContext,
+    StructuredThirdOrderM0Model,
+    SwingSINDyModel,
+    ThirdOrderM0Model,
+    TransientEmfM0Model,
+)
 from kron_reduce.models.base import sample_rollout_inputs
-from kron_reduce.models.integration import integration_convergence_audit, rk4_rollout, torch_rk4_rollout
+from kron_reduce.models.integration import (
+    integration_convergence_audit,
+    rk4_rollout,
+    torch_rk4_rollout,
+)
 from kron_reduce.models.pm_modal_discovery import power_balance_basis
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
 from kron_reduce.workflows.paper_full import _models as paper_models
@@ -781,6 +808,173 @@ def test_graph_modal_discovery_recovers_train_only_basis_and_closure(tmp_path):
     assert np.allclose(actual[1], expected[1])
 
 
+def test_port_structured_discovery_recovers_nonnegative_edge_closure_and_save_load(
+    tmp_path,
+):
+    t = np.linspace(0.0, 0.8, 81)
+    truth_backbone = TransientEmfM0Model(
+        anchor=M0Model(
+            np.array([0.3, 0.3]), np.array([1.1]), max_internal_step=0.0025
+        ),
+        alpha=0.0,
+        tau=0.1,
+        max_internal_step=0.0025,
+        diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    static_coefficients = np.array([[0.22], [0.0], [0.0], [0.16], [0.0]])
+    memory_coefficients = np.array([[0.28]])
+    truth = PortStructuredDiscoveryM0Model(
+        backbone=truth_backbone,
+        static_coefficients=static_coefficients,
+        taus=np.array([0.1]),
+        memory_coefficients=memory_coefficients,
+        max_internal_step=0.0025,
+        diagnostics={
+            "storage_audit": {
+                "minimum_conservative_potential_on_train_val_domain": 0.0,
+                "maximum_conservative_chain_rule_error": 0.0,
+                "minimum_quotient_stiffness_eigenvalue": 2.0,
+                "memory_supply_identity_error": 0.0,
+            }
+        },
+    )
+    samples = []
+    for index in range(6):
+        static = _two_node_static()
+        static["delta0"] = np.array(
+            [[0.035 + 0.012 * index, -0.035 - 0.012 * index]]
+        )
+        static["omega0"] = np.array(
+            [[0.006 + 0.002 * index, -0.006 - 0.002 * index]]
+        )
+        signal = (0.04 + 0.008 * index) * np.sin(
+            (1.7 + 0.22 * index) * np.pi * t
+        )
+        pm = np.column_stack((signal, -signal))
+        delta, omega = truth.rollout(
+            static, t, {"Pm": pm, "interpolation": "linear"}
+        )
+        samples.append(
+            {
+                "event_id": f"port-structured-{index}",
+                "model_inputs": {
+                    "static": static,
+                    "exogenous": {"t": t, "Pm": pm},
+                },
+                "training_context": {
+                    "targets": {"t": t, "delta": delta, "omega": omega},
+                    "Pm_observed": pm,
+                    "claim_type": "conditional_rollout_not_causal_forecast",
+                    "metadata": {"source_dataset": "synthetic"},
+                },
+            }
+        )
+    fitted_backbone = TransientEmfM0Model(
+        anchor=M0Model(np.array([0.3, 0.3]), np.array([1.1])),
+        alpha=0.0,
+        tau=0.1,
+        diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    model = PortStructuredDiscoveryM0Model(
+        backbone=fitted_backbone,
+        tau_mode_candidates=((), (0.1,)),
+        ridge_values=(1e-10,),
+        group_thresholds=(0.0,),
+        coefficient_scales=(1.0,),
+        train_shortlist_per_order=1,
+        rollout_long_shortlist=2,
+        minimum_validation_improvement=0.0,
+        maximum_source_loss_degradation=0.0,
+        max_internal_step=0.005,
+    )
+    result = model.fit(
+        samples[:5],
+        samples[5:],
+        RunContext(
+            horizon_steps=81,
+            max_cases=5,
+            integral_windows=(1, 5, 20),
+            fit_max_steps=81,
+            max_internal_step=0.005,
+        ),
+    )
+    assert result.details["structure_discovery"]
+    assert result.details["promoted"]
+    assert result.details["selected_support"]["active_edges"] == 1
+    assert np.all(model.static_coefficients >= 0)
+    assert np.all(model.memory_coefficients >= 0)
+    assert model.physics_audit()["status"] == "pass"
+    predicted = model.rollout(
+        samples[-1]["model_inputs"]["static"],
+        t,
+        {"Pm": samples[-1]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    assert np.sqrt(
+        np.mean((predicted[1] - samples[-1]["training_context"]["targets"]["omega"]) ** 2)
+    ) < 2e-3
+
+    path = tmp_path / "port_structured_discovery.npz"
+    model.save(path)
+    loaded = PortStructuredDiscoveryM0Model.load(path)
+    actual = loaded.rollout(
+        samples[-1]["model_inputs"]["static"],
+        t,
+        {"Pm": samples[-1]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    assert np.allclose(actual[0], predicted[0])
+    assert np.allclose(actual[1], predicted[1])
+
+
+def test_port_structured_causal_pm_ignores_future_schedule_and_preserves_ports():
+    electrical = TransientEmfM0Model(
+        anchor=M0Model(np.array([0.3, 0.3]), np.array([1.1])),
+        alpha=0.0,
+        tau=0.1,
+        diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    backbone = PortStructuredDiscoveryM0Model(
+        backbone=electrical,
+        static_coefficients=np.array([[0.1], [0.0], [0.0], [0.2], [0.0]]),
+        taus=np.array([0.1]),
+        memory_coefficients=np.array([[0.25]]),
+        diagnostics={
+            "selected_support": {"active_edges": 1},
+            "storage_audit": {
+                "minimum_conservative_potential_on_train_val_domain": 0.0,
+                "maximum_conservative_chain_rule_error": 0.0,
+                "minimum_quotient_stiffness_eigenvalue": 2.0,
+                "memory_supply_identity_error": 0.0,
+            },
+        },
+    )
+    modal_basis = np.array([[1.0], [-1.0]]) / np.sqrt(2.0)
+    model = CausalPmPortStructuredM0Model(
+        backbone=backbone,
+        pm_dynamics=GraphModalPmDynamics(
+            basis=modal_basis,
+            state_matrix=np.array([[-2.0]]),
+            input_matrix=np.array([[0.3]]),
+        ),
+        maximum_effective_time_constant=0.75,
+    )
+    static = _two_node_static()
+    static["Pm_clear"] = np.array([0.04, -0.04])
+    static["Pm0"] = static["Pm_clear"].copy()
+    t = np.linspace(0.0, 0.4, 41)
+    future_a = np.zeros((len(t), 2))
+    future_b = np.column_stack((0.5 * np.sin(20 * t), -0.5 * np.sin(20 * t)))
+    rollout_a = model.rollout_with_pm(
+        static, t, {"Pm": future_a, "interpolation": "linear"}
+    )
+    rollout_b = model.rollout_with_pm(
+        static, t, {"Pm": future_b, "interpolation": "linear"}
+    )
+    assert all(np.allclose(left, right) for left, right in zip(rollout_a, rollout_b))
+    assert np.allclose(rollout_a[2][0], static["Pm_clear"], atol=1e-15)
+    assert np.max(np.abs(np.sum(rollout_a[2], axis=1))) < 1e-12
+    assert model.physics_audit()["status"] == "pass"
+
+
 def test_paper_workflow_constructs_graph_modal_composite_from_fitted_m0():
     anchor = M0Model(np.array([0.3, 0.3]), np.array([1.1]))
     models = dict(paper_models(anchor, ["M0-GMD", "M0-GMD-PM"]))
@@ -797,6 +991,10 @@ def test_paper_workflow_constructs_graph_modal_composite_from_fitted_m0():
     assert np.array_equal(causal_pm.backbone.backbone.anchor.damping, anchor.damping)
     assert causal_pm.maximum_effective_time_constant == 2.5
     assert causal_pm.pm_dynamics.spectral_margins == (0.4, 0.5, 1.0)
+
+    physical = dict(paper_models(anchor, ["M0-PSD", "M0-PSD-PM"]))
+    assert isinstance(physical["M0-PSD"], PortStructuredDiscoveryM0Model)
+    assert isinstance(physical["M0-PSD-PM"], CausalPmPortStructuredM0Model)
 
 
 def test_graph_modal_pm_weak_form_recovers_stable_cross_node_ode():

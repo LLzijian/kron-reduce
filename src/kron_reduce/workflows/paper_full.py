@@ -12,39 +12,40 @@ from kron_reduce.data import CanonicalStore, ModelDataRequest, adapt_event, load
 from kron_reduce.data.audit import audit_model_sample
 from kron_reduce.evaluation import evaluate_energy_gate, trajectory_metrics
 from kron_reduce.evaluation.metrics import aggregate_trajectory_metrics
-from kron_reduce.evaluation.stability import classify_predicted_trajectory, classification_metrics
+from kron_reduce.evaluation.stability import classification_metrics, classify_predicted_trajectory
 from kron_reduce.evaluation.statistics import fault_line_cluster_bootstrap
 from kron_reduce.models import (
     AutoregressiveLSTMModel,
+    CausalPmGraphModalM0Model,
+    CausalPmPortStructuredM0Model,
+    DerivativeM0Model,
     DynamicM2AModel,
     EnergyM2AModel,
-    DerivativeM0Model,
+    GovernorM0Model,
     GraphM0Model,
     GraphMemoryDiscoveryM0Model,
     GraphModalDiscoveryM0Model,
-    CausalPmGraphModalM0Model,
     GraphModalPmDynamics,
-    GovernorM0Model,
+    LargeSignalThirdOrderM0Model,
     M0Model,
-    MassProportionalM0Model,
-    MassFloorM0Model,
     M2AModel,
+    MassFloorM0Model,
+    MassProportionalM0Model,
     PINNModel,
+    PortStructuredDiscoveryM0Model,
+    ReidentifiedTransientEmfM0Model,
     RunContext,
     SINDYcModel,
+    StructuredThirdOrderM0Model,
     SwingSINDyModel,
     ThirdOrderM0Model,
-    StructuredThirdOrderM0Model,
-    LargeSignalThirdOrderM0Model,
     TransientEmfM0Model,
-    ReidentifiedTransientEmfM0Model,
 )
 from kron_reduce.models.base import FitResult
 from kron_reduce.training.lineage import (
     assert_fit_result_lineage,
     assert_optimizer_lineage,
 )
-
 
 LOADERS = {
     "M0": M0Model,
@@ -66,6 +67,8 @@ LOADERS = {
     "M0-GSD": GraphMemoryDiscoveryM0Model,
     "M0-GMD": GraphModalDiscoveryM0Model,
     "M0-GMD-PM": CausalPmGraphModalM0Model,
+    "M0-PSD": PortStructuredDiscoveryM0Model,
+    "M0-PSD-PM": CausalPmPortStructuredM0Model,
     "PINN": PINNModel,
     "LSTM": AutoregressiveLSTMModel,
 }
@@ -117,6 +120,24 @@ def _models(m0: M0Model, methods: list[str]) -> list[tuple[str, object]]:
             "M0-GMD-PM",
             CausalPmGraphModalM0Model(
                 backbone=GraphModalDiscoveryM0Model(
+                    backbone=TransientEmfM0Model(anchor=_clone_m0(m0))
+                ),
+                pm_dynamics=GraphModalPmDynamics(
+                    spectral_margins=(0.4, 0.5, 1.0)
+                ),
+                maximum_effective_time_constant=2.5,
+            ),
+        ),
+        (
+            "M0-PSD",
+            PortStructuredDiscoveryM0Model(
+                backbone=TransientEmfM0Model(anchor=_clone_m0(m0))
+            ),
+        ),
+        (
+            "M0-PSD-PM",
+            CausalPmPortStructuredM0Model(
+                backbone=PortStructuredDiscoveryM0Model(
                     backbone=TransientEmfM0Model(anchor=_clone_m0(m0))
                 ),
                 pm_dynamics=GraphModalPmDynamics(
