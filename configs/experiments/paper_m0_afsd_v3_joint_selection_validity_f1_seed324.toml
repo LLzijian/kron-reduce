@@ -1,0 +1,96 @@
+task_type = "joint_effective_order_space_structure_selection_validity"
+protocol_revision = "m0_afsd_v3_joint_selection_validity"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "observed"
+test_access = "forbidden"
+other_folds_access = "forbidden"
+canonical_mutation = "forbidden"
+
+hypothesis_experiment = "paper_m0_afsd_v3_hypothesis_f1_seed324"
+eligibility_experiment = "paper_m0_afsd_v3_eligibility_f1_seed324"
+controlled_experiment = "paper_m0_afsd_v3_controlled_f1_seed324"
+residual_experiment = "paper_m0_afsd_v3_residual_f1_seed324"
+adversarial_experiment = "paper_m0_afsd_v3_adversarial_f1_seed324"
+
+minimum_real_steps = 100
+minimum_structure_steps = 100
+minimum_selection_cases = 3
+report_horizons = [100, 500, 1000]
+maximum_analysis_steps = 1001
+hankel_delays = 12
+hankel_relative_floor = 1e-3
+maximum_hankel_condition = 1e8
+
+outer_fault_line_folds = 5
+inner_fault_line_folds = 4
+minimum_source_cell_fault_lines = 5
+fault_line_equal_weight = true
+event_weighted_secondary_only = true
+
+cluster_counts = [5, 6, 7, 8, 9]
+spatial_shortlist_horizon = 100
+spatial_shortlist_tolerance = 0.05
+required_spatial_controls = ["clustered_7_fixed", "generator_10"]
+intra_cluster_trigger_loss = 0.02
+intra_cluster_trigger_energy = 0.05
+minimum_intra_cluster_mode_support = 0.80
+intra_cluster_rank_candidates = [1, 2]
+
+integral_windows = [1, 5, 20, 40, 80]
+weak_max_windows_per_case_horizon = 8
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+max_internal_step = 0.01
+minimum_model_improvement = 0.02
+maximum_source_loss_degradation = 0.02
+
+b3_alpha_candidates = [0.0, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0]
+b3_tau_candidates = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 1.5]
+b3_activation_width = 0.02
+
+memory_tau_mode_candidates = [[0.05], [0.2], [1.0], [0.05, 0.2], [0.2, 1.0]]
+memory_rank_candidates = [1, 2, 4, 6]
+gmd_group_thresholds = [0.0, 0.03, 0.1]
+gmd_coefficient_scales = [0.04, 0.08, 0.15]
+gmd_ridge_values = [1e-4, 1e-2, 1e-1]
+psd_ridge_values = [1e-6, 1e-4, 1e-2]
+psd_group_thresholds = [0.0, 0.01, 0.03, 0.1]
+psd_coefficient_scales = [0.25, 0.5, 0.75, 1.0]
+
+parameterizations = ["fixed_inertia", "mass_proportional_damping", "positive_joint_inertia_damping"]
+maximum_parameter_condition = 1e8
+minimum_parameter_sign_stability = 0.95
+maximum_parameter_fold_drift = 0.20
+minimum_edge_bootstrap_support = 0.80
+minimum_edge_fold_jaccard = 0.80
+
+bootstrap_draws = 5000
+bootstrap_confidence = 0.95
+random_sign_draws = 10000
+holm_familywise_alpha = 0.05
+minimum_outer_fold_direction_agreement = 4
+maximum_coi_drift = 1e-10
+
+maximum_modal_frequency_relative_error = 0.10
+maximum_modal_damping_absolute_error = 0.05
+minimum_modal_mac = 0.80
+require_spectral_non_degradation = true
+
+[claim_boundaries]
+single_fold_single_seed = true
+outer_cv_train_only = true
+validation_is_confirmation_only = true
+observed_pm_is_conditional = true
+source_excitation_causality_requires_overlap = true
+absolute_true_order_recovery = false
+unselected_module_absence = false
+physical_line_recovery = false
+machine_parameter_recovery = false
+event_specific_future_routing = false
+test_performance = false
+other_fold_generalization = false
+autonomous_pm_prediction = false
+M2A_LYAP = false
