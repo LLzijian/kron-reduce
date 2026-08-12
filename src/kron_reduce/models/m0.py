@@ -68,6 +68,7 @@ class M0Model(DynamicsModel):
         max_fit_steps: int = 0,
     ) -> tuple[np.ndarray, np.ndarray, dict[str, float | int]]:
         rows, targets = [], []
+        case_horizon_blocks = 0
         selected = samples if max_cases is None else samples[:max_cases]
         for sample in selected:
             target = sample["training_context"]["targets"]
@@ -89,9 +90,23 @@ class M0Model(DynamicsModel):
                 cls._instantaneous_design(delta[k], omega[k], equilibrium, incidence, mass)
                 for k in range(limit)
             ])
-            for width in sorted(set(int(w) for w in windows if int(w) > 0)):
+            eligible_widths = [
+                width
+                for width in sorted(set(int(w) for w in windows if int(w) > 0))
+                if width < limit
+            ]
+            for width in eligible_widths:
                 if width >= limit:
                     continue
+                # Each trajectory/window-width block receives equal total
+                # least-squares weight.  Without this normalization, long
+                # trajectories contribute more overlapping windows and can
+                # dominate a pooled weak solve merely because they contain
+                # more samples.
+                block_weight = 1.0 / np.sqrt(
+                    max(len(eligible_widths), 1) * (limit - width) * len(mass)
+                )
+                case_horizon_blocks += 1
                 for start in range(limit - width):
                     stop = start + width
                     segment = slice(start, stop + 1)
@@ -99,8 +114,8 @@ class M0Model(DynamicsModel):
                     rhs = _trapz(delta_pm[segment], t[segment]) - mass * (
                         omega[stop] - omega[start]
                     )
-                    rows.append(integrated_design)
-                    targets.append(rhs)
+                    rows.append(block_weight * integrated_design)
+                    targets.append(block_weight * rhs)
         if not rows:
             raise ValueError("no eligible weak-form integration windows")
         matrix, vector = np.concatenate(rows), np.concatenate(targets)
@@ -108,6 +123,8 @@ class M0Model(DynamicsModel):
             "n_scalar_equations": int(matrix.shape[0]),
             "n_parameters": int(matrix.shape[1]),
             "n_integration_windows": int(len(rows)),
+            "n_equal_case_horizon_blocks": int(case_horizon_blocks),
+            "weak_window_weighting": "equal_case_equal_horizon",
         }
 
     @staticmethod
