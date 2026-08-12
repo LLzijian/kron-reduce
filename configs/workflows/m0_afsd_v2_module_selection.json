@@ -1,0 +1,30 @@
+{
+  "workflow": "m0_afsd_v2_module_selection",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "hypothesis_registration",
+    "controlled_experiment",
+    "residual_diagnosis",
+    "adversarial_review",
+    "acceptance",
+    "merge_gate"
+  ],
+  "approval_required": ["merge_gate"],
+  "locked_claims": [
+    "test_performance",
+    "five_fold_generalization",
+    "autonomous_Pm_prediction",
+    "absolute_true_system_order",
+    "absence_of_unexcited_modules",
+    "physical_39_bus_line_recovery",
+    "machine_inertia_recovery",
+    "event_specific_future_branch_routing",
+    "M2A-LYAP"
+  ]
+}
+

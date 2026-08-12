@@ -1,0 +1,62 @@
+task_type = "same_support_adaptive_module_selection"
+protocol_revision = "m0_afsd_v2_module_selection"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "observed"
+test_access = "forbidden"
+
+hypothesis_experiment = "paper_m0_afsd_v2_hypothesis_f1_seed324"
+controlled_experiment = "paper_m0_afsd_v2_controlled_f1_seed324"
+residual_experiment = "paper_m0_afsd_v2_residual_f1_seed324"
+adversarial_experiment = "paper_m0_afsd_v2_adversarial_f1_seed324"
+
+minimum_real_steps = 100
+minimum_structure_steps = 100
+minimum_selection_cases = 3
+report_horizons = [100, 500, 1000]
+selection_horizon_steps = 1000
+maximum_analysis_steps = 1001
+hankel_delays = 12
+hankel_relative_floor = 1e-3
+maximum_hankel_condition = 1e8
+
+spatial_cluster_count = 7
+fit_max_steps = 1001
+weak_max_windows_per_case_horizon = 8
+integral_windows = [1, 5, 20, 40, 80]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+max_internal_step = 0.01
+minimum_model_improvement = 0.02
+maximum_source_loss_degradation = 0.02
+
+b3_alpha_candidates = [0.0, 1.0, 3.0]
+b3_tau_candidates = [0.5, 1.5]
+b3_activation_width = 0.02
+
+psd_tau_mode_candidates = [[], [0.05], [0.2], [1.0], [0.05, 0.2], [0.2, 1.0]]
+psd_ridge_values = [1e-6, 1e-4, 1e-2]
+psd_group_thresholds = [0.0, 0.01, 0.03, 0.1]
+psd_coefficient_scales = [0.25, 0.5, 0.75, 1.0]
+
+bootstrap_draws = 200
+bootstrap_confidence = 0.95
+minimum_module_bootstrap_support = 0.80
+minimum_edge_bootstrap_support = 0.80
+maximum_global_to_lower_rmse_ratio = 2.0
+maximum_coi_drift = 1e-10
+
+[claim_boundaries]
+single_fold_single_seed = true
+validation_only = true
+observed_pm_is_conditional = true
+absolute_true_order_recovery = false
+unselected_module_absence = false
+physical_line_recovery = false
+machine_parameter_recovery = false
+event_specific_future_routing = false
+test_performance = false
+M2A_LYAP = false
+
