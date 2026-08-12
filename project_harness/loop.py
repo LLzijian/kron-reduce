@@ -94,7 +94,7 @@ def run_one(root: Path, workflow_name: str = "paper_v1") -> dict:
         raise RuntimeError(f"next stage requires explicit approval: {target}")
     if target == "data_verified": evidence = verify_data(root)
     elif target in {"contracts_verified", "model_unit_gate"}: evidence = audit_project(root)
-    elif target in {"source_commit", "source_recommit"}:
+    elif target in {"source_commit", "source_recommit", "source_finalize_commit"}:
         assert_clean(root)
         head = git_head(root)
         if head == "UNCOMMITTED":

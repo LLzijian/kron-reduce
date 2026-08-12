@@ -8,6 +8,7 @@
     "model_unit_gate",
     "source_commit",
     "source_recommit",
+    "source_finalize_commit",
     "diagnostic",
     "adversarial_audit",
     "acceptance",

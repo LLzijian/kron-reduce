@@ -97,6 +97,20 @@ def test_raw_ten_machine_protocol_is_registered_and_test_locked(root: Path) -> N
     )
     assert workflow["approval_required"] == ["merge_gate"]
     assert "M2A-LYAP" in workflow["locked_claims"]
+    resume = manifest["experiments"][
+        "paper_ten_machine_physical_discovery_resume_f1_seed324"
+    ]
+    assert resume["stage"] == "diagnostic"
+    assert resume["resumes_failed_run_after_render_only_failure"] is True
+    assert resume["reads_test_performance"] is False
+    for experiment_name in (
+        "paper_ten_machine_physical_discovery_adversarial_f1_seed324",
+        "paper_ten_machine_physical_discovery_acceptance_f1_seed324",
+    ):
+        assert (
+            manifest["experiments"][experiment_name]["config"]
+            == "paper_ten_machine_physical_discovery_resume_f1_seed324.toml"
+        )
 
 
 def test_historical_mainline_representation_claim_has_hashed_evidence(

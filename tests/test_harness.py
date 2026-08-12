@@ -54,4 +54,5 @@ def test_corrective_workflow_has_source_recommit_before_diagnostic(root):
     )
     stages = workflow["stages"]
     assert stages.index("source_recommit") == stages.index("source_commit") + 1
-    assert stages.index("diagnostic") == stages.index("source_recommit") + 1
+    assert stages.index("source_finalize_commit") == stages.index("source_recommit") + 1
+    assert stages.index("diagnostic") == stages.index("source_finalize_commit") + 1

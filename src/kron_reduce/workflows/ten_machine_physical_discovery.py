@@ -4,13 +4,17 @@ import csv
 import hashlib
 import html
 import json
+import shutil
 import tomllib
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
-import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 from kron_reduce.data import CanonicalStore, ModelDataRequest, adapt_event, load_split
 from kron_reduce.data.audit import audit_model_sample
@@ -978,13 +982,20 @@ def _make_figure(
         axes[1, 1].set_xticks([])
         axes[1, 1].set_yticks([])
     axes[1, 1].set_title("d  Discovered port-structured effective interactions")
+    compact_gates = (
+        ("GMD", "raw10_M0_GMD_promoted_over_M0_3EG"),
+        ("GMD-PM", "raw10_M0_GMD_PM_causal_port_promoted_over_ZOH"),
+        ("PSD", "raw10_M0_PSD_physical_structure_promoted"),
+        ("PSD-PM", "raw10_M0_PSD_PM_full_candidate_promoted"),
+    )
     figure.suptitle(
         "Raw 10-machine M0 chain and gated physical-structure discovery\n"
-        + ", ".join(
-            f"{key}={'PASS' if value else 'NO'}"
-            for key, value in assessment["gates"].items()
+        + "Model gates — "
+        + " | ".join(
+            f"{label}: {'PASS' if assessment['gates'][key] else 'NO'}"
+            for label, key in compact_gates
         ),
-        fontsize=11,
+        fontsize=10,
     )
     figure_dir = result_dir / "figures"
     figure_dir.mkdir()
@@ -1082,6 +1093,205 @@ h1{{border-bottom:3px solid #267278;padding-bottom:12px}}pre{{white-space:pre-wr
     (result_dir / "report.html").write_text(document, encoding="utf-8")
 
 
+def _finalize_diagnostic_artifacts(
+    *,
+    result_dir: Path,
+    run_id: str,
+    config: dict[str, Any],
+) -> None:
+    """Render and gate a complete, already selected diagnostic evidence set."""
+
+    aggregate = _read_csv(result_dir / "aggregate_metrics.csv")
+    parameter_rows = _read_csv(result_dir / "learned_parameters_and_structure.csv")
+    source_rows = _read_csv(result_dir / "source_metrics_h100.csv")
+    metric_rows = _read_csv(result_dir / "per_case_metrics.csv")
+    convergence_rows = _read_csv(result_dir / "integration_convergence.csv")
+    data_rows = _read_csv(result_dir / "dataset_support.csv")
+    assessment = json.loads(
+        (result_dir / "scientific_assessment.json").read_text(encoding="utf-8")
+    )
+    historical = json.loads(
+        (result_dir / "historical_representation_audit.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    audits = json.loads(
+        (result_dir / "physics_audits.json").read_text(encoding="utf-8")
+    )
+    causality_audit = json.loads(
+        (result_dir / "causality_invariance_audit.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    selection_precedes_metrics = bool(
+        (result_dir / "selection_marker.json").stat().st_mtime_ns
+        <= (result_dir / "per_case_metrics.csv").stat().st_mtime_ns
+    )
+
+    _make_figure(result_dir, aggregate, parameter_rows, assessment)
+    _write_report(result_dir, run_id, assessment, historical, source_rows)
+
+    process_gates = {
+        "test_data_unopened": True,
+        "labels_unused": True,
+        "only_at_least_100_point_trajectories_used": all(
+            int(row["valid_length"]) >= int(config["minimum_train_steps"])
+            for row in data_rows
+        ),
+        "raw_generator_10_representation": True,
+        "selection_marker_written_before_metric_assessment": selection_precedes_metrics,
+        "historical_representation_audit_complete": historical[
+            "accepted_round6_representation"
+        ]
+        == "clustered_7",
+        "all_model_physics_audits_pass": all(
+            audit.get("status") == "pass" for audit in audits.values()
+        ),
+        "all_rollouts_completed": all(
+            row["status"] == "completed" for row in metric_rows
+        ),
+        "all_integration_convergence_audits_pass": all(
+            bool(row["convergent"]) for row in convergence_rows
+        ),
+        "coi_and_power_drift_below_1e_10": max(
+            float(row.get("coi_drift", 0.0))
+            for row in metric_rows
+            if row["status"] == "completed"
+        )
+        < 1e-10,
+        "observed_Pm_claim_bounded": True,
+        "causal_Pm_models_ignore_future_schedule": causality_audit["status"]
+        == "PASS",
+        "PSD_not_misnamed_as_LYAP": audits["M0-PSD"].get(
+            "full_Lyapunov_certificate_claim"
+        )
+        is False,
+        "scientific_candidate_may_be_negative": True,
+    }
+    process = {
+        "status": (
+            "PASS"
+            if all(
+                value
+                for key, value in process_gates.items()
+                if key != "scientific_candidate_may_be_negative"
+            )
+            else "FAIL"
+        ),
+        "gates": process_gates,
+        "scientific_assessment": assessment,
+    }
+    _json(result_dir / "diagnostic_process_acceptance.json", process)
+    if process["status"] != "PASS":
+        raise RuntimeError("raw ten-machine physical-discovery process gate failed")
+    artifacts = {
+        path.relative_to(result_dir).as_posix(): _sha256(path)
+        for path in result_dir.rglob("*")
+        if path.is_file() and path.name != "artifact_hashes.json"
+    }
+    _json(result_dir / "artifact_hashes.json", artifacts)
+
+
+def _resume_completed_failed_diagnostic(
+    *,
+    root: Path,
+    config: dict[str, Any],
+    result_dir: Path,
+    run_id: str,
+) -> None:
+    """Finalize a fully computed immutable run that failed only while rendering."""
+
+    source_name = str(config["resume_from_failed_run"])
+    source_dir = root / "results" / source_name
+    source_config = root / str(config["resume_source_config"])
+    if (
+        not source_dir.is_dir()
+        or not (source_dir / "RUN_FAILED.json").is_file()
+        or not source_config.is_file()
+    ):
+        raise RuntimeError("registered failed diagnostic recovery source is unavailable")
+    required = {
+        "aggregate_metrics.csv",
+        "causality_invariance_audit.json",
+        "dataset_support.csv",
+        "historical_representation_audit.json",
+        "integration_convergence.csv",
+        "learned_parameters_and_structure.csv",
+        "lineage.json",
+        "paired_fault_line_bootstrap.json",
+        "per_case_metrics.csv",
+        "physics_audits.json",
+        "scientific_assessment.json",
+        "selection_marker.json",
+        "source_metrics_h100.csv",
+    }
+    missing = sorted(name for name in required if not (source_dir / name).is_file())
+    checkpoint_names = {
+        "M0-3EG",
+        "M0-GMD",
+        "M0-GMD-PM",
+        "M0-PSD",
+        "M0-PSD-PM",
+    }
+    missing.extend(
+        f"checkpoints/{name}.{suffix}"
+        for name in sorted(checkpoint_names)
+        for suffix in ("npz", "json")
+        if not (source_dir / "checkpoints" / f"{name}.{suffix}").is_file()
+    )
+    if missing:
+        raise RuntimeError(f"failed diagnostic is incomplete: {missing}")
+    lineage = json.loads((source_dir / "lineage.json").read_text(encoding="utf-8"))
+    selection = json.loads(
+        (source_dir / "selection_marker.json").read_text(encoding="utf-8")
+    )
+    if not (
+        lineage.get("config_sha256") == _sha256(source_config)
+        and lineage.get("representation") == "generator_10"
+        and not lineage.get("test_ids_read")
+        and selection.get("selection_complete") is True
+        and selection.get("representation") == "generator_10"
+        and not selection.get("test_ids_read")
+        and int(selection.get("seed")) == int(config["seed"])
+        and selection.get("fold") == config["fold"]
+        and (source_dir / "selection_marker.json").stat().st_mtime_ns
+        <= (source_dir / "per_case_metrics.csv").stat().st_mtime_ns
+    ):
+        raise RuntimeError("failed diagnostic recovery lineage does not satisfy contract")
+
+    source_hashes = {
+        path.relative_to(source_dir).as_posix(): _sha256(path)
+        for path in source_dir.rglob("*")
+        if path.is_file() and path.name != "RUN_FAILED.json"
+    }
+    for relative, digest in source_hashes.items():
+        source = source_dir / relative
+        destination = result_dir / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
+        if _sha256(destination) != digest:
+            raise RuntimeError(f"recovered artifact hash mismatch: {relative}")
+    _json(
+        result_dir / "recovery_lineage.json",
+        {
+            "finalization_run_id": run_id,
+            "fit_and_selection_source_run_id": source_name,
+            "fit_source_git_commit_short": source_name.rsplit("-", 1)[-1],
+            "finalization_git_commit_short": run_id.rsplit("-", 1)[-1],
+            "source_config": str(config["resume_source_config"]),
+            "source_config_sha256": _sha256(source_config),
+            "source_failure": "noninteractive_matplotlib_backend_not_selected",
+            "scientific_fit_or_selection_repeated": False,
+            "source_artifact_hashes_before_copy": source_hashes,
+        },
+    )
+    _finalize_diagnostic_artifacts(
+        result_dir=result_dir,
+        run_id=run_id,
+        config=config,
+    )
+
+
 def _run_diagnostic(
     *,
     root: Path,
@@ -1096,6 +1306,14 @@ def _run_diagnostic(
         or config.get("training_pm_mode") != "observed"
     ):
         raise RuntimeError("raw ten-machine discovery requires locked test and observed training Pm")
+    if config.get("resume_from_failed_run"):
+        _resume_completed_failed_diagnostic(
+            root=root,
+            config=config,
+            result_dir=result_dir,
+            run_id=run_id,
+        )
+        return
     dataset_dir = root / "data" / str(config["dataset"])
     store = CanonicalStore.open(dataset_dir)
     split = load_split(
@@ -1296,69 +1514,11 @@ def _run_diagnostic(
             "config_sha256": _sha256(config_path),
         },
     )
-    _make_figure(result_dir, aggregate, parameter_rows, assessment)
-    _write_report(result_dir, run_id, assessment, historical, source_rows)
-
-    audits = {name: model.physics_audit() for name, model in models.items()}
-    process_gates = {
-        "test_data_unopened": True,
-        "labels_unused": True,
-        "only_at_least_100_point_trajectories_used": all(
-            int(row["valid_length"]) >= int(config["minimum_train_steps"])
-            for row in data_rows
-        ),
-        "raw_generator_10_representation": True,
-        "selection_marker_written_before_metric_assessment": True,
-        "historical_representation_audit_complete": historical[
-            "accepted_round6_representation"
-        ]
-        == "clustered_7",
-        "all_model_physics_audits_pass": all(
-            audit.get("status") == "pass" for audit in audits.values()
-        ),
-        "all_rollouts_completed": all(
-            row["status"] == "completed" for row in metric_rows
-        ),
-        "all_integration_convergence_audits_pass": all(
-            row["convergent"] for row in convergence_rows
-        ),
-        "coi_and_power_drift_below_1e_10": max(
-            row.get("coi_drift", 0.0)
-            for row in metric_rows
-            if row["status"] == "completed"
-        )
-        < 1e-10,
-        "observed_Pm_claim_bounded": True,
-        "causal_Pm_models_ignore_future_schedule": causality_audit["status"]
-        == "PASS",
-        "PSD_not_misnamed_as_LYAP": audits["M0-PSD"].get(
-            "full_Lyapunov_certificate_claim"
-        )
-        is False,
-        "scientific_candidate_may_be_negative": True,
-    }
-    process = {
-        "status": (
-            "PASS"
-            if all(
-                value
-                for key, value in process_gates.items()
-                if key != "scientific_candidate_may_be_negative"
-            )
-            else "FAIL"
-        ),
-        "gates": process_gates,
-        "scientific_assessment": assessment,
-    }
-    _json(result_dir / "diagnostic_process_acceptance.json", process)
-    if process["status"] != "PASS":
-        raise RuntimeError("raw ten-machine physical-discovery process gate failed")
-    artifacts = {
-        path.relative_to(result_dir).as_posix(): _sha256(path)
-        for path in result_dir.rglob("*")
-        if path.is_file() and path.name != "artifact_hashes.json"
-    }
-    _json(result_dir / "artifact_hashes.json", artifacts)
+    _finalize_diagnostic_artifacts(
+        result_dir=result_dir,
+        run_id=run_id,
+        config=config,
+    )
 
 
 def _run_adversarial_audit(
@@ -1388,9 +1548,36 @@ def _run_adversarial_audit(
     causality = json.loads(
         (diagnostic / "causality_invariance_audit.json").read_text(encoding="utf-8")
     )
+    recovery_path = diagnostic / "recovery_lineage.json"
+    recovery = (
+        json.loads(recovery_path.read_text(encoding="utf-8"))
+        if recovery_path.is_file()
+        else None
+    )
+    recovery_source = (
+        root / "results" / str(recovery["fit_and_selection_source_run_id"])
+        if recovery is not None
+        else None
+    )
+    recovery_hashes_match = bool(
+        recovery is not None
+        and recovery_source is not None
+        and (recovery_source / "RUN_FAILED.json").is_file()
+        and recovery.get("scientific_fit_or_selection_repeated") is False
+        and all(
+            (diagnostic / relative).is_file()
+            and _sha256(diagnostic / relative) == digest
+            for relative, digest in recovery.get(
+                "source_artifact_hashes_before_copy", {}
+            ).items()
+        )
+    )
     gates = {
         "artifact_hashes_match": not _verify_artifact_hashes(diagnostic),
         "diagnostic_process_passed": process.get("status") == "PASS",
+        "render_failure_recovery_is_hash_preserving_and_did_not_refit": (
+            recovery_hashes_match if config.get("resume_from_failed_run") else True
+        ),
         "test_data_unopened": not lineage.get("test_ids_read"),
         "labels_unused": not lineage.get("labels_used_for_fit_selection_or_thresholds"),
         "raw10_lineage_locked": lineage.get("representation") == "generator_10",
