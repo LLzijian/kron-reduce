@@ -1,0 +1,11 @@
+source,amplitude,richness,n_events,n_fault_line_clusters,comparable_cell,minimum_clusters_met
+high-order,A-high,R-low,0,0,false,false
+dense,A-high,R-low,2,1,false,false
+high-order,A-low,R-high,25,6,false,true
+dense,A-low,R-high,0,0,false,false
+high-order,A-low,R-low,31,11,true,true
+dense,A-low,R-low,4,1,true,false
+high-order,A-mid,R-high,2,1,false,false
+dense,A-mid,R-high,0,0,false,false
+high-order,A-mid,R-low,0,0,false,false
+dense,A-mid,R-low,31,7,false,true
