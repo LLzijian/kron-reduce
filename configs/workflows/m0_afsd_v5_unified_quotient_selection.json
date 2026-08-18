@@ -1,0 +1,29 @@
+{
+  "workflow": "m0_afsd_v5_unified_quotient_selection",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "hypothesis_registration",
+    "controlled_experiment",
+    "residual_diagnosis",
+    "adversarial_review",
+    "acceptance",
+    "merge_gate"
+  ],
+  "approval_required": ["merge_gate"],
+  "selection_population": "union_of_all_QA_train_fault_lines",
+  "causal_overlap_role": "post_selection_attribution_audit_only",
+  "locked_claims": [
+    "test_performance",
+    "other_fold_generalization",
+    "autonomous_Pm_prediction",
+    "causal_effect_of_excitation_on_order",
+    "absence_of_unexcited_physical_modes",
+    "physical_39_bus_topology_recovery",
+    "M2A-LYAP"
+  ]
+}

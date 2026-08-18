@@ -1,0 +1,52 @@
+task_type = "unified_observed_envelope_quotient_selection"
+protocol_revision = "m0_afsd_v5_unified_quotient_selection"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "observed"
+rollout_label = "conditional rollout with observed Pm"
+test_access = "forbidden"
+other_folds_access = "forbidden"
+canonical_mutation = "forbidden"
+
+hypothesis_experiment = "paper_m0_afsd_v5_hypothesis_f1_seed324"
+controlled_experiment = "paper_m0_afsd_v5_controlled_f1_seed324"
+residual_experiment = "paper_m0_afsd_v5_residual_f1_seed324"
+adversarial_experiment = "paper_m0_afsd_v5_adversarial_f1_seed324"
+
+minimum_real_steps = 100
+minimum_selection_steps = 1001
+minimum_structure_steps = 100
+report_horizons = [100, 500, 1000]
+hankel_delays = 12
+hankel_relative_floor = 1e-3
+maximum_hankel_condition = 1e8
+
+outer_fault_line_folds = 5
+probe_delays = 1
+probe_ridge = 1e-6
+probe_rank_cap = 12
+maximum_rows_per_fault_line = 32
+tail_fraction = 0.10
+maximum_uqg = 0.02
+minimum_probe_skill = 0.0
+screen_horizon = 100
+minimum_clusters = 2
+screen_bootstrap_draws = 200
+selection_bootstrap_draws = 500
+confirmation_bootstrap_draws = 1000
+
+[claim_boundaries]
+conditional_rollout_with_observed_pm = true
+autonomous_causal_deployment = false
+single_fold_single_seed = true
+selection_uses_all_QA_train_fault_lines = true
+source_overlap_required_for_global_selection = false
+source_overlap_required_for_causal_attribution = true
+validation_used_for_confirmation_only = true
+test_performance = false
+other_fold_generalization = false
+absence_of_unexcited_modules = false
+absolute_true_order_recovery = false

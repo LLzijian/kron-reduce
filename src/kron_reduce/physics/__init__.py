@@ -36,6 +36,13 @@ from .graph_quotient import (
     partition_membership,
     projection_certificate,
 )
+from .global_quotient import (
+    global_quotient_gap,
+    holdout_global_quotient_gap,
+    mass_orthonormal_quotient_coordinates,
+    merge_partition as merge_global_partition,
+    unified_quotient_agglomeration,
+)
 from .multiresolution import (
     aggregate_model_sample,
     discover_nested_partitions,
@@ -65,6 +72,11 @@ __all__ = [
     "modal_loss",
     "partition_membership",
     "projection_certificate",
+    "global_quotient_gap",
+    "holdout_global_quotient_gap",
+    "mass_orthonormal_quotient_coordinates",
+    "merge_global_partition",
+    "unified_quotient_agglomeration",
     "aggregate_model_sample",
     "discover_nested_partitions",
     "reconstruct_model_state",
