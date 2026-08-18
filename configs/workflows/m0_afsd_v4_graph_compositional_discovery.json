@@ -1,0 +1,29 @@
+{
+  "workflow": "m0_afsd_v4_graph_compositional_discovery",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "hypothesis_registration",
+    "controlled_experiment",
+    "residual_diagnosis",
+    "adversarial_review",
+    "acceptance",
+    "merge_gate"
+  ],
+  "approval_required": ["merge_gate"],
+  "locked_claims": [
+    "test_performance",
+    "other_fold_generalization",
+    "autonomous_Pm_prediction",
+    "absolute_true_system_order",
+    "absence_of_unexcited_modules",
+    "physical_39_bus_line_recovery",
+    "device_semantics_without_independent_observation",
+    "event_specific_future_branch_routing",
+    "M2A-LYAP"
+  ]
+}

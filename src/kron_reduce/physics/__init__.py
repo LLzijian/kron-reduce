@@ -24,6 +24,18 @@ from .coherency import (
 from .constants import CLUSTERED_7_PARTITION, OMEGA_S
 from .coordinates import coi_basis, coi_project, coi_project_power
 from .graph import complete_incidence
+from .graph_quotient import (
+    beam_graph_contraction,
+    conditional_predictive_information_gain,
+    dynamic_distance_matrix,
+    input_heterogeneity,
+    internal_mode_basis,
+    intra_cluster_energy,
+    mass_orthogonal_projectors,
+    modal_loss,
+    partition_membership,
+    projection_certificate,
+)
 from .multiresolution import (
     aggregate_model_sample,
     discover_nested_partitions,
@@ -43,6 +55,16 @@ __all__ = [
     "coi_project",
     "coi_project_power",
     "complete_incidence",
+    "beam_graph_contraction",
+    "conditional_predictive_information_gain",
+    "dynamic_distance_matrix",
+    "input_heterogeneity",
+    "internal_mode_basis",
+    "intra_cluster_energy",
+    "mass_orthogonal_projectors",
+    "modal_loss",
+    "partition_membership",
+    "projection_certificate",
     "aggregate_model_sample",
     "discover_nested_partitions",
     "reconstruct_model_state",

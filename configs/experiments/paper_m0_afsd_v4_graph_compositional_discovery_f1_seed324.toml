@@ -1,0 +1,88 @@
+task_type = "graph_quotient_compositional_structure_discovery"
+protocol_revision = "m0_afsd_v4_graph_compositional_discovery"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "observed"
+rollout_label = "conditional rollout with observed Pm"
+test_access = "forbidden"
+other_folds_access = "forbidden"
+canonical_mutation = "forbidden"
+
+hypothesis_experiment = "paper_m0_afsd_v4_hypothesis_f1_seed324"
+controlled_experiment = "paper_m0_afsd_v4_controlled_f1_seed324"
+residual_experiment = "paper_m0_afsd_v4_residual_f1_seed324"
+adversarial_experiment = "paper_m0_afsd_v4_adversarial_f1_seed324"
+
+minimum_real_steps = 100
+minimum_structure_steps = 100
+report_horizons = [100, 500, 1000]
+hankel_delays = 12
+hankel_relative_floor = 1e-3
+maximum_hankel_condition = 1e8
+
+outer_fault_line_folds = 5
+inner_fault_line_folds = 4
+minimum_source_cell_fault_lines = 5
+fault_line_equal_weight = true
+
+beam_width_candidates = [3, 5, 10]
+minimum_clusters = 2
+cpig_horizons = [100, 500, 1000]
+cpig_screen_horizon = 100
+cpig_delays = 2
+cpig_rank_cap = 12
+cpig_ridge_candidates = [1e-8, 1e-6, 1e-4, 1e-2]
+maximum_cpig_for_hard_cluster = 0.02
+maximum_intra_cluster_energy = 0.05
+maximum_modal_loss = 0.05
+maximum_input_heterogeneity = 0.05
+internal_mode_rank_candidates = [0, 1, 2, 3]
+maximum_spatial_dynamic_alternations = 3
+minimum_edge_support_jaccard = 0.90
+
+module_names = [
+  "ROTOR_INERTIA",
+  "NODE_DAMPING",
+  "EDGE_SIN_POTENTIAL",
+  "EDGE_DAMPING",
+  "STATIC_NONLINEAR_POTENTIAL",
+  "NODE_LAG_STORAGE",
+  "EDGE_LAG_STORAGE",
+  "TWO_TIMESCALE_EDGE_MEMORY",
+  "PM_CHANNEL_RELAXATION",
+  "SATURATION_OR_DEADBAND",
+]
+memory_tau_candidates = [0.05, 0.2, 1.0]
+module_trigger_bootstrap_support = 0.80
+edge_bootstrap_support = 0.80
+edge_fold_jaccard = 0.80
+
+search_bootstrap_draws = 500
+final_bootstrap_draws = 5000
+random_sign_draws = 10000
+holm_familywise_alpha = 0.05
+minimum_model_improvement = 0.02
+maximum_coi_drift = 1e-10
+maximum_parameter_condition = 1e8
+minimum_parameter_sign_stability = 0.95
+maximum_parameter_fold_drift = 0.20
+
+maximum_modal_frequency_relative_error = 0.10
+maximum_modal_damping_absolute_error = 0.05
+minimum_modal_mac = 0.80
+
+[claim_boundaries]
+conditional_rollout_with_observed_pm = true
+autonomous_causal_deployment = false
+single_fold_single_seed = true
+validation_structure_discovery = false
+test_performance = false
+other_fold_generalization = false
+physical_39_bus_line_recovery = false
+device_semantics_without_independent_observation = false
+absence_of_unexcited_modules = false
+absolute_true_order_recovery = false
+M2A_LYAP = false

@@ -347,6 +347,51 @@
       "stage": "acceptance",
       "reads_test_performance": false
     },
+    "paper_m0_afsd_v4_hypothesis_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_afsd_v4_graph_compositional_discovery",
+      "workflow": "m0_afsd_v4_graph_compositional_discovery",
+      "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "hypothesis_registration",
+      "reads_test_performance": false
+    },
+    "paper_m0_afsd_v4_controlled_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_afsd_v4_graph_compositional_discovery",
+      "workflow": "m0_afsd_v4_graph_compositional_discovery",
+      "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "controlled_experiment",
+      "reads_test_performance": false
+    },
+    "paper_m0_afsd_v4_residual_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_afsd_v4_graph_compositional_discovery",
+      "workflow": "m0_afsd_v4_graph_compositional_discovery",
+      "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "residual_diagnosis",
+      "reads_test_performance": false
+    },
+    "paper_m0_afsd_v4_adversarial_f1_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.m0_afsd_v4_graph_compositional_discovery",
+      "workflow": "m0_afsd_v4_graph_compositional_discovery",
+      "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "adversarial_review",
+      "reads_test_performance": false
+    },
+    "paper_m0_afsd_v4_acceptance_f1_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.m0_afsd_v4_graph_compositional_discovery",
+      "workflow": "m0_afsd_v4_graph_compositional_discovery",
+      "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "acceptance",
+      "reads_test_performance": false
+    },
     "paper_v1_full": {
       "status": "gated",
       "module": "kron_reduce.workflows.paper_full",

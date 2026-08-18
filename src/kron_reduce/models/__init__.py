@@ -1,5 +1,12 @@
 from .base import DynamicsModel, FitResult, RunContext
 from .classifiers import DirectPrefixClassifier, PrefixClassifier
+from .compositional_modules import (
+    ModuleSpec,
+    module_registry,
+    residual_module_proposal,
+    validate_module_registry,
+    validate_module_spec,
+)
 from .dynamic_m2a import DynamicM2AModel
 from .energy import EnergyM2AModel
 from .governor import FirstOrderGovernor, GovernorM0Model
@@ -49,6 +56,7 @@ __all__ = [
     "M2AModel",
     "MassFloorM0Model",
     "MassProportionalM0Model",
+    "ModuleSpec",
     "PINNModel",
     "PortStructuredDiscoveryM0Model",
     "PrefixClassifier",
@@ -59,4 +67,8 @@ __all__ = [
     "SwingSINDyModel",
     "ThirdOrderM0Model",
     "TransientEmfM0Model",
+    "module_registry",
+    "residual_module_proposal",
+    "validate_module_registry",
+    "validate_module_spec",
 ]
