@@ -22,15 +22,37 @@ information budget.
 ## Commands
 
 ```powershell
-C:/ProgramData/miniconda3/python.exe -m pytest -q
-C:/ProgramData/miniconda3/python.exe -m project_harness list
-C:/ProgramData/miniconda3/python.exe -m project_harness audit
-C:/ProgramData/miniconda3/python.exe -m project_harness data-check
-C:/ProgramData/miniconda3/python.exe -m project_harness git-check
-C:/ProgramData/miniconda3/python.exe -m project_harness run paper_smoke --stage smoke
-C:/ProgramData/miniconda3/python.exe -m project_harness run paper_support_audit --stage support_audit
-C:/ProgramData/miniconda3/python.exe -m project_harness loop status
+./.venv/Scripts/python.exe -m pytest -q
+./.venv/Scripts/python.exe -m project_harness list
+./.venv/Scripts/python.exe -m project_harness audit
+./.venv/Scripts/python.exe -m project_harness data-check
+./.venv/Scripts/python.exe -m project_harness git-check
+./.venv/Scripts/python.exe -m project_harness run paper_smoke --stage smoke
+./.venv/Scripts/python.exe -m project_harness run paper_support_audit --stage support_audit
+./.venv/Scripts/python.exe -m project_harness loop status
 ```
+
+Use `--workflow <name>` before the loop subcommand to inspect a named workflow,
+for example:
+
+```powershell
+./.venv/Scripts/python.exe -m project_harness loop --workflow m0_afsd_v4_graph_compositional_discovery status
+```
+
+The loop is command-driven rather than a resident background process. Its state,
+ordered evidence, explicit approvals, data locks, and Git gates persist between
+commands and are checked again by `project_harness audit`.
+
+## Artifact locations
+
+- Immutable numerical evidence: `results/<run-id>/`
+- Generated summaries: `reports/generated/`
+- Curated research reports: `docs/reports/`
+- Manuscript sources: `paper/`
+- Temporary investigations: `scratch/one_off/<run-id>/`
+
+Do not place report files directly under `reports/`; the harness treats that as an
+artifact-layout error. See `docs/reports/README.md` for the curated report index.
 
 Full paper runs remain locked until the source baseline is committed, the data
 support audit passes, and `full_run_approved` is explicitly approved.

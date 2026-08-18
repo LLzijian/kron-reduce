@@ -5,13 +5,25 @@ import shutil
 
 import pytest
 
-from project_harness.audit import audit_project
+from project_harness.audit import audit_artifact_layout, audit_project, audit_workflow_registry
 from project_harness.data_check import verify_data
 from project_harness.loop import load_state, next_stage, record_stage
 
 
 def test_project_audit(root):
     assert audit_project(root)["status"] == "PASS"
+
+
+def test_artifact_layout_rejects_report_at_reports_root(tmp_path):
+    reports = tmp_path / "reports"
+    reports.mkdir()
+    (reports / "manual_result.md").write_text("misplaced", encoding="utf-8")
+    findings = audit_artifact_layout(tmp_path)
+    assert findings[0]["check"] == "artifact_layout"
+
+
+def test_registered_workflow_states_are_contiguous(root):
+    assert audit_workflow_registry(root) == []
 
 
 def test_data_checksums(root):

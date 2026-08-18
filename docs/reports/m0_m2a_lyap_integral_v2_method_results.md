@@ -243,7 +243,7 @@ mean RMSE 低于预注册工程门 0.5，COI 漂移低于 $10^{-10}$。完整五
 - 端口哈密顿供能恒等式和人工反阻尼违例拒绝；
 - 原有禁止字段、数据 split 和 test 隔离规则。
 
-`project_harness audit` 与 `data-check` 均通过；canonical 数据检查确认 315 个事件和数据构建标识保持不变。未覆盖或修改历史结果目录，也未修改用户已有的 `reports/full_run_report.md`。
+`project_harness audit` 与 `data-check` 均通过；canonical 数据检查确认 315 个事件和数据构建标识保持不变。未覆盖或修改历史结果目录，也未修改当时已有的完整运行报告（现按统一目录规范归档为 `reports/generated/paper_v1_full-full_run-20260722T221756Z-294ba849.md`）。
 
 ### 3.4 五折单-seed完整重积分结果
 
