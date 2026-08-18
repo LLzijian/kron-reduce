@@ -8,6 +8,7 @@
     "model_unit_gate",
     "source_commit",
     "hypothesis_registration",
+    "source_recommit",
     "controlled_experiment",
     "residual_diagnosis",
     "adversarial_review",

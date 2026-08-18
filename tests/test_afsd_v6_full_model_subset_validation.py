@@ -20,8 +20,9 @@ def test_v6_workflow_is_independent_and_merge_locked(root) -> None:
     assert workflow["initial_stage"] == "scaffold"
     assert workflow["approval_required"] == ["merge_gate"]
     assert workflow["global_spatial_result"] == "FULL_RESOLUTION_REQUIRED"
-    assert workflow["stages"][5:10] == [
+    assert workflow["stages"][5:11] == [
         "hypothesis_registration",
+        "source_recommit",
         "controlled_experiment",
         "residual_diagnosis",
         "adversarial_review",

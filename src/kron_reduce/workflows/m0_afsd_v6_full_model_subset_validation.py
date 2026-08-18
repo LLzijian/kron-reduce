@@ -325,6 +325,80 @@ def _nonzero_psd_for_lattice(
     return candidate
 
 
+def _validated_failed_development_cache(
+    root: Path,
+    config_path: Path,
+    config: dict[str, Any],
+) -> tuple[dict[str, Any], list[dict[str, Any]], dict[str, Any]] | None:
+    """Reuse only deterministic development checkpoints from a plot-only failed run."""
+
+    matches = sorted(
+        root.glob(
+            f"results/{config['controlled_experiment']}-controlled_experiment-*"
+        ),
+        reverse=True,
+    )
+    for candidate in matches:
+        if not (candidate / "RUN_FAILED.json").is_file():
+            continue
+        frozen = candidate / "frozen_config.toml"
+        checkpoint = candidate / "checkpoints"
+        required = {
+            "B2": checkpoint / "development_raw10-B2.npz",
+            "B3": checkpoint / "development_raw10-B3.npz",
+            "PSD-selected": checkpoint / "development_raw10-PSD-lattice.npz",
+        }
+        if (
+            not frozen.is_file()
+            or frozen.read_bytes() != config_path.read_bytes()
+            or not all(path.is_file() for path in required.values())
+        ):
+            continue
+        models = {
+            "B2": M0Model.load(required["B2"]),
+            "B3": TransientEmfM0Model.load(required["B3"]),
+            "PSD-selected": PortStructuredDiscoveryM0Model.load(
+                required["PSD-selected"]
+            ),
+        }
+        if any(model.physics_audit().get("status") != "pass" for model in models.values()):
+            continue
+        b3_diagnostics = models["B3"].diagnostics
+        if (
+            b3_diagnostics.get("alpha_candidates")
+            != list(config["b3_alpha_candidates"])
+            or b3_diagnostics.get("tau_candidates")
+            != list(config["b3_tau_candidates"])
+        ):
+            continue
+        hashes = {
+            str(path.relative_to(candidate)): _sha256(path)
+            for path in required.values()
+        }
+        metadata = [
+            {
+                "route": route,
+                "recovered_deterministic_development_cache": True,
+                "physics_status": model.physics_audit()["status"],
+            }
+            for route, model in models.items()
+        ]
+        return (
+            models,
+            metadata,
+            {
+                "status": "VALIDATED_DEVELOPMENT_CACHE_REUSED",
+                "failed_run": candidate.name,
+                "failure_stage": "optional_plot_render_after_numerical_computation",
+                "cache_is_evidence": False,
+                "downstream_metrics_recomputed": True,
+                "frozen_config_sha256": _sha256(frozen),
+                "checkpoint_hashes": hashes,
+            },
+        )
+    return None
+
+
 def _detailed_aggregate(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
     output = []
     keys = sorted({(str(row["cohort"]), str(row["representation"]), str(row["branch"]), int(row["horizon_steps"])) for row in rows})
@@ -995,6 +1069,9 @@ def _render_rollout_examples(
     selected_rows: list[dict[str, Any]],
 ) -> dict[str, Any]:
     try:
+        import matplotlib
+
+        matplotlib.use("Agg", force=True)
         import matplotlib.pyplot as plt
     except ImportError as error:
         return {"status": "SKIPPED", "reason": repr(error)}
@@ -1094,16 +1171,26 @@ def _run_controlled(
     coefficient_train = [sample for sample in data["train"] if str(sample["event_id"]) in coefficient_ids]
     checkpoints = result_dir / "checkpoints"
     checkpoints.mkdir()
-    development, development_metadata = _fit_stack(
-        development_fit,
-        development_selection,
-        config,
-        checkpoints,
-        "development_raw10",
-    )
-    development["PSD-selected"] = _nonzero_psd_for_lattice(
-        development["PSD-selected"], development_fit, config
-    )
+    recovery = _validated_failed_development_cache(root, config_path, config)
+    if recovery is None:
+        development, development_metadata = _fit_stack(
+            development_fit,
+            development_selection,
+            config,
+            checkpoints,
+            "development_raw10",
+        )
+        development["PSD-selected"] = _nonzero_psd_for_lattice(
+            development["PSD-selected"], development_fit, config
+        )
+        development_cache = {
+            "status": "RECOMPUTED",
+            "cache_is_evidence": False,
+        }
+    else:
+        development, development_metadata, development_cache = recovery
+    development["B2"].save(checkpoints / "development_raw10-B2.npz")
+    development["B3"].save(checkpoints / "development_raw10-B3.npz")
     development["PSD-selected"].save(
         checkpoints / "development_raw10-PSD-lattice.npz"
     )
@@ -1246,7 +1333,12 @@ def _run_controlled(
     )
     subset_aggregate = _detailed_aggregate(subset_rows) if subset_rows else []
     physics = {route: model.physics_audit() for route, model in final_models.items()}
-    figure = _render_rollout_examples(result_dir, selected_model, validation, selected_validation_rows)
+    try:
+        figure = _render_rollout_examples(
+            result_dir, selected_model, validation, selected_validation_rows
+        )
+    except (ImportError, OSError, RuntimeError, ValueError) as error:
+        figure = {"status": "FAILED_OPTIONAL", "reason": repr(error)}
     for route, model in final_models.items():
         model.save(checkpoints / f"final-{route}.npz")
     for route, model in subset_models.items():
@@ -1298,6 +1390,7 @@ def _run_controlled(
     _json(result_dir / "subset_experiment.json", subset_summary)
     _json(result_dir / "subset_runtime_benchmark.json", subset_benchmark)
     _json(result_dir / "rollout_figure_manifest.json", figure)
+    _json(result_dir / "development_cache_audit.json", development_cache)
     _json(result_dir / "stratification_policy.json", data["policy"].as_dict())
     _json(
         result_dir / "lineage.json",
@@ -1309,6 +1402,7 @@ def _run_controlled(
             "dataset_revision": data["store"].dataset_metadata.dataset_revision,
             "canonical_data_mutated": False,
             "v1_v5_result_artifacts_read": [],
+            "failed_run_development_cache": development_cache,
             "test_ids_read": [],
             "other_folds_read": [],
         },
