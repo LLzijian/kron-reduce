@@ -1,0 +1,32 @@
+{
+  "workflow": "m0_afsd_v6_full_model_subset_validation",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "hypothesis_registration",
+    "controlled_experiment",
+    "residual_diagnosis",
+    "adversarial_review",
+    "acceptance",
+    "merge_gate"
+  ],
+  "approval_required": ["merge_gate"],
+  "global_spatial_result": "FULL_RESOLUTION_REQUIRED",
+  "subset_role": "offline_conditional_equivalence_experiment",
+  "locked_claims": [
+    "test_performance",
+    "other_fold_generalization",
+    "autonomous_Pm_prediction",
+    "universal_cluster_superiority",
+    "causal_online_subset_routing",
+    "absolute_true_system_order",
+    "absence_of_unexcited_modules",
+    "physical_39_bus_line_recovery",
+    "machine_parameter_recovery",
+    "M2A-LYAP"
+  ]
+}

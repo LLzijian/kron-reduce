@@ -1,0 +1,82 @@
+task_type = "full_resolution_dynamic_selection_and_conditional_subset_validation"
+protocol_revision = "m0_afsd_v6_full_model_subset_validation"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "observed"
+rollout_label = "conditional rollout with observed Pm"
+test_access = "forbidden"
+other_folds_access = "forbidden"
+canonical_mutation = "forbidden"
+
+hypothesis_experiment = "paper_m0_afsd_v6_hypothesis_f1_seed324"
+controlled_experiment = "paper_m0_afsd_v6_controlled_f1_seed324"
+residual_experiment = "paper_m0_afsd_v6_residual_f1_seed324"
+adversarial_experiment = "paper_m0_afsd_v6_adversarial_f1_seed324"
+
+minimum_real_steps = 100
+minimum_selection_steps = 1001
+minimum_structure_steps = 100
+minimum_selection_cases = 3
+report_horizons = [100, 500, 1000]
+selection_horizon_steps = 1000
+fit_max_steps = 1001
+hankel_delays = 12
+hankel_relative_floor = 1e-3
+maximum_hankel_condition = 1e8
+weak_max_windows_per_case_horizon = 8
+integral_windows = [1, 5, 20, 40, 80]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+max_internal_step = 0.01
+minimum_model_improvement = 0.02
+maximum_source_loss_degradation = 0.02
+
+b3_alpha_candidates = [0.0, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0]
+b3_tau_candidates = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 1.5]
+b3_activation_width = 0.02
+
+psd_tau_mode_candidates = [[], [0.05], [0.2], [1.0], [0.05, 0.2], [0.05, 1.0], [0.2, 1.0], [0.05, 0.2, 1.0]]
+psd_ridge_values = [1e-6, 1e-4, 1e-2]
+psd_group_thresholds = [0.0, 0.01, 0.03, 0.1]
+psd_coefficient_scales = [0.25, 0.5, 0.75, 1.0]
+
+development_fit_fraction = 0.60
+development_selection_fraction = 0.20
+bootstrap_draws = 1000
+performance_bootstrap_draws = 5000
+bootstrap_confidence = 0.95
+minimum_module_bootstrap_support = 0.80
+minimum_edge_bootstrap_support = 0.80
+maximum_coi_drift = 1e-10
+
+subset_amplitude_level = "A-low"
+subset_richness_level = "R-low"
+subset_uqg_tolerance = 0.06
+subset_uqg_folds = 5
+subset_minimum_clusters = 7
+subset_probe_delays = 1
+subset_probe_ridge = 1e-6
+subset_probe_rank_cap = 12
+subset_maximum_rows_per_fault_line = 32
+subset_tail_fraction = 0.10
+subset_bootstrap_draws = 1000
+
+[claim_boundaries]
+conditional_rollout_with_observed_pm = true
+autonomous_causal_deployment = false
+single_fold_single_seed = true
+global_spatial_selection_is_v5_full_resolution = true
+structure_selection_uses_QA_train_only = true
+QB_used_only_after_structure_freeze = true
+validation_used_for_frozen_confirmation_only = true
+subset_rule_uses_source_label = false
+subset_is_offline_scientific_stratum = true
+subset_is_online_router = false
+subset_tolerance_is_exploratory_pilot_informed = true
+test_performance = false
+other_fold_generalization = false
+physical_line_recovery = false
+machine_parameter_recovery = false
+M2A_LYAP = false
