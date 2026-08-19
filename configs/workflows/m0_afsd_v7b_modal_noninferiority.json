@@ -1,0 +1,30 @@
+{
+  "workflow": "m0_afsd_v7b_modal_noninferiority",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "hypothesis_registration",
+    "source_recommit",
+    "controlled_experiment",
+    "residual_diagnosis",
+    "adversarial_review",
+    "acceptance",
+    "merge_gate"
+  ],
+  "approval_required": ["merge_gate"],
+  "scientific_target": "train_calibrated_modal_noninferiority_confirmation",
+  "locked_claims": [
+    "test_performance",
+    "other_fold_generalization",
+    "autonomous_Pm_prediction",
+    "ordinary_DMD_as_exact_autonomous_eigenanalysis",
+    "unique_device_semantics",
+    "physical_39_bus_line_recovery",
+    "machine_parameter_recovery",
+    "M2A-LYAP"
+  ]
+}

@@ -993,6 +993,13 @@ def test_modal_resonant_port_recovers_passive_complex_pole_and_save_load(tmp_pat
     assert diagnostics["solver_success"]
     assert diagnostics["effective_rank"] == 1
     assert np.isclose(model.coefficients[0, 0], 0.7, rtol=0.03)
+    cached = ModalResonantPortM0Model(backbone=fitted_backbone)
+    prepared = cached.prepare_weak_cache(samples[:5], horizon_steps=len(t))
+    cached.fit_fixed_modes(
+        samples[:5], ((1.25, 0.08),), ridge=1e-10,
+        windows=(1, 5, 20), horizon_steps=len(t), prepared_cache=prepared,
+    )
+    assert np.allclose(cached.coefficients, model.coefficients)
     assert model.physics_audit()["status"] == "pass"
     predicted = model.rollout(
         samples[-1]["model_inputs"]["static"], t,

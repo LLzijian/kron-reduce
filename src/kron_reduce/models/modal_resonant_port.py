@@ -337,6 +337,35 @@ class ModalResonantPortM0Model(DynamicsModel):
             force.append(mass * acceleration)
         return t, omega, np.stack(force), incidence
 
+    def prepare_weak_cache(
+        self,
+        samples: list[dict[str, Any]],
+        *,
+        horizon_steps: int = 1000,
+        max_fit_steps: int = 0,
+    ) -> list[dict[str, Any]]:
+        """Cache candidate-invariant teacher paths for a modal grid search."""
+        cache: list[dict[str, Any]] = []
+        for sample in samples:
+            target = sample["training_context"]["targets"]
+            steps = min(len(target["t"]), int(horizon_steps))
+            if max_fit_steps > 0:
+                steps = min(steps, int(max_fit_steps))
+            if steps < 2:
+                continue
+            t, omega, baseline_force, incidence = self._baseline_force_path(sample, steps)
+            cache.append({
+                "event_id": str(sample["event_id"]),
+                "t": t,
+                "omega": omega,
+                "baseline_force": baseline_force,
+                "incidence": incidence,
+                "static": sample["model_inputs"]["static"],
+            })
+        if not cache:
+            raise ValueError("no candidate-invariant weak paths were available")
+        return cache
+
     def fit_fixed_modes(
         self,
         train: list[dict[str, Any]],
@@ -346,6 +375,7 @@ class ModalResonantPortM0Model(DynamicsModel):
         windows: tuple[int, ...] = (1, 5, 20),
         horizon_steps: int = 1000,
         max_fit_steps: int = 0,
+        prepared_cache: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         if self.backbone is None:
             raise RuntimeError("backbone must be fitted before resonance discovery")
@@ -364,15 +394,20 @@ class ModalResonantPortM0Model(DynamicsModel):
         rows: list[np.ndarray] = []
         targets: list[np.ndarray] = []
         blocks = 0
-        for sample in train:
-            target = sample["training_context"]["targets"]
-            steps = min(len(target["t"]), int(horizon_steps))
-            if max_fit_steps > 0:
-                steps = min(steps, int(max_fit_steps))
-            if steps < 2:
-                continue
-            t, omega, baseline_force, incidence = self._baseline_force_path(sample, steps)
-            static = sample["model_inputs"]["static"]
+        cache = prepared_cache or self.prepare_weak_cache(
+            train, horizon_steps=horizon_steps, max_fit_steps=max_fit_steps
+        )
+        expected_ids = {str(sample["event_id"]) for sample in train}
+        cache_ids = {str(item["event_id"]) for item in cache}
+        if not cache_ids.issubset(expected_ids):
+            raise ValueError("prepared weak cache contains events outside the fit population")
+        for item in cache:
+            t = np.asarray(item["t"], dtype=float)
+            omega = np.asarray(item["omega"], dtype=float)
+            baseline_force = np.asarray(item["baseline_force"], dtype=float)
+            incidence = np.asarray(item["incidence"], dtype=float)
+            static = item["static"]
+            steps = len(t)
             mass = np.asarray(static["mass"], dtype=float).reshape(-1)
             _, velocity = self.teacher_forced_resonance(omega, t, static)
             design_path = -np.einsum(

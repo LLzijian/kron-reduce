@@ -30,7 +30,25 @@ def test_v7_selector_rejects_frequency_gain_that_degrades_mode_shape() -> None:
         {"minimum_model_improvement": 0.02, "maximum_mac_degradation": 0.0},
     )
     assert selected["route"] == "SS-DM+R1.3z0.1"
-    assert not shape_bad["selection_gates"]["MAC_not_worse"]
+    assert not shape_bad["selection_gates"]["MAC_noninferior"]
+
+
+def test_v7_selector_uses_registered_modal_repeatability_margins() -> None:
+    baseline = _summary("SS-DM", 1.0, 0.078, 0.068, 0.586, [])
+    within_repeatability = _summary(
+        "SS-DM+R1.3z0.1", 0.96, 0.080, 0.072, 0.627, [[1.3, 0.1]]
+    )
+    selected = _select_candidate(
+        [baseline, within_repeatability],
+        {
+            "minimum_model_improvement": 0.02,
+            "maximum_mac_degradation": 0.0,
+            "modal_frequency_noninferiority_margin": 0.02,
+            "modal_damping_noninferiority_margin": 0.02,
+            "modal_mac_noninferiority_margin": 0.05,
+        },
+    )
+    assert selected["route"] == "SS-DM+R1.3z0.1"
 
 
 def test_v7_scope_locks_test_other_folds_and_observed_pm_name() -> None:

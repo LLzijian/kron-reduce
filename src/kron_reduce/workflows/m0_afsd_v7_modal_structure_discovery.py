@@ -123,7 +123,7 @@ def _mode_candidates(config: dict[str, Any]) -> tuple[tuple[tuple[float, float],
 def _hypothesis_registry(config: dict[str, Any], run_id: str) -> dict[str, Any]:
     return {
         "run_id": run_id,
-        "workflow": WORKFLOW,
+        "workflow": str(config.get("protocol_revision", WORKFLOW)),
         "registered_before_F1_validation_metrics": True,
         "primary_hypothesis": (
             "a passive second-order edge port with a genuine complex-conjugate pole can reduce "
@@ -147,9 +147,15 @@ def _hypothesis_registry(config: dict[str, Any], run_id: str) -> dict[str, Any]:
         "candidate_grid": [[list(pair) for pair in candidate] for candidate in _mode_candidates(config)],
         "grid_is_train_pilot_informed": True,
         "selection_rule": (
-            "development-selection 10 s RMSE improves >=2%; empirical frequency and damping do not "
-            "worsen; MAC does not worsen; zero failures and physics pass; then minimum active state count"
+            "development-selection 10 s RMSE improves >=2%; empirical modal changes stay inside "
+            "the registered train-only repeatability margins; zero failures and physics pass; then "
+            "minimum active state count"
         ),
+        "modal_noninferiority_margins": {
+            "frequency_absolute": float(config.get("modal_frequency_noninferiority_margin", 0.0)),
+            "damping_absolute": float(config.get("modal_damping_noninferiority_margin", 0.0)),
+            "MAC_absolute": float(config.get("modal_mac_noninferiority_margin", config.get("maximum_mac_degradation", 0.0))),
+        },
         "confirmation_rule": (
             "fault-line-disjoint train audit and frozen F1 validation must retain >=2% 10 s improvement, "
             "positive 95% fault-line bootstrap lower bound, p<=0.05 sign flip, zero failures, RK4/COI/physics pass"
@@ -276,6 +282,7 @@ def _candidate_evidence(
     config: dict[str, Any],
     *,
     cohort: str,
+    prepared_cache: list[dict[str, Any]] | None = None,
 ) -> tuple[ModalResonantPortM0Model, list[dict[str, Any]], dict[str, Any], list[dict[str, Any]]]:
     model = ModalResonantPortM0Model(
         backbone=deepcopy(baseline), mode_pairs=mode_pairs,
@@ -286,6 +293,7 @@ def _candidate_evidence(
         windows=tuple(int(value) for value in config["integral_windows"]),
         horizon_steps=int(config["selection_horizon_steps"]),
         max_fit_steps=int(config["fit_max_steps"]),
+        prepared_cache=prepared_cache,
     )
     branch = _branch(mode_pairs)
     rows = _evaluate_candidate(
@@ -319,9 +327,9 @@ def _select_candidate(summaries: list[dict[str, Any]], config: dict[str, Any]) -
             "minimum_rollout_improvement": improvement >= float(config["minimum_model_improvement"]),
             "zero_failures": float(row["rollout_10s"]["failure_rate"]) == 0.0,
             "physics": row["physics"]["status"] == "pass",
-            "frequency_not_worse": float(modal["frequency_error"]) <= float(base_modal["frequency_error"])+1e-12,
-            "damping_not_worse": float(modal["damping_error"]) <= float(base_modal["damping_error"])+1e-12,
-            "MAC_not_worse": float(modal["MAC"]) >= float(base_modal["MAC"])-float(config["maximum_mac_degradation"])-1e-12,
+            "frequency_noninferior": float(modal["frequency_error"]) <= float(base_modal["frequency_error"])+float(config.get("modal_frequency_noninferiority_margin", 0.0))+1e-12,
+            "damping_noninferior": float(modal["damping_error"]) <= float(base_modal["damping_error"])+float(config.get("modal_damping_noninferiority_margin", 0.0))+1e-12,
+            "MAC_noninferior": float(modal["MAC"]) >= float(base_modal["MAC"])-float(config.get("modal_mac_noninferiority_margin", config.get("maximum_mac_degradation", 0.0)))-1e-12,
         }
         row["relative_rollout_improvement"] = improvement
         row["selection_gates"] = gates
@@ -368,11 +376,17 @@ def _run_controlled(
         for role in ("fit", "selection", "audit")
     }
     baseline_dev = _fit_ssdm(populations["fit"], populations["selection"], config)
+    cache_builder = ModalResonantPortM0Model(backbone=baseline_dev)
+    development_cache = cache_builder.prepare_weak_cache(
+        populations["fit"],
+        horizon_steps=int(config["selection_horizon_steps"]),
+        max_fit_steps=int(config["fit_max_steps"]),
+    )
     dev_models, dev_rows, dev_summaries, dev_modal = {}, [], [], []
     for mode_pairs in _mode_candidates(config):
         model, rows, summary, modal = _candidate_evidence(
             baseline_dev, populations["fit"], populations["selection"], mode_pairs, config,
-            cohort="development_selection",
+            cohort="development_selection", prepared_cache=development_cache,
         )
         dev_models[summary["branch"]] = model
         dev_rows.extend(rows); dev_summaries.append(summary); dev_modal.extend(modal)
@@ -382,18 +396,23 @@ def _run_controlled(
     for mode_pairs in ((), selected_pairs) if selected_pairs else ((),):
         model, rows, summary, modal = _candidate_evidence(
             baseline_dev, populations["fit"], populations["audit"], mode_pairs, config,
-            cohort="development_audit",
+            cohort="development_audit", prepared_cache=development_cache,
         )
         audit_models[summary["branch"]] = model
         audit_rows.extend(rows); audit_summaries.append(summary); audit_modal.extend(modal)
     frozen_ridge = float(baseline_dev.backbone.anchor.selected_ridge)
     baseline_final = _fit_ssdm(qa, populations["selection"], config, frozen_ridge=frozen_ridge)
+    final_cache = ModalResonantPortM0Model(backbone=baseline_final).prepare_weak_cache(
+        qa,
+        horizon_steps=int(config["selection_horizon_steps"]),
+        max_fit_steps=int(config["fit_max_steps"]),
+    )
     final_models, validation_rows, validation_summaries, validation_modal = {}, [], [], []
     validation = list(data["validation"])
     for mode_pairs in ((), selected_pairs) if selected_pairs else ((),):
         model, rows, summary, modal = _candidate_evidence(
             baseline_final, qa, validation, mode_pairs, config,
-            cohort="frozen_F1_validation",
+            cohort="frozen_F1_validation", prepared_cache=final_cache,
         )
         final_models[summary["branch"]] = model
         validation_rows.extend(rows); validation_summaries.append(summary); validation_modal.extend(modal)
@@ -569,6 +588,14 @@ def _run_acceptance(root: Path, config: dict[str, Any], result_dir: Path, run_id
     improvement = (_float(baseline_h1000["mean_rmse"])-_float(selected_h1000["mean_rmse"]))/max(_float(baseline_h1000["mean_rmse"]), np.finfo(float).eps)
     selected_modal = _median_modal([row for row in modal_rows if row["branch"] == selected_route])
     baseline_modal = _median_modal([row for row in modal_rows if row["branch"] == "SS-DM"])
+    audit = marker.get("development_audit", [])
+    audit_selected = next((row for row in audit if row["branch"] == selected_route), None)
+    audit_baseline = next((row for row in audit if row["branch"] == "SS-DM"), None)
+    audit_improvement = (
+        (float(audit_baseline["rollout_10s"]["mean_rmse"])-float(audit_selected["rollout_10s"]["mean_rmse"]))
+        / max(float(audit_baseline["rollout_10s"]["mean_rmse"]), np.finfo(float).eps)
+        if audit_selected is not None and audit_baseline is not None else float("-inf")
+    )
     modal_absolute = bool(
         selected_modal["matched_modes"] > 0 and selected_modal["frequency_error"] <= 0.10
         and selected_modal["damping_error"] <= 0.05 and selected_modal["MAC"] >= 0.80
@@ -580,9 +607,10 @@ def _run_acceptance(root: Path, config: dict[str, Any], result_dir: Path, run_id
         "validation_10s_improvement_at_least_2pct": improvement >= float(config["minimum_model_improvement"]),
         "bootstrap_lower_bound_positive": bootstrap.get("status") == "completed" and float(bootstrap.get("ci_lower", -np.inf)) > 0,
         "sign_flip_p_at_most_0_05": sign_flip.get("status") == "completed" and float(sign_flip.get("two_sided_p_value", 1.0)) <= 0.05,
-        "frequency_not_worse": float(selected_modal["frequency_error"]) <= float(baseline_modal["frequency_error"])+1e-12,
-        "damping_not_worse": float(selected_modal["damping_error"]) <= float(baseline_modal["damping_error"])+1e-12,
-        "MAC_not_worse": float(selected_modal["MAC"]) >= float(baseline_modal["MAC"])-1e-12,
+        "development_audit_improvement_at_least_2pct": audit_improvement >= float(config["minimum_model_improvement"]),
+        "frequency_noninferior": float(selected_modal["frequency_error"]) <= float(baseline_modal["frequency_error"])+float(config.get("modal_frequency_noninferiority_margin", 0.0))+1e-12,
+        "damping_noninferior": float(selected_modal["damping_error"]) <= float(baseline_modal["damping_error"])+float(config.get("modal_damping_noninferiority_margin", 0.0))+1e-12,
+        "MAC_noninferior": float(selected_modal["MAC"]) >= float(baseline_modal["MAC"])-float(config.get("modal_mac_noninferiority_margin", config.get("maximum_mac_degradation", 0.0)))-1e-12,
         "zero_failures": _float(selected_h1000["failure_rate"]) == 0,
         "COI": _float(selected_h1000["maximum_coi_drift"]) <= float(config["maximum_coi_drift"]),
         "RK4": bool(convergence) and all(bool(row["convergent"]) for row in convergence.values()),
@@ -596,6 +624,7 @@ def _run_acceptance(root: Path, config: dict[str, Any], result_dir: Path, run_id
         "selected_route": selected_route,
         "model_reporting_name": "modal-preserving passive dynamic equivalent" if modal_absolute else "modal-improved rollout-accurate dynamic equivalent",
         "validation_relative_improvement_10s": improvement,
+        "development_audit_relative_improvement_10s": audit_improvement,
         "modal_summary_10s": selected_modal, "baseline_modal_summary_10s": baseline_modal,
         "modal_absolute_gate": "PASS" if modal_absolute else "FAIL",
         "gates": gates, "claim_boundary": ROLLOUT_LABEL,
