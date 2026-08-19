@@ -547,7 +547,14 @@ class ModalResonantPortM0Model(DynamicsModel):
         ]
         errors = []
         for coarse, fine in zip(trajectories[:-1], trajectories[1:], strict=True):
-            errors.append(float(np.sqrt(sum(np.mean((left-right)**2) for left, right in zip(coarse, fine, strict=True)))))
+            component_errors = [
+                float(np.mean((left-right)**2))
+                for left, right in zip(coarse, fine, strict=True)
+                if left.size > 0
+            ]
+            if not component_errors:
+                raise RuntimeError("convergence audit has no nonempty state components")
+            errors.append(float(np.sqrt(sum(component_errors))))
         return {
             "dt_vs_dt2": errors[0],
             "dt2_vs_dt4": errors[1],

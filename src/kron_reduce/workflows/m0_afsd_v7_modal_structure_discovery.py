@@ -589,10 +589,10 @@ def _run_acceptance(root: Path, config: dict[str, Any], result_dir: Path, run_id
         "physics": physics[selected_route]["status"] == "pass",
         "test_locked": marker["test_ids_read"] == [], "other_folds_locked": marker["other_folds_read"] == [],
     }
-    status = "PASS" if all(gates.values()) else "FAIL"
+    status = "PASS" if all(gates.values()) else "REJECTED"
     acceptance = {
         "run_id": run_id, "status": status,
-        "terminal_state": "MODAL_STRUCTURE_IMPROVED" if status == "PASS" else "MODEL_CLASS_INADEQUATE",
+        "terminal_state": "MODAL_STRUCTURE_IMPROVED" if status == "PASS" else "NO_PASSIVE_RESONANCE_PROMOTED",
         "selected_route": selected_route,
         "model_reporting_name": "modal-preserving passive dynamic equivalent" if modal_absolute else "modal-improved rollout-accurate dynamic equivalent",
         "validation_relative_improvement_10s": improvement,
@@ -605,8 +605,6 @@ def _run_acceptance(root: Path, config: dict[str, Any], result_dir: Path, run_id
     _write_report(result_dir, controlled, acceptance)
     _json(result_dir/"lineage.json", {"run_id": run_id, "stage": "acceptance", "controlled_result": controlled.name, "residual_result": residual.name, "adversarial_result": adversarial.name, "test_ids_read": []})
     _write_hashes(result_dir)
-    if status != "PASS":
-        raise RuntimeError(f"v7 acceptance failed: {gates}")
 
 
 def run(*, root: Path, experiment: dict[str, Any], stage: str, result_dir: Path, run_id: str) -> None:

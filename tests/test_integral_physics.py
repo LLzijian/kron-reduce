@@ -1030,6 +1030,36 @@ def test_modal_resonant_port_supply_identity_is_exact() -> None:
     assert np.isclose(storage_derivative, supplied_minus_dissipated, atol=1e-14)
 
 
+def test_modal_resonant_fallback_convergence_ignores_empty_state_blocks() -> None:
+    electrical = TransientEmfM0Model(
+        anchor=M0Model(np.array([0.25, 0.25]), np.array([1.0])),
+        alpha=0.0, tau=0.1,
+        diagnostics={"maximum_equilibrium_residual": 0.0},
+    )
+    backbone = PortStructuredDiscoveryM0Model(
+        backbone=electrical,
+        static_coefficients=np.zeros((5, 1)),
+        taus=np.empty(0), memory_coefficients=np.empty((0, 1)),
+        diagnostics={"storage_audit": {
+            "minimum_conservative_potential_on_train_val_domain": 0.0,
+            "maximum_conservative_chain_rule_error": 0.0,
+            "minimum_quotient_stiffness_eigenvalue": 2.0,
+            "memory_supply_identity_error": 0.0,
+        }},
+    )
+    model = ModalResonantPortM0Model(
+        backbone=backbone, mode_pairs=(), coefficients=np.empty((0, 1)),
+    )
+    static = _two_node_static()
+    t = np.linspace(0.0, 0.2, 21)
+    audit = model.convergence_audit(
+        static, t, {"Pm": np.zeros((len(t), 2)), "interpolation": "linear"}
+    )
+    assert np.isfinite(audit["dt_vs_dt2"])
+    assert np.isfinite(audit["dt2_vs_dt4"])
+    assert audit["convergent"]
+
+
 def test_port_structured_causal_pm_ignores_future_schedule_and_preserves_ports():
     electrical = TransientEmfM0Model(
         anchor=M0Model(np.array([0.3, 0.3]), np.array([1.1])),
