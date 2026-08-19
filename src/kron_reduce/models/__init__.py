@@ -16,6 +16,7 @@ from .graph_modal_discovery import GraphModalDiscoveryM0Model
 from .lstm import AutoregressiveLSTMModel
 from .m0 import M0Model, MassFloorM0Model, MassProportionalM0Model
 from .m2a import M2AModel
+from .modal_resonant_port import ModalResonantPortM0Model
 from .operators import DMDModel, EDMDKoopmanModel, HODMDPrefixModel
 from .pinn import PINNModel
 from .pm_modal_discovery import CausalPmGraphModalM0Model, GraphModalPmDynamics
@@ -54,6 +55,7 @@ __all__ = [
     "LargeSignalThirdOrderM0Model",
     "M0Model",
     "M2AModel",
+    "ModalResonantPortM0Model",
     "MassFloorM0Model",
     "MassProportionalM0Model",
     "ModuleSpec",

@@ -20,6 +20,7 @@ from kron_reduce.models import (
     M2AModel,
     MassFloorM0Model,
     MassProportionalM0Model,
+    ModalResonantPortM0Model,
     PortStructuredDiscoveryM0Model,
     ReidentifiedTransientEmfM0Model,
     RunContext,
@@ -923,6 +924,110 @@ def test_port_structured_discovery_recovers_nonnegative_edge_closure_and_save_lo
     )
     assert np.allclose(actual[0], predicted[0])
     assert np.allclose(actual[1], predicted[1])
+
+
+def test_modal_resonant_port_recovers_passive_complex_pole_and_save_load(tmp_path):
+    t = np.linspace(0.0, 1.2, 241)
+    electrical = TransientEmfM0Model(
+        anchor=M0Model(np.array([0.25, 0.25]), np.array([1.0])),
+        alpha=0.0,
+        tau=0.1,
+        diagnostics={"maximum_equilibrium_residual": 0.0},
+        max_internal_step=0.0025,
+    )
+    storage = {
+        "minimum_conservative_potential_on_train_val_domain": 0.0,
+        "maximum_conservative_chain_rule_error": 0.0,
+        "minimum_quotient_stiffness_eigenvalue": 2.0,
+        "memory_supply_identity_error": 0.0,
+    }
+    backbone = PortStructuredDiscoveryM0Model(
+        backbone=electrical,
+        static_coefficients=np.zeros((5, 1)),
+        taus=np.empty(0),
+        memory_coefficients=np.empty((0, 1)),
+        diagnostics={"storage_audit": storage},
+        max_internal_step=0.0025,
+    )
+    truth = ModalResonantPortM0Model(
+        backbone=backbone,
+        mode_pairs=((1.25, 0.08),),
+        coefficients=np.array([[0.7]]),
+        max_internal_step=0.0025,
+    )
+    samples = []
+    for index in range(6):
+        static = _two_node_static()
+        static["delta0"] = np.array([[0.03+0.004*index, -0.03-0.004*index]])
+        static["omega0"] = np.array([[0.004+0.001*index, -0.004-0.001*index]])
+        signal = (0.04+0.006*index)*np.sin(2*np.pi*(0.55+0.04*index)*t)
+        pm = np.column_stack((signal, -signal))
+        delta, omega = truth.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+        samples.append({
+            "event_id": f"resonant-{index}",
+            "model_inputs": {"static": static, "exogenous": {"t": t, "Pm": pm}},
+            "training_context": {
+                "targets": {"t": t, "delta": delta, "omega": omega},
+                "Pm_observed": pm,
+                "claim_type": "conditional_rollout_not_causal_forecast",
+                "metadata": {"source_dataset": "synthetic"},
+            },
+        })
+    fitted_backbone = PortStructuredDiscoveryM0Model(
+        backbone=TransientEmfM0Model(
+            anchor=M0Model(np.array([0.25, 0.25]), np.array([1.0])),
+            alpha=0.0,
+            tau=0.1,
+            diagnostics={"maximum_equilibrium_residual": 0.0},
+        ),
+        static_coefficients=np.zeros((5, 1)),
+        taus=np.empty(0),
+        memory_coefficients=np.empty((0, 1)),
+        diagnostics={"storage_audit": storage},
+    )
+    model = ModalResonantPortM0Model(backbone=fitted_backbone)
+    diagnostics = model.fit_fixed_modes(
+        samples[:5], ((1.25, 0.08),), ridge=1e-10,
+        windows=(1, 5, 20), horizon_steps=len(t),
+    )
+    assert diagnostics["solver_success"]
+    assert diagnostics["effective_rank"] == 1
+    assert np.isclose(model.coefficients[0, 0], 0.7, rtol=0.03)
+    assert model.physics_audit()["status"] == "pass"
+    predicted = model.rollout(
+        samples[-1]["model_inputs"]["static"], t,
+        {"Pm": samples[-1]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    assert np.sqrt(np.mean((predicted[1]-samples[-1]["training_context"]["targets"]["omega"])**2)) < 2e-4
+    path = tmp_path/"modal_resonant_port.npz"
+    model.save(path)
+    loaded = ModalResonantPortM0Model.load(path)
+    actual = loaded.rollout(
+        samples[-1]["model_inputs"]["static"], t,
+        {"Pm": samples[-1]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    assert np.allclose(actual[0], predicted[0])
+    assert np.allclose(actual[1], predicted[1])
+
+
+def test_modal_resonant_port_supply_identity_is_exact() -> None:
+    model = ModalResonantPortM0Model(
+        mode_pairs=((0.8, 0.04), (1.4, 0.12)),
+    )
+    position = np.array([[0.02, -0.01], [0.015, 0.03]])
+    velocity = np.array([[-0.04, 0.025], [0.03, -0.02]])
+    edge_speed = np.array([0.07, -0.05])
+    coefficient = np.array([[0.6, 0.2], [0.1, 0.8]])
+    dq, dp = model._resonance_derivative(position, velocity, edge_speed)
+    angular = model.angular_frequencies[:, None]
+    storage_derivative = np.sum(
+        coefficient*(velocity*dp+angular**2*position*dq)
+    )
+    supplied_minus_dissipated = np.sum(
+        coefficient*velocity*edge_speed[None, :]
+        - 2*coefficient*model.damping_ratios[:, None]*angular*velocity**2
+    )
+    assert np.isclose(storage_derivative, supplied_minus_dissipated, atol=1e-14)
 
 
 def test_port_structured_causal_pm_ignores_future_schedule_and_preserves_ports():

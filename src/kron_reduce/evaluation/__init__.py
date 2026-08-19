@@ -13,17 +13,23 @@ from .compositional_search import (
 from .energy import EnergyGateResult, evaluate_energy_gate, supply_violation_loss
 from .metrics import trajectory_metrics
 from .modal import (
+    ConsensusDmdMode,
     DmdMode,
     dominant_frequency,
     exact_dmd_modes,
+    input_aware_delay_modes,
+    input_aware_modal_consensus,
     match_dmd_modes,
     modal_assurance_criterion,
+    pooled_input_aware_delay_modes,
+    pooled_input_aware_modal_consensus,
     spectral_overlap,
     spectral_signature,
 )
 from .stability import classify_predicted_trajectory, classification_metrics
 
 __all__ = [
+    "ConsensusDmdMode",
     "EnergyGateResult",
     "SearchState",
     "DmdMode",
@@ -32,8 +38,12 @@ __all__ = [
     "evaluate_energy_gate",
     "dominant_frequency",
     "exact_dmd_modes",
+    "input_aware_delay_modes",
+    "input_aware_modal_consensus",
     "match_dmd_modes",
     "modal_assurance_criterion",
+    "pooled_input_aware_delay_modes",
+    "pooled_input_aware_modal_consensus",
     "supply_violation_loss",
     "prospective_eligibility",
     "spectral_overlap",

@@ -6,7 +6,10 @@ import pytest
 from kron_reduce.evaluation import (
     dominant_frequency,
     exact_dmd_modes,
+    input_aware_delay_modes,
+    input_aware_modal_consensus,
     match_dmd_modes,
+    pooled_input_aware_modal_consensus,
     spectral_overlap,
     spectral_signature,
 )
@@ -79,6 +82,127 @@ def test_spectral_and_dmd_metrics_recover_a_damped_mode() -> None:
     assert modes[0].damping_ratio == pytest.approx(expected_damping, rel=1e-3)
     assert matches[0]["relative_frequency_error"] < 1e-3
     assert matches[0]["mac"] > 0.95
+
+
+def test_input_aware_delay_modes_separates_forcing_from_autonomous_pole() -> None:
+    dt = 0.01
+    time = np.arange(0.0, 20.0, dt)
+    frequency_hz = 0.8
+    damping_ratio = 0.06
+    natural = 2.0 * np.pi * frequency_hz
+    state = np.zeros((len(time), 2))
+    forcing = (
+        0.8 * np.sin(2.0 * np.pi * 0.23 * time)
+        + 0.35 * np.sin(2.0 * np.pi * 1.57 * time + 0.4)
+    )
+    state[0] = (0.25, -0.1)
+    matrix = np.asarray(
+        [[0.0, 1.0], [-natural**2, -2.0 * damping_ratio * natural]]
+    )
+    input_vector = np.asarray([0.0, 1.0])
+    for index in range(len(time) - 1):
+        x = state[index]
+        u0 = forcing[index]
+        u1 = forcing[index + 1]
+
+        def field(value: np.ndarray, input_value: float) -> np.ndarray:
+            return matrix @ value + input_vector * input_value
+
+        k1 = field(x, u0)
+        k2 = field(x + 0.5 * dt * k1, 0.5 * (u0 + u1))
+        k3 = field(x + 0.5 * dt * k2, 0.5 * (u0 + u1))
+        k4 = field(x + dt * k3, u1)
+        state[index + 1] = x + dt * (k1 + 2 * k2 + 2 * k3 + k4) / 6.0
+
+    modes = input_aware_delay_modes(
+        state,
+        forcing,
+        dt,
+        delays=2,
+        ridge=1e-8,
+        max_frequency_hz=2.0,
+    )
+    recovered = min(modes, key=lambda mode: abs(mode.frequency_hz - frequency_hz))
+    expected_damped_frequency = frequency_hz * np.sqrt(1.0 - damping_ratio**2)
+    assert recovered.frequency_hz == pytest.approx(expected_damped_frequency, rel=0.02)
+    assert recovered.damping_ratio == pytest.approx(damping_ratio, abs=0.015)
+
+
+def test_input_aware_modal_consensus_rejects_unstable_numerical_poles() -> None:
+    dt = 0.01
+    time = np.arange(0.0, 20.0, dt)
+    frequency_hz = 0.8
+    damping_ratio = 0.06
+    natural = 2.0*np.pi*frequency_hz
+    state = np.zeros((len(time), 2))
+    forcing = np.sin(2.0*np.pi*0.23*time)+0.4*np.sin(2.0*np.pi*1.57*time)
+    state[0] = (0.2, -0.08)
+    matrix = np.asarray([[0.0, 1.0], [-natural**2, -2*damping_ratio*natural]])
+    for index in range(len(time)-1):
+        midpoint = 0.5*(forcing[index]+forcing[index+1])
+        k1 = matrix@state[index]+np.asarray([0.0, forcing[index]])
+        k2 = matrix@(state[index]+0.5*dt*k1)+np.asarray([0.0, midpoint])
+        k3 = matrix@(state[index]+0.5*dt*k2)+np.asarray([0.0, midpoint])
+        k4 = matrix@(state[index]+dt*k3)+np.asarray([0.0, forcing[index+1]])
+        state[index+1] = state[index]+dt*(k1+2*k2+2*k3+k4)/6
+    rng = np.random.default_rng(324)
+    noisy = state+2e-4*rng.standard_normal(state.shape)
+    consensus = input_aware_modal_consensus(
+        noisy, forcing, dt,
+        delay_orders=(2, 3, 4, 5),
+        ridge_values=(1e-8, 1e-6, 1e-4),
+        minimum_support_fraction=0.5,
+        max_frequency_hz=2.0,
+    )
+    recovered = min(consensus, key=lambda item: abs(item.mode.frequency_hz-frequency_hz))
+    assert recovered.support_fraction >= 0.5
+    assert recovered.mode.frequency_hz == pytest.approx(
+        frequency_hz*np.sqrt(1-damping_ratio**2), rel=0.03
+    )
+    assert recovered.mode.damping_ratio == pytest.approx(damping_ratio, abs=0.025)
+
+
+def test_input_aware_modal_consensus_returns_empty_for_unexcited_constant_path() -> None:
+    values = np.ones((200, 2))
+    inputs = np.zeros((200, 1))
+    consensus = input_aware_modal_consensus(
+        values, inputs, 0.01,
+        delay_orders=(2, 3), ridge_values=(1e-4, 1e-2),
+    )
+    assert consensus == []
+
+
+def test_pooled_input_aware_consensus_recovers_shared_mode_across_events() -> None:
+    dt = 0.01
+    time = np.arange(0.0, 12.0, dt)
+    frequency_hz, damping_ratio = 0.72, 0.045
+    natural = 2*np.pi*frequency_hz
+    matrix = np.asarray([[0.0, 1.0], [-natural**2, -2*damping_ratio*natural]])
+    paths, inputs = [], []
+    for event in range(4):
+        forcing = np.sin(2*np.pi*(0.17+0.04*event)*time+0.3*event)
+        state = np.zeros((len(time), 2))
+        state[0] = (0.1+0.04*event, -0.03*event)
+        for index in range(len(time)-1):
+            midpoint = 0.5*(forcing[index]+forcing[index+1])
+            k1 = matrix@state[index]+np.asarray([0.0, forcing[index]])
+            k2 = matrix@(state[index]+0.5*dt*k1)+np.asarray([0.0, midpoint])
+            k3 = matrix@(state[index]+0.5*dt*k2)+np.asarray([0.0, midpoint])
+            k4 = matrix@(state[index]+dt*k3)+np.asarray([0.0, forcing[index+1]])
+            state[index+1] = state[index]+dt*(k1+2*k2+2*k3+k4)/6
+        paths.append(state)
+        inputs.append(forcing)
+    consensus = pooled_input_aware_modal_consensus(
+        paths, inputs, dt,
+        delay_orders=(2, 3, 4), ridge_values=(1e-8, 1e-6, 1e-4),
+        minimum_support_fraction=2/3, max_frequency_hz=2.0,
+    )
+    recovered = min(consensus, key=lambda item: abs(item.mode.frequency_hz-frequency_hz))
+    assert recovered.support_fraction >= 2/3
+    assert recovered.mode.frequency_hz == pytest.approx(
+        frequency_hz*np.sqrt(1-damping_ratio**2), rel=0.03
+    )
+    assert recovered.mode.damping_ratio == pytest.approx(damping_ratio, abs=0.02)
 
 
 def test_train_only_partition_discovery_recovers_three_exact_coherent_pairs() -> None:
