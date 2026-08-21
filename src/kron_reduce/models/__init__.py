@@ -14,6 +14,7 @@ from .graph_m0 import DerivativeM0Model, GraphM0Model
 from .graph_memory_discovery import GraphMemoryDiscoveryM0Model
 from .graph_modal_discovery import GraphModalDiscoveryM0Model
 from .lstm import AutoregressiveLSTMModel
+from .low_rank_modal_port import LowRankModalPortM0Model
 from .m0 import M0Model, MassFloorM0Model, MassProportionalM0Model
 from .m2a import M2AModel
 from .modal_resonant_port import ModalResonantPortM0Model
@@ -53,6 +54,7 @@ __all__ = [
     "GraphModalPmDynamics",
     "HODMDPrefixModel",
     "LargeSignalThirdOrderM0Model",
+    "LowRankModalPortM0Model",
     "M0Model",
     "M2AModel",
     "ModalResonantPortM0Model",

@@ -3,7 +3,9 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 
 import numpy as np
+from scipy.cluster.hierarchy import fcluster, linkage
 from scipy.optimize import linear_sum_assignment
+from scipy.spatial.distance import squareform
 
 
 @dataclass(frozen=True)
@@ -38,6 +40,32 @@ class ConsensusDmdMode:
             "total_fits": self.total_fits,
             "frequency_mad_hz": self.frequency_mad_hz,
             "damping_mad": self.damping_mad,
+        }
+
+
+@dataclass(frozen=True)
+class CrossClusterConsensusMode:
+    """Empirical mode repeated across independent disturbance clusters."""
+
+    mode: DmdMode
+    support_fraction: float
+    supporting_clusters: tuple[str, ...]
+    total_clusters: int
+    member_modes: int
+    frequency_mad_hz: float
+    damping_mad: float
+    median_shape_mac: float
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            **self.mode.as_dict(),
+            "support_fraction": self.support_fraction,
+            "supporting_clusters": self.supporting_clusters,
+            "total_clusters": self.total_clusters,
+            "member_modes": self.member_modes,
+            "frequency_mad_hz": self.frequency_mad_hz,
+            "damping_mad": self.damping_mad,
+            "median_shape_mac": self.median_shape_mac,
         }
 
 
@@ -106,6 +134,121 @@ def modal_assurance_criterion(reference: np.ndarray, candidate: np.ndarray) -> f
     if denominator <= 0.0:
         return 0.0
     return float(np.abs(np.vdot(reference, candidate)) ** 2 / denominator)
+
+
+def cross_cluster_modal_consensus(
+    modes_by_cluster: dict[str, list[DmdMode]],
+    *,
+    frequency_tolerance: float = 0.15,
+    minimum_mac: float = 0.6,
+    minimum_support_fraction: float = 0.8,
+) -> list[CrossClusterConsensusMode]:
+    """Find complete-link mode clusters repeated across independent events.
+
+    ``modes_by_cluster`` must use the scientific resampling unit (for this
+    project, a fault line), not individual time samples.  Complete linkage
+    prevents transitive frequency/MAC chains from joining mutually
+    incompatible endpoint modes.  At most one, strongest, mode per cluster
+    contributes to the consensus so repeated events cannot inflate support.
+    """
+    if not 0 < frequency_tolerance < 1:
+        raise ValueError("frequency_tolerance must lie in (0, 1)")
+    if not 0 <= minimum_mac <= 1:
+        raise ValueError("minimum_mac must lie in [0, 1]")
+    if not 0 <= minimum_support_fraction <= 1:
+        raise ValueError("minimum_support_fraction must lie in [0, 1]")
+    cluster_names = tuple(sorted(str(name) for name in modes_by_cluster))
+    if not cluster_names:
+        return []
+    observations: list[tuple[str, DmdMode]] = []
+    for name in cluster_names:
+        for mode in modes_by_cluster[name]:
+            shape = np.asarray(mode.shape_real)+1j*np.asarray(mode.shape_imag)
+            if (
+                np.isfinite(mode.frequency_hz) and mode.frequency_hz > 0
+                and np.isfinite(mode.damping_ratio) and np.isfinite(mode.strength)
+                and shape.size and np.isfinite(shape).all() and np.linalg.norm(shape) > 0
+            ):
+                observations.append((name, mode))
+    if not observations:
+        return []
+    if len(observations) == 1:
+        labels = np.ones(1, dtype=int)
+    else:
+        distance = np.zeros((len(observations), len(observations)), dtype=float)
+        for left in range(len(observations)):
+            left_mode = observations[left][1]
+            left_shape = np.asarray(left_mode.shape_real)+1j*np.asarray(left_mode.shape_imag)
+            for right in range(left):
+                right_mode = observations[right][1]
+                right_shape = np.asarray(right_mode.shape_real)+1j*np.asarray(right_mode.shape_imag)
+                relative = abs(left_mode.frequency_hz-right_mode.frequency_hz)/max(
+                    min(left_mode.frequency_hz, right_mode.frequency_hz), np.finfo(float).eps
+                )
+                mac = modal_assurance_criterion(left_shape, right_shape)
+                value = max(
+                    relative/frequency_tolerance,
+                    (1.0-mac)/max(1.0-minimum_mac, np.finfo(float).eps),
+                )
+                distance[left, right] = distance[right, left] = value
+        labels = fcluster(
+            linkage(squareform(distance), method="complete"),
+            t=1.0,
+            criterion="distance",
+        )
+    output: list[CrossClusterConsensusMode] = []
+    for label in sorted(set(labels)):
+        members = [observations[index] for index in np.flatnonzero(labels == label)]
+        strongest: dict[str, DmdMode] = {}
+        for name, mode in members:
+            if name not in strongest or mode.strength > strongest[name].strength:
+                strongest[name] = mode
+        support = len(strongest)/len(cluster_names)
+        if support+1e-15 < minimum_support_fraction:
+            continue
+        selected = list(strongest.values())
+        representative = max(selected, key=lambda mode: mode.strength)
+        reference_shape = np.asarray(representative.shape_real)+1j*np.asarray(representative.shape_imag)
+        aligned = []
+        for mode in selected:
+            shape = np.asarray(mode.shape_real)+1j*np.asarray(mode.shape_imag)
+            phase = np.vdot(reference_shape, shape)
+            aligned.append(shape*np.exp(-1j*np.angle(phase)) if abs(phase) > np.finfo(float).eps else shape)
+        consensus_shape = np.mean(aligned, axis=0)
+        consensus_shape = consensus_shape/max(np.linalg.norm(consensus_shape), np.finfo(float).eps)
+        frequencies = np.asarray([mode.frequency_hz for mode in selected])
+        dampings = np.asarray([mode.damping_ratio for mode in selected])
+        strengths = np.asarray([mode.strength for mode in selected])
+        frequency = float(np.median(frequencies))
+        damping = float(np.median(dampings))
+        magnitude = 2*np.pi*frequency/max(np.sqrt(max(1-damping**2, 1e-12)), 1e-12)
+        output.append(CrossClusterConsensusMode(
+            mode=DmdMode(
+                frequency_hz=frequency,
+                damping_ratio=damping,
+                decay_rate=float(-damping*magnitude),
+                strength=float(np.median(strengths)),
+                shape_real=tuple(float(value) for value in consensus_shape.real),
+                shape_imag=tuple(float(value) for value in consensus_shape.imag),
+            ),
+            support_fraction=float(support),
+            supporting_clusters=tuple(sorted(strongest)),
+            total_clusters=len(cluster_names),
+            member_modes=len(members),
+            frequency_mad_hz=float(np.median(np.abs(frequencies-frequency))),
+            damping_mad=float(np.median(np.abs(dampings-damping))),
+            median_shape_mac=float(np.median([
+                modal_assurance_criterion(
+                    consensus_shape,
+                    np.asarray(mode.shape_real)+1j*np.asarray(mode.shape_imag),
+                )
+                for mode in selected
+            ])),
+        ))
+    return sorted(
+        output,
+        key=lambda item: (-item.support_fraction, item.mode.frequency_hz, -item.mode.strength),
+    )
 
 
 def exact_dmd_modes(

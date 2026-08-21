@@ -30,6 +30,46 @@ AFSD_EVIDENCE_CHAIN = (
     "acceptance",
 )
 
+# Workflow families that must terminate at an approval-controlled merge_gate
+# and preserve the ordered scientific evidence chain.
+STRUCTURED_LOOP_PREFIXES = ("m0_afsd_", "m0_esc_")
+
+STABILITY_CERTIFIED_MARKER = "stability-certified"
+
+
+def audit_stability_certificate_names(root: Path) -> list[dict]:
+    """A run claiming a stability-certified name must carry a passing Level 6 certificate."""
+    findings = []
+    results = root / "results"
+    if not results.is_dir():
+        return findings
+    for path in sorted(results.glob("*/acceptance.json")):
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        if STABILITY_CERTIFIED_MARKER not in text:
+            continue
+        certificate = path.parent / "stability_certificate.json"
+        passed = False
+        if certificate.is_file():
+            try:
+                passed = json.loads(certificate.read_text(encoding="utf-8")).get("status") == "pass"
+            except (json.JSONDecodeError, OSError):
+                passed = False
+        if not passed:
+            findings.append(
+                {
+                    "severity": "ERROR",
+                    "check": "stability_certificate",
+                    "message": (
+                        f"{path.parent.name} claims a stability-certified name without a "
+                        "passing stability_certificate.json"
+                    ),
+                }
+            )
+    return findings
+
 
 def audit_artifact_layout(root: Path) -> list[dict]:
     """Enforce the boundary between evidence, generated output, and prose reports."""
@@ -124,7 +164,7 @@ def audit_workflow_registry(root: Path) -> list[dict]:
                 }
             )
 
-        if isinstance(name, str) and name.startswith("m0_afsd_"):
+        if isinstance(name, str) and name.startswith(STRUCTURED_LOOP_PREFIXES):
             if stages[-1] != "merge_gate" or "merge_gate" not in approvals:
                 findings.append(
                     {
@@ -244,5 +284,6 @@ def audit_project(root: Path) -> dict:
                 findings.append({"severity": "ERROR", "check": "legacy_import", "message": str(path.relative_to(root))})
     findings.extend(audit_artifact_layout(root))
     findings.extend(audit_workflow_registry(root))
+    findings.extend(audit_stability_certificate_names(root))
     status = "PASS" if not any(row["severity"] == "ERROR" for row in findings) else "FAIL"
     return {"status": status, "errors": sum(row["severity"] == "ERROR" for row in findings), "findings": findings}

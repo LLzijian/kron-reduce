@@ -68,3 +68,61 @@ def test_corrective_workflow_has_source_recommit_before_diagnostic(root):
     assert stages.index("source_recommit") == stages.index("source_commit") + 1
     assert stages.index("source_finalize_commit") == stages.index("source_recommit") + 1
     assert stages.index("diagnostic") == stages.index("source_finalize_commit") + 1
+
+
+def test_esc_workflow_registered_with_merge_gate_and_chain(root):
+    workflow = json.loads(
+        (
+            root
+            / "configs"
+            / "workflows"
+            / "m0_esc_v1_excitation_conditioned_selection.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert workflow["stages"][-1] == "merge_gate"
+    assert workflow["approval_required"] == ["merge_gate"]
+    chain = [
+        "hypothesis_registration",
+        "controlled_experiment",
+        "residual_diagnosis",
+        "adversarial_review",
+        "acceptance",
+    ]
+    indices = [workflow["stages"].index(stage) for stage in chain]
+    assert indices == sorted(indices)
+    assert "stability_margin_without_level6_gates" in workflow["locked_claims"]
+
+
+def test_esc_experiments_registered_in_manifest(root):
+    manifest = json.loads((root / "configs" / "project_manifest.json").read_text(encoding="utf-8"))
+    names = {
+        "paper_m0_esc_v1_hypothesis_f1_seed324",
+        "paper_m0_esc_v1_controlled_f1_seed324",
+        "paper_m0_esc_v1_residual_f1_seed324",
+        "paper_m0_esc_v1_adversarial_f1_seed324",
+        "paper_m0_esc_v1_acceptance_f1_seed324",
+    }
+    assert names.issubset(manifest["experiments"])
+    for name in names:
+        entry = manifest["experiments"][name]
+        assert entry["workflow"] == "m0_esc_v1_excitation_conditioned_selection"
+        assert entry["reads_test_performance"] is False
+        assert entry["synthetic_registry"] == "synthetic_benchmark_registry_v1"
+    assert manifest["datasets"]["synthetic_benchmark_registry_v1"]["status"] == "planned"
+
+
+def test_stability_certificate_naming_audit(tmp_path):
+    from project_harness.audit import audit_stability_certificate_names
+
+    run = tmp_path / "results" / "fake-acceptance-20260820T000000Z-deadbeef"
+    run.mkdir(parents=True)
+    (run / "acceptance.json").write_text(
+        json.dumps({"model_reporting_name": "stability-certified equivalent"}),
+        encoding="utf-8",
+    )
+    findings = audit_stability_certificate_names(tmp_path)
+    assert findings[0]["check"] == "stability_certificate"
+    (run / "stability_certificate.json").write_text(
+        json.dumps({"status": "pass"}), encoding="utf-8"
+    )
+    assert audit_stability_certificate_names(tmp_path) == []

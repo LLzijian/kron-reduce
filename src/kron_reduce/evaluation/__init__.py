@@ -14,7 +14,9 @@ from .energy import EnergyGateResult, evaluate_energy_gate, supply_violation_los
 from .metrics import trajectory_metrics
 from .modal import (
     ConsensusDmdMode,
+    CrossClusterConsensusMode,
     DmdMode,
+    cross_cluster_modal_consensus,
     dominant_frequency,
     exact_dmd_modes,
     input_aware_delay_modes,
@@ -27,14 +29,27 @@ from .modal import (
     spectral_signature,
 )
 from .stability import classify_predicted_trajectory, classification_metrics
+from .stability_region import (
+    RegionCertificate,
+    certify_sublevel_region,
+    check_psd,
+    check_storage_curvature,
+    integration_free_stability,
+    missed_instability_rate,
+    region_fidelity,
+    stability_margin,
+    supply_identity_error,
+)
 
 __all__ = [
     "ConsensusDmdMode",
+    "CrossClusterConsensusMode",
     "EnergyGateResult",
     "SearchState",
     "DmdMode",
     "classification_metrics",
     "classify_predicted_trajectory",
+    "cross_cluster_modal_consensus",
     "evaluate_energy_gate",
     "dominant_frequency",
     "exact_dmd_modes",
@@ -45,6 +60,15 @@ __all__ = [
     "pooled_input_aware_delay_modes",
     "pooled_input_aware_modal_consensus",
     "supply_violation_loss",
+    "RegionCertificate",
+    "certify_sublevel_region",
+    "check_psd",
+    "check_storage_curvature",
+    "integration_free_stability",
+    "missed_instability_rate",
+    "region_fidelity",
+    "stability_margin",
+    "supply_identity_error",
     "prospective_eligibility",
     "spectral_overlap",
     "spectral_signature",

@@ -1,0 +1,34 @@
+{
+  "workflow": "m0_esc_v1_excitation_conditioned_selection",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "data_verified",
+    "contracts_verified",
+    "model_unit_gate",
+    "source_commit",
+    "hypothesis_registration",
+    "source_recommit",
+    "controlled_experiment",
+    "residual_diagnosis",
+    "adversarial_review",
+    "acceptance",
+    "merge_gate"
+  ],
+  "approval_required": ["merge_gate"],
+  "scientific_target": "excitation_conditioned_selection_composition_with_stability_certificates",
+  "locked_claims": [
+    "test_performance",
+    "other_fold_generalization",
+    "autonomous_Pm_prediction",
+    "ordinary_DMD_as_exact_autonomous_eigenanalysis",
+    "unique_device_semantics",
+    "physical_39_bus_line_recovery",
+    "machine_parameter_recovery",
+    "M2A-LYAP",
+    "stability_margin_without_level6_gates",
+    "library_union_without_per_entry_envelopes",
+    "synthetic_gates_satisfied_by_ieee39_evidence",
+    "ieee39_evidence_satisfied_by_synthetic_gates"
+  ]
+}

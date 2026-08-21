@@ -12,6 +12,14 @@
       "checksum_manifest": "checksums.sha256",
       "expected_events": 315,
       "views": ["general_dynamics", "binary_stability", "combined_dynamics"]
+    },
+    "synthetic_benchmark_registry_v1": {
+      "status": "planned",
+      "revision": "pending_initial_build",
+      "path": "data/synthetic_benchmark_registry_v1",
+      "ground_truth": ["modal_frequencies", "damping_ratios", "stability_boundaries"],
+      "excitation_regimes": ["small_signal", "large_signal", "mixed"],
+      "note": "primary evidence for structure-discovery and stability-certificate correctness; must be built and checksum-locked before the ESC v1 controlled_experiment stage"
     }
   },
   "experiments": {
@@ -569,6 +577,101 @@
       "workflow": "m0_afsd_v7b_modal_noninferiority",
       "config": "paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "acceptance",
+      "reads_test_performance": false
+    },
+    "paper_m0_afsd_v8_hypothesis_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_afsd_v8_modal_identifiability",
+      "workflow": "m0_afsd_v8_modal_identifiability",
+      "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "hypothesis_registration",
+      "reads_test_performance": false
+    },
+    "paper_m0_afsd_v8_controlled_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_afsd_v8_modal_identifiability",
+      "workflow": "m0_afsd_v8_modal_identifiability",
+      "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "controlled_experiment",
+      "reads_test_performance": false
+    },
+    "paper_m0_afsd_v8_residual_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_afsd_v8_modal_identifiability",
+      "workflow": "m0_afsd_v8_modal_identifiability",
+      "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "residual_diagnosis",
+      "reads_test_performance": false
+    },
+    "paper_m0_afsd_v8_adversarial_f1_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.m0_afsd_v8_modal_identifiability",
+      "workflow": "m0_afsd_v8_modal_identifiability",
+      "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "adversarial_review",
+      "reads_test_performance": false
+    },
+    "paper_m0_afsd_v8_acceptance_f1_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.m0_afsd_v8_modal_identifiability",
+      "workflow": "m0_afsd_v8_modal_identifiability",
+      "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "acceptance",
+      "reads_test_performance": false
+    },
+    "paper_m0_esc_v1_hypothesis_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_esc_v1_excitation_conditioned_selection",
+      "workflow": "m0_esc_v1_excitation_conditioned_selection",
+      "config": "paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "synthetic_registry": "synthetic_benchmark_registry_v1",
+      "stage": "hypothesis_registration",
+      "reads_test_performance": false
+    },
+    "paper_m0_esc_v1_controlled_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_esc_v1_excitation_conditioned_selection",
+      "workflow": "m0_esc_v1_excitation_conditioned_selection",
+      "config": "paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "synthetic_registry": "synthetic_benchmark_registry_v1",
+      "stage": "controlled_experiment",
+      "reads_test_performance": false
+    },
+    "paper_m0_esc_v1_residual_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.m0_esc_v1_excitation_conditioned_selection",
+      "workflow": "m0_esc_v1_excitation_conditioned_selection",
+      "config": "paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "synthetic_registry": "synthetic_benchmark_registry_v1",
+      "stage": "residual_diagnosis",
+      "reads_test_performance": false
+    },
+    "paper_m0_esc_v1_adversarial_f1_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.m0_esc_v1_excitation_conditioned_selection",
+      "workflow": "m0_esc_v1_excitation_conditioned_selection",
+      "config": "paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "synthetic_registry": "synthetic_benchmark_registry_v1",
+      "stage": "adversarial_review",
+      "reads_test_performance": false
+    },
+    "paper_m0_esc_v1_acceptance_f1_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.m0_esc_v1_excitation_conditioned_selection",
+      "workflow": "m0_esc_v1_excitation_conditioned_selection",
+      "config": "paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "acceptance",
       "reads_test_performance": false
     },

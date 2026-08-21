@@ -4,6 +4,8 @@ import numpy as np
 import pytest
 
 from kron_reduce.evaluation import (
+    DmdMode,
+    cross_cluster_modal_consensus,
     dominant_frequency,
     exact_dmd_modes,
     input_aware_delay_modes,
@@ -203,6 +205,58 @@ def test_pooled_input_aware_consensus_recovers_shared_mode_across_events() -> No
         frequency_hz*np.sqrt(1-damping_ratio**2), rel=0.03
     )
     assert recovered.mode.damping_ratio == pytest.approx(damping_ratio, abs=0.02)
+
+
+def _mode(frequency: float, damping: float, shape: np.ndarray, strength: float = 1.0) -> DmdMode:
+    shape = np.asarray(shape, dtype=complex)
+    shape = shape/np.linalg.norm(shape)
+    magnitude = 2*np.pi*frequency/np.sqrt(max(1-damping**2, 1e-12))
+    return DmdMode(
+        frequency_hz=frequency, damping_ratio=damping,
+        decay_rate=-damping*magnitude, strength=strength,
+        shape_real=tuple(shape.real), shape_imag=tuple(shape.imag),
+    )
+
+
+def test_cross_cluster_modal_consensus_recovers_shared_shape_order_independently() -> None:
+    rng = np.random.default_rng(324)
+    base = np.asarray([1.0, -0.6, 0.25, -0.15], dtype=complex)
+    modes = {}
+    for index in range(10):
+        phase = np.exp(1j*(0.17*index))
+        shared = phase*base+0.015*(rng.standard_normal(4)+1j*rng.standard_normal(4))
+        modes[f"line-{index}"] = [
+            _mode(0.9*(1+0.012*rng.standard_normal()), 0.05+0.004*rng.standard_normal(), shared, 2.0),
+            _mode(1.8+0.05*rng.standard_normal(), 0.15, rng.standard_normal(4)+1j*rng.standard_normal(4), 0.2),
+        ]
+    consensus = cross_cluster_modal_consensus(
+        modes, frequency_tolerance=0.1, minimum_mac=0.8, minimum_support_fraction=0.8
+    )
+    reversed_consensus = cross_cluster_modal_consensus(
+        dict(reversed(list(modes.items()))),
+        frequency_tolerance=0.1, minimum_mac=0.8, minimum_support_fraction=0.8,
+    )
+    recovered = min(consensus, key=lambda item: abs(item.mode.frequency_hz-0.9))
+    assert recovered.support_fraction == 1.0
+    assert recovered.median_shape_mac > 0.99
+    assert recovered.mode.frequency_hz == pytest.approx(0.9, rel=0.02)
+    assert [item.as_dict() for item in consensus] == [item.as_dict() for item in reversed_consensus]
+
+
+def test_cross_cluster_modal_consensus_rejects_heterogeneous_modes() -> None:
+    modes = {
+        f"line-{index}": [
+            _mode(
+                0.35+0.17*index,
+                0.03+0.01*index,
+                np.eye(8, dtype=complex)[index],
+            )
+        ]
+        for index in range(8)
+    }
+    assert cross_cluster_modal_consensus(
+        modes, frequency_tolerance=0.2, minimum_mac=0.5, minimum_support_fraction=0.8
+    ) == []
 
 
 def test_train_only_partition_discovery_recovers_three_exact_coherent_pairs() -> None:

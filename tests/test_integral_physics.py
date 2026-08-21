@@ -16,6 +16,7 @@ from kron_reduce.models import (
     GraphModalDiscoveryM0Model,
     GraphModalPmDynamics,
     LargeSignalThirdOrderM0Model,
+    LowRankModalPortM0Model,
     M0Model,
     M2AModel,
     MassFloorM0Model,
@@ -1065,6 +1066,153 @@ def test_modal_resonant_fallback_convergence_ignores_empty_state_blocks() -> Non
     assert np.isfinite(audit["dt_vs_dt2"])
     assert np.isfinite(audit["dt2_vs_dt4"])
     assert audit["convergent"]
+
+
+def _three_node_modal_static() -> dict[str, np.ndarray]:
+    mass = np.array([1.0, 1.2, 1.5])
+    return {
+        "delta0": coi_project(np.array([0.04, -0.025, -0.01]), mass)[None, :],
+        "omega0": coi_project(np.array([0.008, -0.004, -0.002]), mass)[None, :],
+        "Pm_equilibrium": np.zeros(3),
+        "Pm_clear": np.zeros((1, 3)),
+        "Pm0": np.zeros((1, 3)),
+        "equilibrium_delta": np.zeros(3),
+        "mass": mass,
+        "incidence": np.array([
+            [1.0, 1.0, 0.0],
+            [-1.0, 0.0, 1.0],
+            [0.0, -1.0, -1.0],
+        ]),
+    }
+
+
+def _three_node_port_backbone(max_step: float = 0.005) -> PortStructuredDiscoveryM0Model:
+    storage = {
+        "minimum_conservative_potential_on_train_val_domain": 0.0,
+        "maximum_conservative_chain_rule_error": 0.0,
+        "minimum_quotient_stiffness_eigenvalue": 1.0,
+        "memory_supply_identity_error": 0.0,
+    }
+    return PortStructuredDiscoveryM0Model(
+        backbone=TransientEmfM0Model(
+            anchor=M0Model(
+                np.array([0.25, 0.3, 0.35]), np.array([1.0, 0.8, 0.9]),
+                max_internal_step=max_step,
+            ),
+            alpha=0.0, tau=0.1,
+            diagnostics={"maximum_equilibrium_residual": 0.0},
+            max_internal_step=max_step,
+        ),
+        static_coefficients=np.zeros((5, 3)),
+        taus=np.empty(0), memory_coefficients=np.empty((0, 3)),
+        diagnostics={"storage_audit": storage},
+        max_internal_step=max_step,
+    )
+
+
+def test_low_rank_modal_port_recovers_coherent_mode_and_save_load(tmp_path) -> None:
+    t = np.linspace(0.0, 1.2, 241)
+    truth = LowRankModalPortM0Model(
+        backbone=_three_node_port_backbone(), frequency_hz=1.15,
+        damping_ratio=0.08, rank=1,
+        loadings=np.array([[0.65], [-0.35], [0.45]]),
+        max_internal_step=0.005,
+    )
+    samples = []
+    for index in range(8):
+        static = _three_node_modal_static()
+        static["delta0"] = coi_project(
+            np.array([0.03+0.003*index, -0.02-0.002*index, -0.006]), static["mass"]
+        )[None, :]
+        phase = 0.25*index
+        raw = np.column_stack((
+            (0.035+0.003*index)*np.sin(2*np.pi*(0.45+0.03*index)*t+phase),
+            0.025*np.cos(2*np.pi*(0.65+0.02*index)*t-0.3*phase),
+            np.zeros_like(t),
+        ))
+        pm = np.stack([coi_project_power(row, static["mass"]) for row in raw])
+        delta, omega = truth.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+        samples.append({
+            "event_id": f"low-rank-modal-{index}",
+            "model_inputs": {"static": static, "exogenous": {"t": t, "Pm": pm}},
+            "training_context": {
+                "targets": {"t": t, "delta": delta, "omega": omega},
+                "Pm_observed": pm,
+                "claim_type": "conditional_rollout_not_causal_forecast",
+                "metadata": {"source_dataset": "synthetic"},
+            },
+        })
+    fitted = LowRankModalPortM0Model(backbone=_three_node_port_backbone())
+    diagnostics = fitted.fit_fixed_rank(
+        samples[:7], frequency_hz=1.15, damping_ratio=0.08, rank=1,
+        ridge=1e-10, windows=(1, 5, 20, 40), horizon_steps=len(t),
+        max_windows_per_case_horizon=30,
+    )
+    assert diagnostics["solver_success"]
+    assert diagnostics["active_dynamic_states"] == 2
+    assert fitted.physics_audit()["status"] == "pass"
+    cache_builder = LowRankModalPortM0Model(
+        backbone=_three_node_port_backbone(), frequency_hz=1.15, damping_ratio=0.08
+    )
+    force_cache = cache_builder.prepare_force_cache(samples[:7], horizon_steps=len(t))
+    weak_system = cache_builder.build_weak_system(
+        samples[:7], windows=(1, 5, 20, 40), horizon_steps=len(t),
+        max_windows_per_case_horizon=30, prepared_force_cache=force_cache,
+    )
+    cached = LowRankModalPortM0Model(backbone=_three_node_port_backbone())
+    cached.fit_fixed_rank(
+        samples[:7], frequency_hz=1.15, damping_ratio=0.08, rank=1,
+        ridge=1e-10, prepared_system=weak_system,
+    )
+    assert np.allclose(cached.loadings@cached.loadings.T, fitted.loadings@fitted.loadings.T)
+    prediction = fitted.rollout(
+        samples[-1]["model_inputs"]["static"], t,
+        {"Pm": samples[-1]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    assert np.sqrt(np.mean((prediction[1]-samples[-1]["training_context"]["targets"]["omega"])**2)) < 3e-4
+    path = tmp_path/"low_rank_modal_port.npz"
+    fitted.save(path)
+    loaded = LowRankModalPortM0Model.load(path)
+    actual = loaded.rollout(
+        samples[-1]["model_inputs"]["static"], t,
+        {"Pm": samples[-1]["model_inputs"]["exogenous"]["Pm"], "interpolation": "linear"},
+    )
+    assert np.allclose(actual[0], prediction[0])
+    assert np.allclose(actual[1], prediction[1])
+
+
+def test_low_rank_modal_port_supply_identity_and_exact_fallback() -> None:
+    backbone = _three_node_port_backbone()
+    loading = np.array([[0.5, -0.2], [-0.3, 0.6], [0.4, 0.1]])
+    model = LowRankModalPortM0Model(
+        backbone=backbone, frequency_hz=0.9, damping_ratio=0.07,
+        rank=2, loadings=loading,
+    )
+    position = np.array([0.02, -0.01])
+    velocity = np.array([-0.04, 0.025])
+    edge_speed = np.array([0.07, -0.05, 0.03])
+    dq, dp = model.modal_derivative(position, velocity, edge_speed)
+    angular = model.angular_frequency
+    storage_derivative = velocity@dp+angular**2*(position@dq)
+    supplied_minus_dissipated = (
+        (loading@velocity)@edge_speed
+        - 2*model.damping_ratio*angular*(velocity@velocity)
+    )
+    assert np.isclose(storage_derivative, supplied_minus_dissipated, atol=1e-14)
+
+    fallback = LowRankModalPortM0Model(
+        backbone=backbone, rank=0, loadings=np.empty((3, 0)),
+    )
+    static = _three_node_modal_static()
+    t = np.linspace(0.0, 0.3, 31)
+    pm = np.zeros((len(t), 3))
+    expected = backbone.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    actual = fallback.rollout(static, t, {"Pm": pm, "interpolation": "linear"})
+    assert np.allclose(actual[0], expected[0])
+    assert np.allclose(actual[1], expected[1])
+    assert fallback.convergence_audit(
+        static, t, {"Pm": pm, "interpolation": "linear"}
+    )["convergent"]
 
 
 def test_port_structured_causal_pm_ignores_future_schedule_and_preserves_ports():
