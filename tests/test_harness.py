@@ -27,7 +27,10 @@ def test_registered_workflow_states_are_contiguous(root):
 
 
 def test_data_checksums(root):
-    result=verify_data(root); assert result["status"]=="PASS"; assert result["event_count"]==315
+    result = verify_data(root)
+    assert result["status"] == "PASS"
+    assert result["event_count"] == 315
+    assert result["auxiliary_datasets"]["synthetic_benchmark_registry_v1"]["status"] == "PASS"
 
 
 def test_loop_starts_at_scaffold_and_cannot_skip(root, tmp_path):
@@ -57,12 +60,9 @@ def test_named_workflow_has_independent_state(root, tmp_path):
 
 def test_corrective_workflow_has_source_recommit_before_diagnostic(root):
     workflow = json.loads(
-        (
-            root
-            / "configs"
-            / "workflows"
-            / "ten_machine_physical_discovery_v1.json"
-        ).read_text(encoding="utf-8")
+        (root / "configs" / "workflows" / "ten_machine_physical_discovery_v1.json").read_text(
+            encoding="utf-8"
+        )
     )
     stages = workflow["stages"]
     assert stages.index("source_recommit") == stages.index("source_commit") + 1
@@ -73,10 +73,7 @@ def test_corrective_workflow_has_source_recommit_before_diagnostic(root):
 def test_esc_workflow_registered_with_merge_gate_and_chain(root):
     workflow = json.loads(
         (
-            root
-            / "configs"
-            / "workflows"
-            / "m0_esc_v1_excitation_conditioned_selection.json"
+            root / "configs" / "workflows" / "m0_esc_v1_excitation_conditioned_selection.json"
         ).read_text(encoding="utf-8")
     )
     assert workflow["stages"][-1] == "merge_gate"
@@ -108,7 +105,9 @@ def test_esc_experiments_registered_in_manifest(root):
         assert entry["workflow"] == "m0_esc_v1_excitation_conditioned_selection"
         assert entry["reads_test_performance"] is False
         assert entry["synthetic_registry"] == "synthetic_benchmark_registry_v1"
-    assert manifest["datasets"]["synthetic_benchmark_registry_v1"]["status"] == "planned"
+    registry = manifest["datasets"]["synthetic_benchmark_registry_v1"]
+    assert registry["status"] == "ready"
+    assert registry["checksum_manifest"] == "checksums.sha256"
 
 
 def test_stability_certificate_naming_audit(tmp_path):

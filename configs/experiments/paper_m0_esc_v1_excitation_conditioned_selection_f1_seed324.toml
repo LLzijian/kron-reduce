@@ -1,0 +1,91 @@
+task_type = "excitation_conditioned_modal_selection"
+protocol_revision = "m0_esc_v1_excitation_conditioned_selection"
+dataset = "ieee39_postclear_canonical_v1"
+synthetic_registry = "synthetic_benchmark_registry_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "observed"
+rollout_label = "conditional rollout with observed Pm"
+test_access = "forbidden"
+other_folds_access = "forbidden"
+canonical_mutation = "forbidden"
+
+hypothesis_experiment = "paper_m0_esc_v1_hypothesis_f1_seed324"
+controlled_experiment = "paper_m0_esc_v1_controlled_f1_seed324"
+residual_experiment = "paper_m0_esc_v1_residual_f1_seed324"
+adversarial_experiment = "paper_m0_esc_v1_adversarial_f1_seed324"
+
+minimum_real_steps = 100
+minimum_selection_steps = 1001
+minimum_structure_steps = 100
+minimum_selection_cases = 3
+report_horizons = [100, 500, 1000]
+selection_horizon_steps = 1000
+fit_max_steps = 1001
+hankel_delays = 12
+hankel_relative_floor = 1e-3
+maximum_hankel_condition = 1e8
+weak_max_windows_per_case_horizon = 8
+integral_windows = [1, 5, 20, 40, 80]
+ridge_values = [1e-8, 1e-6, 1e-4, 1e-2]
+max_internal_step = 0.01
+minimum_model_improvement = 0.02
+maximum_source_loss_degradation = 0.02
+maximum_coi_drift = 1e-10
+maximum_rollout_mean_rmse = 0.2
+
+development_fit_fraction = 0.60
+development_selection_fraction = 0.20
+minimum_regime_fit_fault_lines = 3
+minimum_regime_selection_fault_lines = 1
+minimum_regime_audit_fault_lines = 1
+
+baseline_alpha = 0.3
+baseline_tau = 0.5
+baseline_memory_taus = [0.2, 1.0]
+baseline_psd_ridge = 1e-6
+b3_activation_width = 0.02
+
+modal_horizon_steps = 1000
+modal_dmd_rank = 6
+modal_min_frequency_hz = 0.1
+modal_max_frequency_hz = 3.0
+modal_minimum_damping_ratio = -0.2
+modal_maximum_damping_ratio = 0.5
+modal_max_modes_per_event = 4
+modal_frequency_tolerance = 0.15
+modal_minimum_mac = 0.60
+modal_minimum_fault_line_support = 0.80
+modal_minimum_event_fraction_per_line = 0.50
+
+model_mode_frequency_tolerance = 0.10
+model_mode_minimum_mac = 0.80
+model_mode_minimum_bootstrap_support = 0.80
+synthetic_bootstrap_draws = 100
+f1_bootstrap_draws = 200
+synthetic_maximum_frequency_error = 0.05
+synthetic_maximum_damping_error = 0.05
+synthetic_minimum_mac = 0.80
+absolute_modal_maximum_frequency_error = 0.10
+absolute_modal_maximum_damping_error = 0.05
+absolute_modal_minimum_mac = 0.80
+
+[claim_boundaries]
+conditional_rollout_with_observed_pm = true
+autonomous_causal_deployment = false
+single_fold_single_seed = true
+structure_selection_uses_QA_train_only = true
+frozen_F1_validation_read = false
+exact_DMD_is_empirical_forced_response_only = true
+model_poles_come_from_explicit_equation_linearization = true
+unobserved_mode_is_not_declared_absent = true
+unknown_system_generalization = false
+test_performance = false
+other_fold_generalization = false
+unique_device_semantics = false
+physical_line_recovery = false
+machine_parameter_recovery = false
+M2A_LYAP = false
+stability_certified_equivalent = false

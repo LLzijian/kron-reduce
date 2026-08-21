@@ -14,12 +14,14 @@
       "views": ["general_dynamics", "binary_stability", "combined_dynamics"]
     },
     "synthetic_benchmark_registry_v1": {
-      "status": "planned",
-      "revision": "pending_initial_build",
+      "status": "ready",
+      "revision": "synthetic_benchmark_registry_v1",
       "path": "data/synthetic_benchmark_registry_v1",
+      "registry": "registry.json",
+      "checksum_manifest": "checksums.sha256",
       "ground_truth": ["modal_frequencies", "damping_ratios", "stability_boundaries"],
       "excitation_regimes": ["small_signal", "large_signal", "mixed"],
-      "note": "primary evidence for structure-discovery and stability-certificate correctness; must be built and checksum-locked before the ESC v1 controlled_experiment stage"
+      "note": "checksum-locked primary evidence for structure-discovery and stability-certificate correctness; never substitutes for IEEE39 evidence"
     }
   },
   "experiments": {

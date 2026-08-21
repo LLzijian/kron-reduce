@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import asdict, dataclass
 
 import numpy as np
 from scipy.cluster.hierarchy import fcluster, linkage
 from scipy.optimize import linear_sum_assignment
 from scipy.spatial.distance import squareform
+
+from kron_reduce.physics.coordinates import coi_basis
 
 
 @dataclass(frozen=True)
@@ -69,6 +72,261 @@ class CrossClusterConsensusMode:
         }
 
 
+def state_space_modes(
+    state_matrix: np.ndarray,
+    speed_observation: np.ndarray,
+    *,
+    min_frequency_hz: float = 0.01,
+    max_frequency_hz: float = 10.0,
+) -> list[DmdMode]:
+    """Return observable positive-frequency modes of a continuous-time model.
+
+    ``speed_observation`` maps the model state to the mass-weighted rotor-speed
+    coordinates used by the empirical modal audit.  A pole with zero observed
+    speed is intentionally omitted: it cannot be supported by the registered
+    rotor measurements even if it exists internally.
+    """
+    system = np.asarray(state_matrix, dtype=float)
+    observation = np.asarray(speed_observation, dtype=float)
+    if (
+        system.ndim != 2
+        or system.shape[0] != system.shape[1]
+        or observation.ndim != 2
+        or observation.shape[1] != system.shape[0]
+        or not np.isfinite(system).all()
+        or not np.isfinite(observation).all()
+    ):
+        raise ValueError("state matrix and speed observation must be finite and aligned")
+    eigenvalues, eigenvectors = np.linalg.eig(system)
+    modes: list[DmdMode] = []
+    for index, pole in enumerate(eigenvalues):
+        frequency = float(abs(pole.imag) / (2.0 * np.pi))
+        magnitude = float(abs(pole))
+        if (
+            pole.imag <= 1e-10
+            or frequency < float(min_frequency_hz)
+            or frequency > float(max_frequency_hz)
+            or magnitude <= np.finfo(float).eps
+        ):
+            continue
+        shape = observation @ eigenvectors[:, index]
+        norm = float(np.linalg.norm(shape))
+        if norm <= np.finfo(float).eps or not np.isfinite(shape).all():
+            continue
+        shape = shape / norm
+        modes.append(
+            DmdMode(
+                frequency_hz=frequency,
+                damping_ratio=float(-pole.real / magnitude),
+                decay_rate=float(pole.real),
+                strength=norm,
+                shape_real=tuple(float(value) for value in shape.real),
+                shape_imag=tuple(float(value) for value in shape.imag),
+            )
+        )
+    return sorted(modes, key=lambda mode: mode.frequency_hz)
+
+
+def finite_difference_augmented_modes(
+    mass: np.ndarray,
+    equilibrium_delta: np.ndarray,
+    equilibrium_hidden: np.ndarray,
+    vector_field: Callable[
+        [np.ndarray, np.ndarray, np.ndarray],
+        tuple[np.ndarray, np.ndarray, np.ndarray],
+    ],
+    *,
+    relative_step: float = 1e-6,
+    equilibrium_tolerance: float = 1e-7,
+    min_frequency_hz: float = 0.01,
+    max_frequency_hz: float = 10.0,
+) -> tuple[list[DmdMode], dict[str, float | int | bool]]:
+    """Linearize an explicit augmented physical model on the COI quotient.
+
+    The callback receives raw ``delta``, raw ``omega`` and a flat hidden state,
+    and returns their derivatives in the same grouping.  Central differences
+    are taken only after the common-angle/common-speed directions have been
+    removed.  This makes the routine applicable to node, edge and memory-state
+    models without treating trajectory DMD poles as autonomous eigenvalues.
+    """
+    mass = np.asarray(mass, dtype=float).reshape(-1)
+    equilibrium = np.asarray(equilibrium_delta, dtype=float).reshape(-1)
+    hidden = np.asarray(equilibrium_hidden, dtype=float).reshape(-1)
+    if (
+        len(equilibrium) != len(mass)
+        or np.any(mass <= 0)
+        or not np.isfinite(mass).all()
+        or not np.isfinite(equilibrium).all()
+        or not np.isfinite(hidden).all()
+        or not np.isfinite(relative_step)
+        or relative_step <= 0
+    ):
+        raise ValueError("finite-difference equilibrium inputs are invalid")
+    basis = coi_basis(mass)
+    quotient = basis.shape[1]
+    state_size = 2 * quotient + len(hidden)
+    equilibrium_state = np.concatenate((np.zeros(2 * quotient), hidden))
+
+    def reduced_field(state: np.ndarray) -> np.ndarray:
+        state = np.asarray(state, dtype=float).reshape(-1)
+        delta = equilibrium + basis @ state[:quotient]
+        omega = basis @ state[quotient : 2 * quotient]
+        hidden_state = state[2 * quotient :]
+        delta_dot, omega_dot, hidden_dot = vector_field(delta, omega, hidden_state)
+        delta_dot = np.asarray(delta_dot, dtype=float).reshape(-1)
+        omega_dot = np.asarray(omega_dot, dtype=float).reshape(-1)
+        hidden_dot = np.asarray(hidden_dot, dtype=float).reshape(-1)
+        if (
+            delta_dot.shape != mass.shape
+            or omega_dot.shape != mass.shape
+            or hidden_dot.shape != hidden.shape
+        ):
+            raise ValueError("augmented vector field output is not shape aligned")
+        return np.concatenate((basis.T @ delta_dot, basis.T @ omega_dot, hidden_dot))
+
+    equilibrium_residual = reduced_field(equilibrium_state)
+    residual_norm = float(np.linalg.norm(equilibrium_residual, ord=np.inf))
+    if not np.isfinite(residual_norm) or residual_norm > float(equilibrium_tolerance):
+        raise ValueError(
+            f"registered linearization point is not an equilibrium: residual={residual_norm:.3e}"
+        )
+    state_matrix = np.empty((state_size, state_size), dtype=float)
+    for column in range(state_size):
+        step = float(relative_step) * max(1.0, abs(equilibrium_state[column]))
+        offset = np.zeros(state_size, dtype=float)
+        offset[column] = step
+        state_matrix[:, column] = (
+            reduced_field(equilibrium_state + offset) - reduced_field(equilibrium_state - offset)
+        ) / (2.0 * step)
+    observation = np.zeros((len(mass), state_size), dtype=float)
+    observation[:, quotient : 2 * quotient] = np.sqrt(mass)[:, None] * basis
+    modes = state_space_modes(
+        state_matrix,
+        observation,
+        min_frequency_hz=min_frequency_hz,
+        max_frequency_hz=max_frequency_hz,
+    )
+    return modes, {
+        "state_dimension": state_size,
+        "quotient_dimension": quotient,
+        "hidden_state_dimension": len(hidden),
+        "equilibrium_residual_inf_norm": residual_norm,
+        "eigenvector_condition_number": float(np.linalg.cond(np.linalg.eig(state_matrix)[1])),
+        "all_poles_stable": bool(np.all(np.linalg.eigvals(state_matrix).real < 1e-9)),
+    }
+
+
+def linearized_passive_network_modes(
+    mass: np.ndarray,
+    incidence: np.ndarray,
+    equilibrium_delta: np.ndarray,
+    node_damping: np.ndarray,
+    sine_coupling: np.ndarray,
+    *,
+    cosine_coupling: np.ndarray | None = None,
+    edge_damping: np.ndarray | None = None,
+    modal_loadings: np.ndarray | None = None,
+    modal_frequency_hz: float | None = None,
+    modal_damping_ratio: float | None = None,
+    min_frequency_hz: float = 0.01,
+    max_frequency_hz: float = 10.0,
+) -> list[DmdMode]:
+    """Return quotient-space modes of a passive network linearized at equilibrium.
+
+    Unlike trajectory DMD, these are eigenmodes of an explicit fitted or known
+    dynamical realization.  The common-angle state is removed before the
+    eigendecomposition.  Optional reciprocal modal-port states use the same
+    loading at their input and output, matching ``M0-LRMRP``.
+
+    The returned shape is the mass-weighted rotor-speed observability vector.
+    It can therefore be compared directly with the mass-weighted empirical
+    shapes used by the AFSD modal audits.
+    """
+    mass = np.asarray(mass, dtype=float).reshape(-1)
+    incidence = np.asarray(incidence, dtype=float)
+    equilibrium = np.asarray(equilibrium_delta, dtype=float).reshape(-1)
+    damping = np.asarray(node_damping, dtype=float).reshape(-1)
+    coupling = np.asarray(sine_coupling, dtype=float).reshape(-1)
+    if (
+        incidence.ndim != 2
+        or incidence.shape[0] != len(mass)
+        or incidence.shape[1] != len(coupling)
+        or len(equilibrium) != len(mass)
+        or len(damping) != len(mass)
+        or np.any(mass <= 0)
+    ):
+        raise ValueError("passive network modal arrays are not shape aligned")
+    cosine = (
+        np.zeros_like(coupling)
+        if cosine_coupling is None
+        else np.asarray(cosine_coupling, dtype=float).reshape(-1)
+    )
+    edge_loss = (
+        np.zeros_like(coupling)
+        if edge_damping is None
+        else np.asarray(edge_damping, dtype=float).reshape(-1)
+    )
+    if cosine.shape != coupling.shape or edge_loss.shape != coupling.shape:
+        raise ValueError("edge constitutive arrays must share the edge shape")
+    arrays = (mass, incidence, equilibrium, damping, coupling, cosine, edge_loss)
+    if not all(np.isfinite(value).all() for value in arrays):
+        raise ValueError("passive network modal arrays must be finite")
+
+    basis = coi_basis(mass)
+    reduced_mass = basis.T @ np.diag(mass) @ basis
+    eta0 = incidence.T @ equilibrium
+    curvature = coupling * np.cos(eta0) - cosine * np.sin(eta0)
+    stiffness = incidence @ np.diag(curvature) @ incidence.T
+    physical_damping = np.diag(damping) + incidence @ np.diag(edge_loss) @ incidence.T
+    reduced_stiffness = basis.T @ stiffness @ basis
+    reduced_damping = basis.T @ physical_damping @ basis
+    inverse_mass = np.linalg.inv(reduced_mass)
+    quotient = basis.shape[1]
+
+    loadings = np.empty((incidence.shape[1], 0), dtype=float)
+    if modal_loadings is not None:
+        loadings = np.asarray(modal_loadings, dtype=float)
+        if loadings.ndim != 2 or loadings.shape[0] != incidence.shape[1]:
+            raise ValueError("modal_loadings must have shape (edge, rank)")
+        if not np.isfinite(loadings).all():
+            raise ValueError("modal_loadings must be finite")
+    rank = loadings.shape[1]
+    if rank and (
+        modal_frequency_hz is None
+        or modal_damping_ratio is None
+        or not np.isfinite(modal_frequency_hz)
+        or float(modal_frequency_hz) <= 0
+        or not np.isfinite(modal_damping_ratio)
+        or not 0 < float(modal_damping_ratio) < 1
+    ):
+        raise ValueError("positive modal frequency and damping in (0,1) are required")
+
+    rotor_size = 2 * quotient
+    system = np.zeros((rotor_size + 2 * rank, rotor_size + 2 * rank), dtype=float)
+    system[:quotient, quotient:rotor_size] = np.eye(quotient)
+    system[quotient:rotor_size, :quotient] = -inverse_mass @ reduced_stiffness
+    system[quotient:rotor_size, quotient:rotor_size] = -inverse_mass @ reduced_damping
+    if rank:
+        port = basis.T @ incidence @ loadings
+        position = rotor_size
+        velocity = rotor_size + rank
+        angular = 2.0 * np.pi * float(modal_frequency_hz)
+        system[quotient:rotor_size, velocity:] = -inverse_mass @ port
+        system[position:velocity, velocity:] = np.eye(rank)
+        system[velocity:, quotient:rotor_size] = port.T
+        system[velocity:, position:velocity] = -(angular**2) * np.eye(rank)
+        system[velocity:, velocity:] = -2.0 * float(modal_damping_ratio) * angular * np.eye(rank)
+
+    observation = np.zeros((len(mass), system.shape[0]), dtype=float)
+    observation[:, quotient:rotor_size] = np.sqrt(mass)[:, None] * basis
+    return state_space_modes(
+        system,
+        observation,
+        min_frequency_hz=min_frequency_hz,
+        max_frequency_hz=max_frequency_hz,
+    )
+
+
 def spectral_signature(
     values: np.ndarray,
     dt: float,
@@ -87,8 +345,10 @@ def spectral_signature(
     centered = values - np.mean(values, axis=0, keepdims=True)
     window = np.hanning(values.shape[0])[:, None]
     spectrum = np.abs(np.fft.rfft(centered * window, axis=0)) ** 2
-    weights = np.ones(values.shape[1], dtype=float) if channel_weights is None else np.asarray(
-        channel_weights, dtype=float
+    weights = (
+        np.ones(values.shape[1], dtype=float)
+        if channel_weights is None
+        else np.asarray(channel_weights, dtype=float)
     )
     if weights.shape != (values.shape[1],) or np.any(weights < 0.0):
         raise ValueError("channel_weights must be a non-negative channel vector")
@@ -163,11 +423,15 @@ def cross_cluster_modal_consensus(
     observations: list[tuple[str, DmdMode]] = []
     for name in cluster_names:
         for mode in modes_by_cluster[name]:
-            shape = np.asarray(mode.shape_real)+1j*np.asarray(mode.shape_imag)
+            shape = np.asarray(mode.shape_real) + 1j * np.asarray(mode.shape_imag)
             if (
-                np.isfinite(mode.frequency_hz) and mode.frequency_hz > 0
-                and np.isfinite(mode.damping_ratio) and np.isfinite(mode.strength)
-                and shape.size and np.isfinite(shape).all() and np.linalg.norm(shape) > 0
+                np.isfinite(mode.frequency_hz)
+                and mode.frequency_hz > 0
+                and np.isfinite(mode.damping_ratio)
+                and np.isfinite(mode.strength)
+                and shape.size
+                and np.isfinite(shape).all()
+                and np.linalg.norm(shape) > 0
             ):
                 observations.append((name, mode))
     if not observations:
@@ -178,17 +442,19 @@ def cross_cluster_modal_consensus(
         distance = np.zeros((len(observations), len(observations)), dtype=float)
         for left in range(len(observations)):
             left_mode = observations[left][1]
-            left_shape = np.asarray(left_mode.shape_real)+1j*np.asarray(left_mode.shape_imag)
+            left_shape = np.asarray(left_mode.shape_real) + 1j * np.asarray(left_mode.shape_imag)
             for right in range(left):
                 right_mode = observations[right][1]
-                right_shape = np.asarray(right_mode.shape_real)+1j*np.asarray(right_mode.shape_imag)
-                relative = abs(left_mode.frequency_hz-right_mode.frequency_hz)/max(
+                right_shape = np.asarray(right_mode.shape_real) + 1j * np.asarray(
+                    right_mode.shape_imag
+                )
+                relative = abs(left_mode.frequency_hz - right_mode.frequency_hz) / max(
                     min(left_mode.frequency_hz, right_mode.frequency_hz), np.finfo(float).eps
                 )
                 mac = modal_assurance_criterion(left_shape, right_shape)
                 value = max(
-                    relative/frequency_tolerance,
-                    (1.0-mac)/max(1.0-minimum_mac, np.finfo(float).eps),
+                    relative / frequency_tolerance,
+                    (1.0 - mac) / max(1.0 - minimum_mac, np.finfo(float).eps),
                 )
                 distance[left, right] = distance[right, left] = value
         labels = fcluster(
@@ -203,48 +469,60 @@ def cross_cluster_modal_consensus(
         for name, mode in members:
             if name not in strongest or mode.strength > strongest[name].strength:
                 strongest[name] = mode
-        support = len(strongest)/len(cluster_names)
-        if support+1e-15 < minimum_support_fraction:
+        support = len(strongest) / len(cluster_names)
+        if support + 1e-15 < minimum_support_fraction:
             continue
         selected = list(strongest.values())
         representative = max(selected, key=lambda mode: mode.strength)
-        reference_shape = np.asarray(representative.shape_real)+1j*np.asarray(representative.shape_imag)
+        reference_shape = np.asarray(representative.shape_real) + 1j * np.asarray(
+            representative.shape_imag
+        )
         aligned = []
         for mode in selected:
-            shape = np.asarray(mode.shape_real)+1j*np.asarray(mode.shape_imag)
+            shape = np.asarray(mode.shape_real) + 1j * np.asarray(mode.shape_imag)
             phase = np.vdot(reference_shape, shape)
-            aligned.append(shape*np.exp(-1j*np.angle(phase)) if abs(phase) > np.finfo(float).eps else shape)
+            aligned.append(
+                shape * np.exp(-1j * np.angle(phase)) if abs(phase) > np.finfo(float).eps else shape
+            )
         consensus_shape = np.mean(aligned, axis=0)
-        consensus_shape = consensus_shape/max(np.linalg.norm(consensus_shape), np.finfo(float).eps)
+        consensus_shape = consensus_shape / max(
+            np.linalg.norm(consensus_shape), np.finfo(float).eps
+        )
         frequencies = np.asarray([mode.frequency_hz for mode in selected])
         dampings = np.asarray([mode.damping_ratio for mode in selected])
         strengths = np.asarray([mode.strength for mode in selected])
         frequency = float(np.median(frequencies))
         damping = float(np.median(dampings))
-        magnitude = 2*np.pi*frequency/max(np.sqrt(max(1-damping**2, 1e-12)), 1e-12)
-        output.append(CrossClusterConsensusMode(
-            mode=DmdMode(
-                frequency_hz=frequency,
-                damping_ratio=damping,
-                decay_rate=float(-damping*magnitude),
-                strength=float(np.median(strengths)),
-                shape_real=tuple(float(value) for value in consensus_shape.real),
-                shape_imag=tuple(float(value) for value in consensus_shape.imag),
-            ),
-            support_fraction=float(support),
-            supporting_clusters=tuple(sorted(strongest)),
-            total_clusters=len(cluster_names),
-            member_modes=len(members),
-            frequency_mad_hz=float(np.median(np.abs(frequencies-frequency))),
-            damping_mad=float(np.median(np.abs(dampings-damping))),
-            median_shape_mac=float(np.median([
-                modal_assurance_criterion(
-                    consensus_shape,
-                    np.asarray(mode.shape_real)+1j*np.asarray(mode.shape_imag),
-                )
-                for mode in selected
-            ])),
-        ))
+        magnitude = 2 * np.pi * frequency / max(np.sqrt(max(1 - damping**2, 1e-12)), 1e-12)
+        output.append(
+            CrossClusterConsensusMode(
+                mode=DmdMode(
+                    frequency_hz=frequency,
+                    damping_ratio=damping,
+                    decay_rate=float(-damping * magnitude),
+                    strength=float(np.median(strengths)),
+                    shape_real=tuple(float(value) for value in consensus_shape.real),
+                    shape_imag=tuple(float(value) for value in consensus_shape.imag),
+                ),
+                support_fraction=float(support),
+                supporting_clusters=tuple(sorted(strongest)),
+                total_clusters=len(cluster_names),
+                member_modes=len(members),
+                frequency_mad_hz=float(np.median(np.abs(frequencies - frequency))),
+                damping_mad=float(np.median(np.abs(dampings - damping))),
+                median_shape_mac=float(
+                    np.median(
+                        [
+                            modal_assurance_criterion(
+                                consensus_shape,
+                                np.asarray(mode.shape_real) + 1j * np.asarray(mode.shape_imag),
+                            )
+                            for mode in selected
+                        ]
+                    )
+                ),
+            )
+        )
     return sorted(
         output,
         key=lambda item: (-item.support_fraction, item.mode.frequency_hz, -item.mode.strength),
@@ -364,12 +642,8 @@ def input_aware_delay_modes(
     targets: list[np.ndarray] = []
     initial_delays: list[np.ndarray] = []
     for index in range(delays - 1, len(output) - 1):
-        output_delay = np.concatenate(
-            [output[index - lag] for lag in range(delays)]
-        )
-        input_delay = np.concatenate(
-            [forcing[index - lag] for lag in range(delays)]
-        )
+        output_delay = np.concatenate([output[index - lag] for lag in range(delays)])
+        input_delay = np.concatenate([forcing[index - lag] for lag in range(delays)])
         rows.append(np.concatenate((output_delay, input_delay)))
         targets.append(output[index + 1])
         initial_delays.append(output_delay)
@@ -496,17 +770,19 @@ def input_aware_modal_consensus(
     )
     clusters: list[list[tuple[int, DmdMode]]] = []
     for _, fit_index, mode in observations:
-        shape = np.asarray(mode.shape_real)+1j*np.asarray(mode.shape_imag)
+        shape = np.asarray(mode.shape_real) + 1j * np.asarray(mode.shape_imag)
         best_cluster = None
         best_cost = float("inf")
         for cluster_index, cluster in enumerate(clusters):
             frequencies = np.asarray([member.frequency_hz for _, member in cluster])
             center = float(np.median(frequencies))
-            relative = abs(mode.frequency_hz-center)/max(center, np.finfo(float).eps)
+            relative = abs(mode.frequency_hz - center) / max(center, np.finfo(float).eps)
             representative = max(cluster, key=lambda item: item[1].strength)[1]
-            representative_shape = np.asarray(representative.shape_real)+1j*np.asarray(representative.shape_imag)
+            representative_shape = np.asarray(representative.shape_real) + 1j * np.asarray(
+                representative.shape_imag
+            )
             mac = modal_assurance_criterion(representative_shape, shape)
-            cost = relative+1.0-mac
+            cost = relative + 1.0 - mac
             if relative <= frequency_tolerance and mac >= minimum_mac and cost < best_cost:
                 best_cluster, best_cost = cluster_index, cost
         if best_cluster is None:
@@ -516,7 +792,9 @@ def input_aware_modal_consensus(
             # cluster; keep its strongest instance to prevent repeated roots
             # from inflating support.
             cluster = clusters[best_cluster]
-            existing = next((index for index, item in enumerate(cluster) if item[0] == fit_index), None)
+            existing = next(
+                (index for index, item in enumerate(cluster) if item[0] == fit_index), None
+            )
             if existing is None:
                 cluster.append((fit_index, mode))
             elif mode.strength > cluster[existing][1].strength:
@@ -524,36 +802,36 @@ def input_aware_modal_consensus(
 
     retained: list[ConsensusDmdMode] = []
     for cluster in clusters:
-        support = len({fit_index for fit_index, _ in cluster})/total_fits
-        if support+1e-15 < minimum_support_fraction:
+        support = len({fit_index for fit_index, _ in cluster}) / total_fits
+        if support + 1e-15 < minimum_support_fraction:
             continue
         members = [mode for _, mode in cluster]
         frequencies = np.asarray([mode.frequency_hz for mode in members])
         dampings = np.asarray([mode.damping_ratio for mode in members])
         strengths = np.asarray([mode.strength for mode in members])
         reference = max(members, key=lambda mode: mode.strength)
-        reference_shape = np.asarray(reference.shape_real)+1j*np.asarray(reference.shape_imag)
+        reference_shape = np.asarray(reference.shape_real) + 1j * np.asarray(reference.shape_imag)
         aligned = []
         for member in members:
-            shape = np.asarray(member.shape_real)+1j*np.asarray(member.shape_imag)
+            shape = np.asarray(member.shape_real) + 1j * np.asarray(member.shape_imag)
             phase = np.vdot(reference_shape, shape)
             if abs(phase) > np.finfo(float).eps:
-                shape = shape*np.exp(-1j*np.angle(phase))
+                shape = shape * np.exp(-1j * np.angle(phase))
             aligned.append(shape)
         consensus_shape = np.mean(aligned, axis=0)
         norm = np.linalg.norm(consensus_shape)
         if norm <= np.finfo(float).eps:
             continue
-        consensus_shape = consensus_shape/norm
+        consensus_shape = consensus_shape / norm
         frequency = float(np.median(frequencies))
         damping = float(np.median(dampings))
-        magnitude = 2*np.pi*frequency/max(np.sqrt(max(1.0-damping**2, 1e-12)), 1e-12)
+        magnitude = 2 * np.pi * frequency / max(np.sqrt(max(1.0 - damping**2, 1e-12)), 1e-12)
         retained.append(
             ConsensusDmdMode(
                 mode=DmdMode(
                     frequency_hz=frequency,
                     damping_ratio=damping,
-                    decay_rate=float(-damping*magnitude),
+                    decay_rate=float(-damping * magnitude),
                     strength=float(np.median(strengths)),
                     shape_real=tuple(float(value) for value in consensus_shape.real),
                     shape_imag=tuple(float(value) for value in consensus_shape.imag),
@@ -561,8 +839,8 @@ def input_aware_modal_consensus(
                 support_fraction=float(support),
                 supporting_fits=len(cluster),
                 total_fits=total_fits,
-                frequency_mad_hz=float(np.median(np.abs(frequencies-frequency))),
-                damping_mad=float(np.median(np.abs(dampings-damping))),
+                frequency_mad_hz=float(np.median(np.abs(frequencies - frequency))),
+                damping_mad=float(np.median(np.abs(dampings - damping))),
             )
         )
     return sorted(retained, key=lambda item: (-item.support_fraction, -item.mode.strength))
@@ -602,14 +880,18 @@ def pooled_input_aware_delay_modes(
             inputs = inputs[:, None]
         if values.ndim != 2 or inputs.ndim != 2 or len(values) != len(inputs):
             raise ValueError("each value/input path must be aligned and two-dimensional")
-        if len(values) <= delays+2 or not np.isfinite(values).all() or not np.isfinite(inputs).all():
+        if (
+            len(values) <= delays + 2
+            or not np.isfinite(values).all()
+            or not np.isfinite(inputs).all()
+        ):
             raise ValueError("each path must be finite and longer than the delay order")
         if n_output is None:
             n_output, n_input = values.shape[1], inputs.shape[1]
         if values.shape[1] != n_output or inputs.shape[1] != n_input:
             raise ValueError("all paths must share output and input dimensions")
-        outputs.append(values-np.mean(values, axis=0, keepdims=True))
-        forcings.append(inputs-np.mean(inputs, axis=0, keepdims=True))
+        outputs.append(values - np.mean(values, axis=0, keepdims=True))
+        forcings.append(inputs - np.mean(inputs, axis=0, keepdims=True))
     if not np.isfinite(dt) or dt <= 0:
         raise ValueError("dt must be finite and positive")
     if not np.isfinite(ridge) or ridge < 0:
@@ -617,33 +899,33 @@ def pooled_input_aware_delay_modes(
     assert n_output is not None
     rows, targets, initial_delays = [], [], []
     for output, forcing in zip(outputs, forcings, strict=True):
-        for index in range(delays-1, len(output)-1):
-            output_delay = np.concatenate([output[index-lag] for lag in range(delays)])
-            input_delay = np.concatenate([forcing[index-lag] for lag in range(delays)])
+        for index in range(delays - 1, len(output) - 1):
+            output_delay = np.concatenate([output[index - lag] for lag in range(delays)])
+            input_delay = np.concatenate([forcing[index - lag] for lag in range(delays)])
             rows.append(np.concatenate((output_delay, input_delay)))
-            targets.append(output[index+1])
+            targets.append(output[index + 1])
             initial_delays.append(output_delay)
     design, target = np.asarray(rows), np.asarray(targets)
     scale = np.sqrt(np.mean(design**2, axis=0))
-    informative = scale > max(float(np.max(scale))*1e-12, np.finfo(float).eps)
+    informative = scale > max(float(np.max(scale)) * 1e-12, np.finfo(float).eps)
     scale = np.where(informative, scale, 1.0)
-    normalized = design/scale
-    gram = normalized.T@normalized+float(ridge)*np.eye(normalized.shape[1])
-    coefficients = np.linalg.solve(gram, normalized.T@target)/scale[:, None]
-    state_size = delays*n_output
+    normalized = design / scale
+    gram = normalized.T @ normalized + float(ridge) * np.eye(normalized.shape[1])
+    coefficients = np.linalg.solve(gram, normalized.T @ target) / scale[:, None]
+    state_size = delays * n_output
     companion = np.zeros((state_size, state_size), dtype=float)
     companion[:n_output] = coefficients[:state_size].T
     if delays > 1:
-        companion[n_output:, :-n_output] = np.eye(state_size-n_output)
+        companion[n_output:, :-n_output] = np.eye(state_size - n_output)
     eigenvalues, eigenvectors = np.linalg.eig(companion)
     delay_states = np.asarray(initial_delays).T
     amplitudes, *_ = np.linalg.lstsq(eigenvectors, delay_states, rcond=None)
-    amplitude = np.sqrt(np.mean(np.abs(amplitudes)**2, axis=1))
+    amplitude = np.sqrt(np.mean(np.abs(amplitudes) ** 2, axis=1))
     with np.errstate(divide="ignore", invalid="ignore"):
-        continuous = np.log(eigenvalues.astype(complex))/float(dt)
+        continuous = np.log(eigenvalues.astype(complex)) / float(dt)
     modes: list[DmdMode] = []
     for index, pole in enumerate(continuous):
-        frequency = float(abs(pole.imag)/(2*np.pi))
+        frequency = float(abs(pole.imag) / (2 * np.pi))
         if (
             pole.imag <= 0
             or frequency < min_frequency_hz
@@ -655,15 +937,17 @@ def pooled_input_aware_delay_modes(
         norm, magnitude = float(np.linalg.norm(shape)), float(abs(pole))
         if not np.isfinite(magnitude) or norm <= np.finfo(float).eps:
             continue
-        shape = shape/norm
-        modes.append(DmdMode(
-            frequency_hz=frequency,
-            damping_ratio=float(-pole.real/magnitude),
-            decay_rate=float(pole.real),
-            strength=float(amplitude[index]*norm),
-            shape_real=tuple(float(value) for value in shape.real),
-            shape_imag=tuple(float(value) for value in shape.imag),
-        ))
+        shape = shape / norm
+        modes.append(
+            DmdMode(
+                frequency_hz=frequency,
+                damping_ratio=float(-pole.real / magnitude),
+                decay_rate=float(pole.real),
+                strength=float(amplitude[index] * norm),
+                shape_real=tuple(float(value) for value in shape.real),
+                shape_imag=tuple(float(value) for value in shape.imag),
+            )
+        )
     return sorted(modes, key=lambda mode: mode.strength, reverse=True)
 
 
@@ -691,76 +975,98 @@ def pooled_input_aware_modal_consensus(
     for order in orders:
         for ridge in ridges:
             modes = pooled_input_aware_delay_modes(
-                value_paths, input_paths, dt,
-                delays=order, ridge=ridge,
+                value_paths,
+                input_paths,
+                dt,
+                delays=order,
+                ridge=ridge,
                 min_frequency_hz=min_frequency_hz,
                 max_frequency_hz=max_frequency_hz,
             )
-            fits.append([
-                mode for mode in modes
-                if minimum_damping_ratio <= mode.damping_ratio <= maximum_damping_ratio
-            ])
+            fits.append(
+                [
+                    mode
+                    for mode in modes
+                    if minimum_damping_ratio <= mode.damping_ratio <= maximum_damping_ratio
+                ]
+            )
     # Reuse the deterministic stability-map clustering by temporarily
     # providing the precomputed fits to the same local algorithm.  Keeping it
     # explicit here avoids silently concatenating independent trajectories.
     total_fits = len(fits)
     observations = sorted(
-        ((mode.frequency_hz, fit_index, mode) for fit_index, modes in enumerate(fits) for mode in modes),
+        (
+            (mode.frequency_hz, fit_index, mode)
+            for fit_index, modes in enumerate(fits)
+            for mode in modes
+        ),
         key=lambda item: (item[0], item[1], -item[2].strength),
     )
     clusters: list[list[tuple[int, DmdMode]]] = []
     for _, fit_index, mode in observations:
-        shape = np.asarray(mode.shape_real)+1j*np.asarray(mode.shape_imag)
+        shape = np.asarray(mode.shape_real) + 1j * np.asarray(mode.shape_imag)
         choice, best_cost = None, float("inf")
         for cluster_index, cluster in enumerate(clusters):
             center = float(np.median([member.frequency_hz for _, member in cluster]))
-            relative = abs(mode.frequency_hz-center)/max(center, np.finfo(float).eps)
+            relative = abs(mode.frequency_hz - center) / max(center, np.finfo(float).eps)
             representative = max(cluster, key=lambda item: item[1].strength)[1]
-            representative_shape = np.asarray(representative.shape_real)+1j*np.asarray(representative.shape_imag)
+            representative_shape = np.asarray(representative.shape_real) + 1j * np.asarray(
+                representative.shape_imag
+            )
             mac = modal_assurance_criterion(representative_shape, shape)
-            cost = relative+1-mac
+            cost = relative + 1 - mac
             if relative <= frequency_tolerance and mac >= minimum_mac and cost < best_cost:
                 choice, best_cost = cluster_index, cost
         if choice is None:
             clusters.append([(fit_index, mode)])
         else:
             cluster = clusters[choice]
-            existing = next((index for index, item in enumerate(cluster) if item[0] == fit_index), None)
+            existing = next(
+                (index for index, item in enumerate(cluster) if item[0] == fit_index), None
+            )
             if existing is None:
                 cluster.append((fit_index, mode))
             elif mode.strength > cluster[existing][1].strength:
                 cluster[existing] = (fit_index, mode)
     retained: list[ConsensusDmdMode] = []
     for cluster in clusters:
-        support = len({fit_index for fit_index, _ in cluster})/max(total_fits, 1)
-        if support+1e-15 < minimum_support_fraction:
+        support = len({fit_index for fit_index, _ in cluster}) / max(total_fits, 1)
+        if support + 1e-15 < minimum_support_fraction:
             continue
         members = [mode for _, mode in cluster]
         frequencies = np.asarray([mode.frequency_hz for mode in members])
         dampings = np.asarray([mode.damping_ratio for mode in members])
         strengths = np.asarray([mode.strength for mode in members])
         reference = max(members, key=lambda mode: mode.strength)
-        reference_shape = np.asarray(reference.shape_real)+1j*np.asarray(reference.shape_imag)
+        reference_shape = np.asarray(reference.shape_real) + 1j * np.asarray(reference.shape_imag)
         aligned = []
         for member in members:
-            shape = np.asarray(member.shape_real)+1j*np.asarray(member.shape_imag)
+            shape = np.asarray(member.shape_real) + 1j * np.asarray(member.shape_imag)
             phase = np.vdot(reference_shape, shape)
-            aligned.append(shape*np.exp(-1j*np.angle(phase)) if abs(phase) > np.finfo(float).eps else shape)
+            aligned.append(
+                shape * np.exp(-1j * np.angle(phase)) if abs(phase) > np.finfo(float).eps else shape
+            )
         shape = np.mean(aligned, axis=0)
-        shape = shape/max(np.linalg.norm(shape), np.finfo(float).eps)
+        shape = shape / max(np.linalg.norm(shape), np.finfo(float).eps)
         frequency, damping = float(np.median(frequencies)), float(np.median(dampings))
-        magnitude = 2*np.pi*frequency/max(np.sqrt(max(1-damping**2, 1e-12)), 1e-12)
-        retained.append(ConsensusDmdMode(
-            mode=DmdMode(
-                frequency_hz=frequency, damping_ratio=damping,
-                decay_rate=float(-damping*magnitude), strength=float(np.median(strengths)),
-                shape_real=tuple(float(value) for value in shape.real),
-                shape_imag=tuple(float(value) for value in shape.imag),
-            ),
-            support_fraction=float(support), supporting_fits=len(cluster), total_fits=total_fits,
-            frequency_mad_hz=float(np.median(np.abs(frequencies-frequency))),
-            damping_mad=float(np.median(np.abs(dampings-damping))),
-        ))
+        magnitude = 2 * np.pi * frequency / max(np.sqrt(max(1 - damping**2, 1e-12)), 1e-12)
+        retained.append(
+            ConsensusDmdMode(
+                mode=DmdMode(
+                    frequency_hz=frequency,
+                    damping_ratio=damping,
+                    decay_rate=float(-damping * magnitude),
+                    strength=float(np.median(strengths)),
+                    shape_real=tuple(float(value) for value in shape.real),
+                    shape_imag=tuple(float(value) for value in shape.imag),
+                ),
+                support_fraction=float(support),
+                supporting_fits=len(cluster),
+                total_fits=total_fits,
+                frequency_mad_hz=float(np.median(np.abs(frequencies - frequency))),
+                damping_mad=float(np.median(np.abs(dampings - damping))),
+            )
+        )
     return sorted(retained, key=lambda item: (-item.support_fraction, -item.mode.strength))
 
 
@@ -781,9 +1087,9 @@ def match_dmd_modes(
         for column, cand in enumerate(candidate):
             cand_shape = np.asarray(cand.shape_real) + 1j * np.asarray(cand.shape_imag)
             mac[row, column] = modal_assurance_criterion(ref_shape, cand_shape)
-            relative_frequency[row, column] = abs(
-                cand.frequency_hz - ref.frequency_hz
-            ) / max(ref.frequency_hz, np.finfo(float).eps)
+            relative_frequency[row, column] = abs(cand.frequency_hz - ref.frequency_hz) / max(
+                ref.frequency_hz, np.finfo(float).eps
+            )
             cost[row, column] = relative_frequency[row, column] + 1.0 - mac[row, column]
     rows, columns = linear_sum_assignment(cost)
     matches: list[dict[str, float]] = []
