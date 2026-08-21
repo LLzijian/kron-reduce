@@ -71,12 +71,33 @@ def test_v8_identifies_only_consensus_and_heldout_rollout_gain() -> None:
         "selection_improvement_1s": 0.04,
         "selection_improvement_10s": 0.03,
         "audit_improvement_10s": 0.025,
+        "low_rank_parameter_identifiable": True,
     }
     state, _ = _decision(
         modal, residual, {"case": {"convergent": True}},
         {"minimum_model_improvement": 0.02},
     )
     assert state == "MODAL_STRUCTURE_IDENTIFIED"
+
+
+def test_v8_refuses_modal_promotion_when_loading_is_not_identifiable() -> None:
+    modal = {
+        "fit_consensus": [{"passes_all_roles": True}],
+        "threshold_sensitivity": [{"modes_passing_fit_80pct": 1}],
+        "regime_envelope_map": _complete_map(),
+    }
+    residual = {
+        "selection_improvement_1s": 0.04,
+        "selection_improvement_10s": 0.03,
+        "audit_improvement_10s": 0.025,
+        "low_rank_parameter_identifiable": False,
+    }
+    state, gates = _decision(
+        modal, residual, {"case": {"convergent": True}},
+        {"minimum_model_improvement": 0.02},
+    )
+    assert state == "MODAL_ENVELOPE_MAP_CREATED"
+    assert not gates["low_rank_parameters_identifiable"]
 
 
 def test_v8_incomplete_envelope_map_remains_inconclusive() -> None:

@@ -538,6 +538,13 @@ def _run_residual(root: Path, config: dict[str, Any], result_dir: Path, run_id: 
     if _verify_hashes(controlled):
         raise RuntimeError("v8 controlled artifacts changed before residual diagnosis")
     aggregate = _read_csv(controlled/"candidate_aggregate_metrics.csv")
+    low_rank = json.loads((controlled/"low_rank_candidate.json").read_text(encoding="utf-8"))
+    signal_condition = float(low_rank["weak_fit"]["signal_condition_number"])
+    parameter_identifiable = bool(
+        low_rank["weak_fit"]["solver_success"]
+        and np.isfinite(signal_condition)
+        and signal_condition <= float(config["maximum_hankel_condition"])
+    )
     by_key = {(row["cohort"], row["branch"], int(row["horizon_steps"])): row for row in aggregate}
     def improvement(cohort: str, horizon: int) -> float:
         base = float(by_key[(cohort, "SS-DM", horizon)]["mean_rmse"])
@@ -548,10 +555,21 @@ def _run_residual(root: Path, config: dict[str, Any], result_dir: Path, run_id: 
         "selection_improvement_1s": improvement("development_selection", 100),
         "selection_improvement_10s": improvement("development_selection", 1000),
         "audit_improvement_10s": improvement("development_audit", 1000),
-        "signature": "short-horizon residual repair without held-out long-horizon closure",
+        "low_rank_signal_condition_number": signal_condition,
+        "maximum_registered_condition_number": float(config["maximum_hankel_condition"]),
+        "low_rank_parameter_identifiable": parameter_identifiable,
+        "signature": (
+            "short-horizon residual repair with an ill-conditioned modal loading fit"
+            if not parameter_identifiable
+            else "short-horizon residual repair without held-out long-horizon closure"
+        ),
         "interpretation": (
-            "the low-rank port can explain an early transient force component, but the learned modal "
-            "subspace is not a repeatable long-horizon state across fault lines"
+            "the low-rank port can explain an early transient force component, but its loading "
+            "parameters are not identifiable under the registered condition-number gate and the "
+            "learned subspace is not a repeatable long-horizon state across fault lines"
+            if not parameter_identifiable
+            else "the low-rank port can explain an early transient force component, but the learned "
+            "modal subspace is not a repeatable long-horizon state across fault lines"
         ),
         "test_ids_read": [], "other_folds_read": [],
     }
@@ -571,6 +589,7 @@ def _run_adversarial(root: Path, config: dict[str, Any], result_dir: Path, run_i
     lineage = json.loads((controlled/"lineage.json").read_text(encoding="utf-8"))
     modal = json.loads((controlled/"modal_identifiability.json").read_text(encoding="utf-8"))
     low_rank = json.loads((controlled/"low_rank_candidate.json").read_text(encoding="utf-8"))
+    diagnosis = json.loads((residual/"residual_diagnosis.json").read_text(encoding="utf-8"))
     roles = _read_csv(controlled/"fault_line_development_roles.csv")
     by_line = defaultdict(set)
     for row in roles:
@@ -583,18 +602,31 @@ def _run_adversarial(root: Path, config: dict[str, Any], result_dir: Path, run_i
         "other_folds_locked": lineage["other_folds_read"] == [],
         "low_rank_solver_succeeded": bool(low_rank["weak_fit"]["solver_success"]),
         "low_rank_physics_passed": low_rank["physics"]["status"] == "pass",
+        "low_rank_condition_number_audited": bool(
+            np.isfinite(float(diagnosis["low_rank_signal_condition_number"]))
+        ),
         "threshold_sensitivity_completed": len(modal["threshold_sensitivity"]) >= 9,
     }
     alternatives = [
         {"threat": "ordinary DMD folded observed Pm into its poles", "disposition": "retained; exact DMD is only an empirical descriptor and pooled DMDc is separately reported"},
         {"threat": "lack of consensus is caused by one strict threshold", "disposition": "rejected over the pre-registered 3x3 frequency/MAC sensitivity map"},
-        {"threat": "low-rank failure is numerical", "disposition": "rejected by solver, passivity and RK4 gates"},
+        {
+            "threat": "low-rank failure is numerical or non-identifiable",
+            "disposition": (
+                "retained: the weak design condition number exceeds the registered 1e8 gate; "
+                "the loading cannot support a physical modal claim even though solver, passivity "
+                "and RK4 checks pass"
+                if not diagnosis["low_rank_parameter_identifiable"]
+                else "rejected by the condition-number, solver, passivity and RK4 gates"
+            ),
+        },
         {"threat": "short-horizon gain proves a physical hidden mode", "disposition": "rejected because 10 s selection and disjoint audit do not retain the gain"},
         {"threat": "more optimizer iterations would create cross-line support", "disposition": "rejected: support is an empirical data property measured before fitting the candidate"},
         {"threat": "observed Pm makes the result deployable", "disposition": f"retained; all rollouts remain {ROLLOUT_LABEL}"},
     ]
     review = {
         "run_id": run_id, "status": "PASS" if all(checks.values()) else "FAIL",
+        "low_rank_parameter_identifiable": bool(diagnosis["low_rank_parameter_identifiable"]),
         "checks": checks, "alternative_explanations": alternatives,
         "test_ids_read": [], "other_folds_read": [],
     }
@@ -622,6 +654,7 @@ def _decision(
         float(residual["selection_improvement_10s"]) >= float(config["minimum_model_improvement"])
         and float(residual["audit_improvement_10s"]) >= float(config["minimum_model_improvement"])
     )
+    low_rank_identifiable = bool(residual.get("low_rank_parameter_identifiable", False))
     regime_map = modal.get("regime_envelope_map", {})
     envelope_map_complete = bool(
         regime_map.get("complete_nonoverlapping_assignment")
@@ -632,11 +665,12 @@ def _decision(
         "cross_role_consensus_mode_found": consensus_pass,
         "any_sensitivity_setting_reaches_80pct_fit_support": sensitivity_pass,
         "heldout_10s_low_rank_improvement_at_least_2pct": rollout_pass,
+        "low_rank_parameters_identifiable": low_rank_identifiable,
         "low_rank_short_horizon_gain_is_not_sufficient": float(residual["selection_improvement_1s"]) > 0,
         "RK4_convergent": bool(convergence) and all(bool(row["convergent"]) for row in convergence.values()),
         "regime_envelope_map_complete": envelope_map_complete,
     }
-    if consensus_pass and rollout_pass and gates["RK4_convergent"]:
+    if consensus_pass and rollout_pass and low_rank_identifiable and gates["RK4_convergent"]:
         return "MODAL_STRUCTURE_IDENTIFIED", gates
     # A global candidate that is not promoted never ends discovery.  The
     # envelope map is the safe next decision object whether the failure arose
@@ -645,7 +679,7 @@ def _decision(
     # convert into held-out rollout gain.  Short-horizon gain remains useful
     # residual evidence but is deliberately not an authorization condition.
     routed_to_envelopes = bool(
-        not rollout_pass
+        not (rollout_pass and low_rank_identifiable)
         and gates["RK4_convergent"]
         and envelope_map_complete
     )
@@ -667,7 +701,7 @@ def _write_report(result_dir: Path, acceptance: dict[str, Any]) -> None:
         r"同时构造低秩互易被动端口：$\dot q=p$，$\dot p=L^TB^T\omega-\omega_0^2q-2\zeta\omega_0p$，边力为 $Lp$。同一 $L$ 同时连接输入与输出，保证端口矩阵半正定，且每个 rank 只增加两个动态状态。", "",
         "## 结果", "",
         f"fit/selection/audit 分别包含 {evidence['role_counts']['fit']['fault_lines']}、{evidence['role_counts']['selection']['fault_lines']}、{evidence['role_counts']['audit']['fault_lines']} 条 fault lines。fit 中最佳经验模态支持率为 {evidence['best_fit_support']:.3f}；主阈值下通过全部角色的模态数为 {evidence['cross_role_modes']}。", "",
-        f"低秩端口在 1 s selection 上改善 {100*evidence['selection_improvement_1s']:.2f}%，但 10 s selection 改善为 {100*evidence['selection_improvement_10s']:.2f}%，独立 audit 为 {100*evidence['audit_improvement_10s']:.2f}%。因此短时残差修复不能被解释为已发现的共享振荡状态。", "",
+        f"低秩端口在 1 s selection 上改善 {100*evidence['selection_improvement_1s']:.2f}%，但 10 s selection 改善为 {100*evidence['selection_improvement_10s']:.2f}%，独立 audit 为 {100*evidence['audit_improvement_10s']:.2f}%。弱形式设计矩阵条件数为 {evidence['low_rank_signal_condition_number']:.3e}，参数可辨识门为 {evidence['low_rank_parameter_identifiable']}。因此短时残差修复不能被解释为已发现的共享振荡状态。", "",
         "## 科学结论", "",
         "当前 F1 扰动集合没有为一个跨 fault-line 重复、可用于约束全部激励的唯一经验振型提供足够证据。v8 因而生成 amplitude×richness 包络图，将各包络路由到 ESC 的模态或非模态模型梯级，而不是停止结构发现。需要更长的近自由环降、相同运行点下重复且持续激励的扰动，或可用于输入—输出辨识的独立电气观测来扩大包络。", "",
         "因此现有 SS-DM 继续只能命名为 **rollout-accurate dynamic equivalent**；本轮没有读取冻结 validation，也没有晋级任何新模态模块。包络图是下一阶段选择依据，不是已部署模型库。", "",
@@ -699,6 +733,8 @@ def _run_acceptance(root: Path, config: dict[str, Any], result_dir: Path, run_id
         "selection_improvement_1s": float(residual["selection_improvement_1s"]),
         "selection_improvement_10s": float(residual["selection_improvement_10s"]),
         "audit_improvement_10s": float(residual["audit_improvement_10s"]),
+        "low_rank_signal_condition_number": float(residual["low_rank_signal_condition_number"]),
+        "low_rank_parameter_identifiable": bool(residual["low_rank_parameter_identifiable"]),
     }
     acceptance = {
         "run_id": run_id,
