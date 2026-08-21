@@ -651,6 +651,33 @@ def _modal_absolute_gate(summary: dict[str, Any], config: dict[str, Any]) -> dic
     }
 
 
+def _confirmed_branch(entry: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
+    selected = str(entry["selection"]["selected_branch"])
+    base = _horizon_row(entry["audit_aggregate"]["B2"], 1000)
+    selected_row = _horizon_row(entry["audit_aggregate"][selected], 1000)
+    audit_improvement = (float(base["mean_rmse"]) - float(selected_row["mean_rmse"])) / max(
+        float(base["mean_rmse"]), np.finfo(float).eps
+    )
+    confirmed = bool(
+        selected == "B2"
+        or (
+            audit_improvement >= float(config["minimum_model_improvement"])
+            and float(selected_row["failure_rate"]) == 0.0
+        )
+    )
+    return {
+        "selection_branch": selected,
+        "confirmed_branch": selected if confirmed else "B2",
+        "audit_10s_relative_improvement_over_B2": audit_improvement,
+        "promotion_confirmed": confirmed,
+        "fallback_reason": (
+            None
+            if confirmed
+            else "selection promotion failed the disjoint-audit 2% confirmation gate"
+        ),
+    }
+
+
 def _run_residual(
     root: Path,
     config: dict[str, Any],
@@ -678,27 +705,23 @@ def _run_residual(
                 }
             )
             continue
-        selected = entry["selection"]["selected_branch"]
-        base = _horizon_row(entry["audit_aggregate"]["B2"], 1000)
-        selected_row = _horizon_row(entry["audit_aggregate"][selected], 1000)
-        audit_improvement = (float(base["mean_rmse"]) - float(selected_row["mean_rmse"])) / max(
-            float(base["mean_rmse"]), np.finfo(float).eps
-        )
-        modal_gates = _modal_absolute_gate(entry["audit_modal"][selected], config)
+        confirmation = _confirmed_branch(entry, config)
+        confirmed = str(confirmation["confirmed_branch"])
+        confirmed_row = _horizon_row(entry["audit_aggregate"][confirmed], 1000)
+        modal_gates = _modal_absolute_gate(entry["audit_modal"][confirmed], config)
         bootstrap_modes = entry["B2_fault_line_bootstrap_modes"]
         bootstrap_supported = bool(bootstrap_modes) and min(
             float(mode["support_fraction"]) for mode in bootstrap_modes
         ) >= float(config["model_mode_minimum_bootstrap_support"])
         selected_modes_identified = bool(
-            selected == "B2" and bootstrap_supported and all(modal_gates.values())
+            confirmed == "B2" and bootstrap_supported and all(modal_gates.values())
         )
         diagnostics.append(
             {
                 "envelope_id": entry["envelope_id"],
-                "selected_branch": selected,
-                "audit_10s_relative_improvement_over_B2": audit_improvement,
-                "audit_10s_mean_RMSE": float(selected_row["mean_rmse"]),
-                "audit_failure_rate": float(selected_row["failure_rate"]),
+                **confirmation,
+                "audit_10s_mean_RMSE": float(confirmed_row["mean_rmse"]),
+                "audit_failure_rate": float(confirmed_row["failure_rate"]),
                 "modal_absolute_gates": modal_gates,
                 "B2_model_mode_bootstrap_supported": bootstrap_supported,
                 "selected_dynamic_modes_identified": selected_modes_identified,
@@ -711,7 +734,7 @@ def _run_residual(
                     "explicit-equation poles are stable under fault-line resampling and also "
                     "reproduce held-out trajectory modes"
                     if selected_modes_identified
-                    else "trajectory prediction is available, but the selected dynamic rung's "
+                    else "trajectory prediction is available, but the confirmed dynamic rung's "
                     "complete pole set has not passed both bootstrap and absolute modal gates"
                 ),
             }
@@ -902,7 +925,9 @@ def _run_acceptance(
             {
                 "envelope_id": entry["envelope_id"],
                 "status": "CERTIFIED_OFFLINE_ENVELOPE" if rollout_ok else "MODEL_AVAILABLE",
-                "selected_branch": diagnostic["selected_branch"],
+                "selection_branch": diagnostic["selection_branch"],
+                "selected_branch": diagnostic["confirmed_branch"],
+                "promotion_confirmed": diagnostic["promotion_confirmed"],
                 "earned_name": earned_name,
                 "bounds": entry["bounds"],
                 "evidence": diagnostic,

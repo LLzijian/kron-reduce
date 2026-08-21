@@ -6,6 +6,7 @@ from pathlib import Path
 from kron_reduce.evaluation import physical_model_modes
 from kron_reduce.workflows.m0_afsd_v7_modal_structure_discovery import _fit_ssdm
 from kron_reduce.workflows.m0_esc_v1_excitation_conditioned_selection import (
+    _confirmed_branch,
     _hypothesis_registry,
     _select_ladder,
     _synthetic_gate,
@@ -75,6 +76,21 @@ def test_ladder_rejects_failed_or_nonphysical_candidate() -> None:
         config,
     )
     assert decision["selected_branch"] == "B2"
+
+
+def test_disjoint_audit_rejects_unconfirmed_selection_promotion() -> None:
+    config = _config()
+    entry = {
+        "selection": {"selected_branch": "SS-DM"},
+        "audit_aggregate": {
+            "B2": _summary(1.0),
+            "SS-DM": _summary(0.99),
+        },
+    }
+    confirmation = _confirmed_branch(entry, config)
+    assert confirmation["selection_branch"] == "SS-DM"
+    assert confirmation["confirmed_branch"] == "B2"
+    assert confirmation["promotion_confirmed"] is False
 
 
 def test_esc_synthetic_gate_separates_poles_from_participation() -> None:
