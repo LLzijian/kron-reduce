@@ -1,12 +1,21 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .audit import audit_project
 from .data_check import verify_data
 from .git_state import assert_clean, git_head
+
+SCIENTIFIC_VERDICTS = {"ACCEPT", "REJECT", "RETRY"}
+PROMOTION_DECISIONS = {"PROMOTE", "KEEP_BASELINE"}
+
+
+def _is_empty_evidence_value(value: object) -> bool:
+    return value is None or (isinstance(value, str) and not value.strip()) or (
+        isinstance(value, (dict, list, tuple, set)) and not value
+    )
 
 
 def _workflow(root: Path, workflow_name: str = "paper_v1") -> dict:
@@ -49,15 +58,105 @@ def approve(root: Path, gate: str, workflow_name: str = "paper_v1") -> dict:
     if gate not in workflow["approval_required"]:
         raise ValueError(f"gate is not approval-controlled: {gate}")
     state = load_state(root, workflow_name)
-    state.setdefault("approvals", {})[gate] = {"approved_at": datetime.now(timezone.utc).isoformat(), "actor": "explicit_operator_action"}
-    state["history"].append({"action": "approve", "gate": gate, "at": datetime.now(timezone.utc).isoformat()})
+    state.setdefault("approvals", {})[gate] = {
+        "approved_at": datetime.now(UTC).isoformat(),
+        "actor": "explicit_operator_action",
+    }
+    state["history"].append(
+        {"action": "approve", "gate": gate, "at": datetime.now(UTC).isoformat()}
+    )
     save_state(root, state, workflow_name); return state
 
 
-def next_stage(root: Path, workflow_name: str = "paper_v1") -> str | None:
+def _entry_evidence(state: dict, stage: str) -> dict:
+    """Return the evidence that advanced the workflow into ``stage``."""
+    for event in reversed(state.get("history", [])):
+        if event.get("action") == "advance" and event.get("to") == stage:
+            evidence = event.get("evidence", {})
+            return evidence if isinstance(evidence, dict) else {}
+    return {}
+
+
+def _transition_target(
+    workflow: dict, state: dict, outcome: str | None = None
+) -> str | None:
+    current = state["current_stage"]
+    terminal = set(workflow.get("terminal_stages", []))
+    if current in terminal:
+        return None
+    transitions = workflow.get("transitions")
+    if not transitions:
+        index = workflow["stages"].index(current)
+        return workflow["stages"][index + 1] if index + 1 < len(workflow["stages"]) else None
+    spec = transitions.get(current)
+    if spec is None:
+        return None
+    if isinstance(spec, str):
+        return spec
+    if not isinstance(spec, dict):
+        raise TypeError(f"invalid transition specification for {current!r}")
+    selected = outcome or _entry_evidence(state, current).get("scientific_verdict")
+    if selected not in spec:
+        raise RuntimeError(
+            f"stage {current!r} requires one of the registered outcomes: "
+            f"{sorted(spec)}"
+        )
+    return spec[selected]
+
+
+def next_stage(
+    root: Path, workflow_name: str = "paper_v1", outcome: str | None = None
+) -> str | None:
     workflow, state = _workflow(root, workflow_name), load_state(root, workflow_name)
-    index = workflow["stages"].index(state["current_stage"])
-    return workflow["stages"][index + 1] if index + 1 < len(workflow["stages"]) else None
+    return _transition_target(workflow, state, outcome)
+
+
+def _validate_stage_evidence(workflow: dict, target: str, evidence: object) -> None:
+    if not isinstance(evidence, dict):
+        raise TypeError("stage evidence must be a JSON object")
+    if evidence.get("status") != "PASS":
+        raise RuntimeError(f"gate {target} failed")
+    contract = workflow.get("stage_evidence_contracts", {}).get(target, {})
+    required = contract.get("required_fields", [])
+    missing = [field for field in required if field not in evidence]
+    if missing:
+        raise RuntimeError(
+            f"stage {target!r} evidence is missing required fields: {missing}"
+        )
+    allowed_values = contract.get("allowed_values", {})
+    for field, allowed in allowed_values.items():
+        if evidence.get(field) not in allowed:
+            raise RuntimeError(
+                f"stage {target!r} evidence field {field!r} must be one of {allowed}"
+            )
+    empty = [field for field in contract.get("non_empty_fields", []) if _is_empty_evidence_value(evidence.get(field))]
+    if empty:
+        raise RuntimeError(f"stage {target!r} evidence has empty required fields: {empty}")
+    conditional_missing = []
+    for discriminator, cases in contract.get("conditional_required_fields", {}).items():
+        conditional_missing.extend(
+            field
+            for field in cases.get(evidence.get(discriminator), [])
+            if field not in evidence or _is_empty_evidence_value(evidence.get(field))
+        )
+    if conditional_missing:
+        raise RuntimeError(
+            f"stage {target!r} evidence is missing conditional fields: {conditional_missing}"
+        )
+    process_status = evidence.get("process_status")
+    if process_status is not None and process_status != "PASS":
+        raise RuntimeError(f"stage {target!r} process_status must be PASS")
+    verdict = evidence.get("scientific_verdict")
+    if verdict is not None and verdict not in SCIENTIFIC_VERDICTS:
+        raise RuntimeError(f"unregistered scientific_verdict: {verdict!r}")
+    promotion = evidence.get("promotion_decision")
+    if promotion is not None and promotion not in PROMOTION_DECISIONS:
+        raise RuntimeError(f"unregistered promotion_decision: {promotion!r}")
+    accepted = workflow.get("accepted_scientific_verdicts")
+    if accepted and verdict is not None and verdict not in accepted:
+        raise RuntimeError(
+            f"master stage {target!r} requires an accepted scientific verdict"
+        )
 
 
 def record_stage(root: Path, target: str, evidence: object, workflow_name: str = "paper_v1") -> dict:
@@ -72,13 +171,14 @@ def record_stage(root: Path, target: str, evidence: object, workflow_name: str =
         )
     if target in workflow["approval_required"] and not is_approved(root, target, workflow_name):
         raise RuntimeError(f"stage requires explicit approval: {target}")
+    _validate_stage_evidence(workflow, target, evidence)
     state["current_stage"] = target
     state["history"].append(
         {
             "action": "advance",
             "from": current,
             "to": target,
-            "at": datetime.now(timezone.utc).isoformat(),
+            "at": datetime.now(UTC).isoformat(),
             "evidence": evidence,
         }
     )
@@ -104,5 +204,4 @@ def run_one(root: Path, workflow_name: str = "paper_v1") -> dict:
         evidence = {"status": "PASS", "explicit_approval": target}
     else:
         raise RuntimeError(f"stage {target} requires its registered experiment command; loop will not infer it")
-    if evidence["status"] != "PASS": raise RuntimeError(f"gate {target} failed")
     return record_stage(root, target, evidence, workflow_name)

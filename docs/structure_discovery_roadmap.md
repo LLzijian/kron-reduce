@@ -1,9 +1,10 @@
 # Structure discovery beyond a hand-written swing equation
 
-Revision 2, 2026-08-20. Supersedes roadmap v1 (in git history). The change of
-framing follows the owner directive of 2026-08-20: the deliverable is an
-*algorithm for unknown systems*, and its decisive engineering value is
-certified stability analysis without transient integration.
+Revision 4, 2026-08-28. Supersedes roadmap v3 (in git history). The main
+selection unit is now the complete supplied trajectory corpus: one data-level
+cluster decision is followed by one block-prunable physical model. Excitation
+strata are validation views created after the model is frozen, not training
+routers.
 
 ## 0. What changed since v1 of this roadmap
 
@@ -21,12 +22,13 @@ the *validity* question for the current IEEE39 F1 corpus:
 - v3/v4: a single unified clustering/order is **not** uniformly supported
   across excitation regimes (`SOURCE_EXCITATION_CONFOUNDED`-class stop).
 
-Under roadmap v1 these were terminal verdicts. Under the current framing they
-are **envelope measurements**: each one delimits what the *observed
-excitation* can support, and the algorithm must route accordingly — select
-per regime, certify each envelope, compose across regimes, and state exactly
-which new excitation data would enlarge the envelope. v8 (modal
-identifiability) is the first envelope certification of this kind.
+Under the current framing these results motivate a direct data-level loss
+test. A corpus is clustered only when discarded state information, input
+heterogeneity, modal loss, synchronising closure and spectral separation all
+fit inside fixed budgets. Otherwise the same algorithm retains full spatial
+resolution. Mechanisms supported by different excitations are composed as
+removable blocks inside the same model; they do not create a routed model
+library.
 
 ## 1. Target algorithm
 
@@ -34,12 +36,12 @@ For an unknown system observed via post-disturbance trajectories:
 
 ```text
 observed trajectories
-  → excitation-envelope characterization (train-only)
-  → per-envelope selection of spatial resolution, dynamical order, and modules
-      (B2 swing baseline; EG latent EMF states; memory/delay families;
-       modal resonant / low-rank ports; clustering when the excitation is
-       small-signal and feature reduction helps)
-  → energy-structure-preserving fit (passive by construction)
+  → one fast cluster-loss calculation on fit/selection groups
+  → clustered coordinates if every loss budget passes; otherwise full resolution
+  → one B2-rooted model containing supported potential, dissipation,
+    node-storage, decaying-memory and oscillating-memory blocks
+  → whole-block backward deletion with 1/5/10 s closed-loop noninferiority
+  → one frozen energy-structure-preserving model
   → certified outputs:
       a) high-accuracy rollout inside the envelope
       b) low-FSR stability prediction from the rollout
@@ -65,9 +67,9 @@ Levels 1–5 of roadmap v1 remain in force:
   condition/profile width, selection frequency, synthetic recovery,
   held-out reintegration, invariance audits).
 
-Reframing: the *selection unit* at every level is the excitation regime, not
-the corpus. "Not uniformly supported" routes to per-regime selection; it is
-not a stop.
+Reframing: the *selection unit* is the supplied corpus. Non-uniform mechanism
+support is handled by composition inside the unified block model and by
+whole-block validation, rather than by producing several deployment models.
 
 ## 3. Level 6 — stability certificates and regions
 
@@ -108,14 +110,14 @@ synthetic-first (§5). The sample-based certification machinery lives in
 
 ## 4. Composition principle
 
-Different excitation regimes (within one dataset, or across datasets/systems)
-expose different structural oscillations. The algorithm therefore maintains a
-*model library*: each entry pairs a selected model with its certified
-excitation envelope and its earned name. Deployment = envelope detection →
-model selection → refusal if uncovered. A "complete model" claim is only ever
-made over the union of certified envelopes, and the union's coverage gaps are
-reported as data requests (e.g. longer near-free ringdown, repeated
-persistently exciting disturbances, independent voltage/Pe channels).
+Different excitations can expose different mechanisms. Candidate generation
+may use that evidence, but composition occurs inside one explicit equation:
+each mechanism is a storage, dissipation or memory block with reciprocal
+ports. The final structure is selected jointly on the corpus and is frozen
+before amplitude, information-richness or coupling-strength slices are
+reported. Deployment therefore receives one model and one certified
+excitation envelope, with refusal outside that envelope rather than a
+training-time model router.
 
 ## 5. Evidence base
 
@@ -131,28 +133,37 @@ is ordered:
    development, frozen validation read once per frozen branch, test and
    F2–F5 locked behind explicit gates, observed-Pm rollouts labelled as
    conditional upper bounds.
-3. Cross-dataset composition tests as the library grows.
+3. Cross-dataset replication tests as the registered evidence base grows.
 
 ## 6. Status ledger and next implementations
 
-| Item | State (2026-08-20) | Under this roadmap |
+| Item | State (2026-08-28) | Under this roadmap |
 |------|--------------------|--------------------|
-| M0-3EG-DF | accepted single-seed anchor (F1) | retained as a library entry with its envelope |
+| M0-3EG-DF | accepted single-seed anchor (F1) | retained as a fixed comparison baseline |
 | SS-DM full model | rollout-accurate dynamic equivalent (v6) | retained; naming unchanged until modal/stability gates pass |
-| v7/v7b resonant modules | rejected for promotion | retained as library candidates; their noninferiority evidence stays |
-| v8 modal identifiability | code complete, no runs | first *envelope certification*; all three terminal states feed the envelope map |
+| v7/v7b resonant modules | rejected for promotion | retained as candidate-module evidence; their noninferiority evidence stays |
+| v8 modal identifiability | completed: `MODAL_ENVELOPE_MAP_CREATED`; no shared modal promotion | use shared-equation poles plus excitation-local observability; do not claim unsupported frequencies |
+| ESC v1 | completed historical per-envelope library | immutable historical evidence only; not the deployment architecture |
+| high-order cluster validation | `VALIDATED_REFUSAL`, selected rank 10 | freeze the ten-machine spatial resolution for the current data level |
+| combined ten-machine candidate | `IDENTIFICATION_FAILED`; physical and numerical gates pass, trajectory and modal gates fail | keep as a failed candidate and P1 diagnostic target; do not promote |
 | M2A-LYAP | dormant since 2026-07-24 | certificate suite revived inside Level 6 |
-| PQSC / structure forest | scratch prototypes | migrate only behind synthetic-registry evidence |
+| IEEE39 Level 6 boundary audit data | not registered | create a new checksum-locked version; never alter canonical v1 |
 
 Recommended next implementations, in order:
 
-1. **Finish v8** — envelope certification for shared modal structure on F1.
-2. **Synthetic benchmark registry v1** — multi-machine families with known
-   frequencies, known stability regions, and scripted excitation regimes
-   (small-signal / large-signal / mixed). This unblocks every Level 6 and
-   "unknown system" claim.
-3. **ESC v1 workflow** (`docs/protocols/m0_esc_v1_excitation_conditioned_selection.md`)
-   — the first workflow implementing §1–§4 end to end on synthetic + IEEE39
-   F1.
-4. Only then consider requesting a new gate for multi-fold or second-seed
-   generalization; test stays locked until manuscript freeze.
+1. **P1 failure diagnosis** — reproduce the combined ten-machine failure and
+   separate block contribution, causal mechanical-power closure, objective
+   scaling, identifiability, and modal-audit causes.
+2. **P2 comparison contract** — freeze causal B2, M0-3EG-DF, M0-GMD-PM,
+   SS-DM, and registered data-driven baselines under identical roles,
+   horizons, integrator, and statistics.
+3. **P3/P4 unified block model** — generate candidates from excitation views,
+   fit the union as one model, and perform whole-block backward deletion on
+   F1 train/selection/internal-audit data only.
+4. **P5 Level 6 evidence** — verify algorithms on registered synthetic ground
+   truth, then acquire an independent IEEE39 boundary-audit dataset. The
+   Level 6 name additionally requires FSR 95% upper bound at most 5%, stable
+   envelope coverage at least 50%, conservative certified regions, and the
+   registered margin gates.
+5. Only after P4 and P5 acceptance may F1–F5/seed 324 confirmation begin; no
+   extra seed is read as a failed-confirmation rescue.

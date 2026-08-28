@@ -1,0 +1,18 @@
+{
+  "workflow": "higher_order_cluster_validation_v1",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "validation_run"
+  ],
+  "approval_required": [],
+  "scientific_target": "validate_one_frozen_cluster_decision_on_line_held_out_higher_order_data",
+  "locked_claims": [
+    "test_performance",
+    "official_validation_performance",
+    "other_fold_generalization",
+    "labels_as_selection_inputs",
+    "reference_partitions_as_ground_truth",
+    "audit_feedback_into_cluster_selection"
+  ]
+}

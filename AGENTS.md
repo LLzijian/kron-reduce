@@ -15,9 +15,12 @@ Priorities are physical correctness (including passivity and energy
 structure), closed-loop reintegration accuracy, leakage-free evidence, and
 only then classification scores. Model selection — clustering, dynamical
 order, latent/residual/delay modules — is an excitation-conditional
-engineering choice made on train/validation data only; lack of uniform
-support across excitations routes to per-regime selection and composition,
-never to termination.
+engineering choice made on train/validation data only. Excitation views may
+propose and audit different modules, but one supplied corpus produces one
+jointly fitted model whose structure is the supported module union. Source or
+regime labels never route predictions; unsupported modules are removed and
+evaluations outside the certified excitation envelope refuse rather than
+extrapolate.
 
 Authoritative entrypoints:
 

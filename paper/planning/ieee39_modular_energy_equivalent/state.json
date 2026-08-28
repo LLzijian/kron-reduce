@@ -1,0 +1,18 @@
+{
+  "project": "ieee39_modular_energy_equivalent",
+  "mode": "hybrid",
+  "text_type": "ieee_journal_research_plan_and_manuscript",
+  "language": "mixed",
+  "target_reader": "IEEE power-system dynamics and model-reduction researchers",
+  "current_round": 0,
+  "scores": [],
+  "technical_debts": [
+    "P1 must quantify module counterfactual effect versus matched ten-machine baselines",
+    "P1 must isolate the cause of long-horizon speed error",
+    "P1 must align modal audit with shared-pole and excitation-local observability evidence",
+    "P5 requires a new independent IEEE39 stability-boundary audit dataset",
+    "P6 five-fold evidence has not been run"
+  ],
+  "status": "foundation"
+}
+

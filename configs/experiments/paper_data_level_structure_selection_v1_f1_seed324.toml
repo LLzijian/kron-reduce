@@ -1,0 +1,67 @@
+task_type = "single_corpus_cluster_decision_and_prunable_identification"
+protocol_revision = "data_level_structure_selection_v1"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "zoh"
+test_access = "forbidden"
+other_folds_access = "forbidden"
+canonical_mutation = "forbidden"
+
+hypothesis_experiment = "paper_data_level_v1_hypothesis_f1_seed324"
+controlled_experiment = "paper_data_level_v1_controlled_f1_seed324"
+residual_experiment = "paper_data_level_v1_residual_f1_seed324"
+adversarial_experiment = "paper_data_level_v1_adversarial_f1_seed324"
+
+minimum_model_steps = 1001
+selection_horizon_steps = 1001
+fit_max_steps = 1001
+report_horizons = [100, 500, 1000]
+integral_windows = [1, 5, 20, 40, 80]
+ridge_values = [1e-10, 1e-8, 1e-6, 1e-4, 1e-2]
+weak_max_windows_per_case_horizon = 8
+max_internal_step = 0.01
+
+hankel_delays = 12
+hankel_relative_floor = 1e-3
+maximum_hankel_condition = 1e8
+cluster_max_steps = 1001
+cluster_bootstrap_draws = 200
+cluster_information_budget = 0.02
+cluster_input_budget = 0.02
+cluster_mode_budget = 0.05
+cluster_spectral_gap_ratio = 0.25
+cluster_state_budget = 0.02
+cluster_coupling_budget = 0.05
+cluster_closure_budget = 0.02
+cluster_bootstrap_support = 0.80
+cluster_confidence = 0.95
+
+candidate_correlation_threshold = 0.20
+node_high_order_tau = 0.20
+potential_scale = 0.25
+pruning_noninferiority_tolerance = 0.02
+closed_loop_refine_cases = 4
+closed_loop_refine_evaluations = 12
+pruning_refine_cases = 2
+pruning_refine_evaluations = 6
+
+maximum_stability_cases = 0
+stability_angle_limit = 1.5707963267948966
+supply_identity_tolerance = 1e-8
+stability_fsr_upper_target = 0.05
+rk4_order_ratio_lower = 8.0
+rk4_order_ratio_upper = 32.0
+rk4_roundoff_error = 1e-11
+
+[claim_boundaries]
+one_corpus_one_cluster_decision = true
+one_corpus_one_final_model = true
+posthoc_strata_validation_only = true
+causal_fixed_postclear_input = true
+test_performance = false
+other_fold_generalization = false
+physical_line_recovery = false
+machine_parameter_recovery = false

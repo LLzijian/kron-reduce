@@ -3,7 +3,7 @@ from __future__ import annotations
 import importlib
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .git_state import assert_clean, git_head
@@ -35,7 +35,7 @@ def run_experiment(root: Path, experiment_name: str, stage: str) -> Path:
             f"workflow permits only the next registered stage: expected "
             f"{expected_stage!r}, got {stage!r}"
         )
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
     run_id = f"{experiment_name}-{stage}-{timestamp}-{git_head(root)[:8]}"
     result_dir = root / "results" / run_id
     result_dir.mkdir(parents=True, exist_ok=False)
@@ -45,5 +45,19 @@ def run_experiment(root: Path, experiment_name: str, stage: str) -> Path:
     except Exception:
         (result_dir / "RUN_FAILED.json").write_text(json.dumps({"run_id": run_id, "status": "failed"}, indent=2), encoding="utf-8")
         raise
-    record_stage(root, stage, {"status": "PASS", "result_dir": result_dir.name}, workflow_name)
+    evidence = {"status": "PASS", "result_dir": result_dir.name}
+    acceptance_path = result_dir / "acceptance.json"
+    if stage == "acceptance" and acceptance_path.is_file():
+        acceptance = json.loads(acceptance_path.read_text(encoding="utf-8"))
+        for key in (
+            "process_status",
+            "scientific_verdict",
+            "promotion_decision",
+            "rollback_target",
+            "claim_boundary",
+            "paper_usable_claims",
+        ):
+            if key in acceptance:
+                evidence[key] = acceptance[key]
+    record_stage(root, stage, evidence, workflow_name)
     return result_dir

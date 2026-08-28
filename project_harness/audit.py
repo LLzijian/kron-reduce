@@ -100,6 +100,73 @@ def _workflow_state_path(root: Path, workflow_name: str) -> Path:
     return root / ".project_state" / filename
 
 
+def _transition_targets(workflow: dict, stage: str, entry_evidence: dict) -> set[str]:
+    transitions = workflow.get("transitions")
+    stages = workflow["stages"]
+    if not transitions:
+        index = stages.index(stage)
+        return {stages[index + 1]} if index + 1 < len(stages) else set()
+    spec = transitions.get(stage)
+    if spec is None:
+        return set()
+    if isinstance(spec, str):
+        return {spec}
+    if not isinstance(spec, dict):
+        return set()
+    verdict = entry_evidence.get("scientific_verdict")
+    if verdict in spec:
+        return {spec[verdict]}
+    return set(spec.values())
+
+
+def _is_empty_evidence_value(value: object) -> bool:
+    return (
+        value is None
+        or (isinstance(value, str) and not value.strip())
+        or (isinstance(value, (dict, list, tuple, set)) and not value)
+    )
+
+
+def _stage_evidence_error(workflow: dict, stage: str, evidence: object) -> str | None:
+    if not isinstance(evidence, dict) or evidence.get("status") != "PASS":
+        return "evidence is not a passing JSON object"
+    contract = workflow.get("stage_evidence_contracts", {}).get(stage, {})
+    required = contract.get("required_fields", [])
+    missing = [field for field in required if field not in evidence]
+    if missing:
+        return f"missing required evidence fields {missing}"
+    allowed_values = contract.get("allowed_values", {})
+    for field, allowed in allowed_values.items():
+        if evidence.get(field) not in allowed:
+            return f"field {field!r} must be one of {allowed}"
+    empty = [
+        field
+        for field in contract.get("non_empty_fields", [])
+        if _is_empty_evidence_value(evidence.get(field))
+    ]
+    if empty:
+        return f"empty required evidence fields {empty}"
+    conditional_missing = []
+    for discriminator, cases in contract.get("conditional_required_fields", {}).items():
+        conditional_missing.extend(
+            field
+            for field in cases.get(evidence.get(discriminator), [])
+            if field not in evidence or _is_empty_evidence_value(evidence.get(field))
+        )
+    if conditional_missing:
+        return f"missing conditional evidence fields {conditional_missing}"
+    verdict = evidence.get("scientific_verdict")
+    if verdict is not None and verdict not in {"ACCEPT", "REJECT", "RETRY"}:
+        return f"invalid scientific_verdict {verdict!r}"
+    promotion = evidence.get("promotion_decision")
+    if promotion is not None and promotion not in {"PROMOTE", "KEEP_BASELINE"}:
+        return f"invalid promotion_decision {promotion!r}"
+    accepted = workflow.get("accepted_scientific_verdicts")
+    if accepted and verdict is not None and verdict not in accepted:
+        return "master-stage evidence does not carry an accepted scientific verdict"
+    return None
+
+
 def audit_workflow_registry(root: Path) -> list[dict]:
     """Validate workflow definitions and any durable state-machine histories."""
     findings = []
@@ -164,6 +231,103 @@ def audit_workflow_registry(root: Path) -> list[dict]:
                 }
             )
 
+        transitions = workflow.get("transitions")
+        terminal = set(workflow.get("terminal_stages", []))
+        if transitions is not None:
+            if not isinstance(transitions, dict):
+                findings.append(
+                    {
+                        "severity": "ERROR",
+                        "check": "workflow_transitions",
+                        "message": f"transitions must be an object in {path.relative_to(root)}",
+                    }
+                )
+            else:
+                unknown_sources = set(transitions).difference(stages)
+                unknown_terminal = terminal.difference(stages)
+                targets: set[str] = set()
+                invalid_specs = []
+                for source, spec in transitions.items():
+                    if isinstance(spec, str):
+                        targets.add(spec)
+                    elif isinstance(spec, dict) and spec:
+                        if not set(spec).issubset({"ACCEPT", "REJECT", "RETRY"}):
+                            invalid_specs.append(source)
+                        targets.update(value for value in spec.values() if isinstance(value, str))
+                        if len(targets) < 1 or any(not isinstance(value, str) for value in spec.values()):
+                            invalid_specs.append(source)
+                    else:
+                        invalid_specs.append(source)
+                unknown_targets = targets.difference(stages)
+                missing_sources = set(stages).difference(terminal).difference(transitions)
+                if unknown_sources or unknown_targets or unknown_terminal or invalid_specs or missing_sources:
+                    findings.append(
+                        {
+                            "severity": "ERROR",
+                            "check": "workflow_transitions",
+                            "message": (
+                                f"invalid transition graph in {path.relative_to(root)}: "
+                                f"unknown_sources={sorted(unknown_sources)}, "
+                                f"unknown_targets={sorted(unknown_targets)}, "
+                                f"unknown_terminal={sorted(unknown_terminal)}, "
+                                f"invalid_specs={sorted(set(invalid_specs))}, "
+                                f"missing_sources={sorted(missing_sources)}"
+                            ),
+                        }
+                    )
+                if terminal.intersection(transitions):
+                    findings.append(
+                        {
+                            "severity": "ERROR",
+                            "check": "workflow_transitions",
+                            "message": f"terminal stages have outgoing edges in {path.relative_to(root)}",
+                        }
+                    )
+
+        contracts = workflow.get("stage_evidence_contracts", {})
+        invalid_contracts = []
+        if not isinstance(contracts, dict):
+            invalid_contracts.append("<root>")
+        else:
+            for stage, contract in contracts.items():
+                required = contract.get("required_fields") if isinstance(contract, dict) else None
+                if stage not in stages or not isinstance(required, list) or not all(
+                    isinstance(field, str) for field in required
+                ):
+                    invalid_contracts.append(stage)
+                    continue
+                allowed_values = contract.get("allowed_values", {})
+                non_empty_fields = contract.get("non_empty_fields", [])
+                conditional = contract.get("conditional_required_fields", {})
+                valid_allowed = isinstance(allowed_values, dict) and all(
+                    isinstance(field, str) and isinstance(values, list) and values
+                    for field, values in allowed_values.items()
+                )
+                valid_non_empty = isinstance(non_empty_fields, list) and all(
+                    isinstance(field, str) for field in non_empty_fields
+                )
+                valid_conditional = isinstance(conditional, dict) and all(
+                    isinstance(field, str)
+                    and isinstance(cases, dict)
+                    and all(
+                        isinstance(value, str)
+                        and isinstance(fields, list)
+                        and all(isinstance(required_field, str) for required_field in fields)
+                        for value, fields in cases.items()
+                    )
+                    for field, cases in conditional.items()
+                )
+                if not (valid_allowed and valid_non_empty and valid_conditional):
+                    invalid_contracts.append(stage)
+        if invalid_contracts:
+            findings.append(
+                {
+                    "severity": "ERROR",
+                    "check": "workflow_evidence_contract",
+                    "message": f"invalid stage evidence contracts in {path.relative_to(root)}: {invalid_contracts}",
+                }
+            )
+
         if isinstance(name, str) and name.startswith(STRUCTURED_LOOP_PREFIXES):
             if stages[-1] != "merge_gate" or "merge_gate" not in approvals:
                 findings.append(
@@ -209,6 +373,7 @@ def audit_workflow_registry(root: Path) -> list[dict]:
             continue
 
         expected_from = stages[0]
+        entry_evidence: dict = {}
         approved = set(state.get("approvals", {}))
         if not approved.issubset(approvals):
             findings.append(
@@ -223,23 +388,31 @@ def audit_workflow_registry(root: Path) -> list[dict]:
                 continue
             source = event.get("from")
             target = event.get("to")
-            source_index = stages.index(source) if source in stages else -1
-            target_index = stages.index(target) if target in stages else -1
             evidence = event.get("evidence", {})
+            allowed_targets = (
+                _transition_targets(workflow, source, entry_evidence)
+                if source in stages
+                else set()
+            )
+            evidence_error = _stage_evidence_error(workflow, target, evidence)
             if (
                 source != expected_from
-                or target_index != source_index + 1
-                or evidence.get("status") != "PASS"
+                or target not in allowed_targets
+                or evidence_error is not None
             ):
                 findings.append(
                     {
                         "severity": "ERROR",
                         "check": "workflow_state_history",
-                        "message": f"non-contiguous or unverified transition in {state_path.relative_to(root)}",
+                        "message": (
+                            f"non-contiguous or unverified transition in {state_path.relative_to(root)}; "
+                            f"allowed={sorted(allowed_targets)}, evidence_error={evidence_error}"
+                        ),
                     }
                 )
                 break
             expected_from = target
+            entry_evidence = evidence
         if state.get("current_stage") != expected_from:
             findings.append(
                 {

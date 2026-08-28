@@ -44,3 +44,19 @@ COI-preserving RK4 definition. M0 and graph-SINDy M2A identify integral
 weak-form equations instead of numerically differentiated targets. The energy
 candidate is an augmented port-Hamiltonian edge-memory system; its public name
 is assigned only by the numerical certificate gate.
+
+The main data-level selector is split across three boundaries:
+`selection/clusterability.py` owns the single-corpus compression decision,
+`models/prunable_energy_model.py` owns the explicit block dynamics and physical
+certificates, and `workflows/data_level_structure_selection.py` owns the
+leakage-free 60/20/20 lifecycle and immutable artifacts. Post-freeze reporting
+slices never call model fitting or selection code.
+
+The deployment unit is one supplied corpus and one final model. Excitation
+strata may be used on fit/selection data to generate candidate blocks and,
+after freezing, to report where each block is observable. The candidate union
+is fitted jointly and pruned by deleting whole blocks and refitting the
+remainder. Dataset source, excitation regime, fault identity, and stability
+label are neither model inputs nor routing keys. A lack of support narrows the
+certified envelope or removes a block; it does not create a second deployment
+model.

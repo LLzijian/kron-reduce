@@ -1,0 +1,18 @@
+{
+  "workflow": "combined_ten_machine_identification_v1",
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "identification_run"
+  ],
+  "approval_required": [],
+  "scientific_target": "one_frozen_ten_machine_prunable_energy_model_from_combined_F1_training_data",
+  "locked_claims": [
+    "clustering_reconsideration",
+    "source_routing",
+    "future_observed_Pm",
+    "test_performance",
+    "other_fold_generalization",
+    "level_6_stability_certificate"
+  ]
+}

@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+from dataclasses import replace
+
 import numpy as np
 import pytest
 
 from kron_reduce.evaluation.stability_region import (
+    StabilityCertificate,
     certify_sublevel_region,
     check_psd,
     check_storage_curvature,
@@ -102,3 +105,24 @@ def test_missed_instability_rate_matches_fsr_convention() -> None:
     perfect = missed_instability_rate(true_stable, true_stable)
     assert perfect["FSR"] == pytest.approx(0.0)
     assert perfect["FUR"] == pytest.approx(0.0)
+
+
+def test_level_6_certificate_requires_every_independent_gate() -> None:
+    certificate = StabilityCertificate(
+        region_conservative=True,
+        stable_envelope_coverage=0.50,
+        region_symmetric_difference_ratio=0.20,
+        normalized_margin_mae=0.10,
+        margin_rank_correlation=0.80,
+        independent_unstable_groups=80,
+        fsr_95_upper=0.05,
+        false_stable_certificates=0,
+        physics_gates_passed=True,
+        numerical_gates_passed=True,
+        claim_boundary="registered synthetic and IEEE39 audit envelopes",
+    )
+    assert certificate.level_6_eligible
+    assert certificate.to_dict()["status"] == "pass"
+    failed = replace(certificate, stable_envelope_coverage=0.0)
+    assert not failed.level_6_eligible
+    assert not failed.gates["stable_envelope_coverage_at_least_50pct"]
