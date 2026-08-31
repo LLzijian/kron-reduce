@@ -1,0 +1,66 @@
+task_type = "ieee39_modular_energy_p1_current_implementation_diagnosis"
+protocol_revision = "ieee39_modular_energy_p1_a02_v1"
+attempt = 2
+branch = "codex/loop-p1-a02"
+previous_attempt_workflow = "ieee39_modular_energy_p1_a01_v1"
+previous_retry_evidence = "paper/planning/ieee39_modular_energy_equivalent/qa_logs/p1_a01_model_unit_gate_retry.json"
+previous_retry_evidence_sha256 = "53f2ebe96703ddc78245ce2edcd9c8ca9bc14e7ca3190477f8139203cdc3968d"
+dataset = "ieee39_postclear_canonical_v1"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+baseline_run_id = "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4"
+baseline_artifact_manifest_sha256 = "98990e9e4480fa66a943277830d792f6869ef3dd405bbf89663f86e910d2127c"
+model_count = 1
+source_routing = false
+test_access = "locked"
+other_folds_access = "locked"
+locked_folds = ["F2", "F3", "F4", "F5"]
+primary_pm_policy = "zoh_pm_clear"
+observed_pm_policy = "conditional_only"
+observed_pm_main_model_input = false
+bootstrap_draws = 2000
+bootstrap_seed = 324
+minimum_independent_lines_for_modal_verdict = 3
+fewer_than_three_independent_lines_verdict = "UNDETERMINED"
+
+[module_thresholds]
+tau_y_floor = 1e-3
+tau_y_multiplier = 10.0
+tau_phys_floor = 1e-4
+tau_phys_multiplier = 100.0
+deletion_noninferiority_degradation = 0.02
+identifiability_sigma_ratio_min = 1e-6
+identifiability_condition_max = 1e6
+identifiability_profile_tolerance = 0.02
+
+[trajectory_thresholds]
+speed_improvement_min = 0.05
+non_target_degradation_max = 0.02
+causal_closure_observed_gap_recovery_min = 0.50
+
+[modal_thresholds]
+finite_window_energy_min = 0.01
+frequency_relative_error_max = 0.05
+damping_absolute_error_max = 0.05
+mac_min = 0.80
+bootstrap_support_min = 0.80
+
+[physical_numerical_thresholds]
+equilibrium_residual_max = 1e-7
+observability_min = 1e-3
+coi_drift_max = 1e-10
+supply_identity_error_max = 1e-8
+rk4_order_ratio_lower = 8.0
+rk4_order_ratio_upper = 32.0
+
+[controlled_arms]
+names = ["b2_zoh_original_loss", "current_zoh_original_loss", "current_zoh_balanced_loss", "current_observed_pm_balanced_loss_conditional_upper_bound", "current_causal_pm_closure_balanced_loss"]
+
+[claim_boundaries]
+one_shared_model = true
+source_routing = false
+test_performance = false
+f2_f5_selection = false
+observed_pm_conditional_only = true
+level_6_certificate = false

@@ -1,5 +1,6 @@
 {
   "workflow": "ieee39_modular_energy_paper_master_v1",
+  "evidence_contract_version": 2,
   "initial_stage": "scaffold",
   "stages": [
     "scaffold",
@@ -34,7 +35,8 @@
       "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
     },
     "p5_level6_accepted": {
-      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary", "level6_certificate", "dataset_manifest_bindings", "independent_group_audit"],
+      "non_empty_fields": ["process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary", "level6_certificate", "dataset_manifest_bindings", "independent_group_audit"]
     },
     "p6_fivefold_accepted": {
       "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
@@ -58,4 +60,3 @@
     "publication_ready_without_human_metadata"
   ]
 }
-

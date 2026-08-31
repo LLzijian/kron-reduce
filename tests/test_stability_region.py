@@ -126,3 +126,13 @@ def test_level_6_certificate_requires_every_independent_gate() -> None:
     failed = replace(certificate, stable_envelope_coverage=0.0)
     assert not failed.level_6_eligible
     assert not failed.gates["stable_envelope_coverage_at_least_50pct"]
+    for name, invalid in (
+        ("region_conservative", "false"),
+        ("physics_gates_passed", 1),
+        ("numerical_gates_passed", "PASS"),
+        ("independent_unstable_groups", 80.5),
+        ("false_stable_certificates", False),
+        ("sample_based", "true"),
+    ):
+        with pytest.raises(TypeError):
+            replace(certificate, **{name: invalid})

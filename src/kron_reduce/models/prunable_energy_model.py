@@ -99,6 +99,87 @@ class CandidateBlockInstance:
 
 
 @dataclass(frozen=True)
+class PortRealization:
+    """Numerically minimal reciprocal realization of one edge-port factor.
+
+    ``proposed_rank`` is the number of columns supplied by discovery or a
+    checkpoint.  It is intentionally distinct from the candidate metadata:
+    old checkpoints retain their proposed ``port_rank`` even when a numerical
+    re-realization removes dependent or null columns.
+    """
+
+    factor: np.ndarray
+    proposed_rank: int
+    realized_rank: int
+    tolerance: float
+    discarded_rank: int
+    zero_port: bool
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "proposed_rank": self.proposed_rank,
+            "realized_rank": self.realized_rank,
+            "tolerance": self.tolerance,
+            "discarded_rank": self.discarded_rank,
+            "zero_port": self.zero_port,
+        }
+
+
+def _minimal_port_factor(factor: np.ndarray) -> PortRealization:
+    """Return a factor with no numerically null port coordinates.
+
+    The thin SVD form ``U S`` preserves the PSD port operator ``F F.T``
+    within the numerical SVD rank tolerance while avoiding unforced hidden
+    states.  The threshold follows the conventional matrix-rank tolerance and
+    is kept deliberately independent of any data-dependent selection
+    threshold.
+    """
+
+    original = np.asarray(factor, dtype=float)
+    if original.ndim != 2:
+        raise ValueError("reciprocal port factor must be a two-dimensional array")
+    if not np.isfinite(original).all():
+        raise ValueError("reciprocal port factor must contain only finite values")
+    proposed_rank = int(original.shape[1])
+    if original.shape[0] == 0 or proposed_rank == 0:
+        empty = np.zeros((original.shape[0], 0), dtype=float)
+        empty.setflags(write=False)
+        return PortRealization(
+            empty,
+            proposed_rank,
+            0,
+            0.0,
+            proposed_rank,
+            True,
+        )
+    left, singular_values, _ = np.linalg.svd(original, full_matrices=False)
+    smax = float(singular_values[0]) if singular_values.size else 0.0
+    tolerance = float(max(original.shape) * np.finfo(float).eps * smax)
+    if smax == 0.0:
+        realized = np.zeros((original.shape[0], 0), dtype=float)
+    else:
+        keep = singular_values > tolerance
+        left = left[:, keep]
+        # SVD signs are arbitrary.  Canonicalize them once so an otherwise
+        # identical frozen factor cannot silently flip hidden-state axes.
+        for column in range(left.shape[1]):
+            pivot = int(np.argmax(np.abs(left[:, column])))
+            if left[pivot, column] < 0.0:
+                left[:, column] *= -1.0
+        realized = left * singular_values[keep][None, :]
+    realized.setflags(write=False)
+    realized_rank = int(realized.shape[1])
+    return PortRealization(
+        realized,
+        proposed_rank,
+        realized_rank,
+        tolerance,
+        max(0, proposed_rank - realized_rank),
+        realized_rank == 0,
+    )
+
+
+@dataclass(frozen=True)
 class StructureSelectionResult:
     cluster_decision: dict[str, Any]
     active_blocks: tuple[str, ...]
@@ -485,6 +566,9 @@ class PrunableEnergyModel(DynamicsModel):
         self.resonant_gains: np.ndarray | None = None
         self.memory_factors: list[np.ndarray] = []
         self.resonant_factors: list[np.ndarray] = []
+        self._port_realization_cache: dict[
+            tuple[str, int], tuple[np.ndarray, PortRealization]
+        ] = {}
         self.selected_ridge: float | None = None
         self.validation_scales = {"omega": 1.0, "edge_angle": 1.0}
         self.diagnostics: dict[str, Any] = {}
@@ -518,23 +602,53 @@ class PrunableEnergyModel(DynamicsModel):
             RESONANT_MEMORY: resonance,
         }
 
+    def _port_realization(
+        self, index: int, family: str, n_edges: int
+    ) -> PortRealization:
+        if family == EDGE_MEMORY:
+            factors = self.memory_factors
+            gains = self.memory_gains
+        elif family == RESONANT_MEMORY:
+            factors = self.resonant_factors
+            gains = self.resonant_gains
+        else:
+            raise ValueError(f"unsupported reciprocal port family: {family}")
+        if index < len(factors) and factors[index].shape[0] == n_edges:
+            raw = np.asarray(factors[index], dtype=float)
+        elif gains is not None and index < len(gains):
+            raw = np.diag(np.sqrt(np.maximum(gains[index], 0.0)))
+        else:
+            instance = self._instances(family)[index]
+            raw = np.asarray(instance.factor, dtype=float)
+            if raw.ndim != 2 or raw.shape[0] != n_edges:
+                raw = np.eye(n_edges)
+        cache_key = (family, int(index))
+        cached = self._port_realization_cache.get(cache_key)
+        if cached is not None and np.array_equal(cached[0], raw):
+            return cached[1]
+        realization = _minimal_port_factor(raw)
+        # Keep a value snapshot rather than an object identity: calibration
+        # may replace a factor list, while a truly unchanged frozen factor must
+        # retain exactly the same hidden coordinate system.
+        self._port_realization_cache[cache_key] = (raw.copy(), realization)
+        return realization
+
     def _memory_factor(self, index: int, n_edges: int) -> np.ndarray:
-        if index < len(self.memory_factors) and self.memory_factors[index].shape[0] == n_edges:
-            return np.asarray(self.memory_factors[index], dtype=float)
-        if self.memory_gains is not None and index < len(self.memory_gains):
-            return np.diag(np.sqrt(np.maximum(self.memory_gains[index], 0.0)))
-        instance = self._instances(EDGE_MEMORY)[index]
-        factor = np.asarray(instance.factor, dtype=float)
-        return factor if factor.shape[0] == n_edges else np.eye(n_edges)
+        return self._port_realization(index, EDGE_MEMORY, n_edges).factor
 
     def _resonant_factor(self, index: int, n_edges: int) -> np.ndarray:
-        if index < len(self.resonant_factors) and self.resonant_factors[index].shape[0] == n_edges:
-            return np.asarray(self.resonant_factors[index], dtype=float)
-        if self.resonant_gains is not None and index < len(self.resonant_gains):
-            return np.diag(np.sqrt(np.maximum(self.resonant_gains[index], 0.0)))
-        instance = self._instances(RESONANT_MEMORY)[index]
-        factor = np.asarray(instance.factor, dtype=float)
-        return factor if factor.shape[0] == n_edges else np.eye(n_edges)
+        return self._port_realization(index, RESONANT_MEMORY, n_edges).factor
+
+    def _port_realization_diagnostics(self, n_edges: int) -> dict[str, dict[str, Any]]:
+        output: dict[str, dict[str, Any]] = {}
+        for family in (EDGE_MEMORY, RESONANT_MEMORY):
+            for index, instance in enumerate(self._instances(family)):
+                realization = self._port_realization(index, family, n_edges)
+                output[instance.instance_id] = {
+                    **realization.to_dict(),
+                    "candidate_port_rank": int(instance.port_rank),
+                }
+        return output
 
     def _require_fitted(self) -> tuple[int, int]:
         if self.node_damping is None or self.coupling is None:
@@ -1198,7 +1312,7 @@ class PrunableEnergyModel(DynamicsModel):
             else:
                 gains = np.maximum(values, 0.0)
                 factor = np.diag(np.sqrt(gains))
-            self.memory_factors.append(factor)
+            self.memory_factors.append(_minimal_port_factor(factor).factor)
             memory_gains.append(gains)
         self.memory_gains = np.stack(memory_gains) if memory_gains else np.zeros((0, n_edges))
         self.resonant_factors = []
@@ -1212,7 +1326,7 @@ class PrunableEnergyModel(DynamicsModel):
             else:
                 gains = np.maximum(values, 0.0)
                 factor = np.diag(np.sqrt(gains))
-            self.resonant_factors.append(factor)
+            self.resonant_factors.append(_minimal_port_factor(factor).factor)
             resonant_gains.append(gains)
         self.resonant_gains = np.stack(resonant_gains) if resonant_gains else np.zeros((0, n_edges))
 
@@ -1565,6 +1679,7 @@ class PrunableEnergyModel(DynamicsModel):
                 else int(np.linalg.matrix_rank(factors))
                 for name, factors in self.reciprocal_connections().items()
             },
+            "port_realizations": self._port_realization_diagnostics(n_edges),
         }
         return FitResult(
             self.method_name,
@@ -1574,6 +1689,45 @@ class PrunableEnergyModel(DynamicsModel):
             float(loss),
             dict(self.diagnostics),
         )
+
+    def _refresh_parameter_diagnostics(self) -> None:
+        """Keep diagnostic norms synchronized after group-scale refinement."""
+
+        _, n_edges = self._require_fitted()
+        instance_norms: dict[str, float] = {}
+        family_values = {
+            NONLINEAR_POTENTIAL: self.potential_coefficients,
+            EDGE_DAMPING: self.edge_damping_coefficients,
+            NODE_HIGH_ORDER: self.node_high_order_gain,
+        }
+        for family, value in family_values.items():
+            instances = self._instances(family)
+            if instances:
+                instance_norms[instances[0].instance_id] = float(np.linalg.norm(value))
+        for family in (EDGE_MEMORY, RESONANT_MEMORY):
+            for index, instance in enumerate(self._instances(family)):
+                factor = self._port_realization(index, family, n_edges).factor
+                instance_norms[instance.instance_id] = float(np.linalg.norm(factor @ factor.T))
+        self.diagnostics["instance_parameter_norms"] = instance_norms
+        self.diagnostics["block_parameter_norms"] = {
+            family: float(
+                np.sqrt(
+                    sum(
+                        instance_norms.get(instance.instance_id, 0.0) ** 2
+                        for instance in self._instances(family)
+                    )
+                )
+            )
+            for family in self.active_blocks
+        }
+        self.diagnostics["reciprocal_port_ranks"] = {
+            name: [int(factor.shape[1]) for factor in factors]
+            if isinstance(factors, list)
+            else int(np.linalg.matrix_rank(factors))
+            for name, factors in self.reciprocal_connections().items()
+        }
+        self.diagnostics["port_realizations"] = self._port_realization_diagnostics(n_edges)
+        self.diagnostics["parameter_norms_updated_after_refinement"] = True
 
     def refine_closed_loop(
         self,
@@ -1688,7 +1842,8 @@ class PrunableEnergyModel(DynamicsModel):
         )
         refined = residual(result.x)
         accepted = bool(
-            np.isfinite(refined).all()
+            result.success
+            and np.isfinite(refined).all()
             and float(refined @ refined) <= float(baseline @ baseline)
         )
         if not accepted:
@@ -1708,6 +1863,7 @@ class PrunableEnergyModel(DynamicsModel):
             "passivity_preserved": True,
         }
         self.diagnostics["closed_loop_refinement"] = audit
+        self._refresh_parameter_diagnostics()
         return audit
 
     def _hidden_shapes(self, n_nodes: int, n_edges: int) -> dict[str, tuple[int, ...]]:
@@ -2317,6 +2473,229 @@ class PrunableEnergyModel(DynamicsModel):
             "quotient_dimension": int(quotient),
         }
 
+    def _modal_energy_hessian(
+        self, static: dict[str, np.ndarray]
+    ) -> tuple[np.ndarray, dict[str, Any]]:
+        """Storage Hessian in the exact quotient/hidden coordinates of ``linearize``."""
+
+        mass = np.asarray(static["mass"], dtype=float)
+        basis = coi_basis(mass)
+        quotient = basis.shape[1]
+        _, n_edges = self._require_fitted()
+        hidden_shapes = self._hidden_shapes(len(mass), n_edges)
+        hidden_size = sum(int(np.prod(shape)) for shape in hidden_shapes.values())
+        hessian = np.zeros((2 * quotient + hidden_size, 2 * quotient + hidden_size))
+        equilibrium = np.asarray(static["equilibrium_delta"], dtype=float)
+        potential = self.storage_hessian(equilibrium, static)
+        hessian[:quotient, :quotient] = basis.T @ potential @ basis
+        hessian[quotient : 2 * quotient, quotient : 2 * quotient] = (
+            basis.T @ np.diag(mass) @ basis
+        )
+        cursor = 2 * quotient
+        if NODE_HIGH_ORDER in self.active_blocks:
+            size = hidden_shapes["node"][0]
+            hessian[cursor : cursor + size, cursor : cursor + size] = self.node_tau * np.eye(size)
+            cursor += size
+        if EDGE_MEMORY in self.active_blocks:
+            for index, instance in enumerate(self._instances(EDGE_MEMORY)):
+                size = self._memory_factor(index, n_edges).shape[1]
+                hessian[cursor : cursor + size, cursor : cursor + size] = (
+                    float(instance.time_constant) * np.eye(size)
+                )
+                cursor += size
+        if RESONANT_MEMORY in self.active_blocks:
+            for index, instance in enumerate(self._instances(RESONANT_MEMORY)):
+                size = self._resonant_factor(index, n_edges).shape[1]
+                angular = 2 * np.pi * float(instance.frequency_hz)
+                hessian[cursor : cursor + size, cursor : cursor + size] = angular**2 * np.eye(size)
+                cursor += size
+            for index, _instance in enumerate(self._instances(RESONANT_MEMORY)):
+                size = self._resonant_factor(index, n_edges).shape[1]
+                hessian[cursor : cursor + size, cursor : cursor + size] = np.eye(size)
+                cursor += size
+        values = np.linalg.eigvalsh(0.5 * (hessian + hessian.T))
+        return hessian, {
+            "energy_hessian_coordinate_system": "quotient_delta, quotient_speed, hidden_storage",
+            "energy_hessian_min_eigenvalue": float(np.min(values)) if values.size else float("nan"),
+            "energy_hessian_positive_definite": bool(values.size and np.all(values > 0.0)),
+        }
+
+    @staticmethod
+    def _matrix_rank_diagnostics(matrix: np.ndarray) -> tuple[int, float]:
+        singular_values = np.linalg.svd(np.asarray(matrix), compute_uv=False)
+        smax = float(singular_values[0]) if singular_values.size else 0.0
+        tolerance = float(max(matrix.shape) * np.finfo(float).eps * smax)
+        return int(np.count_nonzero(singular_values > tolerance)), tolerance
+
+    def modal_spectrum(
+        self,
+        static: dict[str, np.ndarray],
+        *,
+        min_frequency_hz: float = 0.05,
+        max_frequency_hz: float = 5.0,
+        minimum_speed_visibility: float = 1e-3,
+    ) -> dict[str, Any]:
+        """Separate all internal poles from modes reportable by the equations.
+
+        A reciprocal hidden coordinate may have a mathematically valid pole but
+        no observable speed component.  Such a pole is an implementation
+        detail, not evidence for an oscillation in the reported swing model.
+        """
+
+        if not np.isfinite(minimum_speed_visibility) or minimum_speed_visibility <= 0.0:
+            raise ValueError("minimum_speed_visibility must be finite and positive")
+
+        def refused(reason: str, extra: dict[str, Any] | None = None) -> dict[str, Any]:
+            return {
+                "internal_poles": [],
+                "equation_reportable_modes": [],
+                "diagnostics": {
+                    "status": "refused",
+                    "refusal_reason": reason,
+                    "modal_diagnostics_complete": False,
+                    "paper_support_evaluated": False,
+                    **(extra or {}),
+                },
+            }
+
+        jacobian, diagnostics = self.linearize(static)
+        if not np.isfinite(jacobian).all() or not np.isfinite(
+            diagnostics["equilibrium_residual_inf_norm"]
+        ):
+            return refused("nonfinite_linearization", diagnostics)
+        try:
+            values, vectors = np.linalg.eig(jacobian)
+            energy_hessian, energy_diagnostics = self._modal_energy_hessian(static)
+            inverse_vectors = np.linalg.pinv(vectors)
+            eigenvector_condition = float(np.linalg.cond(vectors))
+        except (FloatingPointError, np.linalg.LinAlgError, ValueError) as error:
+            return refused("incomplete_modal_diagnostics", {"error": str(error), **diagnostics})
+        if not (
+            np.isfinite(values).all()
+            and np.isfinite(vectors).all()
+            and np.isfinite(energy_hessian).all()
+            and np.isfinite(inverse_vectors).all()
+            and np.isfinite(eigenvector_condition)
+        ):
+            return refused("nonfinite_modal_diagnostics", diagnostics)
+        mass = np.asarray(static["mass"], dtype=float)
+        basis = coi_basis(mass)
+        quotient = basis.shape[1]
+        speed_metric = basis.T @ np.diag(mass) @ basis
+        input_projector = np.eye(len(mass)) - np.outer(mass, np.ones(len(mass))) / np.sum(mass)
+        input_matrix = np.zeros((jacobian.shape[0], len(mass)))
+        input_matrix[quotient : 2 * quotient] = basis.T @ (input_projector / mass[:, None])
+        output_matrix = np.zeros((len(mass), jacobian.shape[0]))
+        output_matrix[:, quotient : 2 * quotient] = basis
+        inverse_vectors = np.linalg.pinv(vectors)
+        eigenvector_condition = float(np.linalg.cond(vectors))
+        energy_metric_valid = bool(energy_diagnostics["energy_hessian_positive_definite"])
+        equilibrium_ok = bool(diagnostics["equilibrium_residual_inf_norm"] <= 1e-7)
+        internal_poles: list[dict[str, Any]] = []
+        reportable: list[dict[str, Any]] = []
+        diagnostics_complete = True
+        for index, value in enumerate(values):
+            frequency = abs(float(value.imag)) / (2 * np.pi)
+            magnitude = abs(value)
+            damping = -float(value.real) / magnitude if magnitude > 0 else float("nan")
+            vector = vectors[:, index]
+            speed_shape = basis @ vector[quotient : 2 * quotient]
+            speed_coordinates = vector[quotient : 2 * quotient]
+            speed_energy = float(np.real(np.vdot(speed_coordinates, speed_metric @ speed_coordinates)))
+            total_energy = float(np.real(np.vdot(vector, energy_hessian @ vector)))
+            energy_normalization_available = bool(
+                energy_metric_valid and total_energy > 0.0 and speed_energy >= 0.0
+            )
+            visibility = (
+                float(np.sqrt(speed_energy / total_energy)) if energy_normalization_available else 0.0
+            )
+            residue = (
+                output_matrix
+                @ vector[:, None]
+                @ inverse_vectors[index : index + 1]
+                @ input_matrix
+            )
+            try:
+                residue_rank, residue_tolerance = self._matrix_rank_diagnostics(residue)
+            except (FloatingPointError, np.linalg.LinAlgError, ValueError):
+                residue_rank, residue_tolerance = 0, float("nan")
+            pole_diagnostics_complete = bool(
+                np.isfinite(
+                    [frequency, damping, speed_energy, total_energy, visibility, residue_tolerance]
+                ).all()
+                and np.isfinite(residue).all()
+            )
+            diagnostics_complete = diagnostics_complete and pole_diagnostics_complete
+            pole = {
+                "eigenvalue_real": float(value.real),
+                "eigenvalue_imag": float(value.imag),
+                "frequency_hz": frequency,
+                "damping_ratio": damping,
+                "decay_rate": float(value.real),
+                "positive_imaginary": bool(value.imag > 1e-8),
+                "speed_visibility": visibility,
+                "speed_energy": speed_energy,
+                "total_modal_energy": total_energy,
+                "energy_normalization_available": energy_normalization_available,
+                "input_output_residue_rank": residue_rank,
+                "input_output_residue_tolerance": residue_tolerance,
+                "modal_diagnostics_complete": pole_diagnostics_complete,
+            }
+            internal_poles.append(pole)
+            if (
+                value.imag <= 1e-8
+                or not min_frequency_hz <= frequency <= max_frequency_hz
+                or visibility < minimum_speed_visibility
+                or not equilibrium_ok
+                or not energy_normalization_available
+                or residue_rank <= 0
+                or not pole_diagnostics_complete
+            ):
+                continue
+            # Visibility is intentionally tested before any shape normalization:
+            # an almost-zero speed component must never become a unit shape.
+            shape = speed_shape / np.sqrt(total_energy)
+            reportable.append(
+                {
+                    **pole,
+                    "shape_real": np.real(shape).tolist(),
+                    "shape_imag": np.imag(shape).tolist(),
+                    "linearization": diagnostics,
+                }
+            )
+        if not diagnostics_complete:
+            return refused(
+                "incomplete_modal_diagnostics",
+                {
+                    **diagnostics,
+                    **energy_diagnostics,
+                    "internal_pole_count": len(internal_poles),
+                },
+            )
+        spectrum_diagnostics = {
+            **diagnostics,
+            "equilibrium_residual_gate": equilibrium_ok,
+            "maximum_equilibrium_residual_inf_norm": 1e-7,
+            "minimum_speed_visibility": float(minimum_speed_visibility),
+            "modal_diagnostics_complete": True,
+            **energy_diagnostics,
+            "input_output_residue_rank_method": "right_eigenvector_residue_with_pseudoinverse_left_rows",
+            "eigenvector_condition_number": eigenvector_condition,
+            "paper_support_evaluated": False,
+            "internal_pole_count": len(internal_poles),
+            "equation_reportable_mode_count": len(reportable),
+            "port_realizations": self._port_realization_diagnostics(
+                np.asarray(static["incidence"], dtype=float).shape[1]
+            ),
+        }
+        return {
+            "internal_poles": internal_poles,
+            "equation_reportable_modes": sorted(
+                reportable, key=lambda row: (row["frequency_hz"], row["damping_ratio"])
+            ),
+            "diagnostics": spectrum_diagnostics,
+        }
+
     def modes(
         self,
         static: dict[str, np.ndarray],
@@ -2324,35 +2703,17 @@ class PrunableEnergyModel(DynamicsModel):
         min_frequency_hz: float = 0.05,
         max_frequency_hz: float = 5.0,
     ) -> list[dict[str, Any]]:
-        jacobian, diagnostics = self.linearize(static)
-        values, vectors = np.linalg.eig(jacobian)
-        mass = np.asarray(static["mass"], dtype=float)
-        basis = coi_basis(mass)
-        quotient = basis.shape[1]
-        output = []
-        for index, value in enumerate(values):
-            if value.imag <= 1e-8:
-                continue
-            frequency = abs(float(value.imag)) / (2 * np.pi)
-            if not min_frequency_hz <= frequency <= max_frequency_hz:
-                continue
-            magnitude = abs(value)
-            damping = -float(value.real) / magnitude if magnitude > 0 else float("nan")
-            shape = basis @ vectors[quotient : 2 * quotient, index]
-            norm = np.sqrt(np.sum(np.abs(shape) ** 2 * mass))
-            if norm > 0:
-                shape = shape / norm
-            output.append(
-                {
-                    "frequency_hz": frequency,
-                    "damping_ratio": damping,
-                    "decay_rate": float(value.real),
-                    "shape_real": np.real(shape).tolist(),
-                    "shape_imag": np.imag(shape).tolist(),
-                    "linearization": diagnostics,
-                }
-            )
-        return sorted(output, key=lambda row: (row["frequency_hz"], row["damping_ratio"]))
+        """Return only equation-reportable positive-imaginary modes.
+
+        This method applies the linear equation, equilibrium and visibility
+        gates only.  It does not establish paper-level finite-window support.
+        """
+
+        return self.modal_spectrum(
+            static,
+            min_frequency_hz=min_frequency_hz,
+            max_frequency_hz=max_frequency_hz,
+        )["equation_reportable_modes"]
 
     @staticmethod
     def _modal_noninferior(
@@ -2425,6 +2786,54 @@ class PrunableEnergyModel(DynamicsModel):
                 return False
         return True
 
+    def _remove_zero_port_instances(self) -> list[str]:
+        """Drop dynamic-port instances whose realized port has rank zero.
+
+        A zero reciprocal factor contributes neither force nor hidden dynamics,
+        so retaining it only creates a misleading candidate for modal
+        protection.  This is intentionally an unconditional structural
+        cleanup, rather than a deletion trial.
+        """
+
+        _, n_edges = self._require_fitted()
+        removed = {
+            instance.instance_id
+            for family in (EDGE_MEMORY, RESONANT_MEMORY)
+            for index, instance in enumerate(self._instances(family))
+            if self._port_realization(index, family, n_edges).zero_port
+        }
+        if not removed:
+            return []
+
+        memory_instances = self._instances(EDGE_MEMORY)
+        resonant_instances = self._instances(RESONANT_MEMORY)
+        memory_keep = [instance.instance_id not in removed for instance in memory_instances]
+        resonant_keep = [instance.instance_id not in removed for instance in resonant_instances]
+        if len(self.memory_factors) == len(memory_instances):
+            self.memory_factors = [
+                factor for factor, keep in zip(self.memory_factors, memory_keep, strict=True) if keep
+            ]
+        if self.memory_gains is not None and len(self.memory_gains) == len(memory_instances):
+            self.memory_gains = self.memory_gains[np.asarray(memory_keep, dtype=bool)]
+        if len(self.resonant_factors) == len(resonant_instances):
+            self.resonant_factors = [
+                factor
+                for factor, keep in zip(self.resonant_factors, resonant_keep, strict=True)
+                if keep
+            ]
+        if self.resonant_gains is not None and len(self.resonant_gains) == len(resonant_instances):
+            self.resonant_gains = self.resonant_gains[np.asarray(resonant_keep, dtype=bool)]
+        self.active_instances = tuple(
+            instance for instance in self.active_instances if instance.instance_id not in removed
+        )
+        self.active_blocks = tuple(
+            family
+            for family in OPTIONAL_BLOCKS
+            if any(instance.family == family for instance in self.active_instances)
+        )
+        self._refresh_parameter_diagnostics()
+        return sorted(removed)
+
     def prune(
         self,
         train: list[dict[str, Any]],
@@ -2443,6 +2852,17 @@ class PrunableEnergyModel(DynamicsModel):
         current: PrunableEnergyModel = self
         trace: list[dict[str, Any]] = []
         while current.active_instances:
+            zero_port_removed = current._remove_zero_port_instances()
+            if zero_port_removed:
+                trace.append(
+                    {
+                        "action": "automatic_zero_port_removal",
+                        "removed_instances": zero_port_removed,
+                        "reason": "realized_port_rank_zero",
+                        "modal_protection_bypassed": True,
+                    }
+                )
+                continue
             frozen_ridge = float(current.selected_ridge or run_context.ridge_values[0])
             pruning_context = RunContext(
                 **{**run_context.__dict__, "ridge_values": (frozen_ridge,)}
@@ -2618,16 +3038,22 @@ class PrunableEnergyModel(DynamicsModel):
             "resonant_gains": self.resonant_gains,
         }
         arrays.update(
-            {f"memory_factor_{index}": factor for index, factor in enumerate(self.memory_factors)}
+            {
+                f"memory_factor_{index}": self._memory_factor(index, len(self.coupling))
+                for index in range(len(self._instances(EDGE_MEMORY)))
+            }
         )
         arrays.update(
-            {f"resonant_factor_{index}": factor for index, factor in enumerate(self.resonant_factors)}
+            {
+                f"resonant_factor_{index}": self._resonant_factor(index, len(self.coupling))
+                for index in range(len(self._instances(RESONANT_MEMORY)))
+            }
         )
         np.savez_compressed(path, **arrays)
         path.with_suffix(".json").write_text(
             json.dumps(
                 {
-                    "format_version": 2,
+                    "format_version": 3,
                     "method": self.method_name,
                     "active_blocks": list(self.active_blocks),
                     "active_block_instances": [row.to_dict() for row in self.active_instances],
@@ -2681,17 +3107,29 @@ class PrunableEnergyModel(DynamicsModel):
                 "resonant_gains",
             ):
                 setattr(model, name, np.asarray(data[name], dtype=float))
-            model.memory_factors = [
-                np.asarray(data[f"memory_factor_{index}"], dtype=float)
-                for index in range(len(model._instances(EDGE_MEMORY)))
-                if f"memory_factor_{index}" in data.files
-            ]
-            model.resonant_factors = [
-                np.asarray(data[f"resonant_factor_{index}"], dtype=float)
-                for index in range(len(model._instances(RESONANT_MEMORY)))
-                if f"resonant_factor_{index}" in data.files
-            ]
+            model.memory_factors = []
+            for index in range(len(model._instances(EDGE_MEMORY))):
+                key = f"memory_factor_{index}"
+                raw = (
+                    np.asarray(data[key], dtype=float)
+                    if key in data.files
+                    else np.diag(np.sqrt(np.maximum(model.memory_gains[index], 0.0)))
+                )
+                model.memory_factors.append(_minimal_port_factor(raw).factor)
+            model.resonant_factors = []
+            for index in range(len(model._instances(RESONANT_MEMORY))):
+                key = f"resonant_factor_{index}"
+                raw = (
+                    np.asarray(data[key], dtype=float)
+                    if key in data.files
+                    else np.diag(np.sqrt(np.maximum(model.resonant_gains[index], 0.0)))
+                )
+                model.resonant_factors.append(_minimal_port_factor(raw).factor)
         model.selected_ridge = metadata.get("selected_ridge")
         model.diagnostics = metadata.get("diagnostics", {})
         model.pruning_trace = metadata.get("pruning_trace", [])
+        # Version-1/2 checkpoints kept a proposed port rank but may have
+        # stored redundant columns.  Preserve that metadata and recompute the
+        # realized rank from the loaded operator.
+        model._refresh_parameter_diagnostics()
         return model

@@ -1,0 +1,108 @@
+{
+  "workflow": "ieee39_modular_energy_p1_a02_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "plan_registered",
+    "candidate_acquired",
+    "model_unit_gate",
+    "source_commit",
+    "controlled_experiment",
+    "residual_diagnosis",
+    "adversarial_review",
+    "acceptance",
+    "merge_gate",
+    "rollback_report",
+    "report"
+  ],
+  "transitions": {
+    "scaffold": "plan_registered",
+    "plan_registered": "candidate_acquired",
+    "candidate_acquired": "model_unit_gate",
+    "model_unit_gate": "source_commit",
+    "source_commit": "controlled_experiment",
+    "controlled_experiment": "residual_diagnosis",
+    "residual_diagnosis": "adversarial_review",
+    "adversarial_review": "acceptance",
+    "acceptance": {
+      "ACCEPT": "merge_gate",
+      "REJECT": "rollback_report",
+      "RETRY": "rollback_report"
+    },
+    "merge_gate": "report",
+    "rollback_report": "report"
+  },
+  "terminal_stages": ["report"],
+  "approval_required": ["merge_gate"],
+  "stage_evidence_contracts": {
+    "plan_registered": {
+      "required_fields": ["status", "result_dir"],
+      "non_empty_fields": ["result_dir"]
+    },
+    "candidate_acquired": {
+      "required_fields": ["status", "result_dir"],
+      "non_empty_fields": ["result_dir"]
+    },
+    "model_unit_gate": {
+      "required_fields": ["status", "process_status", "result_dir", "candidate_run", "unit_test_count", "project_audit_status", "data_check_status", "model_contract_status", "leakage_contract_status", "level_6_claimed", "source_snapshot_limitations", "artifact_manifest"],
+      "non_empty_fields": ["result_dir", "candidate_run", "unit_test_count", "project_audit_status", "data_check_status", "model_contract_status", "leakage_contract_status", "source_snapshot_limitations", "artifact_manifest"],
+      "allowed_values": {
+        "process_status": ["PASS"],
+        "project_audit_status": ["PASS"],
+        "data_check_status": ["PASS"],
+        "model_contract_status": ["PASS"],
+        "leakage_contract_status": ["PASS"],
+        "level_6_claimed": [false]
+      }
+    },
+    "source_commit": {
+      "required_fields": ["status", "git_commit", "previous_retry_evidence"],
+      "non_empty_fields": ["git_commit", "previous_retry_evidence"]
+    },
+    "acceptance": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "rollback_target", "claim_boundary", "paper_usable_claims", "result_dir"],
+      "non_empty_fields": ["process_status", "scientific_verdict", "promotion_decision", "rollback_target", "claim_boundary", "paper_usable_claims", "result_dir"],
+      "allowed_values": {
+        "process_status": ["PASS"],
+        "promotion_decision": ["KEEP_BASELINE"]
+      }
+    },
+    "rollback_report": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "rollback_target", "negative_evidence_run", "next_hypothesis", "result_dir"],
+      "non_empty_fields": ["process_status", "scientific_verdict", "promotion_decision", "rollback_target", "negative_evidence_run", "next_hypothesis", "result_dir"],
+      "allowed_values": {
+        "process_status": ["PASS"],
+        "promotion_decision": ["KEEP_BASELINE"]
+      }
+    },
+    "report": {
+      "required_fields": ["status", "branch_terminal", "acceptance_run", "artifact_manifest", "report_path", "report_artifact"],
+      "allowed_values": {
+        "branch_terminal": ["merge_gate", "rollback_report"]
+      },
+      "non_empty_fields": ["branch_terminal", "acceptance_run", "artifact_manifest", "report_path", "report_artifact"],
+      "conditional_required_fields": {
+        "branch_terminal": {
+          "merge_gate": ["merge_commit"],
+          "rollback_report": ["rollback_target", "negative_evidence_run"]
+        }
+      }
+    }
+  },
+  "scientific_target": "p1_current_ten_machine_implementation_diagnosis",
+  "previous_retry_evidence": "paper/planning/ieee39_modular_energy_equivalent/qa_logs/p1_a01_model_unit_gate_retry.json",
+  "locked_claims": [
+    "test_assisted_selection",
+    "source_routing",
+    "multiple_models_for_one_input_corpus",
+    "future_observed_Pm_as_primary_input",
+    "modal_claim_from_fewer_than_three_independent_lines",
+    "modal_claim_from_zero_coupled_pole",
+    "pairwise_replaceability_as_joint_b2_degeneracy",
+    "self_reported_level6_status",
+    "unbound_report_or_commit_reference",
+    "threshold_relaxation_after_results",
+    "promotion_without_acceptance"
+  ]
+}

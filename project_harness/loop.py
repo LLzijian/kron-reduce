@@ -6,16 +6,8 @@ from pathlib import Path
 
 from .audit import audit_project
 from .data_check import verify_data
+from .evidence import EvidenceContext, validate_stage_evidence
 from .git_state import assert_clean, git_head
-
-SCIENTIFIC_VERDICTS = {"ACCEPT", "REJECT", "RETRY"}
-PROMOTION_DECISIONS = {"PROMOTE", "KEEP_BASELINE"}
-
-
-def _is_empty_evidence_value(value: object) -> bool:
-    return value is None or (isinstance(value, str) and not value.strip()) or (
-        isinstance(value, (dict, list, tuple, set)) and not value
-    )
 
 
 def _workflow(root: Path, workflow_name: str = "paper_v1") -> dict:
@@ -111,54 +103,6 @@ def next_stage(
     return _transition_target(workflow, state, outcome)
 
 
-def _validate_stage_evidence(workflow: dict, target: str, evidence: object) -> None:
-    if not isinstance(evidence, dict):
-        raise TypeError("stage evidence must be a JSON object")
-    if evidence.get("status") != "PASS":
-        raise RuntimeError(f"gate {target} failed")
-    contract = workflow.get("stage_evidence_contracts", {}).get(target, {})
-    required = contract.get("required_fields", [])
-    missing = [field for field in required if field not in evidence]
-    if missing:
-        raise RuntimeError(
-            f"stage {target!r} evidence is missing required fields: {missing}"
-        )
-    allowed_values = contract.get("allowed_values", {})
-    for field, allowed in allowed_values.items():
-        if evidence.get(field) not in allowed:
-            raise RuntimeError(
-                f"stage {target!r} evidence field {field!r} must be one of {allowed}"
-            )
-    empty = [field for field in contract.get("non_empty_fields", []) if _is_empty_evidence_value(evidence.get(field))]
-    if empty:
-        raise RuntimeError(f"stage {target!r} evidence has empty required fields: {empty}")
-    conditional_missing = []
-    for discriminator, cases in contract.get("conditional_required_fields", {}).items():
-        conditional_missing.extend(
-            field
-            for field in cases.get(evidence.get(discriminator), [])
-            if field not in evidence or _is_empty_evidence_value(evidence.get(field))
-        )
-    if conditional_missing:
-        raise RuntimeError(
-            f"stage {target!r} evidence is missing conditional fields: {conditional_missing}"
-        )
-    process_status = evidence.get("process_status")
-    if process_status is not None and process_status != "PASS":
-        raise RuntimeError(f"stage {target!r} process_status must be PASS")
-    verdict = evidence.get("scientific_verdict")
-    if verdict is not None and verdict not in SCIENTIFIC_VERDICTS:
-        raise RuntimeError(f"unregistered scientific_verdict: {verdict!r}")
-    promotion = evidence.get("promotion_decision")
-    if promotion is not None and promotion not in PROMOTION_DECISIONS:
-        raise RuntimeError(f"unregistered promotion_decision: {promotion!r}")
-    accepted = workflow.get("accepted_scientific_verdicts")
-    if accepted and verdict is not None and verdict not in accepted:
-        raise RuntimeError(
-            f"master stage {target!r} requires an accepted scientific verdict"
-        )
-
-
 def record_stage(root: Path, target: str, evidence: object, workflow_name: str = "paper_v1") -> dict:
     """Advance exactly one workflow edge after durable evidence exists."""
     workflow = _workflow(root, workflow_name)
@@ -171,7 +115,10 @@ def record_stage(root: Path, target: str, evidence: object, workflow_name: str =
         )
     if target in workflow["approval_required"] and not is_approved(root, target, workflow_name):
         raise RuntimeError(f"stage requires explicit approval: {target}")
-    _validate_stage_evidence(workflow, target, evidence)
+    validate_stage_evidence(
+        EvidenceContext(root=root, workflow=workflow, target=target, state=state, predecessor=current),
+        evidence,
+    )
     state["current_stage"] = target
     state["history"].append(
         {
@@ -200,6 +147,8 @@ def run_one(root: Path, workflow_name: str = "paper_v1") -> dict:
         if head == "UNCOMMITTED":
             raise RuntimeError(f"{target} requires a real Git commit")
         evidence = {"status": "PASS", "git_commit": head}
+        if target == "source_commit" and "previous_retry_evidence" in workflow:
+            evidence["previous_retry_evidence"] = workflow["previous_retry_evidence"]
     elif target in workflow["approval_required"]:
         evidence = {"status": "PASS", "explicit_approval": target}
     else:

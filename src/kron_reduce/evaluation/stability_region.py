@@ -59,6 +59,14 @@ class StabilityCertificate:
     sample_based: bool = True
 
     def __post_init__(self) -> None:
+        for name in (
+            "region_conservative", "physics_gates_passed", "numerical_gates_passed", "sample_based"
+        ):
+            if type(getattr(self, name)) is not bool:
+                raise TypeError(f"{name} must be an explicit boolean")
+        for name in ("independent_unstable_groups", "false_stable_certificates"):
+            if type(getattr(self, name)) is not int:
+                raise TypeError(f"{name} must be an integer count, not a boolean or fraction")
         unit_interval_fields = {
             "stable_envelope_coverage": self.stable_envelope_coverage,
             "region_symmetric_difference_ratio": self.region_symmetric_difference_ratio,
@@ -66,13 +74,13 @@ class StabilityCertificate:
             "fsr_95_upper": self.fsr_95_upper,
         }
         for name, value in unit_interval_fields.items():
-            if not np.isfinite(value) or not 0.0 <= value <= 1.0:
+            if isinstance(value, bool) or not np.isfinite(value) or not 0.0 <= value <= 1.0:
                 raise ValueError(f"{name} must be finite and lie in [0, 1]")
-        if not np.isfinite(self.margin_rank_correlation) or not -1.0 <= self.margin_rank_correlation <= 1.0:
+        if isinstance(self.margin_rank_correlation, bool) or not np.isfinite(self.margin_rank_correlation) or not -1.0 <= self.margin_rank_correlation <= 1.0:
             raise ValueError("margin_rank_correlation must be finite and lie in [-1, 1]")
         if self.independent_unstable_groups < 0 or self.false_stable_certificates < 0:
             raise ValueError("sample counts must be nonnegative")
-        if not self.claim_boundary.strip():
+        if not isinstance(self.claim_boundary, str) or not self.claim_boundary.strip():
             raise ValueError("claim_boundary must be explicit")
 
     @property
