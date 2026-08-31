@@ -1,0 +1,157 @@
+{
+  "schema": "kron_reduce.p1_implementation_slice_check.v1",
+  "created_at": "2026-08-31T13:59:49.784121+00:00",
+  "record_kind": "software_verification_not_scientific_acceptance",
+  "process_status": "PASS",
+  "scientific_verdict": null,
+  "scientific_evaluation_status": "NOT_RUN",
+  "promotion_decision": "KEEP_BASELINE",
+  "workflow": "ieee39_modular_energy_p1_a03_v1",
+  "current_stage": "candidate_acquired",
+  "master_current_stage": "plan_frozen",
+  "source_checkpoint_before_implementation": "adc02048971a2e4053597633dd78e436a80681bc",
+  "source_files": {
+    "src/kron_reduce/data/p1_causal.py": "0d430388c2b9279bd5cefd3b335eeea8d933a53f611ccf32c423a4e784920e98",
+    "src/kron_reduce/models/p1_calibration.py": "c1e9db22bf45a5def328bae92a38fbf88cb612642282f0ab312ed08372db2da8",
+    "tests/test_p1_causal_calibration.py": "9a1c1997432373dfd1685f24b36efd7b95ebe9e47925d7c5bd1669e6f6861f2e",
+    "docs/protocols/ieee39_modular_energy_p1_calibration_slice_v1_zh.md": "9c0653f656ecad864720201a73c0c91a9b062c44a89170812e3c7c2b9d9ae47b"
+  },
+  "pytest": {
+    "tests": 310,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "path": "scratch/one_off/p1full-92f5a133/pytest.xml",
+    "sha256": "4bd25da5324dbd867bd7f64da2898994acb85a63d98170e85b20f989cab6e7d3"
+  },
+  "slice_test_count": 36,
+  "slice_test_cases": [
+    "test_frozen_real_role_metadata_only",
+    "test_complete_request_authorized_before_any_file_open[test-ids0]",
+    "test_complete_request_authorized_before_any_file_open[external_validation-ids1]",
+    "test_complete_request_authorized_before_any_file_open[fit-ids2]",
+    "test_complete_request_authorized_before_any_file_open[fit-ids3]",
+    "test_complete_request_authorized_before_any_file_open[fit-ids4]",
+    "test_fold_and_hash_are_checked_before_trajectory_reads",
+    "test_duplicate_ids_and_cross_role_lines_rejected",
+    "test_actual_hdf5_reads_only_clearing_pm_and_allowed_fields",
+    "test_causal_contract_rejects_attacks_before_calibration[future_pm]",
+    "test_causal_contract_rejects_attacks_before_calibration[label]",
+    "test_causal_contract_rejects_attacks_before_calibration[source_input]",
+    "test_causal_contract_rejects_attacks_before_calibration[short]",
+    "test_causal_contract_rejects_attacks_before_calibration[wrong_role]",
+    "test_causal_contract_rejects_attacks_before_calibration[initial_state]",
+    "test_causal_contract_rejects_attacks_before_calibration[missing]",
+    "test_loss_cells_have_complete_hierarchical_weights_and_same_design",
+    "test_duplicate_source_events_do_not_increase_balanced_loss",
+    "test_duplicate_angle_coordinates_do_not_suppress_balanced_speed_weight",
+    "test_failed_predictions_cannot_be_dropped_or_replaced_by_zero[missing]",
+    "test_failed_predictions_cannot_be_dropped_or_replaced_by_zero[short]",
+    "test_failed_predictions_cannot_be_dropped_or_replaced_by_zero[nan]",
+    "test_physical_group_scaling_scales_port_operator_not_factor_squared",
+    "test_real_rk4_calibration_pair_uses_same_start_and_does_not_mutate_it",
+    "test_unsuccessful_solver_restores_parameters_even_with_smaller_loss",
+    "test_real_solver_reduces_nonzero_synthetic_error_without_changing_modules",
+    "test_actual_model_residual_gradient_agrees_with_complete_objective",
+    "test_prediction_failure_rejects_every_cell_and_preserves_start",
+    "test_nonpassive_start_is_not_certified_by_positive_rescaling",
+    "test_scalar_objective_and_cell_vector_gradients_agree",
+    "test_internal_audit_cannot_be_used_for_fit_or_scale_estimation",
+    "test_targets_are_copied_and_not_mutated_by_caller_after_preparation",
+    "test_invalid_training_scale_cannot_manufacture_zero_loss[inf]",
+    "test_invalid_training_scale_cannot_manufacture_zero_loss[nan]",
+    "test_invalid_training_scale_cannot_manufacture_zero_loss[0.0]",
+    "test_finite_predictions_with_overflowing_squared_loss_are_rejected"
+  ],
+  "checks": [
+    {
+      "command": [
+        "E:\\03-nn_Transfer_Func\\kron-reduce\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "src/kron_reduce/data/p1_causal.py",
+        "src/kron_reduce/models/p1_calibration.py",
+        "tests/test_p1_causal_calibration.py"
+      ],
+      "exit_code": 0,
+      "stdout": "All checks passed!"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": ""
+    }
+  ],
+  "project_audit": {
+    "status": "PASS",
+    "errors": 0,
+    "findings": []
+  },
+  "data_check": {
+    "status": "PASS",
+    "files": 32,
+    "event_count": 315,
+    "dataset_revision": "ieee39_postclear_canonical_v1",
+    "build_id": "canonical_rebuild_20260722T022739",
+    "schema_event_count": 315,
+    "auxiliary_datasets": {
+      "synthetic_benchmark_registry_v1": {
+        "status": "PASS",
+        "files": 2,
+        "revision": "synthetic_benchmark_registry_v1"
+      }
+    }
+  },
+  "candidate_artifact_manifest": {
+    "run_id": "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324-candidate_acquired-20260831T130327Z-93d29d92",
+    "path": "artifact_hashes.json",
+    "sha256": "6864dfaf8805782b194d9d30fe3eda7c877cdae04a4465b3b1f85d691946daf3"
+  },
+  "candidate_contract": {
+    "status": "PASS",
+    "scope": "saved_candidate_metadata_and_lineage_only",
+    "candidate_run": "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324-candidate_acquired-20260831T130327Z-93d29d92",
+    "model_count": 1,
+    "source_routing": false,
+    "level_6_claimed": false,
+    "legacy_baseline_reproducibility_proven": false,
+    "full_model_unit_gate_passed": false,
+    "claim_boundary": "no trajectory, modal, or stability performance claim"
+  },
+  "calibration_settings": {
+    "max_nfev": 16,
+    "ftol": 1e-08,
+    "xtol": 1e-08,
+    "gtol": 1e-08,
+    "lower_scale": 0.25,
+    "upper_scale": 4.0
+  },
+  "fit_policy": "fit_parameters_and_scales_selection_only_for_choice_internal_audit_only_after_freeze",
+  "calibration_parameterization": "positive_physical_block_scales_not_full_coefficient_identification",
+  "implementation_test_data": "new_synthetic_HDF5_and_known_synthetic_RK4_models",
+  "ieee39_role_metadata_read": "saved_candidate_role_manifest_only_by_new_tests",
+  "new_ieee39_controlled_experiment_executed": false,
+  "original_loss_vs_balanced_kernel_implemented": true,
+  "full_five_arm_executor_implemented": false,
+  "model_unit_gate_passed": false,
+  "source_freeze_gate_passed": false,
+  "scientific_acceptance_completed": false,
+  "merge_gate_entered": false,
+  "remaining_required_work": [
+    "fresh_fit_lineage_and_persisted_five_arm_executor",
+    "causal_mechanical_power_closure_and_conditional_only_observed_arm",
+    "block_zeroing_and_delete_refit_execution",
+    "shared_pole_local_observability_statistics",
+    "complete_unit_gate_and_source_freeze_before_scientific_runs"
+  ],
+  "claim_boundary": "Only software correctness of restricted reads and all-case calibration; no IEEE39 accuracy, modal, or stability claim.",
+  "verification_script": {
+    "path": "scratch/one_off/p1cal-check-20260831/verify.py",
+    "sha256": "9372b720adba5b0937d7e8bfbe74a87aebb1e207e40a5d3cf61156e32a509874"
+  }
+}
