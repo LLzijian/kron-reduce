@@ -268,11 +268,14 @@ def calibrate_loss_pair(
     manifest: P1RoleManifest,
     *,
     settings: P1CalibrationSettings | None = None,
+    loss_modes: tuple[bool, ...] = (False, True),
 ) -> tuple[tuple[PrunableEnergyModel, dict[str, Any]], ...]:
     """Compare losses, without certifying prior training lineage or selecting a winner."""
     settings = settings or P1CalibrationSettings()
-    objectives = [P1CalibrationObjective(fit_samples, manifest, balanced=flag) for flag in (False, True)]
-    if objectives[0].common_design != objectives[1].common_design:
+    if loss_modes not in {(False,), (False, True)} or any(type(mode) is not bool for mode in loss_modes):
+        raise ValueError("use the registered pair or B2 original-loss arm only")
+    objectives = [P1CalibrationObjective(fit_samples, manifest, balanced=flag) for flag in loss_modes]
+    if any(objective.common_design != objectives[0].common_design for objective in objectives):
         raise RuntimeError("loss arms must share the complete design")
     common = {**objectives[0].common_design, "solver": asdict(settings)}
     common_hash = hashlib.sha256(json.dumps(common, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
