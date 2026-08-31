@@ -9,3 +9,5 @@ data/ieee39_postclear_canonical_v1/** -text
 legacy/source/** -text
 legacy/evidence/** -text
 legacy/source_manifest.sha256 -text
+# This already-hashed QA record must retain its exact bytes across checkouts.
+paper/planning/ieee39_modular_energy_equivalent/qa_logs/p1_a03_candidate_acquisition_check.json -text

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 import shutil
 import subprocess
@@ -16,16 +17,23 @@ from project_harness.evidence import EvidenceValidationError, verify_artifact_di
 
 WORKFLOW_A01 = "ieee39_modular_energy_p1_a01_v1"
 WORKFLOW_A02 = "ieee39_modular_energy_p1_a02_v1"
+WORKFLOW_A03 = "ieee39_modular_energy_p1_a03_v1"
 WORKFLOW = WORKFLOW_A01
 EXPECTED_BRANCH = "codex/loop-p1-a01"
 PLAN_EXPERIMENT = "paper_ieee39_modular_energy_p1_a01_plan_registered_f1_seed324"
 EXPECTED_BRANCH_BY_WORKFLOW = {
     WORKFLOW_A01: EXPECTED_BRANCH,
     WORKFLOW_A02: "codex/loop-p1-a02",
+    WORKFLOW_A03: "codex/loop-p1-a03",
 }
 PLAN_EXPERIMENT_BY_WORKFLOW = {
     WORKFLOW_A01: PLAN_EXPERIMENT,
     WORKFLOW_A02: "paper_ieee39_modular_energy_p1_a02_plan_registered_f1_seed324",
+    WORKFLOW_A03: "paper_ieee39_modular_energy_p1_a03_plan_registered_f1_seed324",
+}
+CONFIG_FILE_BY_WORKFLOW = {
+    workflow: name.replace("_plan_registered_", "_") + ".toml"
+    for workflow, name in PLAN_EXPERIMENT_BY_WORKFLOW.items()
 }
 
 CONTROLLED_ARMS = [
@@ -118,6 +126,19 @@ EXPECTED_CONFIGS = {
     WORKFLOW_A01: EXPECTED_CONFIG,
     WORKFLOW_A02: EXPECTED_CONFIG_A02,
 }
+EXPECTED_CONFIG_A03: dict[str, Any] = {
+    **EXPECTED_CONFIG_A02,
+    "protocol_revision": WORKFLOW_A03,
+    "attempt": 3,
+    "branch": EXPECTED_BRANCH_BY_WORKFLOW[WORKFLOW_A03],
+    "previous_attempt_workflow": WORKFLOW_A02,
+    "previous_retry_evidence": (
+        "paper/planning/ieee39_modular_energy_equivalent/qa_logs/"
+        "p1_a02_candidate_acquisition_retry.json"
+    ),
+    "previous_retry_evidence_sha256": "c2951301ac15e8b93d6d29478817a731eafdad270bc5fb81424a3604dd51a1b1",
+}
+EXPECTED_CONFIGS[WORKFLOW_A03] = EXPECTED_CONFIG_A03
 
 CRITICAL_SOURCE_FILES = (
     "src/kron_reduce/workflows/combined_ten_machine_identification.py",
@@ -145,6 +166,10 @@ CRITICAL_SOURCE_FILES = (
     "src/kron_reduce/evaluation/stability_region.py",
     "tests/test_stability_region.py",
     "tests/test_harness.py",
+    "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml",
+    "configs/workflows/ieee39_modular_energy_p1_a03_v1.json",
+    "docs/protocols/ieee39_modular_energy_p1_a03_design_zh.md",
+    "tests/test_p1_a03_legacy_migration.py",
 )
 
 
@@ -440,16 +465,24 @@ def _run_plan(
     result_dir: Path,
     run_id: str,
 ) -> None:
-    if config["protocol_revision"] == WORKFLOW_A02:
+    if config["protocol_revision"] in {WORKFLOW_A02, WORKFLOW_A03}:
         previous = _artifact_path(root, str(config["previous_retry_evidence"]))
         if not previous.is_file() or _sha256(previous) != config["previous_retry_evidence_sha256"]:
             raise RuntimeError("previous attempt RETRY evidence hash mismatch")
         previous_record = json.loads(previous.read_text(encoding="utf-8"))
         if previous_record.get("scientific_verdict") != "RETRY" or previous_record.get("state_advanced") is not False:
             raise RuntimeError("previous attempt must record RETRY without gate advancement")
+        if config["protocol_revision"] == WORKFLOW_A03 and previous_record.get("workflow") != config["previous_attempt_workflow"]:
+            raise RuntimeError("previous RETRY evidence belongs to another workflow")
     result_dir.mkdir(parents=True, exist_ok=True)
     (result_dir / "frozen_config.toml").write_bytes(config_path.read_bytes())
-    _json(result_dir / "registration.json", _registration(config, run_id))
+    registration = _registration(config, run_id)
+    if config["protocol_revision"] == WORKFLOW_A03:
+        protocol = root / "docs/protocols/ieee39_modular_energy_p1_a03_design_zh.md"
+        frozen_protocol = result_dir / "frozen_protocol.md"
+        shutil.copyfile(protocol, frozen_protocol)
+        registration["protocol_artifact"] = {"path": frozen_protocol.name, "sha256": _sha256(frozen_protocol)}
+    _json(result_dir / "registration.json", registration)
     _json(
         result_dir / "lineage.json",
         {
@@ -473,7 +506,7 @@ def _find_registered_plan(
 ) -> tuple[Path, dict[str, Any]]:
     results_dir = root / "results"
     workflow = str(config["protocol_revision"])
-    if workflow == WORKFLOW_A02:
+    if workflow in {WORKFLOW_A02, WORKFLOW_A03}:
         from project_harness.loop import load_state
 
         history = load_state(root, workflow)["history"]
@@ -482,7 +515,7 @@ def _find_registered_plan(
             if event.get("action") == "advance" and event.get("to") == "plan_registered"
         ]
         if len(registrations) != 1:
-            raise RuntimeError("A02 requires one history-bound plan registration")
+            raise RuntimeError("P1 retry requires one history-bound plan registration")
         evidence = registrations[0]
         binding = evidence.get("artifact_manifest", {})
         run_name = evidence.get("result_dir")
@@ -504,6 +537,11 @@ def _find_registered_plan(
         verification = _verify_hashes(plan_dir, expected_manifest_sha256=binding.get("sha256"))
         if _sha256(plan_dir / "frozen_config.toml") != _sha256(config_path):
             raise RuntimeError("current config differs from the registered plan")
+        if workflow == WORKFLOW_A03:
+            protocol = root / "docs/protocols/ieee39_modular_energy_p1_a03_design_zh.md"
+            registration = json.loads((plan_dir / "registration.json").read_text(encoding="utf-8"))
+            if registration.get("protocol_artifact") != {"path": "frozen_protocol.md", "sha256": _sha256(protocol)} or _sha256(plan_dir / "frozen_protocol.md") != _sha256(protocol):
+                raise RuntimeError("current protocol differs from the registered plan")
         return plan_dir, verification
     plan_experiment = PLAN_EXPERIMENT_BY_WORKFLOW[workflow]
     candidates = sorted(
@@ -706,6 +744,119 @@ def _data_access_audit(
     }
 
 
+def _unique_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    output: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in output:
+            raise ValueError(f"duplicate JSON key in legacy evidence: {key!r}")
+        output[key] = value
+    return output
+
+
+def _load_legacy_object(path: Path) -> dict[str, Any]:
+    """Read historical JSON, preserving nonfinite numbers internally for audit.
+
+    This reader does not make those numbers usable scientific observations.
+    Duplicate keys are refused because their interpretation is ambiguous.
+    """
+    value = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_json_object)
+    if not isinstance(value, dict):
+        raise TypeError(f"{path.name} must contain a JSON object")
+    return value
+
+
+def _nonfinite_locations(value: Any, pointer: str = "") -> list[dict[str, str]]:
+    """Return JSON pointers and string descriptions, never the nonfinite value."""
+    if isinstance(value, float) and not math.isfinite(value):
+        kind = "NaN" if math.isnan(value) else "Infinity" if value > 0 else "-Infinity"
+        return [{
+            "json_pointer": pointer, "value_kind": kind,
+            "disposition": "preserved_in_legacy_payload_not_claimable",
+        }]
+    if isinstance(value, dict):
+        return [
+            row for key, child in value.items()
+            for row in _nonfinite_locations(child, pointer + "/" + key.replace("~", "~0").replace("/", "~1"))
+        ]
+    if isinstance(value, list):
+        return [row for index, child in enumerate(value) for row in _nonfinite_locations(child, f"{pointer}/{index}")]
+    return []
+
+
+def _legacy_migration_records(baseline_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Build a strict metadata envelope without reserializing legacy science."""
+    legacy = baseline_dir / "structure_selection_result.json"
+    structure = _load_legacy_object(legacy)
+    declarations = {
+        name: _load_legacy_object(baseline_dir / name)
+        for name in ("validation_summary.json", "lineage.json")
+    }
+    for name, record in declarations.items():
+        if type(record.get("model_count")) is not int or record["model_count"] != 1:
+            raise RuntimeError(f"{name} requires explicit integer model_count=1")
+        if record.get("source_routing") is not False:
+            raise RuntimeError(f"{name} requires explicit source_routing=false")
+        if "routing_keys" in record and record["routing_keys"] != []:
+            raise RuntimeError(f"{name} contradicts empty routing_keys")
+    for field, expected in (("model_count", 1), ("source_routing", False), ("routing_keys", [])):
+        if field in structure and (type(structure[field]) is not type(expected) or structure[field] != expected):
+            raise RuntimeError(f"legacy structure contradicts {field}")
+    digest = _sha256(legacy)
+    locations = _nonfinite_locations(structure)
+    envelope = {
+        "schema": "kron_reduce.legacy_structure_envelope.v1",
+        "model_count": 1,
+        "source_routing": False,
+        "routing_keys": [],
+        "legacy_structure_artifact": {"path": "legacy_structure_selection_result.json", "sha256": digest},
+        "format_audit_path": "legacy_format_audit.json",
+        "legacy_baseline_migration": {
+            "baseline_run_id": baseline_dir.name,
+            "original_structure_selection_sha256": digest,
+            "added_fields": [field for field in ("model_count", "source_routing", "routing_keys") if field not in structure],
+            "evidence_sources": ["validation_summary.json", "lineage.json"],
+            "payload_strategy": "byte_for_byte_copy",
+            "scientific_metrics_changed": False,
+        },
+        "claim_boundary": "legacy metadata only; no trajectory, modal, or stability performance claim",
+    }
+    audit = {
+        "schema": "kron_reduce.legacy_json_format_audit.v1",
+        "baseline_run_id": baseline_dir.name,
+        "legacy_structure_artifact": dict(envelope["legacy_structure_artifact"]),
+        "contains_nonfinite_values": bool(locations),
+        "nonfinite_value_count": len(locations),
+        "nonfinite_values": locations,
+        "scientific_values_rewritten": False,
+        "disposition": "preserved_in_legacy_payload_not_claimable",
+        "scientific_acceptance": "NOT_EVALUATED",
+        "raw_trajectory_data_read": False,
+    }
+    return envelope, audit
+
+
+def _write_legacy_migration(baseline_dir: Path, result_dir: Path) -> None:
+    envelope, audit = _legacy_migration_records(baseline_dir)
+    paths = [result_dir / name for name in (
+        "legacy_structure_selection_result.json", "candidate_structure_selection_explicit.json",
+        "legacy_format_audit.json",
+    )]
+    if any(path.exists() for path in paths):
+        raise FileExistsError("legacy migration cannot overwrite existing artifacts")
+    # The copied file is an opaque historical artifact; never JSON-dump it.
+    with (
+        (baseline_dir / "structure_selection_result.json").open("rb") as source,
+        paths[0].open("xb") as destination,
+    ):
+        shutil.copyfileobj(source, destination)
+    if _sha256(paths[0]) != envelope["legacy_structure_artifact"]["sha256"]:
+        raise RuntimeError("legacy structure changed during byte-for-byte migration")
+    for path, record in ((paths[1], envelope), (paths[2], audit)):
+        with path.open("x", encoding="utf-8") as destination:
+            json.dump(record, destination, ensure_ascii=False, indent=2, allow_nan=False)
+            destination.write("\n")
+
+
 def _run_candidate(
     root: Path,
     config_path: Path,
@@ -757,7 +908,7 @@ def _run_candidate(
             **baseline_verification,
         },
     )
-    if config["protocol_revision"] == WORKFLOW_A02:
+    if config["protocol_revision"] in {WORKFLOW_A02, WORKFLOW_A03}:
         model_count_values = {
             "validation_summary": validation.get("model_count"),
             "lineage": baseline_lineage.get("model_count"),
@@ -784,25 +935,28 @@ def _run_candidate(
                 or structure_selection[field] != expected_value
             ):
                 raise RuntimeError(f"legacy structure contradicts {field}")
-        explicit_structure = {
-            **structure_selection,
-            "model_count": 1,
-            "source_routing": False,
-            "routing_keys": [],
-            "legacy_baseline_migration": {
-                "baseline_run_id": baseline_dir.name,
-                "original_structure_selection_sha256": _sha256(
-                    baseline_dir / "structure_selection_result.json"
-                ),
-                "added_fields": [
-                    field for field in ("model_count", "source_routing", "routing_keys")
-                    if field not in structure_selection
-                ],
-                "evidence_sources": ["validation_summary.json", "lineage.json"],
-                "scientific_metrics_changed": False,
-            },
-        }
-        _json(result_dir / "candidate_structure_selection_explicit.json", explicit_structure)
+        if config["protocol_revision"] == WORKFLOW_A03:
+            _write_legacy_migration(baseline_dir, result_dir)
+        else:
+            explicit_structure = {
+                **structure_selection,
+                "model_count": 1,
+                "source_routing": False,
+                "routing_keys": [],
+                "legacy_baseline_migration": {
+                    "baseline_run_id": baseline_dir.name,
+                    "original_structure_selection_sha256": _sha256(
+                        baseline_dir / "structure_selection_result.json"
+                    ),
+                    "added_fields": [
+                        field for field in ("model_count", "source_routing", "routing_keys")
+                        if field not in structure_selection
+                    ],
+                    "evidence_sources": ["validation_summary.json", "lineage.json"],
+                    "scientific_metrics_changed": False,
+                },
+            }
+            _json(result_dir / "candidate_structure_selection_explicit.json", explicit_structure)
         _json(
             result_dir / "model_artifact_manifest.json",
             {
@@ -868,6 +1022,12 @@ def _run_candidate(
         },
     )
     _write_hashes(result_dir)
+    if config["protocol_revision"] == WORKFLOW_A03:
+        # A stage cannot advance merely because its files were writable.
+        validate_p1_candidate_contract(
+            root, result_dir, config,
+            expected_manifest_sha256=_sha256(result_dir / "artifact_hashes.json"),
+        )
 
 
 def run(
@@ -899,8 +1059,9 @@ def validate_p1_candidate_contract(
     that the controlled-experiment implementation is complete.
     """
     _verify_hashes(candidate_dir, expected_manifest_sha256=expected_manifest_sha256)
-    if config.get("protocol_revision") != WORKFLOW_A02:
-        raise RuntimeError("explicit candidate contract requires the A02 protocol")
+    workflow = config.get("protocol_revision")
+    if workflow not in {WORKFLOW_A02, WORKFLOW_A03}:
+        raise RuntimeError("explicit candidate contract requires A02 or A03")
     if not candidate_dir.resolve().is_relative_to((root / "results").resolve()):
         raise RuntimeError("candidate directory must be within registered results")
 
@@ -923,9 +1084,9 @@ def validate_p1_candidate_contract(
     )
     baseline_validation = read_object(baseline_dir, "validation_summary.json")
     baseline_lineage = read_object(baseline_dir, "lineage.json")
-    baseline_structure = read_object(baseline_dir, "structure_selection_result.json")
+    baseline_structure = _load_legacy_object(baseline_dir / "structure_selection_result.json")
     verification = read_object(candidate_dir, "baseline_artifact_verification.json")
-    config_path = root / "configs" / "experiments" / "paper_ieee39_modular_energy_p1_a02_f1_seed324.toml"
+    config_path = root / "configs" / "experiments" / CONFIG_FILE_BY_WORKFLOW[workflow]
     if _strict_differences(tomllib.loads(config_path.read_text(encoding="utf-8")), dict(config)):
         raise RuntimeError("candidate contract config differs from the saved protocol")
     plan_dir, plan_verification = _find_registered_plan(root, config_path, config)
@@ -964,9 +1125,18 @@ def validate_p1_candidate_contract(
         or migration.get("scientific_metrics_changed") is not False
     ):
         raise RuntimeError("legacy structure migration lacks its unchanged-source anchor")
-    for field, value in baseline_structure.items():
-        if structure.get(field) != value:
-            raise RuntimeError(f"legacy scientific field changed during migration: {field}")
+    if workflow == WORKFLOW_A03:
+        expected_structure, expected_audit = _legacy_migration_records(baseline_dir)
+        if _strict_differences(structure, expected_structure, "legacy_envelope"):
+            raise RuntimeError("legacy metadata envelope differs from the frozen-source contract")
+        if _strict_differences(read_object(candidate_dir, "legacy_format_audit.json"), expected_audit):
+            raise RuntimeError("legacy format audit differs from the frozen-source scan")
+        if _sha256(candidate_dir / "legacy_structure_selection_result.json") != _sha256(baseline_dir / "structure_selection_result.json"):
+            raise RuntimeError("legacy payload is not a byte-for-byte source copy")
+    else:
+        for field, value in baseline_structure.items():
+            if structure.get(field) != value:
+                raise RuntimeError(f"legacy scientific field changed during migration: {field}")
     for field in ("final_models", "comparison_models"):
         entries = models.get(field)
         expected_role = "final_model" if field == "final_models" else "B2_reference"
