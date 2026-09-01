@@ -134,6 +134,17 @@ def test_source_commit_must_be_unique_current_head(monkeypatch: pytest.MonkeyPat
         chain._source_commit_evidence(Path("."))
 
 
+def test_model_gate_scratch_path_is_short_unique_and_run_bound(tmp_path: Path) -> None:
+    long_prefix = "paper_ieee39_modular_energy_p1_a03_model_unit_gate_f1_seed324-"
+    first = chain._scratch_run_directory(tmp_path, long_prefix + "run-a" * 20)
+    second = chain._scratch_run_directory(tmp_path, long_prefix + "run-b" * 20)
+    assert first.parent == tmp_path / "scratch" / "one_off"
+    assert len(first.name) == len("p1-model-gate-") + 16
+    assert first != second
+    with pytest.raises(ValueError, match="unsafe run ID"):
+        chain._scratch_run_directory(tmp_path, "../escape")
+
+
 def test_model_gate_writes_nonpromotional_strict_evidence(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

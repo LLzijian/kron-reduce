@@ -352,8 +352,19 @@ def _parse_junit(path: Path) -> dict[str, int]:
     return values
 
 
+def _scratch_run_directory(root: Path, run_id: str) -> Path:
+    """Use a run-bound compact path that remains below Windows MAX_PATH."""
+    if not run_id or "/" in run_id or "\\" in run_id or run_id in {".", ".."}:
+        raise ValueError("unsafe run ID for the model-gate scratch directory")
+    token = hashlib.sha256(run_id.encode("utf-8")).hexdigest()[:16]
+    directory = root / "scratch" / "one_off" / f"p1-model-gate-{token}"
+    if not directory.resolve().is_relative_to((root / "scratch" / "one_off").resolve()):
+        raise ValueError("model-gate scratch directory escaped its registered root")
+    return directory
+
+
 def _run_full_pytest(root: Path, result_dir: Path, run_id: str) -> dict[str, Any]:
-    scratch_parent = root / "scratch" / "one_off" / run_id
+    scratch_parent = _scratch_run_directory(root, run_id)
     scratch_parent.mkdir(parents=True, exist_ok=False)
     junit = result_dir / "full_pytest.xml"
     command = [
