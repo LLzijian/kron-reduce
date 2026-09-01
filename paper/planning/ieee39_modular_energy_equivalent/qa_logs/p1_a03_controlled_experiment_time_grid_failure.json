@@ -1,0 +1,36 @@
+{
+  "schema": "kron_reduce.loop_failure_report.v1",
+  "date": "2026-09-02",
+  "workflow": "ieee39_modular_energy_p1_a03_v1",
+  "stage": "controlled_experiment",
+  "run_id": "paper_ieee39_modular_energy_p1_a03_controlled_experiment_f1_seed324-controlled_experiment-20260901T173705Z-78225d2c",
+  "source_commit": "78225d2c4330574609580701d3fd24d895f58f3a",
+  "process_status": "IMPLEMENTATION_FAILED",
+  "scientific_verdict": "NOT_RUN",
+  "promotion_decision": "KEEP_BASELINE",
+  "rollback_target": "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4",
+  "failure_class": "real_f1_postclear_sampling_phase_offset",
+  "direct_cause": "The P1 causal reader required the first 1001 stored timestamps to equal 0:0.01:10. The first authorized near-critical dense fit event starts with a 0.005 s clearing-to-grid interval and then follows 0.01 s steps, so the reader refused before fitting.",
+  "failure_event": "ncunstable_dense_0017",
+  "failure_role": "fit",
+  "scientific_fit_started": false,
+  "candidate_promoted": false,
+  "failed_run_preserved": true,
+  "failed_run_artifacts": {
+    "structure_spec.json_sha256": "ffe27eabfe39058521d0171238c5bfc0a18650e0b742ab8eed1c0402809f8ce1"
+  },
+  "read_only_time_grid_diagnosis": {
+    "authorized_f1_events": 178,
+    "events_exactly_on_target_grid": 109,
+    "events_requiring_interpolation": 69,
+    "strictly_increasing_events": 178,
+    "events_covering_10_seconds": 178,
+    "maximum_bracketing_index": 1001,
+    "maximum_source_gap_seconds": 0.010000000000002451,
+    "maximum_post_first_gap_error_from_0_01_seconds": 2.4511642715552284e-15,
+    "observed_first_positive_timestamp_seconds": [0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009, 0.01]
+  },
+  "adversarial_boundary": "No interpolation may extrapolate beyond stored time, omit events, use event outcomes, alter role membership, change Pm_clear, or use future Pm as a main-model input.",
+  "next_hypothesis": "A single linear interpolation from each strictly increasing stored post-clear grid onto the preregistered 0:0.01:10 grid is a representation harmonization, not a new model feature, when every target time is bracketed and every source gap is at most 0.0100000001 s.",
+  "next_action": "Keep A03 frozen at its failed controlled run and open independent A04 with a preregistered no-extrapolation time-grid contract."
+}

@@ -219,6 +219,86 @@
       "observed_pm_declaration": "conditional_only_not_main_model_input",
       "reads_test_performance": false
     },
+    "paper_ieee39_modular_energy_p1_a04_retry_registered_f1_seed324": {
+      "status": "gated",
+      "module": "kron_reduce.workflows.p1_a04_time_grid_retry",
+      "workflow": "ieee39_modular_energy_p1_a04_v1",
+      "config": "paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "retry_registered",
+      "observed_pm_declaration": "not_read",
+      "reads_test_performance": false
+    },
+    "paper_ieee39_modular_energy_p1_a04_model_unit_gate_f1_seed324": {
+      "status": "gated",
+      "module": "kron_reduce.workflows.p1_a04_time_grid_retry",
+      "workflow": "ieee39_modular_energy_p1_a04_v1",
+      "config": "paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "model_unit_gate",
+      "observed_pm_declaration": "conditional_only_not_main_model_input",
+      "reads_test_performance": false
+    },
+    "paper_ieee39_modular_energy_p1_a04_controlled_experiment_f1_seed324": {
+      "status": "gated",
+      "module": "kron_reduce.workflows.p1_a04_time_grid_retry",
+      "workflow": "ieee39_modular_energy_p1_a04_v1",
+      "config": "paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "controlled_experiment",
+      "observed_pm_declaration": "conditional_only_not_main_model_input",
+      "reads_test_performance": false
+    },
+    "paper_ieee39_modular_energy_p1_a04_residual_diagnosis_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.p1_a04_time_grid_retry",
+      "workflow": "ieee39_modular_energy_p1_a04_v1",
+      "config": "paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "residual_diagnosis",
+      "observed_pm_declaration": "conditional_only_not_main_model_input",
+      "reads_test_performance": false
+    },
+    "paper_ieee39_modular_energy_p1_a04_adversarial_review_f1_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.p1_a04_time_grid_retry",
+      "workflow": "ieee39_modular_energy_p1_a04_v1",
+      "config": "paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "adversarial_review",
+      "observed_pm_declaration": "conditional_only_not_main_model_input",
+      "reads_test_performance": false
+    },
+    "paper_ieee39_modular_energy_p1_a04_acceptance_f1_seed324": {
+      "status": "audit",
+      "module": "kron_reduce.workflows.p1_a04_time_grid_retry",
+      "workflow": "ieee39_modular_energy_p1_a04_v1",
+      "config": "paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "acceptance",
+      "observed_pm_declaration": "conditional_only_not_main_model_input",
+      "reads_test_performance": false
+    },
+    "paper_ieee39_modular_energy_p1_a04_rollback_report_f1_seed324": {
+      "status": "reporting",
+      "module": "kron_reduce.workflows.p1_a04_time_grid_retry",
+      "workflow": "ieee39_modular_energy_p1_a04_v1",
+      "config": "paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "rollback_report",
+      "observed_pm_declaration": "conditional_only_not_main_model_input",
+      "reads_test_performance": false
+    },
+    "paper_ieee39_modular_energy_p1_a04_report_f1_seed324": {
+      "status": "reporting",
+      "module": "kron_reduce.workflows.p1_a04_time_grid_retry",
+      "workflow": "ieee39_modular_energy_p1_a04_v1",
+      "config": "paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "report",
+      "observed_pm_declaration": "conditional_only_not_main_model_input",
+      "reads_test_performance": false
+    },
     "paper_ieee39_modular_energy_p1_a02_plan_registered_f1_seed324": {
       "status": "registered",
       "module": "kron_reduce.workflows.ieee39_modular_energy_p1_diagnosis",
