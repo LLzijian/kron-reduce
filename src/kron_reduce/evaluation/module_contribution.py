@@ -62,7 +62,7 @@ DEFAULT_MODULE_CONTRIBUTION_THRESHOLDS = ModuleContributionThresholds()
 
 @dataclass(frozen=True)
 class EffectCI:
-    """A non-negative effect estimate with an ordered two-sided CI."""
+    """A non-negative estimate and an unshifted ordered percentile CI."""
 
     point: float
     lower: float
@@ -73,8 +73,8 @@ class EffectCI:
             _finite(name, value)
             if value < 0.0:
                 raise ValueError(f"{name} must be non-negative")
-        if not self.lower <= self.point <= self.upper:
-            raise ValueError("effect CI must satisfy lower <= point <= upper")
+        if self.lower > self.upper:
+            raise ValueError("effect CI must satisfy lower <= upper")
 
     def as_dict(self) -> dict[str, float]:
         return asdict(self)
@@ -82,7 +82,7 @@ class EffectCI:
 
 @dataclass(frozen=True)
 class DeletionDegradation:
-    """Primary-metric change after deleting a module and refitting the rest."""
+    """Signed change and unshifted percentile CI after delete/refit."""
 
     point: float
     lower: float
@@ -91,8 +91,8 @@ class DeletionDegradation:
     def __post_init__(self) -> None:
         for name, value in asdict(self).items():
             _finite(name, value)
-        if not self.lower <= self.point <= self.upper:
-            raise ValueError("deletion degradation must satisfy lower <= point <= upper")
+        if self.lower > self.upper:
+            raise ValueError("deletion degradation must satisfy lower <= upper")
 
     def as_dict(self) -> dict[str, float]:
         return asdict(self)

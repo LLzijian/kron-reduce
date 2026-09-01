@@ -90,6 +90,17 @@ def test_module_identifiability_replaceable_and_cross_boundary() -> None:
     assert classify_module_contribution(high_but_singular).status is ModuleContributionStatus.UNIDENTIFIABLE
 
 
+def test_unshifted_percentile_intervals_need_not_contain_the_point_estimate() -> None:
+    effect = EffectCI(0.01, 0.02, 0.03)
+    deletion = DeletionDegradation(0.04, -0.01, 0.02)
+    assert effect.as_dict() == {"point": 0.01, "lower": 0.02, "upper": 0.03}
+    assert deletion.as_dict() == {"point": 0.04, "lower": -0.01, "upper": 0.02}
+    with pytest.raises(ValueError, match="lower <= upper"):
+        EffectCI(0.01, 0.03, 0.02)
+    with pytest.raises(ValueError, match="lower <= upper"):
+        DeletionDegradation(0.01, 0.03, 0.02)
+
+
 def _joint(*, effect: EffectCI | None = None, deletion: DeletionDegradation | None = None) -> JointB2Evidence:
     effect = effect or EffectCI(0.0005, 0.0, 0.001)
     deletion = deletion or DeletionDegradation(0.01, 0.0, 0.02)
