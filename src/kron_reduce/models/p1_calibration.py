@@ -272,8 +272,8 @@ def calibrate_loss_pair(
 ) -> tuple[tuple[PrunableEnergyModel, dict[str, Any]], ...]:
     """Compare losses, without certifying prior training lineage or selecting a winner."""
     settings = settings or P1CalibrationSettings()
-    if loss_modes not in {(False,), (False, True)} or any(type(mode) is not bool for mode in loss_modes):
-        raise ValueError("use the registered pair or B2 original-loss arm only")
+    if loss_modes not in {(False,), (True,), (False, True)} or any(type(mode) is not bool for mode in loss_modes):
+        raise ValueError("use the registered pair or one registered loss for a controlled arm")
     objectives = [P1CalibrationObjective(fit_samples, manifest, balanced=flag) for flag in loss_modes]
     if any(objective.common_design != objectives[0].common_design for objective in objectives):
         raise RuntimeError("loss arms must share the complete design")
