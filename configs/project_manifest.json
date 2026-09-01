@@ -150,20 +150,20 @@
       "reads_test_performance": false
     },
     "paper_ieee39_modular_energy_p1_a03_model_unit_gate_f1_seed324": {
-      "status": "audit",
-      "module": "kron_reduce.workflows.ieee39_modular_energy_p1_diagnosis",
+      "status": "gated",
+      "module": "kron_reduce.workflows.p1_a03_real_f1_controlled_chain",
       "workflow": "ieee39_modular_energy_p1_a03_v1",
-      "config": "paper_ieee39_modular_energy_p1_a03_f1_seed324.toml",
+      "config": "paper_ieee39_modular_energy_p1_a03_real_f1_controlled_chain_v1.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "model_unit_gate",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
       "reads_test_performance": false
     },
     "paper_ieee39_modular_energy_p1_a03_controlled_experiment_f1_seed324": {
-      "status": "diagnostic",
-      "module": "kron_reduce.workflows.ieee39_modular_energy_p1_diagnosis",
+      "status": "gated",
+      "module": "kron_reduce.workflows.p1_a03_real_f1_controlled_chain",
       "workflow": "ieee39_modular_energy_p1_a03_v1",
-      "config": "paper_ieee39_modular_energy_p1_a03_f1_seed324.toml",
+      "config": "paper_ieee39_modular_energy_p1_a03_real_f1_controlled_chain_v1.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
