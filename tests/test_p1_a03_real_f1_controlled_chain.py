@@ -7,7 +7,11 @@ from types import SimpleNamespace
 
 import pytest
 
-from project_harness.evidence import verify_artifact_directory
+from project_harness.evidence import (
+    EvidenceContext,
+    validate_stage_evidence,
+    verify_artifact_directory,
+)
 from kron_reduce.workflows import p1_a03_real_f1_controlled_chain as chain
 
 
@@ -202,9 +206,20 @@ def test_model_gate_writes_nonpromotional_strict_evidence(
     assert "stage_evidence.json" in manifest
     evidence = json.loads((result / "stage_evidence.json").read_text(encoding="utf-8"))
     assert evidence["unit_test_count"] == 407
-    assert evidence["scientific_verdict"] is None
+    assert "scientific_verdict" not in evidence
     assert evidence["promotion_decision"] == "KEEP_BASELINE"
     assert evidence["level_6_claimed"] is False
+    workflow = json.loads(
+        (
+            Path(__file__).resolve().parents[1]
+            / "configs/workflows/ieee39_modular_energy_p1_a03_v1.json"
+        ).read_text(encoding="utf-8")
+    )
+    binding = {"run_id": result.name, "path": "artifact_hashes.json", "sha256": _sha(result / "artifact_hashes.json")}
+    validate_stage_evidence(
+        EvidenceContext(root=root, workflow=workflow, target="model_unit_gate", predecessor="candidate_acquired"),
+        {"status": "PASS", "result_dir": result.name, "artifact_manifest": binding, **evidence},
+    )
 
 
 def _fake_child(directory: Path, name: str) -> str:
@@ -357,3 +372,16 @@ def test_controlled_parent_orders_freeze_before_conditional_pm_and_seals_childre
     assert summary["promotion_decision"] == "KEEP_BASELINE"
     assert summary["level_6_claimed"] is False
     assert set(json.loads((result / "lineage.json").read_text(encoding="utf-8"))["child_artifacts"]) == set(chain.EXPECTED_CHILDREN)
+    stage_evidence = json.loads((result / "stage_evidence.json").read_text(encoding="utf-8"))
+    assert "scientific_verdict" not in stage_evidence
+    workflow = json.loads(
+        (
+            Path(__file__).resolve().parents[1]
+            / "configs/workflows/ieee39_modular_energy_p1_a03_v1.json"
+        ).read_text(encoding="utf-8")
+    )
+    binding = {"run_id": result.name, "path": "artifact_hashes.json", "sha256": _sha(result / "artifact_hashes.json")}
+    validate_stage_evidence(
+        EvidenceContext(root=root, workflow=workflow, target="controlled_experiment", predecessor="source_commit"),
+        {"status": "PASS", "result_dir": result.name, "artifact_manifest": binding, **stage_evidence},
+    )

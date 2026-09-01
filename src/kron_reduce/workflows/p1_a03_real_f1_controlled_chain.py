@@ -480,7 +480,6 @@ def _run_model_unit_gate(
             "leakage_contract_status": "PASS",
             "level_6_claimed": False,
             "source_snapshot_limitations": "The gate proves software, contracts, and synthetic tests only; it makes no new IEEE39 trajectory, modal, stability, or promotion claim.",
-            "scientific_verdict": None,
             "promotion_decision": "KEEP_BASELINE",
         },
     )
@@ -712,7 +711,6 @@ def _run_controlled_experiment(
             "process_status": "PASS",
             "candidate_run": candidate.name,
             "source_commit": source_commit["git_commit"],
-            "scientific_verdict": None,
             "promotion_decision": "KEEP_BASELINE",
             "level_6_claimed": False,
             "claim_boundary": "diagnostic evidence only; no promotion or paper performance claim",

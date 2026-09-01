@@ -1,0 +1,49 @@
+{
+  "schema": "kron_reduce.loop_failure_report.v1",
+  "date": "2026-09-02",
+  "workflow": "ieee39_modular_energy_p1_a03_v1",
+  "stage": "model_unit_gate",
+  "attempt": 3,
+  "run_id": "paper_ieee39_modular_energy_p1_a03_model_unit_gate_f1_seed324-model_unit_gate-20260901T171255Z-0aabbf2a",
+  "source_commit": "0aabbf2a51f6ad555a0e9e8da331ddd027ef8bf1",
+  "process_status": "STAGE_EVIDENCE_REJECTED",
+  "scientific_verdict": "NOT_RUN",
+  "promotion_decision": "KEEP_BASELINE",
+  "rollback_target": "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4",
+  "failure_class": "nullable_v2_scientific_verdict",
+  "direct_cause": "The model gate completed 410 tests, project audit, data check, git check, candidate validation, structure projection, and root sealing. Runtime stage validation then rejected scientific_verdict=null because v2 evidence fields must have their declared type when present; an undecided optional field must be omitted.",
+  "scientific_data_read": false,
+  "candidate_promoted": false,
+  "failed_run_preserved": true,
+  "completed_process_evidence": {
+    "tests": 410,
+    "failures": 0,
+    "errors": 0,
+    "project_audit": "PASS",
+    "data_check": "PASS",
+    "git_check": "PASS",
+    "candidate_contract": "PASS",
+    "model_contract": "PASS",
+    "leakage_contract": "PASS"
+  },
+  "failed_artifacts": {
+    "artifact_hashes.json_sha256_before_failed_marker": "ba20ce0732eb002ef6cd96968c724ecab48d6cb92598f4ef2a5d3b286865f071",
+    "full_pytest.xml_sha256": "68246da87ef864697bef1750d0e707de11b28b2ef8199bdb29c5377cdac46408",
+    "pytest_stdout.txt_sha256": "3f23aa15b79a58442015ba8ebd14fff755d9590767f0521ac1cc7ce63005689a",
+    "pytest_stderr.txt_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stage_evidence.json_sha256": "6d583ac3e4d18aa86d388ef857fbf05556d70b941a05d69307f1411cacc2cc9e",
+    "model_gate_summary.json_sha256": "eee296237a06d044158f8091da60aabf9f5d36183bdf2e604ff09a2b94ddde13",
+    "RUN_FAILED.json_sha256": "4387c8362c890e97bec08dcb93622bb0e7e36aebbf4c45d8b537ddacbde007e2"
+  },
+  "repair": "Omit scientific_verdict from pre-acceptance stage_evidence while retaining scientific_verdict=null in non-promotional scientific summaries. Apply the same rule to controlled_experiment evidence.",
+  "repair_verification": {
+    "focused_tests": 35,
+    "focused_failures": 0,
+    "focused_junit_sha256": "8b0de16bbf7bf62b7d86267659c426b38236eced5a012c71f55d6a832d6835a7",
+    "exact_model_gate_v2_contract_validated": true,
+    "exact_controlled_experiment_v2_contract_validated": true,
+    "project_audit": "PASS",
+    "data_check": "PASS"
+  },
+  "next_action": "Validate the exact runner-merged evidence through the real v2 validator, run focused tests, commit, and start a fourth immutable model_unit_gate run."
+}
