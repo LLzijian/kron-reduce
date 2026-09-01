@@ -145,6 +145,27 @@ def test_model_gate_scratch_path_is_short_unique_and_run_bound(tmp_path: Path) -
         chain._scratch_run_directory(tmp_path, "../escape")
 
 
+def test_junit_parser_sums_child_suites_and_rejects_failures(tmp_path: Path) -> None:
+    report = tmp_path / "report.xml"
+    report.write_text(
+        '<testsuites><testsuite tests="2" failures="0" errors="0" skipped="1"/>'
+        '<testsuite tests="3" failures="0" errors="0" skipped="0"/></testsuites>',
+        encoding="utf-8",
+    )
+    assert chain._parse_junit(report) == {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1,
+    }
+    report.write_text(
+        '<testsuite tests="1" failures="1" errors="0" skipped="0"/>',
+        encoding="utf-8",
+    )
+    with pytest.raises(RuntimeError, match="did not pass"):
+        chain._parse_junit(report)
+
+
 def test_model_gate_writes_nonpromotional_strict_evidence(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

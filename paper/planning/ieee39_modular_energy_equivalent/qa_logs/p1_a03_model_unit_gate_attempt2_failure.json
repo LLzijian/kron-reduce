@@ -1,0 +1,44 @@
+{
+  "schema": "kron_reduce.loop_failure_report.v1",
+  "date": "2026-09-02",
+  "workflow": "ieee39_modular_energy_p1_a03_v1",
+  "stage": "model_unit_gate",
+  "attempt": 2,
+  "run_id": "paper_ieee39_modular_energy_p1_a03_model_unit_gate_f1_seed324-model_unit_gate-20260901T165909Z-03ffbf4b",
+  "source_commit": "03ffbf4ba927dc4593133957718a3fa1be93a082",
+  "process_status": "EVIDENCE_PARSER_FAILED",
+  "scientific_verdict": "NOT_RUN",
+  "promotion_decision": "KEEP_BASELINE",
+  "rollback_target": "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4",
+  "failure_class": "junit_testsuites_root_counter_parsing",
+  "direct_cause": "Pytest completed 409 tests with zero failures and zero errors. The gate parser inspected counters only on the testsuites root, where pytest did not emit them, and incorrectly obtained tests=0 instead of summing the child testsuite counters.",
+  "scientific_data_read": false,
+  "candidate_promoted": false,
+  "failed_run_preserved": true,
+  "failed_artifacts": {
+    "full_pytest.xml_sha256": "c42cd6198e21bcd7ffb91cb047241d9e04d91af4cfd68afdb355fe4d6d49569f",
+    "pytest_stdout.txt_sha256": "ca3b9fcae614e8293005bfb6083d7a575df7bce092375398d99cbdf6b689f861",
+    "pytest_stderr.txt_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "RUN_FAILED.json_sha256": "36a7550378398a822d36617e0db1a448833856a0fa9f54e1480de197122384d0"
+  },
+  "observed_test_result": {
+    "tests": 409,
+    "failures": 0,
+    "errors": 0,
+    "warning": "pytest cache write denied; JUnit and test execution were unaffected",
+    "duration_seconds": 593.38
+  },
+  "repair": "Accept only testsuite or testsuites JUnit roots, require every child suite counter, sum all child counters, and continue to reject any nonzero failure or error count.",
+  "repair_verification": {
+    "failed_run_junit_reparsed": {
+      "tests": 409,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "focused_tests": 35,
+    "focused_failures": 0,
+    "focused_junit_sha256": "25da0aa2e01c8288f36e421630a5426320e1ad58c42d40d345ba259bbac23769"
+  },
+  "next_action": "Verify the parser against single-suite, multi-suite, malformed, and failed reports; run the full suite; commit; then start a third immutable model_unit_gate run."
+}

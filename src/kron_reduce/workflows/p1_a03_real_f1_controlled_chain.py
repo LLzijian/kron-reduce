@@ -345,8 +345,21 @@ def _verify_dataset_inputs(root: Path, config: Mapping[str, Any]) -> Path:
 
 def _parse_junit(path: Path) -> dict[str, int]:
     root = ET.parse(path).getroot()
+    if root.tag == "testsuite":
+        suites = [root]
+    elif root.tag == "testsuites":
+        suites = list(root.findall("testsuite"))
+    else:
+        raise RuntimeError(f"unsupported JUnit root element: {root.tag}")
+    if not suites:
+        raise RuntimeError("JUnit report contains no test suites")
     fields = ("tests", "failures", "errors", "skipped")
-    values = {field: int(root.attrib.get(field, 0)) for field in fields}
+    try:
+        values = {
+            field: sum(int(suite.attrib[field]) for suite in suites) for field in fields
+        }
+    except (KeyError, TypeError, ValueError) as error:
+        raise RuntimeError("JUnit suite counters are missing or invalid") from error
     if values["tests"] < 1 or values["failures"] or values["errors"]:
         raise RuntimeError(f"full pytest gate did not pass: {values}")
     return values
