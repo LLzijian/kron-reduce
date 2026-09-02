@@ -418,6 +418,13 @@ def _run_model_unit_gate(
     config: Mapping[str, Any],
     result_dir: Path,
     run_id: str,
+    *,
+    workflow: str = WORKFLOW,
+    protocol_revision: str = PROTOCOL_REVISION,
+    protocol_sha256: str = PROTOCOL_SHA256,
+    config_sha256: str = CONFIG_SHA256,
+    summary_schema: str = "kron_reduce.p1_a03_model_unit_gate.v1",
+    source_snapshot_limitations: str = "The gate proves software, contracts, and synthetic tests only; it makes no new IEEE39 trajectory, modal, stability, or promotion claim.",
 ) -> None:
     candidate, candidate_validation = _candidate_context(root, config)
     dataset = _verify_dataset_inputs(root, config)
@@ -444,14 +451,14 @@ def _run_model_unit_gate(
     _write_json(
         result_dir / "model_gate_summary.json",
         {
-            "schema": "kron_reduce.p1_a03_model_unit_gate.v1",
+            "schema": summary_schema,
             "run_id": run_id,
-            "workflow": WORKFLOW,
+            "workflow": workflow,
             "stage": "model_unit_gate",
-            "protocol_revision": PROTOCOL_REVISION,
-            "protocol_sha256": PROTOCOL_SHA256,
+            "protocol_revision": protocol_revision,
+            "protocol_sha256": protocol_sha256,
             "config_path": config_path.relative_to(root).as_posix(),
-            "config_sha256": CONFIG_SHA256,
+            "config_sha256": config_sha256,
             "candidate_run": candidate.name,
             "candidate_artifact_manifest_sha256": config["candidate_artifact_manifest_sha256"],
             "dataset_path": dataset.relative_to(root).as_posix(),
@@ -479,7 +486,7 @@ def _run_model_unit_gate(
             "model_contract_status": "PASS",
             "leakage_contract_status": "PASS",
             "level_6_claimed": False,
-            "source_snapshot_limitations": "The gate proves software, contracts, and synthetic tests only; it makes no new IEEE39 trajectory, modal, stability, or promotion claim.",
+            "source_snapshot_limitations": source_snapshot_limitations,
             "promotion_decision": "KEEP_BASELINE",
         },
     )
@@ -487,8 +494,8 @@ def _run_model_unit_gate(
     verify_artifact_directory(result_dir, expected_manifest_sha256=digest, strict=True)
 
 
-def _source_commit_evidence(root: Path) -> dict[str, Any]:
-    state = load_state(root, WORKFLOW)
+def _source_commit_evidence(root: Path, workflow: str = WORKFLOW) -> dict[str, Any]:
+    state = load_state(root, workflow)
     if state.get("current_stage") != "source_commit":
         raise RuntimeError("controlled experiment requires the recorded source_commit stage")
     matches = [
@@ -518,8 +525,14 @@ def _run_controlled_experiment(
     config: Mapping[str, Any],
     result_dir: Path,
     run_id: str,
+    *,
+    workflow: str = WORKFLOW,
+    protocol_revision: str = PROTOCOL_REVISION,
+    protocol_sha256: str = PROTOCOL_SHA256,
+    config_sha256: str = CONFIG_SHA256,
+    summary_schema: str = "kron_reduce.p1_a03_real_f1_controlled_chain.v1",
 ) -> None:
-    source_commit = _source_commit_evidence(root)
+    source_commit = _source_commit_evidence(root, workflow)
     candidate, candidate_validation = _candidate_context(root, config)
     dataset_dir = _verify_dataset_inputs(root, config)
     structure_path = result_dir / "structure_spec.json"
@@ -653,6 +666,9 @@ def _run_controlled_experiment(
             "causal_reader_accesses": reader.accesses,
             "fit_pm_target_accesses": list(fit_pm.accesses),
             "conditional_internal_pm_accesses": list(observed_pm.accesses),
+            "causal_time_grid_audits": reader.time_grid_audits,
+            "fit_pm_time_grid_audits": list(fit_pm.time_grid_audits),
+            "conditional_pm_time_grid_audits": list(observed_pm.time_grid_audits),
             "conditional_core_checkpoint_sha256": observed_pm.core_checkpoint_sha256,
             "test_ids_read": [],
             "other_folds_read": [],
@@ -667,12 +683,12 @@ def _run_controlled_experiment(
         {
             "schema": "kron_reduce.p1_a03_controlled_lineage.v1",
             "run_id": run_id,
-            "workflow": WORKFLOW,
+            "workflow": workflow,
             "stage": "controlled_experiment",
-            "protocol_revision": PROTOCOL_REVISION,
-            "protocol_sha256": PROTOCOL_SHA256,
+            "protocol_revision": protocol_revision,
+            "protocol_sha256": protocol_sha256,
             "config_path": config_path.relative_to(root).as_posix(),
-            "config_sha256": CONFIG_SHA256,
+            "config_sha256": config_sha256,
             "source_commit": source_commit["git_commit"],
             "candidate_run": candidate.name,
             "candidate_artifact_manifest_sha256": config["candidate_artifact_manifest_sha256"],
@@ -688,7 +704,7 @@ def _run_controlled_experiment(
     _write_json(
         result_dir / "controlled_experiment_summary.json",
         {
-            "schema": "kron_reduce.p1_a03_real_f1_controlled_chain.v1",
+            "schema": summary_schema,
             "run_id": run_id,
             "process_status": "PASS",
             "role_counts": role_counts,

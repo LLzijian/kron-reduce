@@ -26,6 +26,95 @@ P1_ROLES = ("fit", "selection", "internal_audit")
 LOCKED_ROLES = {"external_validation", "postfreeze_safety_train", "postfreeze_safety_validation", "test"}
 P1_TIME = np.arange(1001, dtype=float) * 0.01
 P1_TIME.flags.writeable = False
+P1_SOURCE_POINTS = 1002
+P1_MAX_SOURCE_GAP = 0.0100000001
+P1_GRID_ATOL = 1e-12
+
+
+@dataclass(frozen=True)
+class P1TimeGridPlan:
+    event_id: str
+    role: str
+    source_time: np.ndarray
+    bracketing_index: int
+    exact_grid: bool
+    first_positive_time: float
+    maximum_source_gap: float
+
+    @property
+    def audit(self) -> dict[str, Any]:
+        return {
+            "event_id": self.event_id,
+            "role": self.role,
+            "source_points_read": int(len(self.source_time)),
+            "first_positive_time_seconds": self.first_positive_time,
+            "bracketing_index": self.bracketing_index,
+            "maximum_source_gap_seconds": self.maximum_source_gap,
+            "interpolation_applied": not self.exact_grid,
+            "extrapolation_applied": False,
+            "target_points": int(len(P1_TIME)),
+            "target_start_seconds": float(P1_TIME[0]),
+            "target_stop_seconds": float(P1_TIME[-1]),
+            "target_grid_sha256": hashlib.sha256(P1_TIME.tobytes()).hexdigest(),
+        }
+
+
+def prepare_p1_time_grid(time: np.ndarray, *, event_id: str, role: str) -> P1TimeGridPlan:
+    """Validate a stored post-clear grid before any state channel is read."""
+    source = np.asarray(time, dtype=float)
+    if role not in P1_ROLES or not event_id:
+        raise ValueError("time-grid audit requires an authorized P1 event and role")
+    if source.ndim != 1 or not 2 <= len(source) <= P1_SOURCE_POINTS or not np.isfinite(source).all():
+        raise ValueError(f"{event_id}: invalid source time vector")
+    if source[0] != 0.0:
+        raise ValueError(f"{event_id}: source time must start exactly at clearing")
+    differences = np.diff(source)
+    if np.any(differences <= 0.0):
+        raise ValueError(f"{event_id}: source time must be strictly increasing")
+    bracketing_index = int(np.searchsorted(source, P1_TIME[-1], side="left"))
+    if bracketing_index >= len(source) or source[bracketing_index] < P1_TIME[-1]:
+        raise ValueError(f"{event_id}: source time does not bracket 10 seconds")
+    used_differences = differences[:bracketing_index]
+    maximum_gap = float(np.max(used_differences))
+    if maximum_gap > P1_MAX_SOURCE_GAP:
+        raise ValueError(f"{event_id}: source time gap exceeds the frozen limit")
+    if len(used_differences) > 1 and np.max(np.abs(used_differences[1:] - 0.01)) > P1_GRID_ATOL:
+        raise ValueError(f"{event_id}: post-first source intervals differ from 0.01 seconds")
+    exact = bracketing_index == len(P1_TIME) - 1 and np.allclose(
+        source[: len(P1_TIME)], P1_TIME, rtol=0.0, atol=P1_GRID_ATOL
+    )
+    frozen = np.array(source, dtype=float, copy=True)
+    frozen.flags.writeable = False
+    return P1TimeGridPlan(
+        event_id=event_id,
+        role=role,
+        source_time=frozen,
+        bracketing_index=bracketing_index,
+        exact_grid=bool(exact),
+        first_positive_time=float(source[1]),
+        maximum_source_gap=maximum_gap,
+    )
+
+
+def apply_p1_time_grid(plan: P1TimeGridPlan, values: np.ndarray, *, channel: str) -> np.ndarray:
+    """Copy an exact grid or linearly interpolate a fully bracketed channel."""
+    array = np.asarray(values, dtype=float)
+    if array.ndim != 2 or array.shape[0] != len(plan.source_time) or not np.isfinite(array).all():
+        raise ValueError(f"{plan.event_id}: invalid {channel} array for time harmonization")
+    if plan.exact_grid:
+        output = np.array(array[: len(P1_TIME)], dtype=float, copy=True)
+    else:
+        stop = plan.bracketing_index + 1
+        source_time = plan.source_time[:stop]
+        if P1_TIME[0] < source_time[0] or P1_TIME[-1] > source_time[-1]:
+            raise ValueError(f"{plan.event_id}: interpolation would extrapolate {channel}")
+        output = np.column_stack(
+            [np.interp(P1_TIME, source_time, array[:stop, index]) for index in range(array.shape[1])]
+        )
+        output[0] = array[0]
+    if output.shape != (len(P1_TIME), array.shape[1]) or not np.isfinite(output).all():
+        raise ValueError(f"{plan.event_id}: invalid harmonized {channel}")
+    return output
 
 
 def id_hash(ids: Iterable[str]) -> str:
@@ -121,6 +210,7 @@ class P1CausalReader:
             raise ValueError("the IEEE39 reader requires ten finite positive mass priors")
         self.manifest = manifest
         self.accesses: list[dict[str, Any]] = []
+        self.time_grid_audits: list[dict[str, Any]] = []
 
     def read_role(self, role: str, *, event_ids: Iterable[str] | None = None) -> list[dict[str, Any]]:
         # Complete authorization happens before opening even the HDF5 file.
@@ -134,15 +224,18 @@ class P1CausalReader:
                     self.accesses.append({"event_id": row.event_id, "role": role, "dataset": name, "selection": str(selection)})
                     return np.asarray(group[name][selection], dtype=float)
 
-                time = read("postclear/t", slice(0, 1001))
-                delta = read("postclear/delta", slice(0, 1001))
-                omega = read("postclear/omega", slice(0, 1001))
+                source_time = read("postclear/t", slice(0, P1_SOURCE_POINTS))
+                plan = prepare_p1_time_grid(source_time, event_id=row.event_id, role=role)
+                source_delta = read("postclear/delta", slice(0, P1_SOURCE_POINTS))
+                source_omega = read("postclear/omega", slice(0, P1_SOURCE_POINTS))
                 pm_clear = read("postclear/Pm", 0)
                 equilibrium_delta = read("equilibrium/delta0", (...,))
                 equilibrium_key = "Pm_equilibrium" if "Pm_equilibrium" in group["equilibrium"] else "Pm0"
                 equilibrium_pm = read(f"equilibrium/{equilibrium_key}", (...,))
-                if time.shape != P1_TIME.shape or not np.allclose(time, P1_TIME, rtol=0, atol=1e-12):
-                    raise ValueError(f"{row.event_id}: incomplete or changed sampling grid")
+                delta = apply_p1_time_grid(plan, source_delta, channel="delta")
+                omega = apply_p1_time_grid(plan, source_omega, channel="omega")
+                time = P1_TIME.copy()
+                self.time_grid_audits.append(plan.audit)
                 for name, array, shape in (
                     ("delta", delta, (1001, 10)), ("omega", omega, (1001, 10)),
                     ("Pm_clear", pm_clear, (10,)), ("equilibrium_delta", equilibrium_delta, (10,)),

@@ -275,13 +275,14 @@ def test_controlled_parent_orders_freeze_before_conditional_pm_and_seals_childre
     class FakeReader:
         def __init__(self, *_args):
             self.accesses = []
+            self.time_grid_audits = []
 
         def read_role(self, role: str):
             order.append(f"read_{role}")
             self.accesses.append({"role": role})
             return [role]
 
-    monkeypatch.setattr(chain, "_source_commit_evidence", lambda _root: {"git_commit": commit})
+    monkeypatch.setattr(chain, "_source_commit_evidence", lambda _root, _workflow=chain.WORKFLOW: {"git_commit": commit})
     monkeypatch.setattr(chain, "_candidate_context", lambda _root, _config: (candidate, {"status": "PASS"}))
     monkeypatch.setattr(chain, "_verify_dataset_inputs", lambda _root, _config: dataset)
     monkeypatch.setattr(chain, "P1RoleManifest", FakeManifestFactory)
@@ -297,7 +298,11 @@ def test_controlled_parent_orders_freeze_before_conditional_pm_and_seals_childre
         if role == "internal_audit":
             assert "fit_five" in order
             assert kwargs["expected_core_sha256"] == "core-sha"
-        return SimpleNamespace(accesses=({"role": role},), core_checkpoint_sha256=kwargs.get("expected_core_sha256"))
+        return SimpleNamespace(
+            accesses=({"role": role},),
+            core_checkpoint_sha256=kwargs.get("expected_core_sha256"),
+            time_grid_audits=(),
+        )
 
     monkeypatch.setattr(chain, "read_pm_batch", fake_pm)
 

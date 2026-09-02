@@ -102,7 +102,7 @@ def test_fit_reads_only_pm_and_time_and_returns_readonly_copies(tmp_path, monkey
     assert batch.core_checkpoint_sha256 is None and batch.main_model_input_allowed is False
     assert {name.rsplit("/", 1)[-1] for name, _ in reads} == {"t", "Pm"}
     assert {name.split("/")[2] for name, _ in reads} == {"fit_a", "fit_b"}
-    assert all(selection == slice(0, 1001) for _, selection in reads)
+    assert all(selection == slice(0, 1002) for _, selection in reads)
     assert all(item["dataset"] in {"postclear/t", "postclear/Pm"} for item in batch.accesses)
     assert all(not value.flags.writeable for value in batch.pm_by_event.values())
     with pytest.raises(ValueError):

@@ -18,7 +18,14 @@ import numpy as np
 
 from kron_reduce.physics import coi_project_power
 
-from .p1_causal import P1_ROLES, P1_TIME, P1RoleManifest, validate_p1_samples
+from .p1_causal import (
+    P1_ROLES,
+    P1_SOURCE_POINTS,
+    P1RoleManifest,
+    apply_p1_time_grid,
+    prepare_p1_time_grid,
+    validate_p1_samples,
+)
 
 
 class PmReadPurpose(str, Enum):
@@ -36,6 +43,7 @@ class PmObservationBatch:
     accesses: tuple[dict[str, Any], ...]
     core_checkpoint_sha256: str | None
     main_model_input_allowed: bool = False
+    time_grid_audits: tuple[dict[str, Any], ...] = ()
 
 
 def _sha256_file(path: Path) -> str:
@@ -92,21 +100,22 @@ def read_pm_batch(
     sample_by_id = {sample["event_id"]: sample for sample in samples}
     values: dict[str, np.ndarray] = {}
     accesses: list[dict[str, Any]] = []
+    time_grid_audits: list[dict[str, Any]] = []
     with h5py.File(Path(h5_path), "r") as handle:
         for event_id in event_ids:
             group = handle["events"][event_id]
 
             def read(name: str, *, event_id: str = event_id, group: h5py.Group = group) -> np.ndarray:
-                selection = slice(0, 1001)
+                selection = slice(0, P1_SOURCE_POINTS)
                 accesses.append({"event_id": event_id, "role": role, "dataset": name, "selection": str(selection)})
                 return np.asarray(group[name][selection], dtype=float)
 
             time = read("postclear/t")
-            pm = read("postclear/Pm")
+            plan = prepare_p1_time_grid(time, event_id=event_id, role=role)
+            pm = apply_p1_time_grid(plan, read("postclear/Pm"), channel="Pm_observed")
+            time_grid_audits.append(plan.audit)
             mass = np.asarray(sample_by_id[event_id]["model_inputs"]["static"]["mass"], dtype=float)
             n_nodes = mass.size
-            if time.shape != P1_TIME.shape or not np.allclose(time, P1_TIME, rtol=0, atol=1e-12):
-                raise ValueError(f"{event_id}: incomplete or changed sampling grid")
             if pm.shape != (1001, n_nodes) or not np.isfinite(pm).all():
                 raise ValueError(f"{event_id}: invalid Pm target")
             with np.errstate(over="ignore", invalid="ignore"):
@@ -129,4 +138,5 @@ def read_pm_batch(
         pm_by_event=values,
         accesses=tuple(accesses),
         core_checkpoint_sha256=checkpoint_sha256,
+        time_grid_audits=tuple(time_grid_audits),
     )
