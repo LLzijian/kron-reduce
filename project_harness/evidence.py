@@ -228,6 +228,22 @@ def _verify_real_git_commit(root: Path, commit: object) -> None:
         raise EvidenceValidationError("EVIDENCE_COMMIT_ANCESTRY", "merge_commit must be an ancestor of HEAD")
 
 
+def merge_evidence_commit(evidence: object) -> str | None:
+    """Return a merge-gate commit, accepting the pre-``merge_commit`` schema.
+
+    ``git_commit`` was the original merge-gate field.  New evidence records
+    ``merge_commit`` explicitly, but durable reports must still be able to
+    bind an earlier, otherwise-valid gate entry.
+    """
+    if not isinstance(evidence, dict):
+        return None
+    for field in ("merge_commit", "git_commit"):
+        commit = evidence.get(field)
+        if isinstance(commit, str) and commit.strip():
+            return commit
+    return None
+
+
 def _history_evidence(context: EvidenceContext, stage: str) -> dict[str, Any] | None:
     for event in reversed((context.state or {}).get("history", [])):
         if event.get("action") == "advance" and event.get("to") == stage and isinstance(event.get("evidence"), dict):
@@ -265,7 +281,8 @@ def _verify_report_bindings(context: EvidenceContext, evidence: dict[str, Any]) 
         verify_artifact_directory(negative_dir, strict=True)
     if evidence.get("branch_terminal") == "merge_gate":
         merge = _history_evidence(context, "merge_gate")
-        if not merge or evidence.get("merge_commit") != merge.get("git_commit"):
+        merge_commit = merge_evidence_commit(merge)
+        if evidence.get("merge_commit") != merge_commit:
             raise EvidenceValidationError("EVIDENCE_MERGE_COMMIT", "report merge_commit must equal merge_gate history")
     result_binding = evidence.get("result_artifact_manifest")
     if "result_dir" in evidence and (

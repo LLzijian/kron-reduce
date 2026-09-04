@@ -6,6 +6,7 @@ five-arm, counterfactual, support, and modal algorithms are reused from A03.
 
 from __future__ import annotations
 
+import re
 import subprocess
 import tomllib
 from collections import Counter
@@ -23,7 +24,7 @@ from kron_reduce.data.p1_causal import (
 from kron_reduce.workflows import p1_a03_real_f1_controlled_chain as parent
 from kron_reduce.workflows.p1_counterfactual_execution import _seal
 from kron_reduce.workflows.p1_five_arm_execution import _write_json, file_sha256
-from project_harness.evidence import verify_artifact_directory
+from project_harness.evidence import merge_evidence_commit, verify_artifact_directory
 from project_harness.loop import load_state
 
 PROTOCOL_REVISION = "ieee39_modular_energy_p1_a04_time_grid_retry_v1"
@@ -263,6 +264,57 @@ def _require_retry_stage(root: Path) -> dict[str, Any]:
     return entries[0]
 
 
+def _git_command(root: Path, *args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["git", "-C", str(root), *args],
+        check=False,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="strict",
+    )
+
+
+def _require_report_branch(root: Path, config: Mapping[str, Any]) -> None:
+    """Allow report only on its recorded terminal branch and commit lineage."""
+    state = load_state(root, WORKFLOW)
+    terminal = state.get("current_stage")
+    branch_result = _git_command(root, "branch", "--show-current")
+    if branch_result.returncode != 0:
+        raise RuntimeError("A04 could not determine the execution branch")
+    branch = branch_result.stdout.strip()
+    if terminal == "rollback_report":
+        if branch != config["branch"]:
+            raise RuntimeError("A04 rollback report must run on the preregistered branch")
+        return
+    if terminal != "merge_gate":
+        raise RuntimeError("A04 report requires a recorded merge or rollback branch")
+    merge_entries = [
+        event.get("evidence")
+        for event in state.get("history", [])
+        if event.get("action") == "advance" and event.get("to") == "merge_gate"
+    ]
+    if len(merge_entries) != 1 or not isinstance(merge_entries[0], dict):
+        raise RuntimeError("A04 merge report requires exactly one merge evidence object")
+    merge = merge_entries[0]
+    target_branch = merge.get("target_branch")
+    if not isinstance(target_branch, str) or not target_branch.strip():
+        raise RuntimeError("A04 merge evidence lacks target_branch")
+    if branch != target_branch:
+        raise RuntimeError("A04 merge report must run on the merge evidence target_branch")
+    commit = merge_evidence_commit(merge)
+    if commit is None:
+        raise RuntimeError("A04 merge evidence lacks merge_commit")
+    if not re.fullmatch(r"[0-9a-fA-F]{40}(?:[0-9a-fA-F]{24})?", commit):
+        raise RuntimeError("A04 merge evidence has an invalid merge_commit")
+    resolved = _git_command(root, "cat-file", "-e", f"{commit}^{{commit}}")
+    if resolved.returncode != 0:
+        raise RuntimeError("A04 merge evidence commit does not resolve to a Git commit")
+    ancestor = _git_command(root, "merge-base", "--is-ancestor", commit, "HEAD")
+    if ancestor.returncode != 0:
+        raise RuntimeError("A04 merge evidence commit must be an ancestor of HEAD")
+
+
 def run(
     *, root: Path, experiment: dict[str, Any], stage: str, result_dir: Path, run_id: str
 ) -> None:
@@ -278,16 +330,12 @@ def run(
     }:
         raise ValueError(f"unsupported P1-A04 stage: {stage}")
     config_path, config = _load_config(root, experiment)
-    branch = subprocess.run(
-        ["git", "-C", str(root), "branch", "--show-current"],
-        check=True,
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="strict",
-    ).stdout.strip()
-    if branch != config["branch"]:
-        raise RuntimeError("A04 execution branch differs from preregistration")
+    if stage == "report":
+        _require_report_branch(root, config)
+    else:
+        branch = _git_command(root, "branch", "--show-current")
+        if branch.returncode != 0 or branch.stdout.strip() != config["branch"]:
+            raise RuntimeError("A04 execution branch differs from preregistration")
     if stage == "retry_registered":
         _run_retry_registered(root, config_path, config, result_dir, run_id)
     elif stage == "model_unit_gate":
