@@ -6,18 +6,14 @@ five-arm, counterfactual, support, and modal algorithms are reused from A03.
 
 from __future__ import annotations
 
-import json
 import subprocess
 import tomllib
 from collections import Counter
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 import h5py
-
-from project_harness.evidence import verify_artifact_directory
-from project_harness.git_state import git_head
-from project_harness.loop import load_state
 
 from kron_reduce.data.p1_causal import (
     P1_SOURCE_POINTS,
@@ -27,7 +23,8 @@ from kron_reduce.data.p1_causal import (
 from kron_reduce.workflows import p1_a03_real_f1_controlled_chain as parent
 from kron_reduce.workflows.p1_counterfactual_execution import _seal
 from kron_reduce.workflows.p1_five_arm_execution import _write_json, file_sha256
-
+from project_harness.evidence import verify_artifact_directory
+from project_harness.loop import load_state
 
 PROTOCOL_REVISION = "ieee39_modular_energy_p1_a04_time_grid_retry_v1"
 WORKFLOW = "ieee39_modular_energy_p1_a04_v1"
@@ -269,7 +266,16 @@ def _require_retry_stage(root: Path) -> dict[str, Any]:
 def run(
     *, root: Path, experiment: dict[str, Any], stage: str, result_dir: Path, run_id: str
 ) -> None:
-    if stage not in {"retry_registered", "model_unit_gate", "controlled_experiment"}:
+    if stage not in {
+        "retry_registered",
+        "model_unit_gate",
+        "controlled_experiment",
+        "residual_diagnosis",
+        "adversarial_review",
+        "acceptance",
+        "rollback_report",
+        "report",
+    }:
         raise ValueError(f"unsupported P1-A04 stage: {stage}")
     config_path, config = _load_config(root, experiment)
     branch = subprocess.run(
@@ -302,7 +308,7 @@ def run(
                 f"retry evidence is {retry['result_dir']}. It makes no IEEE39 performance, modal, stability, or promotion claim."
             ),
         )
-    else:
+    elif stage == "controlled_experiment":
         parent._run_controlled_experiment(
             root,
             config_path,
@@ -315,4 +321,47 @@ def run(
             config_sha256=CONFIG_SHA256,
             summary_schema="kron_reduce.p1_a04_real_f1_controlled_chain.v1",
         )
+    else:
+        # Imported lazily so the post-processor can reuse this module's frozen
+        # constants without a module-import cycle.  It only reads sealed parent
+        # runs and writes the new stage result.
+        from kron_reduce.workflows import p1_a04_postprocess as postprocess
 
+        if stage == "residual_diagnosis":
+            postprocess.run_residual_diagnosis(
+                root=root,
+                workflow=WORKFLOW,
+                config=config,
+                result_dir=result_dir,
+                run_id=run_id,
+            )
+        elif stage == "adversarial_review":
+            postprocess.run_adversarial_review(
+                root=root,
+                workflow=WORKFLOW,
+                config=config,
+                result_dir=result_dir,
+                run_id=run_id,
+            )
+        elif stage == "acceptance":
+            postprocess.run_acceptance(
+                root=root,
+                workflow=WORKFLOW,
+                config=config,
+                result_dir=result_dir,
+                run_id=run_id,
+            )
+        elif stage == "rollback_report":
+            postprocess.run_rollback_report(
+                root=root,
+                workflow=WORKFLOW,
+                result_dir=result_dir,
+                run_id=run_id,
+            )
+        else:
+            postprocess.run_report(
+                root=root,
+                workflow=WORKFLOW,
+                result_dir=result_dir,
+                run_id=run_id,
+            )
