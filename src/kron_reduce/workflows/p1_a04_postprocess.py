@@ -34,7 +34,11 @@ from kron_reduce.workflows.p1_modal_observability_execution import (
 from kron_reduce.workflows.p1_module_support_execution import (
     verify_module_support_artifacts,
 )
-from project_harness.evidence import sha256_file, verify_artifact_directory
+from project_harness.evidence import (
+    merge_evidence_commit,
+    sha256_file,
+    verify_artifact_directory,
+)
 from project_harness.loop import load_state
 
 _HORIZONS = (1, 5, 10)
@@ -90,6 +94,13 @@ def _history_evidence(root: Path, workflow: str, stage: str) -> dict[str, Any]:
     if len(matches) != 1 or not isinstance(matches[0], dict):
         raise RuntimeError(f"expected exactly one recorded {stage!r} evidence object")
     return matches[0]
+
+
+def _report_merge_commit(root: Path, workflow: str) -> str:
+    commit = merge_evidence_commit(_history_evidence(root, workflow, "merge_gate"))
+    if commit is None:
+        raise RuntimeError("merge gate lacks its approved commit")
+    return commit
 
 
 def _bound_result(root: Path, workflow: str, stage: str) -> tuple[Path, dict[str, Any]]:
@@ -1190,11 +1201,7 @@ def run_report(
             }
         )
     else:
-        merge = _history_evidence(root, workflow, "merge_gate")
-        commit = merge.get("git_commit")
-        if not isinstance(commit, str) or not commit:
-            raise RuntimeError("merge gate lacks its approved commit")
-        evidence["merge_commit"] = commit
+        evidence["merge_commit"] = _report_merge_commit(root, workflow)
     _write_json(
         result_dir / "report_lineage.json",
         {"schema": "kron_reduce.p1_a04_report_lineage.v1", "run_id": run_id, **evidence},

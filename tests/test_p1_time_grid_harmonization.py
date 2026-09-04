@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
@@ -12,6 +13,21 @@ from kron_reduce.data.p1_causal import (
     prepare_p1_time_grid,
 )
 from kron_reduce.workflows import p1_a04_time_grid_retry as retry
+
+_MERGE_COMMIT = "a" * 40
+
+
+def _report_state(terminal: str, merge_evidence: dict | None = None) -> dict:
+    history = []
+    if merge_evidence is not None:
+        history.append(
+            {"action": "advance", "to": "merge_gate", "evidence": merge_evidence}
+        )
+    return {"current_stage": terminal, "history": history}
+
+
+def _git_result(*, stdout: str = "", returncode: int = 0) -> SimpleNamespace:
+    return SimpleNamespace(stdout=stdout, returncode=returncode)
 
 
 def _shifted_time(offset: float = 0.005) -> np.ndarray:
@@ -115,3 +131,82 @@ def test_a04_time_grid_summary_rejects_omission_or_extrapolation() -> None:
     rows[0]["extrapolation_applied"] = True
     with pytest.raises(ValueError, match="extrapolation"):
         retry._summarize_time_grid(rows)
+
+
+def test_a04_report_rejects_merge_target_branch_mismatch(monkeypatch) -> None:
+    config = {"branch": "codex/loop-p1-a04"}
+    monkeypatch.setattr(
+        retry,
+        "load_state",
+        lambda *_: _report_state(
+            "merge_gate",
+            {"target_branch": "main", "merge_commit": _MERGE_COMMIT},
+        ),
+    )
+    monkeypatch.setattr(
+        retry,
+        "_git_command",
+        lambda *_: _git_result(stdout="codex/loop-p1-a04\n"),
+    )
+    with pytest.raises(RuntimeError, match="target_branch"):
+        retry._require_report_branch(Path("unused"), config)
+
+
+@pytest.mark.parametrize(
+    "merge_evidence,git_results,error",
+    [
+        (
+            {"target_branch": "main", "merge_commit": "forged"},
+            [],
+            "invalid merge_commit",
+        ),
+        (
+            {"target_branch": "main", "merge_commit": _MERGE_COMMIT},
+            [_git_result(), _git_result(returncode=1)],
+            "ancestor of HEAD",
+        ),
+    ],
+)
+def test_a04_report_rejects_forged_or_nonancestor_merge_commit(
+    monkeypatch, merge_evidence, git_results, error
+) -> None:
+    config = {"branch": "codex/loop-p1-a04"}
+    monkeypatch.setattr(
+        retry, "load_state", lambda *_: _report_state("merge_gate", merge_evidence)
+    )
+    results = iter([_git_result(stdout="main\n"), *git_results])
+    monkeypatch.setattr(retry, "_git_command", lambda *_: next(results))
+    with pytest.raises(RuntimeError, match=error):
+        retry._require_report_branch(Path("unused"), config)
+
+
+@pytest.mark.parametrize(
+    "merge_evidence",
+    [
+        {"target_branch": "main", "merge_commit": _MERGE_COMMIT},
+        {"target_branch": "main", "git_commit": _MERGE_COMMIT},
+    ],
+)
+def test_a04_report_accepts_merge_commit_ancestor_and_legacy_field(
+    monkeypatch, merge_evidence
+) -> None:
+    config = {"branch": "codex/loop-p1-a04"}
+    monkeypatch.setattr(
+        retry, "load_state", lambda *_: _report_state("merge_gate", merge_evidence)
+    )
+    results = iter([_git_result(stdout="main\n"), _git_result(), _git_result()])
+    monkeypatch.setattr(retry, "_git_command", lambda *_: next(results))
+    retry._require_report_branch(Path("unused"), config)
+
+
+def test_a04_rollback_report_stays_on_preregistered_branch(monkeypatch) -> None:
+    config = {"branch": "codex/loop-p1-a04"}
+    monkeypatch.setattr(
+        retry, "load_state", lambda *_: _report_state("rollback_report")
+    )
+    monkeypatch.setattr(
+        retry,
+        "_git_command",
+        lambda *_: _git_result(stdout="codex/loop-p1-a04\n"),
+    )
+    retry._require_report_branch(Path("unused"), config)

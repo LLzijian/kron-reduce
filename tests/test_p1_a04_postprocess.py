@@ -277,3 +277,23 @@ def test_report_is_concise_and_keeps_model_unpromoted() -> None:
     assert "`KEEP_BASELINE`" in report
     assert "当前候选不作为已接受部署模型" in report
     assert all(value in report for value in ("first", "second", "third"))
+
+
+@pytest.mark.parametrize(
+    "merge_evidence",
+    [
+        {"merge_commit": "a" * 40},
+        {"git_commit": "b" * 40},
+    ],
+)
+def test_run_report_uses_canonical_merge_commit_from_new_or_legacy_evidence(
+    monkeypatch, merge_evidence: dict
+) -> None:
+    monkeypatch.setattr(
+        post,
+        "_history_evidence",
+        lambda *_: merge_evidence,
+    )
+    assert post._report_merge_commit(Path("unused"), "workflow") == (
+        merge_evidence.get("merge_commit") or merge_evidence["git_commit"]
+    )
