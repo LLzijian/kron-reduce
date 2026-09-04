@@ -1,0 +1,62 @@
+{
+  "workflow": "ieee39_modular_energy_paper_master_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "plan_frozen",
+    "p1_current_implementation_audited",
+    "p2_baseline_contract_frozen",
+    "p3_unified_model_accepted",
+    "p4_f1_accepted",
+    "p5_level6_accepted",
+    "p6_fivefold_accepted",
+    "p7_evidence_frozen",
+    "p8_manuscript_accepted",
+    "publication_gate"
+  ],
+  "approval_required": ["publication_gate"],
+  "subworkflow_template": "ieee39_modular_energy_loop_template_v1",
+  "scientific_target": "one_ieee39_modular_energy_model_with_level6_stability_certificate",
+  "stage_evidence_contracts": {
+    "plan_frozen": {
+      "required_fields": ["status", "artifact_paths", "project_audit_status", "data_check_status"]
+    },
+    "p1_current_implementation_audited": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
+    },
+    "p2_baseline_contract_frozen": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
+    },
+    "p3_unified_model_accepted": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
+    },
+    "p4_f1_accepted": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
+    },
+    "p5_level6_accepted": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary", "level6_certificate", "dataset_manifest_bindings", "independent_group_audit"],
+      "non_empty_fields": ["process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary", "level6_certificate", "dataset_manifest_bindings", "independent_group_audit"]
+    },
+    "p6_fivefold_accepted": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
+    },
+    "p7_evidence_frozen": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
+    },
+    "p8_manuscript_accepted": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "merge_commit", "rollback_target", "claim_boundary"]
+    }
+  },
+  "accepted_scientific_verdicts": ["ACCEPT"],
+  "locked_claims": [
+    "multiple_models_for_one_input_corpus",
+    "source_or_excitation_as_model_input",
+    "test_assisted_selection",
+    "future_observed_Pm_as_primary_input",
+    "modal_frequency_without_identifiability_gates",
+    "stability_certified_equivalent_without_level6_gates",
+    "synthetic_evidence_as_ieee39_performance",
+    "publication_ready_without_human_metadata"
+  ]
+}

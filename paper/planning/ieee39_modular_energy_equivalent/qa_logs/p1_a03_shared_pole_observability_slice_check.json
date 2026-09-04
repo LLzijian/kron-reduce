@@ -1,0 +1,141 @@
+{
+  "schema": "kron_reduce.paper_qa.p1_shared_pole_observability_slice.v1",
+  "date": "2026-09-01",
+  "workflow": "ieee39_modular_energy_p1_a03_v1",
+  "workflow_stage_before": "candidate_acquired",
+  "workflow_stage_after": "candidate_acquired",
+  "state_advanced": false,
+  "protocol": {
+    "path": "docs/protocols/ieee39_modular_energy_p1_shared_pole_observability_slice_v1_zh.md",
+    "sha256": "3893b0e138f6ef46e35cb6ed314ddbdeb947c5b699a630ed237fd0ef404853fd",
+    "commit": "cdcdf80",
+    "frozen_before_implementation": true
+  },
+  "source_freeze": {
+    "commit": "51ae930597d67a33b28214979f3bc5ef0e628af5",
+    "files": {
+      "src/kron_reduce/evaluation/p1_shared_pole_observability.py": "7a9c1d6a92277d5ec7086646d167eefe0def1d7433fd41875a5236e4ab41d699",
+      "src/kron_reduce/workflows/p1_modal_observability_execution.py": "0e8bf3c420367c3856f91062d2c37457036b7d594913980bd30e6161b1e0ebbe",
+      "tests/test_p1_shared_pole_observability.py": "5362167d03926b4ef0a43be8c576d7cae48fb00585ec89a90063075d02bb57b2"
+    },
+    "git_check": {
+      "status": "PASS",
+      "dirty": []
+    }
+  },
+  "implementation_contract": {
+    "frequency_source": "frozen PrunableEnergyModel equation poles only",
+    "trajectory_dmd_role": "finite-window local observability descriptor only",
+    "model_count": 1,
+    "source_routing": false,
+    "shared_static_fields": [
+      "mass",
+      "incidence",
+      "equilibrium_delta",
+      "Pm_equilibrium"
+    ],
+    "different_static_family_policy": "INVALID_STATIC_FAMILY",
+    "dmd_ranks": [4, 6, 8],
+    "one_to_one_assignment": "Hungarian before hard gates",
+    "bootstrap": {
+      "draws": 2000,
+      "seed": 324,
+      "cluster_unit": "source_dataset_x_fault_line",
+      "minimum_independent_lines": 3,
+      "line_support_target": 0.8,
+      "bootstrap_support_probability_min": 0.8
+    },
+    "future_observed_pm_used": false,
+    "labels_used": false,
+    "test_or_other_fold_data_used": false
+  },
+  "synthetic_known_truth_gate": {
+    "status": "PASS",
+    "known_frequency_damping_shape_recovery": true,
+    "different_views_support_different_poles_of_one_spectrum": true,
+    "same_frequency_wrong_shape_rejected": true,
+    "unexcited_zero_energy_pole_rejected": true,
+    "one_empirical_mode_cannot_support_two_equation_poles": true,
+    "single_line_one_hundred_percent_is_undetermined": true,
+    "duplicated_events_do_not_increase_independent_lines": true,
+    "dmd_failure_rows_retained": true,
+    "claim_boundary": "algorithm correctness only; not IEEE39 performance evidence"
+  },
+  "adversarial_checks": {
+    "non_coi_or_incomplete_time_axis_rejected": true,
+    "zero_or_tiny_equation_visibility_rejected": true,
+    "nonpositive_storage_hessian_rejected": true,
+    "changed_added_or_missing_artifact_rejected": true,
+    "rehashed_semantically_incomplete_artifact_rejected": true,
+    "event_line_and_bootstrap_statistics_recomputed_by_verifier": true,
+    "shared_spectrum_extraction_tested_without_trajectory_or_view_metadata": true,
+    "parent_model_read_only_and_reverified": true
+  },
+  "tests": {
+    "focused": {
+      "status": "PASS",
+      "passed": 37,
+      "junit": "scratch/one_off/modal-focused-a3/pytest.xml",
+      "junit_sha256": "6c5c21706784d1f3a279be1bbf7f6df58ea37b2aac3ad921ac6544e37e4dacfe"
+    },
+    "full": {
+      "status": "PASS",
+      "passed": 402,
+      "duration_seconds": 568.14,
+      "junit": "scratch/one_off/full-modal-51ae930/pytest.xml",
+      "junit_sha256": "d819d71ea9557a3b752e0376df22135757d80957c6771051fba7b590172e08dc"
+    },
+    "ruff": "PASS",
+    "py_compile": "PASS"
+  },
+  "project_checks": {
+    "harness_audit": {
+      "status": "PASS",
+      "errors": 0,
+      "findings": []
+    },
+    "data_check": {
+      "status": "PASS",
+      "dataset_revision": "ieee39_postclear_canonical_v1",
+      "event_count": 315
+    }
+  },
+  "historical_modal_evidence": {
+    "v8_acceptance_run": "paper_m0_afsd_v8_acceptance_f1_seed324-acceptance-20260821T004006Z-e434ccbf",
+    "v8_terminal_state": "MODAL_ENVELOPE_MAP_CREATED",
+    "v8_cross_role_consensus_mode_found": false,
+    "v8_input_aware_consensus_modes": 0,
+    "reuse_boundary": "historical empirical-response evidence only; no pole or checkpoint inheritance"
+  },
+  "ieee39_execution": {
+    "new_modal_scientific_run_executed": false,
+    "new_ieee39_frequency_claim_created": false,
+    "frozen_test_read": false,
+    "f2_f5_read": false,
+    "reason": "the real five-arm parent bundle and the complete P1 model unit gate have not yet been scientifically frozen"
+  },
+  "acceptance": {
+    "process_status": "PASS",
+    "scientific_verdict": null,
+    "scientific_status": "NOT_RUN",
+    "promotion_decision": "KEEP_BASELINE",
+    "model_unit_gate_passed": false,
+    "rollback_target": "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4",
+    "claim_boundary": "the shared-pole/local-observability algorithm and immutable executor pass synthetic and software gates; no IEEE39 modal support has been established",
+    "paper_usable_claims": [
+      "The audit algorithm separates equation poles from excitation-local trajectory observability on known synthetic systems."
+    ],
+    "forbidden_claims": [
+      "an IEEE39 oscillation frequency was identified",
+      "the current IEEE39 candidate passed the modal gate",
+      "P1 model_unit_gate passed",
+      "the current candidate is a stability-certified equivalent"
+    ]
+  },
+  "next_required_work": [
+    "bind and execute the real F1 five-arm parent bundle without opening locked roles",
+    "run this frozen modal executor only after the real parent checkpoint and manifest are immutable",
+    "replay P1 history and combine modal, trajectory, module, identifiability and physical gates",
+    "perform independent adversarial review before any workflow advance"
+  ]
+}

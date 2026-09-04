@@ -1,0 +1,51 @@
+task_type = "combined_ten_machine_prunable_identification"
+protocol_revision = "combined_ten_machine_identification_v1"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "zoh"
+test_access = "forbidden"
+other_folds_access = "forbidden"
+canonical_mutation = "forbidden"
+
+upstream_cluster_result = "paper_higher_order_cluster_validation_f1_seed324-validation_run-20260824T070256Z-d4d50de4"
+upstream_cluster_artifact_hash = "8f56fbfe40a526f52ad86eaef20352ea41127a37e8fe0ac75d44b4dabf22d313"
+
+minimum_model_steps = 1001
+selection_horizon_steps = 1001
+fit_max_steps = 1001
+rollout_horizons_s = [1.0, 5.0, 10.0]
+integral_windows = [1, 5, 20, 40, 80]
+ridge_values = [1e-10, 1e-8, 1e-6, 1e-4, 1e-2]
+weak_max_windows_per_case_horizon = 8
+max_internal_step = 0.01
+
+candidate_correlation_threshold = 0.20
+candidate_bootstrap_draws = 200
+node_high_order_tau = 0.20
+potential_scale = 0.25
+closed_loop_refine_cases = 4
+closed_loop_refine_evaluations = 12
+pruning_noninferiority_tolerance = 0.02
+pruning_bootstrap_draws = 200
+pruning_refine_cases = 2
+pruning_refine_evaluations = 6
+
+stability_angle_limit = 1.5707963267948966
+supply_identity_tolerance = 1e-8
+rk4_order_ratio_lower = 8.0
+rk4_order_ratio_upper = 32.0
+rk4_roundoff_error = 1e-11
+
+[claim_boundaries]
+one_shared_model = true
+original_ten_machine_coordinates = true
+source_balanced_loss_only = true
+source_routing = false
+causal_fixed_postclear_input = true
+short_unstable_postfreeze_only = true
+test_performance = false
+level_6_certificate = false
+

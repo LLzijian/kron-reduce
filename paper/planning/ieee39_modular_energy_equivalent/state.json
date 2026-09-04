@@ -1,0 +1,22 @@
+{
+  "project": "ieee39_modular_energy_equivalent",
+  "mode": "hybrid",
+  "text_type": "ieee_journal_research_plan_and_manuscript",
+  "language": "mixed",
+  "target_reader": "IEEE power-system dynamics and model-reduction researchers",
+  "current_round": 0,
+  "scores": [],
+  "technical_debts": [
+    "P1 must quantify module counterfactual effect versus matched ten-machine baselines",
+    "P1 must isolate the cause of long-horizon speed error",
+    "P1 must align modal audit with shared-pole and excitation-local observability evidence",
+    "P5 requires a new independent IEEE39 stability-boundary audit dataset",
+    "P6 five-fold evidence has not been run",
+    "P1 A02 candidate acquisition failed while strict-serializing a legacy NaN margin; A03 must preserve the old payload byte-for-byte",
+    "Five-arm execution and mandatory model-unit evidence remain unwired",
+    "Master phase advancement must cross-check accepted child runs, hashes and actual merge commits"
+  ],
+  "status": "p1_implementation_retry",
+  "current_attempt": "p1_a02",
+  "latest_review": "qa_logs/p1_a02_candidate_acquisition_retry.json"
+}

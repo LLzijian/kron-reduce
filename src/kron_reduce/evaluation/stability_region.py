@@ -17,7 +17,8 @@ only against known ground truth can the fidelity metrics below be falsified.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from typing import Any
 
 import numpy as np
 
@@ -33,6 +34,82 @@ class RegionCertificate:
     barrier_level: float | None
     tolerance: float
     sample_based: bool = True
+
+
+@dataclass(frozen=True)
+class StabilityCertificate:
+    """Complete, claim-gating Level 6 certificate record.
+
+    The record deliberately keeps statistical safety, region fidelity, margin
+    quality, sample independence, and physical/numerical checks separate. A
+    good classifier score alone can therefore never earn the Level 6 name.
+    """
+
+    region_conservative: bool
+    stable_envelope_coverage: float
+    region_symmetric_difference_ratio: float
+    normalized_margin_mae: float
+    margin_rank_correlation: float
+    independent_unstable_groups: int
+    fsr_95_upper: float
+    false_stable_certificates: int
+    physics_gates_passed: bool
+    numerical_gates_passed: bool
+    claim_boundary: str
+    sample_based: bool = True
+
+    def __post_init__(self) -> None:
+        for name in (
+            "region_conservative", "physics_gates_passed", "numerical_gates_passed", "sample_based"
+        ):
+            if type(getattr(self, name)) is not bool:
+                raise TypeError(f"{name} must be an explicit boolean")
+        for name in ("independent_unstable_groups", "false_stable_certificates"):
+            if type(getattr(self, name)) is not int:
+                raise TypeError(f"{name} must be an integer count, not a boolean or fraction")
+        unit_interval_fields = {
+            "stable_envelope_coverage": self.stable_envelope_coverage,
+            "region_symmetric_difference_ratio": self.region_symmetric_difference_ratio,
+            "normalized_margin_mae": self.normalized_margin_mae,
+            "fsr_95_upper": self.fsr_95_upper,
+        }
+        for name, value in unit_interval_fields.items():
+            if isinstance(value, bool) or not np.isfinite(value) or not 0.0 <= value <= 1.0:
+                raise ValueError(f"{name} must be finite and lie in [0, 1]")
+        if isinstance(self.margin_rank_correlation, bool) or not np.isfinite(self.margin_rank_correlation) or not -1.0 <= self.margin_rank_correlation <= 1.0:
+            raise ValueError("margin_rank_correlation must be finite and lie in [-1, 1]")
+        if self.independent_unstable_groups < 0 or self.false_stable_certificates < 0:
+            raise ValueError("sample counts must be nonnegative")
+        if not isinstance(self.claim_boundary, str) or not self.claim_boundary.strip():
+            raise ValueError("claim_boundary must be explicit")
+
+    @property
+    def gates(self) -> dict[str, bool]:
+        return {
+            "region_conservative": self.region_conservative,
+            "stable_envelope_coverage_at_least_50pct": self.stable_envelope_coverage >= 0.50,
+            "region_symmetric_difference_at_most_20pct": (
+                self.region_symmetric_difference_ratio <= 0.20
+            ),
+            "normalized_margin_mae_at_most_10pct": self.normalized_margin_mae <= 0.10,
+            "margin_rank_correlation_at_least_0_8": self.margin_rank_correlation >= 0.80,
+            "at_least_80_independent_unstable_groups": self.independent_unstable_groups >= 80,
+            "fsr_95_upper_at_most_5pct": self.fsr_95_upper <= 0.05,
+            "no_false_stable_certificates": self.false_stable_certificates == 0,
+            "physics_gates_passed": self.physics_gates_passed,
+            "numerical_gates_passed": self.numerical_gates_passed,
+        }
+
+    @property
+    def level_6_eligible(self) -> bool:
+        return all(self.gates.values())
+
+    def to_dict(self) -> dict[str, Any]:
+        result = asdict(self)
+        result["gates"] = self.gates
+        result["level_6_eligible"] = self.level_6_eligible
+        result["status"] = "pass" if self.level_6_eligible else "fail"
+        return result
 
 
 def supply_identity_error(

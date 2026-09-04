@@ -15,10 +15,19 @@
   modal poles and cross-node response are reduced closed-loop structure, not
   machine-level governor parameters. Accuracy and long-horizon stability are
   gated separately.
-- Predictions are future `delta, omega`; stability is derived post hoc from the
-  predicted trajectory.
+- Predictions are future `delta, omega`; trajectory-derived stability remains
+  post hoc and exploratory. A separately gated energy-structured model may
+  additionally report an integration-free clearing-state margin under fixed
+  post-clear input and topology, without changing the trajectory labels or
+  training route.
 - Test IDs may not enter fitting, normalization, checkpoint selection,
   calibration, or gate construction.
+- One supplied trajectory corpus produces one final equation and one parameter
+  set. Fit/selection excitation views may support different candidate modules,
+  but their union is fitted jointly and pruned as whole blocks. Source,
+  excitation regime, fault identity, event time, stability label, `Pe`,
+  voltage, masks, valid length, and future summaries are never model features
+  or routing keys.
 - Prefix tasks use a fixed number of real observations. Short cases and cases
   whose event occurred in the observation window are ineligible for the
   prospective cohort.

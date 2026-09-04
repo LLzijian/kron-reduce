@@ -1,0 +1,423 @@
+{
+  "schema": "kron_reduce.p1_implementation_slice_check.v1",
+  "created_at": "2026-08-31T15:10:51.384140+00:00",
+  "record_kind": "software_verification_not_scientific_acceptance",
+  "process_status": "INCOMPLETE",
+  "software_checks_status": "PASS",
+  "scientific_verdict": null,
+  "scientific_evaluation_status": "NOT_RUN",
+  "promotion_decision": "KEEP_BASELINE",
+  "workflow": "ieee39_modular_energy_p1_a03_v1",
+  "current_stage": "candidate_acquired",
+  "master_current_stage": "plan_frozen",
+  "source_checkpoint_before_implementation": "78c9538f25a271266cc122e422943772b997ac60",
+  "source_files": {
+    "src/kron_reduce/models/p1_calibration.py": "23ab69e0d8910a575b0771bbc36a9f10cf5b60a431ac1a846efed2dc48639773",
+    "src/kron_reduce/models/passive_pm_closure.py": "68cd34cfb07c9f8d4b2c5fb896cf04cb7b497976f4b1b236e87e5de2cdaeecba",
+    "src/kron_reduce/workflows/p1_five_arm_execution.py": "f7c23858b797f176a7f29ecc5b4840adf774ac3041452995a727cbd9f9b6d9de",
+    "src/kron_reduce/data/p1_pm_targets.py": "006fe8009398d1fc987fb5441bf2dd965aa0be140bc7fa4d0c50283f309911b7",
+    "tests/test_p1_five_arm_execution.py": "a0ab94cd87a62004b9d82d2a943d2c7363a1b5f67fe244320412d163926f023b",
+    "tests/test_passive_pm_closure.py": "494407037f40ad9e243d57d464b1514e42489095656552086ff645d7d11637f1",
+    "tests/test_p1_pm_targets.py": "11c259bc071fa85705ba5f975ad8597854ffa463fc372ffb2d116a7c295c79d0",
+    "docs/protocols/ieee39_modular_energy_p1_five_arm_slice_v1_zh.md": "9a8a322233dadc714a45451b5c825bb2b23d92a78e1c415e4b02658b6ee072ec"
+  },
+  "pytest": {
+    "tests": 345,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "path": "scratch/one_off/full-d68fc2/pytest.xml",
+    "sha256": "6db7ecd10d63cd69430541c013c3bd37a02e401ddc83fdd8e237a06c8b8b6382"
+  },
+  "slice_test_counts": {
+    "test_p1_pm_targets": 13,
+    "test_passive_pm_closure": 8,
+    "test_p1_five_arm_execution": 14
+  },
+  "slice_test_cases": {
+    "test_p1_pm_targets": [
+      "test_fit_reads_only_pm_and_time_and_returns_readonly_copies",
+      "test_conditional_reads_selection_after_verified_checkpoint",
+      "test_fit_purpose_rejects_nonfit_before_file_open[selection]",
+      "test_fit_purpose_rejects_nonfit_before_file_open[internal_audit]",
+      "test_locked_unknown_or_missing_ids_reject_before_file_open[test-samples0]",
+      "test_locked_unknown_or_missing_ids_reject_before_file_open[unknown-samples1]",
+      "test_locked_unknown_or_missing_ids_reject_before_file_open[fit-samples2]",
+      "test_conditional_checkpoint_gates_precede_file_open[missing]",
+      "test_conditional_checkpoint_gates_precede_file_open[tampered]",
+      "test_conditional_checkpoint_gates_precede_file_open[symlink]",
+      "test_invalid_pm_rejected[nan]",
+      "test_invalid_pm_rejected[initial]",
+      "test_invalid_pm_rejected[projection_overflow]"
+    ],
+    "test_passive_pm_closure": [
+      "test_mass_quotient_port_and_storage_identity",
+      "test_zero_kappa_preserves_memory_core_rollout_exactly",
+      "test_coupled_core_and_closure_supply_identity",
+      "test_augmented_rk4_has_fourth_order_convergence",
+      "test_exponential_linear_filter_matches_constant_and_linear_integrals",
+      "test_fit_recovers_known_nonnegative_kappa_and_records_clipping",
+      "test_only_fit_causal_samples_can_fit_and_feature_attacks_reject",
+      "test_closure_save_load_refuses_overwrite_and_claimed_fields"
+    ],
+    "test_p1_five_arm_execution": [
+      "test_real_from_scratch_fit_saves_only_three_cores_and_binds_five_arms",
+      "test_saved_evaluator_never_fits_and_preserves_bundle",
+      "test_frozen_evaluation_rejects_role_hash_and_output_attacks[manifest_hash]",
+      "test_frozen_evaluation_rejects_role_hash_and_output_attacks[core_hash]",
+      "test_frozen_evaluation_rejects_role_hash_and_output_attacks[wrong_role]",
+      "test_frozen_evaluation_rejects_role_hash_and_output_attacks[future_main_flag]",
+      "test_frozen_evaluation_rejects_role_hash_and_output_attacks[inside_bundle]",
+      "test_changed_core_is_rejected_before_any_model_load",
+      "test_attempt_cannot_overwrite_and_solver_failure_is_preserved",
+      "test_scoring_matches_calibration_and_never_deletes_failed_events",
+      "test_zero_variance_and_overflow_are_not_fabricated_scores",
+      "test_new_ridge_selector_does_not_skip_failed_events",
+      "test_internal_role_is_rejected_before_structure_read_or_fitting",
+      "test_unsuccessful_weak_solver_cannot_return_a_successful_core"
+    ]
+  },
+  "checks": [
+    {
+      "command": [
+        "E:\\03-nn_Transfer_Func\\kron-reduce\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "src/kron_reduce/models/p1_calibration.py",
+        "src/kron_reduce/models/passive_pm_closure.py",
+        "src/kron_reduce/workflows/p1_five_arm_execution.py",
+        "src/kron_reduce/data/p1_pm_targets.py",
+        "tests/test_p1_five_arm_execution.py",
+        "tests/test_passive_pm_closure.py",
+        "tests/test_p1_pm_targets.py"
+      ],
+      "exit_code": 0,
+      "stdout": "All checks passed!"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": ""
+    }
+  ],
+  "development_attempt_failure": {
+    "path": "scratch/one_off/p1five-cb9e86/pytest.xml",
+    "sha256": "bf4f61660a3bc060930553d6147c67a507873e83e04f436a837cd6f126a6a335",
+    "cause": "pytest basetemp parent absent; 3 passed and 11 setup errors; retained unchanged",
+    "scientific_run": false
+  },
+  "project_audit": {
+    "status": "PASS",
+    "errors": 0,
+    "findings": []
+  },
+  "data_check": {
+    "status": "PASS",
+    "files": 32,
+    "event_count": 315,
+    "dataset_revision": "ieee39_postclear_canonical_v1",
+    "build_id": "canonical_rebuild_20260722T022739",
+    "schema_event_count": 315,
+    "auxiliary_datasets": {
+      "synthetic_benchmark_registry_v1": {
+        "status": "PASS",
+        "files": 2,
+        "revision": "synthetic_benchmark_registry_v1"
+      }
+    },
+    "findings": [
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "archive_manifest.csv",
+        "expected": "d3db71a3aaba0d79e22a9424dcff8bb3e4eb07c97eef963633b3a3a27277f3b8",
+        "actual": "d3db71a3aaba0d79e22a9424dcff8bb3e4eb07c97eef963633b3a3a27277f3b8",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "build_report.json",
+        "expected": "24fe010d9d20613ef514e3d0d0661c83adda17b099d13dfec077169986885382",
+        "actual": "24fe010d9d20613ef514e3d0d0661c83adda17b099d13dfec077169986885382",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "dataset_index.csv",
+        "expected": "a117bafd2067b5846e15b910f194cdccdedac248f7ede2ee0bae54699111817c",
+        "actual": "a117bafd2067b5846e15b910f194cdccdedac248f7ede2ee0bae54699111817c",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "dataset_summary.json",
+        "expected": "4119f1ee15fb6cab7f3da9430662a85b508251a7e5536eea852e06579ffbe795",
+        "actual": "4119f1ee15fb6cab7f3da9430662a85b508251a7e5536eea852e06579ffbe795",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "duplicate_map.csv",
+        "expected": "a00649b2749b55606cc03f4ca83c1f74a2b289ccdfea4c227aa51a141b3a5ed3",
+        "actual": "a00649b2749b55606cc03f4ca83c1f74a2b289ccdfea4c227aa51a141b3a5ed3",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "excluded_events.csv",
+        "expected": "74b67ddb8e619bb011325696149492636cb7a8780bbc53df9c1d2651b023702c",
+        "actual": "74b67ddb8e619bb011325696149492636cb7a8780bbc53df9c1d2651b023702c",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "ieee39_postclear_canonical_v1.h5",
+        "expected": "3f6546411f3cdbea4de7977968a779b62228fa843e62fbc4f606972eff0e9636",
+        "actual": "3f6546411f3cdbea4de7977968a779b62228fa843e62fbc4f606972eff0e9636",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "provenance.csv",
+        "expected": "9b7f275a74d1ddea6e37adfa6f7badd93cc7a616cfe72d2519f2c3de9eab2e9b",
+        "actual": "9b7f275a74d1ddea6e37adfa6f7badd93cc7a616cfe72d2519f2c3de9eab2e9b",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "quality_audit.csv",
+        "expected": "dc05338bcc443b605555cff022a3d724741232fbaf3b72e5c45042d9ffb9f728",
+        "actual": "dc05338bcc443b605555cff022a3d724741232fbaf3b72e5c45042d9ffb9f728",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "README.md",
+        "expected": "f6cf105cf866014d084b2d72e5115e60105042039dfede3daf0589653d473fb1",
+        "actual": "f6cf105cf866014d084b2d72e5115e60105042039dfede3daf0589653d473fb1",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "schema.json",
+        "expected": "5e692018b7a3e9cfda68fe5846b036cf70eefddef680adc7187f9b2ebe3d3cc3",
+        "actual": "5e692018b7a3e9cfda68fe5846b036cf70eefddef680adc7187f9b2ebe3d3cc3",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "source_event_reference.csv",
+        "expected": "ed6b39463af577a956c6ee7cfeef666d84dcca1fb1c9ec32a5ee2a52562c26de",
+        "actual": "ed6b39463af577a956c6ee7cfeef666d84dcca1fb1c9ec32a5ee2a52562c26de",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/combined_line_5fold_v1.json",
+        "expected": "0aa8ca89ce41e7804b5d2fd90c1a6dcc7bd6116a95ab0215e12a8b45579d0d05",
+        "actual": "0aa8ca89ce41e7804b5d2fd90c1a6dcc7bd6116a95ab0215e12a8b45579d0d05",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/combined_F1.json",
+        "expected": "6f0ff4cc7f5ccac41e8e390641ecf10fc52967ec2d906c991b939b67ce1daa01",
+        "actual": "6f0ff4cc7f5ccac41e8e390641ecf10fc52967ec2d906c991b939b67ce1daa01",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/combined_F2.json",
+        "expected": "5cdeb919c96c7375e7239491e5b1d86d49f2c17c127756a7cc6b17d738a5bb53",
+        "actual": "5cdeb919c96c7375e7239491e5b1d86d49f2c17c127756a7cc6b17d738a5bb53",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/combined_F3.json",
+        "expected": "96cc25b2d7a0390deb5b5170a203a33109ed848b93c3eb549985b071525cadad",
+        "actual": "96cc25b2d7a0390deb5b5170a203a33109ed848b93c3eb549985b071525cadad",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/combined_F4.json",
+        "expected": "fc245770e55a066111b22af7e0ece5dac220a7b4f832cc47186cf1bbaa75d0de",
+        "actual": "fc245770e55a066111b22af7e0ece5dac220a7b4f832cc47186cf1bbaa75d0de",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/combined_F5.json",
+        "expected": "ad90ea8f2932184161015ef1129710bb92f1d67ee423b4be2f3534d5de051884",
+        "actual": "ad90ea8f2932184161015ef1129710bb92f1d67ee423b4be2f3534d5de051884",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/general_F1.json",
+        "expected": "faa2b49b55996f593868fc67048a9f56abb687af88f1ebfcb4472ff490d3d604",
+        "actual": "faa2b49b55996f593868fc67048a9f56abb687af88f1ebfcb4472ff490d3d604",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/general_F2.json",
+        "expected": "e92dafc75c17cacd9d4563bdaaf67f6f4df32dde8046f76ef888f7132c81420a",
+        "actual": "e92dafc75c17cacd9d4563bdaaf67f6f4df32dde8046f76ef888f7132c81420a",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/general_F3.json",
+        "expected": "7e3812e41dea35c2c6ac84895630e92acd96aef6ff9c07c15280a9b445bb8fdf",
+        "actual": "7e3812e41dea35c2c6ac84895630e92acd96aef6ff9c07c15280a9b445bb8fdf",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/general_F4.json",
+        "expected": "4cc9cb3eca3def007e3d9b8c5868dee4eed17bb1113aa8cb2d52a2f22175c9ee",
+        "actual": "4cc9cb3eca3def007e3d9b8c5868dee4eed17bb1113aa8cb2d52a2f22175c9ee",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/general_F5.json",
+        "expected": "d30b1fc799ab7b2ddaeb5a110639d1ff3956637c317b409a2787fe39c5b4e09c",
+        "actual": "d30b1fc799ab7b2ddaeb5a110639d1ff3956637c317b409a2787fe39c5b4e09c",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/stability_F1.json",
+        "expected": "b1b114018af2a6f7fd0c08f56c007b6b660aacd039b4e0900196a6a46ca6648b",
+        "actual": "b1b114018af2a6f7fd0c08f56c007b6b660aacd039b4e0900196a6a46ca6648b",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/stability_F2.json",
+        "expected": "4c21f82bbacc3c9c42e0ab36a9e87b283bdb407b1d6b69c5bc186d40dfd2d8ce",
+        "actual": "4c21f82bbacc3c9c42e0ab36a9e87b283bdb407b1d6b69c5bc186d40dfd2d8ce",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/stability_F3.json",
+        "expected": "1990fa739536e050121bb5aa1823f86904375c03ace962fcc1c9f58c1a9ca6b3",
+        "actual": "1990fa739536e050121bb5aa1823f86904375c03ace962fcc1c9f58c1a9ca6b3",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/stability_F4.json",
+        "expected": "d16245d8c0213a34e959c8786d5c6586404a6deceda7bbc099d7a3276ae8fe1c",
+        "actual": "d16245d8c0213a34e959c8786d5c6586404a6deceda7bbc099d7a3276ae8fe1c",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/disturbance_calibration/stability_F5.json",
+        "expected": "a3955c081b0d65943f939dbed8bc81a7c42e322a9fc4206915049ac5c10e8979",
+        "actual": "a3955c081b0d65943f939dbed8bc81a7c42e322a9fc4206915049ac5c10e8979",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/general_line_5fold_v1.json",
+        "expected": "ad4216504878e106403e9b0b5f8c1fd1ad0c0c2ca9c5f14fa501b8c796d6ffa0",
+        "actual": "ad4216504878e106403e9b0b5f8c1fd1ad0c0c2ca9c5f14fa501b8c796d6ffa0",
+        "pass": true
+      },
+      {
+        "dataset": "ieee39_postclear_canonical_v1",
+        "path": "splits/stability_line_5fold_v1.json",
+        "expected": "e9007ed8fb8fce8a0dc9c57b0596baf48abc1f7fb9862818614232af1b581bb5",
+        "actual": "e9007ed8fb8fce8a0dc9c57b0596baf48abc1f7fb9862818614232af1b581bb5",
+        "pass": true
+      },
+      {
+        "dataset": "synthetic_benchmark_registry_v1",
+        "path": "README.md",
+        "expected": "8d3a4f1d80bcaa9ba4f1e3eb0bec6cdb0683cf08fdf8e24988eb93c59ce70bea",
+        "actual": "8d3a4f1d80bcaa9ba4f1e3eb0bec6cdb0683cf08fdf8e24988eb93c59ce70bea",
+        "pass": true
+      },
+      {
+        "dataset": "synthetic_benchmark_registry_v1",
+        "path": "registry.json",
+        "expected": "91ae4e88fd48b7a2116639f86eade1c31fe4e8c9c89ce2c883e0b6c010b27c0e",
+        "actual": "91ae4e88fd48b7a2116639f86eade1c31fe4e8c9c89ce2c883e0b6c010b27c0e",
+        "pass": true
+      }
+    ]
+  },
+  "candidate_artifact_manifest": {
+    "run_id": "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324-candidate_acquired-20260831T130327Z-93d29d92",
+    "path": "artifact_hashes.json",
+    "sha256": "6864dfaf8805782b194d9d30fe3eda7c877cdae04a4465b3b1f85d691946daf3"
+  },
+  "candidate_contract": {
+    "status": "PASS",
+    "scope": "saved_candidate_metadata_and_lineage_only",
+    "candidate_run": "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324-candidate_acquired-20260831T130327Z-93d29d92",
+    "model_count": 1,
+    "source_routing": false,
+    "level_6_claimed": false,
+    "legacy_baseline_reproducibility_proven": false,
+    "full_model_unit_gate_passed": false,
+    "claim_boundary": "no trajectory, modal, or stability performance claim"
+  },
+  "synthetic_five_arm_bundle": {
+    "path": "scratch/one_off/full-d68fc2/t/five0/bundle",
+    "artifact_manifest_sha256": "d9fafd3118f254a65ac01dbbc9dc30830ddc7899f27e3bacdb8457391bd3d793",
+    "core_checkpoint_hashes": [
+      "fabfd31b5a26f78e1c1020f1bafc1bf94ed4965451344a54bf6198f5658e540f",
+      "fabfd31b5a26f78e1c1020f1bafc1bf94ed4965451344a54bf6198f5658e540f",
+      "fabfd31b5a26f78e1c1020f1bafc1bf94ed4965451344a54bf6198f5658e540f",
+      "fabfd31b5a26f78e1c1020f1bafc1bf94ed4965451344a54bf6198f5658e540f",
+      "fabfd31b5a26f78e1c1020f1bafc1bf94ed4965451344a54bf6198f5658e540f"
+    ],
+    "scientific_run": false,
+    "scope": "fresh B2-shaped cores, real fits, zero-closure degeneration, save/load/evaluate; nonzero closure physics and recovery checked separately"
+  },
+  "independent_adversarial_review": {
+    "skill": "cc-orchestrator:adversarial-review",
+    "reserved_job_id": "review-mthdc6kw-tznyuf",
+    "status": "BLOCKED_PENDING_EXTERNAL_SOURCE_SHARING_APPROVAL",
+    "review_executed": false,
+    "findings_available": false,
+    "reason": "External Claude source/metadata sharing was denied by approval review; no alternate executor or bypass used."
+  },
+  "implemented": [
+    "fit_only_pm_targets",
+    "reciprocal_causal_pm_closure",
+    "entire_core_closure_joint_rk4",
+    "fresh_fit_only_core_coefficients",
+    "five_arm_checkpoint_bindings",
+    "saved_internal_audit_evaluator",
+    "all_event_raw_metrics_with_failure_retention"
+  ],
+  "new_ieee39_controlled_experiment_executed": false,
+  "model_unit_gate_passed": false,
+  "source_freeze_gate_passed": false,
+  "scientific_acceptance_completed": false,
+  "merge_gate_entered": false,
+  "remaining_required_work": [
+    "independent_review_with_user_authorization_or_approved_local_alternative",
+    "block_zeroing_and_delete_refit_execution",
+    "shared_pole_local_observability_statistics",
+    "fault_line_bootstrap",
+    "complete_unit_gate_and_source_freeze_before_scientific_runs"
+  ],
+  "claim_boundary": "Software/synthetic checks only; no new IEEE39 trajectory, modal, module-support or stability performance claim.",
+  "verification_script": {
+    "path": "scratch/one_off/p1five-check-20260831/verify.py",
+    "sha256": "65e412ab7fdff85f99689c4c6c5686b9d9741b8713320dd93aee16687f9310f0"
+  }
+}

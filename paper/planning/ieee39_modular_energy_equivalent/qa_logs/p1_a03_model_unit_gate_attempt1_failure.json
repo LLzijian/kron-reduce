@@ -1,0 +1,32 @@
+{
+  "schema": "kron_reduce.loop_failure_report.v1",
+  "date": "2026-09-02",
+  "workflow": "ieee39_modular_energy_p1_a03_v1",
+  "stage": "model_unit_gate",
+  "attempt": 1,
+  "run_id": "paper_ieee39_modular_energy_p1_a03_model_unit_gate_f1_seed324-model_unit_gate-20260901T164847Z-9c806c0e",
+  "source_commit": "9c806c0ec8461f3f963f71292343da0cc0e86531",
+  "process_status": "IMPLEMENTATION_FAILED",
+  "scientific_verdict": "NOT_RUN",
+  "promotion_decision": "KEEP_BASELINE",
+  "rollback_target": "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4",
+  "failure_class": "windows_pytest_basetemp_path_length",
+  "direct_cause": "The full harness run used the complete long run ID as the pytest scratch directory. Nested pytest case names exceeded the Windows path limit, producing 23 setup errors and 5 dependent test failures before any IEEE39 controlled experiment ran.",
+  "scientific_data_read": false,
+  "candidate_promoted": false,
+  "failed_run_preserved": true,
+  "failed_artifacts": {
+    "full_pytest.xml_sha256": "c43364cdbd0d38c9f211327a8baf76fa42b558c2850333ae317454e6fd7e85ee",
+    "pytest_stdout.txt_sha256": "4a367ad64774386bde169e97f3615b8603d7abe5bcc664258cce49dd40bd23e1",
+    "pytest_stderr.txt_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "repair": "Derive a compact 16-hex SHA256 token from the complete run ID for the scratch directory, retain the full run ID in execution evidence, and reject unsafe run IDs.",
+  "repair_verification": {
+    "targeted_tests": 76,
+    "targeted_junit_sha256": "8f8a310a8aa46f3897ca92e57909dda59f03bc561a9c950a3fc15a4610ed3b33",
+    "full_tests": 409,
+    "full_junit_sha256": "97e3b3a43b52b08fafb080f521c4ee1709c177fbd095eb4db262e388e59ace84",
+    "failures": 0
+  },
+  "next_action": "Commit the path fix, keep the workflow at candidate_acquired, and start a new immutable model_unit_gate run."
+}

@@ -1,0 +1,81 @@
+task_type = "ieee39_modular_energy_p1_a04_time_grid_retry"
+protocol_revision = "ieee39_modular_energy_p1_a04_time_grid_retry_v1"
+workflow = "ieee39_modular_energy_p1_a04_v1"
+attempt = 4
+branch = "codex/loop-p1-a04"
+protocol_document = "docs/protocols/ieee39_modular_energy_p1_a04_time_grid_retry_v1_zh.md"
+protocol_document_sha256 = "c52a28e708c296e7dbad8ffdfffb6765f7e2857d7a6be396c12f8a00b5276d8a"
+workflow_config = "configs/workflows/ieee39_modular_energy_p1_a04_v1.json"
+workflow_config_sha256 = "f6e823ac18b6b2e0ecc865f25164925b52ecf3c1a988a2f0840aae3f86ebd48e"
+previous_failed_run = "paper_ieee39_modular_energy_p1_a03_controlled_experiment_f1_seed324-controlled_experiment-20260901T173705Z-78225d2c"
+previous_failure_report = "paper/planning/ieee39_modular_energy_equivalent/qa_logs/p1_a03_controlled_experiment_time_grid_failure.json"
+previous_failure_report_sha256 = "8c9ae63238b9929577f718641540fc6d15dd7c848a590c8f722ed419363ae4ee"
+previous_source_commit = "78225d2c4330574609580701d3fd24d895f58f3a"
+previous_model_gate_run = "paper_ieee39_modular_energy_p1_a03_model_unit_gate_f1_seed324-model_unit_gate-20260901T172607Z-78225d2c"
+previous_model_gate_manifest_sha256 = "7cef96cb9da030cfb30d03935bfe20419ea7c70399924e5da8abdedb55ce1f76"
+candidate_run_id = "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324-candidate_acquired-20260831T130327Z-93d29d92"
+candidate_artifact_manifest_sha256 = "6864dfaf8805782b194d9d30fe3eda7c877cdae04a4465b3b1f85d691946daf3"
+candidate_structure_file = "frozen_model.json"
+candidate_structure_sha256 = "c61872fac88b483e788cd2eafe76e33a318d05218f0fe82d7f8eeaf2b499fedc"
+role_manifest_file = "data_role_manifest.csv"
+role_manifest_sha256 = "1f4d677ab53d3eeee692bc8dee694c02ddfd3718202bd85e795d8d4818e2e3cb"
+candidate_config = "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml"
+candidate_config_sha256 = "78d9010e4a62c2fa7e947697e2077c9d3e03431399287fb9933f71f159b23526"
+dataset = "ieee39_postclear_canonical_v1"
+dataset_h5_sha256 = "3f6546411f3cdbea4de7977968a779b62228fa843e62fbc4f606972eff0e9636"
+dataset_index_sha256 = "a117bafd2067b5846e15b910f194cdccdedac248f7ede2ee0bae54699111817c"
+dataset_schema_sha256 = "5e692018b7a3e9cfda68fe5846b036cf70eefddef680adc7187f9b2ebe3d3cc3"
+fold = "F1"
+seed = 324
+model_count = 1
+source_routing = false
+test_access = "locked"
+other_folds_access = "locked"
+locked_folds = ["F2", "F3", "F4", "F5"]
+primary_pm_policy = "zoh_pm_clear"
+observed_pm_policy = "conditional_only"
+observed_pm_main_model_input = false
+bootstrap_draws = 2000
+bootstrap_seed = 324
+
+[time_grid]
+target_start_seconds = 0.0
+target_stop_seconds = 10.0
+target_step_seconds = 0.01
+target_points = 1001
+maximum_source_points_read = 1002
+maximum_source_gap_seconds = 0.0100000001
+post_first_gap_absolute_tolerance = 1e-12
+exact_grid_absolute_tolerance = 1e-12
+method = "channelwise_linear_interpolation"
+exact_grid_action = "copy"
+extrapolation = false
+pm_clear_from_raw_t0 = true
+
+[structure_projection]
+source_format_version = 2
+target_format_version = 3
+node_tau = 0.2
+potential_scale = 0.25
+max_internal_step = 0.01
+expected_node_high_order_instances = 1
+expected_edge_memory_instances = 3
+expected_resonant_memory_instances = 3
+numerical_coefficients_inherited = false
+
+[calibration]
+max_nfev = 16
+
+[execution]
+child_directories = ["five_arm_fit", "five_arm_internal_evaluation", "counterfactual_models", "counterfactual_evaluation", "module_support", "modal_observability"]
+required_roles = ["fit", "selection", "internal_audit"]
+registered_horizons_seconds = [1, 5, 10]
+
+[claim_boundaries]
+one_shared_model = true
+source_routing = false
+test_performance = false
+f2_f5_selection = false
+observed_pm_conditional_only = true
+level_6_certificate = false
+scientific_verdict_before_acceptance = false

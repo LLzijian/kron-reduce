@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .audit import audit_project
 from .data_check import verify_data
+from .evidence import EvidenceContext, validate_stage_evidence
 from .git_state import assert_clean, git_head
 
 
@@ -49,15 +50,57 @@ def approve(root: Path, gate: str, workflow_name: str = "paper_v1") -> dict:
     if gate not in workflow["approval_required"]:
         raise ValueError(f"gate is not approval-controlled: {gate}")
     state = load_state(root, workflow_name)
-    state.setdefault("approvals", {})[gate] = {"approved_at": datetime.now(timezone.utc).isoformat(), "actor": "explicit_operator_action"}
-    state["history"].append({"action": "approve", "gate": gate, "at": datetime.now(timezone.utc).isoformat()})
+    state.setdefault("approvals", {})[gate] = {
+        "approved_at": datetime.now(UTC).isoformat(),
+        "actor": "explicit_operator_action",
+    }
+    state["history"].append(
+        {"action": "approve", "gate": gate, "at": datetime.now(UTC).isoformat()}
+    )
     save_state(root, state, workflow_name); return state
 
 
-def next_stage(root: Path, workflow_name: str = "paper_v1") -> str | None:
+def _entry_evidence(state: dict, stage: str) -> dict:
+    """Return the evidence that advanced the workflow into ``stage``."""
+    for event in reversed(state.get("history", [])):
+        if event.get("action") == "advance" and event.get("to") == stage:
+            evidence = event.get("evidence", {})
+            return evidence if isinstance(evidence, dict) else {}
+    return {}
+
+
+def _transition_target(
+    workflow: dict, state: dict, outcome: str | None = None
+) -> str | None:
+    current = state["current_stage"]
+    terminal = set(workflow.get("terminal_stages", []))
+    if current in terminal:
+        return None
+    transitions = workflow.get("transitions")
+    if not transitions:
+        index = workflow["stages"].index(current)
+        return workflow["stages"][index + 1] if index + 1 < len(workflow["stages"]) else None
+    spec = transitions.get(current)
+    if spec is None:
+        return None
+    if isinstance(spec, str):
+        return spec
+    if not isinstance(spec, dict):
+        raise TypeError(f"invalid transition specification for {current!r}")
+    selected = outcome or _entry_evidence(state, current).get("scientific_verdict")
+    if selected not in spec:
+        raise RuntimeError(
+            f"stage {current!r} requires one of the registered outcomes: "
+            f"{sorted(spec)}"
+        )
+    return spec[selected]
+
+
+def next_stage(
+    root: Path, workflow_name: str = "paper_v1", outcome: str | None = None
+) -> str | None:
     workflow, state = _workflow(root, workflow_name), load_state(root, workflow_name)
-    index = workflow["stages"].index(state["current_stage"])
-    return workflow["stages"][index + 1] if index + 1 < len(workflow["stages"]) else None
+    return _transition_target(workflow, state, outcome)
 
 
 def record_stage(root: Path, target: str, evidence: object, workflow_name: str = "paper_v1") -> dict:
@@ -72,13 +115,17 @@ def record_stage(root: Path, target: str, evidence: object, workflow_name: str =
         )
     if target in workflow["approval_required"] and not is_approved(root, target, workflow_name):
         raise RuntimeError(f"stage requires explicit approval: {target}")
+    validate_stage_evidence(
+        EvidenceContext(root=root, workflow=workflow, target=target, state=state, predecessor=current),
+        evidence,
+    )
     state["current_stage"] = target
     state["history"].append(
         {
             "action": "advance",
             "from": current,
             "to": target,
-            "at": datetime.now(timezone.utc).isoformat(),
+            "at": datetime.now(UTC).isoformat(),
             "evidence": evidence,
         }
     )
@@ -100,9 +147,10 @@ def run_one(root: Path, workflow_name: str = "paper_v1") -> dict:
         if head == "UNCOMMITTED":
             raise RuntimeError(f"{target} requires a real Git commit")
         evidence = {"status": "PASS", "git_commit": head}
+        if target == "source_commit" and "previous_retry_evidence" in workflow:
+            evidence["previous_retry_evidence"] = workflow["previous_retry_evidence"]
     elif target in workflow["approval_required"]:
         evidence = {"status": "PASS", "explicit_approval": target}
     else:
         raise RuntimeError(f"stage {target} requires its registered experiment command; loop will not infer it")
-    if evidence["status"] != "PASS": raise RuntimeError(f"gate {target} failed")
     return record_stage(root, target, evidence, workflow_name)

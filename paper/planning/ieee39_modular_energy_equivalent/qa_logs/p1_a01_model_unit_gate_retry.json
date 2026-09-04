@@ -1,0 +1,42 @@
+{
+  "run_id": "p1-a01-model-unit-gate-review-20260828T065428Z",
+  "workflow": "ieee39_modular_energy_p1_a01_v1",
+  "attempt_branch": "codex/loop-p1-a01",
+  "attempted_stage": "model_unit_gate",
+  "state_advanced": false,
+  "process_status": "PASS",
+  "scientific_verdict": "RETRY",
+  "promotion_decision": "KEEP_BASELINE",
+  "rollback_target": "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4",
+  "claim_boundary": "P1 early acquisition is auditable; no model, modal, trajectory, or Level 6 claim is promoted.",
+  "completed_runs": [
+    {
+      "stage": "plan_registered",
+      "run_id": "paper_ieee39_modular_energy_p1_a01_plan_registered_f1_seed324-plan_registered-20260828T063715Z-d4d50de4",
+      "artifact_manifest_sha256": "48aacd85b9a87ef43bb0abf3ec0b3fa9f37cd4d100cf6ca13cb7778b891c9331"
+    },
+    {
+      "stage": "candidate_acquired",
+      "run_id": "paper_ieee39_modular_energy_p1_a01_candidate_acquired_f1_seed324-candidate_acquired-20260828T063749Z-d4d50de4",
+      "artifact_manifest_sha256": "5c7d87154c84bca8dfc28bd49283c9d79e17c6e6cccc1087d857e2512caefda7"
+    }
+  ],
+  "verification": {
+    "focused_tests": 13,
+    "full_tests": 209,
+    "project_audit": "PASS",
+    "data_check": "PASS",
+    "canonical_event_count": 315
+  },
+  "blocking_findings": [
+    "model_unit_gate_does_not_validate_model_artifacts",
+    "level6_name_can_trust_self_reported_status",
+    "report_branch_and_references_not_state_bound",
+    "zero_coupled_hidden_poles_can_enter_modal_report",
+    "module_deletion_boundary_and_joint_degeneracy_are_unsound",
+    "modal_and_pm_evidence_are_not_composite_contracts",
+    "artifact_hash_verification_allows_unregistered_extra_files",
+    "git_porcelain_first_path_can_be_truncated"
+  ],
+  "next_hypothesis": "A strict shared evidence validator plus zero-coupling modal rejection and joint counterfactual semantics will make the model unit gate falsifiable without changing the frozen experiment arms or thresholds."
+}

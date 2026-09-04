@@ -1,0 +1,94 @@
+task_type = "ieee39_modular_energy_p1_a03_real_f1_controlled_chain"
+protocol_revision = "ieee39_modular_energy_p1_a03_real_f1_controlled_chain_v1"
+workflow = "ieee39_modular_energy_p1_a03_v1"
+attempt = 3
+branch = "codex/loop-p1-a03"
+protocol_document = "docs/protocols/ieee39_modular_energy_p1_a03_real_f1_controlled_chain_v1_zh.md"
+candidate_config = "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml"
+candidate_config_sha256 = "78d9010e4a62c2fa7e947697e2077c9d3e03431399287fb9933f71f159b23526"
+workflow_config = "configs/workflows/ieee39_modular_energy_p1_a03_v1.json"
+workflow_config_sha256 = "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5"
+candidate_run_id = "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324-candidate_acquired-20260831T130327Z-93d29d92"
+candidate_artifact_manifest_sha256 = "6864dfaf8805782b194d9d30fe3eda7c877cdae04a4465b3b1f85d691946daf3"
+candidate_structure_file = "frozen_model.json"
+candidate_structure_sha256 = "c61872fac88b483e788cd2eafe76e33a318d05218f0fe82d7f8eeaf2b499fedc"
+role_manifest_file = "data_role_manifest.csv"
+role_manifest_sha256 = "1f4d677ab53d3eeee692bc8dee694c02ddfd3718202bd85e795d8d4818e2e3cb"
+previous_retry_evidence = "paper/planning/ieee39_modular_energy_equivalent/qa_logs/p1_a02_candidate_acquisition_retry.json"
+previous_retry_evidence_sha256 = "c2951301ac15e8b93d6d29478817a731eafdad270bc5fb81424a3604dd51a1b1"
+dataset = "ieee39_postclear_canonical_v1"
+dataset_h5_sha256 = "3f6546411f3cdbea4de7977968a779b62228fa843e62fbc4f606972eff0e9636"
+dataset_index_sha256 = "a117bafd2067b5846e15b910f194cdccdedac248f7ede2ee0bae54699111817c"
+dataset_schema_sha256 = "5e692018b7a3e9cfda68fe5846b036cf70eefddef680adc7187f9b2ebe3d3cc3"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+model_count = 1
+source_routing = false
+test_access = "locked"
+other_folds_access = "locked"
+locked_folds = ["F2", "F3", "F4", "F5"]
+primary_pm_policy = "zoh_pm_clear"
+observed_pm_policy = "conditional_only"
+observed_pm_main_model_input = false
+bootstrap_draws = 2000
+bootstrap_seed = 324
+
+[structure_projection]
+source_format_version = 2
+target_format_version = 3
+node_tau = 0.2
+potential_scale = 0.25
+max_internal_step = 0.01
+expected_node_high_order_instances = 1
+expected_edge_memory_instances = 3
+expected_resonant_memory_instances = 3
+numerical_coefficients_inherited = false
+
+[calibration]
+max_nfev = 16
+
+[execution]
+child_directories = ["five_arm_fit", "five_arm_internal_evaluation", "counterfactual_models", "counterfactual_evaluation", "module_support", "modal_observability"]
+required_roles = ["fit", "selection", "internal_audit"]
+registered_horizons_seconds = [1, 5, 10]
+
+[module_thresholds]
+tau_y_floor = 1e-3
+tau_y_multiplier = 10.0
+tau_phys_floor = 1e-4
+tau_phys_multiplier = 100.0
+deletion_noninferiority_degradation = 0.02
+identifiability_sigma_ratio_min = 1e-6
+identifiability_condition_max = 1e6
+identifiability_profile_tolerance = 0.02
+
+[trajectory_thresholds]
+speed_improvement_min = 0.05
+non_target_degradation_max = 0.02
+causal_closure_observed_gap_recovery_min = 0.50
+
+[modal_thresholds]
+finite_window_energy_min = 0.01
+frequency_relative_error_max = 0.05
+damping_absolute_error_max = 0.05
+mac_min = 0.80
+bootstrap_support_min = 0.80
+minimum_independent_lines_for_verdict = 3
+
+[physical_numerical_thresholds]
+equilibrium_residual_max = 1e-7
+observability_min = 1e-3
+coi_drift_max = 1e-10
+supply_identity_error_max = 1e-8
+rk4_order_ratio_lower = 8.0
+rk4_order_ratio_upper = 32.0
+
+[claim_boundaries]
+one_shared_model = true
+source_routing = false
+test_performance = false
+f2_f5_selection = false
+observed_pm_conditional_only = true
+level_6_certificate = false
+scientific_verdict_before_acceptance = false

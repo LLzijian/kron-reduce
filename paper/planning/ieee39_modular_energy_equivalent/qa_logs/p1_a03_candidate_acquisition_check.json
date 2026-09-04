@@ -1,0 +1,133 @@
+{
+  "schema": "kron_reduce.p1_acquisition_check.v1",
+  "created_at": "2026-08-31T13:06:19.124153+00:00",
+  "workflow": "ieee39_modular_energy_p1_a03_v1",
+  "stage": "candidate_acquired",
+  "record_kind": "acquisition_verification_not_scientific_acceptance",
+  "process_status": "PASS",
+  "scientific_verdict": null,
+  "scientific_evaluation_status": "NOT_RUN",
+  "promotion_decision": "KEEP_BASELINE",
+  "rollback_target": {
+    "source_snapshot_commit": "93d29d92531f67b85d1a97e7354eb087033332b3",
+    "reference_run": "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4",
+    "reference_is_accepted_deployment_model": false
+  },
+  "run_bindings": {
+    "plan_registered": {
+      "run_id": "paper_ieee39_modular_energy_p1_a03_plan_registered_f1_seed324-plan_registered-20260831T130319Z-93d29d92",
+      "path": "artifact_hashes.json",
+      "sha256": "ba953df15bb2e86d64d0729cc07bec832dd074c7f29a76c34cd9a6f435ffcaf9"
+    },
+    "candidate_acquired": {
+      "run_id": "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324-candidate_acquired-20260831T130327Z-93d29d92",
+      "path": "artifact_hashes.json",
+      "sha256": "6864dfaf8805782b194d9d30fe3eda7c877cdae04a4465b3b1f85d691946daf3"
+    }
+  },
+  "candidate_contract": {
+    "status": "PASS",
+    "scope": "saved_candidate_metadata_and_lineage_only",
+    "candidate_run": "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324-candidate_acquired-20260831T130327Z-93d29d92",
+    "model_count": 1,
+    "source_routing": false,
+    "level_6_claimed": false,
+    "legacy_baseline_reproducibility_proven": false,
+    "full_model_unit_gate_passed": false,
+    "claim_boundary": "no trajectory, modal, or stability performance claim"
+  },
+  "legacy_format_audit": {
+    "schema": "kron_reduce.legacy_json_format_audit.v1",
+    "baseline_run_id": "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4",
+    "legacy_structure_artifact": {
+      "path": "legacy_structure_selection_result.json",
+      "sha256": "096c3ad009300b70b2b92ce648315c67412faf8dcc07e352838c80b18ede20e9"
+    },
+    "contains_nonfinite_values": true,
+    "nonfinite_value_count": 1,
+    "nonfinite_values": [
+      {
+        "json_pointer": "/stability/safety/cases/2/margin",
+        "value_kind": "NaN",
+        "disposition": "preserved_in_legacy_payload_not_claimable"
+      }
+    ],
+    "scientific_values_rewritten": false,
+    "disposition": "preserved_in_legacy_payload_not_claimable",
+    "scientific_acceptance": "NOT_EVALUATED",
+    "raw_trajectory_data_read": false
+  },
+  "source_at_acquisition": {
+    "commit": "93d29d92531f67b85d1a97e7354eb087033332b3",
+    "branch": "codex/loop-p1-a03",
+    "working_tree_clean": false,
+    "reproducible_from_clean_commit": false,
+    "critical_hashes_still_match": true
+  },
+  "checks": {
+    "pytest": {
+      "tests": 274,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "path": "scratch/one_off/full-a03-a634461d/pytest.xml",
+      "sha256": "65b42a383dd2d649402ab154f7f1d021b680b2af704a45c7260ff9d5ba389861"
+    },
+    "project_audit": {
+      "status": "PASS",
+      "errors": 0,
+      "findings": []
+    },
+    "data_check": {
+      "status": "PASS",
+      "files": 32,
+      "event_count": 315,
+      "dataset_revision": "ieee39_postclear_canonical_v1",
+      "build_id": "canonical_rebuild_20260722T022739",
+      "schema_event_count": 315,
+      "auxiliary_datasets": {
+        "synthetic_benchmark_registry_v1": {
+          "status": "PASS",
+          "files": 2,
+          "revision": "synthetic_benchmark_registry_v1"
+        }
+      }
+    },
+    "scoped_ruff": {
+      "command": [
+        "E:\\03-nn_Transfer_Func\\kron-reduce\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "src/kron_reduce/workflows/ieee39_modular_energy_p1_diagnosis.py",
+        "tests/test_p1_a03_legacy_migration.py"
+      ],
+      "exit_code": 0,
+      "stdout": "All checks passed!"
+    },
+    "git_diff_check": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": ""
+    },
+    "git_check": {
+      "exit_code": 1,
+      "status": "FAIL_DIRTY_WORKTREE",
+      "source_freeze_gate_passed": false
+    }
+  },
+  "model_unit_gate_passed": false,
+  "controlled_experiment_executed": false,
+  "scientific_acceptance_completed": false,
+  "manual_merge_gate_entered": false,
+  "master_current_stage": "plan_frozen",
+  "claim_boundary": "Saved evidence acquired without modifying legacy science; no new trajectory, modal, or stability claim.",
+  "verification_script": {
+    "path": "scratch/one_off/a03-acq-verify-20260831/verify.py",
+    "sha256": "18091fadd2156caf70073bcffc3cc7de82b590b3f87bbca70163eb4de5daa8fe"
+  }
+}

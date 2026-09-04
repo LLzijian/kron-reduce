@@ -1,0 +1,37 @@
+task_type = "focused_higher_order_cluster_validation"
+protocol_revision = "higher_order_cluster_validation_v1"
+dataset = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+pm_mode = "zoh"
+source_dataset = "ieee39_highorder_dataset"
+test_access = "forbidden"
+validation_access = "forbidden"
+other_folds_access = "forbidden"
+canonical_mutation = "forbidden"
+
+expected_full_events = 58
+expected_main_events = 31
+expected_fault_lines = 16
+main_events_per_fault_line = 2
+role_seeds = [324, 1324, 2324, 3324, 4324]
+required_seed_agreement = 4
+
+cluster_max_steps = 1001
+cluster_delays = 12
+cluster_bootstrap_draws = 200
+cluster_information_budget = 0.02
+cluster_input_budget = 0.02
+cluster_mode_budget = 0.05
+cluster_spectral_gap_ratio = 0.25
+cluster_state_budget = 0.02
+cluster_coupling_budget = 0.05
+cluster_closure_budget = 0.02
+cluster_bootstrap_support = 0.80
+cluster_confidence = 0.95
+
+cpig_bootstrap_draws = 100
+rollout_horizons_s = [0.2, 1.0, 5.0]
+rollout_budget = 0.02

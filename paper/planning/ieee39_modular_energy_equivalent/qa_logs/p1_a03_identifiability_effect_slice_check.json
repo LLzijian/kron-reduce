@@ -1,0 +1,161 @@
+{
+  "schema": "kron_reduce.p1_identifiability_effect_slice_check.v1",
+  "created_at": "2026-09-01T02:29:30.9912825Z",
+  "record_kind": "software_verification_not_scientific_acceptance",
+  "workflow": "ieee39_modular_energy_p1_a03_v1",
+  "current_stage": "candidate_acquired",
+  "master_current_stage": "plan_frozen",
+  "process_status": "INCOMPLETE",
+  "software_checks_status": "PASS",
+  "scientific_evaluation_status": "NOT_RUN",
+  "scientific_verdict": null,
+  "promotion_decision": "KEEP_BASELINE",
+  "source_checkpoint_before_implementation": "8773b22da2727aab9785fb56b830a264be79b4a7",
+  "source_slice_freeze_commit": "7face88b81e48f36ff510320fcc954238d94ed93",
+  "source_slice_freeze_gate_passed": true,
+  "full_source_freeze_gate_passed": false,
+  "source_files": {
+    "docs/protocols/ieee39_modular_energy_p1_identifiability_effect_slice_v1_zh.md": "b52643ac67380eb01a5e16480668ad6e511440cc8b2ebfcb970d7b840a85bdea",
+    "src/kron_reduce/evaluation/module_contribution.py": "7afa83c84cf7f71b77d2388f6006b3d65f72a0134818c84b39999aec43b4e7ef",
+    "src/kron_reduce/evaluation/p1_effect_statistics.py": "27db69ae75f77be68c2c7ef367c12c66fcaabbfc3b5316d760dafa34f245f362",
+    "src/kron_reduce/evaluation/p1_module_identifiability.py": "94219a7629ee7ab385f2733717d7d865ae011e37b5af87efefca8386a35eb0e8",
+    "src/kron_reduce/workflows/p1_module_support_execution.py": "74caa8cd301a1c4004e62d0072245c2cbac50ecd078c6ce657de3dfbfbb9fcab",
+    "tests/test_p1_counterfactual_execution.py": "3e8745cbb636ba4891922725483536df26cfe6dec78c72f08698f68dcc608698",
+    "tests/test_p1_effect_statistics.py": "4f58e1763bc03ef0c0afbef5c47218b4aea1dc52c534d1a6cda51c172c1c3c51",
+    "tests/test_p1_evaluation_primitives.py": "4e2859322ddb25d6e507b50d4919f66d9ae7402728f68bb0a855eb467a447ac8",
+    "tests/test_p1_module_identifiability.py": "4bdc4c3cb0e78a744b1791fa9241917e52b157deeb528e7c940689307cde2d41"
+  },
+  "registered_thresholds": {
+    "prediction_floor": 0.001,
+    "prediction_numerical_multiplier": 10.0,
+    "physical_floor": 0.0001,
+    "physical_numerical_multiplier": 100.0,
+    "deletion_degradation": 0.02,
+    "sigma_ratio": 0.000001,
+    "condition_number": 1000000.0,
+    "profile_loss_increase_strictly_greater_than": 0.02,
+    "raw_supply_identity_limit": 1e-08,
+    "bootstrap_draws": 2000,
+    "bootstrap_seed": 324
+  },
+  "pytest": {
+    "tests": 388,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "duration_seconds": 563.80,
+    "path": "scratch/one_off/full-support-c7bfd3fa/pytest.xml",
+    "sha256": "f3522c0d10c5ccd4bcb817fc6383616f6f720842baaa54f111343efce01e9284"
+  },
+  "focused_tests": [
+    {
+      "tests": 34,
+      "failures": 0,
+      "path": "scratch/one_off/supportv-d6d36792/pytest.xml",
+      "sha256": "20fccc5193b5eb81a3ab8c3559238fb470d0802218cd9d4bbf3b7616dfb29a3d"
+    },
+    {
+      "tests": 10,
+      "failures": 0,
+      "path": "scratch/one_off/identadv2-15969ae5/pytest.xml",
+      "sha256": "66fbdb490d1f0902d1225e42d4d23b5dea182039da56dc79ca115c25fe7b9a9b"
+    }
+  ],
+  "project_audit": {
+    "status": "PASS",
+    "errors": 0,
+    "findings": []
+  },
+  "data_check": {
+    "status": "PASS",
+    "files": 32,
+    "event_count": 315,
+    "dataset_revision": "ieee39_postclear_canonical_v1",
+    "build_id": "canonical_rebuild_20260722T022739",
+    "schema_event_count": 315
+  },
+  "git_check_after_source_slice_freeze": {
+    "status": "PASS",
+    "dirty": []
+  },
+  "synthetic_artifacts": {
+    "base": {
+      "path": "scratch/one_off/full-support-c7bfd3fa/t/cf0/base",
+      "artifact_manifest_sha256": "45fc316d1de82bd8db7c4beb27c61e758822cf51deadfe62a58191c70d7d9475"
+    },
+    "counterfactual_models": {
+      "path": "scratch/one_off/full-support-c7bfd3fa/t/cf0/counter",
+      "artifact_manifest_sha256": "fc2df3ddfcba9e4b0b9ab0636a6cc8a1d5a7bf511a5dae197024167197a88aa3"
+    },
+    "successful_evaluation": {
+      "path": "scratch/one_off/full-support-c7bfd3fa/t/test_saved_nonzero_evaluation_0/eval",
+      "artifact_manifest_sha256": "2ffc8a536c6d426d236dfe0b86db68fdfdd8c8f831df50d57611e4c99382d4e0"
+    },
+    "successful_support_audit": {
+      "path": "scratch/one_off/full-support-c7bfd3fa/t/test_saved_nonzero_evaluation_0/support",
+      "artifact_manifest_sha256": "c06b20b78e52d837421026119a028bcbec33f573d033e10ddc1466c3682c5ef5"
+    },
+    "failed_rollout_evaluation": {
+      "path": "scratch/one_off/full-support-c7bfd3fa/t/test_saved_evaluation_retains_0/failed_eval",
+      "artifact_manifest_sha256": "ad67215180781e97f1dbd79c281959bba0b034e3abde66ab99934fa861c08305"
+    },
+    "failed_rollout_support_audit": {
+      "path": "scratch/one_off/full-support-c7bfd3fa/t/test_saved_evaluation_retains_0/failed_eval_support",
+      "artifact_manifest_sha256": "b5096564050c9bfec59013d030225fdb3322c3b5a51262b3eb66f43226238280"
+    }
+  },
+  "synthetic_algorithm_correctness": {
+    "known_module": "memory:known",
+    "known_module_family": "EDGE_MEMORY",
+    "fit_weak_matrix_shape": [360, 7],
+    "conditional_sigma_ratio": 0.021204431769354253,
+    "condition_number": 47.15995273427944,
+    "minimum_two_sided_profile_increase": 8.745078548005552,
+    "module_status": "INDEPENDENTLY_SUPPORTED",
+    "joint_b2_status": "REFUTED",
+    "scientific_run": false,
+    "ieee39_claim_allowed": false
+  },
+  "implemented": [
+    "unshifted_percentile_interval_representation",
+    "source_line_event_equal_nonnegative_effect_statistics",
+    "shared_physical_line_bootstrap_pairing",
+    "fit_only_conditional_structural_rank",
+    "two_sided_whole_module_profile_refit",
+    "single_module_and_joint_b2_support_execution",
+    "failed_cell_retention",
+    "three_parent_artifact_binding",
+    "immutable_support_artifact_verification"
+  ],
+  "adversarial_checks": [
+    "event_duplication_cannot_increase_fault_line_weight",
+    "point_estimate_need_not_lie_inside_unshifted_percentile_interval",
+    "scalar_module_collinearity_cannot_pass_with_condition_one",
+    "one_visible_direction_cannot_identify_a_multicolumn_module",
+    "zero_or_small_nuisance_coefficients_cannot_remove_declared_structural_columns",
+    "ranked_but_noise_dominated_module_fails_profile_gate",
+    "failed_rollouts_cannot_be_silently_dropped",
+    "source_selection_test_and_other_fold_data_are_not_reopened"
+  ],
+  "independent_adversarial_review": {
+    "reserved_job_id": "review-mthdc6kw-tznyuf",
+    "status": "BLOCKED_PENDING_EXTERNAL_SOURCE_SHARING_APPROVAL",
+    "review_executed": false,
+    "findings_available": false,
+    "reason": "No source or metadata was sent to the external review service."
+  },
+  "new_ieee39_controlled_experiment_executed": false,
+  "actual_candidate_module_support_evaluated": false,
+  "shared_pole_modal_audit_evaluated": false,
+  "historical_baseline_replay_completed": false,
+  "model_unit_gate_passed": false,
+  "scientific_acceptance_completed": false,
+  "merge_gate_entered": false,
+  "remaining_required_work": [
+    "register_and_implement_shared_equation_poles_with_excitation_local_observability",
+    "complete_historical_baseline_replay",
+    "obtain_authorized_independent_review_or_an_approved_local_alternative",
+    "freeze_the_complete_model_unit_gate_before_any_new_ieee39_controlled_run"
+  ],
+  "claim_boundary": "Software and known-ground-truth synthetic correctness only; no new IEEE39 trajectory, modal, module-support, stability, or Level 6 claim."
+}
