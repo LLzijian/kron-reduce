@@ -35,15 +35,22 @@ class P2FitScales:
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
-def _sample_fields(sample: Mapping[str, Any]) -> tuple[str, str, str, np.ndarray, np.ndarray]:
-    event_id = str(sample["event_id"])
-    context = sample["training_context"]
-    metadata = context["metadata"]
-    source = str(metadata["source_dataset"])
-    line = str(metadata["fault_line"])
-    targets = context["targets"]
-    delta = np.asarray(targets["delta"], dtype=float)
-    omega = np.asarray(targets["omega"], dtype=float)
+def _sample_fields(sample: Any) -> tuple[str, str, str, np.ndarray, np.ndarray]:
+    if hasattr(sample, "prediction_input"):
+        event_id = str(sample.event_id)
+        source = str(sample.source_dataset)
+        line = str(sample.fault_line)
+        delta = np.asarray(sample.target_delta, dtype=float)
+        omega = np.asarray(sample.target_omega, dtype=float)
+    else:
+        event_id = str(sample["event_id"])
+        context = sample["training_context"]
+        metadata = context["metadata"]
+        source = str(metadata["source_dataset"])
+        line = str(metadata["fault_line"])
+        targets = context["targets"]
+        delta = np.asarray(targets["delta"], dtype=float)
+        omega = np.asarray(targets["omega"], dtype=float)
     if not event_id or not source or not line:
         raise ValueError("P2 scale sample lacks event/source/line identity")
     if delta.shape != (1001, 10) or omega.shape != delta.shape:
@@ -54,7 +61,7 @@ def _sample_fields(sample: Mapping[str, Any]) -> tuple[str, str, str, np.ndarray
 
 
 def fit_scales(
-    samples: Sequence[Mapping[str, Any]],
+    samples: Sequence[Any],
     *,
     delta_floor: float = 1e-6,
     omega_floor: float = 1e-6,
@@ -113,7 +120,10 @@ def event_metrics(
     prefix = {1: 101, 5: 501, 10: 1001}.get(horizon_s)
     if prefix is None:
         raise ValueError("P2 reports only 1, 5 and 10 seconds")
-    arrays = [np.asarray(value, dtype=float)[:prefix] for value in (true_delta, true_omega, pred_delta, pred_omega)]
+    arrays = [
+        np.asarray(value, dtype=float)[:prefix]
+        for value in (true_delta, true_omega, pred_delta, pred_omega)
+    ]
     if any(value.shape != (prefix, 10) for value in arrays):
         raise ValueError("P2 metric arrays must cover the registered horizon")
     if not all(np.isfinite(value).all() for value in arrays):
@@ -178,30 +188,134 @@ def aggregate_metrics(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         if tail_count
         else []
     )
-    delta_sse = sum(float(row["delta_sse"]) for row in successful)
-    delta_sst = sum(float(row["delta_sst"]) for row in successful)
-    omega_sse = sum(float(row["omega_sse"]) for row in successful)
-    omega_sst = sum(float(row["omega_sst"]) for row in successful)
-    scored = sum(int(row["scored_values_per_channel"]) for row in successful)
+    weights = _hierarchical_row_map(successful) if successful else {}
+    delta_sse = sum(weights[str(row["event_id"])] * float(row["delta_sse"]) for row in successful)
+    delta_sst = sum(weights[str(row["event_id"])] * float(row["delta_sst"]) for row in successful)
+    omega_sse = sum(weights[str(row["event_id"])] * float(row["omega_sse"]) for row in successful)
+    omega_sst = sum(weights[str(row["event_id"])] * float(row["omega_sst"]) for row in successful)
+    scored = sum(
+        weights[str(row["event_id"])] * int(row["scored_values_per_channel"]) for row in successful
+    )
+    weighted_mean = sum(
+        weights[str(row["event_id"])] * float(row["normalized_joint_rmse"]) for row in successful
+    )
+    weighted_median = (
+        _weighted_median(
+            success_scores, np.asarray([weights[str(row["event_id"])] for row in successful])
+        )
+        if successful
+        else None
+    )
     return {
         "event_count": len(rows),
         "successful_event_count": len(successful),
         "failed_event_count": len(failed),
         "failure_rate": len(failed) / len(rows),
         "primary_metrics_available": primary_available,
-        "mean_normalized_joint_rmse": float(np.mean(success_scores)) if primary_available else None,
-        "median_normalized_joint_rmse": float(np.median(success_scores)) if primary_available else None,
-        "pooled_delta_rmse": float(np.sqrt(delta_sse / scored)) if primary_available and scored else None,
-        "pooled_omega_rmse": float(np.sqrt(omega_sse / scored)) if primary_available and scored else None,
-        "pooled_delta_r2": float(1.0 - delta_sse / delta_sst) if primary_available and delta_sst > 0 else None,
-        "pooled_omega_r2": float(1.0 - omega_sse / omega_sst) if primary_available and omega_sst > 0 else None,
+        "mean_normalized_joint_rmse": float(weighted_mean) if primary_available else None,
+        "median_normalized_joint_rmse": float(weighted_median) if primary_available else None,
+        "pooled_delta_rmse": float(np.sqrt(delta_sse / scored))
+        if primary_available and scored
+        else None,
+        "pooled_omega_rmse": float(np.sqrt(omega_sse / scored))
+        if primary_available and scored
+        else None,
+        "pooled_delta_r2": float(1.0 - delta_sse / delta_sst)
+        if primary_available and delta_sst > 0
+        else None,
+        "pooled_omega_r2": float(1.0 - omega_sse / omega_sst)
+        if primary_available and omega_sst > 0
+        else None,
         "worst_10pct_mean_normalized_joint_rmse": (
             float(np.mean([float(row["normalized_joint_rmse"]) for row in tail]))
             if primary_available and tail
             else None
         ),
-        "worst_10pct_event_ids": [str(row["event_id"]) for row in tail] if primary_available else [],
+        "worst_10pct_event_ids": [str(row["event_id"]) for row in tail]
+        if primary_available
+        else [],
         "failed_event_ids": [str(row["event_id"]) for row in failed],
         "pooled_r2_centering": "within_event_within_node_over_time",
+        "population_weighting": "source_line_event_equal",
         "failures_imputed_as_zero": False,
+    }
+
+
+def _hierarchical_row_map(rows: Sequence[Mapping[str, Any]]) -> dict[str, float]:
+    groups: dict[str, dict[str, list[str]]] = defaultdict(lambda: defaultdict(list))
+    for row in rows:
+        event_id = str(row.get("event_id", ""))
+        source = str(row.get("source_dataset", ""))
+        line = str(row.get("fault_line", ""))
+        if not event_id or not source or not line:
+            raise ValueError("P2 hierarchical metrics require event/source/fault-line keys")
+        groups[source][line].append(event_id)
+    return {
+        event_id: 1.0 / len(groups) / len(lines) / len(event_ids)
+        for lines in groups.values()
+        for event_ids in lines.values()
+        for event_id in event_ids
+    }
+
+
+def _weighted_median(values: np.ndarray, weights: np.ndarray) -> float:
+    order = np.argsort(values, kind="stable")
+    ordered_values = values[order]
+    cumulative = np.cumsum(weights[order])
+    return float(ordered_values[int(np.searchsorted(cumulative, 0.5, side="left"))])
+
+
+def stratified_fault_line_bootstrap(
+    rows: Sequence[Mapping[str, Any]],
+    metric: str,
+    *,
+    draws: int = 5000,
+    seed: int = 324,
+    confidence: float = 0.95,
+) -> dict[str, Any]:
+    """Source-stratified bootstrap that resamples complete fault-line clusters."""
+
+    if draws <= 0 or not 0.0 < confidence < 1.0:
+        raise ValueError("P2 bootstrap settings are invalid")
+    by_source: dict[str, dict[str, list[float]]] = defaultdict(lambda: defaultdict(list))
+    for row in rows:
+        value = row.get(metric)
+        if row.get("status") != "ok" or value is None or not np.isfinite(float(value)):
+            continue
+        by_source[str(row["source_dataset"])][str(row["fault_line"])].append(float(value))
+    if not by_source:
+        return {"status": "UNDETERMINED", "reason": "no_finite_complete_rows"}
+    line_counts = {source: len(lines) for source, lines in by_source.items()}
+    if any(count < 3 for count in line_counts.values()):
+        return {
+            "status": "UNDETERMINED",
+            "reason": "fewer_than_three_fault_lines_in_a_source",
+            "fault_line_counts_by_source": line_counts,
+        }
+    line_means = {
+        source: np.asarray([np.mean(lines[line]) for line in sorted(lines)], dtype=np.float64)
+        for source, lines in by_source.items()
+    }
+    observed = float(np.mean([np.mean(values) for values in line_means.values()]))
+    rng = np.random.default_rng(seed)
+    samples = np.empty(draws, dtype=np.float64)
+    for draw in range(draws):
+        source_values = []
+        for values in line_means.values():
+            selected = rng.integers(0, len(values), size=len(values))
+            source_values.append(float(np.mean(values[selected])))
+        samples[draw] = float(np.mean(source_values))
+    tail = (1.0 - confidence) / 2.0
+    return {
+        "status": "completed",
+        "estimand": "source_equal_mean_of_fault_line_equal_event_means",
+        "metric": metric,
+        "estimate": observed,
+        "ci_lower": float(np.quantile(samples, tail)),
+        "ci_upper": float(np.quantile(samples, 1.0 - tail)),
+        "confidence": confidence,
+        "bootstrap_draws": draws,
+        "bootstrap_seed": seed,
+        "fault_line_counts_by_source": line_counts,
+        "resampling_unit": "fault_line_with_all_events_preserved",
     }

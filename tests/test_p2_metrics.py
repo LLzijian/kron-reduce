@@ -7,6 +7,7 @@ from kron_reduce.evaluation.p2_metrics import (
     aggregate_metrics,
     event_metrics,
     fit_scales,
+    stratified_fault_line_bootstrap,
 )
 
 
@@ -103,6 +104,8 @@ def test_p2_tail_keeps_exact_event_ids() -> None:
         rows.append(
             {
                 "event_id": f"e{index:02d}",
+                "source_dataset": "A" if index < 6 else "B",
+                "fault_line": f"L{index:02d}",
                 "status": "ok",
                 "normalized_joint_rmse": float(index),
                 "delta_sse": 1.0,
@@ -115,3 +118,22 @@ def test_p2_tail_keeps_exact_event_ids() -> None:
     result = aggregate_metrics(rows)
     assert result["worst_10pct_event_ids"] == ["e09", "e10"]
     assert result["worst_10pct_mean_normalized_joint_rmse"] == 9.5
+
+
+def test_p2_bootstrap_resamples_lines_within_source() -> None:
+    rows = [
+        {
+            "event_id": f"{source}-{line}-{event}",
+            "source_dataset": source,
+            "fault_line": line,
+            "status": "ok",
+            "effect": float(index + event),
+        }
+        for source in ("A", "B")
+        for index, line in enumerate(("L1", "L2", "L3"))
+        for event in range(2)
+    ]
+    result = stratified_fault_line_bootstrap(rows, "effect", draws=200, seed=324)
+    assert result["status"] == "completed"
+    assert result["fault_line_counts_by_source"] == {"A": 3, "B": 3}
+    assert result["resampling_unit"] == "fault_line_with_all_events_preserved"

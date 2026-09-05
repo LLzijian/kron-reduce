@@ -61,9 +61,9 @@ def test_p2_role_allocation_refuses_other_folds_or_shorter_contract() -> None:
 def test_p2_role_seed_changes_assignment_but_not_registered_counts() -> None:
     rows_324, audit_324 = build_p2_role_rows(_dataset(), seed=324)
     rows_325, audit_325 = build_p2_role_rows(_dataset(), seed=325)
-    assert audit_324["line_counts_by_source_and_role"] == audit_325[
-        "line_counts_by_source_and_role"
-    ]
+    assert (
+        audit_324["line_counts_by_source_and_role"] == audit_325["line_counts_by_source_and_role"]
+    )
     roles_324 = {row.event_id: row.role for row in rows_324}
     roles_325 = {row.event_id: row.role for row in rows_325}
     assert roles_324 != roles_325

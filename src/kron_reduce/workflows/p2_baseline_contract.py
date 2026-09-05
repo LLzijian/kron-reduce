@@ -4,19 +4,25 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 import tomllib
+import xml.etree.ElementTree as ET
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+from kron_reduce.data.p2_roles import build_p2_role_rows
+from kron_reduce.models.p2_baselines import BASELINE_CLASSES, P2_BASELINE_NAMES
+from project_harness.audit import audit_project
+from project_harness.data_check import verify_data
 from project_harness.evidence import sha256_file, verify_artifact_directory
+from project_harness.git_state import git_head, status_lines
 
 WORKFLOW = "ieee39_modular_energy_p2_a01_v1"
 CONFIG_NAME = "paper_ieee39_modular_energy_p2_a01_f1_seed324.toml"
 PROTOCOL_PATH = "docs/protocols/ieee39_modular_energy_p2_a01_baseline_contract_v1_zh.md"
 INVENTORY_PATH = (
-    "paper/planning/ieee39_modular_energy_equivalent/qa_logs/"
-    "p2_a01_baseline_inventory.json"
+    "paper/planning/ieee39_modular_energy_equivalent/qa_logs/p2_a01_baseline_inventory.json"
 )
 EXPECTED_BASELINES = (
     "B2-10-ZOH",
@@ -83,7 +89,10 @@ def _load_config(root: Path, experiment: Mapping[str, Any]) -> tuple[Path, dict[
         raise ValueError("P2-A01 minimum independent-line gate changed")
     if config.get("input_contract", {}).get("conditional_sensitivity_is_upper_bound") is not False:
         raise ValueError("P2-A01 observed-Pm sensitivity cannot be called an upper bound")
-    if config.get("statistics", {}).get("pooled_r2_centering") != "within_event_within_node_over_time":
+    if (
+        config.get("statistics", {}).get("pooled_r2_centering")
+        != "within_event_within_node_over_time"
+    ):
         raise ValueError("P2-A01 pooled R2 contract changed")
     return path, config
 
@@ -121,9 +130,7 @@ def _verify_historical_evidence(root: Path, inventory: Mapping[str, Any]) -> lis
         if "artifact_manifest_sha256" in finding:
             directory = root / "results" / reference
             digest = str(finding["artifact_manifest_sha256"])
-            verify_artifact_directory(
-                directory, expected_manifest_sha256=digest, strict=True
-            )
+            verify_artifact_directory(directory, expected_manifest_sha256=digest, strict=True)
             checks.append(
                 {
                     "method_family": finding["method_family"],
@@ -150,9 +157,7 @@ def _verify_historical_evidence(root: Path, inventory: Mapping[str, Any]) -> lis
     return checks
 
 
-def _lineage(
-    *, root: Path, result_dir: Path, run_id: str, stage: str, config_path: Path
-) -> None:
+def _lineage(*, root: Path, result_dir: Path, run_id: str, stage: str, config_path: Path) -> None:
     _write_json(
         result_dir / "lineage.json",
         {
@@ -170,9 +175,7 @@ def _lineage(
     )
 
 
-def _run_plan(
-    root: Path, config_path: Path, result_dir: Path, run_id: str
-) -> None:
+def _run_plan(root: Path, config_path: Path, result_dir: Path, run_id: str) -> None:
     inventory_path, inventory = _inventory(root)
     record = {
         "schema": "kron_reduce.p2_a01_plan_registration.v1",
@@ -214,9 +217,7 @@ def _run_plan(
     _seal(result_dir)
 
 
-def _run_inventory_audit(
-    root: Path, config_path: Path, result_dir: Path, run_id: str
-) -> None:
+def _run_inventory_audit(root: Path, config_path: Path, result_dir: Path, run_id: str) -> None:
     _, inventory = _inventory(root)
     checks = _verify_historical_evidence(root, inventory)
     audit = {
@@ -256,6 +257,189 @@ def _run_inventory_audit(
     _seal(result_dir)
 
 
+def _parse_junit(path: Path) -> dict[str, int]:
+    root = ET.parse(path).getroot()
+    suites = [root] if root.tag == "testsuite" else list(root.findall("testsuite"))
+    if not suites:
+        raise RuntimeError("P2 JUnit report contains no test suites")
+    fields = ("tests", "failures", "errors", "skipped")
+    try:
+        values = {field: sum(int(suite.attrib[field]) for suite in suites) for field in fields}
+    except (KeyError, TypeError, ValueError) as error:
+        raise RuntimeError("P2 JUnit counters are missing or invalid") from error
+    if values["tests"] < 1 or values["failures"] or values["errors"]:
+        raise RuntimeError(f"P2 contract tests did not pass: {values}")
+    return values
+
+
+def _scratch_directory(root: Path, run_id: str) -> Path:
+    if not run_id or "/" in run_id or "\\" in run_id or run_id in {".", ".."}:
+        raise ValueError("unsafe P2 run ID")
+    import hashlib
+
+    token = hashlib.sha256(run_id.encode()).hexdigest()[:16]
+    directory = root / "scratch" / "one_off" / f"p2-contract-gate-{token}"
+    if not directory.resolve().is_relative_to((root / "scratch" / "one_off").resolve()):
+        raise ValueError("P2 scratch directory escaped its registered root")
+    return directory
+
+
+def _run_contract_tests(root: Path, result_dir: Path, run_id: str) -> dict[str, int]:
+    scratch = _scratch_directory(root, run_id)
+    scratch.mkdir(parents=True, exist_ok=False)
+    junit = result_dir / "p2_contract_pytest.xml"
+    test_files = [
+        "tests/test_p2_baseline_contract.py",
+        "tests/test_p2_roles.py",
+        "tests/test_p2_training.py",
+        "tests/test_p2_metrics.py",
+        "tests/test_p2_baseline_models.py",
+    ]
+    command = [
+        sys.executable,
+        "-m",
+        "pytest",
+        *test_files,
+        "-q",
+        f"--junitxml={junit}",
+        f"--basetemp={scratch / 'pytest_tmp'}",
+    ]
+    completed = subprocess.run(
+        command,
+        cwd=root,
+        check=False,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    (result_dir / "pytest_stdout.txt").write_text(completed.stdout, encoding="utf-8", newline="\n")
+    (result_dir / "pytest_stderr.txt").write_text(completed.stderr, encoding="utf-8", newline="\n")
+    _write_json(
+        result_dir / "pytest_execution.json",
+        {
+            "logical_command": [
+                "python",
+                "-m",
+                "pytest",
+                *test_files,
+                "-q",
+                "--junitxml=<result>/p2_contract_pytest.xml",
+                "--basetemp=<scratch>/pytest_tmp",
+            ],
+            "returncode": completed.returncode,
+            "scratch_directory": str(scratch.resolve()),
+        },
+    )
+    if completed.returncode != 0 or not junit.is_file():
+        raise RuntimeError(f"P2 contract pytest failed with return code {completed.returncode}")
+    return _parse_junit(junit)
+
+
+def _run_contract_unit_gate(
+    root: Path,
+    config_path: Path,
+    config: Mapping[str, Any],
+    result_dir: Path,
+    run_id: str,
+) -> None:
+    tests = _run_contract_tests(root, result_dir, run_id)
+    project_audit = audit_project(root)
+    data_check = verify_data(root)
+    dirty = status_lines(root)
+    if project_audit.get("status") != "PASS":
+        raise RuntimeError("P2 project audit failed")
+    if data_check.get("status") != "PASS":
+        raise RuntimeError("P2 data check failed")
+    if dirty:
+        raise RuntimeError(f"P2 contract unit gate requires a clean tree: {dirty}")
+    if tuple(P2_BASELINE_NAMES) != EXPECTED_BASELINES or set(BASELINE_CLASSES) != set(
+        EXPECTED_BASELINES
+    ):
+        raise RuntimeError("P2 baseline registry differs from the frozen contract")
+
+    dataset_dir = root / "data" / str(config["dataset"])
+    rows, role_audit = build_p2_role_rows(
+        dataset_dir,
+        fold=str(config["fold"]),
+        seed=int(config["seed"]),
+        minimum_steps=int(config["roles"]["minimum_required_steps"]),
+    )
+    access_audits = {
+        method: BASELINE_CLASSES[method]().access_audit() for method in EXPECTED_BASELINES
+    }
+    forbidden = [
+        method
+        for method, audit in access_audits.items()
+        if audit["observed_pm_reads"]
+        or audit["future_pm_reads"]
+        or audit["forbidden_field_reads"]
+        or audit["source_routing"]
+    ]
+    if forbidden:
+        raise RuntimeError(f"P2 baseline access contract failed: {forbidden}")
+    _write_json(result_dir / "project_audit.json", project_audit)
+    _write_json(result_dir / "data_check.json", data_check)
+    _write_json(
+        result_dir / "git_check.json",
+        {"status": "PASS", "dirty": dirty, "git_commit": git_head(root)},
+    )
+    _write_json(result_dir / "role_contract_audit.json", role_audit)
+    _write_json(result_dir / "baseline_access_contracts.json", access_audits)
+    _write_json(
+        result_dir / "contract_unit_gate.json",
+        {
+            "schema": "kron_reduce.p2_a01_contract_unit_gate.v1",
+            "run_id": run_id,
+            "workflow": WORKFLOW,
+            "stage": "contract_unit_gate",
+            "baseline_methods": list(EXPECTED_BASELINES),
+            "baseline_family_count": len(EXPECTED_BASELINES),
+            "unit_tests": tests,
+            "adversarial_test_count": tests["tests"],
+            "role_event_count": len(rows),
+            "role_manifest_sha256": role_audit["role_manifest_sha256"],
+            "raw_ieee39_trajectory_data_read": False,
+            "test_ids_read": [],
+            "other_folds_read": [],
+            "observed_pm_primary_reads": [],
+            "interface_status": "PASS",
+            "role_contract_status": "PASS",
+            "causality_status": "PASS",
+            "evaluation_status": "PASS",
+            "scientific_verdict": None,
+            "promotion_decision": "KEEP_BASELINE",
+            "claim_boundary": (
+                "Software, causal interfaces, synthetic ten-machine attacks, role allocation, "
+                "and evaluation primitives only; no IEEE39 baseline performance or best-model claim."
+            ),
+        },
+    )
+    _lineage(
+        root=root,
+        result_dir=result_dir,
+        run_id=run_id,
+        stage="contract_unit_gate",
+        config_path=config_path,
+    )
+    _write_json(
+        result_dir / "stage_evidence.json",
+        {
+            "process_status": "PASS",
+            "interface_status": "PASS",
+            "role_contract_status": "PASS",
+            "causality_status": "PASS",
+            "evaluation_status": "PASS",
+            "adversarial_test_count": tests["tests"],
+            "claim_boundary": (
+                "P2 unit and synthetic contract evidence only; no IEEE39 performance, "
+                "selection, promotion, modal, stability, or Level 6 claim."
+            ),
+        },
+    )
+    _seal(result_dir)
+
+
 def run(
     *, root: Path, experiment: dict[str, Any], stage: str, result_dir: Path, run_id: str
 ) -> None:
@@ -265,5 +449,7 @@ def run(
         _run_plan(root, config_path, result_dir, run_id)
     elif stage == "baseline_inventory_audited":
         _run_inventory_audit(root, config_path, result_dir, run_id)
+    elif stage == "contract_unit_gate":
+        _run_contract_unit_gate(root, config_path, config, result_dir, run_id)
     else:
         raise ValueError(f"P2-A01 stage not implemented yet: {stage}")
