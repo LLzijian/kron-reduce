@@ -1,0 +1,98 @@
+{
+  "workflow": "ieee39_modular_energy_p2_a01_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "plan_registered",
+    "baseline_inventory_audited",
+    "contract_unit_gate",
+    "source_commit",
+    "controlled_replay",
+    "adversarial_review",
+    "acceptance",
+    "merge_gate",
+    "rollback_report",
+    "report"
+  ],
+  "transitions": {
+    "scaffold": "plan_registered",
+    "plan_registered": "baseline_inventory_audited",
+    "baseline_inventory_audited": "contract_unit_gate",
+    "contract_unit_gate": "source_commit",
+    "source_commit": "controlled_replay",
+    "controlled_replay": "adversarial_review",
+    "adversarial_review": "acceptance",
+    "acceptance": {
+      "ACCEPT": "merge_gate",
+      "REJECT": "rollback_report",
+      "RETRY": "rollback_report"
+    },
+    "merge_gate": "report",
+    "rollback_report": "report"
+  },
+  "terminal_stages": ["report"],
+  "approval_required": ["merge_gate"],
+  "stage_evidence_contracts": {
+    "plan_registered": {
+      "required_fields": ["status", "process_status", "protocol_path", "config_path", "historical_numbers_reuse_forbidden", "test_locked", "other_folds_locked", "claim_boundary"],
+      "non_empty_fields": ["process_status", "protocol_path", "config_path", "claim_boundary"],
+      "allowed_values": {"process_status": ["PASS"], "historical_numbers_reuse_forbidden": [true], "test_locked": [true], "other_folds_locked": [true]}
+    },
+    "baseline_inventory_audited": {
+      "required_fields": ["status", "process_status", "inventory_path", "baseline_family_count", "rebuild_required_count", "role_repartition_required", "claim_boundary"],
+      "non_empty_fields": ["process_status", "inventory_path", "baseline_family_count", "rebuild_required_count", "claim_boundary"],
+      "allowed_values": {"process_status": ["PASS"], "role_repartition_required": [true]}
+    },
+    "contract_unit_gate": {
+      "required_fields": ["status", "process_status", "result_dir", "interface_status", "role_contract_status", "causality_status", "evaluation_status", "adversarial_test_count", "artifact_manifest", "claim_boundary"],
+      "non_empty_fields": ["process_status", "result_dir", "interface_status", "role_contract_status", "causality_status", "evaluation_status", "adversarial_test_count", "artifact_manifest", "claim_boundary"],
+      "allowed_values": {"process_status": ["PASS"], "interface_status": ["PASS"], "role_contract_status": ["PASS"], "causality_status": ["PASS"], "evaluation_status": ["PASS"]}
+    },
+    "source_commit": {
+      "required_fields": ["status", "git_commit"],
+      "non_empty_fields": ["git_commit"]
+    },
+    "controlled_replay": {
+      "required_fields": ["status", "process_status", "result_dir", "source_commit", "baseline_family_count", "role_manifest_sha256", "fit_scale_sha256", "test_ids_read", "other_folds_read", "observed_pm_primary_reads", "artifact_manifest", "claim_boundary"],
+      "non_empty_fields": ["process_status", "result_dir", "source_commit", "baseline_family_count", "role_manifest_sha256", "fit_scale_sha256", "artifact_manifest", "claim_boundary"],
+      "allowed_values": {"process_status": ["PASS"], "test_ids_read": [[]], "other_folds_read": [[]], "observed_pm_primary_reads": [[]]}
+    },
+    "adversarial_review": {
+      "required_fields": ["status", "process_status", "result_dir", "adversarial_review_status", "check_count", "artifact_manifest", "claim_boundary"],
+      "non_empty_fields": ["process_status", "result_dir", "adversarial_review_status", "check_count", "artifact_manifest", "claim_boundary"],
+      "allowed_values": {"process_status": ["PASS"], "adversarial_review_status": ["PASS"]}
+    },
+    "acceptance": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "rollback_target", "claim_boundary", "paper_usable_claims", "result_dir"],
+      "non_empty_fields": ["process_status", "scientific_verdict", "promotion_decision", "acceptance_run", "rollback_target", "claim_boundary", "paper_usable_claims", "result_dir"],
+      "allowed_values": {"process_status": ["PASS"], "promotion_decision": ["KEEP_BASELINE"]}
+    },
+    "rollback_report": {
+      "required_fields": ["status", "process_status", "scientific_verdict", "promotion_decision", "rollback_target", "negative_evidence_run", "next_hypothesis", "result_dir"],
+      "non_empty_fields": ["process_status", "scientific_verdict", "promotion_decision", "rollback_target", "negative_evidence_run", "next_hypothesis", "result_dir"],
+      "allowed_values": {"process_status": ["PASS"], "promotion_decision": ["KEEP_BASELINE"]}
+    },
+    "report": {
+      "required_fields": ["status", "branch_terminal", "acceptance_run", "artifact_manifest", "report_path", "report_artifact"],
+      "allowed_values": {"branch_terminal": ["merge_gate", "rollback_report"]},
+      "non_empty_fields": ["branch_terminal", "acceptance_run", "artifact_manifest", "report_path", "report_artifact"],
+      "conditional_required_fields": {"branch_terminal": {"merge_gate": ["merge_commit"], "rollback_report": ["rollback_target", "negative_evidence_run"]}}
+    }
+  },
+  "scientific_target": "freeze_reproducible_f1_ten_machine_causal_baseline_and_evaluation_contract",
+  "locked_claims": [
+    "historical_headline_as_new_baseline_result",
+    "clustered_7_vs_generator_10_performance_comparison",
+    "observed_pm_as_primary_or_deployment_input",
+    "observed_pm_sensitivity_as_unconditional_upper_bound",
+    "test_or_canonical_validation_access",
+    "F2_to_F5_access",
+    "source_routing",
+    "event_level_bootstrap_as_fault_line_uncertainty",
+    "failed_rollout_as_zero_error",
+    "global_centered_pooled_r2",
+    "baseline_deletion_after_poor_performance",
+    "best_model_claim_from_P2"
+  ]
+}

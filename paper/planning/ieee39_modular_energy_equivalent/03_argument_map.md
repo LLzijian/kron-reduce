@@ -16,6 +16,11 @@ The planned thesis is that excitation-local evidence can be composed as removabl
 
 ## Supporting arguments
 
+### Argument 0: comparison validity precedes improvement claims
+- Claim: model differences are interpretable only after coordinates, causal inputs, data roles, time grid, solver and statistics are matched.
+- Evidence: the P2 inventory finds that historical headline results differ on several of these axes and therefore cannot populate one main table.
+- Limitation: P2 freezes and replays the contract; it does not select the final model.
+
 ### Argument 1: spatial fidelity precedes parameter reduction
 - Claim: the current corpus requires ten-generator state resolution before modular parameter pruning.
 - Evidence: the focused cluster-loss validation selected the identity partition and was stable across registered role seeds and sensitivities.
@@ -40,10 +45,10 @@ The planned thesis is that excitation-local evidence can be composed as removabl
 
 - A simple ten-machine baseline may be sufficient. The method therefore includes a `B2_SUFFICIENT` honest terminal state and requires nontrivial module contribution before promotion.
 - Long-horizon error may be caused mainly by mechanical-power closure rather than missing electrical states. P1/P2 isolate the causal input policy before expanding the state model.
+- A historical method may look stronger only because it receives observed future mechanical power or uses fewer spatial coordinates. P2 rebuilds each method in ten-machine coordinates with causal input and reports observed-Pm only as a frozen sensitivity.
 - A conservative certificate can achieve zero missed instability by certifying nothing. Level 6 therefore includes stable-region coverage and margin-accuracy gates.
 - Apparent mode mismatch may reflect excitation non-observability rather than wrong equation poles. Modal evaluation separates shared poles from excitation-local empirical visibility.
 
 ## Final move
 
 If P4–P6 pass, the reader should conclude that the registered modular union and Level 6 procedure yield one leakage-audited IEEE39 engineering equivalent inside a stated envelope. If any central gate fails, the paper conclusion is narrowed to the supported negative result and the manuscript does not claim a completed stability-certified equivalent.
-

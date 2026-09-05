@@ -4,19 +4,28 @@
   "text_type": "ieee_journal_research_plan_and_manuscript",
   "language": "mixed",
   "target_reader": "IEEE power-system dynamics and model-reduction researchers",
-  "current_round": 0,
-  "scores": [],
+  "current_round": 2,
+  "scores": [
+    {
+      "phase": "P1",
+      "attempt": "p1_a04",
+      "process_status": "PASS",
+      "scientific_verdict": "ACCEPT",
+      "promotion_decision": "KEEP_BASELINE",
+      "acceptance_run": "paper_ieee39_modular_energy_p1_a04_acceptance_f1_seed324-acceptance-20260904T142540Z-8bcecd42",
+      "merge_commit": "75e3fafa30fdb419cee10520b24bc7a8077d385c"
+    }
+  ],
   "technical_debts": [
-    "P1 must quantify module counterfactual effect versus matched ten-machine baselines",
-    "P1 must isolate the cause of long-horizon speed error",
-    "P1 must align modal audit with shared-pole and excitation-local observability evidence",
+    "P2 must establish reproducible ten-machine causal implementations for every main-table baseline",
+    "Historical M0-3EG-DF and SS-DM evidence uses incompatible representations or observed-Pm rollout and cannot be copied into the causal main table",
+    "P2 must freeze one event population, horizon convention, integrator, scaling, failure accounting and fault-line bootstrap implementation",
+    "Observed-Pm runs must be reported only as conditional input sensitivities and never as causal upper-bound claims unless parameters were fitted under the same input contract",
     "P5 requires a new independent IEEE39 stability-boundary audit dataset",
     "P6 five-fold evidence has not been run",
-    "P1 A02 candidate acquisition failed while strict-serializing a legacy NaN margin; A03 must preserve the old payload byte-for-byte",
-    "Five-arm execution and mandatory model-unit evidence remain unwired",
     "Master phase advancement must cross-check accepted child runs, hashes and actual merge commits"
   ],
-  "status": "p1_implementation_retry",
-  "current_attempt": "p1_a02",
-  "latest_review": "qa_logs/p1_a02_candidate_acquisition_retry.json"
+  "status": "p2_baseline_contract_design",
+  "current_attempt": "p2_a01",
+  "latest_review": "../../../docs/reports/paper_ieee39_modular_energy_p1_a04_report_f1_seed324-report-20260904T150027Z-45123100_p1_a04_zh.md"
 }

@@ -30,11 +30,11 @@
 ## Section 4: Identification and closed-loop evaluation
 
 - Purpose: explain weak-form fitting, causal input, source/fault-line balancing and F1 selection.
-- Inputs: P2 contracts, P3/P4 artifacts.
+- Inputs: accepted P2 contract/replay, P3/P4 artifacts.
 - Allowed claims: registered training and selection procedures and accepted F1 results.
 - Forbidden claims: observed-Pm as primary causal evidence, test or multi-fold generalization before P6.
-- Required evidence: per-case metrics, aggregate metrics, failure/COI audits and paired uncertainty.
-- Validation checklist: 1/5/10 s reported; angle/speed separated; tail metrics included; baseline comparison is matched.
+- Required evidence: P2 role/scale hashes, baseline checkpoints, per-case metrics, aggregate metrics, failure/COI audits and paired fault-line uncertainty.
+- Validation checklist: all main-table methods use ten-machine coordinates and causal input; 1/5/10 s reported; angle/speed separated; tail metrics included; observed-Pm is separate; baseline comparison is matched.
 
 ## Section 5: Modal interpretation
 
@@ -71,4 +71,3 @@
 - Forbidden claims: vague assurances or promises that replace failed gates.
 - Required evidence: refusal statistics, sample independence audit, unresolved mechanism list.
 - Validation checklist: every limitation maps to a gate or missing observation; language is direct.
-

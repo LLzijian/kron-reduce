@@ -1,0 +1,62 @@
+{
+  "schema": "kron_reduce.p2_a01_baseline_inventory.v1",
+  "status": "COMPLETE_WITH_REBUILD_REQUIRED",
+  "audit_date": "2026-09-05",
+  "scope": "Historical implementation and evidence compatibility for the P2 ten-machine causal comparison contract; no locked performance data were read.",
+  "target_contract": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "fold": "F1",
+    "seed": 324,
+    "representation": "generator_10_mass_weighted_COI",
+    "primary_input_policy": "Pm_clear_ZOH",
+    "test_access": "forbidden",
+    "other_fold_access": "forbidden"
+  },
+  "findings": [
+    {
+      "method_family": "B2",
+      "implementation_status": "REPLAYABLE_CANDIDATE",
+      "historical_evidence": "paper_combined_ten_machine_identification_f1_seed324-identification_run-20260825T015128Z-d4d50de4",
+      "artifact_manifest_sha256": "98990e9e4480fa66a943277830d792f6869ef3dd405bbf89663f86e910d2127c",
+      "compatibility": "Ten-machine and causal, but its parameters and metrics must be regenerated under the new P2 role and evaluation contract."
+    },
+    {
+      "method_family": "M0-3EG-DF",
+      "implementation_status": "REBUILD_FROM_METHOD_DEFINITION",
+      "historical_evidence": "docs/reports/m0_damping_recovery_results_zh.md",
+      "evidence_sha256": "5b4c4f746a83e2bb1fb0453dc6f648c50968e84f79d07ef7d4de8c939b2a783c",
+      "compatibility": "The report describes an accepted clustered-model result but does not bind a current immutable run; old numerical parameters and headline metrics are ineligible for the P2 main table."
+    },
+    {
+      "method_family": "M0-GMD-PM",
+      "implementation_status": "REBUILD_AND_REPLAY_REQUIRED",
+      "historical_evidence": "configs/experiments/paper_m0_gmd_pm_round6_f1_single_seed.toml",
+      "evidence_sha256": "3bec529106f1bbd1e26168772a6733bd5edc74fedaf9bf4c779ed787333a7162",
+      "compatibility": "The registered historical configuration uses clustered_7 and no matching immutable result directory was found. The ten-machine causal closure must be fitted from scratch."
+    },
+    {
+      "method_family": "SS-DM",
+      "implementation_status": "METHOD_AVAILABLE_NUMBERS_INELIGIBLE",
+      "historical_evidence": "paper_m0_afsd_v6_acceptance_f1_seed324-acceptance-20260818T150528Z-f55b01d8",
+      "artifact_manifest_sha256": "bfab8b5921ffd45ca3b4e7deacd5d600f9da023fc41aae8da7331c58ff328a96",
+      "compatibility": "The ten-machine v6 result is a conditional rollout with observed Pm. It cannot serve as a causal ZOH baseline and must be refitted and replayed."
+    },
+    {
+      "method_family": "legacy_SINDYc_PINN_LSTM",
+      "implementation_status": "HISTORICAL_CONTEXT_ONLY",
+      "historical_evidence": "paper_v1_full-full_run-20260722T221756Z-294ba849",
+      "artifact_manifest_sha256": "4c644d713358508285402b7e04ead8fb3553a86f9128b37b08fe16cadb7297e4",
+      "compatibility": "The run uses clustered_7, five folds, three seeds, short registered horizons and already-opened test data. Its performance values cannot enter P2 selection or the causal main table."
+    }
+  ],
+  "role_audit": {
+    "existing_p1_internal_lines": {
+      "ieee39_highorder_dataset": 3,
+      "ieee39_near_critical_unstable_v1_dense": 2
+    },
+    "finding": "The near-critical source cannot support the preregistered source-level fault-line bootstrap with only two internal lines.",
+    "decision": "P2 will deterministically repartition only F1 training fault lines, stratified by source and without reading trajectories or labels, to reserve at least three internal lines per source."
+  },
+  "scientific_verdict": "REBUILD_ALL_MAIN_TABLE_NUMBERS",
+  "claim_boundary": "Historical artifacts establish method availability and incompatibility facts only; they do not establish P2 comparative performance."
+}

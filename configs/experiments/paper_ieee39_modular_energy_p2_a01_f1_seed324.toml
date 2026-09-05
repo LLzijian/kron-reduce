@@ -1,0 +1,87 @@
+task_type = "baseline_contract_and_controlled_replay"
+protocol_revision = "ieee39_modular_energy_p2_a01_baseline_contract_v1"
+dataset = "ieee39_postclear_canonical_v1"
+dataset_revision = "ieee39_postclear_canonical_v1"
+view = "combined_dynamics"
+split_name = "combined_line_5fold_v1"
+fold = "F1"
+seed = 324
+branch = "codex/loop-p2-a01"
+representation = "generator_10_mass_weighted_COI"
+model_count_per_method = 1
+source_routing = false
+test_access = "forbidden"
+canonical_validation_access = "forbidden"
+other_folds_access = "forbidden"
+stability_label_access = "forbidden"
+historical_metric_reuse = "forbidden"
+
+baseline_methods = [
+  "B2-10-ZOH",
+  "EGDF-10-ZOH",
+  "GMDPM-10-CAUSAL",
+  "SSDM-10-ZOH",
+  "LIN-ODE-10",
+  "SINDYc-ODE-10",
+  "NODE-MLP-10",
+]
+
+[roles]
+source_stratified = true
+group_key = "source_dataset_x_fault_line"
+ordering = "sha256_dataset_revision_source_fault_line_seed"
+highorder_line_counts = [10, 3, 3]
+near_critical_line_counts = [3, 1, 3]
+role_order = ["fit", "selection", "internal_audit"]
+minimum_internal_lines_per_source = 3
+minimum_required_steps = 1001
+role_assignment_reads_trajectories = false
+role_assignment_reads_labels = false
+
+[input_contract]
+primary_pm_policy = "Pm_clear_ZOH"
+conditional_sensitivity_pm_policy = "observed_Pm_frozen_model_no_refit"
+conditional_sensitivity_name = "nondeployment_input_sensitivity"
+conditional_sensitivity_is_upper_bound = false
+allowed_static = ["delta0", "omega0", "Pm_equilibrium", "Pm_clear", "equilibrium_delta", "mass", "incidence"]
+forbidden = ["source_dataset", "fault_line", "event_id", "event_time_s", "stable", "label", "Pe", "voltage", "valid_length", "valid_mask", "future_summary"]
+
+[time]
+start_s = 0.0
+stop_s = 10.0
+output_step_s = 0.01
+report_horizons_s = [1, 5, 10]
+report_prefix_lengths = [101, 501, 1001]
+continuous_integrator = "shared_mass_weighted_coi_rk4"
+maximum_internal_step_s = 0.01
+maximum_coi_drift = 1e-10
+
+[fit]
+final_refit_roles = ["fit", "selection"]
+hyperparameter_fit_role = "fit"
+hyperparameter_selection_role = "selection"
+audit_role = "internal_audit"
+hierarchical_weighting = ["source", "fault_line", "event", "time_window"]
+scale_source = "fit_only"
+selection_priority = ["zero_rollout_failure", "normalized_joint_loss", "smaller_model"]
+stochastic_deterministic_mode = true
+
+[statistics]
+bootstrap_unit = "fault_line"
+bootstrap_stratify_by_source = true
+bootstrap_draws = 5000
+bootstrap_seed = 324
+bootstrap_confidence = 0.95
+minimum_independent_lines = 3
+tail_fraction = 0.10
+pooled_r2_centering = "within_event_within_node_over_time"
+failure_error_value = "missing_not_zero"
+
+[claim_boundaries]
+p2_selects_best_model = false
+historical_numbers_enter_main_table = false
+test_performance = false
+other_fold_generalization = false
+identified_frequency = false
+stability_certificate = false
+level_6 = false

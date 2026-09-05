@@ -14,6 +14,12 @@
 - The same run reported negative long-horizon pooled speed R2 on both internal and external combined cohorts; it cannot support a rollout-accurate or modal-identification claim.
 - The current F1 safety audit used 40 unstable cases and reported zero false-stable certificates with a Wilson 95% upper FSR bound of 0.0876. The full canonical set contains 51 unstable events, still insufficient for a 5% upper bound even before dependence by fault line is considered.
 - Historical accepted evidence includes an F1/seed-324 M0-3EG-DF anchor, but it was developed in a different representation/evaluation context and is not automatically an accepted ten-machine causal model.
+- P1-A04 completed its controlled F1 diagnosis with process `PASS`, scientific verdict `ACCEPT` for the diagnosis, and `KEEP_BASELINE`. The accepted diagnosis is bound to `paper_ieee39_modular_energy_p1_a04_acceptance_f1_seed324-acceptance-20260904T142540Z-8bcecd42` and merge commit `75e3fafa30fdb419cee10520b24bc7a8077d385c`.
+- The P1 candidate differs jointly from B2, but all seven named module instances are individually `UNIDENTIFIABLE`; it is not a validated module-union model.
+- P1 ruled out numerical integration and COI drift as the direct cause of long-horizon error. Causal mechanical-power closure improves point error, but 10 s pooled speed R2 remains negative (`-0.225783`), leaving a mixture of forcing/dynamic closure and objective-calibration mismatch unresolved.
+- P1 verified the shared-pole plus excitation-local observability semantics. None of nine reportable IEEE39 poles earned observational support, so there is no identified-frequency claim.
+- The existing P1 internal role has only two near-critical fault-line groups. It cannot yield a source-specific fault-line bootstrap interval; P2 must freeze a source-stratified role allocation with at least three internal lines per source before P3/P4.
+- Historical M0-3EG-DF, M0-GMD-PM, SS-DM and data-driven headline values are not mutually comparable: their stored evidence differs in representation, input policy, fold/seed scope, horizon or test access. P2 therefore rebuilds all main-table numbers.
 
 ## Thermodynamic / model facts
 
@@ -36,7 +42,7 @@
 - **模块并集模型**: one shared equation containing every independently supported block that survives joint fitting and whole-block deletion.
 - **激励视图**: a frozen audit or candidate-support slice; not a model selector at deployment.
 - **因果主表**: rollout beginning at clearing with `Pm_clear` held by zero-order hold or a separately registered causal Pm model.
-- **条件上界**: rollout using future observed `Pm(t)`; never a primary deployment result.
+- **条件输入敏感性**: after model freeze, replace the registered causal exogenous input by future observed `Pm(t)` without refitting. It is never a primary deployment result and is not called an upper bound unless a separate matched-input contract proves that interpretation.
 - **过程通过**: implementation, evidence and audit chain are valid even if the scientific hypothesis is rejected.
 - **科学接受**: the pre-registered claim gates pass and the candidate may be promoted after explicit merge approval.
 
@@ -52,9 +58,8 @@
 
 ## Unresolved claims
 
-- Which retained blocks have nonzero counterfactual effect relative to a ten-machine B2 or ten-machine transient-storage baseline.
-- Whether long-horizon speed error is dominated by missing causal input closure, state order, objective scaling or weak-form identifiability.
-- Which shared equation poles are observable and repeatable under each registered excitation view.
+- Which new P3 blocks have independently identifiable counterfactual effect under the P2 matched ten-machine causal contract.
+- Whether a redesigned joint objective and dynamic/forcing closure can turn the still-negative long-horizon speed R2 positive.
+- Which redesigned shared equation poles, if any, become observable and repeatable under each registered excitation view.
 - Whether a non-vacuous IEEE39 integration-free stability region can meet Level 6 accuracy and coverage gates.
 - Whether the final block structure is stable in at least four of five folds.
-
