@@ -1,0 +1,7 @@
+source_run = "paper_ieee39_modular_energy_p2_a02_history_f1_seed324-history_learning-20261018T180515Z-88baeaa4"
+source_artifact_manifest_sha256 = "2081397b85a9f2bc0ee8d7f4352dcc8f08f3a8c05f74d9eff5317f4574b8c498"
+source_config = "paper_ieee39_modular_energy_p2_a02_history_f1_seed324.toml"
+roles = ["train", "val"]
+fit_calls = 0
+audit_access = "forbidden"
+feature_svd_relative_cutoff = 0.00000001

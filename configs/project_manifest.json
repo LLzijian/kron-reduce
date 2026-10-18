@@ -49,6 +49,15 @@
     }
   },
   "experiments": {
+    "paper_ieee39_p2_a02_train_val_diagnosis": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.history_train_val_diagnosis",
+      "workflow": "ieee39_p2_a02_train_val_diagnosis_v1",
+      "config": "paper_ieee39_p2_a02_train_val_diagnosis.toml",
+      "stage": "train_val_diagnosis",
+      "reads_validation_performance": false,
+      "reads_test_performance": false
+    },
     "paper_ieee39_modular_energy_p2_a02_history_f1_seed324": {
       "status": "diagnostic",
       "module": "kron_reduce.workflows.ieee39_history_learning",

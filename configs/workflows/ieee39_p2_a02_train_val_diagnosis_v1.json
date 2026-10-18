@@ -1,0 +1,16 @@
+{
+  "workflow": "ieee39_p2_a02_train_val_diagnosis_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "train_val_diagnosis"],
+  "transitions": {"scaffold": "train_val_diagnosis"},
+  "terminal_stages": ["train_val_diagnosis"],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "train_val_diagnosis": {
+      "required_fields": ["status", "process_status", "result_dir", "artifact_manifest", "source_run", "fit_calls", "audit_open_count", "claim_boundary"],
+      "allowed_values": {"process_status": ["PASS"], "fit_calls": [0], "audit_open_count": [0]},
+      "non_empty_fields": ["source_run", "claim_boundary"]
+    }
+  }
+}
