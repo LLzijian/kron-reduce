@@ -13,6 +13,7 @@ from pathlib import Path
 import numpy as np
 from scipy.linalg import expm
 
+from kron_reduce.data.history_contract import CausalStateHistory
 from kron_reduce.physics.coordinates import coi_project
 
 
@@ -26,36 +27,6 @@ def _array(value: np.ndarray, ndim: int, name: str) -> np.ndarray:
 
 class UnobservableHistoryError(ValueError):
     """The allowed observation window cannot resolve the hidden initial state."""
-
-
-@dataclass(frozen=True)
-class CausalStateHistory:
-    """Measured states ending at the forecast origin, on a relative clock.
-
-    The constant input must be valid over the entire window. A window crossing
-    a topology/input switch needs a separate, registered observation model.
-    """
-
-    time: np.ndarray
-    delta: np.ndarray
-    omega: np.ndarray
-    constant_power: np.ndarray
-
-    def __post_init__(self) -> None:
-        for name, ndim in (("time", 1), ("delta", 2), ("omega", 2), ("constant_power", 1)):
-            object.__setattr__(self, name, _array(getattr(self, name), ndim, name))
-        if (
-            len(self.time) < 2
-            or self.time[-1] != 0.0
-            or np.any(self.time > 0.0)
-            or np.any(np.diff(self.time) <= 0.0)
-        ):
-            raise ValueError(
-                "history must increase strictly and end at zero without future samples"
-            )
-        shape = (len(self.time), len(self.constant_power))
-        if self.delta.shape != shape or self.omega.shape != shape:
-            raise ValueError("history state arrays must match the registered clock and nodes")
 
 
 @dataclass(frozen=True)

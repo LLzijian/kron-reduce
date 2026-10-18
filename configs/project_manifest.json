@@ -49,6 +49,16 @@
     }
   },
   "experiments": {
+    "learned_causal_latent_synthetic_v1": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.learned_causal_latent",
+      "workflow": "learned_causal_latent_synthetic_v1",
+      "config": "learned_causal_latent_synthetic_v1.toml",
+      "stage": "learning_audit",
+      "data_policy": "analytic_synthetic_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false
+    },
     "causal_latent_initialization_synthetic_v1": {
       "status": "diagnostic",
       "module": "kron_reduce.workflows.causal_latent_initialization",

@@ -261,6 +261,7 @@ def run(
         forecast_oracle=oracle,
     )
     source_paths = [
+        "src/kron_reduce/data/history_contract.py",
         "src/kron_reduce/models/causal_latent.py",
         "src/kron_reduce/workflows/causal_latent_initialization.py",
         "src/kron_reduce/physics/coordinates.py",
