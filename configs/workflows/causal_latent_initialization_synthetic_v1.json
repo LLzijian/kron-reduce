@@ -1,0 +1,18 @@
+{
+  "workflow": "causal_latent_initialization_synthetic_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "synthetic_audit"],
+  "transitions": {"scaffold": "synthetic_audit"},
+  "terminal_stages": ["synthetic_audit"],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "synthetic_audit": {
+      "required_fields": ["status", "process_status", "result_dir", "artifact_manifest", "source_commit", "data_policy", "ambiguity_demonstrated", "latent_recovery_passed", "unobservable_refusal_passed", "energy_identity_passed", "ieee39_trajectory_reads", "claim_boundary"],
+      "non_empty_fields": ["process_status", "source_commit", "data_policy", "claim_boundary"],
+      "allowed_values": {"process_status": ["PASS"], "data_policy": ["analytic_synthetic_only"], "ambiguity_demonstrated": [true], "latent_recovery_passed": [true], "unobservable_refusal_passed": [true], "energy_identity_passed": [true], "ieee39_trajectory_reads": [[]]}
+    }
+  },
+  "scientific_target": "verify_hidden_initial_state_ambiguity_and_causal_observability_on_known_equations",
+  "locked_claims": ["learned_hidden_physics", "ieee39_accuracy", "p2_acceptance", "p3_acceptance", "stability_region_certificate"]
+}
