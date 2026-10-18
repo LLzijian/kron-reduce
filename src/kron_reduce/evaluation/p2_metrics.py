@@ -277,6 +277,13 @@ def stratified_fault_line_bootstrap(
 
     if draws <= 0 or not 0.0 < confidence < 1.0:
         raise ValueError("P2 bootstrap settings are invalid")
+    failed_ids = [str(row.get("event_id", "")) for row in rows if row.get("status") != "ok"]
+    if failed_ids:
+        return {
+            "status": "UNDETERMINED",
+            "reason": "failed_rollouts_are_not_imputed",
+            "failed_event_ids": failed_ids,
+        }
     by_source: dict[str, dict[str, list[float]]] = defaultdict(lambda: defaultdict(list))
     for row in rows:
         value = row.get(metric)
@@ -318,4 +325,95 @@ def stratified_fault_line_bootstrap(
         "bootstrap_seed": seed,
         "fault_line_counts_by_source": line_counts,
         "resampling_unit": "fault_line_with_all_events_preserved",
+    }
+
+
+def paired_stratified_fault_line_bootstrap(
+    reference_rows: Sequence[Mapping[str, Any]],
+    candidate_rows: Sequence[Mapping[str, Any]],
+    metric: str,
+    *,
+    draws: int = 5000,
+    seed: int = 324,
+    confidence: float = 0.95,
+) -> dict[str, Any]:
+    """Bootstrap candidate-minus-reference paired differences by complete fault line."""
+
+    if draws <= 0 or not 0.0 < confidence < 1.0:
+        raise ValueError("P2 paired-bootstrap settings are invalid")
+    reference = {str(row.get("event_id", "")): row for row in reference_rows}
+    candidate = {str(row.get("event_id", "")): row for row in candidate_rows}
+    if (
+        not reference
+        or set(reference) != set(candidate)
+        or len(reference) != len(reference_rows)
+        or len(candidate) != len(candidate_rows)
+    ):
+        raise ValueError("P2 paired bootstrap requires identical unique event populations")
+    failed_ids = sorted(
+        event_id
+        for event_id in reference
+        if reference[event_id].get("status") != "ok" or candidate[event_id].get("status") != "ok"
+    )
+    if failed_ids:
+        return {
+            "status": "UNDETERMINED",
+            "reason": "failed_rollouts_are_not_imputed",
+            "failed_event_ids": failed_ids,
+        }
+    by_source: dict[str, dict[str, list[float]]] = defaultdict(lambda: defaultdict(list))
+    for event_id, reference_row in reference.items():
+        candidate_row = candidate[event_id]
+        reference_stratum = (
+            str(reference_row.get("source_dataset", "")),
+            str(reference_row.get("fault_line", "")),
+        )
+        candidate_stratum = (
+            str(candidate_row.get("source_dataset", "")),
+            str(candidate_row.get("fault_line", "")),
+        )
+        if reference_stratum != candidate_stratum or not all(reference_stratum):
+            raise ValueError("P2 paired bootstrap strata differ between methods")
+        left, right = reference_row.get(metric), candidate_row.get(metric)
+        if left is None or right is None or not np.isfinite([float(left), float(right)]).all():
+            return {
+                "status": "UNDETERMINED",
+                "reason": "paired_metric_is_missing_or_nonfinite",
+                "event_id": event_id,
+            }
+        source, line = reference_stratum
+        by_source[source][line].append(float(right) - float(left))
+    line_counts = {source: len(lines) for source, lines in by_source.items()}
+    if any(count < 3 for count in line_counts.values()):
+        return {
+            "status": "UNDETERMINED",
+            "reason": "fewer_than_three_fault_lines_in_a_source",
+            "fault_line_counts_by_source": line_counts,
+        }
+    line_differences = {
+        source: np.asarray([np.mean(lines[line]) for line in sorted(lines)], dtype=np.float64)
+        for source, lines in by_source.items()
+    }
+    estimate = float(np.mean([np.mean(values) for values in line_differences.values()]))
+    rng = np.random.default_rng(seed)
+    samples = np.empty(draws, dtype=np.float64)
+    for draw in range(draws):
+        source_values = []
+        for values in line_differences.values():
+            selected = rng.integers(0, len(values), size=len(values))
+            source_values.append(float(np.mean(values[selected])))
+        samples[draw] = float(np.mean(source_values))
+    tail = (1.0 - confidence) / 2.0
+    return {
+        "status": "completed",
+        "estimand": "candidate_minus_reference_source_equal_fault_line_equal_event_mean",
+        "metric": metric,
+        "estimate": estimate,
+        "ci_lower": float(np.quantile(samples, tail)),
+        "ci_upper": float(np.quantile(samples, 1.0 - tail)),
+        "confidence": confidence,
+        "bootstrap_draws": draws,
+        "bootstrap_seed": seed,
+        "fault_line_counts_by_source": line_counts,
+        "resampling_unit": "paired_fault_line_with_all_events_preserved",
     }

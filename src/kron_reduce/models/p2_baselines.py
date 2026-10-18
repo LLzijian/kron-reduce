@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import math
+import time
 from abc import ABC, abstractmethod
 from collections.abc import Mapping, Sequence
 from pathlib import Path
@@ -223,6 +224,16 @@ class P2Baseline(ABC):
         cls, samples: Sequence[P2TrainingSample], spec: Mapping[str, Any], seed: int
     ) -> P2Baseline: ...
 
+    @staticmethod
+    def _registered_optimizer_steps(spec: Mapping[str, Any]) -> int | None:
+        # A converged constrained solve is not one optimizer iteration.
+        # Iteration counts require solver instrumentation before the replay gate.
+        return int(spec["epochs"]) if "epochs" in spec else None
+
+    @staticmethod
+    def _completion_reason(spec: Mapping[str, Any]) -> str:
+        return "fixed_epoch_budget_completed" if "epochs" in spec else "solver_completed"
+
     @abstractmethod
     def initial_state(self, request: P2PredictionInput) -> np.ndarray: ...
 
@@ -248,20 +259,65 @@ class P2Baseline(ABC):
         seed: int = 324,
     ) -> dict[str, Any]:
         _check_training_roles(fit_samples, selection_samples)
-        candidates = []
+        started = time.perf_counter()
+        candidates: list[dict[str, Any]] = []
+        failed_attempts: list[dict[str, Any]] = []
         for spec in self._candidate_specs():
-            candidate = type(self)._fit_spec(fit_samples, spec, seed)
-            score = _selection_score(candidate, selection_samples, scales)
-            candidates.append(
-                {
+            candidate_started = time.perf_counter()
+            try:
+                candidate = type(self)._fit_spec(fit_samples, spec, seed)
+                score = _selection_score(candidate, selection_samples, scales)
+                row = {
+                    "status": "completed",
                     "spec": dict(spec),
                     "score": score,
                     "parameter_count": candidate.parameter_count(),
+                    "actual_optimizer_steps": self._registered_optimizer_steps(spec),
+                    "optimizer_step_count_status": "recorded"
+                    if "epochs" in spec
+                    else "not_instrumented",
+                    "early_stopping_reason": self._completion_reason(spec),
                 }
-            )
-        selected = min(candidates, key=_candidate_key)
+            except (
+                FloatingPointError,
+                OverflowError,
+                RuntimeError,
+                ValueError,
+                np.linalg.LinAlgError,
+            ) as error:
+                row = {
+                    "status": "fit_failed",
+                    "spec": dict(spec),
+                    "score": {
+                        "failure_count": len(selection_samples),
+                        "failed_event_ids": sorted(sample.event_id for sample in selection_samples),
+                        "normalized_joint_mse": None,
+                        "successful_event_losses": [],
+                    },
+                    "parameter_count": None,
+                    "actual_optimizer_steps": None,
+                    "optimizer_step_count_status": "incomplete_attempt",
+                    "early_stopping_reason": "fit_exception",
+                    "error_class": type(error).__name__,
+                    "error_message": str(error),
+                }
+                failed_attempts.append(
+                    {
+                        "spec": dict(spec),
+                        "error_class": type(error).__name__,
+                        "error_message": str(error),
+                    }
+                )
+            row["wall_clock_seconds"] = time.perf_counter() - candidate_started
+            candidates.append(row)
+        viable = [row for row in candidates if row["status"] == "completed"]
+        if not viable:
+            raise RuntimeError(f"all registered candidates failed for {self.method_name}")
+        selected = min(viable, key=_candidate_key)
         final_samples = tuple(fit_samples) + tuple(selection_samples)
+        refit_started = time.perf_counter()
         final = type(self)._fit_spec(final_samples, selected["spec"], seed)
+        final_refit_seconds = time.perf_counter() - refit_started
         self.__dict__.update(final.__dict__)
         self.fit_record = {
             "schema": "kron_reduce.p2_baseline_fit.v1",
@@ -282,6 +338,12 @@ class P2Baseline(ABC):
             "future_pm_reads": [],
             "source_routing": False,
             "parameter_count": self.parameter_count(),
+            "selected_actual_optimizer_steps": self._registered_optimizer_steps(selected["spec"]),
+            "selected_early_stopping_reason": self._completion_reason(selected["spec"]),
+            "final_refit_wall_clock_seconds": final_refit_seconds,
+            "total_wall_clock_seconds": time.perf_counter() - started,
+            "failed_attempt_count": len(failed_attempts),
+            "failed_attempts": failed_attempts,
         }
         return self.fit_record
 

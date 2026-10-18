@@ -7,6 +7,7 @@ from kron_reduce.evaluation.p2_metrics import (
     aggregate_metrics,
     event_metrics,
     fit_scales,
+    paired_stratified_fault_line_bootstrap,
     stratified_fault_line_bootstrap,
 )
 
@@ -137,3 +138,27 @@ def test_p2_bootstrap_resamples_lines_within_source() -> None:
     assert result["status"] == "completed"
     assert result["fault_line_counts_by_source"] == {"A": 3, "B": 3}
     assert result["resampling_unit"] == "fault_line_with_all_events_preserved"
+
+
+def test_p2_paired_bootstrap_preserves_population_and_failures() -> None:
+    reference = [
+        {
+            "event_id": f"{source}-{line}-{event}",
+            "source_dataset": source,
+            "fault_line": line,
+            "status": "ok",
+            "effect": 2.0,
+        }
+        for source in ("A", "B")
+        for line in ("L1", "L2", "L3")
+        for event in range(2)
+    ]
+    candidate = [{**row, "effect": 1.5} for row in reference]
+    result = paired_stratified_fault_line_bootstrap(reference, candidate, "effect", draws=100)
+    assert result["estimate"] == result["ci_lower"] == result["ci_upper"] == -0.5
+    candidate[0]["status"] = "failed"
+    result = paired_stratified_fault_line_bootstrap(reference, candidate, "effect", draws=100)
+    assert result["status"] == "UNDETERMINED"
+    assert result["reason"] == "failed_rollouts_are_not_imputed"
+    single = stratified_fault_line_bootstrap(candidate, "effect", draws=100)
+    assert single["status"] == "UNDETERMINED"
