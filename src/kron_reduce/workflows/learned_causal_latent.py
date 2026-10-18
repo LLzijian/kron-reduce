@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 import time
 import tomllib
+from collections.abc import Callable
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -111,10 +113,33 @@ def run(
         raise ValueError("unregistered learned-latent execution")
     config_path = root / "configs" / "experiments" / experiment["config"]
     config = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    execute_learning_study(
+        root=root,
+        config_path=config_path,
+        config=config,
+        result_dir=result_dir,
+        run_id=run_id,
+        sample_provider=make_visible_samples,
+        data_policy="analytic_synthetic_only",
+    )
+
+
+def execute_learning_study(
+    *,
+    root: Path,
+    config_path: Path,
+    config: dict[str, Any],
+    result_dir: Path,
+    run_id: str,
+    sample_provider: Callable,
+    data_policy: str,
+    extra_source_paths: tuple[str, ...] = (),
+) -> None:
+    """Shared scientific lifecycle; callers supply only registered role readers."""
     cache = {}
     for duration in config["history_durations_s"]:
-        mass, train = make_visible_samples(config, "train", float(duration))
-        _, val = make_visible_samples(config, "val", float(duration))
+        mass, train = sample_provider(config, "train", float(duration))
+        _, val = sample_provider(config, "val", float(duration))
         cache[duration] = (train, val)
     scale = visible_scales(cache[config["scale_reference_history_s"]][0])
     _write_json(
@@ -158,18 +183,19 @@ def run(
             records.append(row)
             candidates[token] = model
             _write_json(result_dir / f"candidate-{token}-val.json", score)
-            print(
-                f"Completed {token}: val normalized RMSE={score['normalized_rmse']:.6g}", flush=True
-            )
+            print(f"Completed {token}: val normalized RMSE={score['normalized_rmse']}", flush=True)
     selected = min(
         records,
         key=lambda row: (
-            row["val_normalized_rmse"],
+            float("inf") if row["val_normalized_rmse"] is None else row["val_normalized_rmse"],
             row["parameter_count"],
             row["history_duration_s"],
         ),
     )
     duration = selected["history_duration_s"]
+    if selected["val_normalized_rmse"] is None:
+        _write_json(result_dir / "failed_candidate_table.json", records)
+        raise RuntimeError("all latent candidates failed on val; audit remains locked")
     train, val = cache[duration]
     settings = candidates[selected["token"]].settings
     final = refit_latent_model(train, val, mass, settings, scale)
@@ -193,7 +219,7 @@ def run(
     freeze_hash = sha256_file(result_dir / "selection_freeze.json")
     final = LearnedLatentModel.load(result_dir / "selected-final.npz")
     baseline = LearnedLatentModel.load(result_dir / "memoryless-final.npz")
-    _, audit = make_visible_samples(config, "audit", float(duration))
+    _, audit = sample_provider(config, "audit", float(duration))
     print("Checkpoints frozen; evaluating independent audit trajectories", flush=True)
     learned_score = final.score(audit)
     zero_score = final.score(audit, zero_latent=True)
@@ -204,10 +230,35 @@ def run(
         ("memoryless", baseline_score),
     ):
         _write_json(result_dir / f"audit-{name}.json", value)
+    for horizon in config.get("report_horizons_s", []):
+        horizon_samples = []
+        for sample in audit:
+            prefix = int(
+                np.searchsorted(sample.forecast_time, float(horizon) + 1e-10, side="right")
+            )
+            if abs(sample.forecast_time[prefix - 1] - horizon) > 1e-8:
+                raise ValueError("audit target clock does not cover a registered horizon")
+            horizon_samples.append(
+                replace(
+                    sample,
+                    forecast_time=sample.forecast_time[:prefix],
+                    target_delta=sample.target_delta[:prefix],
+                    target_omega=sample.target_omega[:prefix],
+                )
+            )
+        _write_json(
+            result_dir / f"audit-horizon-{horizon}s.json",
+            {
+                "horizon_after_forecast_origin_s": horizon,
+                "learned_history": final.score(horizon_samples),
+                "zero_initialization": final.score(horizon_samples, zero_latent=True),
+                "memoryless": baseline.score(horizon_samples),
+            },
+        )
     replay = LearnedLatentModel.load(result_dir / "selected-final.npz").predict(
-        audit[0].history, audit[0].forecast_time
+        audit[0].history, audit[0].forecast_time[:2]
     )
-    original = final.predict(audit[0].history, audit[0].forecast_time)
+    original = final.predict(audit[0].history, audit[0].forecast_time[:2])
     if not np.array_equal(replay, original):
         raise RuntimeError("learned checkpoint replay changed predictions")
     rng = np.random.default_rng(int(config["seed"]))
@@ -227,14 +278,26 @@ def run(
         score["normalized_rmse"] for score in (learned_score, zero_score, baseline_score)
     )
     checks = {
-        "absolute_accuracy": learned <= config["audit_normalized_rmse_limit"],
-        "history_initialization_effect": learned
-        <= config["audit_history_to_zero_error_ratio_limit"] * zero,
-        "memory_effect": learned
-        <= config["audit_history_to_memoryless_error_ratio_limit"] * memoryless,
+        "absolute_accuracy": learned is not None
+        and learned <= config["audit_normalized_rmse_limit"],
+        "history_initialization_effect": settings.latent_dimension > 0
+        and learned is not None
+        and zero is not None
+        and zero > 1e-12
+        and learned <= config["audit_history_to_zero_error_ratio_limit"] * zero,
+        "memory_effect": learned is not None
+        and memoryless is not None
+        and memoryless > 1e-12
+        and learned <= config["audit_history_to_memoryless_error_ratio_limit"] * memoryless,
     }
     paired_rows = lambda rows: [
-        {**row, "status": "ok", "normalized_joint_rmse": float(np.sqrt(row["normalized_mse"]))}
+        {
+            **row,
+            "status": row.get("status", "ok"),
+            "normalized_joint_rmse": float(np.sqrt(row["normalized_mse"]))
+            if row["normalized_mse"] is not None
+            else None,
+        }
         for row in rows
     ]
     uncertainty = paired_stratified_fault_line_bootstrap(
@@ -255,7 +318,9 @@ def run(
             "train_event_count": len(train),
             "val_event_count": len(val),
             "audit_event_count": len(audit),
-            "forecast_duration_s": config["forecast_duration_s"],
+            "forecast_duration_s": config.get(
+                "audit_forecast_duration_s", config["forecast_duration_s"]
+            ),
             "learned_history_normalized_rmse": learned,
             "zero_initialization_normalized_rmse": zero,
             "memoryless_normalized_rmse": memoryless,
@@ -273,7 +338,14 @@ def run(
         "src/kron_reduce/models/causal_latent.py",
         "src/kron_reduce/data/history_contract.py",
         "src/kron_reduce/workflows/learned_causal_latent.py",
+        *extra_source_paths,
     ]
+    access_audit = (
+        sample_provider.access_audit()
+        if hasattr(sample_provider, "access_audit")
+        else {"ieee39_trajectory_reads": [], "canonical_val_ids_read": [], "test_ids_read": []}
+    )
+    _write_json(result_dir / "data_access_audit.json", access_audit)
     _write_json(
         result_dir / "lineage.json",
         {
@@ -282,8 +354,8 @@ def run(
             "working_tree_status": status_lines(root),
             "source_sha256": {path: sha256_file(root / path) for path in source_paths},
             "config_sha256": sha256_file(config_path),
-            "data_policy": "analytic_synthetic_only",
-            "ieee39_trajectory_reads": [],
+            "data_policy": data_policy,
+            "data_access_audit_sha256": sha256_file(result_dir / "data_access_audit.json"),
             "canonical_val_ids_read": [],
             "test_ids_read": [],
         },
@@ -295,11 +367,18 @@ def run(
             "scientific_verdict": verdict,
             "promotion_decision": "KEEP_BASELINE",
             "source_commit": git_head(root),
-            "data_policy": "analytic_synthetic_only",
+            "data_policy": data_policy,
             "hidden_training_targets_read": False,
             "audit_opened_after_checkpoint_freeze": True,
-            "ieee39_trajectory_reads": [],
-            "claim_boundary": "Visible-only learning and shared initialization evaluated on independent synthetic trajectories; IEEE39 and nonlinear identification require separate evidence.",
+            "ieee39_trajectory_reads": access_audit["ieee39_trajectory_reads"],
+            "canonical_val_ids_read": access_audit.get("canonical_val_ids_read", []),
+            "test_ids_read": access_audit.get("test_ids_read", []),
+            "other_folds_read": access_audit.get("other_folds_read", []),
+            "future_pm_reads": access_audit.get("future_pm_reads", []),
+            "claim_boundary": config.get(
+                "claim_boundary",
+                "Visible-only learning and shared initialization evaluated on independent synthetic trajectories; IEEE39 and nonlinear identification require separate evidence.",
+            ),
         },
     )
     _write_json(

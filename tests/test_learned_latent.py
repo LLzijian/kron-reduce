@@ -122,3 +122,19 @@ def test_encoder_input_contains_only_allowed_history() -> None:
     )
     assert np.array_equal(feature, history_features(changed_targets.history, 5))
     assert feature.shape == (5 * 2 * 3 + 3,)
+
+
+def test_failed_rollout_retains_population_without_zero_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    truth, samples = _samples()
+    model = fit_latent_model(samples, truth.mass, LatentFitSettings(latent_dimension=0, epochs=1))
+
+    def fail(*args, **kwargs):
+        raise FloatingPointError("synthetic divergence")
+
+    monkeypatch.setattr(model, "predict", fail)
+    score = model.score(samples)
+    assert score["normalized_rmse"] is None
+    assert score["failed_event_count"] == len(samples)
+    assert score["failures_imputed_as_zero"] is False

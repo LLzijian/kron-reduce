@@ -21,7 +21,11 @@ def test_history_reads_no_sample_after_forecast_origin(tmp_path: Path) -> None:
         group.create_dataset("delta", data=values)
         group.create_dataset("omega", data=values)
         window = read_measured_history(
-            handle, sample_count=21, mass=np.ones(10), constant_power=np.zeros(10)
+            handle,
+            sample_count=21,
+            mass=np.ones(10),
+            constant_power=np.zeros(10),
+            equilibrium_delta=np.zeros(10),
         )
         assert np.isclose(window.forecast_origin_after_clearing_s, 0.193)
         assert window.history.time[-1] == 0.0
@@ -40,5 +44,9 @@ def test_history_does_not_pad_short_observations(tmp_path: Path) -> None:
         group.create_dataset("t", data=np.arange(8) * 0.01)
         with pytest.raises(ValueError, match="real registered samples"):
             read_measured_history(
-                handle, sample_count=11, mass=np.ones(10), constant_power=np.zeros(10)
+                handle,
+                sample_count=11,
+                mass=np.ones(10),
+                constant_power=np.zeros(10),
+                equilibrium_delta=np.zeros(10),
             )

@@ -14,13 +14,19 @@ from kron_reduce.physics.coordinates import coi_project
 @dataclass(frozen=True)
 class MeasuredHistoryWindow:
     history: CausalStateHistory
+    equilibrium_delta: np.ndarray
     forecast_origin_after_clearing_s: float
     source_sample_count: int
     access_log: tuple[dict[str, Any], ...]
 
 
 def read_measured_history(
-    event_group: Any, *, sample_count: int, mass: np.ndarray, constant_power: np.ndarray
+    event_group: Any,
+    *,
+    sample_count: int,
+    mass: np.ndarray,
+    constant_power: np.ndarray,
+    equilibrium_delta: np.ndarray,
 ) -> MeasuredHistoryWindow:
     """Read exactly a registered count of real samples, without interpolation.
 
@@ -34,6 +40,11 @@ def read_measured_history(
     mass = np.asarray(mass, dtype=np.float64)
     if mass.ndim != 1 or len(mass) < 2 or not np.isfinite(mass).all() or np.any(mass <= 0):
         raise ValueError("history needs positive finite mass")
+    equilibrium = np.asarray(equilibrium_delta, dtype=np.float64)
+    if equilibrium.shape != mass.shape or not np.isfinite(equilibrium).all():
+        raise ValueError("history needs the declared equilibrium angles")
+    equilibrium = coi_project(equilibrium, mass)
+    equilibrium.flags.writeable = False
     access = []
 
     def read(channel: str) -> np.ndarray:
@@ -56,6 +67,9 @@ def read_measured_history(
         raise ValueError("history channels must cover the registered real window")
     origin = float(clock[-1])
     history = CausalStateHistory(
-        clock - origin, coi_project(delta, mass), coi_project(omega, mass), constant_power
+        clock - origin,
+        coi_project(delta, mass) - equilibrium,
+        coi_project(omega, mass),
+        constant_power,
     )
-    return MeasuredHistoryWindow(history, origin, sample_count, tuple(access))
+    return MeasuredHistoryWindow(history, equilibrium, origin, sample_count, tuple(access))

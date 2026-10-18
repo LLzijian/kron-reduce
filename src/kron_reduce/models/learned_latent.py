@@ -157,7 +157,23 @@ class LearnedLatentModel:
         rows = []
         weights = event_weights(samples)
         for sample in samples:
-            prediction = self.predict(sample.history, sample.forecast_time, zero_latent=zero_latent)
+            try:
+                prediction = self.predict(
+                    sample.history, sample.forecast_time, zero_latent=zero_latent
+                )
+            except (FloatingPointError, OverflowError, ValueError) as error:
+                rows.append(
+                    {
+                        "event_id": sample.event_id,
+                        "source_dataset": sample.source_dataset,
+                        "fault_line": sample.fault_line,
+                        "role": sample.role,
+                        "status": "failed",
+                        "normalized_mse": None,
+                        "failure_reason": f"{type(error).__name__}: {error}",
+                    }
+                )
+                continue
             n = self.closure.n_nodes
             truth = np.concatenate((sample.target_delta, sample.target_omega), axis=1)
             error = prediction[1:, : 2 * n] - truth[1:]
@@ -167,6 +183,7 @@ class LearnedLatentModel:
                     "source_dataset": sample.source_dataset,
                     "fault_line": sample.fault_line,
                     "role": sample.role,
+                    "status": "ok",
                     "normalized_mse": float(np.mean((error / self.target_scale) ** 2)),
                     "delta_rmse_rad": float(np.sqrt(np.mean(error[:, :n] ** 2))),
                     "omega_rmse_rad_per_s": float(np.sqrt(np.mean(error[:, n:] ** 2))),
@@ -174,6 +191,16 @@ class LearnedLatentModel:
                     "observation_duration_s": float(-sample.history.time[0]),
                 }
             )
+        if any(row["status"] != "ok" for row in rows):
+            return {
+                "normalized_rmse": None,
+                "mean_delta_rmse_rad": None,
+                "mean_omega_rmse_rad_per_s": None,
+                "failed_event_count": sum(row["status"] != "ok" for row in rows),
+                "rows": rows,
+                "score_includes_forecast_origin": False,
+                "failures_imputed_as_zero": False,
+            }
         return {
             "normalized_rmse": float(np.sqrt(weights @ [row["normalized_mse"] for row in rows])),
             "mean_delta_rmse_rad": float(weights @ [row["delta_rmse_rad"] for row in rows]),
@@ -182,6 +209,7 @@ class LearnedLatentModel:
             ),
             "weighting": "source_line_event_time_equal",
             "score_includes_forecast_origin": False,
+            "failed_event_count": 0,
             "rows": rows,
         }
 
