@@ -1,0 +1,54 @@
+data_policy = "analytic_nonlinear_synthetic_only"
+seed = 324
+history_durations_s = [0.2]
+history_sample_counts = [21]
+encoder_frames = 3
+forecast_duration_s = 1.0
+report_horizons_s = [0.5, 1.0]
+epochs = 100
+learning_rate = 0.01
+encoder_penalty = 0.0001
+train_lines = 6
+val_lines = 3
+audit_lines = 4
+pairs_per_line = 2
+normalized_rmse_limit = 0.2
+energy_identity_tolerance = 0.00000001
+step_refinement_tolerance = 0.00001
+protocol_path = "docs/protocols/nonlinear_history_a03_v1_zh.md"
+claim_boundary = "Visible-only nonlinear synthetic mechanism comparison; no physical hidden-state recovery, IEEE39 performance, modal identification, or stability certificate claim."
+
+[[candidates]]
+name = "sine-memoryless"
+backbone = "sine"
+latent_dimension = 0
+history_weight = 1.0
+horizons_s = [0.5, 1.0]
+
+[[candidates]]
+name = "sine-history"
+backbone = "sine"
+latent_dimension = 2
+history_weight = 1.0
+horizons_s = [0.5, 1.0]
+
+[[candidates]]
+name = "linear-history"
+backbone = "linear"
+latent_dimension = 2
+history_weight = 1.0
+horizons_s = [0.5, 1.0]
+
+[[candidates]]
+name = "sine-no-history-loss"
+backbone = "sine"
+latent_dimension = 2
+history_weight = 0.0
+horizons_s = [0.5, 1.0]
+
+[[candidates]]
+name = "sine-single-horizon"
+backbone = "sine"
+latent_dimension = 2
+history_weight = 1.0
+horizons_s = [0.5]

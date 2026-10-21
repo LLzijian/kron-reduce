@@ -49,6 +49,27 @@
     }
   },
   "experiments": {
+    "nonlinear_history_synthetic_a03_v1": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.nonlinear_history_learning",
+      "workflow": "nonlinear_history_synthetic_a03_v1",
+      "config": "nonlinear_history_synthetic_a03_v1.toml",
+      "stage": "mechanism_learning",
+      "data_policy": "analytic_nonlinear_synthetic_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false
+    },
+    "paper_ieee39_p2_a03_nonlinear_f1_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.nonlinear_history_learning",
+      "workflow": "ieee39_p2_a03_nonlinear_train_val_v1",
+      "config": "paper_ieee39_p2_a03_nonlinear_f1_seed324.toml",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "stage": "mechanism_learning",
+      "data_policy": "canonical_F1_train_val_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false
+    },
     "paper_ieee39_p2_a02_train_val_diagnosis": {
       "status": "diagnostic",
       "module": "kron_reduce.workflows.history_train_val_diagnosis",

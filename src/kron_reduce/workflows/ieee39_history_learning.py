@@ -59,6 +59,9 @@ class AuthorizedHistorySamples:
                 )
         self.audit_open_count += 1
 
+    def _make_sample(self, *args, equilibrium_delta: np.ndarray) -> LatentLearningSample:
+        return LatentLearningSample(*args)
+
     def __call__(
         self, config: dict[str, Any], role: str, duration: float
     ) -> tuple[np.ndarray, tuple[LatentLearningSample, ...]]:
@@ -122,7 +125,7 @@ class AuthorizedHistorySamples:
                 )
                 omega = coi_project(read("postclear/omega", selection), self.mass)
                 samples.append(
-                    LatentLearningSample(
+                    self._make_sample(
                         row.event_id,
                         row.source_dataset,
                         row.fault_line,
@@ -131,6 +134,7 @@ class AuthorizedHistorySamples:
                         np.arange(steps + 1) * 0.01,
                         delta,
                         omega,
+                        equilibrium_delta=window.equilibrium_delta,
                     )
                 )
                 self.origins.append(

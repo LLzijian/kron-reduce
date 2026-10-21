@@ -1,0 +1,53 @@
+data_policy = "canonical_F1_train_val_only"
+dataset = "ieee39_postclear_canonical_v1"
+fold = "F1"
+seed = 324
+role_manifest_sha256 = "27281dacbef6b71b7d41514c9d0de26401d5df5b5917f1caa87691ed4437eaa7"
+history_durations_s = [0.2]
+history_sample_counts = [21]
+encoder_frames = 3
+forecast_duration_s = 3.0
+report_horizons_s = [1.0, 3.0]
+epochs = 80
+learning_rate = 0.01
+encoder_penalty = 0.0001
+normalized_rmse_limit = 0.35
+energy_identity_tolerance = 0.00000001
+step_refinement_tolerance = 0.00001
+protocol_path = "docs/protocols/nonlinear_history_a03_v1_zh.md"
+claim_boundary = "F1 canonical train-only train/val mechanism comparison with 21 real history samples; no independent IEEE39 audit, P2-A01 replacement, clearing-state-only prediction, modal identification, or stability certificate claim."
+
+[[candidates]]
+name = "sine-memoryless"
+backbone = "sine"
+latent_dimension = 0
+history_weight = 1.0
+horizons_s = [1.0, 3.0]
+
+[[candidates]]
+name = "sine-history"
+backbone = "sine"
+latent_dimension = 2
+history_weight = 1.0
+horizons_s = [1.0, 3.0]
+
+[[candidates]]
+name = "linear-history"
+backbone = "linear"
+latent_dimension = 2
+history_weight = 1.0
+horizons_s = [1.0, 3.0]
+
+[[candidates]]
+name = "sine-no-history-loss"
+backbone = "sine"
+latent_dimension = 2
+history_weight = 0.0
+horizons_s = [1.0, 3.0]
+
+[[candidates]]
+name = "sine-single-horizon"
+backbone = "sine"
+latent_dimension = 2
+history_weight = 1.0
+horizons_s = [1.0]
