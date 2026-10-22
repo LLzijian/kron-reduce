@@ -23,6 +23,8 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| `research_governance_20261023_zh.md` | Clustering pause, mandatory kiki registry, test exposure and automated engineering checks |
+| `kiki_a03_stability_task3_20261022_zh.md` | Frozen A03 internal-val LOS scoring and unmatched TASK3 algorithm references |
 | `graph_coherent_m0_3eg_results_zh.md` | Graph-coherent M0-3EG results |
 | `m0_afsd_v3_joint_selection_validity_research_report_zh.md` | AFSD v3 selection-validity audit |
 | `m0_afsd_v4_graph_compositional_discovery_research_report_zh_20260818.md` | AFSD v4 graph/module discovery key-node report |

@@ -15,8 +15,11 @@ from .runner import run_experiment
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="project_harness")
     sub = parser.add_subparsers(dest="command", required=True)
-    for name in ("list", "audit", "git-check", "data-check"): sub.add_parser(name)
+    for name in ("list", "audit", "git-check"): sub.add_parser(name)
+    data_parser = sub.add_parser("data-check")
+    data_parser.add_argument("--dataset")
     run_parser = sub.add_parser("run"); run_parser.add_argument("experiment"); run_parser.add_argument("--stage", required=True)
+    run_parser.add_argument("--historical-reproduction", action="store_true")
     loop_parser = sub.add_parser("loop"); loop_parser.add_argument("--workflow", default="paper_v1"); loop_sub = loop_parser.add_subparsers(dest="loop_command", required=True)
     loop_sub.add_parser("status"); loop_sub.add_parser("next"); loop_sub.add_parser("run-one")
     approve_parser = loop_sub.add_parser("approve"); approve_parser.add_argument("gate")
@@ -28,10 +31,10 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "audit":
         result=audit_project(root); print(json.dumps(result,indent=2)); raise SystemExit(0 if result["status"]=="PASS" else 1)
     elif args.command == "data-check":
-        result=verify_data(root); printable={**result,"findings":[row for row in result["findings"] if not row["pass"]]}; print(json.dumps(printable,indent=2)); raise SystemExit(0 if result["status"]=="PASS" else 1)
+        result=verify_data(root, dataset_name=args.dataset); printable={**result,"findings":[row for row in result["findings"] if not row["pass"]]}; print(json.dumps(printable,indent=2)); raise SystemExit(0 if result["status"]=="PASS" else 1)
     elif args.command == "git-check":
         assert_clean(root); print(json.dumps({"status":"PASS","dirty":status_lines(root)},indent=2))
-    elif args.command == "run": print(run_experiment(root,args.experiment,args.stage))
+    elif args.command == "run": print(run_experiment(root,args.experiment,args.stage, historical_reproduction=args.historical_reproduction))
     elif args.loop_command == "status": print(json.dumps(load_state(root,args.workflow),indent=2))
     elif args.loop_command == "next": print(next_stage(root,args.workflow))
     elif args.loop_command == "run-one": print(json.dumps(run_one(root,args.workflow),indent=2))

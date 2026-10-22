@@ -13,6 +13,7 @@ from .evidence import (
     validate_stage_evidence,
 )
 from .manifest import load_manifest
+from .policy import audit_research_policy
 
 REQUIRED = (
     "AGENTS.md",
@@ -547,6 +548,7 @@ def audit_project(root: Path) -> dict:
                         findings.append({"severity": "ERROR", "check": "legacy_import", "message": str(path.relative_to(root))})
             if module and (module.startswith("legacy") or "hist_3" in module):
                 findings.append({"severity": "ERROR", "check": "legacy_import", "message": str(path.relative_to(root))})
+    findings.extend(audit_research_policy(root, manifest))
     findings.extend(audit_artifact_layout(root))
     findings.extend(audit_workflow_registry(root))
     findings.extend(audit_stability_certificate_names(root))

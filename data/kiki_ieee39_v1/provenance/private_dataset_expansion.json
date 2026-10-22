@@ -1,0 +1,100 @@
+{
+  "andes_version": "2.0.0",
+  "case": "ieee39/ieee39_full.xlsx",
+  "seed": 339,
+  "fault_start_s": 1,
+  "postfault_horizon_s": 15,
+  "sample_interval_s": 0.01,
+  "integration_step_s": 0.005,
+  "newton_tolerance": 1e-7,
+  "newton_max_iterations": 30,
+  "disable_builtin_timed_events": true,
+  "disable_pss": false,
+  "fault_type": "temporary_bus_three_phase_ground",
+  "los_angle_rad": 3.141592653589793,
+  "los_relative_speed_pu": 0.02,
+  "los_hold_samples": 5,
+  "stable_tail_seconds": 1,
+  "stable_tail_speed_pu": 0.005,
+  "pre_fault_speed_tolerance_pu": 0.000001,
+  "pre_fault_angle_drift_rad": 0.00001,
+  "smoke": [
+    {
+      "line": "Line_21",
+      "location": 0,
+      "bus": 16,
+      "duration_s": 0.1,
+      "xf": 0.001
+    },
+    {
+      "line": "Line_31",
+      "location": 0,
+      "bus": 26,
+      "duration_s": 0.15,
+      "xf": 0.001
+    },
+    {
+      "line": "Line_35",
+      "location": 0,
+      "bus": 2,
+      "duration_s": 0.3,
+      "xf": 0.001
+    },
+    {
+      "line": "Line_21",
+      "location": 0,
+      "bus": 16,
+      "duration_s": 0.4,
+      "xf": 0.001
+    },
+    {
+      "line": "Line_21",
+      "location": 0,
+      "bus": 16,
+      "duration_s": 0.6,
+      "xf": 0.001
+    }
+  ],
+  "pilot_buses": [
+    11,
+    18,
+    24,
+    27,
+    28,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+  ],
+  "pilot_durations_s": [
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.3,
+    0.4,
+    0.6
+  ],
+  "pilot_fault_reactance_pu": [
+    0.001,
+    0.01
+  ],
+  "validation_buses": [
+    34,
+    35,
+    36
+  ],
+  "test_buses": [
+    37,
+    38,
+    39
+  ],
+  "notes": "Formal expansion: 15 previously unused fault buses and incident lines, same system, operating point, controllers, duration/reactance grid and solver/label rules as Pilot. Original Pilot test remains consumed and cannot be used for tuning. New groups37/38/39 remain frozen. Mechanical QA may inspect raw data but cannot fit/select a model."
+}

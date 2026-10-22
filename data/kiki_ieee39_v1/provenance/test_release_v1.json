@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "release_id": "test_release_v1",
+  "status": "blocked_requires_fresh_holdout_and_refit_models",
+  "contaminated_dataset_build_ids": [
+    "canonical_rebuild_20260722T022739"
+  ],
+  "reason": "All 315 canonical events and their test roles were consumed by legacy E6b/E6c/E8 analyses; they cannot provide a fresh confirmatory test.",
+  "requirements_to_arm": [
+    "new dataset build not present in contaminated_dataset_build_ids",
+    "all analysis choices frozen before any holdout payload read",
+    "all fold models refitted under the total module-adoption gate",
+    "model metadata contains module_adoption_gate",
+    "output release directory does not exist",
+    "a durable access ledger is created and each event is claimed before payload read"
+  ],
+  "evaluation_contract": {
+    "payload_reads_per_event": 1,
+    "trajectory_horizon_steps": 100,
+    "trajectory_intervals_include_both_endpoints": true,
+    "candidate_energy_angle_limit_pi": 0.5,
+    "candidate_energy_role": "heuristic_secondary_screen_not_certificate",
+    "modal_population": "stable events with at least 4.0 seconds, preregistered reporting stratum",
+    "modal_horizon_seconds": 4.0,
+    "modal_primary_metric": "median across events of each event median across every complete Hungarian-assigned pair",
+    "modal_best_pair_selection": false,
+    "post_release_angle_or_threshold_sweeps": "prohibited on the confirmatory holdout"
+  },
+  "model_paths": {},
+  "output_directory": "results/test_release_v1"
+}

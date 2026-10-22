@@ -2,7 +2,9 @@
 
 The repository has five non-overlapping layers:
 
-1. Data truth: immutable canonical files under `data/`.
+1. Data truth: mandatory kiki real-data registry under `data/kiki_ieee39_v1/`;
+   immutable source bodies resolved by `KIKI_DATA_ROOT`, historical canonical data,
+   and independent synthetic truth.
 2. Scientific view: data contracts, representations, splits, and causal input policy.
 3. Models: equations or learned closures implementing the common dynamics API.
 4. Experiments: immutable combinations of data, split, model, seed, and objectives.
@@ -45,12 +47,25 @@ weak-form equations instead of numerically differentiated targets. The energy
 candidate is an augmented port-Hamiltonian edge-memory system; its public name
 is assigned only by the numerical certificate gate.
 
-The main data-level selector is split across three boundaries:
+The historical data-level selector is split across three boundaries:
 `selection/clusterability.py` owns the single-corpus compression decision,
 `models/prunable_energy_model.py` owns the explicit block dynamics and physical
 certificates, and `workflows/data_level_structure_selection.py` owns the
 leakage-free 60/20/20 lifecycle and immutable artifacts. Post-freeze reporting
 slices never call model fitting or selection code.
+
+As of 2026-10-23 spatial clustering is paused for new real-data experiments:
+ten generator nodes are retained. Temporal order, hidden state and module
+selection remain active. `project_harness.policy` enforces the registered kiki
+dataset, spatial resolution, input contract and exposed-test restriction before
+creating a run. Canonical replays require an explicit mode and frozen hashes.
+The runner holds a process-safe per-workflow lock, assigns collision-resistant
+attempt IDs and retains exception tracebacks. Failed attempts do not advance
+the scientific state or trigger automatic training retries.
+
+GitHub CI checks metadata, policy, causality and synthetic physics without raw
+private trajectories. `data-check` separately verifies frozen local metadata
+and external source hashes without reading holdout trajectory arrays.
 
 The deployment unit is one supplied corpus and one final model. Excitation
 strata may be used on fit/selection data to generate candidate blocks and,

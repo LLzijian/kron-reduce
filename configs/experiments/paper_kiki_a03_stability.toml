@@ -1,0 +1,6 @@
+data_policy = "kiki_original_train_only"
+source_root = "E:/03-nn_Transfer_Func/kiki/private_data"
+task3_root = "E:/03-nn_Transfer_Func/task3_baselines"
+frozen_run = "results/paper_kiki_p2_a03_seed324-kiki_rerun-20261022T095918Z-21a5a23b"
+protocol_path = "docs/protocols/kiki_a03_stability_20261022_zh.md"
+claim_boundary = "Frozen A03 internal-val exploratory 8s LOS scoring; TASK3 frozen tables are different cohorts and 100ms inputs, not a matched ranking. No source val/test payload, fitting, reselection, deployment or certificate."

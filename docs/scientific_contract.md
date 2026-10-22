@@ -1,6 +1,15 @@
 # Scientific contract
 
+Effective 2026-10-23: new real-data experiments use the registered kiki sources
+and retain ten generator nodes; spatial clustering is paused. Synthetic truth
+checks and explicitly requested historical replay retain their separate roles.
+Existing source test has prior exposure and cannot provide fresh confirmation.
+The active rules are machine-checked by `configs/research_policy.json`.
+
 - Prediction begins at exact clearing (`t=0`).
+- A history-initialized task declares a different forecast origin and real
+  observation count in `configs/input_contracts.json`; it is never pooled with
+  clearing-state prediction or a different observation budget as one ranking.
 - Primary rollout receives `delta(0)`, `omega(0)`, `Pm_equilibrium`,
   `Pm_clear`, equilibrium and declared graph/inertia priors. It evolves with
   `Pm_clear` held constant after clearing and uses

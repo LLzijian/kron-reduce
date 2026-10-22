@@ -1,0 +1,20 @@
+{
+  "clearing_state_zoh_v1": {
+    "forecast_origin": "exact_clearing_state",
+    "real_observation_count": 1,
+    "power_policy": "zoh_from_origin",
+    "task_role": "clearing_state_prediction"
+  },
+  "measured_history_100ms_zoh_v1": {
+    "forecast_origin": "end_of_11_real_samples_at_10ms",
+    "real_observation_count": 11,
+    "power_policy": "zoh_from_declared_origin_power",
+    "task_role": "history_initialized_prediction"
+  },
+  "measured_history_200ms_zoh_v1": {
+    "forecast_origin": "end_of_21_real_samples_at_10ms",
+    "real_observation_count": 21,
+    "power_policy": "zoh_from_first_recorded_power",
+    "task_role": "history_initialized_prediction"
+  }
+}

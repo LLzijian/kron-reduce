@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-23",
+  "project_audit": "PASS",
+  "primary_data_check": {
+    "status": "PASS",
+    "event_count": 591,
+    "holdout_payload_arrays_read": 0,
+    "test_status": "prior_exposure_detected_not_fresh"
+  },
+  "full_suite_initial": {
+    "passed": 541,
+    "failed": 1,
+    "duration_seconds": 309.97,
+    "failure": "test_learning_pipeline_freezes_before_opening_audit: temporary fixture had no Git checkout",
+    "repair": "Supply explicit unit-test fixture provenance; production Git checks unchanged"
+  },
+  "targeted_after_repair": {
+    "passed": 15,
+    "duration_seconds": 7.61,
+    "files": ["tests/test_learned_latent_workflow.py", "tests/test_data_registry.py", "tests/test_research_policy.py", "tests/test_runner_safety.py"]
+  },
+  "raw_data_free_source_snapshot": {
+    "project_audit": "PASS",
+    "passed": 59,
+    "duration_seconds": 6.67
+  },
+  "new_engineering_lint": "PASS",
+  "registered_scientific_thresholds_changed": false,
+  "new_research_training_started": false,
+  "scope": "Checks across a full initial run and targeted verification; not a claim of a second complete-suite run"
+}

@@ -52,6 +52,8 @@ def test_learning_pipeline_freezes_before_opening_audit(
 
     monkeypatch.setattr(workflow, "make_visible_samples", monitored_samples)
     monkeypatch.setattr(h5py, "File", refuse_hdf)
+    # Supply explicit fixture provenance for this temporary, non-Git directory.
+    monkeypatch.setattr(workflow, "status_lines", lambda _: ["?? unit-test-fixture"])
     workflow.run(
         root=tmp_path,
         experiment={"config": config_name, "data_policy": "analytic_synthetic_only"},

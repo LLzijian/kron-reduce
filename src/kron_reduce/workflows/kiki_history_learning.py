@@ -10,7 +10,7 @@ from pathlib import Path
 
 import numpy as np
 
-from kron_reduce.data.kiki_history import KikiHistorySamples, allocate_roles
+from kron_reduce.data.kiki_history import KikiHistorySamples, allocate_roles, resolve_source_root
 from kron_reduce.evaluation.p2_metrics import paired_stratified_fault_line_bootstrap
 from kron_reduce.models.learned_latent import event_weights, visible_scales
 from kron_reduce.models.nonlinear_latent import (
@@ -428,7 +428,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     config = tomllib.loads(config_path.read_text(encoding="utf-8"))
     if config["data_policy"] != experiment["data_policy"]:
         raise ValueError("configuration policy differs")
-    source_root = Path(config["source_root"])
+    source_root = resolve_source_root(root, config["source_root"])
     rows, bindings = allocate_roles(source_root, config["sources"], config["seed"])
     provider = KikiHistorySamples(source_root, rows, bindings)
     execute_study(

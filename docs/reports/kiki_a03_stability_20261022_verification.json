@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "result_run": "paper_kiki_a03_stability-stability_evaluation-20261022T112337Z-bc5ea01b",
+  "models": [
+    {
+      "model": "sine-memoryless",
+      "event_decisions_recomputed": 86,
+      "status": "PASS"
+    },
+    {
+      "model": "sine-history",
+      "event_decisions_recomputed": 86,
+      "status": "PASS"
+    },
+    {
+      "model": "linear-history",
+      "event_decisions_recomputed": 86,
+      "status": "PASS"
+    },
+    {
+      "model": "sine-no-history-loss",
+      "event_decisions_recomputed": 86,
+      "status": "PASS"
+    },
+    {
+      "model": "sine-single-horizon",
+      "event_decisions_recomputed": 86,
+      "status": "PASS"
+    }
+  ],
+  "original_source_val_test_payload_reads": 0,
+  "source_stat_unchanged": true,
+  "task3_reference_hashes_unchanged": true,
+  "checkpoint_reload_parity_models": 5,
+  "registration_repair_repeated_forecasts_exactly_equal": true,
+  "result_manifest_sha256": "bc7c88cf48915525af114fae541d244dbb8ba354c27ba350d87d0fe1516d6567"
+}

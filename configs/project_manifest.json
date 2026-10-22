@@ -1,8 +1,8 @@
 {
   "project": "kron-reduce",
   "schema_version": "1.0",
-  "default_dataset": "ieee39_postclear_canonical_v1",
-  "default_experiment": "paper_smoke",
+  "default_dataset": "kiki_ieee39_v1",
+  "default_experiment": "paper_kiki_p2_a03_seed324",
   "research_programs": {
     "ieee39_modular_energy_paper_v1": {
       "status": "p2_baseline_contract_design",
@@ -14,7 +14,13 @@
       "source_routing": false,
       "level_6_certificate_is_core": true,
       "development_fold": "F1",
-      "confirmation_folds": ["F1", "F2", "F3", "F4", "F5"],
+      "confirmation_folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "confirmation_seed": 324,
       "primary_pm_policy": "zoh_pm_clear",
       "conditional_pm_policy": "observed_pm_frozen_sensitivity_not_upper_bound",
@@ -25,6 +31,17 @@
         "licenses",
         "data_redistribution_permission"
       ]
+    },
+    "kiki_energy_dynamics_v1": {
+      "status": "data_policy_frozen_model_not_promoted",
+      "dataset": "kiki_ieee39_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": "paused",
+      "single_model_per_corpus": true,
+      "source_routing": false,
+      "synthetic_correctness_checks_retained": true,
+      "fresh_test": "requires_new_independent_kiki_registration",
+      "historical_program": "ieee39_modular_energy_paper_v1"
     }
   },
   "datasets": {
@@ -35,7 +52,12 @@
       "index": "dataset_index.csv",
       "checksum_manifest": "checksums.sha256",
       "expected_events": 315,
-      "views": ["general_dynamics", "binary_stability", "combined_dynamics"]
+      "views": [
+        "general_dynamics",
+        "binary_stability",
+        "combined_dynamics"
+      ],
+      "status": "historical"
     },
     "synthetic_benchmark_registry_v1": {
       "status": "ready",
@@ -43,12 +65,45 @@
       "path": "data/synthetic_benchmark_registry_v1",
       "registry": "registry.json",
       "checksum_manifest": "checksums.sha256",
-      "ground_truth": ["modal_frequencies", "damping_ratios", "stability_boundaries"],
-      "excitation_regimes": ["small_signal", "large_signal", "mixed"],
+      "ground_truth": [
+        "modal_frequencies",
+        "damping_ratios",
+        "stability_boundaries"
+      ],
+      "excitation_regimes": [
+        "small_signal",
+        "large_signal",
+        "mixed"
+      ],
       "note": "checksum-locked primary evidence for structure-discovery and stability-certificate correctness; never substitutes for IEEE39 evidence"
+    },
+    "kiki_ieee39_v1": {
+      "status": "ready",
+      "kind": "external_hdf5_bundle",
+      "revision": "kiki_ieee39_v1_20261023",
+      "path": "data/kiki_ieee39_v1",
+      "manifest": "manifest.json",
+      "checksum_manifest": "checksums.sha256",
+      "expected_events": 591,
+      "role": "mandatory_primary_real_data",
+      "test_status": "prior_exposure_detected_not_fresh"
     }
   },
   "experiments": {
+    "paper_kiki_a03_stability": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.kiki_stability_comparison",
+      "workflow": "kiki_a03_stability_v1",
+      "config": "paper_kiki_a03_stability.toml",
+      "stage": "stability_evaluation",
+      "data_policy": "kiki_original_train_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "dataset": "kiki_ieee39_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "input_contract_id": "measured_history_200ms_zoh_v1"
+    },
     "paper_kiki_p2_a03_seed324": {
       "status": "diagnostic",
       "module": "kron_reduce.workflows.kiki_history_learning",
@@ -57,7 +112,11 @@
       "stage": "kiki_rerun",
       "data_policy": "kiki_original_train_only",
       "reads_validation_performance": false,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "dataset": "kiki_ieee39_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "input_contract_id": "measured_history_200ms_zoh_v1"
     },
     "nonlinear_history_synthetic_a03_v1": {
       "status": "diagnostic",
@@ -67,7 +126,8 @@
       "stage": "mechanism_learning",
       "data_policy": "analytic_nonlinear_synthetic_only",
       "reads_validation_performance": false,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "dataset": "synthetic_benchmark_registry_v1"
     },
     "paper_ieee39_p2_a03_nonlinear_f1_seed324": {
       "status": "diagnostic",
@@ -78,7 +138,8 @@
       "stage": "mechanism_learning",
       "data_policy": "canonical_F1_train_val_only",
       "reads_validation_performance": false,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_p2_a02_train_val_diagnosis": {
       "status": "diagnostic",
@@ -87,7 +148,9 @@
       "config": "paper_ieee39_p2_a02_train_val_diagnosis.toml",
       "stage": "train_val_diagnosis",
       "reads_validation_performance": false,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "dataset": "ieee39_postclear_canonical_v1",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p2_a02_history_f1_seed324": {
       "status": "diagnostic",
@@ -98,7 +161,8 @@
       "stage": "history_learning",
       "data_policy": "canonical_F1_train_roles_only",
       "reads_validation_performance": false,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "learned_causal_latent_synthetic_v1": {
       "status": "diagnostic",
@@ -108,7 +172,8 @@
       "stage": "learning_audit",
       "data_policy": "analytic_synthetic_only",
       "reads_validation_performance": false,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "dataset": "synthetic_benchmark_registry_v1"
     },
     "causal_latent_initialization_synthetic_v1": {
       "status": "diagnostic",
@@ -118,7 +183,8 @@
       "stage": "synthetic_audit",
       "data_policy": "analytic_synthetic_only",
       "reads_validation_performance": false,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "dataset": "synthetic_benchmark_registry_v1"
     },
     "paper_ieee39_modular_energy_p1_a01_plan_registered_f1_seed324": {
       "status": "registered",
@@ -128,7 +194,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "plan_registered",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a01_candidate_acquired_f1_seed324": {
       "status": "diagnostic",
@@ -138,7 +205,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "candidate_acquired",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a01_controlled_experiment_f1_seed324": {
       "status": "diagnostic",
@@ -148,7 +216,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a01_residual_diagnosis_f1_seed324": {
       "status": "diagnostic",
@@ -158,7 +227,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a01_adversarial_review_f1_seed324": {
       "status": "audit",
@@ -168,7 +238,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a01_acceptance_f1_seed324": {
       "status": "audit",
@@ -178,7 +249,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a01_rollback_report_f1_seed324": {
       "status": "reporting",
@@ -188,7 +260,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "rollback_report",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a01_report_f1_seed324": {
       "status": "reporting",
@@ -198,7 +271,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "report",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a03_plan_registered_f1_seed324": {
       "status": "registered",
@@ -208,7 +282,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "plan_registered",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324": {
       "status": "diagnostic",
@@ -218,7 +293,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "candidate_acquired",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a03_model_unit_gate_f1_seed324": {
       "status": "gated",
@@ -228,7 +304,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "model_unit_gate",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a03_controlled_experiment_f1_seed324": {
       "status": "gated",
@@ -238,7 +315,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a03_residual_diagnosis_f1_seed324": {
       "status": "diagnostic",
@@ -248,7 +326,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a03_adversarial_review_f1_seed324": {
       "status": "audit",
@@ -258,7 +337,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a03_acceptance_f1_seed324": {
       "status": "audit",
@@ -268,7 +348,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a03_rollback_report_f1_seed324": {
       "status": "reporting",
@@ -278,7 +359,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "rollback_report",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a03_report_f1_seed324": {
       "status": "reporting",
@@ -288,7 +370,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "report",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a04_retry_registered_f1_seed324": {
       "status": "gated",
@@ -298,7 +381,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "retry_registered",
       "observed_pm_declaration": "not_read",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a04_model_unit_gate_f1_seed324": {
       "status": "gated",
@@ -308,7 +392,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "model_unit_gate",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a04_controlled_experiment_f1_seed324": {
       "status": "gated",
@@ -318,7 +403,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a04_residual_diagnosis_f1_seed324": {
       "status": "diagnostic",
@@ -328,7 +414,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a04_adversarial_review_f1_seed324": {
       "status": "audit",
@@ -338,7 +425,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a04_acceptance_f1_seed324": {
       "status": "audit",
@@ -348,7 +436,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a04_rollback_report_f1_seed324": {
       "status": "reporting",
@@ -358,7 +447,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "rollback_report",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a04_report_f1_seed324": {
       "status": "reporting",
@@ -368,7 +458,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "report",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p2_a01_plan_registered_f1_seed324": {
       "status": "registered",
@@ -378,7 +469,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "plan_registered",
       "observed_pm_declaration": "not_read",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p2_a01_baseline_inventory_audited_f1_seed324": {
       "status": "audit",
@@ -388,7 +480,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "baseline_inventory_audited",
       "observed_pm_declaration": "not_read",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p2_a01_contract_unit_gate_f1_seed324": {
       "status": "gated",
@@ -398,7 +491,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "contract_unit_gate",
       "observed_pm_declaration": "conditional_only_after_freeze",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p2_a01_controlled_replay_f1_seed324": {
       "status": "gated",
@@ -408,7 +502,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_replay",
       "observed_pm_declaration": "conditional_only_after_freeze",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p2_a01_adversarial_review_f1_seed324": {
       "status": "audit",
@@ -418,7 +513,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
       "observed_pm_declaration": "conditional_only_after_freeze",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p2_a01_acceptance_f1_seed324": {
       "status": "audit",
@@ -428,7 +524,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
       "observed_pm_declaration": "conditional_only_after_freeze",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p2_a01_rollback_report_f1_seed324": {
       "status": "reporting",
@@ -438,7 +535,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "rollback_report",
       "observed_pm_declaration": "not_read",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p2_a01_report_f1_seed324": {
       "status": "reporting",
@@ -448,7 +546,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "report",
       "observed_pm_declaration": "not_read",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a02_plan_registered_f1_seed324": {
       "status": "registered",
@@ -458,7 +557,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "plan_registered",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a02_candidate_acquired_f1_seed324": {
       "status": "diagnostic",
@@ -468,7 +568,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "candidate_acquired",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a02_model_unit_gate_f1_seed324": {
       "status": "audit",
@@ -478,7 +579,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "model_unit_gate",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a02_controlled_experiment_f1_seed324": {
       "status": "diagnostic",
@@ -488,7 +590,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a02_residual_diagnosis_f1_seed324": {
       "status": "diagnostic",
@@ -498,7 +601,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a02_adversarial_review_f1_seed324": {
       "status": "audit",
@@ -508,7 +612,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a02_acceptance_f1_seed324": {
       "status": "audit",
@@ -518,7 +623,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a02_rollback_report_f1_seed324": {
       "status": "reporting",
@@ -528,7 +634,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "rollback_report",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ieee39_modular_energy_p1_a02_report_f1_seed324": {
       "status": "reporting",
@@ -538,7 +645,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "report",
       "observed_pm_declaration": "conditional_only_not_main_model_input",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_smoke": {
       "status": "smoke",
@@ -548,14 +656,23 @@
       "fold": "F1",
       "representation": "clustered_7",
       "pm_mode": "zoh",
-      "methods": ["M0", "M2A", "M2A-energy", "SINDYc", "PINN", "LSTM"]
+      "methods": [
+        "M0",
+        "M2A",
+        "M2A-energy",
+        "SINDYc",
+        "PINN",
+        "LSTM"
+      ],
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_support_audit": {
       "status": "diagnostic",
       "module": "kron_reduce.workflows.paper_support_audit",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "support_audit",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_physical_cluster_audit_f1_single_seed": {
       "status": "diagnostic",
@@ -566,10 +683,14 @@
       "split_name": "combined_line_5fold_v1",
       "fold": "F1",
       "seed": 324,
-      "representation": ["generator_10", "clustered_7"],
+      "representation": [
+        "generator_10",
+        "clustered_7"
+      ],
       "pm_mode": "observed",
       "stage": "diagnostic",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_physical_cluster_audit_f1_single_seed_v2": {
       "status": "diagnostic",
@@ -588,7 +709,8 @@
       ],
       "pm_mode": "observed",
       "stage": "diagnostic",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_physical_cluster_audit_f1_single_seed_v3": {
       "status": "diagnostic",
@@ -601,7 +723,8 @@
       "seed": 324,
       "pm_mode": "observed",
       "stage": "diagnostic",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_physical_cluster_adversarial_audit_f1_single_seed_v3": {
       "status": "audit",
@@ -610,7 +733,8 @@
       "config": "paper_physical_cluster_audit_f1_single_seed_v3.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_audit",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_physical_cluster_acceptance_f1_single_seed_v3": {
       "status": "audit",
@@ -619,7 +743,8 @@
       "config": "paper_physical_cluster_audit_f1_single_seed_v3.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_3eg_cluster_compare_f2_seed324": {
       "status": "diagnostic",
@@ -638,7 +763,8 @@
       ],
       "pm_mode": "observed",
       "stage": "diagnostic",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_3eg_cluster_adversarial_f2_seed324": {
       "status": "audit",
@@ -647,7 +773,8 @@
       "config": "paper_m0_3eg_cluster_compare_f2_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_audit",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_3eg_cluster_acceptance_f2_seed324": {
       "status": "audit",
@@ -656,7 +783,8 @@
       "config": "paper_m0_3eg_cluster_compare_f2_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_graph_coherent_m0_3eg_f3_seed324": {
       "status": "diagnostic",
@@ -674,7 +802,8 @@
       ],
       "pm_mode": "observed",
       "stage": "diagnostic",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_graph_coherent_m0_3eg_adversarial_f3_seed324": {
       "status": "audit",
@@ -683,7 +812,8 @@
       "config": "paper_graph_coherent_m0_3eg_f3_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_audit",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_graph_coherent_m0_3eg_acceptance_f3_seed324": {
       "status": "audit",
@@ -692,7 +822,8 @@
       "config": "paper_graph_coherent_m0_3eg_f3_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ten_machine_physical_discovery_f1_seed324": {
       "status": "diagnostic",
@@ -706,7 +837,8 @@
       "representation": "generator_10",
       "pm_mode": "train_observed_deploy_causal_ode",
       "stage": "diagnostic",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ten_machine_physical_discovery_resume_f1_seed324": {
       "status": "diagnostic",
@@ -721,7 +853,8 @@
       "pm_mode": "train_observed_deploy_causal_ode",
       "stage": "diagnostic",
       "resumes_failed_run_after_render_only_failure": true,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ten_machine_physical_discovery_adversarial_f1_seed324": {
       "status": "audit",
@@ -730,7 +863,8 @@
       "config": "paper_ten_machine_physical_discovery_resume_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_audit",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_ten_machine_physical_discovery_acceptance_f1_seed324": {
       "status": "audit",
@@ -739,7 +873,8 @@
       "config": "paper_ten_machine_physical_discovery_resume_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_f1_seed324": {
       "status": "diagnostic",
@@ -750,10 +885,15 @@
       "split_name": "combined_line_5fold_v1",
       "fold": "F1",
       "seed": 324,
-      "representation": ["adaptive_k5_to_k9", "clustered_7_fixed", "generator_10"],
+      "representation": [
+        "adaptive_k5_to_k9",
+        "clustered_7_fixed",
+        "generator_10"
+      ],
       "pm_mode": "observed",
       "stage": "diagnostic",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_adversarial_f1_seed324": {
       "status": "audit",
@@ -762,7 +902,8 @@
       "config": "paper_m0_afsd_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_audit",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_acceptance_f1_seed324": {
       "status": "audit",
@@ -771,7 +912,8 @@
       "config": "paper_m0_afsd_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v2_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -780,7 +922,8 @@
       "config": "paper_m0_afsd_v2_module_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v2_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -789,7 +932,8 @@
       "config": "paper_m0_afsd_v2_module_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v2_residual_f1_seed324": {
       "status": "diagnostic",
@@ -798,7 +942,8 @@
       "config": "paper_m0_afsd_v2_module_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v2_adversarial_f1_seed324": {
       "status": "audit",
@@ -807,7 +952,8 @@
       "config": "paper_m0_afsd_v2_module_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v2_acceptance_f1_seed324": {
       "status": "audit",
@@ -816,7 +962,8 @@
       "config": "paper_m0_afsd_v2_module_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v3_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -825,7 +972,8 @@
       "config": "paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v3_eligibility_f1_seed324": {
       "status": "diagnostic",
@@ -834,7 +982,8 @@
       "config": "paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "eligibility_audit",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v3_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -843,7 +992,8 @@
       "config": "paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v3_residual_f1_seed324": {
       "status": "diagnostic",
@@ -852,7 +1002,8 @@
       "config": "paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v3_adversarial_f1_seed324": {
       "status": "audit",
@@ -861,7 +1012,8 @@
       "config": "paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v3_acceptance_f1_seed324": {
       "status": "audit",
@@ -870,7 +1022,8 @@
       "config": "paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v4_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -879,7 +1032,8 @@
       "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v4_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -888,7 +1042,8 @@
       "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v4_residual_f1_seed324": {
       "status": "diagnostic",
@@ -897,7 +1052,8 @@
       "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v4_adversarial_f1_seed324": {
       "status": "audit",
@@ -906,7 +1062,8 @@
       "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v4_acceptance_f1_seed324": {
       "status": "audit",
@@ -915,7 +1072,8 @@
       "config": "paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v5_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -924,7 +1082,8 @@
       "config": "paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v5_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -933,7 +1092,8 @@
       "config": "paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v5_residual_f1_seed324": {
       "status": "diagnostic",
@@ -942,7 +1102,8 @@
       "config": "paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v5_adversarial_f1_seed324": {
       "status": "audit",
@@ -951,7 +1112,8 @@
       "config": "paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v5_acceptance_f1_seed324": {
       "status": "audit",
@@ -960,7 +1122,8 @@
       "config": "paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v6_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -969,7 +1132,8 @@
       "config": "paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v6_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -978,7 +1142,8 @@
       "config": "paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v6_residual_f1_seed324": {
       "status": "diagnostic",
@@ -987,7 +1152,8 @@
       "config": "paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v6_adversarial_f1_seed324": {
       "status": "audit",
@@ -996,7 +1162,8 @@
       "config": "paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v6_acceptance_f1_seed324": {
       "status": "audit",
@@ -1005,7 +1172,8 @@
       "config": "paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -1014,7 +1182,8 @@
       "config": "paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -1023,7 +1192,8 @@
       "config": "paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7_residual_f1_seed324": {
       "status": "diagnostic",
@@ -1032,7 +1202,8 @@
       "config": "paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7_adversarial_f1_seed324": {
       "status": "audit",
@@ -1041,7 +1212,8 @@
       "config": "paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7_acceptance_f1_seed324": {
       "status": "audit",
@@ -1050,7 +1222,8 @@
       "config": "paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7b_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -1059,7 +1232,8 @@
       "config": "paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7b_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -1068,7 +1242,8 @@
       "config": "paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7b_residual_f1_seed324": {
       "status": "diagnostic",
@@ -1077,7 +1252,8 @@
       "config": "paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7b_adversarial_f1_seed324": {
       "status": "audit",
@@ -1086,7 +1262,8 @@
       "config": "paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v7b_acceptance_f1_seed324": {
       "status": "audit",
@@ -1095,7 +1272,8 @@
       "config": "paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v8_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -1104,7 +1282,8 @@
       "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v8_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -1113,7 +1292,8 @@
       "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v8_residual_f1_seed324": {
       "status": "diagnostic",
@@ -1122,7 +1302,8 @@
       "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v8_adversarial_f1_seed324": {
       "status": "audit",
@@ -1131,7 +1312,8 @@
       "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_afsd_v8_acceptance_f1_seed324": {
       "status": "audit",
@@ -1140,7 +1322,8 @@
       "config": "paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_esc_v1_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -1150,7 +1333,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_esc_v1_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -1160,7 +1344,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_esc_v1_residual_f1_seed324": {
       "status": "diagnostic",
@@ -1170,7 +1355,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_esc_v1_adversarial_f1_seed324": {
       "status": "audit",
@@ -1180,7 +1366,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_esc_v1_acceptance_f1_seed324": {
       "status": "audit",
@@ -1190,7 +1377,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_data_level_v1_hypothesis_f1_seed324": {
       "status": "diagnostic",
@@ -1200,7 +1388,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "hypothesis_registration",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_data_level_v1_controlled_f1_seed324": {
       "status": "diagnostic",
@@ -1210,7 +1399,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "controlled_experiment",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_data_level_v1_residual_f1_seed324": {
       "status": "diagnostic",
@@ -1220,7 +1410,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "residual_diagnosis",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_data_level_v1_adversarial_f1_seed324": {
       "status": "audit",
@@ -1230,7 +1421,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "adversarial_review",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_data_level_v1_acceptance_f1_seed324": {
       "status": "audit",
@@ -1240,7 +1432,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "synthetic_registry": "synthetic_benchmark_registry_v1",
       "stage": "acceptance",
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_higher_order_cluster_validation_f1_seed324": {
       "status": "diagnostic",
@@ -1250,7 +1443,8 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "validation_run",
       "reads_validation_performance": false,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_combined_ten_machine_identification_f1_seed324": {
       "status": "controlled",
@@ -1260,17 +1454,25 @@
       "dataset": "ieee39_postclear_canonical_v1",
       "stage": "identification_run",
       "reads_validation_performance": true,
-      "reads_test_performance": false
+      "reads_test_performance": false,
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_v1_full": {
       "status": "gated",
       "module": "kron_reduce.workflows.paper_full",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
       "pm_mode": "zoh",
-      "required_gate": "full_run_approved"
+      "required_gate": "full_run_approved",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_v2_integral_full": {
       "status": "gated",
@@ -1279,10 +1481,17 @@
       "config": "paper_integral_v2.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
       "pm_mode": "zoh",
-      "required_gate": "integral_v2_full_run_approved"
+      "required_gate": "integral_v2_full_run_approved",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_v2_integral_single_seed": {
       "status": "gated",
@@ -1291,10 +1500,17 @@
       "config": "paper_integral_v2_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
       "pm_mode": "zoh",
-      "required_gate": "integral_v2_full_run_approved"
+      "required_gate": "integral_v2_full_run_approved",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m2a_round2_single_seed": {
       "status": "gated",
@@ -1303,10 +1519,17 @@
       "config": "paper_m2a_round2_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
       "pm_mode": "zoh",
-      "required_gate": "round2_full_run_approved"
+      "required_gate": "round2_full_run_approved",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m2a_round3_observed_validation": {
       "status": "gated",
@@ -1315,9 +1538,16 @@
       "config": "paper_m2a_round3_observed_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
-      "pm_mode": "observed"
+      "pm_mode": "observed",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m2a_round3_observed_single_seed": {
       "status": "gated",
@@ -1326,10 +1556,17 @@
       "config": "paper_m2a_round3_observed_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
       "pm_mode": "observed",
-      "required_gate": "round3_full_run_approved"
+      "required_gate": "round3_full_run_approved",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_swing_sindy_round4_validation": {
       "status": "gated",
@@ -1338,9 +1575,16 @@
       "config": "paper_swing_sindy_round4_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
-      "pm_mode": "observed"
+      "pm_mode": "observed",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_swing_sindy_round4_single_seed": {
       "status": "gated",
@@ -1349,10 +1593,17 @@
       "config": "paper_swing_sindy_round4_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
       "pm_mode": "observed",
-      "required_gate": "round4_full_run_approved"
+      "required_gate": "round4_full_run_approved",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_graph_round5_validation": {
       "status": "gated",
@@ -1361,9 +1612,16 @@
       "config": "paper_m0_graph_round5_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
-      "pm_mode": "observed"
+      "pm_mode": "observed",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_graph_round5_single_seed": {
       "status": "gated",
@@ -1372,10 +1630,17 @@
       "config": "paper_m0_graph_round5_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
       "pm_mode": "observed",
-      "required_gate": "round5_full_run_approved"
+      "required_gate": "round5_full_run_approved",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_graph_round5_solver_fix_validation": {
       "status": "gated",
@@ -1384,9 +1649,16 @@
       "config": "paper_m0_graph_round5_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
-      "pm_mode": "observed"
+      "pm_mode": "observed",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_graph_round5_solver_fix_single_seed": {
       "status": "gated",
@@ -1395,10 +1667,17 @@
       "config": "paper_m0_graph_round5_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1", "F2", "F3", "F4", "F5"],
+      "folds": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
       "representation": "clustered_7",
       "pm_mode": "observed",
-      "required_gate": "round5_solver_fix_full_run_approved"
+      "required_gate": "round5_solver_fix_full_run_approved",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_m0_gmd_pm_round6_f1_single_seed": {
       "status": "gated",
@@ -1407,50 +1686,70 @@
       "config": "paper_m0_gmd_pm_round6_f1_single_seed.toml",
       "dataset": "ieee39_postclear_canonical_v1",
       "split_name": "combined_line_5fold_v1",
-      "folds": ["F1"],
-      "seeds": [324],
+      "folds": [
+        "F1"
+      ],
+      "seeds": [
+        324
+      ],
       "representation": "clustered_7",
       "pm_mode": "train_observed_deploy_causal_ode",
-      "required_gate": "round6_test_read_approved"
+      "required_gate": "round6_test_read_approved",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_v2_integral_smoke": {
       "status": "smoke",
       "module": "kron_reduce.workflows.paper_smoke",
       "workflow": "paper_v2_integral",
       "config": "paper_integral_v2_smoke.toml",
-      "dataset": "ieee39_postclear_canonical_v1"
+      "dataset": "ieee39_postclear_canonical_v1",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_v2_integral_summarize": {
       "status": "postprocess",
       "module": "kron_reduce.workflows.integral_v2_postprocess",
       "workflow": "paper_v2_integral",
-      "stage": "summarize"
+      "stage": "summarize",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_v2_integral_report": {
       "status": "reporting",
       "module": "kron_reduce.workflows.integral_v2_postprocess",
       "workflow": "paper_v2_integral",
-      "stage": "final_report"
+      "stage": "final_report",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_summarize": {
       "status": "postprocess",
       "module": "kron_reduce.workflows.paper_postprocess",
-      "stage": "summarize"
+      "stage": "summarize",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_adversarial_audit": {
       "status": "audit",
       "module": "kron_reduce.workflows.paper_postprocess",
-      "stage": "adversarial_audit"
+      "stage": "adversarial_audit",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_tables": {
       "status": "reporting",
       "module": "kron_reduce.workflows.paper_postprocess",
-      "stage": "paper_tables"
+      "stage": "paper_tables",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "execution_mode": "historical_reproduction_only"
     },
     "paper_manuscript": {
       "status": "reporting",
       "module": "kron_reduce.workflows.paper_postprocess",
-      "stage": "manuscript"
+      "stage": "manuscript",
+      "dataset": "ieee39_postclear_canonical_v1",
+      "execution_mode": "historical_reproduction_only"
     }
-  }
+  },
+  "active_policy": "configs/research_policy.json",
+  "active_research_program": "kiki_energy_dynamics_v1"
 }

@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-23",
+  "scope": "metadata_and_existing_QA_no_holdout_payload_reads",
+  "canonical": {
+    "events": 315,
+    "labels": {
+      "stable": 264,
+      "unstable": 51
+    },
+    "sources": {
+      "ieee39_highorder_dataset": 100,
+      "ieee39_near_critical_unstable_v1_dense": 215
+    },
+    "fault_lines": 38,
+    "duplicate_event_signatures": 0
+  },
+  "kiki": {
+    "events": 591,
+    "stable": 497,
+    "unstable": 94,
+    "train": 369,
+    "val": 117,
+    "test": 105,
+    "source_manifest": "data/kiki_ieee39_v1/manifest.json",
+    "test_status": "prior_exposure_detected_not_fresh"
+  },
+  "decision": "kiki_mandatory_for_prospective_real_data_research",
+  "cluster_decision": "pause_spatial_clustering_keep_ten_machine_resolution"
+}

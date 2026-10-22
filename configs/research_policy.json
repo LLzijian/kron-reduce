@@ -1,0 +1,17 @@
+{
+  "schema": "kron_reduce.research_policy.v1",
+  "effective_date": "2026-10-23",
+  "authority": "User: pause clustering when unsupported; select and enforce the better data source; private GitHub management",
+  "primary_real_dataset": "kiki_ieee39_v1",
+  "synthetic_datasets": ["synthetic_benchmark_registry_v1"],
+  "spatial_clustering": "paused",
+  "spatial_node_count": 10,
+  "historical_registry": "configs/historical_registry_20261023.json",
+  "input_contracts": "configs/input_contracts.json",
+  "existing_kiki_test": "prior_exposure_detected_not_fresh",
+  "prospective_test": "blocked_until_new_independent_kiki_registration",
+  "automatic_scientific_threshold_changes": false,
+  "automatic_training_until_pass": false,
+  "engineering_repair_requires_new_run": true,
+  "model_promotion_requires_registered_acceptance": true
+}

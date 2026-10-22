@@ -142,3 +142,11 @@ def test_actual_short_target_is_retained_and_locked_source_holdout_rejected(tmp_
     assert len(sample.forecast_time) == 2
     with pytest.raises(ValueError, match="locked"):
         KikiHistorySamples(tmp_path, [dict(rows[0], source_role="validation")], bindings)
+
+
+def test_forged_train_role_cannot_open_source_test(tmp_path):
+    build_sources(tmp_path)
+    rows, bindings = allocate_roles(tmp_path, ["A"])
+    forged = dict(rows[0], raw_id="test_only", source_role="train")
+    with pytest.raises(ValueError, match="allowlist"):
+        KikiHistorySamples(tmp_path, [forged], bindings)

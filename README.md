@@ -1,10 +1,18 @@
 # kron-reduce
 
-Clean, paper-oriented implementation of reduced IEEE39 post-clear dynamics.
-The project rebuilds the defensible scientific core of historical work 3.10
-and 3.11 on the audited `ieee39_postclear_canonical_v1` dataset. Historical
-scores are provenance only: all paper models must be trained from scratch on
-the canonical line-disjoint splits.
+Physics-structured IEEE39 post-fault dynamics with reproducible experiments.
+
+From 2026-10-23 all new real-data training and evaluation use `kiki_ieee39_v1`:
+591 registered events, originally train 369 / val 117 / test 105. Development
+uses registered internal train/val groups inside the original source train.
+Existing test exposure prevents fresh confirmatory claims; a new independent
+kiki holdout must be registered before confirmation. The original canonical
+dataset is retained for explicit historical reproduction.
+
+Spatial clustering is paused: retain ten generator nodes while learning and
+pruning the dynamical/latent modules. Synthetic ground-truth checks continue.
+See `configs/research_policy.json` and
+`docs/reports/research_governance_20261023_zh.md` for the active decision.
 
 ## Scientific scope
 
@@ -27,8 +35,7 @@ information budget.
 ./.venv/Scripts/python.exe -m project_harness audit
 ./.venv/Scripts/python.exe -m project_harness data-check
 ./.venv/Scripts/python.exe -m project_harness git-check
-./.venv/Scripts/python.exe -m project_harness run paper_smoke --stage smoke
-./.venv/Scripts/python.exe -m project_harness run paper_support_audit --stage support_audit
+./.venv/Scripts/python.exe -m project_harness data-check --dataset ieee39_postclear_canonical_v1
 ./.venv/Scripts/python.exe -m project_harness loop status
 ```
 
@@ -42,6 +49,17 @@ for example:
 The loop is command-driven rather than a resident background process. Its state,
 ordered evidence, explicit approvals, data locks, and Git gates persist between
 commands and are checked again by `project_harness audit`.
+
+Set `KIKI_DATA_ROOT` to the directory containing `ieee39_postfault` and
+`ieee39_expansion`; the local fallback is `../kiki/private_data`. The raw HDF5
+files remain external. Metadata, checksums and exposure records are versioned.
+An old canonical run additionally requires `--historical-reproduction`; its
+workflow still permits only its registered next stage and original approvals.
+
+The private GitHub remote is `https://github.com/LLzijian/kron-reduce`.
+GitHub Actions checks policy and synthetic fixtures on pushes and pull requests.
+Install with `pip install -e '.[dev]' -c requirements/constraints-py312.txt` on
+Python 3.12; the constraint file records tested core versions.
 
 ## Artifact locations
 

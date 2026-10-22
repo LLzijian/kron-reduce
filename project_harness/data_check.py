@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import h5py
@@ -54,10 +55,65 @@ def _verify_checksum_manifest(
     return findings
 
 
-def verify_data(root: Path) -> dict:
+def _verify_external_bundle(root: Path, entry: dict) -> dict:
+    directory = root / entry["path"]
+    frozen = json.loads((directory / entry["manifest"]).read_text(encoding="utf-8"))
+    findings = _verify_checksum_manifest(
+        directory, entry["checksum_manifest"], dataset_name=frozen["dataset_id"],
+    )
+    source_root = Path(os.environ.get(
+        frozen["source_root_env"], root / frozen["source_root_relative"],
+    ))
+    if not source_root.is_absolute():
+        source_root = (root / source_root).resolve()
+    event_count = 0
+    for name, shard in frozen["shards"].items():
+        h5_matches = False
+        for filename, expected in shard["sha256"].items():
+            source = source_root / name / filename
+            actual = sha256_file(source) if source.is_file() else "MISSING"
+            findings.append({"dataset": frozen["dataset_id"], "path": f"{name}/{filename}",
+                             "expected": expected, "actual": actual, "pass": actual == expected})
+            if filename == "dataset.h5":
+                h5_matches = actual == expected
+        h5_path = source_root / name / "dataset.h5"
+        if h5_matches:
+            with h5py.File(h5_path, "r") as handle:
+                count = len(handle["events"])
+            event_count += count
+            findings.append({"dataset": frozen["dataset_id"], "path": f"{name}/event_count",
+                             "expected": shard["events"], "actual": count,
+                             "pass": count == shard["events"]})
+    passed = all(row["pass"] for row in findings) and event_count == entry["expected_events"]
+    return {"status": "PASS" if passed else "FAIL", "files": len(findings),
+            "event_count": event_count, "dataset_revision": frozen["revision"],
+            "schema_event_count": frozen["event_count"], "test_status": frozen["test_status"],
+            "holdout_payload_arrays_read": 0, "auxiliary_datasets": {}, "findings": findings}
+
+
+def verify_data(root: Path, *, dataset_name: str | None = None) -> dict:
     manifest = load_manifest(root)
-    default_name = manifest["default_dataset"]
+    default_name = dataset_name or manifest["default_dataset"]
     entry = manifest["datasets"][default_name]
+    if entry.get("kind") == "external_hdf5_bundle":
+        result = _verify_external_bundle(root, entry)
+        for name, candidate in manifest["datasets"].items():
+            if name == default_name or candidate.get("status") != "ready":
+                continue
+            if candidate.get("kind") == "external_hdf5_bundle":
+                continue
+            candidate_findings = _verify_checksum_manifest(
+                root / candidate["path"], candidate["checksum_manifest"], dataset_name=name,
+            )
+            result["findings"].extend(candidate_findings)
+            passed = bool(candidate_findings) and all(row["pass"] for row in candidate_findings)
+            result["auxiliary_datasets"][name] = {"status": "PASS" if passed else "FAIL",
+                                                "files": len(candidate_findings),
+                                                "revision": candidate.get("revision")}
+            if not passed:
+                result["status"] = "FAIL"
+        result["files"] = len(result["findings"])
+        return result
     dataset_dir = root / entry["path"]
     findings = _verify_checksum_manifest(
         dataset_dir,

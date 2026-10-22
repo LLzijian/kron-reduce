@@ -18,3 +18,12 @@ paper/generated/*
 data/ieee39_postclear_canonical_v1/*.h5
 data/ieee39_postclear_canonical_v1/.copy_complete
 scratch/
+outputs/
+*.zip
+*.h5
+*.npz
+*.pt
+*.ckpt
+.env
+.env.*
+!.env.example

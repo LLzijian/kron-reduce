@@ -1,0 +1,9 @@
+# Core versions exercised locally on Python 3.12.14; CPU CI uses the same versions.
+# This constrains the research runtime, not a byte-identical cross-platform image.
+filelock==3.32.2
+h5py==3.16.0
+numpy==2.5.2
+scipy==1.18.0
+torch==2.13.0
+pytest==9.1.1
+ruff==0.16.2

@@ -1,0 +1,1098 @@
+{
+  "paper_ieee39_p2_a03_nonlinear_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_p2_a03_nonlinear_train_val_v1.json": "5617beedd6ca8879920a4da77618e20c70e25bc8d781d031c7b29eaaa910ceb6",
+      "configs/experiments/paper_ieee39_p2_a03_nonlinear_f1_seed324.toml": "ac7939cbf6c7eabfa60bc78b14a443e48dd389aa1add8d7d058acb8ef34eb840"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_p2_a02_train_val_diagnosis": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_p2_a02_train_val_diagnosis_v1.json": "d9c8cc0b031625318bf954a3b616d46a0de365903d3c8a90f2e1d62125808d60",
+      "configs/experiments/paper_ieee39_p2_a02_train_val_diagnosis.toml": "4d528bb3efb97746ed70326c119bdebbbeba692b6f090b302db1550da8eaa7bd"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p2_a02_history_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p2_a02_history_pilot_v1.json": "72ebe6933fa8937edff059b5eaad5a82b3972567f8e1961c36f6bac5bc8ae091",
+      "configs/experiments/paper_ieee39_modular_energy_p2_a02_history_f1_seed324.toml": "4dcc6a7804c405c30f987ccf85c67bac415cee519ac1254d71c08d9845819f71"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a01_plan_registered_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a01_v1.json": "dde6276b188c8664306e84bd65cad3251fc16c2d402545666db48c247addcf0a",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a01_f1_seed324.toml": "6e44de0c00dabc6fe069bbd2fc1c7065b438ca3f50adcaf00cd7000295195b29"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a01_candidate_acquired_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a01_v1.json": "dde6276b188c8664306e84bd65cad3251fc16c2d402545666db48c247addcf0a",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a01_f1_seed324.toml": "6e44de0c00dabc6fe069bbd2fc1c7065b438ca3f50adcaf00cd7000295195b29"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a01_controlled_experiment_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a01_v1.json": "dde6276b188c8664306e84bd65cad3251fc16c2d402545666db48c247addcf0a",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a01_f1_seed324.toml": "6e44de0c00dabc6fe069bbd2fc1c7065b438ca3f50adcaf00cd7000295195b29"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a01_residual_diagnosis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a01_v1.json": "dde6276b188c8664306e84bd65cad3251fc16c2d402545666db48c247addcf0a",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a01_f1_seed324.toml": "6e44de0c00dabc6fe069bbd2fc1c7065b438ca3f50adcaf00cd7000295195b29"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a01_adversarial_review_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a01_v1.json": "dde6276b188c8664306e84bd65cad3251fc16c2d402545666db48c247addcf0a",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a01_f1_seed324.toml": "6e44de0c00dabc6fe069bbd2fc1c7065b438ca3f50adcaf00cd7000295195b29"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a01_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a01_v1.json": "dde6276b188c8664306e84bd65cad3251fc16c2d402545666db48c247addcf0a",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a01_f1_seed324.toml": "6e44de0c00dabc6fe069bbd2fc1c7065b438ca3f50adcaf00cd7000295195b29"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a01_rollback_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a01_v1.json": "dde6276b188c8664306e84bd65cad3251fc16c2d402545666db48c247addcf0a",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a01_f1_seed324.toml": "6e44de0c00dabc6fe069bbd2fc1c7065b438ca3f50adcaf00cd7000295195b29"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a01_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a01_v1.json": "dde6276b188c8664306e84bd65cad3251fc16c2d402545666db48c247addcf0a",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a01_f1_seed324.toml": "6e44de0c00dabc6fe069bbd2fc1c7065b438ca3f50adcaf00cd7000295195b29"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a03_plan_registered_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a03_v1.json": "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml": "78d9010e4a62c2fa7e947697e2077c9d3e03431399287fb9933f71f159b23526"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a03_v1.json": "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml": "78d9010e4a62c2fa7e947697e2077c9d3e03431399287fb9933f71f159b23526"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a03_model_unit_gate_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a03_v1.json": "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a03_real_f1_controlled_chain_v1.toml": "1272bbe7a3c8ee66bf17b508840dde27509ed72023bc6d7a30c50981636b959a"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a03_controlled_experiment_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a03_v1.json": "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a03_real_f1_controlled_chain_v1.toml": "1272bbe7a3c8ee66bf17b508840dde27509ed72023bc6d7a30c50981636b959a"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a03_residual_diagnosis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a03_v1.json": "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml": "78d9010e4a62c2fa7e947697e2077c9d3e03431399287fb9933f71f159b23526"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a03_adversarial_review_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a03_v1.json": "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml": "78d9010e4a62c2fa7e947697e2077c9d3e03431399287fb9933f71f159b23526"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a03_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a03_v1.json": "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml": "78d9010e4a62c2fa7e947697e2077c9d3e03431399287fb9933f71f159b23526"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a03_rollback_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a03_v1.json": "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml": "78d9010e4a62c2fa7e947697e2077c9d3e03431399287fb9933f71f159b23526"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a03_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a03_v1.json": "a846f44eb80f6ec542150d992fb2273c98c7357c74c27652a55b627eadef58c5",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a03_f1_seed324.toml": "78d9010e4a62c2fa7e947697e2077c9d3e03431399287fb9933f71f159b23526"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a04_retry_registered_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a04_v1.json": "f6e823ac18b6b2e0ecc865f25164925b52ecf3c1a988a2f0840aae3f86ebd48e",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml": "ad88b40a5bbf17b8ee28affc41574e97e87159652963126101f13721c20cbcf9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a04_model_unit_gate_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a04_v1.json": "f6e823ac18b6b2e0ecc865f25164925b52ecf3c1a988a2f0840aae3f86ebd48e",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml": "ad88b40a5bbf17b8ee28affc41574e97e87159652963126101f13721c20cbcf9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a04_controlled_experiment_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a04_v1.json": "f6e823ac18b6b2e0ecc865f25164925b52ecf3c1a988a2f0840aae3f86ebd48e",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml": "ad88b40a5bbf17b8ee28affc41574e97e87159652963126101f13721c20cbcf9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a04_residual_diagnosis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a04_v1.json": "f6e823ac18b6b2e0ecc865f25164925b52ecf3c1a988a2f0840aae3f86ebd48e",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml": "ad88b40a5bbf17b8ee28affc41574e97e87159652963126101f13721c20cbcf9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a04_adversarial_review_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a04_v1.json": "f6e823ac18b6b2e0ecc865f25164925b52ecf3c1a988a2f0840aae3f86ebd48e",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml": "ad88b40a5bbf17b8ee28affc41574e97e87159652963126101f13721c20cbcf9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a04_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a04_v1.json": "f6e823ac18b6b2e0ecc865f25164925b52ecf3c1a988a2f0840aae3f86ebd48e",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml": "ad88b40a5bbf17b8ee28affc41574e97e87159652963126101f13721c20cbcf9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a04_rollback_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a04_v1.json": "f6e823ac18b6b2e0ecc865f25164925b52ecf3c1a988a2f0840aae3f86ebd48e",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml": "ad88b40a5bbf17b8ee28affc41574e97e87159652963126101f13721c20cbcf9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a04_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a04_v1.json": "f6e823ac18b6b2e0ecc865f25164925b52ecf3c1a988a2f0840aae3f86ebd48e",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a04_time_grid_retry_f1_seed324.toml": "ad88b40a5bbf17b8ee28affc41574e97e87159652963126101f13721c20cbcf9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p2_a01_plan_registered_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p2_a01_v1.json": "61306c91496990f39b3cc3b03e79273ba52bb50ebdd108d540015133269166ad",
+      "configs/experiments/paper_ieee39_modular_energy_p2_a01_f1_seed324.toml": "b871a749b505f1037adcac643464c5f4591fea31b75a70842d7cfe136dc8e930"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p2_a01_baseline_inventory_audited_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p2_a01_v1.json": "61306c91496990f39b3cc3b03e79273ba52bb50ebdd108d540015133269166ad",
+      "configs/experiments/paper_ieee39_modular_energy_p2_a01_f1_seed324.toml": "b871a749b505f1037adcac643464c5f4591fea31b75a70842d7cfe136dc8e930"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p2_a01_contract_unit_gate_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p2_a01_v1.json": "61306c91496990f39b3cc3b03e79273ba52bb50ebdd108d540015133269166ad",
+      "configs/experiments/paper_ieee39_modular_energy_p2_a01_f1_seed324.toml": "b871a749b505f1037adcac643464c5f4591fea31b75a70842d7cfe136dc8e930"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p2_a01_controlled_replay_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p2_a01_v1.json": "61306c91496990f39b3cc3b03e79273ba52bb50ebdd108d540015133269166ad",
+      "configs/experiments/paper_ieee39_modular_energy_p2_a01_f1_seed324.toml": "b871a749b505f1037adcac643464c5f4591fea31b75a70842d7cfe136dc8e930"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p2_a01_adversarial_review_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p2_a01_v1.json": "61306c91496990f39b3cc3b03e79273ba52bb50ebdd108d540015133269166ad",
+      "configs/experiments/paper_ieee39_modular_energy_p2_a01_f1_seed324.toml": "b871a749b505f1037adcac643464c5f4591fea31b75a70842d7cfe136dc8e930"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p2_a01_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p2_a01_v1.json": "61306c91496990f39b3cc3b03e79273ba52bb50ebdd108d540015133269166ad",
+      "configs/experiments/paper_ieee39_modular_energy_p2_a01_f1_seed324.toml": "b871a749b505f1037adcac643464c5f4591fea31b75a70842d7cfe136dc8e930"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p2_a01_rollback_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p2_a01_v1.json": "61306c91496990f39b3cc3b03e79273ba52bb50ebdd108d540015133269166ad",
+      "configs/experiments/paper_ieee39_modular_energy_p2_a01_f1_seed324.toml": "b871a749b505f1037adcac643464c5f4591fea31b75a70842d7cfe136dc8e930"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p2_a01_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p2_a01_v1.json": "61306c91496990f39b3cc3b03e79273ba52bb50ebdd108d540015133269166ad",
+      "configs/experiments/paper_ieee39_modular_energy_p2_a01_f1_seed324.toml": "b871a749b505f1037adcac643464c5f4591fea31b75a70842d7cfe136dc8e930"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a02_plan_registered_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a02_v1.json": "53e730df53ea7a4ca87831b239454bb46936d00bf1d8450b051255605fde6b53",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a02_f1_seed324.toml": "eb2f19b462b59787656c26a1ee1a3062869a39c773df34b42ee6f647126efe6f"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a02_candidate_acquired_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a02_v1.json": "53e730df53ea7a4ca87831b239454bb46936d00bf1d8450b051255605fde6b53",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a02_f1_seed324.toml": "eb2f19b462b59787656c26a1ee1a3062869a39c773df34b42ee6f647126efe6f"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a02_model_unit_gate_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a02_v1.json": "53e730df53ea7a4ca87831b239454bb46936d00bf1d8450b051255605fde6b53",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a02_f1_seed324.toml": "eb2f19b462b59787656c26a1ee1a3062869a39c773df34b42ee6f647126efe6f"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a02_controlled_experiment_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a02_v1.json": "53e730df53ea7a4ca87831b239454bb46936d00bf1d8450b051255605fde6b53",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a02_f1_seed324.toml": "eb2f19b462b59787656c26a1ee1a3062869a39c773df34b42ee6f647126efe6f"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a02_residual_diagnosis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a02_v1.json": "53e730df53ea7a4ca87831b239454bb46936d00bf1d8450b051255605fde6b53",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a02_f1_seed324.toml": "eb2f19b462b59787656c26a1ee1a3062869a39c773df34b42ee6f647126efe6f"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a02_adversarial_review_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a02_v1.json": "53e730df53ea7a4ca87831b239454bb46936d00bf1d8450b051255605fde6b53",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a02_f1_seed324.toml": "eb2f19b462b59787656c26a1ee1a3062869a39c773df34b42ee6f647126efe6f"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a02_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a02_v1.json": "53e730df53ea7a4ca87831b239454bb46936d00bf1d8450b051255605fde6b53",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a02_f1_seed324.toml": "eb2f19b462b59787656c26a1ee1a3062869a39c773df34b42ee6f647126efe6f"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a02_rollback_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a02_v1.json": "53e730df53ea7a4ca87831b239454bb46936d00bf1d8450b051255605fde6b53",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a02_f1_seed324.toml": "eb2f19b462b59787656c26a1ee1a3062869a39c773df34b42ee6f647126efe6f"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ieee39_modular_energy_p1_a02_report_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ieee39_modular_energy_p1_a02_v1.json": "53e730df53ea7a4ca87831b239454bb46936d00bf1d8450b051255605fde6b53",
+      "configs/experiments/paper_ieee39_modular_energy_p1_a02_f1_seed324.toml": "eb2f19b462b59787656c26a1ee1a3062869a39c773df34b42ee6f647126efe6f"
+    },
+    "unavailable_paths": []
+  },
+  "paper_smoke": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v1.json": "122e2dcc81d8cc440a1b4b42bfd102f1c70f0de2c5fba0174db39e25bd4b36f2"
+    },
+    "unavailable_paths": []
+  },
+  "paper_support_audit": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v1.json": "122e2dcc81d8cc440a1b4b42bfd102f1c70f0de2c5fba0174db39e25bd4b36f2"
+    },
+    "unavailable_paths": []
+  },
+  "paper_physical_cluster_audit_f1_single_seed": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/physical_cluster_audit_v1.json": "4b4b7a4e5e2568c51926246ba4a05644b53144b42448aa96e6e2956f932b01db",
+      "configs/experiments/paper_physical_cluster_audit_f1_single_seed.toml": "692636e67771022a963e05f8dfd0ddc9f6e8195ecc67a6281949896b23ead1aa"
+    },
+    "unavailable_paths": []
+  },
+  "paper_physical_cluster_audit_f1_single_seed_v2": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/physical_cluster_audit_v2.json": "4c1a055fc63856c344b8074a1b09ad207fef7c2a17ce0bcc6cc2a2bb44a9e47a",
+      "configs/experiments/paper_physical_cluster_audit_f1_single_seed_v2.toml": "c11d2cc22556e51d412227458b18dbebe208bc686ccbbf491d03764c6259e6d2"
+    },
+    "unavailable_paths": []
+  },
+  "paper_physical_cluster_audit_f1_single_seed_v3": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/physical_cluster_audit_v3.json": "360dd95e3420373c21f7622876681c73af7cd86c5ca33ac0ac303f597aa6e625",
+      "configs/experiments/paper_physical_cluster_audit_f1_single_seed_v3.toml": "c838c6507ecb3fd69f257c96b28336cac5760228413ceec13b9f1d361072c883"
+    },
+    "unavailable_paths": []
+  },
+  "paper_physical_cluster_adversarial_audit_f1_single_seed_v3": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/physical_cluster_audit_v3.json": "360dd95e3420373c21f7622876681c73af7cd86c5ca33ac0ac303f597aa6e625",
+      "configs/experiments/paper_physical_cluster_audit_f1_single_seed_v3.toml": "c838c6507ecb3fd69f257c96b28336cac5760228413ceec13b9f1d361072c883"
+    },
+    "unavailable_paths": []
+  },
+  "paper_physical_cluster_acceptance_f1_single_seed_v3": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/physical_cluster_audit_v3.json": "360dd95e3420373c21f7622876681c73af7cd86c5ca33ac0ac303f597aa6e625",
+      "configs/experiments/paper_physical_cluster_audit_f1_single_seed_v3.toml": "c838c6507ecb3fd69f257c96b28336cac5760228413ceec13b9f1d361072c883"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_3eg_cluster_compare_f2_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_3eg_cluster_compare_v1.json": "dc6a545f1c616bbc092645a9b74b7db584a6401dae88776428a3bd5706deb85c",
+      "configs/experiments/paper_m0_3eg_cluster_compare_f2_seed324.toml": "909e7601624bd757fbe28e9466f5e5cd407b22d6ee1b4570e1a95396afff86a3"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_3eg_cluster_adversarial_f2_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_3eg_cluster_compare_v1.json": "dc6a545f1c616bbc092645a9b74b7db584a6401dae88776428a3bd5706deb85c",
+      "configs/experiments/paper_m0_3eg_cluster_compare_f2_seed324.toml": "909e7601624bd757fbe28e9466f5e5cd407b22d6ee1b4570e1a95396afff86a3"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_3eg_cluster_acceptance_f2_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_3eg_cluster_compare_v1.json": "dc6a545f1c616bbc092645a9b74b7db584a6401dae88776428a3bd5706deb85c",
+      "configs/experiments/paper_m0_3eg_cluster_compare_f2_seed324.toml": "909e7601624bd757fbe28e9466f5e5cd407b22d6ee1b4570e1a95396afff86a3"
+    },
+    "unavailable_paths": []
+  },
+  "paper_graph_coherent_m0_3eg_f3_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/graph_coherent_m0_3eg_v1.json": "deb8b629415bd006524cf1980f7a948a00ef707415fb0517ae9a4ed6e081b58a",
+      "configs/experiments/paper_graph_coherent_m0_3eg_f3_seed324.toml": "24af5dfd0f94eda0d439be2c487a6dc4146cc79eed0a06827e1ec72a6af43831"
+    },
+    "unavailable_paths": []
+  },
+  "paper_graph_coherent_m0_3eg_adversarial_f3_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/graph_coherent_m0_3eg_v1.json": "deb8b629415bd006524cf1980f7a948a00ef707415fb0517ae9a4ed6e081b58a",
+      "configs/experiments/paper_graph_coherent_m0_3eg_f3_seed324.toml": "24af5dfd0f94eda0d439be2c487a6dc4146cc79eed0a06827e1ec72a6af43831"
+    },
+    "unavailable_paths": []
+  },
+  "paper_graph_coherent_m0_3eg_acceptance_f3_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/graph_coherent_m0_3eg_v1.json": "deb8b629415bd006524cf1980f7a948a00ef707415fb0517ae9a4ed6e081b58a",
+      "configs/experiments/paper_graph_coherent_m0_3eg_f3_seed324.toml": "24af5dfd0f94eda0d439be2c487a6dc4146cc79eed0a06827e1ec72a6af43831"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ten_machine_physical_discovery_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ten_machine_physical_discovery_v1.json": "477893ab18237425b31a7cd2cc2106a477427c896d83df843557af403026616f",
+      "configs/experiments/paper_ten_machine_physical_discovery_f1_seed324.toml": "c83d4566a11b5e7afad3d6cb45ed8cdb0a7e209e97f09e3ec223781faac826a1"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ten_machine_physical_discovery_resume_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ten_machine_physical_discovery_v1.json": "477893ab18237425b31a7cd2cc2106a477427c896d83df843557af403026616f",
+      "configs/experiments/paper_ten_machine_physical_discovery_resume_f1_seed324.toml": "bd516147e76cf324c2e915b37d7d745f041fc4403102ff6c04983027b2746001"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ten_machine_physical_discovery_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ten_machine_physical_discovery_v1.json": "477893ab18237425b31a7cd2cc2106a477427c896d83df843557af403026616f",
+      "configs/experiments/paper_ten_machine_physical_discovery_resume_f1_seed324.toml": "bd516147e76cf324c2e915b37d7d745f041fc4403102ff6c04983027b2746001"
+    },
+    "unavailable_paths": []
+  },
+  "paper_ten_machine_physical_discovery_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/ten_machine_physical_discovery_v1.json": "477893ab18237425b31a7cd2cc2106a477427c896d83df843557af403026616f",
+      "configs/experiments/paper_ten_machine_physical_discovery_resume_f1_seed324.toml": "bd516147e76cf324c2e915b37d7d745f041fc4403102ff6c04983027b2746001"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v1.json": "f2c9da50d4f2f6fd85c5e715bbf32fc6d153e68f8be78dbc2a426f6604626dd1",
+      "configs/experiments/paper_m0_afsd_f1_seed324.toml": "8e3561866ff27d51869e431c4d13a84202af168f77c61d3bcaaca3557bc737c5"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v1.json": "f2c9da50d4f2f6fd85c5e715bbf32fc6d153e68f8be78dbc2a426f6604626dd1",
+      "configs/experiments/paper_m0_afsd_f1_seed324.toml": "8e3561866ff27d51869e431c4d13a84202af168f77c61d3bcaaca3557bc737c5"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v1.json": "f2c9da50d4f2f6fd85c5e715bbf32fc6d153e68f8be78dbc2a426f6604626dd1",
+      "configs/experiments/paper_m0_afsd_f1_seed324.toml": "8e3561866ff27d51869e431c4d13a84202af168f77c61d3bcaaca3557bc737c5"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v2_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v2_module_selection.json": "78abcd7ebd9c6d0941140f6a5a9c1b5d2d72ddb394c8052462a5c0f8972e9833",
+      "configs/experiments/paper_m0_afsd_v2_module_selection_f1_seed324.toml": "d2fc96931f1f0b7dde6bac07a98526046b4b4fb1b8dac26ab799c95404bc9f8c"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v2_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v2_module_selection.json": "78abcd7ebd9c6d0941140f6a5a9c1b5d2d72ddb394c8052462a5c0f8972e9833",
+      "configs/experiments/paper_m0_afsd_v2_module_selection_f1_seed324.toml": "d2fc96931f1f0b7dde6bac07a98526046b4b4fb1b8dac26ab799c95404bc9f8c"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v2_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v2_module_selection.json": "78abcd7ebd9c6d0941140f6a5a9c1b5d2d72ddb394c8052462a5c0f8972e9833",
+      "configs/experiments/paper_m0_afsd_v2_module_selection_f1_seed324.toml": "d2fc96931f1f0b7dde6bac07a98526046b4b4fb1b8dac26ab799c95404bc9f8c"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v2_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v2_module_selection.json": "78abcd7ebd9c6d0941140f6a5a9c1b5d2d72ddb394c8052462a5c0f8972e9833",
+      "configs/experiments/paper_m0_afsd_v2_module_selection_f1_seed324.toml": "d2fc96931f1f0b7dde6bac07a98526046b4b4fb1b8dac26ab799c95404bc9f8c"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v2_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v2_module_selection.json": "78abcd7ebd9c6d0941140f6a5a9c1b5d2d72ddb394c8052462a5c0f8972e9833",
+      "configs/experiments/paper_m0_afsd_v2_module_selection_f1_seed324.toml": "d2fc96931f1f0b7dde6bac07a98526046b4b4fb1b8dac26ab799c95404bc9f8c"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v3_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v3_joint_selection_validity.json": "3e1c05af77556f91d0b9ee335bb340770b2cff5688122b32e6b8db3baad73d02",
+      "configs/experiments/paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml": "823958c37dfaa7f7b14e6544705bfd384cdee4e96af0df22113bbce3cb5a86ad"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v3_eligibility_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v3_joint_selection_validity.json": "3e1c05af77556f91d0b9ee335bb340770b2cff5688122b32e6b8db3baad73d02",
+      "configs/experiments/paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml": "823958c37dfaa7f7b14e6544705bfd384cdee4e96af0df22113bbce3cb5a86ad"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v3_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v3_joint_selection_validity.json": "3e1c05af77556f91d0b9ee335bb340770b2cff5688122b32e6b8db3baad73d02",
+      "configs/experiments/paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml": "823958c37dfaa7f7b14e6544705bfd384cdee4e96af0df22113bbce3cb5a86ad"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v3_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v3_joint_selection_validity.json": "3e1c05af77556f91d0b9ee335bb340770b2cff5688122b32e6b8db3baad73d02",
+      "configs/experiments/paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml": "823958c37dfaa7f7b14e6544705bfd384cdee4e96af0df22113bbce3cb5a86ad"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v3_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v3_joint_selection_validity.json": "3e1c05af77556f91d0b9ee335bb340770b2cff5688122b32e6b8db3baad73d02",
+      "configs/experiments/paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml": "823958c37dfaa7f7b14e6544705bfd384cdee4e96af0df22113bbce3cb5a86ad"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v3_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v3_joint_selection_validity.json": "3e1c05af77556f91d0b9ee335bb340770b2cff5688122b32e6b8db3baad73d02",
+      "configs/experiments/paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml": "823958c37dfaa7f7b14e6544705bfd384cdee4e96af0df22113bbce3cb5a86ad"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v4_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v4_graph_compositional_discovery.json": "54e7a7e7049e77ae62d6392019b4ed703b62895d86c51f62d3eb9d41ff7c1899",
+      "configs/experiments/paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml": "1cc2905d26fbbcb07185cfa99920227b8ebfd5b148cf0cb3ef09321d417f9d96"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v4_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v4_graph_compositional_discovery.json": "54e7a7e7049e77ae62d6392019b4ed703b62895d86c51f62d3eb9d41ff7c1899",
+      "configs/experiments/paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml": "1cc2905d26fbbcb07185cfa99920227b8ebfd5b148cf0cb3ef09321d417f9d96"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v4_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v4_graph_compositional_discovery.json": "54e7a7e7049e77ae62d6392019b4ed703b62895d86c51f62d3eb9d41ff7c1899",
+      "configs/experiments/paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml": "1cc2905d26fbbcb07185cfa99920227b8ebfd5b148cf0cb3ef09321d417f9d96"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v4_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v4_graph_compositional_discovery.json": "54e7a7e7049e77ae62d6392019b4ed703b62895d86c51f62d3eb9d41ff7c1899",
+      "configs/experiments/paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml": "1cc2905d26fbbcb07185cfa99920227b8ebfd5b148cf0cb3ef09321d417f9d96"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v4_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v4_graph_compositional_discovery.json": "54e7a7e7049e77ae62d6392019b4ed703b62895d86c51f62d3eb9d41ff7c1899",
+      "configs/experiments/paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml": "1cc2905d26fbbcb07185cfa99920227b8ebfd5b148cf0cb3ef09321d417f9d96"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v5_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v5_unified_quotient_selection.json": "bffbc38ed59444c2e7b65caf328f525d5dadff7366ab69244b4f34450f2e911c",
+      "configs/experiments/paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml": "4f77ede95c2ca22d30875a6d432c1c906b7b10df60aabb1c54c05496bab806b9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v5_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v5_unified_quotient_selection.json": "bffbc38ed59444c2e7b65caf328f525d5dadff7366ab69244b4f34450f2e911c",
+      "configs/experiments/paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml": "4f77ede95c2ca22d30875a6d432c1c906b7b10df60aabb1c54c05496bab806b9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v5_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v5_unified_quotient_selection.json": "bffbc38ed59444c2e7b65caf328f525d5dadff7366ab69244b4f34450f2e911c",
+      "configs/experiments/paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml": "4f77ede95c2ca22d30875a6d432c1c906b7b10df60aabb1c54c05496bab806b9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v5_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v5_unified_quotient_selection.json": "bffbc38ed59444c2e7b65caf328f525d5dadff7366ab69244b4f34450f2e911c",
+      "configs/experiments/paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml": "4f77ede95c2ca22d30875a6d432c1c906b7b10df60aabb1c54c05496bab806b9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v5_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v5_unified_quotient_selection.json": "bffbc38ed59444c2e7b65caf328f525d5dadff7366ab69244b4f34450f2e911c",
+      "configs/experiments/paper_m0_afsd_v5_unified_quotient_selection_f1_seed324.toml": "4f77ede95c2ca22d30875a6d432c1c906b7b10df60aabb1c54c05496bab806b9"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v6_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v6_full_model_subset_validation.json": "d7aba7866aea6b1e65379029edeb79be05f1d4877462438b0b45345fb1e0fb57",
+      "configs/experiments/paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml": "36a8fac033987d14e886cbb9e7b1c148fd6a6156fe24d6310e53f4e458b28a11"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v6_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v6_full_model_subset_validation.json": "d7aba7866aea6b1e65379029edeb79be05f1d4877462438b0b45345fb1e0fb57",
+      "configs/experiments/paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml": "36a8fac033987d14e886cbb9e7b1c148fd6a6156fe24d6310e53f4e458b28a11"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v6_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v6_full_model_subset_validation.json": "d7aba7866aea6b1e65379029edeb79be05f1d4877462438b0b45345fb1e0fb57",
+      "configs/experiments/paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml": "36a8fac033987d14e886cbb9e7b1c148fd6a6156fe24d6310e53f4e458b28a11"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v6_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v6_full_model_subset_validation.json": "d7aba7866aea6b1e65379029edeb79be05f1d4877462438b0b45345fb1e0fb57",
+      "configs/experiments/paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml": "36a8fac033987d14e886cbb9e7b1c148fd6a6156fe24d6310e53f4e458b28a11"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v6_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v6_full_model_subset_validation.json": "d7aba7866aea6b1e65379029edeb79be05f1d4877462438b0b45345fb1e0fb57",
+      "configs/experiments/paper_m0_afsd_v6_full_model_subset_validation_f1_seed324.toml": "36a8fac033987d14e886cbb9e7b1c148fd6a6156fe24d6310e53f4e458b28a11"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7_modal_structure_discovery.json": "ff1b851a73b67672113cc9788577340121b4cf2ddeb7b3c1bd64cbffd0ae342d",
+      "configs/experiments/paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml": "9e52de3cf90c20ee5cb262654ceee1a910ccc863facd7efce4c7fc2d5d0015c5"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7_modal_structure_discovery.json": "ff1b851a73b67672113cc9788577340121b4cf2ddeb7b3c1bd64cbffd0ae342d",
+      "configs/experiments/paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml": "9e52de3cf90c20ee5cb262654ceee1a910ccc863facd7efce4c7fc2d5d0015c5"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7_modal_structure_discovery.json": "ff1b851a73b67672113cc9788577340121b4cf2ddeb7b3c1bd64cbffd0ae342d",
+      "configs/experiments/paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml": "9e52de3cf90c20ee5cb262654ceee1a910ccc863facd7efce4c7fc2d5d0015c5"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7_modal_structure_discovery.json": "ff1b851a73b67672113cc9788577340121b4cf2ddeb7b3c1bd64cbffd0ae342d",
+      "configs/experiments/paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml": "9e52de3cf90c20ee5cb262654ceee1a910ccc863facd7efce4c7fc2d5d0015c5"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7_modal_structure_discovery.json": "ff1b851a73b67672113cc9788577340121b4cf2ddeb7b3c1bd64cbffd0ae342d",
+      "configs/experiments/paper_m0_afsd_v7_modal_structure_discovery_f1_seed324.toml": "9e52de3cf90c20ee5cb262654ceee1a910ccc863facd7efce4c7fc2d5d0015c5"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7b_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7b_modal_noninferiority.json": "5d510c0efcbd20dc5195c20688263d83f4f0e09e12987be94eb0f5657dbcdcbb",
+      "configs/experiments/paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml": "2e3cedeee2e0fe6e3a9e6e118806818dd1d3cf82a17ce1fb9918a87572f24955"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7b_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7b_modal_noninferiority.json": "5d510c0efcbd20dc5195c20688263d83f4f0e09e12987be94eb0f5657dbcdcbb",
+      "configs/experiments/paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml": "2e3cedeee2e0fe6e3a9e6e118806818dd1d3cf82a17ce1fb9918a87572f24955"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7b_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7b_modal_noninferiority.json": "5d510c0efcbd20dc5195c20688263d83f4f0e09e12987be94eb0f5657dbcdcbb",
+      "configs/experiments/paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml": "2e3cedeee2e0fe6e3a9e6e118806818dd1d3cf82a17ce1fb9918a87572f24955"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7b_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7b_modal_noninferiority.json": "5d510c0efcbd20dc5195c20688263d83f4f0e09e12987be94eb0f5657dbcdcbb",
+      "configs/experiments/paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml": "2e3cedeee2e0fe6e3a9e6e118806818dd1d3cf82a17ce1fb9918a87572f24955"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v7b_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v7b_modal_noninferiority.json": "5d510c0efcbd20dc5195c20688263d83f4f0e09e12987be94eb0f5657dbcdcbb",
+      "configs/experiments/paper_m0_afsd_v7b_modal_noninferiority_f1_seed324.toml": "2e3cedeee2e0fe6e3a9e6e118806818dd1d3cf82a17ce1fb9918a87572f24955"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v8_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v8_modal_identifiability.json": "f0edb58fd9fcc682f746dd3b0b92ab49f8507dca0a2aefdb8e84ca06764c8224",
+      "configs/experiments/paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml": "98217461fc912ea70c31f5f17bb7668390e6141b52f8ebe9b69e8e3ac2acaf24"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v8_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v8_modal_identifiability.json": "f0edb58fd9fcc682f746dd3b0b92ab49f8507dca0a2aefdb8e84ca06764c8224",
+      "configs/experiments/paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml": "98217461fc912ea70c31f5f17bb7668390e6141b52f8ebe9b69e8e3ac2acaf24"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v8_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v8_modal_identifiability.json": "f0edb58fd9fcc682f746dd3b0b92ab49f8507dca0a2aefdb8e84ca06764c8224",
+      "configs/experiments/paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml": "98217461fc912ea70c31f5f17bb7668390e6141b52f8ebe9b69e8e3ac2acaf24"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v8_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v8_modal_identifiability.json": "f0edb58fd9fcc682f746dd3b0b92ab49f8507dca0a2aefdb8e84ca06764c8224",
+      "configs/experiments/paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml": "98217461fc912ea70c31f5f17bb7668390e6141b52f8ebe9b69e8e3ac2acaf24"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_afsd_v8_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_afsd_v8_modal_identifiability.json": "f0edb58fd9fcc682f746dd3b0b92ab49f8507dca0a2aefdb8e84ca06764c8224",
+      "configs/experiments/paper_m0_afsd_v8_modal_identifiability_f1_seed324.toml": "98217461fc912ea70c31f5f17bb7668390e6141b52f8ebe9b69e8e3ac2acaf24"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_esc_v1_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_esc_v1_excitation_conditioned_selection.json": "d2f1f3f6a7c6b91f6a7fcd8671871c1161bcd72d23830f2cb89c86533821f088",
+      "configs/experiments/paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml": "af4e5f578f88c295f39953126f788480652da21a19055834aaf66a837fe58074"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_esc_v1_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_esc_v1_excitation_conditioned_selection.json": "d2f1f3f6a7c6b91f6a7fcd8671871c1161bcd72d23830f2cb89c86533821f088",
+      "configs/experiments/paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml": "af4e5f578f88c295f39953126f788480652da21a19055834aaf66a837fe58074"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_esc_v1_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_esc_v1_excitation_conditioned_selection.json": "d2f1f3f6a7c6b91f6a7fcd8671871c1161bcd72d23830f2cb89c86533821f088",
+      "configs/experiments/paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml": "af4e5f578f88c295f39953126f788480652da21a19055834aaf66a837fe58074"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_esc_v1_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_esc_v1_excitation_conditioned_selection.json": "d2f1f3f6a7c6b91f6a7fcd8671871c1161bcd72d23830f2cb89c86533821f088",
+      "configs/experiments/paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml": "af4e5f578f88c295f39953126f788480652da21a19055834aaf66a837fe58074"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_esc_v1_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/m0_esc_v1_excitation_conditioned_selection.json": "d2f1f3f6a7c6b91f6a7fcd8671871c1161bcd72d23830f2cb89c86533821f088",
+      "configs/experiments/paper_m0_esc_v1_excitation_conditioned_selection_f1_seed324.toml": "af4e5f578f88c295f39953126f788480652da21a19055834aaf66a837fe58074"
+    },
+    "unavailable_paths": []
+  },
+  "paper_data_level_v1_hypothesis_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/data_level_structure_selection_v1.json": "4dc2a8dc3485d6acc6c3ad710b8c8c21a187016cceb65187fdc59c5d4439fd31",
+      "configs/experiments/paper_data_level_structure_selection_v1_f1_seed324.toml": "e653c1bbae60f6926dcf6812cce6b2c49ea9f316d07e85154650f9445e4f2207"
+    },
+    "unavailable_paths": []
+  },
+  "paper_data_level_v1_controlled_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/data_level_structure_selection_v1.json": "4dc2a8dc3485d6acc6c3ad710b8c8c21a187016cceb65187fdc59c5d4439fd31",
+      "configs/experiments/paper_data_level_structure_selection_v1_f1_seed324.toml": "e653c1bbae60f6926dcf6812cce6b2c49ea9f316d07e85154650f9445e4f2207"
+    },
+    "unavailable_paths": []
+  },
+  "paper_data_level_v1_residual_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/data_level_structure_selection_v1.json": "4dc2a8dc3485d6acc6c3ad710b8c8c21a187016cceb65187fdc59c5d4439fd31",
+      "configs/experiments/paper_data_level_structure_selection_v1_f1_seed324.toml": "e653c1bbae60f6926dcf6812cce6b2c49ea9f316d07e85154650f9445e4f2207"
+    },
+    "unavailable_paths": []
+  },
+  "paper_data_level_v1_adversarial_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/data_level_structure_selection_v1.json": "4dc2a8dc3485d6acc6c3ad710b8c8c21a187016cceb65187fdc59c5d4439fd31",
+      "configs/experiments/paper_data_level_structure_selection_v1_f1_seed324.toml": "e653c1bbae60f6926dcf6812cce6b2c49ea9f316d07e85154650f9445e4f2207"
+    },
+    "unavailable_paths": []
+  },
+  "paper_data_level_v1_acceptance_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/data_level_structure_selection_v1.json": "4dc2a8dc3485d6acc6c3ad710b8c8c21a187016cceb65187fdc59c5d4439fd31",
+      "configs/experiments/paper_data_level_structure_selection_v1_f1_seed324.toml": "e653c1bbae60f6926dcf6812cce6b2c49ea9f316d07e85154650f9445e4f2207"
+    },
+    "unavailable_paths": []
+  },
+  "paper_higher_order_cluster_validation_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/higher_order_cluster_validation_v1.json": "c8271802efb74d38f2490aab25dccc6a30e982571e8adf365c0c259eb5a9ef6c",
+      "configs/experiments/paper_higher_order_cluster_validation_f1_seed324.toml": "86eb3e9a61077143797255e921dda2a268e146008aa8ea2369cc3636709c8775"
+    },
+    "unavailable_paths": []
+  },
+  "paper_combined_ten_machine_identification_f1_seed324": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/combined_ten_machine_identification_v1.json": "442358ecd70941ca9e00f287e988014ef2afd9db17ade787bc80293ad1b2402f",
+      "configs/experiments/paper_combined_ten_machine_identification_f1_seed324.toml": "7a67cc919e8620676c7d9a6c6583b2e6f9815eec50f34998f327333c267e8dbb"
+    },
+    "unavailable_paths": []
+  },
+  "paper_v1_full": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v1.json": "122e2dcc81d8cc440a1b4b42bfd102f1c70f0de2c5fba0174db39e25bd4b36f2"
+    },
+    "unavailable_paths": []
+  },
+  "paper_v2_integral_full": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v2_integral.json": "faeda9d2068e3145d2cb0a53c858b46b78ab76cf697888b6e401a773e1b28cfb",
+      "configs/experiments/paper_integral_v2.toml": "aa496da5402e5e4188ae198a16541006bbe8cd63fb7cd1471e35efe3dd1c1906"
+    },
+    "unavailable_paths": []
+  },
+  "paper_v2_integral_single_seed": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v2_integral.json": "faeda9d2068e3145d2cb0a53c858b46b78ab76cf697888b6e401a773e1b28cfb",
+      "configs/experiments/paper_integral_v2_single_seed.toml": "7f43552e5e2f7293f045acb04b5044c0dbd44f06959ce3437660a494758acee5"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m2a_round2_single_seed": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_m2a_round2.json": "21666fa57a43171d7616da35d99f05e31ecc0385946d25dca1abab94931bf3a3",
+      "configs/experiments/paper_m2a_round2_single_seed.toml": "929d07e75ce0958824cbfb0f496c2e549838053833e1883995233aa95c45cdf4"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m2a_round3_observed_validation": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_m2a_round3_observed.json": "42a2e8db6fbf6062d477b30ed12a2bceef0ffab4bf2792c307c53df03cb59bd3",
+      "configs/experiments/paper_m2a_round3_observed_single_seed.toml": "c4fca1e5afc2855db9d59efe9b0be5ae8b96eac8d7bb8e7d34bd4bd093b67992"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m2a_round3_observed_single_seed": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_m2a_round3_observed.json": "42a2e8db6fbf6062d477b30ed12a2bceef0ffab4bf2792c307c53df03cb59bd3",
+      "configs/experiments/paper_m2a_round3_observed_single_seed.toml": "c4fca1e5afc2855db9d59efe9b0be5ae8b96eac8d7bb8e7d34bd4bd093b67992"
+    },
+    "unavailable_paths": []
+  },
+  "paper_swing_sindy_round4_validation": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_swing_sindy_round4.json": "c8def3bb18dfc9babba16efbf51a9f6c79e7c31e23c1225b139dedf700fc7b33",
+      "configs/experiments/paper_swing_sindy_round4_single_seed.toml": "54a943a86bd228d675febf50701f10e53f494e5b3cd2cb232639f9b8d6f9e646"
+    },
+    "unavailable_paths": []
+  },
+  "paper_swing_sindy_round4_single_seed": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_swing_sindy_round4.json": "c8def3bb18dfc9babba16efbf51a9f6c79e7c31e23c1225b139dedf700fc7b33",
+      "configs/experiments/paper_swing_sindy_round4_single_seed.toml": "54a943a86bd228d675febf50701f10e53f494e5b3cd2cb232639f9b8d6f9e646"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_graph_round5_validation": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_m0_graph_round5.json": "829ed66f0cde56e4766267d9b4b0048e499774f791bf719e0a9d059ebf3b0b4b",
+      "configs/experiments/paper_m0_graph_round5_single_seed.toml": "d1ad8d9e083cba5204f6ff7376d0841b427622397fa0ccf871481e7d6a363818"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_graph_round5_single_seed": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_m0_graph_round5.json": "829ed66f0cde56e4766267d9b4b0048e499774f791bf719e0a9d059ebf3b0b4b",
+      "configs/experiments/paper_m0_graph_round5_single_seed.toml": "d1ad8d9e083cba5204f6ff7376d0841b427622397fa0ccf871481e7d6a363818"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_graph_round5_solver_fix_validation": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_m0_graph_round5_solver_fix.json": "56fef3c47e70f6874aeec03328850ca67298ea7487cdc802ebcd557f0f9a4854",
+      "configs/experiments/paper_m0_graph_round5_single_seed.toml": "d1ad8d9e083cba5204f6ff7376d0841b427622397fa0ccf871481e7d6a363818"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_graph_round5_solver_fix_single_seed": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_m0_graph_round5_solver_fix.json": "56fef3c47e70f6874aeec03328850ca67298ea7487cdc802ebcd557f0f9a4854",
+      "configs/experiments/paper_m0_graph_round5_single_seed.toml": "d1ad8d9e083cba5204f6ff7376d0841b427622397fa0ccf871481e7d6a363818"
+    },
+    "unavailable_paths": []
+  },
+  "paper_m0_gmd_pm_round6_f1_single_seed": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/experiments/paper_m0_gmd_pm_round6_f1_single_seed.toml": "3bec529106f1bbd1e26168772a6733bd5edc74fedaf9bf4c779ed787333a7162"
+    },
+    "unavailable_paths": [
+      "configs/workflows/paper_m0_gmd_pm_round6.json"
+    ]
+  },
+  "paper_v2_integral_smoke": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v2_integral.json": "faeda9d2068e3145d2cb0a53c858b46b78ab76cf697888b6e401a773e1b28cfb",
+      "configs/experiments/paper_integral_v2_smoke.toml": "1be125083e5fb87f51aea999c271a88c7730d8f0d46cd0d1069e7a6af9ed5556"
+    },
+    "unavailable_paths": []
+  },
+  "paper_v2_integral_summarize": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v2_integral.json": "faeda9d2068e3145d2cb0a53c858b46b78ab76cf697888b6e401a773e1b28cfb"
+    },
+    "unavailable_paths": []
+  },
+  "paper_v2_integral_report": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v2_integral.json": "faeda9d2068e3145d2cb0a53c858b46b78ab76cf697888b6e401a773e1b28cfb"
+    },
+    "unavailable_paths": []
+  },
+  "paper_summarize": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v1.json": "122e2dcc81d8cc440a1b4b42bfd102f1c70f0de2c5fba0174db39e25bd4b36f2"
+    },
+    "unavailable_paths": []
+  },
+  "paper_adversarial_audit": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v1.json": "122e2dcc81d8cc440a1b4b42bfd102f1c70f0de2c5fba0174db39e25bd4b36f2"
+    },
+    "unavailable_paths": []
+  },
+  "paper_tables": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v1.json": "122e2dcc81d8cc440a1b4b42bfd102f1c70f0de2c5fba0174db39e25bd4b36f2"
+    },
+    "unavailable_paths": []
+  },
+  "paper_manuscript": {
+    "dataset": "ieee39_postclear_canonical_v1",
+    "bindings": {
+      "configs/workflows/paper_v1.json": "122e2dcc81d8cc440a1b4b42bfd102f1c70f0de2c5fba0174db39e25bd4b36f2"
+    },
+    "unavailable_paths": []
+  }
+}

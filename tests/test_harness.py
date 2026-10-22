@@ -40,7 +40,9 @@ def test_registered_workflow_states_are_contiguous(root):
 def test_data_checksums(root):
     result = verify_data(root)
     assert result["status"] == "PASS"
-    assert result["event_count"] == 315
+    assert result["event_count"] == 591
+    assert result["holdout_payload_arrays_read"] == 0
+    assert result["test_status"] == "prior_exposure_detected_not_fresh"
     assert result["auxiliary_datasets"]["synthetic_benchmark_registry_v1"]["status"] == "PASS"
 
 

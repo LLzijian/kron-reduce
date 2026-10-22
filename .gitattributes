@@ -6,6 +6,7 @@
 *.png binary
 *.zip binary
 data/ieee39_postclear_canonical_v1/** -text
+data/kiki_ieee39_v1/** -text
 legacy/source/** -text
 legacy/evidence/** -text
 legacy/source_manifest.sha256 -text

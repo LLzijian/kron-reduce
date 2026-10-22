@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import json
 import math
+import os
 from pathlib import Path
 
 import h5py
@@ -14,6 +15,11 @@ from kron_reduce.data.history_contract import CausalStateHistory
 from kron_reduce.models.nonlinear_latent import EquilibriumLearningSample
 from kron_reduce.physics.coordinates import coi_project, coi_project_power
 from project_harness.evidence import sha256_file
+
+
+def resolve_source_root(project_root: Path, configured: str) -> Path:
+    path = Path(os.environ.get("KIKI_DATA_ROOT", configured))
+    return path if path.is_absolute() else (project_root / path).resolve()
 
 
 def allocate_roles(source_root: Path, names: list[str], seed: int = 324):
@@ -69,6 +75,22 @@ class KikiHistorySamples:
             raise ValueError("kiki rerun locks 21 observations and 3 s targets")
         if any(r["source_role"] != "train" for r in rows):
             raise ValueError("original source holdouts remain locked")
+        identities = set()
+        for name in {row["source_dataset"] for row in rows}:
+            split = json.loads((source_root / name / "splits.json").read_text(encoding="utf-8"))
+            allowed = set(split["train"])
+            forbidden = set(split["validation"]) | set(split["test"])
+            if allowed & forbidden:
+                raise ValueError("source split IDs overlap")
+            for row in rows:
+                if row["source_dataset"] != name:
+                    continue
+                identity = (name, row["raw_id"])
+                if row["raw_id"] not in allowed or row["raw_id"] in forbidden:
+                    raise ValueError("raw event ID is outside the source train allowlist")
+                if identity in identities or row["role"] not in ("train", "val"):
+                    raise ValueError("duplicate event or forbidden target role")
+                identities.add(identity)
         self.source_root, self.rows, self.bindings = source_root, tuple(rows), bindings
         self.accesses, self.coverage, self.static = [], [], {}
 

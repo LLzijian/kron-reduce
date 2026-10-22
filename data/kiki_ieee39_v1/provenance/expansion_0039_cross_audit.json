@@ -1,0 +1,131 @@
+{
+  "cross_shard_pass": true,
+  "combined_accepted": 591,
+  "pilot": {
+    "train": {
+      "n": 227,
+      "stable": 196,
+      "unstable": 31,
+      "groups": [
+        "1",
+        "12",
+        "14",
+        "15",
+        "17",
+        "2",
+        "20",
+        "21",
+        "23",
+        "29",
+        "3",
+        "5",
+        "6",
+        "8",
+        "9"
+      ],
+      "eligible_after50ms": 218
+    },
+    "validation": {
+      "n": 74,
+      "stable": 61,
+      "unstable": 13,
+      "groups": [
+        "10",
+        "16",
+        "22",
+        "26",
+        "4"
+      ],
+      "eligible_after50ms": 70
+    },
+    "test": {
+      "n": 60,
+      "stable": 48,
+      "unstable": 12,
+      "groups": [
+        "13",
+        "19",
+        "25",
+        "7"
+      ],
+      "eligible_after50ms": 57
+    }
+  },
+  "expansion": {
+    "train": {
+      "n": 142,
+      "stable": 115,
+      "unstable": 27,
+      "groups": [
+        "11",
+        "18",
+        "24",
+        "27",
+        "28",
+        "30",
+        "31",
+        "32",
+        "33"
+      ],
+      "eligible_after50ms": 133
+    },
+    "validation": {
+      "n": 43,
+      "stable": 34,
+      "unstable": 9,
+      "groups": [
+        "34",
+        "35",
+        "36"
+      ],
+      "eligible_after50ms": 39
+    },
+    "test": {
+      "n": 45,
+      "stable": 43,
+      "unstable": 2,
+      "groups": [
+        "37",
+        "38",
+        "39"
+      ],
+      "eligible_after50ms": 43
+    }
+  },
+  "same_equilibrium_exact": true,
+  "same_physical_signature": "e52c4d30ec9db0ae76c6a2f1f722ca00a7a5803c4dbb01ad3b6718bfcade16d9",
+  "bus_and_line_sets_disjoint": true,
+  "coverage_non_test_only": {
+    "pilot_train_leave_one_out_nn_quantiles": [
+      0.05575050193731033,
+      0.7344552675380109,
+      2.246539598074172,
+      8.360492254139537
+    ],
+    "expansion_train_to_pilot_train_nn_quantiles": [
+      0.16959065414597438,
+      1.476682709798012,
+      4.244327971131968,
+      12.678075103252574
+    ],
+    "expansion_validation_to_pilot_train_nn_quantiles": [
+      0.35762365800213003,
+      1.4560524722584827,
+      4.184144144667738,
+      7.721389124018115
+    ],
+    "combined_train_pca_fractions": [
+      0.483003411559775,
+      0.16086212879067557,
+      0.11840653514412466,
+      0.07796468498857098,
+      0.04670613825988652
+    ]
+  },
+  "hashes": {
+    "private_data\\ieee39_postfault\\dataset_index.csv": "3cb759749328986790fc6933c34aba416be10ef807135b4654f1ae970d84de9b",
+    "private_data\\ieee39_postfault\\splits.json": "02990d0ddb22e4153824a28f1e99fc0d22a0afb70a4d197e6a294e6da253dba8",
+    "private_data\\ieee39_expansion\\dataset_index.csv": "6e4c0f3b5329f2472201869aa1034d2e2097726c400064a4cdf1bcc54ac3d783",
+    "private_data\\ieee39_expansion\\splits.json": "f1d12c0f60462c85991a41464f56fe247977cefaf5e458a22a4ecc0d7e61c10b"
+  }
+}

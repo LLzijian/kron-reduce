@@ -1,5 +1,11 @@
 # Structure discovery beyond a hand-written swing equation
 
+Current policy override (2026-10-23): spatial clustering is paused, new real-data
+work uses registered kiki sources at ten-node resolution, and old test exposure
+requires new independent kiki confirmation data. The roadmap below is historical
+context; `configs/research_policy.json` governs prospective work. Temporal/model
+order reduction, physical module discovery and Level 6 correctness remain goals.
+
 Revision 4, 2026-08-28. Supersedes roadmap v3 (in git history). The main
 selection unit is now the complete supplied trajectory corpus: one data-level
 cluster decision is followed by one block-prunable physical model. Excitation
@@ -132,7 +138,7 @@ is ordered:
 2. **IEEE39 canonical (flagship)**: existing rules unchanged — F1/seed 324
    development, frozen validation read once per frozen branch, test and
    F2–F5 locked behind explicit gates, observed-Pm rollouts labelled as
-   conditional upper bounds.
+   conditional sensitivities, without an upper-bound interpretation.
 3. Cross-dataset replication tests as the registered evidence base grows.
 
 ## 6. Status ledger and next implementations
