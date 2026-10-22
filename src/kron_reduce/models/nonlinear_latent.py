@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -24,6 +25,7 @@ from kron_reduce.models.learned_latent import (
 from kron_reduce.physics.coordinates import coi_basis, coi_project, coi_project_power
 
 
+@lru_cache(maxsize=32)
 def complete_incidence(n: int) -> np.ndarray:
     columns = []
     for i in range(n):
@@ -31,7 +33,9 @@ def complete_incidence(n: int) -> np.ndarray:
             column = np.zeros(n)
             column[i], column[j] = 1.0, -1.0
             columns.append(column)
-    return np.stack(columns, axis=1)
+    result = np.stack(columns, axis=1)
+    result.flags.writeable = False
+    return result
 
 
 @dataclass(frozen=True)
@@ -381,7 +385,7 @@ class LearnedNonlinearModel:
             )
 
 
-def _integral_start(samples, mass, backbone, scale):
+def _integral_start(samples, mass, backbone, scale, *, include_last=False):
     """Train-only nonnegative momentum-integral warm start; no derivatives."""
     n = len(mass)
     b = complete_incidence(n)
@@ -402,6 +406,8 @@ def _integral_start(samples, mass, backbone, scale):
         integral = np.cumsum((terms[1:] + terms[:-1]) * np.diff(t)[:, None, None] / 2, axis=0)
         rhs = t[1:, None] * sample.history.constant_power - (v[1:] - v[0]) * mass
         select = np.arange(9, len(t) - 1, 10)
+        if include_last:
+            select = np.unique(np.r_[select, len(t) - 2])
         factor = np.sqrt(weight / max(1, len(select)))
         design.append(
             ((p @ integral[select]) / (mass * scale[n:])[None, :, None]).reshape(-1, terms.shape[2])
@@ -419,7 +425,12 @@ def _integral_start(samples, mass, backbone, scale):
 
 
 def fit_nonlinear_model(
-    samples, mass, settings: NonlinearFitSettings, *, target_scale_samples=None
+    samples,
+    mass,
+    settings: NonlinearFitSettings,
+    *,
+    target_scale_samples=None,
+    allow_partial_horizons=False,
 ) -> LearnedNonlinearModel:
     """Fit train only, with visible history consistency and free multi-horizon loss."""
     import torch
@@ -430,17 +441,27 @@ def fit_nonlinear_model(
         raise ValueError("nonlinear learning requires explicit equilibrium priors")
     mass = np.array(mass, dtype=float, copy=True)
     n, r = len(mass), settings.latent_dimension
-    clock = samples[0].forecast_time
+    clock = (
+        np.arange(round(max(settings.horizons_s) / 0.01) + 1) * 0.01
+        if allow_partial_horizons
+        else samples[0].forecast_time
+    )
     history_count = len(samples[0].history.time)
     if mass.ndim != 1 or not np.isfinite(mass).all() or np.any(mass <= 0) or n < 2:
         raise ValueError("invalid mass priors")
     if any(
-        not np.array_equal(sample.forecast_time, clock)
+        (not allow_partial_horizons and not np.array_equal(sample.forecast_time, clock))
         or len(sample.history.time) != history_count
         or sample.history.delta.shape[1] != n
         for sample in samples
     ):
         raise ValueError("learning requires one clock, history count, and node count")
+    if allow_partial_horizons and any(
+        len(s.forecast_time) > len(clock)
+        or not np.allclose(s.forecast_time, clock[: len(s.forecast_time)], rtol=0, atol=1e-12)
+        for s in samples
+    ):
+        raise ValueError("partial targets must be real prefixes of the registered clock")
     if (
         not np.allclose(np.diff(clock), 0.01, rtol=0, atol=1e-12)
         or abs(clock[-1] - max(settings.horizons_s)) > 1e-10
@@ -469,7 +490,9 @@ def fit_nonlinear_model(
         [_features(s.history, s.equilibrium_delta, settings.frames) for s in samples]
     )
     feature_scale = np.maximum(np.sqrt(weights @ features**2), 1e-5)
-    start = _integral_start(scale_population, mass, settings.backbone, scales)
+    start = _integral_start(
+        scale_population, mass, settings.backbone, scales, include_last=allow_partial_horizons
+    )
     old_threads, old_determinism = (
         torch.get_num_threads(),
         torch.are_deterministic_algorithms_enabled(),
@@ -492,7 +515,17 @@ def fit_nonlinear_model(
             eq = tensor(np.stack([s.equilibrium_delta for s in samples])) @ b
             history = tensor(np.stack([np.c_[s.history.delta, s.history.omega] for s in samples]))
             hist_dt = tensor(np.stack([np.diff(s.history.time) for s in samples]))[:, :, None]
-            truth = tensor(np.stack([np.c_[s.target_delta, s.target_omega] for s in samples]))
+            if allow_partial_horizons:
+                # Neutral tensor storage only, never an observation or feature.
+                # Missing targets have exactly zero loss weight below.
+                target_buffer = np.zeros((len(samples), len(clock), 2 * n))
+                for index, sample in enumerate(samples):
+                    target_buffer[index, : len(sample.forecast_time)] = np.c_[
+                        sample.target_delta, sample.target_omega
+                    ]
+                truth = tensor(target_buffer)
+            else:
+                truth = tensor(np.stack([np.c_[s.target_delta, s.target_omega] for s in samples]))
             raw = torch.nn.Parameter(
                 tensor(np.log(np.expm1(np.minimum(start, 40))) + np.maximum(start - 40, 0))
             )
@@ -509,6 +542,13 @@ def fit_nonlinear_model(
                     raise ValueError("horizon must lie on registered clock")
                 time_weight[:count] += 1 / count / len(settings.horizons_s)
             tw = tensor(time_weight)
+            if allow_partial_horizons:
+                time_weight = np.zeros((len(samples), len(clock) - 1))
+                for index, sample in enumerate(samples):
+                    for horizon in settings.horizons_s:
+                        count = min(round(horizon / 0.01), len(sample.forecast_time) - 1)
+                        time_weight[index, :count] += 1 / count / len(settings.horizons_s)
+                tw = tensor(time_weight)
             trace = []
             for epoch in range(settings.epochs):
                 optimizer.zero_grad()
@@ -521,7 +561,14 @@ def fit_nonlinear_model(
                 )
 
                 def rhs(
-                    state, k=k, damping=damping, coupling=coupling, j=j, decay_matrix=decay_matrix
+                    state,
+                    k=k,
+                    damping=damping,
+                    coupling=coupling,
+                    j=j,
+                    decay_matrix=decay_matrix,
+                    power=power,
+                    eq=eq,
                 ):
                     q, v, z = state[:, :n], state[:, n : 2 * n], state[:, 2 * n :]
                     edge = q @ b
@@ -534,11 +581,18 @@ def fit_nonlinear_model(
                     f = f - f.sum(dim=1, keepdim=True) * mt / mt.sum()
                     return torch.cat((v, f / mt, v @ coupling + z @ (j - decay_matrix).T), dim=1)
 
-                def step(state, h):
-                    a = rhs(state)
-                    bb = rhs(state + h * a / 2)
-                    c = rhs(state + h * bb / 2)
-                    dd = rhs(state + h * c)
+                def step(state, h, indices=None, rhs=rhs):
+                    def field(value):
+                        return (
+                            rhs(value)
+                            if indices is None
+                            else rhs(value, power=power[indices], eq=eq[indices])
+                        )
+
+                    a = field(state)
+                    bb = field(state + h * a / 2)
+                    c = field(state + h * bb / 2)
+                    dd = field(state + h * c)
                     return state + h * (a + 2 * bb + 2 * c + dd) / 6
 
                 state = torch.cat((history[:, 0], x @ encoder.T), dim=1)
@@ -553,8 +607,19 @@ def fit_nonlinear_model(
                 state = torch.cat((history[:, -1], state[:, 2 * n :]), dim=1)
                 future_error = torch.zeros(len(samples), dtype=torch.float64)
                 for index in range(1, len(clock)):
-                    state = step(state, 0.01)
-                    future_error = future_error + tw[index - 1] * torch.mean(
+                    if allow_partial_horizons:
+                        indices = torch.as_tensor(
+                            [i for i, s in enumerate(samples) if len(s.forecast_time) > index],
+                            dtype=torch.long,
+                        )
+                        if len(indices):
+                            state = state.index_copy(
+                                0, indices, step(state[indices], 0.01, indices)
+                            )
+                    else:
+                        state = step(state, 0.01)
+                    weight = tw[:, index - 1] if allow_partial_horizons else tw[index - 1]
+                    future_error = future_error + weight * torch.mean(
                         ((state[:, : 2 * n] - truth[:, index]) / scale) ** 2, dim=1
                     )
                 future_loss, history_loss = (
@@ -602,6 +667,13 @@ def fit_nonlinear_model(
                 "actual_optimizer_steps": settings.epochs,
                 "parameter_count": sum(p.numel() for p in parameters),
             }
+            if allow_partial_horizons:
+                record.update(
+                    partial_horizons=True,
+                    loss_masks_are_features=False,
+                    real_target_counts={s.event_id: len(s.forecast_time) - 1 for s in samples},
+                    missing_target_weight=0.0,
+                )
             return LearnedNonlinearModel(
                 closure, encoder.detach().numpy().copy(), feature_scale, scales, settings, record
             )

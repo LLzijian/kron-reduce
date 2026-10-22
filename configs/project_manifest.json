@@ -49,6 +49,16 @@
     }
   },
   "experiments": {
+    "paper_kiki_p2_a03_seed324": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.kiki_history_learning",
+      "workflow": "kiki_p2_a03_rerun_v1",
+      "config": "paper_kiki_p2_a03_seed324.toml",
+      "stage": "kiki_rerun",
+      "data_policy": "kiki_original_train_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false
+    },
     "nonlinear_history_synthetic_a03_v1": {
       "status": "diagnostic",
       "module": "kron_reduce.workflows.nonlinear_history_learning",

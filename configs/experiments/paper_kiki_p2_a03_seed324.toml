@@ -1,0 +1,50 @@
+data_policy = "kiki_original_train_only"
+source_root = "E:/03-nn_Transfer_Func/kiki/private_data"
+sources = ["ieee39_postfault", "ieee39_expansion"]
+seed = 324
+encoder_frames = 3
+epochs = 80
+learning_rate = 0.01
+encoder_penalty = 0.0001
+energy_identity_tolerance = 0.00000001
+step_refinement_tolerance = 0.00001
+reference_checkpoint = "results/paper_ieee39_p2_a03_nonlinear_f1_seed324-mechanism_learning-20261021T071856Z-8bf0522b/candidate-sine-history.npz"
+reference_checkpoint_sha256 = "4449bdb858a6357a1ebe8f6eb5c76037b661f43420795d46924fb21f0a35b86e"
+protocol_path = "docs/protocols/kiki_a03_rerun_20261022_zh.md"
+planning_path = "docs/protocols/kiki_a03_rerun_20261022_zh.md"
+claim_boundary = "Five A03 comparisons on kiki original train with internal line-grouped train/val; available and complete-horizon scores separated. No original kiki val/test, external writes, default promotion, certified transfer or cross-dataset causal improvement claim."
+
+[[candidates]]
+name = "sine-memoryless"
+backbone = "sine"
+latent_dimension = 0
+history_weight = 1.0
+horizons_s = [1.0, 3.0]
+
+[[candidates]]
+name = "sine-history"
+backbone = "sine"
+latent_dimension = 2
+history_weight = 1.0
+horizons_s = [1.0, 3.0]
+
+[[candidates]]
+name = "linear-history"
+backbone = "linear"
+latent_dimension = 2
+history_weight = 1.0
+horizons_s = [1.0, 3.0]
+
+[[candidates]]
+name = "sine-no-history-loss"
+backbone = "sine"
+latent_dimension = 2
+history_weight = 0.0
+horizons_s = [1.0, 3.0]
+
+[[candidates]]
+name = "sine-single-horizon"
+backbone = "sine"
+latent_dimension = 2
+history_weight = 1.0
+horizons_s = [1.0]
