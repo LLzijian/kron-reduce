@@ -210,8 +210,13 @@ class NonlinearFitSettings:
     history_weight: float = 1.0
     horizons_s: tuple[float, ...] = (1.0, 3.0)
     seed: int = 324
+    encoder_mode: str = "frames"
 
     def __post_init__(self):
+        if self.encoder_mode not in {"frames", "fixed_quadratic"}:
+            raise ValueError("unregistered history representation")
+        if self.encoder_mode == "fixed_quadratic" and self.frames != 3:
+            raise ValueError("fixed quadratic representation has exactly three coefficients")
         if (
             type(self.latent_dimension) is not int
             or self.latent_dimension < 0
@@ -241,8 +246,38 @@ class NonlinearFitSettings:
             raise ValueError("horizons must be positive and strictly increasing")
 
 
-def _features(history: CausalStateHistory, equilibrium: np.ndarray, frames: int) -> np.ndarray:
+@lru_cache(maxsize=1)
+def fixed_quadratic_basis() -> np.ndarray:
+    """Data-independent, signed equal-weight Gram-Schmidt basis on 11 samples."""
+    s = (np.arange(11, dtype=float) - 5) / 5
+    columns = []
+    for vector in (np.ones(11), s, s**2):
+        value = vector.copy()
+        for previous in columns:
+            value -= (previous @ value) * previous
+        value /= np.linalg.norm(value)
+        if value[np.flatnonzero(np.abs(value) > 1e-14)[0]] < 0:
+            value *= -1
+        columns.append(value)
+    result = np.stack(columns, axis=1)
+    result.flags.writeable = False
+    return result
+
+
+def _features(history: CausalStateHistory, equilibrium: np.ndarray, frames: int,
+              encoder_mode: str = "frames") -> np.ndarray:
     # Static equilibrium is allowed; targets, source, line, and identity are not.
+    if encoder_mode == "fixed_quadratic":
+        if frames != 3 or len(history.time) != 11 or not np.allclose(
+            history.time, np.arange(11) * 0.01 - 0.1, rtol=0, atol=1e-12
+        ):
+            raise ValueError("fixed summary requires the registered 11-point clock")
+        basis = fixed_quadratic_basis()
+        return np.concatenate(((basis.T @ history.delta).reshape(-1),
+                               (basis.T @ history.omega).reshape(-1),
+                               history.constant_power, equilibrium))
+    if encoder_mode != "frames":
+        raise ValueError("unregistered history representation")
     return np.r_[history_features(history, frames), equilibrium]
 
 
@@ -255,9 +290,10 @@ class LearnedNonlinearModel:
     settings: NonlinearFitSettings
     fit_record: dict
 
-    def initialize(self, history, equilibrium) -> tuple[np.ndarray, np.ndarray]:
+    def initialize(self, history, equilibrium, *, max_step=0.01) -> tuple[np.ndarray, np.ndarray]:
         seed = self.encoder @ (
-            _features(history, equilibrium, self.settings.frames) / self.feature_scale
+            _features(history, equilibrium, self.settings.frames, self.settings.encoder_mode)
+            / self.feature_scale
         )
         path = self.closure.rollout(
             history.delta[0],
@@ -266,17 +302,19 @@ class LearnedNonlinearModel:
             history.time - history.time[0],
             history.constant_power,
             equilibrium,
+            max_step=max_step,
         )
         return path[-1, 2 * self.closure.n_nodes :], path
 
-    def predict(self, history, time, equilibrium, *, zero_latent=False) -> np.ndarray:
+    def predict(self, history, time, equilibrium, *, zero_latent=False, max_step=0.01) -> np.ndarray:
         z = (
             np.zeros(self.closure.latent_dimension)
             if zero_latent
-            else self.initialize(history, equilibrium)[0]
+            else self.initialize(history, equilibrium, max_step=max_step)[0]
         )
         return self.closure.rollout(
-            history.delta[-1], history.omega[-1], z, time, history.constant_power, equilibrium
+            history.delta[-1], history.omega[-1], z, time, history.constant_power, equilibrium,
+            max_step=max_step,
         )
 
     def score(self, samples, *, zero_latent=False) -> dict:
@@ -487,7 +525,8 @@ def fit_nonlinear_model(
         raise ValueError("normalization population differs from train fitting IDs")
     scales, weights = visible_scales(scale_population), event_weights(samples)
     features = np.stack(
-        [_features(s.history, s.equilibrium_delta, settings.frames) for s in samples]
+        [_features(s.history, s.equilibrium_delta, settings.frames, settings.encoder_mode)
+         for s in samples]
     )
     feature_scale = np.maximum(np.sqrt(weights @ features**2), 1e-5)
     start = _integral_start(
@@ -666,6 +705,16 @@ def fit_nonlinear_model(
                 "loss_trace": trace,
                 "actual_optimizer_steps": settings.epochs,
                 "parameter_count": sum(p.numel() for p in parameters),
+                "device": str(raw.device),
+                "dtype": str(raw.dtype),
+                "training_rk4_event_steps": settings.epochs * (
+                    len(samples) * (history_count - 1)
+                    + sum(len(s.forecast_time) - 1 for s in samples)
+                ),
+                "training_rhs_event_evaluations": 4 * settings.epochs * (
+                    len(samples) * (history_count - 1)
+                    + sum(len(s.forecast_time) - 1 for s in samples)
+                ),
             }
             if allow_partial_horizons:
                 record.update(

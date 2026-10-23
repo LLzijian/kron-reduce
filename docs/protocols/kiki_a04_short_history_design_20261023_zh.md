@@ -1,6 +1,8 @@
 # A04：100 ms历史初始化与同条件比较的拟登记协议
 
-日期：2026-10-23。状态：`DESIGN_REVIEWED_NOT_REGISTERED`。本文件固定下一项实现的建议，不是可调用的实验登记，也未授权打开既有source val/test。模型、数据、评价器、输入合同和工作流实现通过检查并绑定哈希后，才能按新run执行。现有200 ms A03结果和验收状态保留。
+日期：2026-10-23。状态：`IMPLEMENTATION_AND_ENVELOPE_PREREQUISITE_REVIEW`。用户已授权实施与有限预算实验。方案在`paper_kiki_a04_short_history`及`kiki_a04_short_history_v1`登记，执行仍须先通过科学和工程前置检查；既有source val/test继续关闭。现有200 ms A03结果和验收状态保留。
+
+训练前补充：用户指定核心算法与防线判断由Astra Ultra承担，统筹代理负责集成和独立核验，简单任务交Luna，禁止Claude Code。核心审查发现目前没有绑定100 ms、Pm[10]及新候选模型的认证激励范围；`AGENTS.md`要求范围外评价拒绝，故不能以“开发诊断”名义绕过。范围未成立时，正式workflow必须在读取val轨迹和开始12次训练之前生成拒绝、未执行计划和零预算消耗证据，科学结果为`BLOCKED_NO_CERTIFIED_ENVELOPE / KEEP_BASELINE`。下面的12次拟合预算保持封存，不作已执行声明。范围前置方案及核心裁定另见`docs/research/kiki_a04_astra_design_20261023_zh.md`。合成真值机制检查可按其独立合同推进，不能替代真实数据范围认证。
 
 **科学问题。** 在同样的11个真实观测点内，将更多历史信息用于隐状态初始化，能否改善1/3 s闭环轨迹并保留可靠的失步识别？三项固定时间基摘要作为等参数对照，区分输入信息与模型容量。100 ms预计比200 ms多覆盖2个内部val失稳事件，其主要作用是将预测起点提前100 ms。
 

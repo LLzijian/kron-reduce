@@ -70,9 +70,16 @@ def allocate_roles(source_root: Path, names: list[str], seed: int = 324):
 
 
 class KikiHistorySamples:
-    def __init__(self, source_root: Path, rows, bindings, *, history_count=21, horizon_s=3.0):
-        if history_count != 21 or horizon_s != 3.0:
-            raise ValueError("kiki rerun locks 21 observations and 3 s targets")
+    def __init__(
+        self, source_root: Path, rows, bindings, *, history_count=21,
+        power_index=0, horizon_s=3.0,
+    ):
+        if (
+            type(history_count) is not int or type(power_index) is not int
+            or (history_count, power_index) not in {(21, 0), (11, 10)}
+            or horizon_s != 3.0
+        ):
+            raise ValueError("unregistered history/power contract or target horizon")
         if any(r["source_role"] != "train" for r in rows):
             raise ValueError("original source holdouts remain locked")
         identities = set()
@@ -92,6 +99,7 @@ class KikiHistorySamples:
                     raise ValueError("duplicate event or forbidden target role")
                 identities.add(identity)
         self.source_root, self.rows, self.bindings = source_root, tuple(rows), bindings
+        self.history_count, self.power_index = history_count, power_index
         self.accesses, self.coverage, self.static = [], [], {}
 
     def load(self, role):
@@ -147,13 +155,13 @@ class KikiHistorySamples:
                     entry = {
                         **row,
                         "real_count": count,
-                        "history_eligible": count >= 22,
-                        "future_count": max(0, min(count - 21, 300)),
+                        "history_eligible": count >= self.history_count + 1,
+                        "future_count": max(0, min(count - self.history_count, 300)),
                     }
                     self.coverage.append(entry)
-                    if count < 22:
+                    if count < self.history_count + 1:
                         continue
-                    end = min(count, 321)
+                    end = min(count, self.history_count + 300)
 
                     def read(key, selection, row=row, group=group):
                         self.accesses.append(
@@ -172,9 +180,11 @@ class KikiHistorySamples:
                     delta = coi_project(read("delta", slice(0, end)), mass) - eq
                     # Absolute pu synchronous frequency is removed by COI.
                     omega = coi_project((read("omega", slice(0, end)) - 1.0) * angular_rate, mass)
-                    power = coi_project_power(read("Pm", 0) - pm_eq, mass)
+                    power = coi_project_power(read("Pm", self.power_index) - pm_eq, mass)
+                    origin = self.history_count - 1
                     history = CausalStateHistory(
-                        clock[:21] - clock[20], delta[:21], omega[:21], power
+                        clock[: self.history_count] - clock[origin],
+                        delta[: self.history_count], omega[: self.history_count], power,
                     )
                     samples.append(
                         EquilibriumLearningSample(
@@ -183,9 +193,9 @@ class KikiHistorySamples:
                             row["fault_line"],
                             role,
                             history,
-                            np.arange(end - 20) * 0.01,
-                            delta[20:],
-                            omega[20:],
+                            np.arange(end - origin) * 0.01,
+                            delta[origin:],
+                            omega[origin:],
                             eq,
                         )
                     )
@@ -194,6 +204,11 @@ class KikiHistorySamples:
     def access_audit(self):
         return {
             "source_policy": "original_train_only",
+            "input_contract": {
+                "history_count": self.history_count,
+                "power_index": self.power_index,
+                "forecast_origin_s": (self.history_count - 1) * 0.01,
+            },
             "source_val_ids_read": [],
             "test_ids_read": [],
             "future_pm_reads": [],

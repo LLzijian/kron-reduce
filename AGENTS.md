@@ -44,6 +44,12 @@ Authoritative entrypoints:
 
 Rules:
 
+- Agent assignment for the current research programme: core algorithm design
+  and scientific acceptance/boundary decisions are delegated to Astra with
+  Ultra reasoning. The coordinating agent owns integration and evidence
+  verification. Bounded simple implementation and test tasks may use Luna.
+  Do not invoke Claude Code or CC Orchestrator for this project.
+
 - Never overwrite a result run. Every execution gets a new immutable run ID.
 - Never use test data for fitting, normalization, calibration, or selection.
 - Clearing-state task inputs contain the clearing state, declared priors and

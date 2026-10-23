@@ -1,0 +1,7 @@
+data_policy = "analytic_nonlinear_synthetic_only"
+seed = 324
+realization_count = 32
+history_count = 11
+protocol_path = "docs/protocols/kiki_a04_envelope_prerequisite_20261023_zh.md"
+planning_path = "docs/research/kiki_a04_astra_design_20261023_zh.md"
+claim_boundary = "Known synthetic dynamics only: history representation, hidden-state observability, passivity, COI, numerical convergence and replay. No kiki trajectory access, optimization updates, real-data improvement, excitation-envelope certification or Level 6 claim."

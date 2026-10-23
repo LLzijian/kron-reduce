@@ -1,0 +1,24 @@
+{
+  "workflow": "a04_short_history_synthetic_prerequisite_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "synthetic_audit"],
+  "transitions": {"scaffold": "synthetic_audit"},
+  "terminal_stages": ["synthetic_audit"],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "synthetic_audit": {
+      "required_fields": ["status", "process_status", "source_commit", "scientific_verdict", "promotion_decision", "data_policy", "source_val_ids_read", "test_ids_read", "hidden_training_targets_read", "level_6_claimed", "result_dir", "artifact_manifest", "claim_boundary"],
+      "non_empty_fields": ["source_commit", "scientific_verdict", "claim_boundary"],
+      "allowed_values": {
+        "process_status": ["PASS"],
+        "promotion_decision": ["KEEP_BASELINE"],
+        "data_policy": ["analytic_nonlinear_synthetic_only"],
+        "source_val_ids_read": [[]],
+        "test_ids_read": [[]],
+        "hidden_training_targets_read": [false],
+        "level_6_claimed": [false]
+      }
+    }
+  }
+}

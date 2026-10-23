@@ -90,6 +90,31 @@
     }
   },
   "experiments": {
+    "a04_short_history_synthetic_prerequisite": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.kiki_short_history",
+      "workflow": "a04_short_history_synthetic_prerequisite_v1",
+      "config": "a04_short_history_synthetic_prerequisite.toml",
+      "stage": "synthetic_audit",
+      "data_policy": "analytic_nonlinear_synthetic_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "dataset": "synthetic_benchmark_registry_v1"
+    },
+    "paper_kiki_a04_short_history": {
+      "status": "diagnostic",
+      "module": "kron_reduce.workflows.kiki_short_history",
+      "workflow": "kiki_a04_short_history_v1",
+      "config": "paper_kiki_a04_short_history.toml",
+      "stage": "short_history_learning",
+      "data_policy": "kiki_original_train_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "dataset": "kiki_ieee39_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "input_contract_id": "measured_history_100ms_zoh_v1"
+    },
     "paper_kiki_a03_stability": {
       "status": "diagnostic",
       "module": "kron_reduce.workflows.kiki_stability_comparison",
