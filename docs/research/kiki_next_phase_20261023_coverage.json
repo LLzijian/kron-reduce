@@ -1,0 +1,225 @@
+{
+  "schema": "kron_reduce.history_coverage_design_audit.v1",
+  "date": "2026-10-23",
+  "status": "metadata_only_design_evidence",
+  "payload_reads": 0,
+  "source_policy": "original_train_only",
+  "role_source": "frozen_A03_role_allocation",
+  "eligibility": "valid_length > real_observation_count AND no registered event at/before forecast origin",
+  "observation_origin": "first_recorded_sample; exact-clearing availability is not established by this audit",
+  "warning": "Metadata eligibility does not establish unique hidden state, forecast quality, or certified coverage. Recheck against allowed source-train trajectories when implementing a new contract.",
+  "source_sha256": {
+    "data/kiki_ieee39_v1/ieee39_postfault/dataset_index.csv": "3cb759749328986790fc6933c34aba416be10ef807135b4654f1ae970d84de9b",
+    "data/kiki_ieee39_v1/ieee39_postfault/splits.json": "02990d0ddb22e4153824a28f1e99fc0d22a0afb70a4d197e6a294e6da253dba8",
+    "data/kiki_ieee39_v1/ieee39_expansion/dataset_index.csv": "6e4c0f3b5329f2472201869aa1034d2e2097726c400064a4cdf1bcc54ac3d783",
+    "data/kiki_ieee39_v1/ieee39_expansion/splits.json": "f1d12c0f60462c85991a41464f56fe247977cefaf5e458a22a4ecc0d7e61c10b",
+    "results/paper_kiki_p2_a03_seed324-kiki_rerun-20261022T095918Z-21a5a23b/role_allocation.json": "b103651cd33cb60dbdbad71c9d258545602cd6070a8860becc4fe9b2a6ac2b6d"
+  },
+  "windows": [
+    {
+      "role": "train",
+      "observation_ms": 0,
+      "real_observations": 1,
+      "allocated": {
+        "stable": 237,
+        "unstable": 31
+      },
+      "eligible": {
+        "stable": 237,
+        "unstable": 31
+      },
+      "uncovered": {}
+    },
+    {
+      "role": "train",
+      "observation_ms": 50,
+      "real_observations": 6,
+      "allocated": {
+        "stable": 237,
+        "unstable": 31
+      },
+      "eligible": {
+        "stable": 237,
+        "unstable": 22
+      },
+      "uncovered": {
+        "unstable": 9
+      }
+    },
+    {
+      "role": "train",
+      "observation_ms": 100,
+      "real_observations": 11,
+      "allocated": {
+        "stable": 237,
+        "unstable": 31
+      },
+      "eligible": {
+        "stable": 237,
+        "unstable": 21
+      },
+      "uncovered": {
+        "unstable": 10
+      }
+    },
+    {
+      "role": "train",
+      "observation_ms": 150,
+      "real_observations": 16,
+      "allocated": {
+        "stable": 237,
+        "unstable": 31
+      },
+      "eligible": {
+        "stable": 237,
+        "unstable": 19
+      },
+      "uncovered": {
+        "unstable": 12
+      }
+    },
+    {
+      "role": "train",
+      "observation_ms": 200,
+      "real_observations": 21,
+      "allocated": {
+        "stable": 237,
+        "unstable": 31
+      },
+      "eligible": {
+        "stable": 237,
+        "unstable": 16
+      },
+      "uncovered": {
+        "unstable": 15
+      }
+    },
+    {
+      "role": "val",
+      "observation_ms": 0,
+      "real_observations": 1,
+      "allocated": {
+        "stable": 74,
+        "unstable": 27
+      },
+      "eligible": {
+        "stable": 74,
+        "unstable": 27
+      },
+      "uncovered": {}
+    },
+    {
+      "role": "val",
+      "observation_ms": 50,
+      "real_observations": 6,
+      "allocated": {
+        "stable": 74,
+        "unstable": 27
+      },
+      "eligible": {
+        "stable": 74,
+        "unstable": 18
+      },
+      "uncovered": {
+        "unstable": 9
+      }
+    },
+    {
+      "role": "val",
+      "observation_ms": 100,
+      "real_observations": 11,
+      "allocated": {
+        "stable": 74,
+        "unstable": 27
+      },
+      "eligible": {
+        "stable": 74,
+        "unstable": 14
+      },
+      "uncovered": {
+        "unstable": 13
+      }
+    },
+    {
+      "role": "val",
+      "observation_ms": 150,
+      "real_observations": 16,
+      "allocated": {
+        "stable": 74,
+        "unstable": 27
+      },
+      "eligible": {
+        "stable": 74,
+        "unstable": 13
+      },
+      "uncovered": {
+        "unstable": 14
+      }
+    },
+    {
+      "role": "val",
+      "observation_ms": 200,
+      "real_observations": 21,
+      "allocated": {
+        "stable": 74,
+        "unstable": 27
+      },
+      "eligible": {
+        "stable": 74,
+        "unstable": 12
+      },
+      "uncovered": {
+        "unstable": 15
+      }
+    }
+  ],
+  "val_fault_lines": {
+    "Line_10": {
+      "stable": 12,
+      "unstable": 3,
+      "unstable_eligible_100ms": 1,
+      "unstable_eligible_200ms": 1
+    },
+    "Line_12": {
+      "stable": 10,
+      "unstable": 5,
+      "unstable_eligible_100ms": 3,
+      "unstable_eligible_200ms": 2
+    },
+    "Line_24": {
+      "stable": 13,
+      "unstable": 2,
+      "unstable_eligible_100ms": 1,
+      "unstable_eligible_200ms": 1
+    },
+    "Line_37": {
+      "stable": 8,
+      "unstable": 8,
+      "unstable_eligible_100ms": 3,
+      "unstable_eligible_200ms": 3
+    },
+    "Line_7": {
+      "stable": 10,
+      "unstable": 3,
+      "unstable_eligible_100ms": 2,
+      "unstable_eligible_200ms": 2
+    },
+    "Line_8": {
+      "stable": 11,
+      "unstable": 3,
+      "unstable_eligible_100ms": 3,
+      "unstable_eligible_200ms": 2
+    },
+    "Line_9": {
+      "stable": 10,
+      "unstable": 3,
+      "unstable_eligible_100ms": 1,
+      "unstable_eligible_200ms": 1
+    }
+  },
+  "binomial_illustration": {
+    "assumption": "IID fixed-model independent trials; not a valid confidence guarantee for reused, clustered val",
+    "zero_miss_12_one_sided_95_upper": 0.22092219194555585,
+    "zero_miss_80_one_sided_95_upper": 0.036754197779982345
+  }
+}

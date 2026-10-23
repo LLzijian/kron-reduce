@@ -1,0 +1,46 @@
+{
+  "schema": "kron_reduce.research_design_review.v1",
+  "date": "2026-10-23",
+  "base_commit": "e0d5b5b5c90253713f3d744d84df9d5cb8c31551",
+  "scope": "research design and read-only metadata audit; no new training or promotion",
+  "review_status": "reviewed_with_required_revisions_applied",
+  "revision_closure_review": "Independent implementation reviewer reread both final documents and confirmed no remaining blocking findings",
+  "registered_runnable_experiment": false,
+  "new_training_runs": 0,
+  "source_val_test_payload_reads": 0,
+  "foundation_review_means": {
+    "implementation": 8.31,
+    "validation": 8.19,
+    "physics": 8.56
+  },
+  "draft_review_means_before_revisions": {
+    "implementation": 8.81,
+    "validation": 8.56,
+    "physics": 9.06
+  },
+  "score_meaning": "design review judgement, not model performance or scientific acceptance",
+  "required_revisions_applied": [
+    "100ms covers 14 rather than 12 unstable val events, not all 27",
+    "first recorded sample is not assumed to be exact clearing",
+    "failed seeds cannot be omitted; A/B failure blocks improvement conclusion",
+    "complete numerical step-refinement norms, scopes, scales and index offsets",
+    "zero refusal and zero unresolved required before FN/FP non-regression claim",
+    "LOS uses simultaneous thresholds for 5 samples, trigger at fifth",
+    "boundary invariance distinguished from convergence under model error",
+    "bootstrap uncertainty distinguished from FSR upper confidence bound"
+  ],
+  "validation": {
+    "project_harness_audit": "PASS",
+    "git_diff_check": "PASS",
+    "local_markdown_links": "PASS",
+    "coverage_json_structure": "PASS",
+    "new_tests_required": false,
+    "reason": "documentation and derived metadata only; production code/configuration unchanged",
+    "word_export_structure": "PASS: 41 paragraphs, 5 tables, 20 hyperlinks"
+  },
+  "sources_sha256": {
+    "docs/research/kiki_next_phase_20261023_zh.md": "95fe566126ba8a53f533fb9ddc5d7cd0cd382a26f99a9f660f9edfd52db62dc4",
+    "docs/protocols/kiki_a04_short_history_design_20261023_zh.md": "befefaf0edf500cf104481d428e73224354a1a70eb4eba10f1a63f292be9fad7",
+    "docs/research/kiki_next_phase_20261023_coverage.json": "c52c5bb0058f347d4ae608fb58ed74253ea66b7eb7cfa1fbdda93a0e99609bf1"
+  }
+}

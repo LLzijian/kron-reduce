@@ -14,6 +14,11 @@ pruning the dynamical/latent modules. Synthetic ground-truth checks continue.
 See `configs/research_policy.json` and
 `docs/reports/research_governance_20261023_zh.md` for the active decision.
 
+The [next-phase research design](docs/research/kiki_next_phase_20261023_zh.md)
+and [A04 proposed protocol](docs/protocols/kiki_a04_short_history_design_20261023_zh.md)
+define the next short-history comparison, uncertainty and local-region work.
+They are reviewed designs, not an executed experiment or model promotion.
+
 ## Scientific scope
 
 The primary task is closed-loop prediction of `delta(t), omega(t)` from the
