@@ -63,7 +63,7 @@
       "result_receipt_sha256": "2092894fb573da0bf0bb8a057e0ac965f8580cf0ee409951998ff4395ba8420e"
     },
     "kiki_a05_development_20261024": {
-      "status": "user_approved",
+      "status": "consumed",
       "approved_date": "2026-10-24",
       "authority": "explicit_user_reply",
       "approval_text": "开始执行",
@@ -87,15 +87,28 @@
       "core_design_sha256": "b80e75e24cb3c7a1c8ab47b181ec2b9ffbaa6c3d310042e5de75c3a300ed9ce4",
       "approval_protocol_path": "docs/protocols/kiki_a05_development_authorization_20261024_zh.md",
       "approval_protocol_sha256": "626a74b921a1c2c4631228a5f0797b5dcf349c4217f30ebf254e9b3784b5aef2",
-      "groups": ["F", "J"],
-      "seeds": [324, 325, 326],
+      "groups": [
+        "F",
+        "J"
+      ],
+      "seeds": [
+        324,
+        325,
+        326
+      ],
       "optimizer_steps_per_fit": 80,
       "max_fit_attempts": 6,
       "max_optimizer_steps": 480,
       "train_events": 258,
       "val_events": 88,
-      "train_horizons_s": [1.0, 3.0],
-      "val_horizons_s": [1.0, 3.0],
+      "train_horizons_s": [
+        1.0,
+        3.0
+      ],
+      "val_horizons_s": [
+        1.0,
+        3.0
+      ],
       "val_stability_horizon_s": 8.0,
       "source_val_payload_allowed": false,
       "source_test_payload_allowed": false,
@@ -106,7 +119,18 @@
       "deployment_predictions_allowed": false,
       "model_promotion_allowed": false,
       "independent_confirmation_required": true,
-      "evidence_kind": "uncertified_development_evaluation"
+      "evidence_kind": "uncertified_development_evaluation",
+      "consumed_at": "2026-10-23T16:34:52.969215+00:00",
+      "completed_run_id": "paper_kiki_a05_paired-paired_training-20261023T161958471185Z-12ec8de8-4136b586",
+      "closeout_run_id": "paper_kiki_a05_closeout-closeout-20261023T163350182759Z-26c29376-878bf661",
+      "source_runner_failed": true,
+      "source_commit": "12ec8de899036e734c7facff90b7ea95ae1eb6cc",
+      "scientific_plan_sha256": "49d46304ce1944ce17d925d6f627bd0d2acddc944a59980a885f9c1a71656a5a",
+      "ledger_plan_sha256": "0b7a4722056b301970196cbe839eb25987a22d33ebad15d4746b9c98b2dd34c7",
+      "final_fit_attempts": 6,
+      "final_confirmed_optimizer_steps": 480,
+      "result_receipt_path": "docs/reports/kiki_a05_paired_training_20261024_evidence.json",
+      "result_receipt_sha256": "a2792ebc36af6d242885337115ed262866555a72ed1d630b9f43128b7495a860"
     }
   }
 }

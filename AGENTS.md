@@ -68,6 +68,12 @@ retried. These results remain uncertified development evidence: no deployment
 predictions, model promotion, or independent confirmation. The A04 authorization
 remains consumed and unchanged.
 
+The A05 campaign has completed and its authorization is now `consumed`,
+bound to its immutable run, six fits/480 updates, and result receipt.
+Do not reactivate the authorization or repeat its fits. Existing artifacts
+may be audited read-only; further scientific comparisons require their
+own registered authorization. No A05 model has been promoted.
+
 Authoritative entrypoints:
 
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
