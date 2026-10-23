@@ -1,0 +1,60 @@
+{
+  "schema": "kron_reduce.research_proposal.v1",
+  "proposal_id": "kiki_a05_freeze_vs_joint_20261023",
+  "status": "proposal_requires_explicit_authorization",
+  "execution_enabled": false,
+  "purpose": "Mechanism diagnosis of visible-backbone and memory co-optimization",
+  "core_design_path": "docs/research/kiki_a05_astra_core_design_20261023_zh.md",
+  "dataset": "kiki_ieee39_v1",
+  "data_policy": "kiki_original_train_only",
+  "input_contract": "measured_history_100ms_zoh_v1",
+  "source_run": "paper_kiki_a04_short_history-short_history_learning-20261023T021629566301Z-7bab0f36-e7569872",
+  "source_manifest_sha256": "f26f7db6016764591300508c2fa216d8ab323bc91dd7d3b622a194d5bc4d3c3c",
+  "shared_checkpoint": "candidate-A-324/model.npz",
+  "shared_checkpoint_sha256": "9f75789b67182a4a06caac29e81070115c5cbf98135eb025b9f4094aa44fba4c",
+  "frozen_allocation_sha256": "b103651cd33cb60dbdbad71c9d258545602cd6070a8860becc4fe9b2a6ac2b6d",
+  "groups": {
+    "F": {
+      "backbone_update": false,
+      "memory_update": true,
+      "optimizer_updated_scalars": 184
+    },
+    "J": {
+      "backbone_update": true,
+      "memory_update": true,
+      "optimizer_updated_scalars": 238
+    }
+  },
+  "latent_dimension": 2,
+  "encoder_frames": 3,
+  "seeds": [
+    324,
+    325,
+    326
+  ],
+  "optimizer": "Adam",
+  "learning_rate": 0.01,
+  "dtype": "float64",
+  "encoder_penalty": 0.0001,
+  "history_weight": 0.0,
+  "horizons_s": [
+    1.0,
+    3.0
+  ],
+  "gradient_clip": 10.0,
+  "gradient_clip_population": "complete_parameter_vector_before_F_backbone_update_mask",
+  "optimizer_steps_per_fit": 80,
+  "max_new_fit_attempts": 6,
+  "max_new_optimizer_updates": 480,
+  "checkpoint_rule": "last_update_80",
+  "memory_initialization": "paired_identical_A04_B_seed_rule_without_inheriting_trained_memory",
+  "normalization": "verify_and_reuse_original_train_only_feature_and_target_scales",
+  "new_nnls_or_separate_backbone_pretraining": false,
+  "historical_backbone_optimizer_updates": 80,
+  "source_val_test_payload_allowed": false,
+  "prediction_delivery_allowed": false,
+  "promotion_allowed": false,
+  "final_model_requirement": "Any later model promotion retains jointly fitted module-union and independent confirmation gates",
+  "authorization_note": "This proposal is not an executable experiment or development authorization. The A04 authorization remains consumed.",
+  "core_design_sha256": "b80e75e24cb3c7a1c8ab47b181ec2b9ffbaa6c3d310042e5de75c3a300ed9ce4"
+}
