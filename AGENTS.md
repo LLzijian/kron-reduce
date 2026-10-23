@@ -46,6 +46,10 @@ event in coverage/risk reporting. This exception permits neither deployment
 predictions nor model promotion, and opens no source val/test trajectories.
 Independent registered confirmation is required before releasing predictions
 inside a supported range. Other evaluations retain the certified-envelope rule.
+The A04 campaign has now completed and its authorization is `consumed` in
+the active policy, with a bound run, budget and result receipt. Do not reactivate
+it or repeat its fits. Existing artifacts remain available for read-only audit;
+any new scientific comparison needs its own registered authorization.
 
 Authoritative entrypoints:
 

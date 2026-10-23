@@ -1,0 +1,40 @@
+{
+  "source_commit": "7bab0f36bf18600bc357f51dc101205c304dd18a",
+  "authorization_id": "kiki_a04_development_20261023",
+  "approval": {
+    "status": "user_approved",
+    "approved_date": "2026-10-23",
+    "authority": "explicit_user_reply",
+    "approval_text": "采纳条文，继续真实 A04（推荐）",
+    "experiment": "paper_kiki_a04_short_history",
+    "workflow": "kiki_a04_short_history_v1",
+    "stage": "short_history_learning",
+    "dataset": "kiki_ieee39_v1",
+    "data_policy": "kiki_original_train_only",
+    "input_contract": "measured_history_100ms_zoh_v1",
+    "split_seed": 324,
+    "frozen_allocation_sha256": "b103651cd33cb60dbdbad71c9d258545602cd6070a8860becc4fe9b2a6ac2b6d",
+    "candidates": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "seeds": [
+      324,
+      325,
+      326
+    ],
+    "optimizer_steps_per_fit": 80,
+    "max_fit_attempts": 12,
+    "max_optimizer_steps": 960,
+    "source_val_payload_allowed": false,
+    "source_test_payload_allowed": false,
+    "deployment_predictions_allowed": false,
+    "model_promotion_allowed": false,
+    "independent_confirmation_required": true,
+    "support_definition": "causal_full_history_cross_line_nearest_train_max_v1",
+    "approval_protocol_path": "docs/protocols/kiki_a04_development_authorization_20261023_zh.md",
+    "approval_protocol_sha256": "86682ffb02a7fec0d7ad2ad7b235d499409df75ae5fecb238d46b336b6cc64f6"
+  }
+}

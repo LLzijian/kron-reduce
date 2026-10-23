@@ -17,16 +17,17 @@ See `configs/research_policy.json` and
 The [next-phase research design](docs/research/kiki_next_phase_20261023_zh.md)
 and [A04 proposed protocol](docs/protocols/kiki_a04_short_history_design_20261023_zh.md)
 define the next short-history comparison, uncertainty and local-region work.
-The real-data fitting budget has not been spent and no new real model has
-been promoted.
+The fixed real-data comparison is complete; no new real model has been promoted.
 
 The [A04 engineering and mechanism results](docs/reports/kiki_a04_execution_20261023_zh.md)
 record implemented short-history tools, accepted synthetic checks and the
 earlier real-data envelope prerequisite. The user has now approved the
 [bounded A04 development evaluation](docs/protocols/kiki_a04_development_authorization_20261023_zh.md)
-on frozen internal train/val inside original source train. This authorization
-opens the fixed 12-fit comparison; source val/test, prediction deployment and
-model promotion remain closed.
+on frozen internal train/val inside original source train. The
+[completed A04 result](docs/reports/kiki_a04_development_20261023_zh.md) retains
+all 12 fits and 960 updates. The registered improvement gates were not met;
+the existing model is retained and the one-time authorization is consumed.
+Source val/test, prediction deployment and model promotion remain closed.
 
 ## Scientific scope
 

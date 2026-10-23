@@ -311,6 +311,13 @@ def test_development_approval_is_exact_and_not_a_delivery_certificate(tmp_path):
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(repository/path, target)
     config = tomllib.loads((repository/"configs/experiments/paper_kiki_a04_short_history.toml").read_text())
+    # Explicit approved snapshot from the execution commit. The active policy
+    # is consumed; copying it must never reactivate production authorization.
+    snapshot = json.loads((repository/"tests/fixtures/a04_development_approval_20261023.json").read_text(encoding="utf-8"))
+    policy_path = tmp_path/"configs/research_policy.json"
+    policy = json.loads(policy_path.read_text(encoding="utf-8"))
+    policy["development_evaluations"][snapshot["authorization_id"]] = snapshot["approval"]
+    policy_path.write_text(json.dumps(policy), encoding="utf-8")
     manifest = json.loads((tmp_path/"configs/project_manifest.json").read_text())
     experiment = manifest["experiments"]["paper_kiki_a04_short_history"]
     assert development_authorization(tmp_path, experiment, config)["deployment_predictions_allowed"] is False
@@ -325,6 +332,30 @@ def test_development_approval_is_exact_and_not_a_delivery_certificate(tmp_path):
     path.write_text(json.dumps(policy), encoding="utf-8")
     with pytest.raises(PermissionError):
         development_authorization(tmp_path, experiment, config)
+
+
+def test_consumed_development_approval_cannot_be_reused(tmp_path):
+    import tomllib
+
+    from kron_reduce.workflows.kiki_short_history import development_authorization
+    from project_harness.evidence import sha256_file
+
+    repository = Path(__file__).resolve().parents[1]
+    for relative in ("configs/project_manifest.json", "configs/research_policy.json"):
+        target = tmp_path/relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(repository/relative, target)
+    policy = json.loads((tmp_path/"configs/research_policy.json").read_text(encoding="utf-8"))
+    authorization = policy["development_evaluations"]["kiki_a04_development_20261023"]
+    assert authorization["status"] == "consumed"
+    assert authorization["final_fit_attempts"] == 12
+    assert authorization["final_confirmed_optimizer_steps"] == 960
+    assert sha256_file(repository/authorization["result_receipt_path"]) == authorization["result_receipt_sha256"]
+    config = tomllib.loads((repository/"configs/experiments/paper_kiki_a04_short_history.toml").read_text(encoding="utf-8"))
+    manifest = json.loads((tmp_path/"configs/project_manifest.json").read_text(encoding="utf-8"))
+    # Refuse before even opening the approval protocol or any source payload.
+    with pytest.raises(PermissionError, match="frozen A04 scientific plan"):
+        development_authorization(tmp_path, manifest["experiments"]["paper_kiki_a04_short_history"], config)
 
 
 def test_budget_interruption_and_completed_recovery_do_not_retrain(tmp_path, monkeypatch):
