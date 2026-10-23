@@ -4,7 +4,7 @@ import tomllib
 import pytest
 
 from kron_reduce.workflows import kiki_paired_training as workflow
-from project_harness.evidence import sha256_file
+from project_harness.evidence import EvidenceContext, sha256_file, validate_stage_evidence
 from project_harness.loop import next_stage
 
 
@@ -88,3 +88,31 @@ def test_incomplete_or_unresolved_comparison_cannot_pass():
     assert workflow.judge(records, decompositions, numerics, stability)["next_stage_research_supported"]
     stability[("F", 324)]["summary"]["numerical_unresolved"] = 1
     assert not workflow.judge(records, decompositions, numerics, stability)["next_stage_research_supported"]
+
+
+@pytest.mark.parametrize("supported", [True, False])
+def test_workflow_verdict_uses_registered_schema(tmp_path, supported):
+    validate_stage_evidence(EvidenceContext(tmp_path, {}, "paired_training"), {
+        "status": "PASS", "process_status": "PASS", "scientific_verdict": workflow.diagnostic_verdict(supported),
+        "promotion_decision": "KEEP_BASELINE"})
+
+
+def test_closeout_preserves_failure_and_rejects_other_failures(tmp_path):
+    from kron_reduce.workflows.kiki_paired_closeout import validate_completed_source
+    source = tmp_path / "source"
+    source.mkdir()
+    summary = {"process_status": "PASS", "scientific_verdict": "REJECT_DIAGNOSTIC",
+               "checks": {"all_six_fits_completed": True},
+               "budget": {"fit_attempts_reserved": 6, "confirmed_optimizer_steps": 480},
+               "model_promoted": False, "next_stage_research_supported": False}
+    path = source / "learning_summary.json"
+    path.write_text(json.dumps(summary), encoding="utf-8")
+    manifest = source / "artifact_hashes.json"
+    manifest.write_text(json.dumps({"learning_summary.json": sha256_file(path)}), encoding="utf-8")
+    failure = source / "RUN_FAILED.json"
+    failure.write_text(json.dumps({"error_type": "EvidenceValidationError", "message":
+        "EVIDENCE_VERDICT: unregistered scientific_verdict: 'REJECT_DIAGNOSTIC'"}), encoding="utf-8")
+    assert validate_completed_source(source, sha256_file(manifest), sha256_file(failure))[1] == summary
+    failure.write_text(json.dumps({"error_type": "ValueError", "message": "other failure"}), encoding="utf-8")
+    with pytest.raises(ValueError, match="other failure"):
+        validate_completed_source(source, sha256_file(manifest), sha256_file(failure))

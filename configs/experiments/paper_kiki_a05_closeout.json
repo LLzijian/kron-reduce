@@ -1,0 +1,10 @@
+{
+  "source_run": "paper_kiki_a05_paired-paired_training-20261023T161958471185Z-12ec8de8-4136b586",
+  "source_manifest_sha256": "92116510c442acd36d64d8c4917abbdc3f68839203f4fddd6e0fb29486add0c8",
+  "source_failure_sha256": "3ab2dee84b7d4310551ac318094a44ec13ed23b8c552b6a9a88266d24b1c6468",
+  "purpose": "Byte-identical recovery of completed A05 evidence after verdict-schema closeout failure",
+  "new_fits": 0,
+  "new_optimizer_updates": 0,
+  "new_predictions": 0,
+  "preserve_original_failure": true
+}

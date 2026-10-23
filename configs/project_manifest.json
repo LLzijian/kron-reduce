@@ -115,6 +115,21 @@
       "spatial_clustering": false,
       "input_contract_id": "measured_history_100ms_zoh_v1"
     },
+    "paper_kiki_a05_closeout": {
+      "status": "postprocess",
+      "module": "kron_reduce.workflows.kiki_paired_closeout",
+      "workflow": "kiki_a05_closeout_v1",
+      "config": "paper_kiki_a05_closeout.json",
+      "stage": "closeout",
+      "dataset": "kiki_ieee39_v1",
+      "data_policy": "kiki_original_train_only",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "input_contract_id": "measured_history_100ms_zoh_v1",
+      "reads_validation_performance": true,
+      "reads_test_performance": false,
+      "new_fits": 0
+    },
     "paper_kiki_a05_paired": {
       "status": "registered_development_authorization",
       "module": "kron_reduce.workflows.kiki_paired_training",

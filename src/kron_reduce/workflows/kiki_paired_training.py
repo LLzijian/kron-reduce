@@ -35,6 +35,10 @@ GROUPS = ("F", "J")
 PROPOSAL = "configs/proposals/kiki_a05_freeze_vs_joint.json"
 
 
+def diagnostic_verdict(supported):
+    return "ACCEPT" if supported else "REJECT"
+
+
 class PairedBudget:
     """An exclusive campaign and exclusive fit slots survive process interruption."""
 
@@ -420,7 +424,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
                "allocated_train": sum(r["role"] == "train" for r in rows),
                "allocated_val": sum(r["role"] == "val" for r in rows),
                "process_status": "PASS" if judgement["checks"]["all_six_fits_completed"] else "FAIL",
-               "scientific_verdict": "ACCEPT_DIAGNOSTIC" if judgement["next_stage_research_supported"] else "REJECT_DIAGNOSTIC",
+               "scientific_verdict": diagnostic_verdict(judgement["next_stage_research_supported"]),
                "evidence_kind": "uncertified_development_evaluation", "delivery_predictions_issued": 0,
                "all_allocated_events_retained": True}
     _write(result_dir / "learning_summary.json", summary)

@@ -1,0 +1,15 @@
+{
+  "workflow": "kiki_a05_closeout_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "closeout"],
+  "transitions": {"scaffold": "closeout"},
+  "terminal_stages": ["closeout"],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "closeout": {
+      "required_fields": ["status", "process_status", "source_commit", "source_fit_commit", "scientific_verdict", "promotion_decision", "data_policy", "source_val_ids_read", "test_ids_read", "artifact_manifest", "result_dir", "source_run_failed", "closeout_only", "new_fit_attempts", "new_optimizer_updates", "new_forecasts"],
+      "allowed_values": {"process_status": ["PASS"], "scientific_verdict": ["REJECT"], "promotion_decision": ["KEEP_BASELINE"], "source_val_ids_read": [[]], "test_ids_read": [[]], "source_run_failed": [true], "closeout_only": [true], "new_fit_attempts": [0], "new_optimizer_updates": [0], "new_forecasts": [0]}
+    }
+  }
+}
