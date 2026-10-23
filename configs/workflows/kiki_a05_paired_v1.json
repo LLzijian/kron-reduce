@@ -1,0 +1,33 @@
+{
+  "workflow": "kiki_a05_paired_v1",
+  "experiment": "paper_kiki_a05_paired",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "paired_training"],
+  "transitions": {"scaffold": "paired_training"},
+  "terminal_stages": ["paired_training"],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "paired_training": {
+      "required_fields": ["status", "process_status", "source_commit", "scientific_verdict", "promotion_decision", "data_policy", "source_val_ids_read", "test_ids_read", "hidden_training_targets_read", "level_6_claimed", "development_authorization_id", "evidence_kind", "certified_envelope_established", "deployment_predictions_allowed", "model_promoted", "result_dir", "artifact_manifest", "claim_boundary"],
+      "non_empty_fields": ["source_commit", "scientific_verdict", "claim_boundary"],
+      "allowed_values": {
+        "process_status": ["PASS"],
+        "promotion_decision": ["KEEP_BASELINE"],
+        "data_policy": ["kiki_original_train_only"],
+        "source_val_ids_read": [[]],
+        "test_ids_read": [[]],
+        "hidden_training_targets_read": [false],
+        "level_6_claimed": [false],
+        "development_authorization_id": ["kiki_a05_development_20261024"],
+        "evidence_kind": ["uncertified_development_evaluation"],
+        "certified_envelope_established": [false],
+        "deployment_predictions_allowed": [false],
+        "model_promoted": [false]
+      },
+      "fixed_budget": {"groups": ["F", "J"], "seeds": [324, 325, 326], "updates_per_fit": 80, "max_fit_attempts": 6, "max_optimizer_updates": 480},
+      "population_contract": {"train_events": 258, "val_events": 88, "train_horizons_s": [1.0, 3.0], "val_horizons_s": [1.0, 3.0], "val_stability_horizon_s": 8.0, "source_val_payload_allowed": false, "source_test_payload_allowed": false, "post_freeze_labels_for_diagnostics_only": true},
+      "failure_policy": {"retain_all_allocated_cases": true, "failed_fit_consumes_slot": true, "retry_allowed": false, "failed_case_deletion_allowed": false}
+    }
+  }
+}

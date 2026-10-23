@@ -51,6 +51,23 @@ the active policy, with a bound run, budget and result receipt. Do not reactivat
 it or repeat its fits. Existing artifacts remain available for read-only audit;
 any new scientific comparison needs its own registered authorization.
 
+On 2026-10-24 the user explicitly authorized one bounded A05 paired development
+evaluation, `kiki_a05_development_20261024`, as registered in the active policy
+and `docs/protocols/kiki_a05_development_authorization_20261024_zh.md`. It is
+restricted to experiment `paper_kiki_a05_paired`, workflow
+`kiki_a05_paired_v1`, stage `paired_training`, and module
+`kron_reduce.workflows.kiki_paired_training`. The comparison uses groups F/J,
+seeds 324/325/326, 80 updates per fit, and at most six fits/480 new updates on
+the existing frozen source train/internal train-val allocation. It explicitly
+permits development scoring of all 258 train and 88 val trajectories at 1 s
+and 3 s, plus all 88 val 8 s stability and numerical-refinement diagnostics.
+Source val/test payloads remain closed. Labels may be read only after model,
+selection, and trajectory evidence are frozen, for diagnostics. Preserve all
+allocated events and failures; failed fits consume their slots and cannot be
+retried. These results remain uncertified development evidence: no deployment
+predictions, model promotion, or independent confirmation. The A04 authorization
+remains consumed and unchanged.
+
 Authoritative entrypoints:
 
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
@@ -79,7 +96,7 @@ Rules:
   use the gate-selected storage or energy-regularized name.
 - Claims are bounded by certified excitation envelopes; an evaluation outside
   every certified envelope must refuse, not extrapolate, except for the
-  explicitly registered, bounded A04 development evaluation above. The name
+  explicitly registered, bounded A04 and A05 development evaluations above. The name
   `stability-certified equivalent` additionally requires the Level 6
   certificate suite and region/margin gates (see
   `docs/structure_discovery_roadmap.md`).

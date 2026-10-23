@@ -6,6 +6,7 @@ angles. The shifted sine potential is not globally positive or convex.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import asdict, dataclass
 from functools import lru_cache
@@ -462,6 +463,50 @@ def _integral_start(samples, mass, backbone, scale, *, include_last=False):
     return np.maximum(solution.x, 1e-5)
 
 
+def _array_sha256(value: np.ndarray) -> str:
+    """Hash a numeric array independently of its original storage layout."""
+    array = np.ascontiguousarray(value, dtype="<f8")
+    header = json.dumps({"dtype": "<f8", "shape": list(array.shape)}, sort_keys=True).encode()
+    return hashlib.sha256(header + b"\0" + array.tobytes(order="C")).hexdigest()
+
+
+def _validated_paired_start(paired_start, mass, feature_scale, target_scale):
+    """Validate a shared visible backbone and frozen train normalization."""
+    names = {"mass", "edge_stiffness", "damping", "feature_scale", "target_scale"}
+    if not isinstance(paired_start, dict) or set(paired_start) != names:
+        raise ValueError("paired_start must contain exactly the five registered arrays")
+    arrays = {name: np.array(paired_start[name], dtype=float, copy=True) for name in names}
+    n = len(mass)
+    expected = {"mass": (n,), "edge_stiffness": (n * (n - 1) // 2,),
+                "damping": (n, n), "feature_scale": feature_scale.shape,
+                "target_scale": target_scale.shape}
+    if any(arrays[name].shape != expected[name] or not np.isfinite(arrays[name]).all()
+           for name in names):
+        raise ValueError("paired_start arrays must be finite and dimensionally aligned")
+    if not np.array_equal(arrays["mass"], mass):
+        raise ValueError("paired_start mass differs from the registered priors")
+    for name, computed in (("feature_scale", feature_scale), ("target_scale", target_scale)):
+        if np.any(arrays[name] <= 0) or not np.allclose(
+            arrays[name], computed, rtol=0, atol=1e-12
+        ):
+            raise ValueError(f"paired_start {name} differs from recomputed train normalization")
+    basis = coi_basis(np.ones(n))
+    damping = arrays["damping"]
+    diagonal = np.diag(basis.T @ damping @ basis)
+    if (np.any(arrays["edge_stiffness"] <= 0) or np.any(diagonal <= 0)
+            or np.linalg.norm((basis * diagonal) @ basis.T - damping, ord="fro") > 1e-12):
+        raise ValueError("paired_start backbone is not representable by positive edge and damping parameters")
+    positive = np.r_[arrays["edge_stiffness"], diagonal]
+    # Match torch softplus(beta=1, threshold=20), including its linear branch.
+    raw = np.where(positive > 20.0, positive, positive + np.log(-np.expm1(-positive)))
+    array_hashes = {name: _array_sha256(arrays[name]) for name in sorted(names)}
+    binding = {"paired_start_array_sha256": array_hashes,
+               "paired_start_sha256": hashlib.sha256(
+                   json.dumps(array_hashes, sort_keys=True, separators=(",", ":")).encode()
+               ).hexdigest()}
+    return raw, arrays, binding
+
+
 def fit_nonlinear_model(
     samples,
     mass,
@@ -470,10 +515,14 @@ def fit_nonlinear_model(
     target_scale_samples=None,
     allow_partial_horizons=False,
     progress_callback=None,
+    paired_start=None,
+    freeze_backbone=False,
 ) -> LearnedNonlinearModel:
     """Fit train only, with visible history consistency and free multi-horizon loss."""
     import torch
 
+    if type(freeze_backbone) is not bool or (freeze_backbone and paired_start is None):
+        raise ValueError("freezing requires a verified paired_start and a boolean update mask")
     if not samples or {sample.role for sample in samples} != {"train"}:
         raise ValueError("nonlinear optimizer accepts train only")
     if any(not isinstance(sample, EquilibriumLearningSample) for sample in samples):
@@ -530,9 +579,18 @@ def fit_nonlinear_model(
          for s in samples]
     )
     feature_scale = np.maximum(np.sqrt(weights @ features**2), 1e-5)
-    start = _integral_start(
-        scale_population, mass, settings.backbone, scales, include_last=allow_partial_horizons
-    )
+    paired_binding = None
+    if paired_start is None:
+        start = _integral_start(
+            scale_population, mass, settings.backbone, scales, include_last=allow_partial_horizons
+        )
+    else:
+        paired_raw, paired_arrays, paired_binding = _validated_paired_start(
+            paired_start, mass, feature_scale, scales
+        )
+        # The recomputation above checks provenance; use the stored train arrays.
+        feature_scale = paired_arrays["feature_scale"].copy()
+        scales = paired_arrays["target_scale"].copy()
     old_threads, old_determinism = (
         torch.get_num_threads(),
         torch.are_deterministic_algorithms_enabled(),
@@ -566,14 +624,42 @@ def fit_nonlinear_model(
                 truth = tensor(target_buffer)
             else:
                 truth = tensor(np.stack([np.c_[s.target_delta, s.target_omega] for s in samples]))
-            raw = torch.nn.Parameter(
-                tensor(np.log(np.expm1(np.minimum(start, 40))) + np.maximum(start - 40, 0))
-            )
+            raw = torch.nn.Parameter(tensor(
+                np.log(np.expm1(np.minimum(start, 40))) + np.maximum(start - 40, 0)
+                if paired_start is None else paired_raw
+            ))
             port = torch.nn.Parameter(0.1 * torch.randn((n - 1, r), dtype=torch.float64))
             skew = torch.nn.Parameter(0.2 * torch.randn((r, r), dtype=torch.float64))
             decay = torch.nn.Parameter(torch.full((r,), -0.5, dtype=torch.float64))
             encoder = torch.nn.Parameter(0.01 * torch.randn((r, x.shape[1]), dtype=torch.float64))
             parameters = [raw, port, skew, decay, encoder]
+            parameter_names = ("raw", "port", "skew", "decay", "encoder")
+            updated_scalars = sum(p.numel() for p in parameters) - (raw.numel() if freeze_backbone else 0)
+            paired_record = {}
+            if paired_binding is not None:
+                initial_positive = torch.nn.functional.softplus(raw).detach().numpy()
+                reconstructed_damping = (basis.numpy() * initial_positive[b.shape[1]:]) @ basis.numpy().T
+                edge_error = float(np.linalg.norm(initial_positive[:b.shape[1]] - paired_arrays["edge_stiffness"]))
+                damping_error = float(np.linalg.norm(reconstructed_damping - paired_arrays["damping"], ord="fro"))
+                if max(edge_error, damping_error) > 1e-12:
+                    raise ValueError("paired_start inverse-softplus round trip exceeds 1e-12")
+                initial_raw = raw.detach().clone()
+                initial_arrays = {name: p.detach().numpy().copy()
+                                  for name, p in zip(parameter_names, parameters, strict=True)}
+                paired_record = {
+                    **paired_binding,
+                    "initial_parameter_sha256": {name: _array_sha256(value)
+                                                 for name, value in initial_arrays.items()},
+                    "initial_parameters": {name: value.tolist() for name, value in initial_arrays.items()},
+                    "backbone_frozen": freeze_backbone,
+                    "optimizer_updated_scalars": updated_scalars,
+                    "paired_start_roundtrip_edge_error": edge_error,
+                    "paired_start_roundtrip_damping_error": damping_error,
+                    "gradient_clip_population": "complete_parameter_vector_before_F_backbone_update_mask",
+                    "new_nnls_performed": False,
+                    "loss_parameter_timing": "before_update",
+                    "checkpoint_rule": "last_update",
+                }
             optimizer = torch.optim.Adam(parameters, lr=settings.learning_rate)
             time_weight = np.zeros(len(clock) - 1)
             for horizon in settings.horizons_s:
@@ -667,23 +753,54 @@ def fit_nonlinear_model(
                     torch.sum(wt * history_error),
                 )
                 loss = future_loss + settings.history_weight * history_loss
+                encoder_penalty = settings.encoder_penalty * torch.mean(encoder**2) if r else loss.new_zeros(())
                 if r:
-                    loss = loss + settings.encoder_penalty * torch.mean(encoder**2)
+                    loss = loss + encoder_penalty
                 if not torch.isfinite(loss):
                     raise FloatingPointError("nonfinite nonlinear training objective")
                 loss.backward()
-                torch.nn.utils.clip_grad_norm_(parameters, 10)
+                gradient_record = {}
+                if paired_binding is None:
+                    torch.nn.utils.clip_grad_norm_(parameters, 10)
+                else:
+                    if any(p.grad is None or not torch.isfinite(p.grad).all() for p in parameters):
+                        raise FloatingPointError("nonfinite or missing paired training gradient")
+                    backbone_norm = torch.linalg.vector_norm(raw.grad)
+                    memory_norm = torch.linalg.vector_norm(torch.stack(
+                        [torch.linalg.vector_norm(p.grad) for p in parameters[1:]]
+                    ))
+                    # F still contributes its backbone gradient to this same clipping operation.
+                    full_norm = torch.nn.utils.clip_grad_norm_(parameters, 10, error_if_nonfinite=True)
+                    gradient_record = {
+                        "backbone_gradient_norm": float(backbone_norm.detach()),
+                        "memory_gradient_norm": float(memory_norm.detach()),
+                        "full_gradient_norm": float(full_norm.detach()),
+                        "gradient_clipped": bool(full_norm > 10),
+                        "optimizer_updated_scalars": updated_scalars,
+                        "updated_optimizer_steps": epoch + 1,
+                    }
+                    if freeze_backbone:
+                        raw.grad = None
                 optimizer.step()
+                if paired_binding is not None:
+                    if any(not torch.isfinite(p).all() for p in parameters):
+                        raise FloatingPointError("nonfinite paired training parameter after update")
+                    if freeze_backbone and not torch.equal(raw.detach(), initial_raw):
+                        raise RuntimeError("frozen backbone changed during optimizer update")
                 if progress_callback is not None:
                     progress_callback(epoch + 1)
-                if epoch == 0 or (epoch + 1) % 25 == 0 or epoch + 1 == settings.epochs:
+                log_step = epoch == 0 or (epoch + 1) % 25 == 0 or epoch + 1 == settings.epochs
+                if paired_binding is not None or log_step:
                     row = {
                         "epoch": epoch + 1,
                         "objective": float(loss.detach()),
                         "future_loss": float(future_loss.detach()),
                         "history_loss": float(history_loss.detach()),
                     }
+                    if paired_binding is not None:
+                        row.update(encoder_penalty=float(encoder_penalty.detach()), **gradient_record)
                     trace.append(row)
+                if log_step:
                     print(f"epoch {epoch + 1}: objective={row['objective']:.6g}", flush=True)
             positive = torch.nn.functional.softplus(raw).detach().numpy()
             bs = basis.numpy()
@@ -719,6 +836,12 @@ def fit_nonlinear_model(
                     + sum(len(s.forecast_time) - 1 for s in samples)
                 ),
             }
+            if paired_binding is not None:
+                record.update(**paired_record,
+                              warm_start="verified_paired_visible_backbone_no_nnls",
+                              final_checkpoint_optimizer_step=settings.epochs,
+                              gradient_clipped_steps=sum(row["gradient_clipped"] for row in trace),
+                              frozen_backbone_verified_each_update=freeze_backbone)
             if allow_partial_horizons:
                 record.update(
                     partial_horizons=True,
