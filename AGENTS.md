@@ -35,6 +35,18 @@ regime labels never route predictions; unsupported modules are removed and
 evaluations outside the certified excitation envelope refuse rather than
 extrapolate.
 
+On 2026-10-23 the user explicitly approved one pre-certification development
+evaluation, `kiki_a04_development_20261023`, as registered in the active policy
+and `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
+It is restricted to the frozen A04 candidates, seeds, budget, causal input
+contract and internal train/val allocation inside original source train.
+The purpose is to establish or reject empirical input support; this is
+uncertified development evidence. Preserve every failure and every allocated
+event in coverage/risk reporting. This exception permits neither deployment
+predictions nor model promotion, and opens no source val/test trajectories.
+Independent registered confirmation is required before releasing predictions
+inside a supported range. Other evaluations retain the certified-envelope rule.
+
 Authoritative entrypoints:
 
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
@@ -62,7 +74,8 @@ Rules:
 - Use `M2A-LYAP` only when every numerical certificate gate passes; otherwise
   use the gate-selected storage or energy-regularized name.
 - Claims are bounded by certified excitation envelopes; an evaluation outside
-  every certified envelope must refuse, not extrapolate. The name
+  every certified envelope must refuse, not extrapolate, except for the
+  explicitly registered, bounded A04 development evaluation above. The name
   `stability-certified equivalent` additionally requires the Level 6
   certificate suite and region/margin gates (see
   `docs/structure_discovery_roadmap.md`).

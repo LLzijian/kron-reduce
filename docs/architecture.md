@@ -75,3 +75,12 @@ remainder. Dataset source, excitation regime, fault identity, and stability
 label are neither model inputs nor routing keys. A lack of support narrows the
 certified envelope or removes a block; it does not create a second deployment
 model.
+
+The user-approved `kiki_a04_development_20261023` evaluation provides one
+bounded path to collect pre-certification development evidence on frozen
+internal train/val inside original source train. Its causal empirical support
+rule and 12-fit budget are registered before execution. Support auditing never
+removes events from the full development comparison. The authorization binds
+the experiment, input contract, allocation and protocol hashes; it is not a
+generic envelope override. Deployment routing continues to refuse without a
+certificate, and model promotion requires separate independent evidence.

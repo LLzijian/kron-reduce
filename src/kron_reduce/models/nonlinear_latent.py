@@ -469,6 +469,7 @@ def fit_nonlinear_model(
     *,
     target_scale_samples=None,
     allow_partial_horizons=False,
+    progress_callback=None,
 ) -> LearnedNonlinearModel:
     """Fit train only, with visible history consistency and free multi-horizon loss."""
     import torch
@@ -673,6 +674,8 @@ def fit_nonlinear_model(
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(parameters, 10)
                 optimizer.step()
+                if progress_callback is not None:
+                    progress_callback(epoch + 1)
                 if epoch == 0 or (epoch + 1) % 25 == 0 or epoch + 1 == settings.epochs:
                     row = {
                         "epoch": epoch + 1,

@@ -8,7 +8,7 @@
   "approval_required": [],
   "stage_evidence_contracts": {
     "short_history_learning": {
-      "required_fields": ["status", "process_status", "source_commit", "scientific_verdict", "promotion_decision", "data_policy", "source_val_ids_read", "test_ids_read", "hidden_training_targets_read", "level_6_claimed", "result_dir", "artifact_manifest", "claim_boundary"],
+      "required_fields": ["status", "process_status", "source_commit", "scientific_verdict", "promotion_decision", "data_policy", "source_val_ids_read", "test_ids_read", "hidden_training_targets_read", "level_6_claimed", "development_authorization_id", "evidence_kind", "certified_envelope_established", "deployment_predictions_allowed", "model_promoted", "result_dir", "artifact_manifest", "claim_boundary"],
       "non_empty_fields": ["source_commit", "scientific_verdict", "claim_boundary"],
       "allowed_values": {
         "process_status": ["PASS"],
@@ -17,7 +17,12 @@
         "source_val_ids_read": [[]],
         "test_ids_read": [[]],
         "hidden_training_targets_read": [false],
-        "level_6_claimed": [false]
+        "level_6_claimed": [false],
+        "development_authorization_id": ["kiki_a04_development_20261023"],
+        "evidence_kind": ["uncertified_development_evaluation"],
+        "certified_envelope_established": [false],
+        "deployment_predictions_allowed": [false],
+        "model_promoted": [false]
       }
     }
   }

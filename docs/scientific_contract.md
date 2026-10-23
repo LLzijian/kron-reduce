@@ -6,6 +6,14 @@ checks and explicitly requested historical replay retain their separate roles.
 Existing source test has prior exposure and cannot provide fresh confirmation.
 The active rules are machine-checked by `configs/research_policy.json`.
 
+The explicitly approved `kiki_a04_development_20261023` exception permits one
+registered pre-certification development evaluation inside original source
+train, following its frozen internal train/val, causal inputs, candidates and
+budget. The empirical input support audit is fitted on train only, is labelled
+uncertified, and does not filter the full comparison or risk denominator.
+Source val/test, deployment predictions and model promotion remain closed.
+See `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
+
 - Prediction begins at exact clearing (`t=0`).
 - A history-initialized task declares a different forecast origin and real
   observation count in `configs/input_contracts.json`; it is never pooled with

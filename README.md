@@ -22,8 +22,11 @@ been promoted.
 
 The [A04 engineering and mechanism results](docs/reports/kiki_a04_execution_20261023_zh.md)
 record implemented short-history tools, accepted synthetic checks and the
-real-data envelope prerequisite. Real A04 fitting remains blocked; the existing
-model is retained and the proposed development-evaluation exception is inactive.
+earlier real-data envelope prerequisite. The user has now approved the
+[bounded A04 development evaluation](docs/protocols/kiki_a04_development_authorization_20261023_zh.md)
+on frozen internal train/val inside original source train. This authorization
+opens the fixed 12-fit comparison; source val/test, prediction deployment and
+model promotion remain closed.
 
 ## Scientific scope
 
