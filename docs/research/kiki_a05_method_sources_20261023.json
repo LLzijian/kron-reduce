@@ -1,0 +1,74 @@
+{
+  "scope": "Primary-source method evidence for the next kiki algorithm and training design; no new real-data fit or prediction",
+  "retrieved_on": "2026-10-23",
+  "search_workflow": "nature-academic-search: multi-source-search",
+  "sources": [
+    {
+      "id": "beintema2021_encoder",
+      "title": "Nonlinear state-space identification using deep encoder networks",
+      "authors": ["Gerben Beintema", "Roland Toth", "Maarten Schoukens"],
+      "year": 2021,
+      "venue": "PMLR 144:241-250, Learning for Dynamics and Control",
+      "url": "https://proceedings.mlr.press/v144/beintema21a.html",
+      "full_text": "https://proceedings.mlr.press/v144/beintema21a/beintema21a.pdf",
+      "verified_with": "Publisher proceedings page and paper PDF",
+      "supported_claim": "A causal encoder can initialize short simulation sections within a system-identification objective.",
+      "project_boundary": "An encoder is already present in A04. This supports the modelling formulation, not a new contribution or guaranteed 100 ms identifiability."
+    },
+    {
+      "id": "beintema_ct_subnet",
+      "title": "Continuous-time identification of dynamic state-space models by deep subspace encoding",
+      "authors": ["Gerben I. Beintema", "Maarten Schoukens", "Roland Toth"],
+      "arxiv_id": "2204.09405v2",
+      "first_posted_year": 2022,
+      "version_date": "2023-01-23",
+      "url": "https://arxiv.org/html/2204.09405v2",
+      "verified_with": "Native arXiv metadata through Sider Scholar and primary HTML, section 4 and appendix 8.2",
+      "supported_claim": "Continuous-time state and derivative scaling affect numerical conditioning. Reconstructing an initial hidden state from past inputs and outputs requires observability conditions.",
+      "project_boundary": "Physical COI coordinates and energy parameterizations must be transformed consistently. These conditions cannot certify unknown kiki hidden states from a finite window."
+    },
+    {
+      "id": "beintema_deep_subspace",
+      "title": "Deep Subspace Encoders for Nonlinear System Identification",
+      "authors": ["Gerben I. Beintema", "Maarten Schoukens", "Roland Toth"],
+      "arxiv_id": "2210.14816v2",
+      "first_posted_year": 2022,
+      "version_date": "2023-07-05",
+      "url": "https://arxiv.org/html/2210.14816v2",
+      "verified_with": "Native arXiv metadata through Sider Scholar and primary HTML",
+      "supported_claim": "Truncated simulation losses, initial-state estimation and system timescales interact in state-space identification.",
+      "project_boundary": "Long stable trajectories cannot be split into many training sections without declaring a sampling rule and preserving event and line weights. More sections are not independent disturbances."
+    },
+    {
+      "id": "ramkannan2023_initialization",
+      "title": "Initialization Approach for Nonlinear State-Space Identification via the Subspace Encoder Approach",
+      "authors": ["Rishi Ramkannan", "Gerben I. Beintema", "Roland Toth", "Maarten Schoukens"],
+      "arxiv_id": "2304.02119v2",
+      "year": 2023,
+      "url": "https://arxiv.org/abs/2304.02119",
+      "verified_with": "Primary arXiv record and abstract",
+      "supported_claim": "A best linear approximation and its reconstructability map can initialize both state dynamics and the encoder in the studied weakly nonlinear benchmarks.",
+      "project_boundary": "A04 already uses a constrained visible-momentum initialization. The paper motivates checking initialization; it does not establish which initialization improves this power-system task."
+    },
+    {
+      "id": "rettberg2024_latent_ph",
+      "title": "Data-driven identification of latent port-Hamiltonian systems",
+      "authors": ["Johannes Rettberg", "Jonas Kneifl", "Julius Herb", "Patrick Buchfink", "Jorg Fehr", "Bernard Haasdonk"],
+      "arxiv_id": "2408.08185v2",
+      "year": 2024,
+      "url": "https://arxiv.org/abs/2408.08185",
+      "verified_with": "Primary arXiv record and abstract",
+      "supported_claim": "Jointly learned latent coordinates and structured port-Hamiltonian matrices can preserve the chosen model structure by parameterization.",
+      "project_boundary": "Their latent reduction does not prove transient accuracy or a stability region for an unknown kiki system. Keep this project's explicit energy and COI checks."
+    },
+    {
+      "id": "bemporad_jax_sysid",
+      "title": "jax-sysid author-maintained implementation",
+      "url": "https://github.com/bemporad/jax-sysid",
+      "verified_with": "Author repository README, nonlinear training and regularization sections",
+      "supported_claim": "The implementation separates initialization, regularization and optimization settings, and exposes grouped penalties and staged optimizers.",
+      "project_boundary": "Use explicit fixed budgets and separate changes. Do not copy examples that reconstruct a new sequence's initial state with future outputs, or import a general stability constraint that suppresses physical loss of stability."
+    }
+  ],
+  "interpretation": "These sources motivate testable design choices. None supplies evidence of improved kiki performance, independent test validity or a Level 6 certificate."
+}

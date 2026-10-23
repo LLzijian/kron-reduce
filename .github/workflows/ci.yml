@@ -34,6 +34,7 @@ jobs:
           tests/test_kiki_stability_comparison.py tests/test_nonlinear_latent.py
           tests/test_causal_latent.py tests/test_stability_region.py
           tests/test_kiki_short_history_reader.py tests/test_kiki_short_history.py
+          tests/test_recorded_error_audit.py
       - name: Record actual environment
         if: always()
         run: python -m pip freeze > ci-environment.txt
