@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| `kiki_a04_execution_20261023_zh.md` | Astra-reviewed 100 ms engineering tools, synthetic observability findings, real-data prerequisite refusal and preserved failed attempt |
 | `research_governance_20261023_zh.md` | Clustering pause, mandatory kiki registry, test exposure and automated engineering checks |
 | `kiki_a03_stability_task3_20261022_zh.md` | Frozen A03 internal-val LOS scoring and unmatched TASK3 algorithm references |
 | `graph_coherent_m0_3eg_results_zh.md` | Graph-coherent M0-3EG results |

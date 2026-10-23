@@ -17,7 +17,13 @@ See `configs/research_policy.json` and
 The [next-phase research design](docs/research/kiki_next_phase_20261023_zh.md)
 and [A04 proposed protocol](docs/protocols/kiki_a04_short_history_design_20261023_zh.md)
 define the next short-history comparison, uncertainty and local-region work.
-They are reviewed designs, not an executed experiment or model promotion.
+The real-data fitting budget has not been spent and no new real model has
+been promoted.
+
+The [A04 engineering and mechanism results](docs/reports/kiki_a04_execution_20261023_zh.md)
+record implemented short-history tools, accepted synthetic checks and the
+real-data envelope prerequisite. Real A04 fitting remains blocked; the existing
+model is retained and the proposed development-evaluation exception is inactive.
 
 ## Scientific scope
 

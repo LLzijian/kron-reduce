@@ -1,0 +1,275 @@
+{
+  "schema": "kron_reduce.a04_execution_receipt.v1",
+  "date": "2026-10-23",
+  "core_agent_requested": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "ultra"
+  },
+  "bounded_test_agent": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "medium"
+  },
+  "real_run": {
+    "run_id": "paper_kiki_a04_short_history-short_history_learning-20261023T011555719421Z-5c52ef90-dc305df3",
+    "status": "BLOCKED_NO_CERTIFIED_ENVELOPE",
+    "scientific_verdict": "NOT_EVALUATED",
+    "promotion_decision": "KEEP_BASELINE",
+    "completed_fits": 0,
+    "planned_fits": 12,
+    "optimizer_updates": 0,
+    "real_predictions": 0,
+    "fsr": null,
+    "fur": null,
+    "source_train_val_test_payload_reads": 0
+  },
+  "synthetic_run": {
+    "run_id": "a04_short_history_synthetic_prerequisite-synthetic_audit-20261023T012249157428Z-055ca2eb-5e887509",
+    "status": "PASS",
+    "scientific_verdict": "ACCEPT",
+    "mechanism_status": "MECHANISM_VERIFIED",
+    "promotion_decision": "KEEP_BASELINE",
+    "optimizer_updates": 0,
+    "known_hidden_initial_states_per_system": 32,
+    "checks": {
+      "three_representations_observable": true,
+      "unobservable_counterexample_refused": true,
+      "trajectory_and_8s_refinement": true,
+      "complete_path_energy_coi": true,
+      "checkpoint_replay_exact": true,
+      "real_evaluation_remains_blocked": true
+    }
+  },
+  "known_system_observability": [
+    {
+      "candidate": "B",
+      "system": "observable",
+      "rank": 2,
+      "singular_values": [
+        0.07884006015578836,
+        0.072132916698405
+      ],
+      "noise_gain_l2": 13.863296339188679,
+      "reconstruction_max_error": 1.7763568394002505e-15
+    },
+    {
+      "candidate": "C",
+      "system": "observable",
+      "rank": 2,
+      "singular_values": [
+        0.1387609588619555,
+        0.1270846409740164
+      ],
+      "noise_gain_l2": 7.868771492256559,
+      "reconstruction_max_error": 1.7763568394002505e-15
+    },
+    {
+      "candidate": "D",
+      "system": "observable",
+      "rank": 2,
+      "singular_values": [
+        0.1387609578976216,
+        0.12708464005130318
+      ],
+      "noise_gain_l2": 7.868771549388715,
+      "reconstruction_max_error": 8.881784197001252e-16
+    },
+    {
+      "candidate": "B",
+      "system": "zero_port",
+      "rank": 0,
+      "singular_values": [
+        0.0,
+        0.0
+      ],
+      "noise_gain_l2": null,
+      "reconstruction_max_error": null
+    },
+    {
+      "candidate": "C",
+      "system": "zero_port",
+      "rank": 0,
+      "singular_values": [
+        0.0,
+        0.0
+      ],
+      "noise_gain_l2": null,
+      "reconstruction_max_error": null
+    },
+    {
+      "candidate": "D",
+      "system": "zero_port",
+      "rank": 0,
+      "singular_values": [
+        0.0,
+        0.0
+      ],
+      "noise_gain_l2": null,
+      "reconstruction_max_error": null
+    }
+  ],
+  "fixed_summary_noise_gain_reduction_vs_three_frames": 0.43240255730916455,
+  "fixed_summary_noise_gain_relative_difference_vs_full_history": 7.2606194390090195e-09,
+  "scope": "Known synthetic equations and visible initial state; not trained-model performance, kiki accuracy, physical sensor-noise guarantee, or real excitation-envelope certification.",
+  "numerics": {
+    "max_normalized_3s_step_difference": 5.684230863778339e-11,
+    "max_joint_8s_step_difference": 2.3604553238340095e-11,
+    "checkpoint_replays_exact": true
+  },
+  "engineering_failure_preserved": [
+    {
+      "run_id": "paper_kiki_a04_short_history-short_history_learning-20261023T011555719421Z-5c52ef90-dc305df3",
+      "failure": {
+        "error_type": "PermissionError",
+        "message": "BLOCKED_NO_CERTIFIED_ENVELOPE: No registered evidence certifies the A04 100ms/Pm[10] evaluation envelope; AGENTS requires refusal before out-of-envelope evaluation."
+      },
+      "original_manifest_entries_unchanged": true,
+      "verification": "manual hash comparison; failed runs intentionally do not qualify for verify_artifact_directory PASS"
+    },
+    {
+      "run_id": "a04_short_history_synthetic_prerequisite-synthetic_audit-20261023T011636628972Z-5c52ef90-8db98dcf",
+      "failure": {
+        "error_type": "EvidenceValidationError",
+        "message": "EVIDENCE_VERDICT: unregistered scientific_verdict: 'MECHANISM_VERIFIED'"
+      },
+      "original_manifest_entries_unchanged": true,
+      "verification": "manual hash comparison; failed runs intentionally do not qualify for verify_artifact_directory PASS"
+    }
+  ],
+  "numerical_artifacts_identical_after_verdict_compatibility_fix": {
+    "observability.json": true,
+    "analytic_maps.npz": true,
+    "numerical_mechanisms.json": true,
+    "synthetic-mechanism-A.npz": true,
+    "synthetic-mechanism-B.npz": true,
+    "synthetic-mechanism-C.npz": true,
+    "synthetic-mechanism-D.npz": true
+  },
+  "verification": {
+    "full_suite": {
+      "passed": 565,
+      "duration_seconds": 946.97,
+      "scope": "Started during initial implementation, before verdict compatibility repair; repaired core is independently covered by the post-fix targeted run."
+    },
+    "post_fix_targeted_regression": {
+      "passed": 37,
+      "duration_seconds": 22.56
+    },
+    "related_regression_before_repair": {
+      "passed": 44
+    },
+    "project_harness_audit": "PASS",
+    "modified_code_ruff": "PASS",
+    "successful_run_artifact_verification": "PASS_STRICT",
+    "failed_run_verification": "MANUAL_ORIGINAL_MANIFEST_SHA_AND_ALL_FILES_RECEIPT",
+    "github_ci_code_commit": {
+      "commit": "055ca2ebd145e312ed44ad273600cdb0dbb1b03f",
+      "status": "success",
+      "url": "https://github.com/LLzijian/kron-reduce/actions/runs/39883987783"
+    }
+  },
+  "workflow_states": {
+    "real": {
+      "workflow": "kiki_a04_short_history_v1",
+      "current_stage": "scaffold",
+      "approvals": {},
+      "history": []
+    },
+    "synthetic": {
+      "workflow": "a04_short_history_synthetic_prerequisite_v1",
+      "current_stage": "synthetic_audit",
+      "approvals": {},
+      "history": [
+        {
+          "action": "advance",
+          "from": "scaffold",
+          "to": "synthetic_audit",
+          "at": "2026-10-23T01:23:05.747073+00:00",
+          "evidence": {
+            "status": "PASS",
+            "result_dir": "a04_short_history_synthetic_prerequisite-synthetic_audit-20261023T012249157428Z-055ca2eb-5e887509",
+            "process_status": "PASS",
+            "checks": {
+              "three_representations_observable": true,
+              "unobservable_counterexample_refused": true,
+              "trajectory_and_8s_refinement": true,
+              "complete_path_energy_coi": true,
+              "checkpoint_replay_exact": true,
+              "real_evaluation_remains_blocked": true
+            },
+            "scientific_verdict": "ACCEPT",
+            "mechanism_status": "MECHANISM_VERIFIED",
+            "promotion_decision": "KEEP_BASELINE",
+            "optimizer_updates": 0,
+            "real_data_performance_evaluated": false,
+            "real_data_improvement_demonstrated": false,
+            "conclusion": "Known-system history maps can identify two coupled hidden coordinates; zero-port hidden coordinates cannot be identified and provide no supported memory module. This supplies mechanism evidence, not a kiki excitation-envelope certificate.",
+            "source_commit": "055ca2ebd145e312ed44ad273600cdb0dbb1b03f",
+            "data_policy": "analytic_nonlinear_synthetic_only",
+            "source_val_ids_read": [],
+            "test_ids_read": [],
+            "hidden_training_targets_read": false,
+            "level_6_claimed": false,
+            "claim_boundary": "Known synthetic dynamics only: history representation, hidden-state observability, passivity, COI, numerical convergence and replay. No kiki trajectory access, optimization updates, real-data improvement, excitation-envelope certification or Level 6 claim.",
+            "result_artifact_manifest": {
+              "run_id": "a04_short_history_synthetic_prerequisite-synthetic_audit-20261023T012249157428Z-055ca2eb-5e887509",
+              "path": "artifact_hashes.json",
+              "sha256": "9d0645fbc623b4101fc588ff3680af9e5de1d64378e7ad5511509ac1a52575c9"
+            },
+            "artifact_manifest": {
+              "run_id": "a04_short_history_synthetic_prerequisite-synthetic_audit-20261023T012249157428Z-055ca2eb-5e887509",
+              "path": "artifact_hashes.json",
+              "sha256": "9d0645fbc623b4101fc588ff3680af9e5de1d64378e7ad5511509ac1a52575c9"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "all_artifact_sha256": {
+    "paper_kiki_a04_short_history-short_history_learning-20261023T011555719421Z-5c52ef90-dc305df3": {
+      "artifact_hashes.json": "ae58a6a66b906b8d85fd682fd74bc7e07925d69adfbdd07639a5514b5abc8e42",
+      "data_access_audit.json": "f708e5c1f54ba5a739dd9d90ecf2f7cb32e4d5bdde65eadec92a085a0debb61d",
+      "evaluation_prerequisite.json": "23b6c9188e2d9d44bef1242189b7daaa5216ce745452c1c6dc04639afc09e280",
+      "learning_summary.json": "5bc07212d35c50f56ab99a77118f38cfabf053767eb3760a91b3f556dca2e22a",
+      "lineage.json": "edee4cdebda614a0ac80eceeb7665788687d9414803098712701e5876f93e260",
+      "role_allocation_binding.json": "2bd50e81b62729e113572256f2519d962cc41fd96e225be185c028eaaa50c01c",
+      "RUN_FAILED.json": "bb63bdc6c7272944f06f3c9abaa057e837615488d3225ee1cd44b3bd51f22fb7",
+      "stage_evidence.json": "a0a3c2f103bc114ee8203008905c79475041ecf038cbdd0b64ba0f66110fe344",
+      "training_plan.json": "b970ff12af7c99413bd31f1374bc28c176c954ecdf4a32f44cb02849489d0aea"
+    },
+    "a04_short_history_synthetic_prerequisite-synthetic_audit-20261023T011636628972Z-5c52ef90-8db98dcf": {
+      "analytic_maps.npz": "43ad8386deb9de139976168b041b4d9831c91b484525721d9ff1c8dafdfaa0cc",
+      "artifact_hashes.json": "af87c073a56b8ecb3988cf1efe1fbd0faab140db0637483b959ae3d0b7a83944",
+      "lineage.json": "4d742946ebb573ece15d0364c9c2ba8c66bc22f04b4a8a697278033acdcbf955",
+      "numerical_mechanisms.json": "80adc470edc206a229a1eb1bdf53f50d26a05f10c2e96e62e38dc21d284d7afe",
+      "observability.json": "0063987d45bc00f0c37ff9a62ca27a8ef2f71ce30b65614527a78acd3981a9d5",
+      "pre_execution_binding.json": "fcedc3a5bab01a26b64ca9b47a06dce4a1db649a5a58f4f1780a60a849f3a48c",
+      "registry_check.json": "fe283053be6cd236421c7f23d032034bfea66290f9c5557b9d812c0872866349",
+      "RUN_FAILED.json": "5c341051efe93afd8bf8922cd4f9770a88754d3b1055eea90030ecdd48fa8e12",
+      "stage_evidence.json": "475e5409e5752485281949f961edcfa9029fafdfff197ac4c168acf8cf0b57a2",
+      "synthetic-mechanism-A.npz": "0be76bd40f8455e1594c665d30dbbbfa03922b4d7320598286184046d034d232",
+      "synthetic-mechanism-B.npz": "dfdf87600e6aaf5ccdc2885f4b28e16814b91324cb6008e50e6319535a4d5a31",
+      "synthetic-mechanism-C.npz": "24c8e344540f0d35d5671964f3344f759edd76f8eedb8069756833c2dc16e141",
+      "synthetic-mechanism-D.npz": "35b6c9505c35313c550067c7900901920f84b2b50158da533abb9e419deeaaa8",
+      "synthetic_summary.json": "65e87c22aade769cad955440ff197cae61b48f4b8489b07581ad7f6d8fc1b0fc"
+    },
+    "a04_short_history_synthetic_prerequisite-synthetic_audit-20261023T012249157428Z-055ca2eb-5e887509": {
+      "analytic_maps.npz": "43ad8386deb9de139976168b041b4d9831c91b484525721d9ff1c8dafdfaa0cc",
+      "artifact_hashes.json": "9d0645fbc623b4101fc588ff3680af9e5de1d64378e7ad5511509ac1a52575c9",
+      "lineage.json": "75a194674489bb59c5f746a1c7acb8991060f91af48f18e12deaf73b295d5047",
+      "numerical_mechanisms.json": "80adc470edc206a229a1eb1bdf53f50d26a05f10c2e96e62e38dc21d284d7afe",
+      "observability.json": "0063987d45bc00f0c37ff9a62ca27a8ef2f71ce30b65614527a78acd3981a9d5",
+      "pre_execution_binding.json": "ad4fb271f4cc4a925f347579e112274c947c35e753b2eaa62f39706f1bf206cd",
+      "registry_check.json": "fe283053be6cd236421c7f23d032034bfea66290f9c5557b9d812c0872866349",
+      "stage_evidence.json": "0732e07fe296bdb55f09874ebea0fea7e2522c4e44faf07a6f44027a8d944fea",
+      "synthetic-mechanism-A.npz": "0be76bd40f8455e1594c665d30dbbbfa03922b4d7320598286184046d034d232",
+      "synthetic-mechanism-B.npz": "dfdf87600e6aaf5ccdc2885f4b28e16814b91324cb6008e50e6319535a4d5a31",
+      "synthetic-mechanism-C.npz": "24c8e344540f0d35d5671964f3344f759edd76f8eedb8069756833c2dc16e141",
+      "synthetic-mechanism-D.npz": "35b6c9505c35313c550067c7900901920f84b2b50158da533abb9e419deeaaa8",
+      "synthetic_summary.json": "369e6878674c8cc6209ebc4e4bed43eadbe88575ee36bf53f0ca9fb8023bc7e2"
+    }
+  },
+  "engineering_integration_decision": "ACCEPT_AFTER_TEST_CI_AND_EVIDENCE_REVIEW",
+  "scientific_model_promotion": "KEEP_BASELINE",
+  "integration_reason": "Causal reader, backward compatibility, reproducible synthetic mechanisms and refusal/numerical safeguards have independently verifiable engineering value. No new real model is promoted; the proposed development-policy exception remains inactive."
+}
