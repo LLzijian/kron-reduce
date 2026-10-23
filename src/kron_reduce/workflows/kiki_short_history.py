@@ -394,7 +394,8 @@ def run_synthetic_prerequisite(*, root, experiment, stage, result_dir, run_id):
         "real_evaluation_remains_blocked": real_evaluation_prerequisite()["status"] == "BLOCKED_NO_CERTIFIED_ENVELOPE",
     }
     summary = {"process_status": "PASS" if all(checks.values()) else "FAIL", "checks": checks,
-               "scientific_verdict": "MECHANISM_VERIFIED" if all(checks.values()) else "MECHANISM_FAILED",
+               "scientific_verdict": "ACCEPT" if all(checks.values()) else "REJECT",
+               "mechanism_status": "MECHANISM_VERIFIED" if all(checks.values()) else "MECHANISM_FAILED",
                "promotion_decision": "KEEP_BASELINE", "optimizer_updates": 0,
                "real_data_performance_evaluated": False, "real_data_improvement_demonstrated": False,
                "conclusion": "Known-system history maps can identify two coupled hidden coordinates; "

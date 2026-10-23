@@ -1,4 +1,7 @@
+import json
+import shutil
 from dataclasses import replace
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -193,3 +196,52 @@ def test_no_envelope_means_no_real_evaluation_even_for_diagnostics():
     assert not gate["out_of_envelope_diagnostics_allowed"]
     with pytest.raises(PermissionError, match="100ms"):
         require_real_evaluation()
+
+
+def test_synthetic_runner_accepts_evidence_without_real_promotion(tmp_path, monkeypatch):
+    """Exercise actual artifact emission, runner binding, validation and state update."""
+    from kron_reduce.workflows import kiki_short_history
+    from project_harness import runner
+    from project_harness.evidence import (
+        EvidenceContext,
+        validate_stage_evidence,
+        verify_artifact_directory,
+    )
+    from project_harness.loop import load_state
+
+    repository = Path(__file__).resolve().parents[1]
+    workflow_name = "a04_short_history_synthetic_prerequisite_v1"
+    experiment_name = "a04_short_history_synthetic_prerequisite"
+    sources = [
+        "configs/project_manifest.json", "configs/research_policy.json",
+        f"configs/workflows/{workflow_name}.json",
+        f"configs/experiments/{experiment_name}.toml",
+        "src/kron_reduce/workflows/kiki_short_history.py",
+        "src/kron_reduce/models/nonlinear_latent.py",
+        "src/kron_reduce/workflows/kiki_stability_comparison.py",
+        "src/kron_reduce/physics/coordinates.py",
+        "docs/protocols/kiki_a04_envelope_prerequisite_20261023_zh.md",
+        "data/synthetic_benchmark_registry_v1/checksums.sha256",
+        "data/synthetic_benchmark_registry_v1/README.md",
+        "data/synthetic_benchmark_registry_v1/registry.json",
+    ]
+    for relative in sources:
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(repository / relative, target)
+    # The isolated harness fixture has no Git repository; numerical work and
+    # the real evidence validator are deliberately not mocked.
+    monkeypatch.setattr(runner, "git_head", lambda _root: "a" * 40)
+    monkeypatch.setattr(kiki_short_history, "git_head", lambda _root: "a" * 40)
+    result_dir = runner.run_experiment(tmp_path, experiment_name, "synthetic_audit")
+    verify_artifact_directory(result_dir, strict=True)
+    state = load_state(tmp_path, workflow_name)
+    evidence = state["history"][-1]["evidence"]
+    workflow = json.loads((tmp_path / f"configs/workflows/{workflow_name}.json").read_text())
+    validate_stage_evidence(EvidenceContext(tmp_path, workflow, "synthetic_audit"), evidence)
+    assert state["current_stage"] == "synthetic_audit"
+    assert evidence["scientific_verdict"] == "ACCEPT"
+    assert evidence["mechanism_status"] == "MECHANISM_VERIFIED"
+    assert evidence["promotion_decision"] == "KEEP_BASELINE"
+    assert evidence["real_data_improvement_demonstrated"] is False
+    assert not (result_dir / "RUN_FAILED.json").exists()
