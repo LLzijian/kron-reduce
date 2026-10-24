@@ -91,6 +91,12 @@ Do not reactivate the authorization or repeat its fits. Existing artifacts
 may be audited read-only; further scientific comparisons require their
 own registered authorization. No A05 model has been promoted.
 
+The A06 campaign has completed and its authorization is now `consumed`,
+bound to its immutable run, three fits/720 updates and result receipt.
+Do not reactivate it or repeat its fits. Read-only audit remains available;
+a new scientific comparison requires its own registered authorization.
+No A06 model has been promoted.
+
 Authoritative entrypoints:
 
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
