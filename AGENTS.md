@@ -138,7 +138,7 @@ Rules:
   use the gate-selected storage or energy-regularized name.
 - Claims are bounded by certified excitation envelopes; an evaluation outside
   every certified envelope must refuse, not extrapolate, except for the
-  explicitly registered, bounded development evaluations above. The name
+  explicitly registered, bounded development evaluations described here. The name
   `stability-certified equivalent` additionally requires the Level 6
   certificate suite and region/margin gates (see
   `docs/structure_discovery_roadmap.md`).
@@ -166,3 +166,18 @@ with all allocated cases retained. Source val/test remain closed; labels are
 diagnostic only after freeze. There is no classification-based group selection,
 automatic continuation, deployment prediction, or model promotion. A04, A05,
 and A06 remain consumed and unchanged.
+
+On 2026-10-24 the user authorized one bounded A08 memory-order development
+comparison, `kiki_a08_development_20261024`, as registered in the active policy
+and `docs/protocols/kiki_a08_development_authorization_20261024_zh.md`. It is
+restricted to experiment `paper_kiki_a08_memory`, workflow
+`kiki_a08_memory_v1`, stage `memory_order`, and module
+`kron_reduce.workflows.kiki_memory_order`. It compares r2/r4 with seeds
+324/325/326, 240 fresh-Adam updates per fit, and six fits/1440 updates total,
+starting only from the bound A06 step-240 model checkpoints. It uses the frozen
+source train allocation, all 258 train and 88 val trajectory evaluations, and
+all 88 val 8 s stability/numerical checks, retaining all 369 allocated cases.
+Source val/test remain closed; labels are diagnostic only after evidence freeze.
+Failures consume their slots and cannot be retried. Results are uncertified
+development evidence with no deployment predictions or model promotion.
+A04 through A07 remain consumed and unchanged.

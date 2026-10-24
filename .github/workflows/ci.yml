@@ -38,6 +38,7 @@ jobs:
           tests/test_paired_training.py tests/test_paired_workflow.py
           tests/test_joint_refinement.py tests/test_joint_refinement_workflow.py
           tests/test_tilted_optimizer_resume.py tests/test_tilted_training_workflow.py
+          tests/test_nested_memory.py tests/test_memory_order_workflow.py
       - name: Record actual environment
         if: always()
         run: python -m pip freeze > ci-environment.txt

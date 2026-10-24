@@ -1,0 +1,158 @@
+{
+  "workflow": "kiki_a08_memory_v1",
+  "experiment": "paper_kiki_a08_memory",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "memory_order"
+  ],
+  "transitions": {
+    "scaffold": "memory_order"
+  },
+  "terminal_stages": [
+    "memory_order"
+  ],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "memory_order": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "scientific_verdict",
+        "promotion_decision",
+        "data_policy",
+        "source_val_ids_read",
+        "test_ids_read",
+        "hidden_training_targets_read",
+        "level_6_claimed",
+        "development_authorization_id",
+        "evidence_kind",
+        "certified_envelope_established",
+        "deployment_predictions_allowed",
+        "model_promoted",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "scientific_verdict",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "process_status": [
+          "PASS"
+        ],
+        "scientific_verdict": [
+          "ACCEPT",
+          "REJECT",
+          "RETRY"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "data_policy": [
+          "kiki_original_train_only"
+        ],
+        "source_val_ids_read": [
+          []
+        ],
+        "test_ids_read": [
+          []
+        ],
+        "hidden_training_targets_read": [
+          false
+        ],
+        "level_6_claimed": [
+          false
+        ],
+        "development_authorization_id": [
+          "kiki_a08_development_20261024"
+        ],
+        "evidence_kind": [
+          "uncertified_development_evaluation"
+        ],
+        "certified_envelope_established": [
+          false
+        ],
+        "deployment_predictions_allowed": [
+          false
+        ],
+        "model_promoted": [
+          false
+        ]
+      },
+      "fixed_budget": {
+        "groups": [
+          "r2",
+          "r4"
+        ],
+        "seeds": [
+          324,
+          325,
+          326
+        ],
+        "updates_per_fit": 240,
+        "max_fit_attempts": 6,
+        "max_optimizer_updates": 1440,
+        "optimizer_state": "fresh_Adam",
+        "initial_optimizer_step": 0,
+        "checkpoints_at_updates": [
+          240
+        ]
+      },
+      "model_contract": {
+        "latent_dimensions": [
+          2,
+          4
+        ],
+        "parameter_counts": [
+          238,
+          430
+        ],
+        "encoder_penalties": [
+          0.0001,
+          0.0002
+        ],
+        "encoder_regularization_denominator": 160,
+        "new_encoder_fraction": 0.05,
+        "new_decay_raw": -0.5,
+        "svd_relative_tolerance": 1e-10,
+        "loss": "original_weighted_mean_event_mse",
+        "initialization": {
+          "r4_new_G": 0,
+          "new_J": 0,
+          "new_R": "softplus(-0.5)+1e-5",
+          "new_E": "first_two_train_causal_X_svd_directions_in_orthogonal_complement_of_old_E",
+          "rank_failure": "stop_if_second_residual_singular_value_not_above_relative_tolerance"
+        }
+      },
+      "population_contract": {
+        "allocated_events": 369,
+        "train_events": 258,
+        "val_events": 88,
+        "train_horizons_s": [
+          1.0,
+          3.0
+        ],
+        "val_horizons_s": [
+          1.0,
+          3.0
+        ],
+        "val_stability_horizon_s": 8.0,
+        "source_val_payload_allowed": false,
+        "source_test_payload_allowed": false,
+        "post_freeze_labels_for_diagnostics_only": true
+      },
+      "failure_policy": {
+        "retain_all_allocated_cases": true,
+        "failed_fit_consumes_slot": true,
+        "retry_allowed": false,
+        "failed_case_deletion_allowed": false
+      },
+      "design_sha256": "d294bb0415af6a1449f1be2d5b43b4b310ef59292ceef73d947eedd4c382ab5a"
+    }
+  }
+}

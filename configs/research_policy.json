@@ -206,6 +206,81 @@
       "result_receipt_path": "docs/reports/kiki_a06_joint_refinement_20261024_evidence.json",
       "result_receipt_sha256": "8e7d78e9516ca1cb4f71900f8928f4a6e5589811568c542696a0a41a43260767"
     },
+    "kiki_a08_development_20261024": {
+      "status": "user_approved",
+      "approved_date": "2026-10-24",
+      "authority": "explicit_user_reply",
+      "approval_text": "继续改进算法和设计，一定要降到0，持续工作，得到最终结果后向我汇报",
+      "experiment": "paper_kiki_a08_memory",
+      "workflow": "kiki_a08_memory_v1",
+      "stage": "memory_order",
+      "module": "kron_reduce.workflows.kiki_memory_order",
+      "dataset": "kiki_ieee39_v1",
+      "data_policy": "kiki_original_train_only",
+      "input_contract": "measured_history_100ms_zoh_v1",
+      "split_seed": 324,
+      "frozen_allocation_sha256": "b103651cd33cb60dbdbad71c9d258545602cd6070a8860becc4fe9b2a6ac2b6d",
+      "source_run": "paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996",
+      "source_manifest_sha256": "d1c4cc402dd30207c4ba639a9d4d1f1e86e3051ce0ce51e72ac4d045be17cc01",
+      "source_checkpoint_paths": [
+        "checkpoint-240-324/model.npz",
+        "checkpoint-240-325/model.npz",
+        "checkpoint-240-326/model.npz"
+      ],
+      "source_checkpoint_sha256": [
+        "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8",
+        "14d58fd01f438230bd9aa05a5305e07bf5595f5a589d875f08d4a420428450b2",
+        "2ab76998e1295b9fb456de111cd8a2d5ae7bcbe9e8a8c8dac770abb639e6b5bd"
+      ],
+      "groups": [
+        "r2",
+        "r4"
+      ],
+      "seeds": [
+        324,
+        325,
+        326
+      ],
+      "latent_dimensions": [
+        2,
+        4
+      ],
+      "parameter_counts": [
+        238,
+        430
+      ],
+      "optimizer_steps_per_fit": 240,
+      "max_fit_attempts": 6,
+      "max_optimizer_steps": 1440,
+      "optimizer_state": "fresh_Adam",
+      "initial_optimizer_step": 0,
+      "encoder_penalties": [
+        0.0001,
+        0.0002
+      ],
+      "encoder_regularization_denominator": 160,
+      "new_encoder_fraction": 0.05,
+      "new_decay_raw": -0.5,
+      "svd_relative_tolerance": 1e-10,
+      "train_events": 258,
+      "val_events": 88,
+      "allocated_events": 369,
+      "source_val_payload_allowed": false,
+      "source_test_payload_allowed": false,
+      "labels_allowed_for_post_freeze_diagnostics_only": true,
+      "retain_all_allocated_cases": true,
+      "failed_fit_consumes_slot": true,
+      "retries_allowed": false,
+      "automatic_training_until_pass": false,
+      "deployment_predictions_allowed": false,
+      "model_promotion_allowed": false,
+      "independent_confirmation_required": true,
+      "approval_protocol_path": "docs/protocols/kiki_a08_development_authorization_20261024_zh.md",
+      "approval_protocol_sha256": "1dc98200cd1278ba317ef379161b5a7c9c8571eb430f06aba50823798914ab8c",
+      "design_path": "docs/research/kiki_a08_astra_design_20261024_zh.md",
+      "design_sha256": "d294bb0415af6a1449f1be2d5b43b4b310ef59292ceef73d947eedd4c382ab5a",
+      "evidence_kind": "uncertified_development_evaluation"
+    },
     "kiki_a07_development_20261024": {
       "status": "consumed",
       "approved_date": "2026-10-24",
