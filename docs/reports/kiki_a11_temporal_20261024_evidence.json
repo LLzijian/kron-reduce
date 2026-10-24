@@ -1,0 +1,296 @@
+{
+  "schema": "kron_reduce.a11_temporal_receipt.v1",
+  "run_id": "paper_kiki_a11_temporal-temporal_training-20261024T074834609949Z-e1f80a4a-53d0adaa",
+  "result_manifest_sha256": "93b4f66fcb76657eb5657cd9c4cecefd8ccf6ac90a5bbce98a39f9c5b7615b3d",
+  "source_manifest_sha256": {
+    "a06": "d1c4cc402dd30207c4ba639a9d4d1f1e86e3051ce0ce51e72ac4d045be17cc01",
+    "a09": "ae87ac95d337a9c8a1d4fdadd305701190e704cf9a85923f0ab9e27dbbfd4573",
+    "a10": "41741c4a3ab0973be2053cb23e29efd06ceaac3af02239e72f2cda140dccbc86"
+  },
+  "source_commit": "e1f80a4af49d1d7d8e206557bb2029f1be38d644",
+  "authorization": {
+    "id": "kiki_a11_development_20261024",
+    "protocol_sha256": "ab97e1368f22628130267e471bdb2e89435a106a2fb1513060a2e90fac398d3d",
+    "design_sha256": "e65868906527a524b5fe56b7cb0f4652b1fe6f408e00425e734bfaeabd9a76db"
+  },
+  "scientific_plan_sha256": "ab68ce45041a959d90063ad5b60d271c311552687c8f8920479a37d3a3ad6e92",
+  "ledger_plan_sha256": "ab68ce45041a959d90063ad5b60d271c311552687c8f8920479a37d3a3ad6e92",
+  "evidence_file_sha256": {
+    "learning_summary.json": "fb5df634648bd74e1f0c8c056b4ea7236edb02bb70fa980dbf81502688eb418d",
+    "scientific_plan.json": "ab68ce45041a959d90063ad5b60d271c311552687c8f8920479a37d3a3ad6e92",
+    "lineage.json": "aa5972e0676c8b3086e6e0a9a9af1e0362174ebc24e120d0ccb1b50758b2d462",
+    "data_access_audit.json": "fb277f98d598a3c40c9204d2dddaa11b89a8c1d952a3f66e016bf0666b36d4fe",
+    "coverage.json": "191799b2d107a6740999e2da8f951817f631c380e677521e9f84fd8a3e1570fd",
+    "stage_evidence.json": "3d1a46c43e4f8abca02027265556fe2592f6ca1533dd1e61ff4c03a0c67d41bd",
+    "rhs_budget.json": "95479ec9d066f5393c9f78a2307a4108f5be63bdfd89222e1a6a623c5189aa45",
+    "budget_binding.json": "9f65a72b3f684f3a04236a7268e98d66d2b9dc5a9f7c7cd10caacc0e803e3ba7"
+  },
+  "independent_audit": {
+    "path": "scratch/one_off/kiki-a11-20261024/independent-audit-v7-20261024T093100Z.json",
+    "sha256": "4a1d37e4acdbdbd50ffc71c8d7271697e8743c5f33560b3b6ee054dccdcc5af7",
+    "audit_status": "PASS"
+  },
+  "astra_result_review": {
+    "path": "docs/research/kiki_a11_astra_result_review_20261024_zh.md",
+    "sha256": "bb02bd8ee9150994531cdf6f795f7fbbc907ff81e443f52309dda134a0ce6ec9"
+  },
+  "campaign": {
+    "scientific_verdict": "REJECT",
+    "validity_passed": true,
+    "group_results": {
+      "mean": {
+        "utility_passed": false,
+        "zero": false,
+        "per_seed": {
+          "324": {
+            "utility_passed": false,
+            "zero_missed_instability": false,
+            "fn_below_source": false
+          },
+          "325": {
+            "utility_passed": false,
+            "zero_missed_instability": false,
+            "fn_below_source": false
+          },
+          "326": {
+            "utility_passed": false,
+            "zero_missed_instability": false,
+            "fn_below_source": false
+          }
+        }
+      },
+      "time": {
+        "utility_passed": false,
+        "zero": false,
+        "per_seed": {
+          "324": {
+            "utility_passed": false,
+            "zero_missed_instability": false,
+            "fn_below_source": false
+          },
+          "325": {
+            "utility_passed": false,
+            "zero_missed_instability": false,
+            "fn_below_source": false
+          },
+          "326": {
+            "utility_passed": false,
+            "zero_missed_instability": false,
+            "fn_below_source": false
+          }
+        }
+      }
+    },
+    "mechanism_supported": false,
+    "mechanism_per_seed": {
+      "324": false,
+      "325": false,
+      "326": false
+    },
+    "mechanism_reasons": {
+      "324": [
+        "0.005 train main MSE increased",
+        "val main NRMSE increased against mean",
+        "complete3 NRMSE exceeds 1.05 times mean"
+      ],
+      "325": [
+        "0.005 train main MSE increased",
+        "val main NRMSE increased against mean",
+        "complete3 NRMSE exceeds 1.05 times mean"
+      ],
+      "326": [
+        "0.005 train main MSE increased",
+        "val main NRMSE increased against mean",
+        "complete3 NRMSE exceeds 1.05 times mean"
+      ]
+    },
+    "validity_reasons": [],
+    "validity_gates": {
+      "budget_complete": true,
+      "all_six_fits_complete": true,
+      "full_evaluation_population": true,
+      "all_trajectory_checks": true,
+      "all_truth_path_margin_bounds": true,
+      "source_zero_population_complete": true,
+      "all_physical_checks": true,
+      "all_direct_replays": true,
+      "all_models_frozen": true
+    },
+    "raw_fn_improved_against_mean": false,
+    "detection_improved": false,
+    "zero_groups": [],
+    "selected_candidate": null,
+    "promotion_decision": "KEEP_BASELINE",
+    "model_promoted": false,
+    "new_training_authorized": false
+  },
+  "six_fixed_models": [
+    {
+      "group": "mean",
+      "seed": 324,
+      "train_main_mse_0.005": 0.05648127288548801,
+      "train_main_mse_0.0025": 0.056481274491757404,
+      "val_main_nrmse": 0.37560149634693013,
+      "val_complete3_nrmse": 0.24815195467381782,
+      "fn": 1,
+      "fp": 0,
+      "tp": 13,
+      "tn": 74,
+      "unresolved": 0,
+      "eligible_events": 88,
+      "development_evaluation_refusals": 0
+    },
+    {
+      "group": "mean",
+      "seed": 325,
+      "train_main_mse_0.005": 0.05538349158912837,
+      "train_main_mse_0.0025": 0.055383493628006986,
+      "val_main_nrmse": 0.3805211867723827,
+      "val_complete3_nrmse": 0.25175794506327226,
+      "fn": 1,
+      "fp": 0,
+      "tp": 13,
+      "tn": 74,
+      "unresolved": 0,
+      "eligible_events": 88,
+      "development_evaluation_refusals": 0
+    },
+    {
+      "group": "mean",
+      "seed": 326,
+      "train_main_mse_0.005": 0.055682342024586544,
+      "train_main_mse_0.0025": 0.05568234467471463,
+      "val_main_nrmse": 0.3749372874084818,
+      "val_complete3_nrmse": 0.24858327191293517,
+      "fn": 1,
+      "fp": 0,
+      "tp": 13,
+      "tn": 74,
+      "unresolved": 0,
+      "eligible_events": 88,
+      "development_evaluation_refusals": 0
+    },
+    {
+      "group": "time",
+      "seed": 324,
+      "train_main_mse_0.005": 0.0651476093185501,
+      "train_main_mse_0.0025": 0.06514760983906256,
+      "val_main_nrmse": 0.3937939038403303,
+      "val_complete3_nrmse": 0.27376583809793087,
+      "fn": 1,
+      "fp": 0,
+      "tp": 13,
+      "tn": 74,
+      "unresolved": 0,
+      "eligible_events": 88,
+      "development_evaluation_refusals": 0
+    },
+    {
+      "group": "time",
+      "seed": 325,
+      "train_main_mse_0.005": 0.06419813589056524,
+      "train_main_mse_0.0025": 0.06419813589426614,
+      "val_main_nrmse": 0.39635833479135985,
+      "val_complete3_nrmse": 0.27853831819628816,
+      "fn": 1,
+      "fp": 0,
+      "tp": 13,
+      "tn": 74,
+      "unresolved": 0,
+      "eligible_events": 88,
+      "development_evaluation_refusals": 0
+    },
+    {
+      "group": "time",
+      "seed": 326,
+      "train_main_mse_0.005": 0.06456751025226211,
+      "train_main_mse_0.0025": 0.06456751172639892,
+      "val_main_nrmse": 0.38690159751948233,
+      "val_complete3_nrmse": 0.26546575003800027,
+      "fn": 1,
+      "fp": 0,
+      "tp": 13,
+      "tn": 74,
+      "unresolved": 0,
+      "eligible_events": 88,
+      "development_evaluation_refusals": 0
+    }
+  ],
+  "a06_baselines": [
+    {
+      "seed": 324,
+      "a06_original_0.01_main_nrmse": 0.3636009918927956,
+      "a06_original_0.01_complete3_nrmse": 0.24965117542204593,
+      "a06_source_0.005_main_nrmse": 0.3636010129890834,
+      "a06_source_0.005_complete3_nrmse": 0.24965116489985092,
+      "a06_source_0.005_fn": 1,
+      "a06_source_0.005_fp": 0,
+      "a06_source_0.005_unresolved": 0
+    },
+    {
+      "seed": 325,
+      "a06_original_0.01_main_nrmse": 0.3682863932905257,
+      "a06_original_0.01_complete3_nrmse": 0.2519101967930939,
+      "a06_source_0.005_main_nrmse": 0.3682864164118265,
+      "a06_source_0.005_complete3_nrmse": 0.25191018824961453,
+      "a06_source_0.005_fn": 1,
+      "a06_source_0.005_fp": 0,
+      "a06_source_0.005_unresolved": 0
+    },
+    {
+      "seed": 326,
+      "a06_original_0.01_main_nrmse": 0.35922228433422637,
+      "a06_original_0.01_complete3_nrmse": 0.24671980343098737,
+      "a06_source_0.005_main_nrmse": 0.3592223052901132,
+      "a06_source_0.005_complete3_nrmse": 0.24671979459336602,
+      "a06_source_0.005_fn": 1,
+      "a06_source_0.005_fp": 0,
+      "a06_source_0.005_unresolved": 0
+    }
+  ],
+  "actual_budget": {
+    "fit_attempts": 6,
+    "optimizer_updates": 1440,
+    "prediction_paths": 4446,
+    "rollouts_started": 8892,
+    "training_integration_rhs": 860855040,
+    "evaluation_integration_rhs": 24565488,
+    "physical_rhs": 1984116,
+    "attempted_rhs": 887404644,
+    "returned_rhs": 887404644,
+    "blocked_rhs": 0
+  },
+  "coverage": {
+    "allocated": 369,
+    "allocated_train": 268,
+    "allocated_val": 101,
+    "eligible_train": 258,
+    "history_eligible_val": 88,
+    "eligible_val": 88,
+    "assigned_unstable": 27,
+    "eligible_unstable": 14,
+    "uncovered_assigned_unstable": 13,
+    "assigned_stable": 74,
+    "eligible_stable": 74,
+    "claim_boundary": "val classification covers 14 eligible unstable events; 13 of 27 assigned unstable events remain uncovered"
+  },
+  "data_access": {
+    "decoded_roles": [
+      "train",
+      "val"
+    ],
+    "label_decoded_roles": [
+      "val"
+    ],
+    "source_val_ids_read": [],
+    "test_ids_read": [],
+    "hidden_training_targets_read": false
+  },
+  "promotion": {
+    "selected_candidate": null,
+    "promotion_decision": "KEEP_BASELINE",
+    "model_promoted": false,
+    "deployment_predictions_allowed": false,
+    "new_training_authorized": false
+  }
+}

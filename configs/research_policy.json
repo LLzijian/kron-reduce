@@ -648,7 +648,7 @@
       "claim_boundary": "Uncertified bounded time-aggregation comparison on frozen source train/internal train-val; no model promotion, deployment or final zero-risk claim.",
       "approval_protocol_sha256": "ab97e1368f22628130267e471bdb2e89435a106a2fb1513060a2e90fac398d3d",
       "design_sha256": "e65868906527a524b5fe56b7cb0f4652b1fe6f408e00425e734bfaeabd9a76db",
-      "status": "user_approved",
+      "status": "consumed",
       "authority": "explicit_user_reply",
       "scientific_design_approver": "Astra Ultra",
       "authorization_scope": "Continuing explicit user instruction to improve algorithms; separately bounded comparison approved after A10 independent result verification.",
@@ -660,7 +660,28 @@
       "stage": "temporal_training",
       "module": "kron_reduce.workflows.kiki_temporal_training",
       "dataset": "kiki_ieee39_v1",
-      "retries_allowed": false
+      "retries_allowed": false,
+      "completed_run_id": "paper_kiki_a11_temporal-temporal_training-20261024T074834609949Z-e1f80a4a-53d0adaa",
+      "source_commit": "e1f80a4af49d1d7d8e206557bb2029f1be38d644",
+      "completed_run_manifest_sha256": "93b4f66fcb76657eb5657cd9c4cecefd8ccf6ac90a5bbce98a39f9c5b7615b3d",
+      "source_manifests_sha256_map": {
+        "a06": "d1c4cc402dd30207c4ba639a9d4d1f1e86e3051ce0ce51e72ac4d045be17cc01",
+        "a09": "ae87ac95d337a9c8a1d4fdadd305701190e704cf9a85923f0ab9e27dbbfd4573",
+        "a10": "41741c4a3ab0973be2053cb23e29efd06ceaac3af02239e72f2cda140dccbc86"
+      },
+      "scientific_plan_sha256": "ab68ce45041a959d90063ad5b60d271c311552687c8f8920479a37d3a3ad6e92",
+      "ledger_plan_sha256": "ab68ce45041a959d90063ad5b60d271c311552687c8f8920479a37d3a3ad6e92",
+      "final_fit_attempts": 6,
+      "final_optimizer_updates": 1440,
+      "final_prediction_paths": 4446,
+      "final_rollout_calls": 8892,
+      "final_successful_rk4_updates": 221355132,
+      "final_rhs_calls": 887404644,
+      "result_receipt_path": "docs/reports/kiki_a11_temporal_20261024_evidence.json",
+      "result_review_path": "docs/research/kiki_a11_astra_result_review_20261024_zh.md",
+      "result_receipt_sha256": "55a4f6a0763829f2055da2c02d539557d8ebe9113c965e945aa2e6c388517e90",
+      "result_review_sha256": "bb02bd8ee9150994531cdf6f795f7fbbc907ff81e443f52309dda134a0ce6ec9",
+      "consumed_at": "2026-10-24T09:40:03.739698+00:00"
     }
   }
 }

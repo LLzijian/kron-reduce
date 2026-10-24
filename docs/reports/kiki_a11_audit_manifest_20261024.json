@@ -1,0 +1,122 @@
+{
+  "schema": "kron_reduce.a11_audit_history.v1",
+  "run_id": "paper_kiki_a11_temporal-temporal_training-20261024T074834609949Z-e1f80a4a-53d0adaa",
+  "result_manifest_sha256": "93b4f66fcb76657eb5657cd9c4cecefd8ccf6ac90a5bbce98a39f9c5b7615b3d",
+  "scientific_verdict": "REJECT",
+  "result_receipt": {
+    "path": "docs/reports/kiki_a11_temporal_20261024_evidence.json",
+    "bytes": 9640,
+    "sha256": "55a4f6a0763829f2055da2c02d539557d8ebe9113c965e945aa2e6c388517e90"
+  },
+  "astra_result_review": {
+    "path": "docs/research/kiki_a11_astra_result_review_20261024_zh.md",
+    "bytes": 10926,
+    "sha256": "bb02bd8ee9150994531cdf6f795f7fbbc907ff81e443f52309dda134a0ce6ec9"
+  },
+  "independent_replay_attempts": [
+    {
+      "version": 5,
+      "script": {
+        "path": "scratch/one_off/kiki-a11-20261024/a11_readonly_replay_auditor_v5_frozen.py",
+        "bytes": 58194,
+        "sha256": "f2c4e681c22b992e263b1c6f9db6723c2a8f56d332a261796fac93a75d61fcee"
+      },
+      "receipt": {
+        "path": "scratch/one_off/kiki-a11-20261024/independent-audit-v5-20261024T091809Z.json",
+        "bytes": 467,
+        "sha256": "7abc43ee5e1c65dfaab2ca43cec9d71765a5592b69bdbde084880c1a5e0fb74d"
+      },
+      "status": "ERROR",
+      "mismatch_count": 1,
+      "error_type": "ValueError",
+      "reason": "train history array shape differs",
+      "new_fits": 0,
+      "new_predictions": 0,
+      "new_rhs_calls": 0
+    },
+    {
+      "version": 6,
+      "script": {
+        "path": "scratch/one_off/kiki-a11-20261024/a11_readonly_replay_auditor_v6_frozen.py",
+        "bytes": 58354,
+        "sha256": "786932cc99e9f7b3c94a6f1d5fbc6bcd00b6ff0055f9280b13b780cd39a53951"
+      },
+      "receipt": {
+        "path": "scratch/one_off/kiki-a11-20261024/independent-audit-v6-20261024T092400Z.json",
+        "bytes": 455,
+        "sha256": "52d0e7b1ef16a5c5a0d7436078a39a4bc26e23e8f8336e3c094bb9e1d8d78e50"
+      },
+      "status": "ERROR",
+      "mismatch_count": 1,
+      "error_type": "NameError",
+      "reason": "name 'ARRAYS' is not defined",
+      "new_fits": 0,
+      "new_predictions": 0,
+      "new_rhs_calls": 0
+    },
+    {
+      "version": 7,
+      "script": {
+        "path": "scratch/one_off/kiki-a11-20261024/a11_readonly_replay_auditor_v7_frozen.py",
+        "bytes": 58365,
+        "sha256": "409e25df6b6f22acc45b201f57b29aad73f1beca8f5a98fdcaae89e426e94350"
+      },
+      "receipt": {
+        "path": "scratch/one_off/kiki-a11-20261024/independent-audit-v7-20261024T093100Z.json",
+        "bytes": 20750,
+        "sha256": "4a1d37e4acdbdbd50ffc71c8d7271697e8743c5f33560b3b6ee054dccdcc5af7"
+      },
+      "status": "PASS",
+      "mismatch_count": 0,
+      "error_type": null,
+      "reason": null,
+      "new_fits": 0,
+      "new_predictions": 0,
+      "new_rhs_calls": 0
+    }
+  ],
+  "closeout_validation": {
+    "policy_harness_workflow_comparison_tests": {
+      "status": "PASS",
+      "passed": 56,
+      "elapsed_seconds": 52.57
+    },
+    "project_harness_audit": {
+      "status": "PASS",
+      "errors": 0
+    },
+    "git_diff_check": "PASS"
+  },
+  "final_audit_status": "PASS",
+  "final_mismatch_count": 0,
+  "final_recomputed_rows": 2340,
+  "final_recomputed_local_records": 12,
+  "final_recomputed_budget": {
+    "training_rhs": 860855040,
+    "evaluation_integration_rhs": 24565488,
+    "physical_rhs": 1984116,
+    "evaluation_rhs": 26549604,
+    "total_rhs": 887404644,
+    "prediction_paths": 4446,
+    "rollouts_started": 8892,
+    "training_rk4_updates": 215213760,
+    "evaluation_rk4_updates": 6141372
+  },
+  "postprocessor": {
+    "path": "scratch/one_off/kiki-a11-20261024/postprocess_a11_candidate_v3.py",
+    "bytes": 30613,
+    "sha256": "d48e90e8f8be047787612191d6242c01ae117838ce5fa3fb89148a64c6e3a5f6"
+  },
+  "postprocessor_synthetic_tests": {
+    "passed": 8,
+    "path": "scratch/one_off/kiki-a11-20261024/test_postprocess_a11_candidate_v3.py",
+    "bytes": 6666,
+    "sha256": "34eb7c58b3642423ab29a7959cf6ac23cd838c47137c75cf04ca8a06cff119e3"
+  },
+  "failed_audits_are_training_failures": false,
+  "original_experiment_repeated": false,
+  "whole_algorithm_branch_main_integration": "REJECTED_NO_MODEL_BENEFIT",
+  "model_promoted": false,
+  "raw_trajectories_models_result_bodies_tracked_in_git": false,
+  "next_scientific_comparison_requires_separate_registration": true
+}

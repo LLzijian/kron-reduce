@@ -237,5 +237,16 @@ Evaluation is limited to the registered 4446 paths and 887404644 total RHS
 calls. Labels are opened only after all models and trajectories are frozen,
 for diagnostics. Source val/test remain closed. Failures retain their slots
 and cannot be retried. Results are uncertified development evidence; no model
-is promoted, selected for deployment, or treated as certified. A04 through
-A10 remain consumed and unchanged.
+is promoted, selected for deployment, or treated as certified.
+
+A11 `paper_kiki_a11_temporal-temporal_training-20261024T074834609949Z-e1f80a4a-53d0adaa`
+completed and consumed under `kiki_a11_development_20261024`; its independent
+result receipt and Astra review bind the exact run manifest. The scientific
+verdict is REJECT: all numerical and physical gates passed, but the six models
+retained one missed unstable event each and degraded val trajectory accuracy.
+Preserve the complete research branch; do not merge the A11 algorithm branch
+into main as a model improvement. Any infrastructure extraction requires its
+own minimal review. The 13 uncovered members of the 27 assigned unstable cases
+remain outside the claim. A04 through A10 remain consumed and unchanged.
+No model was promoted or authorized for deployment. Do not reactivate A11,
+repeat its fits, or continue its epoch/temperature search.
