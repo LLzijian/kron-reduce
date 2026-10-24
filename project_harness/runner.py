@@ -26,6 +26,11 @@ def run_experiment(
     experiment = manifest["experiments"].get(experiment_name)
     if experiment is None:
         raise KeyError(f"unregistered experiment: {experiment_name}")
+    if experiment.get("execution_mode") == "bounded_input_audit_cli_only":
+        raise RuntimeError(
+            "BOUNDED_INPUT_AUDIT_CLI_ONLY: use the registered dedicated audit CLI; "
+            "generic dataset verification exceeds its registered read scope"
+        )
     validate_run_policy(root, experiment_name, experiment,
                         historical_reproduction=historical_reproduction)
     _verify_development_text_bindings(

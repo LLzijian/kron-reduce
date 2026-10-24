@@ -1,0 +1,27 @@
+{
+  "kind": "pytest",
+  "exit_code": 0,
+  "status": "PASS",
+  "command": [
+    "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "tests/test_audit_access_ledger.py",
+    "tests/test_limited_hdf_audit.py",
+    "tests/test_durable_audit_ledger.py",
+    "tests/test_record20_input.py",
+    "tests/test_record20_metadata.py",
+    "tests/test_record20_coordinates.py",
+    "tests/test_bounded_input_cli_guard.py",
+    "tests/test_record20_workflow.py",
+    "tests/test_research_policy.py",
+    "tests/test_development_file_bindings.py",
+    "tests/test_runner_safety.py",
+    "-q"
+  ],
+  "log_path": "scratch/one_off/kiki-a12-implementation-20261024/v5-pytest-20261024T102718672733Z.log",
+  "log_sha256": "e0ccb2b6810647e2afacbb285df3aafea478f2d4e1917f0e38e13c9a6432de53",
+  "real_workflows_executed": 0,
+  "bindings_file": "implementation_candidate_bindings_v5.json",
+  "bindings_sha256": "556619944cc4b5d7c3d2af4f784f4615a96697f28734d9156f68dce6d060ba4b"
+}

@@ -1,0 +1,375 @@
+{
+  "audit": "A12 code and static registry provenance; no real-data calculation",
+  "created_utc": "2026-10-24T08:14:36.075092+00:00",
+  "scope": {
+    "hdf5_files_opened": 0,
+    "csv_files_opened": 0,
+    "split_files_opened": 0,
+    "trajectory_arrays_decoded": 0,
+    "current_A11_run_opened": false,
+    "real_fits": 0,
+    "real_forecasts": 0,
+    "real_rhs_calls": 0,
+    "static_registry_manifest_read": true,
+    "readme_and_code_only": true,
+    "generation_worktree_clean_attested": false,
+    "historical_installed_andes_package_bytes_verified": false
+  },
+  "repository_identity": {
+    "kron_reduce_head": "e1f80a4af49d1d7d8e206557bb2029f1be38d644",
+    "kiki_head": "a95101337855ed3fc1f4abfd710982443d5564cb",
+    "kiki_targeted_worktree_status": "",
+    "kiki_whole_worktree_clean": false,
+    "comment": "The external worktree has unrelated edits; historical blobs are bound separately."
+  },
+  "local_files": [
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/data/kiki_ieee39_v1/manifest.json",
+      "bytes": 43618,
+      "sha256": "688d564f381f5ba472633cdcc3258f84baf7a3861616c5230432dba9c5e9ecb3"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/data/kiki_ieee39_v1/README.md",
+      "bytes": 1488,
+      "sha256": "df9c83ea9e291b7393bda6c7f967aa613d01188aaa9d5d144ddca6184b30c937"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/data/kiki_ieee39_v1/provenance/generate_private_dataset.py",
+      "bytes": 23729,
+      "sha256": "239b574f7b17b26c2c315f5be6b7aebaf05e82e1c91c61b32d48135caf452ab8"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/docs/scientific_contract.md",
+      "bytes": 3508,
+      "sha256": "edafeb56a915687b7cb455a5a5954f9778add07e6e76e9d72282f5543887bb51"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/src/kron_reduce/data/kiki_history.py",
+      "bytes": 10633,
+      "sha256": "c9bed1a04f6c924976a3799cfb9cc5e558954c61c8d97bd0e76eb726e2ab715a"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/src/kron_reduce/workflows/kiki_short_history.py",
+      "bytes": 72853,
+      "sha256": "e50a8ab67864dac9df198e44e41fb74e777f27203443f226a20c8c6b65ac2722"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/src/kron_reduce/workflows/kiki_stability_comparison.py",
+      "bytes": 21193,
+      "sha256": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/src/kron_reduce/workflows/kiki_temporal_training.py",
+      "bytes": 50468,
+      "sha256": "66fef19de817c749167b727fefed2f2ad435435e3525910b9a63299594fc4562"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/README.md",
+      "bytes": 2718,
+      "sha256": "9b1bc5c6f6316589533ad2e30d3104285295a5495c0f040009f4ee0e9c82bb80"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/experiments/generate_private_dataset.py",
+      "bytes": 23729,
+      "sha256": "239b574f7b17b26c2c315f5be6b7aebaf05e82e1c91c61b32d48135caf452ab8"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/src/kiki/data/private_dataset.py",
+      "bytes": 3427,
+      "sha256": "615ec905047a81f681620d3f214b6dfa60be3c78af7059de21b232c593d941ee"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/src/kiki/data/adapter.py",
+      "bytes": 7168,
+      "sha256": "307840683d775347c322c107f1e47500105be4b35c8a09d07d282c4baead3158"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/src/kiki/data/contracts.py",
+      "bytes": 1521,
+      "sha256": "3a027f8b7cafc69877e03779894370548d48f1b507f5c46a39e3f7edf79e691b"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/src/kiki/data/schema.py",
+      "bytes": 1254,
+      "sha256": "0fcd4c51f734ea20f5cd62504598cc407eae9685592b7096aaad6b3dc131bfdb"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/src/kiki/physics/units.py",
+      "bytes": 466,
+      "sha256": "11f6e09ef577a1c09a7996743deaef1530a36ecf26be82edaa5cd3e01187dd46"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/src/kiki/physics/coordinates.py",
+      "bytes": 1759,
+      "sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/src/kiki/physics/graph.py",
+      "bytes": 435,
+      "sha256": "724dd978e7627ccceec0ad94067eef304c8e5562a378641516d544e1d8ca8dfe"
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kiki/src/kiki/physics/constants.py",
+      "bytes": 180,
+      "sha256": "5fa4a9a9c45f68b6aff57ab3b3f9ee1156295fde7bd4fe047c5fadc025ad99da"
+    }
+  ],
+  "historical_sources": [
+    {
+      "source_repository": "E:/03-nn_Transfer_Func/kiki",
+      "recorded_for_shard": "ieee39_postfault",
+      "git_commit": "62cc1ea9c999860a132e2b79945788f0715703e3",
+      "git_path": "experiments/generate_private_dataset.py",
+      "git_blob": "639094b465856312e10d7f5a2dfbb505e87b7ed2",
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/historical_sources/62cc1ea9c999860a132e2b79945788f0715703e3/experiments/generate_private_dataset.py",
+      "bytes": 15184,
+      "sha256": "f34b2cf1430f9c9666757436a04e65e193a2a65950c1402daa0f36f17171260f"
+    },
+    {
+      "source_repository": "E:/03-nn_Transfer_Func/kiki",
+      "recorded_for_shard": "ieee39_postfault",
+      "git_commit": "62cc1ea9c999860a132e2b79945788f0715703e3",
+      "git_path": "src/kiki/data/private_dataset.py",
+      "git_blob": "1c93c8ebc4dc94f0a5db70daf72dd169ce6cff11",
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/historical_sources/62cc1ea9c999860a132e2b79945788f0715703e3/src/kiki/data/private_dataset.py",
+      "bytes": 2942,
+      "sha256": "92d2091d9a0c97a6dba28ab865e28483dc788f4f58d943153bb6449f88412073",
+      "los_index": {
+        "start_line": 34,
+        "end_line": 43,
+        "ast_sha256": "f537e2bed94f6c1aae8c9e297518e574f2b82c9bbb92ce114aed690130c2ed65"
+      }
+    },
+    {
+      "source_repository": "E:/03-nn_Transfer_Func/kiki",
+      "recorded_for_shard": "ieee39_postfault",
+      "git_commit": "62cc1ea9c999860a132e2b79945788f0715703e3",
+      "git_path": "src/kiki/physics/coordinates.py",
+      "git_blob": "01d1bd3a9ed203bbb50fcb6c04a678d410e858f6",
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/historical_sources/62cc1ea9c999860a132e2b79945788f0715703e3/src/kiki/physics/coordinates.py",
+      "bytes": 1759,
+      "sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089"
+    },
+    {
+      "source_repository": "E:/03-nn_Transfer_Func/kiki",
+      "recorded_for_shard": "ieee39_postfault",
+      "git_commit": "62cc1ea9c999860a132e2b79945788f0715703e3",
+      "git_path": "configs/private_dataset.json",
+      "git_blob": "02335e1ac48bc2e7256fd117952b4876f94efa07",
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/historical_sources/62cc1ea9c999860a132e2b79945788f0715703e3/configs/private_dataset.json",
+      "bytes": 1564,
+      "sha256": "c17468941e6829ee9ea6e0eac5eed12daca2f20a6fcfcc4b39231ccb34342db7",
+      "parsed_equal_to_registry_config": true
+    },
+    {
+      "source_repository": "E:/03-nn_Transfer_Func/kiki",
+      "recorded_for_shard": "ieee39_expansion",
+      "git_commit": "9666105d3adfb44ffc45d416ff734cc187691d26",
+      "git_path": "experiments/generate_private_dataset.py",
+      "git_blob": "1b2fa891ec0808b9b1f6410c635c879e126da274",
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/historical_sources/9666105d3adfb44ffc45d416ff734cc187691d26/experiments/generate_private_dataset.py",
+      "bytes": 15269,
+      "sha256": "4e82dba68b49543fea3e00086c499a362e9346d659450a8580916fd45a2dca12"
+    },
+    {
+      "source_repository": "E:/03-nn_Transfer_Func/kiki",
+      "recorded_for_shard": "ieee39_expansion",
+      "git_commit": "9666105d3adfb44ffc45d416ff734cc187691d26",
+      "git_path": "src/kiki/data/private_dataset.py",
+      "git_blob": "6e0415efc6c23031888e506184037ea1447728b8",
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/historical_sources/9666105d3adfb44ffc45d416ff734cc187691d26/src/kiki/data/private_dataset.py",
+      "bytes": 3362,
+      "sha256": "cbd61b308e9a5826ba2c12d5d5832fce523ee1ebf4cee9257497af058418daae",
+      "los_index": {
+        "start_line": 40,
+        "end_line": 49,
+        "ast_sha256": "f537e2bed94f6c1aae8c9e297518e574f2b82c9bbb92ce114aed690130c2ed65"
+      }
+    },
+    {
+      "source_repository": "E:/03-nn_Transfer_Func/kiki",
+      "recorded_for_shard": "ieee39_expansion",
+      "git_commit": "9666105d3adfb44ffc45d416ff734cc187691d26",
+      "git_path": "src/kiki/physics/coordinates.py",
+      "git_blob": "01d1bd3a9ed203bbb50fcb6c04a678d410e858f6",
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/historical_sources/9666105d3adfb44ffc45d416ff734cc187691d26/src/kiki/physics/coordinates.py",
+      "bytes": 1759,
+      "sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089"
+    },
+    {
+      "source_repository": "E:/03-nn_Transfer_Func/kiki",
+      "recorded_for_shard": "ieee39_expansion",
+      "git_commit": "9666105d3adfb44ffc45d416ff734cc187691d26",
+      "git_path": "configs/private_dataset_expansion.json",
+      "git_blob": "24c7c2c76f1309f50814f1e70279155582cdcbf4",
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/historical_sources/9666105d3adfb44ffc45d416ff734cc187691d26/configs/private_dataset_expansion.json",
+      "bytes": 1977,
+      "sha256": "771c4dc58b4328a3f2ce3e6ffe40186cb6e815791e42acbad04b1bb28574177d",
+      "parsed_equal_to_registry_config": true
+    }
+  ],
+  "registry_facts": {
+    "ieee39_postfault": {
+      "recorded_git_commit": "62cc1ea9c999860a132e2b79945788f0715703e3",
+      "config_selected": {
+        "andes_version": "2.0.0",
+        "case": "ieee39/ieee39_full.xlsx",
+        "fault_start_s": 1.0,
+        "postfault_horizon_s": 15.0,
+        "sample_interval_s": 0.01,
+        "integration_step_s": 0.005,
+        "disable_pss": false,
+        "fault_type": "temporary_bus_three_phase_ground",
+        "los_angle_rad": 3.141592653589793,
+        "los_relative_speed_pu": 0.02,
+        "los_hold_samples": 5,
+        "stable_tail_seconds": 1.0,
+        "stable_tail_speed_pu": 0.005
+      },
+      "state_mapping_slots": 220,
+      "slots_by_model": {
+        "GENROU": 60,
+        "TGOV1N": 20,
+        "IEEEX1": 50,
+        "IEEEST": 70,
+        "BusFreq": 20
+      },
+      "state_names_by_model": {
+        "GENROU": [
+          "delta",
+          "e1d",
+          "e1q",
+          "e2d",
+          "e2q",
+          "omega"
+        ],
+        "TGOV1N": [
+          "LAG_y",
+          "LL_x"
+        ],
+        "IEEEX1": [
+          "LA_y",
+          "LL_x",
+          "LS_y",
+          "W_x",
+          "vp"
+        ],
+        "IEEEST": [
+          "F1_x",
+          "F1_y",
+          "F2_x1",
+          "F2_x2",
+          "LL1_x",
+          "LL2_x",
+          "WO_x"
+        ],
+        "BusFreq": [
+          "L_y",
+          "WO_x"
+        ]
+      },
+      "case_sha256": "9c2048dc94201ee48ffe816de65d53831fa1f4b0e7fdf32f24c50f1017edcfe5",
+      "postfault_signature": "e52c4d30ec9db0ae76c6a2f1f722ca00a7a5803c4dbb01ad3b6718bfcade16d9",
+      "raw_units": "delta rad; omega absolute pu; Pm=GENROU.tm, Pe=GENROU.Pe, te=GENROU.te on system MVA base",
+      "omega_s": "376.99111843077515",
+      "mva_base": "100.0"
+    },
+    "ieee39_expansion": {
+      "recorded_git_commit": "9666105d3adfb44ffc45d416ff734cc187691d26",
+      "config_selected": {
+        "andes_version": "2.0.0",
+        "case": "ieee39/ieee39_full.xlsx",
+        "fault_start_s": 1,
+        "postfault_horizon_s": 15,
+        "sample_interval_s": 0.01,
+        "integration_step_s": 0.005,
+        "disable_pss": false,
+        "fault_type": "temporary_bus_three_phase_ground",
+        "los_angle_rad": 3.141592653589793,
+        "los_relative_speed_pu": 0.02,
+        "los_hold_samples": 5,
+        "stable_tail_seconds": 1,
+        "stable_tail_speed_pu": 0.005
+      },
+      "state_mapping_slots": 220,
+      "slots_by_model": {
+        "GENROU": 60,
+        "TGOV1N": 20,
+        "IEEEX1": 50,
+        "IEEEST": 70,
+        "BusFreq": 20
+      },
+      "state_names_by_model": {
+        "GENROU": [
+          "delta",
+          "e1d",
+          "e1q",
+          "e2d",
+          "e2q",
+          "omega"
+        ],
+        "TGOV1N": [
+          "LAG_y",
+          "LL_x"
+        ],
+        "IEEEX1": [
+          "LA_y",
+          "LL_x",
+          "LS_y",
+          "W_x",
+          "vp"
+        ],
+        "IEEEST": [
+          "F1_x",
+          "F1_y",
+          "F2_x1",
+          "F2_x2",
+          "LL1_x",
+          "LL2_x",
+          "WO_x"
+        ],
+        "BusFreq": [
+          "L_y",
+          "WO_x"
+        ]
+      },
+      "case_sha256": "9c2048dc94201ee48ffe816de65d53831fa1f4b0e7fdf32f24c50f1017edcfe5",
+      "postfault_signature": "e52c4d30ec9db0ae76c6a2f1f722ca00a7a5803c4dbb01ad3b6718bfcade16d9",
+      "raw_units": "delta rad; omega absolute pu; Pm=GENROU.tm, Pe=GENROU.Pe, te=GENROU.te on system MVA base",
+      "omega_s": "376.99111843077515",
+      "mva_base": "100.0"
+    }
+  },
+  "upstream_andes": {
+    "repository": "https://github.com/CURENT/andes",
+    "tag": "v2.0.0",
+    "tag_commit_from_git_ls_remote": "eda5163c9ee8d19945a1dd5d1771fec5da608c27",
+    "scope": "Versioned source corroborates model semantics; not an installed-package or case-byte audit.",
+    "files": [
+      {
+        "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/upstream_andes_v200/genrou.py",
+        "bytes": 10811,
+        "sha256": "40786db556f11497dac97e9683f64711e4f05cb37065746dd1da316d78b3af61",
+        "url": "https://raw.githubusercontent.com/CURENT/andes/eda5163c9ee8d19945a1dd5d1771fec5da608c27/andes/models/synchronous/genrou.py"
+      },
+      {
+        "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/upstream_andes_v200/genbase.py",
+        "bytes": 12443,
+        "sha256": "423dcd590748d328fe8a3ad7e41ff321810a790a476d4fab41066305d54d5702",
+        "url": "https://raw.githubusercontent.com/CURENT/andes/eda5163c9ee8d19945a1dd5d1771fec5da608c27/andes/models/synchronous/genbase.py"
+      },
+      {
+        "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/upstream_andes_v200/tgov1.py",
+        "bytes": 8932,
+        "sha256": "8de6af2beeb8084316971d05e5a9b760abd9287679b689d2b178c6fab328fc37",
+        "url": "https://raw.githubusercontent.com/CURENT/andes/eda5163c9ee8d19945a1dd5d1771fec5da608c27/andes/models/governor/tgov1.py"
+      }
+    ]
+  },
+  "historical_los_function_ast_equal": true,
+  "script_binding": {
+    "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/bind_source_evidence.py",
+    "bytes": 6745,
+    "sha256": "7bff611ee3d22284dc6920657b91454edac312e8f701cdd84bfda501b7c2b5a5"
+  }
+}

@@ -16,5 +16,18 @@
     "real_observation_count": 21,
     "power_policy": "zoh_from_first_recorded_power",
     "task_role": "history_initialized_prediction"
+  },
+  "measured_record_history_20ms_audit_v1": {
+    "forecast_origin": "third_real_record_sample_at_nominal_20ms_after_first_postclearing_record",
+    "real_observation_count": 3,
+    "observed_channels": [
+      "q",
+      "v"
+    ],
+    "power_index": 2,
+    "power_policy": "origin_power_input_audit_only_no_constant_historical_power_assertion",
+    "task_role": "input_availability_audit_only_no_prediction",
+    "source_clock_preserved": true,
+    "exact_clearing_state_claimed": false
   }
 }

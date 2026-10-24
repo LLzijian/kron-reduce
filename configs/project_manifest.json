@@ -1902,6 +1902,26 @@
       "development_only": true,
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false
+    },
+    "paper_kiki_a12_record20_input": {
+      "status": "registered_development_authorization",
+      "execution_mode": "bounded_input_audit_cli_only",
+      "module": "kron_reduce.workflows.kiki_record20_input_audit",
+      "workflow": "kiki_a12_record20_input_v1",
+      "config": "paper_kiki_a12_record20_input.toml",
+      "stage": "input_audit",
+      "data_policy": "kiki_original_train_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "dataset": "kiki_ieee39_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "input_contract_id": "measured_record_history_20ms_audit_v1",
+      "development_authorization_id": "kiki_a12_development_20261024",
+      "workflow_evidence_contract": "configs/workflows/kiki_a12_record20_input_v1.json",
+      "development_only": true,
+      "model_promotion_allowed": false,
+      "deployment_predictions_allowed": false
     }
   },
   "active_policy": "configs/research_policy.json",

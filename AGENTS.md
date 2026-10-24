@@ -149,6 +149,35 @@ Any new scientific comparison requires its own registered authorization;
 A10 supports proposing one uniform time-aggregation comparison, without
 automatically authorizing training. No A10 model has been promoted.
 
+A11 completed with REJECT and KEEP_BASELINE. Its six fits/1440 updates and
+all results are archived on `codex/kiki-a11-temporal-objective` at
+`70c463a9286cbde2acc5f16266b19fcb6c2a1555`; PR 10 is closed without merge.
+The archive remains consumed: do not repeat fits or import that branch's
+rejected algorithm into main. The active policy records its archive identity.
+
+A12 is a separately registered, one-use train input audit under
+`kiki_a12_development_20261024`. Only its dedicated module CLI may execute it;
+the generic project runner must reject before generic data verification.
+It reads the frozen 268 train slots, uses no model/fit/prediction/force/RHS,
+and freezes all unlabelled evidence before the 268 post-label metadata reads.
+Internal val/source val/test and CSV/splits remain closed. Astra Ultra must
+approve the exact implementation bindings before its policy becomes active.
+The authorization is spent on any execution or failure, without retries.
+An accepted input audit does not authorize new training, certify predictions,
+verify val coverage, promote a model, or establish zero missed instability.
+
+A12 has completed and its authorization is consumed, bound to the immutable
+run and result receipt in the active policy. All 268 train inputs and source
+rule/metadata checks passed; the independent saved-array replay found zero
+mismatches. All ten short records already violate the joint rule by the
+20 ms origin, so their support is not evidence of prediction before onset.
+Do not rerun this audit or infer internal val coverage. KEEP_BASELINE applies.
+
+A13's frozen synthetic integral-initializer study is archived with its
+positive convergence cases, expected counterexamples and limited retained
+evidence replay. It supports proposing a separately registered train-history
+mechanism audit; it authorizes no real training or future comparison.
+
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
 - `docs/architecture.md`: scientific and software boundaries.
 - `docs/scientific_contract.md`: input, rollout, stability, and naming rules.

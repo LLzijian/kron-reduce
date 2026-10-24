@@ -14,3 +14,7 @@ legacy/source_manifest.sha256 -text
 paper/planning/ieee39_modular_energy_equivalent/qa_logs/p1_a03_candidate_acquisition_check.json -text
 # Preserve the exact approved A08 design bytes used by the immutable run.
 docs/research/kiki_a08_astra_design_20261024_zh.md -text
+# Preserve the exact byte-hashed A12 approval binding list across checkouts.
+docs/research/kiki_a12_record20/implementation_bindings_v7.json -text
+# Keep the verified A13 reference note byte-identical to its source manifest.
+docs/research/kiki_a13_integral_synthetic/primary_literature_verified.md -text
