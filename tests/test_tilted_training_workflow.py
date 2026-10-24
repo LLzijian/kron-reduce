@@ -119,6 +119,16 @@ def _authorization_fixture(tmp_path):
     (tmp_path / "docs/research").mkdir(parents=True)
     for relative in ("configs/research_policy.json", "configs/project_manifest.json"):
         shutil.copyfile(repository / relative, tmp_path / relative)
+    # Build an isolated pre-consumption policy for the authorization unit cases.
+    policy_path = tmp_path / "configs/research_policy.json"
+    policy = json.loads(policy_path.read_text(encoding="utf-8"))
+    approval = policy["development_evaluations"][tilted.AUTH]
+    approval["status"] = "user_approved"
+    for key in ("consumed_at", "completed_run_id", "source_commit", "scientific_plan_sha256",
+                "ledger_plan_sha256", "final_fit_attempts", "final_confirmed_optimizer_steps",
+                "result_receipt_path", "result_receipt_sha256"):
+        approval.pop(key, None)
+    policy_path.write_text(json.dumps(policy), encoding="utf-8")
     config = tomllib.loads((repository / "configs/experiments/paper_kiki_a07_tilted.toml")
                            .read_text(encoding="utf-8"))
     for key in ("development_protocol_path", "design_path"):

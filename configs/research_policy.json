@@ -207,7 +207,7 @@
       "result_receipt_sha256": "8e7d78e9516ca1cb4f71900f8928f4a6e5589811568c542696a0a41a43260767"
     },
     "kiki_a07_development_20261024": {
-      "status": "user_approved",
+      "status": "consumed",
       "approved_date": "2026-10-24",
       "authority": "explicit_user_reply",
       "approval_text": "继续改进算法和设计，一定要降到0，持续工作，得到最终结果后向我汇报",
@@ -288,7 +288,16 @@
       "deployment_predictions_allowed": false,
       "model_promotion_allowed": false,
       "independent_confirmation_required": true,
-      "evidence_kind": "uncertified_development_evaluation"
+      "evidence_kind": "uncertified_development_evaluation",
+      "consumed_at": "2026-10-24T04:13:57.401641+00:00",
+      "completed_run_id": "paper_kiki_a07_tilted-tilted_training-20261024T034153861919Z-9f09fc71-86ceb5f4",
+      "source_commit": "9f09fc715eb123467cc13b01e6cec326cc9d2259",
+      "scientific_plan_sha256": "68cbaf819763e563a3268d798900e234a01fa3f0146c4de54614ea789fc982f7",
+      "ledger_plan_sha256": "de4725c099333fd1546fa523342a048c3558ebcf86778a7e24c22c597316a1c9",
+      "final_fit_attempts": 6,
+      "final_confirmed_optimizer_steps": 1440,
+      "result_receipt_path": "docs/reports/kiki_a07_tilted_objective_20261024_evidence.json",
+      "result_receipt_sha256": "bbd5e95d1fe26ba55c47097a1eec365640ac4164acf1abb1c20c0ff774e47d31"
     }
   }
 }

@@ -97,6 +97,12 @@ Do not reactivate it or repeat its fits. Read-only audit remains available;
 a new scientific comparison requires its own registered authorization.
 No A06 model has been promoted.
 
+The A07 campaign has completed and its authorization is now `consumed`,
+bound to its immutable run, six paired fits/1440 new updates and result receipt.
+Do not reactivate it or repeat its fits. Read-only audit remains available;
+a new scientific comparison requires its own registered authorization.
+No A07 model has been promoted or selected for deployment.
+
 Authoritative entrypoints:
 
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
