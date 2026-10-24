@@ -535,7 +535,7 @@
         "seed-325-h005/paths.npz": "1bf6d7e792b757cde8d3a6f8a2753041c92b1ef4279cead960f2c43cc79cb191",
         "seed-326-h005/paths.npz": "23ae09b729014d26a27418c5316ac5ccd32ecd09e1ab6a8136d083d73575e606"
       },
-      "status": "user_approved",
+      "status": "consumed",
       "authority": "explicit_user_reply",
       "authorization_scope": "Latest user instruction to continue algorithm improvement; separately registered bounded all-train numerical audit approved by Astra Ultra after A09 review.",
       "experiment": "paper_kiki_a10_train_refinement",
@@ -548,7 +548,22 @@
       "scientific_review_path": "docs/research/kiki_a10_astra_implementation_review_20261024_zh.md",
       "scientific_review_sha256": "f038c4abba59dd04054cec3986f1694a94ee0d384e732c98e47ed134db435773",
       "retries_allowed": false,
-      "deployment_predictions_allowed": false
+      "deployment_predictions_allowed": false,
+      "consumed_at": "2026-10-24T06:45:26.848048+00:00",
+      "completed_run_id": "paper_kiki_a10_train_refinement-train_refinement-20261024T062534123221Z-161cae52-515f5625",
+      "source_commit": "161cae52d4e56f2c5eea4ceb2747ca57991ab05b",
+      "scientific_plan_sha256": "5b320b07f4034c9ddff253b827dd2eac000bdadf12fb126bfb98aa80aea64646",
+      "ledger_plan_sha256": "5b320b07f4034c9ddff253b827dd2eac000bdadf12fb126bfb98aa80aea64646",
+      "final_fit_attempts": 0,
+      "final_optimizer_updates": 0,
+      "final_prediction_paths": 774,
+      "final_rollout_calls": 1548,
+      "final_successful_rk4_updates": 896724,
+      "final_rhs_calls": 3812625,
+      "result_receipt_path": "docs/reports/kiki_a10_train_refinement_20261024_evidence.json",
+      "result_receipt_sha256": "1337b2f8c4cc9b8827a38a37cf47a15c916ed4a66cce05ca61314d4a1bb235ab",
+      "result_review_path": "docs/research/kiki_a10_astra_result_review_20261024_zh.md",
+      "result_review_sha256": "43f3f6f5add1f2d5e3bf46fc53c9ccc202aa4c2fcb2453aea03090902756313b"
     }
   }
 }
