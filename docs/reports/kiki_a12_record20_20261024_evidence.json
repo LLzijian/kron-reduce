@@ -1,0 +1,231 @@
+{
+  "experiment": "paper_kiki_a12_record20_input",
+  "authorization": "kiki_a12_development_20261024",
+  "run_id": "paper_kiki_a12_record20_input-input_audit-20261024T104504432668Z-71f9615d-d7978c5a",
+  "source_commit": "71f9615d959f89ee71e1e72369af4172a884e3d3",
+  "run_manifest_sha256": "9af2f10500f952e753015b8ea006c8c9fc07587d4f915dee21a2b6c49caf187b",
+  "prelabel_freeze_sha256": "18aaa232f0d840f1969b403a6f9a895b35a4b3b3c6b57ceb39ce2937422671d1",
+  "execution_completed": true,
+  "scientific_verdict": "ACCEPT",
+  "promotion_decision": "KEEP_BASELINE",
+  "record20_train_contract_supported": true,
+  "groups": {
+    "all_268": {
+      "allocated": 268,
+      "input_supported": 268,
+      "full_visible_record_valid": 268,
+      "rule_valid": 268,
+      "physical_lines": [
+        "Line_1",
+        "Line_14",
+        "Line_19",
+        "Line_21",
+        "Line_23",
+        "Line_26",
+        "Line_28",
+        "Line_3",
+        "Line_32",
+        "Line_33",
+        "Line_35",
+        "Line_36",
+        "Line_38",
+        "Line_40",
+        "Line_41",
+        "Line_6"
+      ],
+      "origin20_continuous_violation_counts": {
+        "0": 258,
+        "3": 8,
+        "1": 1,
+        "2": 1
+      },
+      "labels_after_freeze": {
+        "stable": 237,
+        "unstable": 31
+      },
+      "pre_record_onset_unknown_count": 8
+    },
+    "old100_common_258": {
+      "allocated": 258,
+      "input_supported": 258,
+      "full_visible_record_valid": 258,
+      "rule_valid": 258,
+      "physical_lines": [
+        "Line_1",
+        "Line_14",
+        "Line_19",
+        "Line_21",
+        "Line_23",
+        "Line_26",
+        "Line_28",
+        "Line_3",
+        "Line_32",
+        "Line_33",
+        "Line_35",
+        "Line_36",
+        "Line_38",
+        "Line_40",
+        "Line_41",
+        "Line_6"
+      ],
+      "origin20_continuous_violation_counts": {
+        "0": 258
+      },
+      "labels_after_freeze": {
+        "stable": 237,
+        "unstable": 21
+      },
+      "pre_record_onset_unknown_count": 0
+    },
+    "old100_unavailable_10": {
+      "allocated": 10,
+      "input_supported": 10,
+      "full_visible_record_valid": 10,
+      "rule_valid": 10,
+      "physical_lines": [
+        "Line_23",
+        "Line_28",
+        "Line_33",
+        "Line_36",
+        "Line_40",
+        "Line_41"
+      ],
+      "origin20_continuous_violation_counts": {
+        "3": 8,
+        "1": 1,
+        "2": 1
+      },
+      "labels_after_freeze": {
+        "unstable": 10
+      },
+      "pre_record_onset_unknown_count": 8
+    }
+  },
+  "metadata_consistent_count": 268,
+  "physical_lines_all": 16,
+  "short_records": {
+    "length_counts": {
+      "5": 8,
+      "6": 1,
+      "7": 1
+    },
+    "origin_s": 0.02,
+    "first_joint_relative_s_counts": {
+      "-0.02": 8,
+      "-0.01": 1,
+      "0.0": 1
+    },
+    "five_point_confirmation_relative_s_counts_nominal": {
+      "0.02": 8,
+      "0.03": 1,
+      "0.04": 1
+    },
+    "interpretation": "Every short record is already jointly violating by the origin; confirmation lead is not prediction before the first violation."
+  },
+  "budget": {
+    "planned_counts": {
+      "countdescriptor": 1078,
+      "attr": 2966,
+      "array": 1078
+    },
+    "actual_counts": {
+      "countdescriptor": {
+        "attempted": 1078,
+        "returned": 1078,
+        "failed": 0
+      },
+      "array": {
+        "attempted": 1078,
+        "returned": 1078,
+        "failed": 0
+      },
+      "attr": {
+        "attempted": 2966,
+        "returned": 2966,
+        "failed": 0
+      }
+    },
+    "source_callback_count": 5122,
+    "logical_array_elements": {
+      "attempted": 7501168,
+      "returned": 7501168,
+      "failed": 0
+    },
+    "logical_array_bytes": 60009344,
+    "integrity_bytes": 6870747346,
+    "hdf_open_attempts": 4,
+    "failed_selectors": 0,
+    "denied_attempts": [],
+    "violations": [],
+    "compute": {
+      "model_constructions": 0,
+      "model_loads": 0,
+      "fit_attempts": 0,
+      "optimizer_updates": 0,
+      "prediction_paths": 0,
+      "rollout_calls": 0,
+      "integration_rhs": 0,
+      "physical_rhs": 0,
+      "model_force_calls": 0
+    }
+  },
+  "independent_audit": {
+    "path": "scratch/one_off/kiki-a12-readonly-audit-paper_kiki_a12_record20_input-input_audit-20261024T104504432668Z-71f9615d-d7978c5a/audit.json",
+    "sha256": "8b176f4634459bf5073a1ee7277d4f3510745a022507fe11046084784f9db5cc",
+    "script_path": "scratch/one_off/kiki-a12-implementation-20261024/independent_audit_v1.py",
+    "script_sha256": "8af949cc70ca6c738f7043cf1862b49f3b19f20bfce9f66a52f98c1d9538451c",
+    "status": "PASS",
+    "mismatch_count": 0,
+    "recomputed": {
+      "allocated": 268,
+      "old_common": 258,
+      "old_short": 10,
+      "visible_diagnostics": 268,
+      "input_npz_count": 268,
+      "rule_mismatch_count": 0,
+      "metadata_consistent_count": 268,
+      "ledger_counts": {
+        "countdescriptor": {
+          "attempted": 1078,
+          "returned": 1078,
+          "failed": 0
+        },
+        "array": {
+          "attempted": 1078,
+          "returned": 1078,
+          "failed": 0
+        },
+        "attr": {
+          "attempted": 2966,
+          "returned": 2966,
+          "failed": 0
+        }
+      },
+      "array_elements_returned": 7501168,
+      "hdf_open_calls": 4,
+      "integrity_bytes": 6870747346
+    }
+  },
+  "scientific_review": {
+    "path": "docs/research/kiki_a12_record20/astra_result_review_zh.md",
+    "sha256": "ba0322fe73eb2a60a8e75a33e8d28b5ff8a6e3a1c62a56748035bee0830ea300"
+  },
+  "engineering_validation": {
+    "comprehensive_tests": 125,
+    "final_targeted_tests": 22,
+    "ruff": "PASS",
+    "project_audit": "PASS",
+    "push_ci": 40086851327,
+    "pull_request_ci": 40086899863,
+    "source_head_byte_preflight": "PASS"
+  },
+  "source_val_test_payload_reads": 0,
+  "internal_val_payload_reads": 0,
+  "internal_val_coverage_verified": false,
+  "new_training_authorized": false,
+  "model_promoted": false,
+  "deployment_predictions_allowed": false,
+  "zero_missed_instability_established": false,
+  "automatic_retry": false,
+  "raw_result_bodies_tracked": false
+}

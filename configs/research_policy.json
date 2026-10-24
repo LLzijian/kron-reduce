@@ -611,7 +611,7 @@
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false,
       "claim_boundary": "Uncertified train-only record20 input/clock/source-rule audit; zero models, fits, predictions, force or RHS. Does not establish val coverage, hidden-state recovery, FSR, certification, promotion, deployment or new training permission.",
-      "status": "user_approved",
+      "status": "consumed",
       "authority": "explicit_user_reply",
       "user_instruction": "继续改进算法和设计，一定要降到0，持续工作，得到最终结果后向我汇报",
       "scientific_design_approver": "Astra Ultra",
@@ -652,7 +652,34 @@
         "tests/test_record20_workflow.py": "fbc28c82b07b8c814e3566837c200793c60c2edb552a20cd522c0c2ca6554158"
       },
       "max_campaign_executions": 1,
-      "retry_allowed": false
+      "retry_allowed": false,
+      "completed_run_id": "paper_kiki_a12_record20_input-input_audit-20261024T104504432668Z-71f9615d-d7978c5a",
+      "completed_run_manifest_sha256": "9af2f10500f952e753015b8ea006c8c9fc07587d4f915dee21a2b6c49caf187b",
+      "completed_source_commit": "71f9615d959f89ee71e1e72369af4172a884e3d3",
+      "result_receipt_path": "docs/reports/kiki_a12_record20_20261024_evidence.json",
+      "result_receipt_sha256": "d8c03e6d2c6d203593cb8598ac3e946694bbed3710b72579a428f814dda1d370",
+      "result_review_path": "docs/research/kiki_a12_record20/astra_result_review_zh.md",
+      "result_review_sha256": "ba0322fe73eb2a60a8e75a33e8d28b5ff8a6e3a1c62a56748035bee0830ea300",
+      "scientific_verdict": "ACCEPT",
+      "promotion_decision": "KEEP_BASELINE",
+      "actual_compute": {
+        "model_constructions": 0,
+        "model_loads": 0,
+        "fit_attempts": 0,
+        "optimizer_updates": 0,
+        "prediction_paths": 0,
+        "rollout_calls": 0,
+        "integration_rhs": 0,
+        "physical_rhs": 0,
+        "model_force_calls": 0
+      },
+      "actual_array_selections": 1078,
+      "actual_descriptors": 1078,
+      "actual_attributes": 2966,
+      "actual_logical_array_elements": 7501168,
+      "actual_integrity_bytes": 6870747346,
+      "actual_hdf_opens": 4,
+      "automatic_retry": false
     }
   },
   "archived_development_results": {

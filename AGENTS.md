@@ -166,6 +166,18 @@ The authorization is spent on any execution or failure, without retries.
 An accepted input audit does not authorize new training, certify predictions,
 verify val coverage, promote a model, or establish zero missed instability.
 
+A12 has completed and its authorization is consumed, bound to the immutable
+run and result receipt in the active policy. All 268 train inputs and source
+rule/metadata checks passed; the independent saved-array replay found zero
+mismatches. All ten short records already violate the joint rule by the
+20 ms origin, so their support is not evidence of prediction before onset.
+Do not rerun this audit or infer internal val coverage. KEEP_BASELINE applies.
+
+A13's frozen synthetic integral-initializer study is archived with its
+positive convergence cases, expected counterexamples and limited retained
+evidence replay. It supports proposing a separately registered train-history
+mechanism audit; it authorizes no real training or future comparison.
+
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
 - `docs/architecture.md`: scientific and software boundaries.
 - `docs/scientific_contract.md`: input, rollout, stability, and naming rules.

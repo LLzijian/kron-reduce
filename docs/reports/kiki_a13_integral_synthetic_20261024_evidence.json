@@ -1,0 +1,95 @@
+{
+  "title": "固定模型积分初态估计：合成正确性证据",
+  "status": "archived_verified_synthetic_evidence",
+  "claim_scope": "已知真值合成正确性与受限的独立已保存证据复核；不构成真实隐藏状态恢复、失稳漏判率收益或模型晋升证据。",
+  "run": {
+    "run_id": "run-20261024T181442748",
+    "path": "scratch/one_off/kiki-initializer-synthetic-20261024/run-20261024T181442748",
+    "summary_status": "PASS",
+    "fixed_cases_passed": 15,
+    "physical_checks_passed": true,
+    "real_payloads_read": 0,
+    "real_fits": 0,
+    "real_rhs": 0,
+    "budget": {
+      "matrix_exponential": 248,
+      "svd": 35,
+      "svd_reused_ls_solutions": 37,
+      "observer_ls": 1,
+      "force_evaluations": 1278,
+      "rk4_updates": 2040,
+      "integration_rhs": 8160,
+      "physical_rhs": 126,
+      "synthetic_rhs_total": 8286
+    }
+  },
+  "independent_audit": {
+    "path": "scratch/one_off/kiki-initializer-synthetic-audit-20261024/audit.json",
+    "sha256": "465212171daf54cfc92353d25fcdc18fa400b39fee3242067c2a7a9d03983141",
+    "script_path": "scratch/one_off/kiki-initializer-synthetic-audit-20261024/audit_saved_arrays.py",
+    "script_sha256": "b29be26e464e35b2b7281e7e5254706ab8fe22ac97a437defd42f13f8cdd88d5",
+    "status": "PASS_RETAINED_EVIDENCE",
+    "scope": "9个工件SHA、账本计数、固定案例记录和已保存数组可复算子集；不是全部15案例的完整算子重放。"
+  },
+  "bound_sources": {
+    "protocol": {
+      "path": "scratch/one_off/kiki-initializer-synthetic-20261024/integral_initializer_fixed_protocol_zh.md",
+      "sha256": "d9462c02244032bf1a130502c7bb11a8851ef29beccfcbef85ad757fa54b472a"
+    },
+    "kernel": {
+      "path": "scratch/one_off/kiki-initializer-synthetic-20261024/integral_kernel.py",
+      "sha256": "e9a1060f8a06f57e8ca4669f5010f437e9ff4791073cafd5aad28be827d86e2a"
+    },
+    "runner": {
+      "path": "scratch/one_off/kiki-initializer-synthetic-20261024/run_synthetic_protocol.py",
+      "sha256": "efa52dfe60bfb2a5d217827fa6c383fef12d3eb2e3c0e005ca5cb0cb431b0291"
+    },
+    "astra_review": {
+      "path": "scratch/one_off/kiki-initializer-synthetic-20261024/astra_synthetic_result_review_zh.md",
+      "sha256": "05c89aec4c84c4f4d446ba1bb0d3b4bc7fe39e431d11a1880b52d6471c356fad"
+    },
+    "literature_review": {
+      "path": "scratch/one_off/kiki-initializer-synthetic-20261024/primary_literature_verified.md",
+      "sha256": "ca9b4006d0a0854d33724bc56b9a37e713094333da657cdd3c4cd1053fe44191"
+    },
+    "run_summary": {
+      "path": "scratch/one_off/kiki-initializer-synthetic-20261024/run-20261024T181442748/summary.json",
+      "sha256": "59ae1963f991310440562e0d847fe5ea9a80df203cbbc46aaa48646595216db7"
+    },
+    "case_results": {
+      "path": "scratch/one_off/kiki-initializer-synthetic-20261024/run-20261024T181442748/case_results.json",
+      "sha256": "69bfad10baeee77a2eefb91ec05f2900535be59d12467b792a88e1096546f61e"
+    },
+    "artifact_hash_manifest": {
+      "path": "scratch/one_off/kiki-initializer-synthetic-20261024/run-20261024T181442748/artifact_hashes.json",
+      "sha256": "714026f056557ba397f948d2ea87a881dd5e8d269a4d759d452f1d2db8742a93"
+    }
+  },
+  "run_artifact_sha256": {
+    "arrays.npz": "8b250b058343e00720fb34e96861098beaf2e9ecbb1377ee1d644353b01c628f",
+    "case_results.json": "69bfad10baeee77a2eefb91ec05f2900535be59d12467b792a88e1096546f61e",
+    "frozen-integral_initializer_fixed_protocol_zh.md": "d9462c02244032bf1a130502c7bb11a8851ef29beccfcbef85ad757fa54b472a",
+    "frozen-integral_kernel.py": "e9a1060f8a06f57e8ca4669f5010f437e9ff4791073cafd5aad28be827d86e2a",
+    "frozen-run_synthetic_protocol.py": "efa52dfe60bfb2a5d217827fa6c383fef12d3eb2e3c0e005ca5cb0cb431b0291",
+    "operator_ledger.json": "661fe6f427017e95ceede75a2a84681c32fb1c36b53b0c7e6edf7dc21ce23110",
+    "rhs_ledger.json": "d2fa47b08aa8d6c366fbf124de39632313a1a0d2b3a1db02c455681be7471278",
+    "start.json": "0a9c26e9c64347468368a5a78ca347a8dd34f810f61c8f7b88b7c0dce59eaabe",
+    "summary.json": "59ae1963f991310440562e0d847fe5ea9a80df203cbbc46aaa48646595216db7"
+  },
+  "storage_boundary": {
+    "git_includes_raw_arrays_or_result_body": false,
+    "local_evidence_path": "scratch/one_off/kiki-initializer-synthetic-20261024/run-20261024T181442748",
+    "recommended_copy_to": "docs/reports/research/"
+  },
+  "future_authority": {
+    "automatic_training_authorized": false,
+    "future_prediction_comparison_authorized": false,
+    "model_promotion": false,
+    "test_access": false
+  },
+  "archived_source_texts": {
+    "docs/research/kiki_a13_integral_synthetic/integral_initializer_fixed_protocol_zh.md": "d9462c02244032bf1a130502c7bb11a8851ef29beccfcbef85ad757fa54b472a",
+    "docs/research/kiki_a13_integral_synthetic/astra_synthetic_result_review_zh.md": "05c89aec4c84c4f4d446ba1bb0d3b4bc7fe39e431d11a1880b52d6471c356fad",
+    "docs/research/kiki_a13_integral_synthetic/primary_literature_verified.md": "ca9b4006d0a0854d33724bc56b9a37e713094333da657cdd3c4cd1053fe44191"
+  }
+}
