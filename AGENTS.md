@@ -268,3 +268,11 @@ Source val/test remain closed; labels are diagnostic only after evidence freeze.
 Failures consume their slots and cannot be retried. Results are uncertified
 development evidence with no deployment predictions or model promotion.
 A04 through A07 remain consumed and unchanged.
+
+A14 has completed and its authorization is consumed, bound to the immutable
+run, 774 completed slots/202788 RHS and the two independent saved-evidence
+audits. V and I passed in all six fixed train-history comparisons;
+Astra accepted the history mechanism and engineering main integration.
+Do not rerun A14 or change the default deployment initializer. No future
+trajectory, label or new FNR result was evaluated; KEEP_BASELINE applies.
+Further comparisons require independent registration and Astra approval.
