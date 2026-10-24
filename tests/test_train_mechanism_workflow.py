@@ -54,6 +54,11 @@ def _copy_auth_fixture(destination: Path):
         target = destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(PROJECT_ROOT / relative, target)
+    # Reconstruct the pre-execution approval only inside this isolated fixture;
+    # the repository's consumed authorization is never changed or reused.
+    policy["development_evaluations"][AUTH]["status"] = "user_approved"
+    (destination / "configs/research_policy.json").write_text(
+        json.dumps(policy, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     copied_config = tomllib.loads((destination / CONFIG_REL).read_text(encoding="utf-8"))
     copied_manifest = json.loads(
         (destination / "configs/project_manifest.json").read_text(encoding="utf-8"))

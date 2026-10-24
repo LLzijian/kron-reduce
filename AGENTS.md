@@ -126,6 +126,13 @@ uncovered events; no retry. This is uncertified train-mechanism evidence,
 with no FSR claim, delivery, promotion, independent confirmation, or automatic
 new training. Prior authorizations remain consumed and unchanged.
 
+The A09 train mechanism audit has completed and its authorization is now
+`consumed`, bound to its immutable run, 1548 paths, 3141630 RHS calls and
+result receipt. Zero fits and updates were performed. Preserve its REJECT
+and all three failed trajectory-refinement comparisons; no new training is
+authorized by A09. Read-only saved-artifact audit remains available. Any
+new numerical comparison requires its own registered authorization.
+
 Authoritative entrypoints:
 
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.

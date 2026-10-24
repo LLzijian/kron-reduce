@@ -441,7 +441,7 @@
       "prediction_delivery_allowed": false,
       "model_promotion_allowed": false,
       "claim_boundary": "Uncertified train-only fixed-model trajectory-mechanism audit; zero fits, no labels or val/test, no FSR, promotion, deployment or automatic new training.",
-      "status": "user_approved",
+      "status": "consumed",
       "authority": "explicit_user_reply",
       "authorization_scope": "Latest user instruction to continue algorithm improvement; independently registered bounded train-only audit approved by Astra Ultra after A08 review.",
       "experiment": "paper_kiki_a09_train_mechanism",
@@ -454,7 +454,20 @@
       "scientific_review_path": "docs/research/kiki_a08_astra_result_review_20261024_zh.md",
       "scientific_review_sha256": "6b9be8771742c76bbf87490b290c32a3970cb321e6a91b86b19b3b1b954c2ed1",
       "retries_allowed": false,
-      "deployment_predictions_allowed": false
+      "deployment_predictions_allowed": false,
+      "consumed_at": "2026-10-24T05:54:45.971272+00:00",
+      "completed_run_id": "paper_kiki_a09_train_mechanism-train_mechanism-20261024T054046076318Z-ff5ae772-e3d8db5f",
+      "source_commit": "ff5ae7724fcf983856085be52c6b8990a9a5e9ad",
+      "scientific_plan_sha256": "3862836e3b4596c429a4bbd645b2da62efe5657f2392e8695da867f42c1a8865",
+      "ledger_plan_sha256": "3862836e3b4596c429a4bbd645b2da62efe5657f2392e8695da867f42c1a8865",
+      "final_fit_attempts": 0,
+      "final_optimizer_updates": 0,
+      "final_prediction_paths": 1548,
+      "final_rollout_calls": 3096,
+      "final_successful_rk4_updates": 672543,
+      "final_rhs_calls": 3141630,
+      "result_receipt_path": "docs/reports/kiki_a09_train_mechanism_20261024_evidence.json",
+      "result_receipt_sha256": "08220e9e84edb2a1be3915af4712c78fccfd068f18fcfb1fd05c321eb1282d46"
     }
   }
 }
