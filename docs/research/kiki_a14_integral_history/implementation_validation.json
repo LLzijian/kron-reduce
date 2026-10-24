@@ -1,0 +1,93 @@
+{
+  "kind": "A14_pre_execution_implementation_validation",
+  "real_scientific_payload_reads": 0,
+  "real_model_constructions": 0,
+  "real_rhs": 0,
+  "real_fits": 0,
+  "local_ci": {
+    "path": "scratch/one_off/kiki-a14-initializer-20261024/local-ci-20261024T115909695275Z/receipt.json",
+    "sha256": "e2e44f024c70a73b281bef2610fce5f707c58062f194f550a11177d1ef920379",
+    "commands_passed": 8,
+    "existing_tests_passed": 346,
+    "a14_tests_passed": 72,
+    "logs": [
+      {
+        "path": "scratch/one_off/kiki-a14-initializer-20261024/local-ci-20261024T115909695275Z/00.log",
+        "sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912",
+        "command": "python -m project_harness audit"
+      },
+      {
+        "path": "scratch/one_off/kiki-a14-initializer-20261024/local-ci-20261024T115909695275Z/01.log",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+        "command": "python -m ruff check project_harness/policy.py project_harness/git_state.py project_harness/runner.py scripts/register_kiki_dataset.py tests/test_research_policy.py tests/test_runner_safety.py tests/test_development_file_bindings.py"
+      },
+      {
+        "path": "scratch/one_off/kiki-a14-initializer-20261024/local-ci-20261024T115909695275Z/02.log",
+        "sha256": "b955d3404727e447550a356531bd0cbcd274473e1fd9f06736f5a6156dea826b",
+        "command": "python -m pytest -q tests/test_research_policy.py tests/test_runner_safety.py tests/test_data_registry.py tests/test_development_file_bindings.py tests/test_kiki_history.py tests/test_kiki_scoring.py tests/test_kiki_stability_comparison.py tests/test_nonlinear_latent.py tests/test_causal_latent.py tests/test_stability_region.py tests/test_kiki_short_history_reader.py tests/test_kiki_short_history.py tests/test_recorded_error_audit.py tests/test_paired_training.py tests/test_paired_workflow.py tests/test_joint_refinement.py tests/test_joint_refinement_workflow.py tests/test_tilted_optimizer_resume.py tests/test_tilted_training_workflow.py tests/test_nested_memory.py tests/test_memory_order_workflow.py tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py tests/test_audit_access_ledger.py tests/test_durable_audit_ledger.py tests/test_limited_hdf_audit.py tests/test_record20_input.py tests/test_record20_coordinates.py tests/test_record20_metadata.py tests/test_bounded_input_cli_guard.py tests/test_record20_workflow.py"
+      },
+      {
+        "path": "scratch/one_off/kiki-a14-initializer-20261024/local-ci-20261024T115909695275Z/03.log",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+        "command": "python -m ruff check src/kron_reduce/data/audit_access_ledger.py src/kron_reduce/data/durable_audit_ledger.py src/kron_reduce/data/limited_hdf_audit.py src/kron_reduce/evaluation/record20_input.py src/kron_reduce/evaluation/record20_coordinates.py src/kron_reduce/evaluation/record20_metadata.py src/kron_reduce/workflows/kiki_record20_input_audit.py tests/test_audit_access_ledger.py tests/test_durable_audit_ledger.py tests/test_limited_hdf_audit.py tests/test_record20_input.py tests/test_record20_coordinates.py tests/test_record20_metadata.py tests/test_bounded_input_cli_guard.py tests/test_record20_workflow.py"
+      },
+      {
+        "path": "scratch/one_off/kiki-a14-initializer-20261024/local-ci-20261024T115909695275Z/04.log",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+        "command": "python -m ruff check src/kron_reduce/evaluation/audit_budget.py src/kron_reduce/evaluation/train_mechanism_audit.py src/kron_reduce/workflows/kiki_train_mechanism.py tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py"
+      },
+      {
+        "path": "scratch/one_off/kiki-a14-initializer-20261024/local-ci-20261024T115909695275Z/05.log",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+        "command": "python -m ruff check src/kron_reduce/evaluation/train_refinement_audit.py src/kron_reduce/workflows/kiki_train_refinement.py tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py"
+      },
+      {
+        "path": "scratch/one_off/kiki-a14-initializer-20261024/local-ci-20261024T115909695275Z/06.log",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+        "command": "python -m ruff check src/kron_reduce/data/limited_npz_audit.py src/kron_reduce/evaluation/integral_initializer.py src/kron_reduce/evaluation/history_metrics.py src/kron_reduce/evaluation/history_mechanism.py src/kron_reduce/evaluation/scoped_audit_journal.py src/kron_reduce/evaluation/history_cache_preflight.py src/kron_reduce/workflows/kiki_integral_history_audit.py tests/test_limited_npz_audit.py tests/test_integral_initializer.py tests/test_history_cache_preflight.py tests/test_history_metrics.py tests/test_history_mechanism.py tests/test_scoped_audit_journal.py tests/test_integral_history_workflow.py tests/test_integral_history_artifact_contract.py"
+      },
+      {
+        "path": "scratch/one_off/kiki-a14-initializer-20261024/local-ci-20261024T115909695275Z/07.log",
+        "sha256": "f0da9f629f8772d21519bb2b3133be3f1c28bf0df9ecf97f5ffb1f335ac6eb73",
+        "command": "python -m pytest -q tests/test_limited_npz_audit.py tests/test_integral_initializer.py tests/test_history_cache_preflight.py tests/test_history_metrics.py tests/test_history_mechanism.py tests/test_scoped_audit_journal.py tests/test_integral_history_workflow.py tests/test_integral_history_artifact_contract.py"
+      }
+    ]
+  },
+  "pre_final_full_synthetic_pipeline": {
+    "path": "scratch/one_off/kiki-a14-integral-history-synthetic-end-to-end/run-20261024T114208526105Z/results/synthetic-a14-result",
+    "artifact_manifest_sha256": "9a825f2a246967079097b4599c595afb91e2e5546ec82af9336761698c0b817d",
+    "retained_artifacts": 10098,
+    "allocated_train": 268,
+    "eligible_train": 258,
+    "completed_seed_event_slots": 774,
+    "V_pass": true,
+    "I_pass": false,
+    "verdict": "REJECT",
+    "expm": 7740,
+    "svd": 780,
+    "force": 46440,
+    "ls": 1548,
+    "integration_rhs": 185760,
+    "physical_rhs": 17028,
+    "total_synthetic_rhs": 202788,
+    "rk4_updates": 46440,
+    "rollouts": 1548,
+    "opened_npz_files": 10,
+    "decoded_members": 42,
+    "source_future_sentinel_decoded": false,
+    "workflow_execution_status": "completed",
+    "wrapper_final_assertion_status": "FAIL",
+    "wrapper_failure": "The global ZipFile.open probe counted output ZIP writes as input member reads; the final count assertion failed after the workflow completed. The wrapper was corrected, not rerun.",
+    "final_source_byte_identical_full_reexecution_claimed": false,
+    "later_changes": "Failure partial evidence, static numerical failure isolation, diagnostic units/overflow preservation and RHS identity binding are covered by targeted synthetic tests. Normal equations and fixed numerical budgets are unchanged."
+  },
+  "independent_saved_synthetic_audit": {
+    "path": "scratch/one_off/kiki-a14-integral-history-synthetic-end-to-end/independent-audit-20261024T120500Z/audit.json",
+    "sha256": "1428a68ef9afc8b38e33c7ae8043939e8b67bb3097ffd72774fbaaa69d54ac6b",
+    "status": "PASS",
+    "mismatches": 0,
+    "scopes_with_verified_range_sha256": 778,
+    "limitation": "Pre-final RHS journal lacks seed/event/step on each line; aggregate and saved segment accounting were audited. Final per-path identity binding is verified in short two-step and failure-path tests, not by reexecuting the full pipeline."
+  },
+  "claim_boundary": "Implementation correctness evidence only. No real initializer comparison, future gain, FSR reduction, certification or model promotion is established."
+}

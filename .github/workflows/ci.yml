@@ -60,6 +60,29 @@ jobs:
         run: python -m ruff check src/kron_reduce/evaluation/audit_budget.py src/kron_reduce/evaluation/train_mechanism_audit.py src/kron_reduce/workflows/kiki_train_mechanism.py tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py
       - name: Check all-train refinement code
         run: python -m ruff check src/kron_reduce/evaluation/train_refinement_audit.py src/kron_reduce/workflows/kiki_train_refinement.py tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py
+      - name: Check integral history code
+        run: >-
+          python -m ruff check
+          src/kron_reduce/data/limited_npz_audit.py
+          src/kron_reduce/evaluation/integral_initializer.py
+          src/kron_reduce/evaluation/history_metrics.py
+          src/kron_reduce/evaluation/history_mechanism.py
+          src/kron_reduce/evaluation/scoped_audit_journal.py
+          src/kron_reduce/evaluation/history_cache_preflight.py
+          src/kron_reduce/workflows/kiki_integral_history_audit.py
+          tests/test_limited_npz_audit.py tests/test_integral_initializer.py
+          tests/test_history_cache_preflight.py
+          tests/test_history_metrics.py tests/test_history_mechanism.py
+          tests/test_scoped_audit_journal.py tests/test_integral_history_workflow.py
+          tests/test_integral_history_artifact_contract.py
+      - name: Run A14 integral history synthetic checks
+        run: >-
+          python -m pytest -q
+          tests/test_limited_npz_audit.py tests/test_integral_initializer.py
+          tests/test_history_cache_preflight.py
+          tests/test_history_metrics.py tests/test_history_mechanism.py
+          tests/test_scoped_audit_journal.py tests/test_integral_history_workflow.py
+          tests/test_integral_history_artifact_contract.py
       - name: Record actual environment
         if: always()
         run: python -m pip freeze > ci-environment.txt

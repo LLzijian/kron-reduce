@@ -31,6 +31,11 @@ def run_experiment(
             "BOUNDED_INPUT_AUDIT_CLI_ONLY: use the registered dedicated audit CLI; "
             "generic dataset verification exceeds its registered read scope"
         )
+    if experiment.get("execution_mode") == "bounded_history_cache_audit_cli_only":
+        raise RuntimeError(
+            "BOUNDED_HISTORY_CACHE_AUDIT_CLI_ONLY: use the registered dedicated audit CLI; "
+            "generic dataset verification exceeds its registered read scope"
+        )
     validate_run_policy(root, experiment_name, experiment,
                         historical_reproduction=historical_reproduction)
     _verify_development_text_bindings(
