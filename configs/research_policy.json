@@ -205,6 +205,90 @@
       "final_confirmed_optimizer_steps": 720,
       "result_receipt_path": "docs/reports/kiki_a06_joint_refinement_20261024_evidence.json",
       "result_receipt_sha256": "8e7d78e9516ca1cb4f71900f8928f4a6e5589811568c542696a0a41a43260767"
+    },
+    "kiki_a07_development_20261024": {
+      "status": "user_approved",
+      "approved_date": "2026-10-24",
+      "authority": "explicit_user_reply",
+      "approval_text": "继续改进算法和设计，一定要降到0，持续工作，得到最终结果后向我汇报",
+      "experiment": "paper_kiki_a07_tilted",
+      "workflow": "kiki_a07_tilted_v1",
+      "stage": "tilted_training",
+      "module": "kron_reduce.workflows.kiki_tilted_training",
+      "dataset": "kiki_ieee39_v1",
+      "data_policy": "kiki_original_train_only",
+      "input_contract": "measured_history_100ms_zoh_v1",
+      "split_seed": 324,
+      "frozen_allocation_sha256": "b103651cd33cb60dbdbad71c9d258545602cd6070a8860becc4fe9b2a6ac2b6d",
+      "source_run": "paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996",
+      "source_manifest_sha256": "d1c4cc402dd30207c4ba639a9d4d1f1e86e3051ce0ce51e72ac4d045be17cc01",
+      "source_checkpoint_paths": [
+        "checkpoint-240-324/model.npz",
+        "checkpoint-240-325/model.npz",
+        "checkpoint-240-326/model.npz"
+      ],
+      "source_checkpoint_sha256": [
+        "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8",
+        "14d58fd01f438230bd9aa05a5305e07bf5595f5a589d875f08d4a420428450b2",
+        "2ab76998e1295b9fb456de111cd8a2d5ae7bcbe9e8a8c8dac770abb639e6b5bd"
+      ],
+      "source_optimizer_state_paths": [
+        "checkpoint-240-324/training_state.npz",
+        "checkpoint-240-325/training_state.npz",
+        "checkpoint-240-326/training_state.npz"
+      ],
+      "source_optimizer_state_sha256": [
+        "9a27dbb62e186958b7144d5d6ccee91c7950f6ae10278b806a91b6b47a846d8f",
+        "5e677e71746bec8baeeba3cf87ec57d4b321887fceedc1bb206108e5e2f5b7d5",
+        "db981fdfd56da1bf09f925c35b1799cdab2731ba888d28e42b19613a9a44c1b1"
+      ],
+      "design_path": "docs/research/kiki_a07_astra_design_20261024_zh.md",
+      "design_sha256": "daed2056c21acb582bb09d63c8d8ef0123f7d444a9820f0426f518e0b9dfe5ba",
+      "approval_protocol_path": "docs/protocols/kiki_a07_development_authorization_20261024_zh.md",
+      "approval_protocol_sha256": "64e85cc133cfceb318a15fb75b7f73627059ffe84200ebabc044a266be7f39ca",
+      "groups": [
+        "M",
+        "T"
+      ],
+      "seeds": [
+        324,
+        325,
+        326
+      ],
+      "optimizer_steps_per_fit": 240,
+      "max_fit_attempts": 6,
+      "max_optimizer_steps": 1440,
+      "initial_optimizer_step": 240,
+      "optimizer_state": "exact_saved_adam",
+      "risk_temperatures": [
+        0.7844805082870585,
+        0.7768666645735861,
+        0.7861097423844166
+      ],
+      "risk_temperature_source": "same_seed_A06_train_max_event_mse",
+      "allocated_events": 369,
+      "train_events": 258,
+      "val_events": 88,
+      "train_horizons_s": [
+        1.0,
+        3.0
+      ],
+      "val_horizons_s": [
+        1.0,
+        3.0
+      ],
+      "val_stability_horizon_s": 8.0,
+      "source_val_payload_allowed": false,
+      "source_test_payload_allowed": false,
+      "labels_allowed_for_post_freeze_diagnostics_only": true,
+      "retain_all_allocated_cases": true,
+      "failed_fit_consumes_slot": true,
+      "retries_allowed": false,
+      "automatic_training_until_pass": false,
+      "deployment_predictions_allowed": false,
+      "model_promotion_allowed": false,
+      "independent_confirmation_required": true,
+      "evidence_kind": "uncertified_development_evaluation"
     }
   }
 }

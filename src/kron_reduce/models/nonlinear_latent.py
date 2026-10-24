@@ -553,6 +553,87 @@ def _validated_full_start(full_start, mass, feature_scale, target_scale, latent_
     return parameters, arrays, binding
 
 
+def _stored_array_sha256(value):
+    """Hash optimizer arrays without normalizing away dtype or scalar shape."""
+    array = np.array(value, copy=True, order="C")
+    header = json.dumps({"dtype": array.dtype.str, "shape": list(array.shape)},
+                        sort_keys=True).encode()
+    return hashlib.sha256(header + b"\0" + array.tobytes(order="C")).hexdigest()
+
+
+def _validated_optimizer_start(optimizer_start, parameter_templates, learning_rate):
+    """Validate a saved Adam state, preserving raw parameters and all moments."""
+    names = tuple(parameter_templates)
+    metadata = {"schema", "completed_optimizer_steps", "planned_optimizer_steps",
+                "adam_learning_rate", "adam_betas", "adam_eps", "adam_weight_decay", "adam_amsgrad"}
+    required = metadata | {f"{prefix}__{name}" for name in names
+                           for prefix in ("parameter", "adam_exp_avg", "adam_exp_avg_sq", "adam_step")}
+    optional = {"initial_optimizer_step", "total_optimizer_steps", "planned_total_optimizer_steps"}
+    if (not isinstance(optimizer_start, dict) or not required <= set(optimizer_start)
+            or set(optimizer_start) - required - optional):
+        raise ValueError("optimizer_start must contain a complete registered Adam state")
+    state = {key: np.array(value, copy=True) for key, value in optimizer_start.items()}
+    if state["schema"].shape != () or str(state["schema"].item()) != "nonlinear_adam_training_state.v1":
+        raise ValueError("unknown optimizer_start schema")
+
+    def integer(key, default=None):
+        if key not in state:
+            return default
+        value = state[key]
+        if value.shape != () or value.dtype.kind not in "iu" or int(value) < 0:
+            raise ValueError(f"optimizer_start {key} must be a nonnegative integer scalar")
+        return int(value)
+
+    completed, planned = integer("completed_optimizer_steps"), integer("planned_optimizer_steps")
+    initial = integer("initial_optimizer_step", 0)
+    total = integer("total_optimizer_steps", initial + completed)
+    planned_total = integer("planned_total_optimizer_steps", initial + planned)
+    if not 0 < completed <= planned or total != initial + completed or planned_total != initial + planned:
+        raise ValueError("optimizer_start local and total step counts are inconsistent")
+    hyperparameters = {"adam_learning_rate": learning_rate, "adam_betas": np.array([.9, .999]),
+                       "adam_eps": 1e-8, "adam_weight_decay": 0, "adam_amsgrad": False}
+    for key, expected in hyperparameters.items():
+        if not np.array_equal(state[key], np.asarray(expected)):
+            raise ValueError(f"optimizer_start {key} differs from the registered Adam hyperparameter")
+    parameters = {}
+    for name, template in parameter_templates.items():
+        shape = template.shape
+        for prefix in ("parameter", "adam_exp_avg", "adam_exp_avg_sq"):
+            value = state[f"{prefix}__{name}"]
+            if value.shape != shape or value.dtype != np.dtype("float64") or not np.isfinite(value).all():
+                raise ValueError(f"optimizer_start {prefix}__{name} must be a finite float64 array")
+            if prefix == "adam_exp_avg_sq" and np.any(value < 0):
+                raise ValueError("optimizer_start second moments must be nonnegative")
+        step = state[f"adam_step__{name}"]
+        if (step.shape != () or step.dtype.kind != "f" or not np.isfinite(step)
+                or float(step) != total):
+            raise ValueError("optimizer_start Adam steps must all match total_optimizer_steps")
+        parameters[name] = state[f"parameter__{name}"].copy()
+    hashes = {key: _stored_array_sha256(value) for key, value in sorted(state.items())}
+    binding = {
+        "optimizer_start_array_sha256": hashes,
+        "optimizer_start_sha256": hashlib.sha256(
+            json.dumps(hashes, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
+        "initial_optimizer_step": total,
+        "initial_optimizer_moments_zero": all(
+            not np.any(state[f"adam_{moment}__{name}"])
+            for name in names for moment in ("exp_avg", "exp_avg_sq")),
+        "raw_skew_reconstruction": "saved_raw_array_exact",
+        "optimizer_initialization": "restored_adam_parameters_moments_and_step",
+        "exact_optimizer_resume": True,
+    }
+    return parameters, state, binding
+
+
+def _tilted_risk(event_losses, event_weights, temperature):
+    """Return stable weighted exponential risk and its event-gradient weights."""
+    import torch
+
+    logits = torch.log(event_weights) + event_losses / temperature
+    objective = temperature * torch.logsumexp(logits, dim=0)
+    return objective, torch.softmax(logits.detach(), dim=0)
+
+
 def fit_nonlinear_model(
     samples,
     mass,
@@ -566,6 +647,8 @@ def fit_nonlinear_model(
     full_start=None,
     checkpoint_steps=(),
     checkpoint_callback=None,
+    optimizer_start=None,
+    risk_temperature=None,
 ) -> LearnedNonlinearModel:
     """Fit train only, with visible history consistency and free multi-horizon loss."""
     import torch
@@ -574,6 +657,14 @@ def fit_nonlinear_model(
         raise ValueError("freezing requires a verified paired_start and a boolean update mask")
     if full_start is not None and (paired_start is not None or freeze_backbone):
         raise ValueError("full_start is mutually exclusive with paired_start and freeze_backbone")
+    if optimizer_start is not None and full_start is None:
+        raise ValueError("optimizer_start requires the matching full_start physical checkpoint")
+    if risk_temperature is not None:
+        if (isinstance(risk_temperature, (bool, np.bool_))
+                or not isinstance(risk_temperature, (int, float, np.integer, np.floating))
+                or not np.isfinite(risk_temperature) or risk_temperature <= 0):
+            raise ValueError("risk_temperature must be a finite positive scalar or None")
+        risk_temperature = float(risk_temperature)
     checkpoint_steps = tuple(checkpoint_steps)
     if (any(type(step) is not int or not 0 < step <= settings.epochs for step in checkpoint_steps)
             or tuple(sorted(set(checkpoint_steps))) != checkpoint_steps
@@ -638,10 +729,18 @@ def fit_nonlinear_model(
     feature_scale = np.maximum(np.sqrt(weights @ features**2), 1e-5)
     paired_binding = None
     full_parameters = None
+    optimizer_arrays, optimizer_binding = None, None
+    initial_optimizer_step = 0
     if full_start is not None:
         full_parameters, paired_arrays, paired_binding = _validated_full_start(
             full_start, mass, feature_scale, scales, r
         )
+        if optimizer_start is not None:
+            full_parameters, optimizer_arrays, optimizer_binding = _validated_optimizer_start(
+                optimizer_start, full_parameters, settings.learning_rate
+            )
+            paired_binding.update(optimizer_binding)
+            initial_optimizer_step = optimizer_binding["initial_optimizer_step"]
         paired_raw = full_parameters["raw"]
         feature_scale = paired_arrays["feature_scale"].copy()
         scales = paired_arrays["target_scale"].copy()
@@ -750,10 +849,19 @@ def fit_nonlinear_model(
                         gradient_clip_population="complete_parameter_vector",
                         planned_optimizer_steps=settings.epochs,
                         registered_checkpoint_steps=list(checkpoint_steps),
-                        initial_optimizer_step=0,
-                        initial_optimizer_moments_zero=True,
+                        initial_optimizer_step=initial_optimizer_step,
+                        initial_optimizer_moments_zero=(True if optimizer_binding is None
+                                                       else optimizer_binding["initial_optimizer_moments_zero"]),
                     )
             optimizer = torch.optim.Adam(parameters, lr=settings.learning_rate)
+            if optimizer_arrays is not None:
+                for name, parameter in zip(parameter_names, parameters, strict=True):
+                    if parameter.detach().numpy().tobytes() != optimizer_arrays[f"parameter__{name}"].tobytes():
+                        raise ValueError("optimizer_start raw parameter bytes changed during restoration")
+                    optimizer.state[parameter] = {
+                        key: torch.from_numpy(optimizer_arrays[f"adam_{key}__{name}"].copy())
+                        for key in ("exp_avg", "exp_avg_sq", "step")
+                    }
             time_weight = np.zeros(len(clock) - 1)
             for horizon in settings.horizons_s:
                 count = round(horizon / 0.01)
@@ -811,7 +919,15 @@ def fit_nonlinear_model(
                                   frozen_backbone_verified_each_update=freeze_backbone)
                 if full_parameters is not None:
                     record.update(warm_start="verified_full_physical_checkpoint_fresh_adam",
-                                  checkpoint_rule="registered_update_count")
+                                  checkpoint_rule="registered_update_count",
+                                  total_optimizer_steps=initial_optimizer_step + completed_steps,
+                                  planned_total_optimizer_steps=initial_optimizer_step + settings.epochs)
+                if optimizer_arrays is not None:
+                    record.update(warm_start="verified_full_raw_checkpoint_exact_adam_resume")
+                if optimizer_arrays is not None or risk_temperature is not None:
+                    record.update(risk_temperature=risk_temperature,
+                                  objective_aggregation="weighted_mean" if risk_temperature is None
+                                  else "weighted_logsumexp")
                 if allow_partial_horizons:
                     record.update(
                         partial_horizons=True,
@@ -829,6 +945,9 @@ def fit_nonlinear_model(
                     "schema": np.asarray("nonlinear_adam_training_state.v1"),
                     "completed_optimizer_steps": np.asarray(completed_steps, dtype=np.int64),
                     "planned_optimizer_steps": np.asarray(settings.epochs, dtype=np.int64),
+                    "initial_optimizer_step": np.asarray(initial_optimizer_step, dtype=np.int64),
+                    "total_optimizer_steps": np.asarray(initial_optimizer_step + completed_steps, dtype=np.int64),
+                    "planned_total_optimizer_steps": np.asarray(initial_optimizer_step + settings.epochs, dtype=np.int64),
                     "adam_learning_rate": np.asarray(optimizer.param_groups[0]["lr"]),
                     "adam_betas": np.asarray(optimizer.param_groups[0]["betas"]),
                     "adam_eps": np.asarray(optimizer.param_groups[0]["eps"]),
@@ -921,7 +1040,11 @@ def fit_nonlinear_model(
                     torch.sum(wt * future_error),
                     torch.sum(wt * history_error),
                 )
-                loss = future_loss + settings.history_weight * history_loss
+                risk_weights = wt
+                future_objective = future_loss
+                if risk_temperature is not None:
+                    future_objective, risk_weights = _tilted_risk(future_error, wt, risk_temperature)
+                loss = future_objective + settings.history_weight * history_loss
                 encoder_penalty = settings.encoder_penalty * torch.mean(encoder**2) if r else loss.new_zeros(())
                 if r:
                     loss = loss + encoder_penalty
@@ -966,6 +1089,15 @@ def fit_nonlinear_model(
                         "future_loss": float(future_loss.detach()),
                         "history_loss": float(history_loss.detach()),
                     }
+                    if optimizer_arrays is not None or risk_temperature is not None:
+                        row.update(
+                            future_objective=float(future_objective.detach()),
+                            tilted_future_risk=None if risk_temperature is None else float(future_objective.detach()),
+                            risk_temperature=risk_temperature,
+                            risk_effective_sample_size=float(1 / torch.sum(risk_weights**2)),
+                            risk_max_event_weight=float(torch.max(risk_weights)),
+                            total_optimizer_steps=initial_optimizer_step + epoch + 1,
+                        )
                     if paired_binding is not None:
                         row.update(encoder_penalty=float(encoder_penalty.detach()), **gradient_record)
                     trace.append(row)

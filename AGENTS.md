@@ -106,6 +106,13 @@ Authoritative entrypoints:
 
 Rules:
 
+- The coordinating agent owns research runtime changes. Use an explicitly
+  selected Python 3.12 environment constrained by
+  `requirements/constraints-py312.txt` and invoke its Python directly.
+  Do not use `uv run` in the shared checkout: it can recreate `.venv` while
+  another task is using it. Prepare replacement environments under ignored
+  `scratch/` and record the actual runtime with the experiment evidence.
+
 - Agent assignment for the current research programme: core algorithm design
   and scientific acceptance/boundary decisions are delegated to Astra with
   Ultra reasoning. The coordinating agent owns integration and evidence
@@ -138,3 +145,18 @@ Rules:
   review before main integration. Scientific model promotion retains its own
   acceptance and approval gates. Raw trajectories, result bodies, archives,
   credentials and local environments stay outside Git; track their manifests.
+
+On 2026-10-24 the user authorized one bounded A07 tilted-objective development
+comparison, `kiki_a07_development_20261024`, as registered in the active policy
+and `docs/protocols/kiki_a07_development_authorization_20261024_zh.md`. It is
+restricted to `paper_kiki_a07_tilted`, workflow `kiki_a07_tilted_v1`, stage
+`tilted_training`, and module `kron_reduce.workflows.kiki_tilted_training`.
+Groups M and T each use seeds 324/325/326 and 240 additional updates, restoring
+the same-seed A06 step-240 model and exact saved Adam state. M retains the mean
+event MSE objective; T uses the registered train-only risk temperatures
+0.7844805082870585, 0.7768666645735861, and 0.7861097423844166. The fixed
+exception allows complete train/val trajectory and val stability evaluation
+with all allocated cases retained. Source val/test remain closed; labels are
+diagnostic only after freeze. There is no classification-based group selection,
+automatic continuation, deployment prediction, or model promotion. A04, A05,
+and A06 remain consumed and unchanged.

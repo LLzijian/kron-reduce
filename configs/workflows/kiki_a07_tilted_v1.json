@@ -1,0 +1,148 @@
+{
+  "workflow": "kiki_a07_tilted_v1",
+  "experiment": "paper_kiki_a07_tilted",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "tilted_training"
+  ],
+  "transitions": {
+    "scaffold": "tilted_training"
+  },
+  "terminal_stages": [
+    "tilted_training"
+  ],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "tilted_training": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "scientific_verdict",
+        "promotion_decision",
+        "data_policy",
+        "source_val_ids_read",
+        "test_ids_read",
+        "hidden_training_targets_read",
+        "level_6_claimed",
+        "development_authorization_id",
+        "evidence_kind",
+        "certified_envelope_established",
+        "deployment_predictions_allowed",
+        "model_promoted",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "scientific_verdict",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "process_status": [
+          "PASS"
+        ],
+        "scientific_verdict": [
+          "ACCEPT",
+          "REJECT",
+          "RETRY"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "data_policy": [
+          "kiki_original_train_only"
+        ],
+        "source_val_ids_read": [
+          []
+        ],
+        "test_ids_read": [
+          []
+        ],
+        "hidden_training_targets_read": [
+          false
+        ],
+        "level_6_claimed": [
+          false
+        ],
+        "development_authorization_id": [
+          "kiki_a07_development_20261024"
+        ],
+        "evidence_kind": [
+          "uncertified_development_evaluation"
+        ],
+        "certified_envelope_established": [
+          false
+        ],
+        "deployment_predictions_allowed": [
+          false
+        ],
+        "model_promoted": [
+          false
+        ]
+      },
+      "fixed_budget": {
+        "groups": [
+          "M",
+          "T"
+        ],
+        "seeds": [
+          324,
+          325,
+          326
+        ],
+        "updates_per_fit": 240,
+        "max_fit_attempts": 6,
+        "max_optimizer_updates": 1440,
+        "initial_optimizer_step": 240,
+        "optimizer_state": "exact_saved_adam",
+        "checkpoints_at_updates": [
+          240
+        ]
+      },
+      "objective_contract": {
+        "M": "weighted_mean_event_mse_plus_original_encoder_penalty",
+        "T": "tau_logsumexp_weighted_event_mse_plus_original_encoder_penalty",
+        "risk_temperatures": [
+          0.7844805082870585,
+          0.7768666645735861,
+          0.7861097423844166
+        ],
+        "tau_source": "same_seed_A06_train_max_event_mse",
+        "validation_tuning_allowed": false
+      },
+      "population_contract": {
+        "allocated_events": 369,
+        "train_events": 258,
+        "val_events": 88,
+        "train_horizons_s": [
+          1.0,
+          3.0
+        ],
+        "val_horizons_s": [
+          1.0,
+          3.0
+        ],
+        "val_stability_horizon_s": 8.0,
+        "source_val_payload_allowed": false,
+        "source_test_payload_allowed": false,
+        "post_freeze_labels_for_diagnostics_only": true
+      },
+      "comparison_contract": {
+        "report_zero_for_each_group_independently": true,
+        "classification_based_group_selection_allowed": false,
+        "automatic_training_until_pass": false
+      },
+      "failure_policy": {
+        "retain_all_allocated_cases": true,
+        "failed_fit_consumes_slot": true,
+        "retry_allowed": false,
+        "failed_case_deletion_allowed": false
+      },
+      "design_sha256": "daed2056c21acb582bb09d63c8d8ef0123f7d444a9820f0426f518e0b9dfe5ba"
+    }
+  }
+}
