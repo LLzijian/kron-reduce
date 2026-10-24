@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib
 import json
 import sys
+import tomllib
 import traceback
 from datetime import UTC, datetime
 from pathlib import Path
@@ -10,9 +11,9 @@ from uuid import uuid4
 
 from filelock import FileLock, Timeout
 
-from .evidence import sha256_file, verify_artifact_directory
 from .data_check import verify_data
-from .git_state import assert_clean, git_head
+from .evidence import sha256_file, verify_artifact_directory
+from .git_state import assert_clean, git_head, verify_bound_file
 from .loop import is_approved, next_stage, record_stage
 from .manifest import load_manifest
 from .policy import load_policy, validate_run_policy
@@ -27,11 +28,14 @@ def run_experiment(
         raise KeyError(f"unregistered experiment: {experiment_name}")
     validate_run_policy(root, experiment_name, experiment,
                         historical_reproduction=historical_reproduction)
+    _verify_development_text_bindings(
+        root, experiment, historical_reproduction=historical_reproduction,
+    )
     policy = load_policy(root)
     if (policy and not historical_reproduction
-            and experiment.get("dataset") == policy["primary_real_dataset"]):
-        if verify_data(root, dataset_name=experiment["dataset"])["status"] != "PASS":
-            raise RuntimeError("DATA_INTEGRITY: registered kiki source hashes do not match")
+            and experiment.get("dataset") == policy["primary_real_dataset"]
+            and verify_data(root, dataset_name=experiment["dataset"])["status"] != "PASS"):
+        raise RuntimeError("DATA_INTEGRITY: registered kiki source hashes do not match")
     workflow_name = experiment.get("workflow", "paper_v1")
     lock_dir = root / ".project_state/locks"
     lock_dir.mkdir(parents=True, exist_ok=True)
@@ -44,6 +48,49 @@ def run_experiment(
         return _run_experiment(root, experiment_name, stage)
     finally:
         lock.release()
+
+
+def _verify_development_text_bindings(
+    root: Path, experiment: dict, *, historical_reproduction: bool = False,
+) -> None:
+    """Check registered approval/design bytes before data checks or run work."""
+    authorization_id = experiment.get("development_authorization_id")
+    if historical_reproduction or not authorization_id:
+        return
+
+    config_name = experiment.get("config")
+    if (not isinstance(config_name, str) or not config_name.endswith(".toml")
+            or Path(config_name).name != config_name or "\\" in config_name):
+        raise RuntimeError("DEVELOPMENT_BINDING_CONFIG_UNSAFE_OR_MISSING")
+    config_path = root / "configs" / "experiments" / config_name
+    try:
+        config_resolved = config_path.resolve(strict=True)
+        config_resolved.relative_to(root.resolve(strict=True))
+        if config_path.is_symlink() or not config_resolved.is_file():
+            raise RuntimeError("DEVELOPMENT_BINDING_CONFIG_UNSAFE_OR_MISSING")
+        config = tomllib.loads(config_resolved.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as error:
+        raise RuntimeError(f"DEVELOPMENT_BINDING_CONFIG_UNREADABLE: {error}") from error
+
+    if config.get("development_authorization_id") != authorization_id:
+        raise RuntimeError("DEVELOPMENT_BINDING_AUTHORIZATION_MISMATCH")
+    approvals = load_policy(root).get("development_evaluations", {})
+    approval = approvals.get(authorization_id) if isinstance(approvals, dict) else None
+    if not isinstance(approval, dict) or approval.get("status") != "user_approved":
+        raise RuntimeError("DEVELOPMENT_AUTHORIZATION_NOT_ACTIVE_USER_APPROVED")
+
+    bindings = (
+        ("development_protocol_path", "approval_protocol_sha256", "approval_protocol_path"),
+        ("design_path", "design_sha256", "design_path"),
+    )
+    for config_path_key, config_sha_key, approval_path_key in bindings:
+        relative = config.get(config_path_key)
+        digest = config.get(config_sha_key)
+        if (not isinstance(relative, str) or not isinstance(digest, str)
+                or relative != approval.get(approval_path_key)
+                or digest != approval.get(config_sha_key)):
+            raise RuntimeError(f"DEVELOPMENT_BINDING_POLICY_MISMATCH: {config_path_key}")
+        verify_bound_file(root, relative, digest)
 
 
 def _run_experiment(root: Path, experiment_name: str, stage: str) -> Path:
