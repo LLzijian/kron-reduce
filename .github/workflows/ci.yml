@@ -41,8 +41,11 @@ jobs:
           tests/test_tilted_optimizer_resume.py tests/test_tilted_training_workflow.py
           tests/test_nested_memory.py tests/test_memory_order_workflow.py
           tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py
+          tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py
       - name: Check fixed-model audit code
         run: python -m ruff check src/kron_reduce/evaluation/audit_budget.py src/kron_reduce/evaluation/train_mechanism_audit.py src/kron_reduce/workflows/kiki_train_mechanism.py tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py
+      - name: Check all-train refinement code
+        run: python -m ruff check src/kron_reduce/evaluation/train_refinement_audit.py src/kron_reduce/workflows/kiki_train_refinement.py tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py
       - name: Record actual environment
         if: always()
         run: python -m pip freeze > ci-environment.txt

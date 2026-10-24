@@ -135,6 +135,18 @@ new numerical comparison requires its own registered authorization.
 
 Authoritative entrypoints:
 
+A09 is completed and consumed. Its fixed-model train audit retained three
+numerical-refinement failures and REJECT; it cannot be rerun or reclassified.
+The user's continuing algorithm-improvement instruction separately authorizes
+the bounded A10 all-train numerical audit, `kiki_a10_development_20261024`,
+registered in the active policy and its protocol. A10 reuses A09 saved .005 s
+paths and creates only .0025 s paths for the same 258 train events and three
+fixed A06 models: zero fits/updates, 774 paths, 1548 rollouts, at most 896724
+RK4 updates and 3812625 RHS calls. It opens no labels or internal/source val/test,
+does not retry failures or further reduce the step, and cannot promote models
+or authorize training. A10's full source/input/saved-replay/numerical/physical
+gates precede any proposal for a separately registered scientific comparison.
+
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
 - `docs/architecture.md`: scientific and software boundaries.
 - `docs/scientific_contract.md`: input, rollout, stability, and naming rules.
