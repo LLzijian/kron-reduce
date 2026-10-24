@@ -104,7 +104,10 @@ def test_refined_training_uses_two_original_substeps_and_rhs_audit_counts_partia
     assert calls == {"invocations": 2 * (80 + 16), "event_rhs": 2 * (160 + 24)}
     states = [row[0] for row in first_rk4_calls]
     slopes = [row[1] for row in first_rk4_calls]
-    substep = 0.005
+    substep = torch.tensor(
+        [[np.diff(sample.history.time)[0] / 2] for sample in samples],
+        dtype=torch.float64,
+    )
     assert torch.equal(states[1], states[0] + substep * slopes[0] / 2)
     assert torch.equal(states[2], states[0] + substep * slopes[1] / 2)
     assert torch.equal(states[3], states[0] + substep * slopes[2])

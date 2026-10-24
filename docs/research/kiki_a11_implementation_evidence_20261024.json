@@ -9,7 +9,7 @@
     "src/kron_reduce/models/nonlinear_latent.py": "7d102e2e6d7fcdfef4d807ee976284d6d749b1763c029acfa8d2361dd7a3040f",
     "src/kron_reduce/models/temporal_risk.py": "b88bc840f8104ec5fe797ac767f5ddc613520801f452f37bfa1ee4658f615594",
     "src/kron_reduce/workflows/kiki_temporal_training.py": "66fef19de817c749167b727fefed2f2ad435435e3525910b9a63299594fc4562",
-    "tests/test_temporal_training.py": "4d8e2e5142c1d9f02f62a629f20c0d5e2592d86cc5c7e805eb984302ff565274",
+    "tests/test_temporal_training.py": "642f6f28822285a022e088e1625b4b72f60b7f562957cbde1e0bfc90236b4bdc",
     "tests/test_temporal_comparison.py": "5fa6d4a75fd48f1f9829865954417d836bda8d56295d0dbbfe9aa259b885bcc2",
     "tests/test_kiki_temporal_workflow.py": "617b0b70a0d5c65f2f290fc0cb646c84a0bc8c3bbe60c781a566615c4308a8f5",
     "tests/test_event_rhs_budget.py": "1fa09077bcf0ec0ffacb1500673008c7bcd90aa3ee64509513af0ebdb042eb4e",
@@ -220,5 +220,20 @@
   "real_fit_count": 0,
   "new_real_rhs": 0,
   "val_payload_decodes": 0,
-  "test_payload_decodes": 0
+  "test_payload_decodes": 0,
+  "ci_clock_correction": {
+    "review_path": "docs/research/kiki_a11_ci_clock_review_20261024_zh.md",
+    "review_sha256": "99246818f01cc0a5616907029b3e4d81fd6f52035dd5a382024ba120827078b7",
+    "original_test_sha256": "4d8e2e5142c1d9f02f62a629f20c0d5e2592d86cc5c7e805eb984302ff565274",
+    "updated_test_sha256": "642f6f28822285a022e088e1625b4b72f60b7f562957cbde1e0bfc90236b4bdc",
+    "source_algorithm_unchanged": true,
+    "local_test_count": 7,
+    "ruff": "PASS",
+    "original_ci_run": 40074960465,
+    "original_commit": "6d782b39052d10279d1f7b0b976dbaedd0dd3c4c",
+    "failure_log": "scratch/one_off/kiki-a11-20261024/ci-push-40074960465-failure.txt",
+    "failure_log_sha256": "98ea78705f5660acfa023c6fe8040e7cc2b0a389db0a3e4f5af8628e21effefc",
+    "real_fits_before_correction": 0,
+    "new_real_rhs": 0
+  }
 }
