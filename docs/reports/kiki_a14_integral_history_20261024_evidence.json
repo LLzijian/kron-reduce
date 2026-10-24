@@ -1,0 +1,268 @@
+{
+  "run_id": "paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f",
+  "source_commit": "34de0389a78ce3876765997e2029be020191cac9",
+  "source_branch": "codex/kiki-a14-integral-history",
+  "private_repository": "LLzijian/kron-reduce",
+  "pull_request": "https://github.com/LLzijian/kron-reduce/pull/12",
+  "authorization": "kiki_a14_development_20261024",
+  "authorization_status": "consumed",
+  "result_artifact_manifest_sha256": "7438242d358244dece184a393ef871374322d04415237fff733ecd7c01767938",
+  "result_artifacts": 10098,
+  "selected_artifact_hashes": {
+    "summary.json": "9cf1ab27c4d0935f6f013c14e143c76e7ea324d5b44057bd7266c30a62f91ba8",
+    "history_comparisons.json": "771975e5d214bd8496d2bd7180d7efdabcfdaa2e450f5db42548309013670074",
+    "history_comparisons.npz": "9e02a3fd83da567440243c4afc680286d291408427e26dc7a363300878218c5f",
+    "slots.json": "4f6631d549d574bb4fe041b4945ed941e3be8dfb29c09351d2a1629b15e14e31",
+    "allocated_population.json": "6bfc5c51a5fb35ed011c7e49b2df9d126ffc443ecb0f114be607833c264089db",
+    "source_members.json": "2fc7469ded60ec250d766f564be88e8c962eadabbfaeea671c28eaf265daa821",
+    "access_ledger.json": "1dd7309f936117e837e99ba7fd00632c33ea14068584949624f3dbd44da40fe8",
+    "integrity_receipts.json": "c0c0f465f2af44328b30eade78713c803c1dfeb0d2098cc8657c4caa68fe6080",
+    "rhs_budget.json": "1ddbee253aa31813ef6fe7c29eb9eb10cf8245636ff0c819f1cf75f8e5e7db9d",
+    "operator_ledgers.json": "bac2e4f8417e218e755a307618317e9480fba4af53f9228d85210c71ecd84d20",
+    "mechanism_residual_summary.json": "3d5b445b5ffb826e53a1c24bb5a7bbf79ea420c1c12f52c3141def0103cb8d5a",
+    "stage_evidence.json": "c0ba5bc8b313f16e666a0e4249aa2f8ee48c16dab729e7fffe34d68ca2154973",
+    "environment.json": "f414bd2bcf09e9ac74f76e73037ed09ffbdc030fd80be9a51606ea6746c0396e",
+    "scientific_journal/calls.jsonl": "0267db0a89e4847628c83dd9fddab781cf080a8fda48342469a84910d987910d"
+  },
+  "scientific_verdict": "ACCEPT",
+  "V_pass": true,
+  "I_pass": true,
+  "allocated_train": 268,
+  "eligible_train": 258,
+  "seed_event_slots": 774,
+  "completed_slots": 774,
+  "failed_or_unresolved_slots": 0,
+  "input_contract": "measured_history_100ms_zoh_v1",
+  "seeds": [
+    324,
+    325,
+    326
+  ],
+  "integration_max_steps_s": [
+    0.005,
+    0.0025
+  ],
+  "weighted_history_comparisons": {
+    "324-0.005": {
+      "weighted_mse": {
+        "all": {
+          "candidate": 0.01953281923943353,
+          "baseline": 0.0402632452933466
+        },
+        "q": {
+          "candidate": 0.0004622657689231941,
+          "baseline": 0.0010316857070745173
+        },
+        "v": {
+          "candidate": 0.038603372709943864,
+          "baseline": 0.07949480487961869
+        }
+      },
+      "worst10_cvar": {
+        "candidate": 0.10687183796425426,
+        "baseline": 0.1972846199467997
+      },
+      "conditions": {
+        "all_strictly_lower": true,
+        "q_not_higher": true,
+        "v_not_higher": true,
+        "worst10_cvar_not_higher": true
+      },
+      "I_pass": true
+    },
+    "324-0.0025": {
+      "weighted_mse": {
+        "all": {
+          "candidate": 0.019532819847860577,
+          "baseline": 0.04026324717617673
+        },
+        "q": {
+          "candidate": 0.0004622658095435864,
+          "baseline": 0.001031685759142011
+        },
+        "v": {
+          "candidate": 0.03860337388617755,
+          "baseline": 0.07949480859321145
+        }
+      },
+      "worst10_cvar": {
+        "candidate": 0.10687184246866596,
+        "baseline": 0.19728463043004715
+      },
+      "conditions": {
+        "all_strictly_lower": true,
+        "q_not_higher": true,
+        "v_not_higher": true,
+        "worst10_cvar_not_higher": true
+      },
+      "I_pass": true
+    },
+    "325-0.005": {
+      "weighted_mse": {
+        "all": {
+          "candidate": 0.019019831655968798,
+          "baseline": 0.03836743655675522
+        },
+        "q": {
+          "candidate": 0.0004500910770632922,
+          "baseline": 0.0009810570572640113
+        },
+        "v": {
+          "candidate": 0.0375895722348743,
+          "baseline": 0.07575381605624643
+        }
+      },
+      "worst10_cvar": {
+        "candidate": 0.10527100130061788,
+        "baseline": 0.19301911750748094
+      },
+      "conditions": {
+        "all_strictly_lower": true,
+        "q_not_higher": true,
+        "v_not_higher": true,
+        "worst10_cvar_not_higher": true
+      },
+      "I_pass": true
+    },
+    "325-0.0025": {
+      "weighted_mse": {
+        "all": {
+          "candidate": 0.019019832195217707,
+          "baseline": 0.03836743835936428
+        },
+        "q": {
+          "candidate": 0.00045009112008394996,
+          "baseline": 0.0009810571087392767
+        },
+        "v": {
+          "candidate": 0.037589573270351465,
+          "baseline": 0.07575381960998928
+        }
+      },
+      "worst10_cvar": {
+        "candidate": 0.10527100550140178,
+        "baseline": 0.19301912793858622
+      },
+      "conditions": {
+        "all_strictly_lower": true,
+        "q_not_higher": true,
+        "v_not_higher": true,
+        "worst10_cvar_not_higher": true
+      },
+      "I_pass": true
+    },
+    "326-0.005": {
+      "weighted_mse": {
+        "all": {
+          "candidate": 0.019708159094231074,
+          "baseline": 0.04069946774615204
+        },
+        "q": {
+          "candidate": 0.0004659253003860936,
+          "baseline": 0.0010433484293332668
+        },
+        "v": {
+          "candidate": 0.03895039288807605,
+          "baseline": 0.08035558706297077
+        }
+      },
+      "worst10_cvar": {
+        "candidate": 0.10869443868549893,
+        "baseline": 0.20238456004459018
+      },
+      "conditions": {
+        "all_strictly_lower": true,
+        "q_not_higher": true,
+        "v_not_higher": true,
+        "worst10_cvar_not_higher": true
+      },
+      "I_pass": true
+    },
+    "326-0.0025": {
+      "weighted_mse": {
+        "all": {
+          "candidate": 0.019708159716561858,
+          "baseline": 0.04069946953276083
+        },
+        "q": {
+          "candidate": 0.0004659253427839429,
+          "baseline": 0.0010433484883411621
+        },
+        "v": {
+          "candidate": 0.038950394090339784,
+          "baseline": 0.0803555905771805
+        }
+      },
+      "worst10_cvar": {
+        "candidate": 0.10869444332679143,
+        "baseline": 0.20238457009624428
+      },
+      "conditions": {
+        "all_strictly_lower": true,
+        "q_not_higher": true,
+        "v_not_higher": true,
+        "worst10_cvar_not_higher": true
+      },
+      "I_pass": true
+    }
+  },
+  "execution_budget": {
+    "expm": 7740,
+    "svd": 780,
+    "ls": 1548,
+    "independent_force": 46440,
+    "history_paths": 1548,
+    "rk4_updates": 46440,
+    "integration_rhs": 185760,
+    "physical_rhs": 17028,
+    "total_rhs": 202788,
+    "models": 3,
+    "fits": 0,
+    "optimizer_updates": 0,
+    "future_paths": 0,
+    "labels": 0
+  },
+  "read_budget": {
+    "npz_files": 10,
+    "members": 42,
+    "numeric_members": 39,
+    "text_members": 3,
+    "logical_numeric_elements": 440733,
+    "npz_integrity_bytes": 175465110,
+    "physics_certificate_integrity_bytes": 62786
+  },
+  "independent_audits": [
+    {
+      "kind": "complete_saved_arrays_and_journal",
+      "path": "scratch/one_off/kiki-a14-result-audit-20261024/real-v1.json",
+      "sha256": "64d06e691f24d02ca0552fde1f7d740476c7b1755d1bacb08bbe1e0112870262",
+      "program_path": "scratch/one_off/kiki-a14-result-audit-20261024/audit.py",
+      "program_sha256": "bb6f71f650d6dce767945e69556685371d97bb4b1010c519b0cd7ed91fc05c17",
+      "status": "PASS",
+      "new_original_source_reads": 0,
+      "new_rhs": 0
+    },
+    {
+      "kind": "independent_history_metrics",
+      "path": "scratch/one_off/kiki-a14-metrics-audit-20261024/real-v1/audit.json",
+      "sha256": "6b20088472e1177a210c470155cff405cc2f61fac4e220a63c34735f36e904e1",
+      "program_path": "scratch/one_off/kiki-a14-metrics-audit-20261024/history_metrics_audit.py",
+      "program_sha256": "f47c9d8ab135155e2bfe625396d1e3b37abeffc31ccdc8a5d73518bc56db880e",
+      "status": "PASS",
+      "new_original_source_reads": 0,
+      "new_rhs": 0
+    }
+  ],
+  "scientific_result_review_path": "docs/research/kiki_a14_integral_history/astra_result_review_zh.md",
+  "scientific_result_review_sha256": "e95ef694baedb99fdca9b080dda6bd02b6697f3ef1ab36449ff001be9507da07",
+  "promotion_decision": "KEEP_BASELINE",
+  "model_promoted": false,
+  "certified": false,
+  "new_training_authorized": false,
+  "future_evaluation_authorized": false,
+  "default_deployment_initializer_changed": false,
+  "source_val_test_opened": false,
+  "internal_val_opened": false,
+  "new_missed_instability_result_established": false,
+  "claim_boundary": "Accepted fixed-model train-history mechanism; higher hidden storage and non-port force residuals require a separately registered future-transfer comparison. No future/FNR/generalization/true-hidden-state or certification claim."
+}

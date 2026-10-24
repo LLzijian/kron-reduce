@@ -178,6 +178,20 @@ positive convergence cases, expected counterexamples and limited retained
 evidence replay. It supports proposing a separately registered train-history
 mechanism audit; it authorizes no real training or future comparison.
 
+A14 is a separately registered one-use train-history mechanism comparison,
+`kiki_a14_development_20261024`, requiring exact implementation approval by
+Astra Ultra. Its dedicated CLI alone may read the ten frozen NPZ caches and
+42 whitelisted members; the generic runner must reject before data checks.
+It keeps fixed A06 step240 models and all 268 allocated train events, with
+258 eligible histories/774 seed-event slots. Fits/updates, future paths,
+labels/LOS, internal val and source val/test remain closed. The single-use
+shared budget is consumed before NPZ byte checks, with no retries or resume.
+Scope reservations are durable; per-call logs are flushed and range-hashed
+before durable closure. Any interrupted scope is unknown/spent. Numerical
+failures stay in the fixed population. V and I follow the frozen protocol;
+even ACCEPT remains uncertified history evidence and KEEP_BASELINE, and
+authorizes neither training nor future comparison nor model promotion.
+
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
 - `docs/architecture.md`: scientific and software boundaries.
 - `docs/scientific_contract.md`: input, rollout, stability, and naming rules.
@@ -254,3 +268,11 @@ Source val/test remain closed; labels are diagnostic only after evidence freeze.
 Failures consume their slots and cannot be retried. Results are uncertified
 development evidence with no deployment predictions or model promotion.
 A04 through A07 remain consumed and unchanged.
+
+A14 has completed and its authorization is consumed, bound to the immutable
+run, 774 completed slots/202788 RHS and the two independent saved-evidence
+audits. V and I passed in all six fixed train-history comparisons;
+Astra accepted the history mechanism and engineering main integration.
+Do not rerun A14 or change the default deployment initializer. No future
+trajectory, label or new FNR result was evaluated; KEEP_BASELINE applies.
+Further comparisons require independent registration and Astra approval.

@@ -18,3 +18,12 @@ docs/research/kiki_a08_astra_design_20261024_zh.md -text
 docs/research/kiki_a12_record20/implementation_bindings_v7.json -text
 # Keep the verified A13 reference note byte-identical to its source manifest.
 docs/research/kiki_a13_integral_synthetic/primary_literature_verified.md -text
+
+# Retain the exact frozen A14 scientific and source metadata bytes.
+docs/research/kiki_a14_integral_history/design_zh.md -text
+docs/research/kiki_a14_integral_history/journal_decision_zh.md -text
+docs/research/kiki_a14_integral_history/source_inventory.json -text
+docs/research/kiki_a14_integral_history/kernel_api_and_validation_zh.md -text
+
+# Preserve the frozen A13 synthetic arithmetic reference byte-for-byte.
+tests/fixtures/integral_reference.py -text
