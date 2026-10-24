@@ -280,7 +280,10 @@ def _execute(root, result_dir, config, plan, inventory, indexed, receipt):
         save_record(result_dir, "saved_controls", {f"{s}-{h}": pre["controls"][s, h] for s in SEEDS for h in STEPS})
         write_json(result_dir / "reset_freeze.json", {"artifact_hashes": frozen,
                    "all_resets_frozen_before_truth": True, "source_commit": receipt["source_commit"]})
-        reader.seal_resets(sha256_file(result_dir / "reset_freeze.json"))
+        freeze_sha = sha256_file(result_dir / "reset_freeze.json")
+        io.append({"kind": "reset_freeze", "sha256": freeze_sha, "artifact_hashes": frozen,
+                   "truth_npz_access_started": False})
+        reader.seal_resets(freeze_sha)
         truth = reader.read_truth()["A10/real_train_arrays.npz"]
         fingerprints.update(verify_array_bindings({"A10/real_train_arrays.npz": truth}, plan))
         truth_checks = preflight_truth(truth, pre)

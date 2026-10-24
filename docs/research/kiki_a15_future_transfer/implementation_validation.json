@@ -1,0 +1,380 @@
+{
+  "kind": "A15_pre_execution_implementation_validation",
+  "real_a15_source_hash_passes": 0,
+  "real_a15_payload_reads": 0,
+  "real_model_constructions": 0,
+  "real_rhs": 0,
+  "real_fits": 0,
+  "source_binding_checkpoint": {
+    "path": "scratch/one_off/kiki-a15-future-transfer-20261024/source-bindings-pre-synthetic-v2.json",
+    "sha256": "c6ffebd87be94fee0bb163a061f0f2577bc19176115379c49721825f70262c5a"
+  },
+  "final_scientific_source_sha256": {
+    "project_harness/runner.py": "4a204a4f0103571ca6fb0bdabbad4aaebd8d575831713d9fd719756a7442b994",
+    "src/kron_reduce/data/future_transfer_reader.py": "d12a66f62b211a592cd446bbb6da665ac827129e409fcc5c23692c7860150c24",
+    "src/kron_reduce/evaluation/future_transfer_audit.py": "e626e692b41ec374677b211cb7f9e074b5a2a5648cf56ebbfad9c13efd2a0ac6",
+    "src/kron_reduce/evaluation/future_transfer_metrics.py": "5b67e09c4582b4bba237ffc3fb7569e49c4852ada21275518fe434bfde627c53",
+    "src/kron_reduce/evaluation/scoped_audit_journal.py": "b69c79db472d455c30023a6b1ddfcaf65418fb54e7dcd78420714e87c210beb7",
+    "src/kron_reduce/workflows/kiki_future_transfer.py": "513298913b7c6f43b4ebbe69654035011dc7ffcc61eba8022afdea1b8c74afa1"
+  },
+  "local_ci": {
+    "path": "scratch/one_off/kiki-a15-future-transfer-20261024/local-ci-20261024T212555/summary.json",
+    "sha256": "9a8fbfc8a30d45073f026d8d7d71248a6a4fb9344e474dd31a40f17f3f905d12",
+    "commands_passed": 10,
+    "existing_tests_passed": 346,
+    "a14_tests_passed": 72,
+    "a15_tests_passed": 49,
+    "checks": [
+      {
+        "name": "Audit contracts and registered metadata",
+        "command": [
+          "-m",
+          "project_harness",
+          "audit"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\00.log",
+        "log_sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912"
+      },
+      {
+        "name": "Check engineering changes",
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "project_harness/policy.py",
+          "project_harness/git_state.py",
+          "project_harness/runner.py",
+          "scripts/register_kiki_dataset.py",
+          "tests/test_research_policy.py",
+          "tests/test_runner_safety.py",
+          "tests/test_development_file_bindings.py"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\01.log",
+        "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "name": "Run policy, causality and synthetic checks",
+        "command": [
+          "-m",
+          "pytest",
+          "-q",
+          "tests/test_research_policy.py",
+          "tests/test_runner_safety.py",
+          "tests/test_data_registry.py",
+          "tests/test_development_file_bindings.py",
+          "tests/test_kiki_history.py",
+          "tests/test_kiki_scoring.py",
+          "tests/test_kiki_stability_comparison.py",
+          "tests/test_nonlinear_latent.py",
+          "tests/test_causal_latent.py",
+          "tests/test_stability_region.py",
+          "tests/test_kiki_short_history_reader.py",
+          "tests/test_kiki_short_history.py",
+          "tests/test_recorded_error_audit.py",
+          "tests/test_paired_training.py",
+          "tests/test_paired_workflow.py",
+          "tests/test_joint_refinement.py",
+          "tests/test_joint_refinement_workflow.py",
+          "tests/test_tilted_optimizer_resume.py",
+          "tests/test_tilted_training_workflow.py",
+          "tests/test_nested_memory.py",
+          "tests/test_memory_order_workflow.py",
+          "tests/test_audit_budget.py",
+          "tests/test_train_mechanism_audit.py",
+          "tests/test_train_mechanism_workflow.py",
+          "tests/test_train_refinement_budget.py",
+          "tests/test_train_refinement_audit.py",
+          "tests/test_train_refinement_workflow.py",
+          "tests/test_audit_access_ledger.py",
+          "tests/test_durable_audit_ledger.py",
+          "tests/test_limited_hdf_audit.py",
+          "tests/test_record20_input.py",
+          "tests/test_record20_coordinates.py",
+          "tests/test_record20_metadata.py",
+          "tests/test_bounded_input_cli_guard.py",
+          "tests/test_record20_workflow.py"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\02.log",
+        "log_sha256": "068cc90d19316436ba625b1b5689c48a02e4dd982c238cc42b538a1dd3de247c"
+      },
+      {
+        "name": "Check bounded input audit code",
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "src/kron_reduce/data/audit_access_ledger.py",
+          "src/kron_reduce/data/durable_audit_ledger.py",
+          "src/kron_reduce/data/limited_hdf_audit.py",
+          "src/kron_reduce/evaluation/record20_input.py",
+          "src/kron_reduce/evaluation/record20_coordinates.py",
+          "src/kron_reduce/evaluation/record20_metadata.py",
+          "src/kron_reduce/workflows/kiki_record20_input_audit.py",
+          "tests/test_audit_access_ledger.py",
+          "tests/test_durable_audit_ledger.py",
+          "tests/test_limited_hdf_audit.py",
+          "tests/test_record20_input.py",
+          "tests/test_record20_coordinates.py",
+          "tests/test_record20_metadata.py",
+          "tests/test_bounded_input_cli_guard.py",
+          "tests/test_record20_workflow.py"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\03.log",
+        "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "name": "Check fixed-model audit code",
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "src/kron_reduce/evaluation/audit_budget.py",
+          "src/kron_reduce/evaluation/train_mechanism_audit.py",
+          "src/kron_reduce/workflows/kiki_train_mechanism.py",
+          "tests/test_audit_budget.py",
+          "tests/test_train_mechanism_audit.py",
+          "tests/test_train_mechanism_workflow.py"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\04.log",
+        "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "name": "Check all-train refinement code",
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "src/kron_reduce/evaluation/train_refinement_audit.py",
+          "src/kron_reduce/workflows/kiki_train_refinement.py",
+          "tests/test_train_refinement_budget.py",
+          "tests/test_train_refinement_audit.py",
+          "tests/test_train_refinement_workflow.py"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\05.log",
+        "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "name": "Check integral history code",
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "src/kron_reduce/data/limited_npz_audit.py",
+          "src/kron_reduce/evaluation/integral_initializer.py",
+          "src/kron_reduce/evaluation/history_metrics.py",
+          "src/kron_reduce/evaluation/history_mechanism.py",
+          "src/kron_reduce/evaluation/scoped_audit_journal.py",
+          "src/kron_reduce/evaluation/history_cache_preflight.py",
+          "src/kron_reduce/workflows/kiki_integral_history_audit.py",
+          "tests/test_limited_npz_audit.py",
+          "tests/test_integral_initializer.py",
+          "tests/test_history_cache_preflight.py",
+          "tests/test_history_metrics.py",
+          "tests/test_history_mechanism.py",
+          "tests/test_scoped_audit_journal.py",
+          "tests/test_integral_history_workflow.py",
+          "tests/test_integral_history_artifact_contract.py"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\06.log",
+        "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "name": "Run A14 integral history synthetic checks",
+        "command": [
+          "-m",
+          "pytest",
+          "-q",
+          "tests/test_limited_npz_audit.py",
+          "tests/test_integral_initializer.py",
+          "tests/test_history_cache_preflight.py",
+          "tests/test_history_metrics.py",
+          "tests/test_history_mechanism.py",
+          "tests/test_scoped_audit_journal.py",
+          "tests/test_integral_history_workflow.py",
+          "tests/test_integral_history_artifact_contract.py"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\07.log",
+        "log_sha256": "5b93d1f780db5a1d407b740735f951739a080a594ee740e9b749e9789f3c7477"
+      },
+      {
+        "name": "Check future transfer audit code",
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "src/kron_reduce/data/future_transfer_reader.py",
+          "src/kron_reduce/evaluation/future_transfer_audit.py",
+          "src/kron_reduce/evaluation/future_transfer_metrics.py",
+          "src/kron_reduce/workflows/kiki_future_transfer.py",
+          "tests/test_future_transfer_reader.py",
+          "tests/test_future_transfer_audit.py",
+          "tests/test_future_transfer_metrics.py",
+          "tests/test_future_transfer_workflow.py"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\08.log",
+        "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "name": "Run A15 future transfer synthetic checks",
+        "command": [
+          "-m",
+          "pytest",
+          "-q",
+          "tests/test_future_transfer_reader.py",
+          "tests/test_future_transfer_audit.py",
+          "tests/test_future_transfer_metrics.py",
+          "tests/test_future_transfer_workflow.py"
+        ],
+        "exit_code": 0,
+        "log": "scratch\\one_off\\kiki-a15-future-transfer-20261024\\local-ci-20261024T212555\\09.log",
+        "log_sha256": "a9d1675b0a4d3c7b9395459b531b344c986bcbec8b94ff3d9e791330f8fbb00a"
+      }
+    ],
+    "source_note": "These 467 checks preceded the three-line durable reset-freeze marker. The full synthetic workload below used the final six scientific source hashes. Exact activated-commit CI must pass before the one-use real execution."
+  },
+  "full_synthetic_pipeline": {
+    "single_attempt": true,
+    "retry_or_resume": false,
+    "source_kind": "entirely self-generated known-zero system; no real source payload",
+    "completion": {
+      "path": "scratch/one_off/kiki-a15-synthetic-end-to-end-20261024/full_execute_completed.json",
+      "sha256": "292138ef89a2d5d1f89d24ef7a8d718f347910f319f5f7084ed49b978b08a7cb"
+    },
+    "initial_reservation": {
+      "path": "scratch/one_off/kiki-a15-synthetic-end-to-end-20261024/full_execute_binding.json",
+      "sha256": "751826f904f57f71dfdc4d33992f65900251fbd8bd99d6fc576405fa9cc3b2e9"
+    },
+    "preflight": {
+      "path": "scratch/one_off/kiki-a15-synthetic-end-to-end-20261024/preflight_v3_receipt.json",
+      "sha256": "a1058ff74c66abb5b2b25976a297d6ae85b71b0657ee827ee8ca4209d64bfcc0"
+    },
+    "runner": {
+      "path": "scratch/one_off/kiki-a15-synthetic-end-to-end-20261024/run_full.py",
+      "sha256": "27aeb281639c4fff57b512aceb88aa2ae578aaa88ea34556ce19f87370f76b00"
+    },
+    "builder": {
+      "path": "scratch/one_off/kiki-a15-synthetic-end-to-end-20261024/build_synthetic.py",
+      "sha256": "a3f618c6863dc0d71461cb18aa9f9ae8203c379bccdc819368d7d889b5b52f00"
+    },
+    "explicit_plan": {
+      "path": "scratch/one_off/kiki-a15-synthetic-end-to-end-20261024/synthetic_plan.json",
+      "sha256": "4a00a4eb640e1d6cfa954ab04210b2bf3e5c59848dc75c365ec1d38402d9e9e9"
+    },
+    "inventory": {
+      "path": "scratch/one_off/kiki-a15-synthetic-end-to-end-20261024/synthetic_inventory.json",
+      "sha256": "92cd6523ed4654656148272677116d7d5227ee7800420293fd06286510c6c939"
+    },
+    "log": {
+      "path": "scratch/one_off/kiki-a15-synthetic-end-to-end-20261024/full_execute_20261024T_run1.log",
+      "sha256": "84277a7f59d22eea2ba10bf646e777a03628a443e20a5de381f3339eb1d17dfb"
+    },
+    "artifact_manifest": {
+      "path": "scratch/one_off/kiki-a15-synthetic-end-to-end-20261024/full_execute_result/artifact_hashes.json",
+      "sha256": "bb7e8e4c9c673be163a44bbd18926d41336152fd1142110c9d516c59d8159f40"
+    },
+    "session_id": 68264,
+    "structured_exit_code_captured": false,
+    "completion_evidence": "Exclusive completion receipt and final printed summary; no traceback. The inherited initial later_workload_status field is preserved verbatim.",
+    "completed_slots": 774,
+    "candidate_future_paths": 1548,
+    "synthetic_duration_event_counts": {
+      "under_1s": 20,
+      "from_1s_to_under_3s": 2,
+      "complete_3s": 236
+    },
+    "real_registered_duration_event_counts": {
+      "under_1s": 18,
+      "from_1s_to_under_3s": 3,
+      "complete_3s": 237
+    },
+    "population_boundary": "Synthetic durations reproduce exact total budgets and exercise all duration groups; the real population must match its own frozen plan.",
+    "rk4_updates": 1298646,
+    "integration_rhs": 5194584,
+    "physical_rhs": 434430,
+    "total_rhs": 5629014,
+    "eigvalsh": 4653,
+    "npz_files": 1559,
+    "decoded_members": 3136,
+    "npz_integrity_bytes": 199075034,
+    "V_pass": true,
+    "I_pass": false,
+    "D_pass": true,
+    "scientific_verdict": "REJECT",
+    "expected_rejection": "Candidate and control have identical zero error; strict improvement must fail.",
+    "source_byte_identical_before_and_after": true,
+    "early_preflight_failures_preserved": "v1 metadata byte total and v2 hierarchy weights were corrected before the sole full workload; each had zero RHS."
+  },
+  "independent_saved_result_audit": {
+    "path": "scratch/one_off/kiki-a15-result-audit-20261024/synthetic-audit-run3.json",
+    "sha256": "b6e222a48db35aa59017a2d2b5de260e92c356b92e7745344d262be1970faa96",
+    "execution": {
+      "path": "scratch/one_off/kiki-a15-result-audit-20261024/synthetic-audit-run3.execution.json",
+      "sha256": "c3d6e70706f2e8692f93370da599d90fbac2e9c6337d9c01e99421bbdb8e315e"
+    },
+    "script": {
+      "path": "scratch/one_off/kiki-a15-result-audit-20261024/audit.py",
+      "sha256": "37eaf5810a4e0b1d6e13f06d0d9bbd53ed509d74f0fbf9ad473fa821f5567bf4"
+    },
+    "tests": {
+      "path": "scratch/one_off/kiki-a15-result-audit-20261024/test_audit.py",
+      "sha256": "39f8221f7ff2a9b6f7813a667fb5c0fd51bb96c94a9a693263bac25de020977c"
+    },
+    "synthetic_tests_passed": 25,
+    "ruff_passed": true,
+    "event0_saved_shape_smoke": {
+      "path": "scratch/one_off/kiki-a15-result-audit-20261024/synthetic-event0-smoke.json",
+      "sha256": "c60c69021b052e5171159c535648c4e36af4c2ba4fd7a53cceef7bd4fc962d42"
+    },
+    "prior_failed_audit": {
+      "path": "scratch/one_off/kiki-a15-result-audit-20261024/synthetic-audit-run1.json",
+      "sha256": "83f4fa5c44507fa19f67c042a4b8e906b24f8ecf3536017f6528ec066bd2106d"
+    },
+    "prior_failed_audit_execution": {
+      "path": "scratch/one_off/kiki-a15-result-audit-20261024/synthetic-audit-run1.execution.json",
+      "sha256": "f3685bc13b822ce879cde49a626a48be97e7118bebaf0c6aa92744e332b28cec"
+    },
+    "prior_invalid_json_output": {
+      "path": "scratch/one_off/kiki-a15-result-audit-20261024/synthetic-audit-run2.json",
+      "sha256": "b9f9f3d1ff28617aed7c4109479a77c2eff682f1ef4c0e22d851476ac596eef5"
+    },
+    "prior_invalid_json_execution": {
+      "path": "scratch/one_off/kiki-a15-result-audit-20261024/synthetic-audit-run2.execution.json",
+      "sha256": "81a0c621d8bb4fc6994c6803e78f754c4fde4f2b5bb798ba1b79a4c5fc10fad8"
+    },
+    "prior_failure_cause": "The separate saved-result auditor concatenated 20 visible channels with all 22 predicted channels. Only the auditor was fixed; the scientific workload was not repeated. The second saved audit computed zero mismatches but its tuple-key accounting could not be serialized to JSON; explicit identity rows and a serialization regression check fixed the independent auditor output.",
+    "status": "PASS",
+    "source_payload_reads": 0,
+    "model_calls": 0,
+    "rhs_calls": 0
+  },
+  "independent_saved_metric_recalculation": {
+    "path": "scratch/one_off/kiki-a15-metrics-audit-20261024/synthetic-audit-run1.json",
+    "sha256": "558be8f102a4bb0af42a24905d67f72fb823fd18811814c66b9b6dc2f0270594",
+    "script": {
+      "path": "scratch/one_off/kiki-a15-metrics-audit-20261024/audit.py",
+      "sha256": "8e24b325b6df0214b24931be60d45009773b0f71f6c1f69e4cd22d34b8d8617f"
+    },
+    "tests": {
+      "path": "scratch/one_off/kiki-a15-metrics-audit-20261024/test_audit.py",
+      "sha256": "1c3eaac0565bcf7f88aad173a22ed5305385addce4fdf458e0a8cf28b91db668"
+    },
+    "synthetic_tests_passed": 4,
+    "ruff_passed": true,
+    "status": "PASS",
+    "mismatch_count": 0,
+    "captured_exit_code": 0,
+    "source_payload_reads": 0,
+    "model_calls": 0,
+    "rhs_calls": 0
+  },
+  "claim_boundary": "Implementation correctness only. No real future gain, FSR reduction, certification, val/test permission, fitting, prediction release or model promotion."
+}
