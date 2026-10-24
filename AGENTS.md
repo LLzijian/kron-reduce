@@ -68,6 +68,23 @@ retried. These results remain uncertified development evidence: no deployment
 predictions, model promotion, or independent confirmation. The A04 authorization
 remains consumed and unchanged.
 
+On 2026-10-24 the user explicitly authorized one bounded A06 joint-refinement
+development evaluation, `kiki_a06_development_20261024`, as registered in the
+active policy and `docs/protocols/kiki_a06_development_authorization_20261024_zh.md`.
+It is restricted to `paper_kiki_a06_refinement`, workflow
+`kiki_a06_refinement_v1`, stage `joint_refinement`, and module
+`kron_reduce.workflows.kiki_joint_refinement`. It starts from the three frozen
+A05 J checkpoints, uses fresh Adam state, and allows exactly three fits at
+seeds 324/325/326 with 240 new updates each. The update-80 checkpoint is
+diagnostic; update 240 is the sole primary endpoint. The fixed exception allows
+all 258 train and 88 val trajectories at 1 s and 3 s and all 88 val 8 s LOS and
+numerical checks, with all 369 allocated cases retained. Source val/test payloads
+remain closed; labels are available only after all training and evidence are
+frozen. Failures consume their slots and cannot be retried. Results remain
+uncertified development evidence with no deployment predictions or promotion.
+Automatic training until a threshold passes remains disabled; A04 and A05
+authorizations remain consumed and unchanged.
+
 The A05 campaign has completed and its authorization is now `consumed`,
 bound to its immutable run, six fits/480 updates, and result receipt.
 Do not reactivate the authorization or repeat its fits. Existing artifacts
@@ -102,7 +119,7 @@ Rules:
   use the gate-selected storage or energy-regularized name.
 - Claims are bounded by certified excitation envelopes; an evaluation outside
   every certified envelope must refuse, not extrapolate, except for the
-  explicitly registered, bounded A04 and A05 development evaluations above. The name
+  explicitly registered, bounded development evaluations above. The name
   `stability-certified equivalent` additionally requires the Level 6
   certificate suite and region/margin gates (see
   `docs/structure_discovery_roadmap.md`).

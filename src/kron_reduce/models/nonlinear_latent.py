@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from copy import deepcopy
 from dataclasses import asdict, dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -507,6 +508,51 @@ def _validated_paired_start(paired_start, mass, feature_scale, target_scale):
     return raw, arrays, binding
 
 
+def _validated_full_start(full_start, mass, feature_scale, target_scale, latent_dimension):
+    """Recover a physical checkpoint in a canonical raw parameterization."""
+    backbone_names = {"mass", "edge_stiffness", "damping", "feature_scale", "target_scale"}
+    names = backbone_names | {"coupling", "latent_skew", "latent_dissipation", "encoder"}
+    if not isinstance(full_start, dict) or set(full_start) != names:
+        raise ValueError("full_start must contain exactly the nine registered arrays")
+    arrays = {name: np.array(full_start[name], dtype=float, copy=True) for name in names}
+    raw, _, _ = _validated_paired_start(
+        {name: arrays[name] for name in backbone_names}, mass, feature_scale, target_scale
+    )
+    n, r = len(mass), latent_dimension
+    expected = {"coupling": (n, r), "latent_skew": (r, r),
+                "latent_dissipation": (r, r), "encoder": (r, len(feature_scale))}
+    if any(arrays[name].shape != shape or not np.isfinite(arrays[name]).all()
+           for name, shape in expected.items()):
+        raise ValueError("full_start memory arrays must be finite and dimensionally aligned")
+    basis = coi_basis(np.ones(n))
+    port = basis.T @ arrays["coupling"]
+    skew = (arrays["latent_skew"] - arrays["latent_skew"].T) / 2
+    diagonal = np.diag(arrays["latent_dissipation"])
+    errors = {
+        "coupling": float(np.linalg.norm(basis @ port - arrays["coupling"], ord="fro")),
+        "latent_skew": float(np.linalg.norm(skew - arrays["latent_skew"], ord="fro")),
+        "latent_dissipation": float(np.linalg.norm(
+            np.diag(diagonal) - arrays["latent_dissipation"], ord="fro")),
+    }
+    positive = diagonal - 1e-5
+    if np.any(positive <= 0) or max(errors.values()) > 1e-12:
+        raise ValueError("full_start memory is not representable by the registered parameterization")
+    decay = np.where(positive > 20.0, positive, positive + np.log(-np.expm1(-positive)))
+    parameters = {"raw": raw, "port": port, "skew": skew, "decay": decay,
+                  "encoder": arrays["encoder"].copy()}
+    hashes = {name: _array_sha256(arrays[name]) for name in sorted(names)}
+    binding = {
+        "full_start_array_sha256": hashes,
+        "full_start_sha256": hashlib.sha256(
+            json.dumps(hashes, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
+        "full_start_representation_errors": errors,
+        "raw_skew_reconstruction": "canonical_antisymmetric_representative",
+        "optimizer_initialization": "fresh_adam_zero_moments_step_zero",
+        "exact_optimizer_resume": False,
+    }
+    return parameters, arrays, binding
+
+
 def fit_nonlinear_model(
     samples,
     mass,
@@ -517,12 +563,23 @@ def fit_nonlinear_model(
     progress_callback=None,
     paired_start=None,
     freeze_backbone=False,
+    full_start=None,
+    checkpoint_steps=(),
+    checkpoint_callback=None,
 ) -> LearnedNonlinearModel:
     """Fit train only, with visible history consistency and free multi-horizon loss."""
     import torch
 
     if type(freeze_backbone) is not bool or (freeze_backbone and paired_start is None):
         raise ValueError("freezing requires a verified paired_start and a boolean update mask")
+    if full_start is not None and (paired_start is not None or freeze_backbone):
+        raise ValueError("full_start is mutually exclusive with paired_start and freeze_backbone")
+    checkpoint_steps = tuple(checkpoint_steps)
+    if (any(type(step) is not int or not 0 < step <= settings.epochs for step in checkpoint_steps)
+            or tuple(sorted(set(checkpoint_steps))) != checkpoint_steps
+            or (bool(checkpoint_steps) != (checkpoint_callback is not None))
+            or (checkpoint_callback is not None and not callable(checkpoint_callback))):
+        raise ValueError("checkpoint steps require an ordered unique positive schedule and callback")
     if not samples or {sample.role for sample in samples} != {"train"}:
         raise ValueError("nonlinear optimizer accepts train only")
     if any(not isinstance(sample, EquilibriumLearningSample) for sample in samples):
@@ -580,7 +637,15 @@ def fit_nonlinear_model(
     )
     feature_scale = np.maximum(np.sqrt(weights @ features**2), 1e-5)
     paired_binding = None
-    if paired_start is None:
+    full_parameters = None
+    if full_start is not None:
+        full_parameters, paired_arrays, paired_binding = _validated_full_start(
+            full_start, mass, feature_scale, scales, r
+        )
+        paired_raw = full_parameters["raw"]
+        feature_scale = paired_arrays["feature_scale"].copy()
+        scales = paired_arrays["target_scale"].copy()
+    elif paired_start is None:
         start = _integral_start(
             scale_population, mass, settings.backbone, scales, include_last=allow_partial_horizons
         )
@@ -626,12 +691,18 @@ def fit_nonlinear_model(
                 truth = tensor(np.stack([np.c_[s.target_delta, s.target_omega] for s in samples]))
             raw = torch.nn.Parameter(tensor(
                 np.log(np.expm1(np.minimum(start, 40))) + np.maximum(start - 40, 0)
-                if paired_start is None else paired_raw
+                if paired_binding is None else paired_raw
             ))
-            port = torch.nn.Parameter(0.1 * torch.randn((n - 1, r), dtype=torch.float64))
-            skew = torch.nn.Parameter(0.2 * torch.randn((r, r), dtype=torch.float64))
-            decay = torch.nn.Parameter(torch.full((r,), -0.5, dtype=torch.float64))
-            encoder = torch.nn.Parameter(0.01 * torch.randn((r, x.shape[1]), dtype=torch.float64))
+            if full_parameters is None:
+                port = torch.nn.Parameter(0.1 * torch.randn((n - 1, r), dtype=torch.float64))
+                skew = torch.nn.Parameter(0.2 * torch.randn((r, r), dtype=torch.float64))
+                decay = torch.nn.Parameter(torch.full((r,), -0.5, dtype=torch.float64))
+                encoder = torch.nn.Parameter(0.01 * torch.randn((r, x.shape[1]), dtype=torch.float64))
+            else:
+                port, skew, decay, encoder = (
+                    torch.nn.Parameter(tensor(full_parameters[name]))
+                    for name in ("port", "skew", "decay", "encoder")
+                )
             parameters = [raw, port, skew, decay, encoder]
             parameter_names = ("raw", "port", "skew", "decay", "encoder")
             updated_scalars = sum(p.numel() for p in parameters) - (raw.numel() if freeze_backbone else 0)
@@ -660,6 +731,28 @@ def fit_nonlinear_model(
                     "loss_parameter_timing": "before_update",
                     "checkpoint_rule": "last_update",
                 }
+                if full_parameters is not None:
+                    reconstructed = {
+                        "edge_stiffness": initial_positive[:b.shape[1]],
+                        "damping": reconstructed_damping,
+                        "coupling": basis.numpy() @ port.detach().numpy(),
+                        "latent_skew": ((skew - skew.T) / 2).detach().numpy(),
+                        "latent_dissipation": np.diag(
+                            torch.nn.functional.softplus(decay).detach().numpy() + 1e-5),
+                        "encoder": encoder.detach().numpy(),
+                    }
+                    errors = {name: float(np.linalg.norm(value - paired_arrays[name]))
+                              for name, value in reconstructed.items()}
+                    if max(errors.values()) > 1e-12:
+                        raise ValueError("full_start physical round trip exceeds 1e-12")
+                    paired_record.update(
+                        full_start_roundtrip_errors=errors,
+                        gradient_clip_population="complete_parameter_vector",
+                        planned_optimizer_steps=settings.epochs,
+                        registered_checkpoint_steps=list(checkpoint_steps),
+                        initial_optimizer_step=0,
+                        initial_optimizer_moments_zero=True,
+                    )
             optimizer = torch.optim.Adam(parameters, lr=settings.learning_rate)
             time_weight = np.zeros(len(clock) - 1)
             for horizon in settings.horizons_s:
@@ -676,6 +769,82 @@ def fit_nonlinear_model(
                         time_weight[index, :count] += 1 / count / len(settings.horizons_s)
                 tw = tensor(time_weight)
             trace = []
+
+            def model_snapshot(completed_steps):
+                positive_values = torch.nn.functional.softplus(raw).detach().numpy()
+                bs = basis.numpy()
+                closure = NonlinearPassiveClosure(
+                    mass,
+                    positive_values[: b.shape[1]],
+                    (bs * positive_values[b.shape[1] :]) @ bs.T,
+                    bs @ port.detach().numpy(),
+                    ((skew - skew.T) / 2).detach().numpy(),
+                    np.diag(torch.nn.functional.softplus(decay).detach().numpy() + 1e-5),
+                    settings.backbone,
+                )
+                event_steps = completed_steps * (
+                    len(samples) * (history_count - 1)
+                    + sum(len(s.forecast_time) - 1 for s in samples)
+                )
+                record = {
+                    "fitted_event_ids": sorted(s.event_id for s in samples),
+                    "fitted_roles": ["train"],
+                    "hidden_targets_read": False,
+                    "future_observations_in_encoder": False,
+                    "source_routing": False,
+                    "normalization": "train_only",
+                    "initializer": "shared_encoder_at_history_start_then_free_history_dynamics",
+                    "warm_start": "nonnegative_visible_momentum_integral",
+                    "loss_trace": deepcopy(trace),
+                    "actual_optimizer_steps": completed_steps,
+                    "parameter_count": sum(p.numel() for p in parameters),
+                    "device": str(raw.device),
+                    "dtype": str(raw.dtype),
+                    "training_rk4_event_steps": event_steps,
+                    "training_rhs_event_evaluations": 4 * event_steps,
+                }
+                if paired_binding is not None:
+                    record.update(**deepcopy(paired_record),
+                                  warm_start="verified_paired_visible_backbone_no_nnls",
+                                  final_checkpoint_optimizer_step=completed_steps,
+                                  gradient_clipped_steps=sum(row["gradient_clipped"] for row in trace),
+                                  frozen_backbone_verified_each_update=freeze_backbone)
+                if full_parameters is not None:
+                    record.update(warm_start="verified_full_physical_checkpoint_fresh_adam",
+                                  checkpoint_rule="registered_update_count")
+                if allow_partial_horizons:
+                    record.update(
+                        partial_horizons=True,
+                        loss_masks_are_features=False,
+                        real_target_counts={s.event_id: len(s.forecast_time) - 1 for s in samples},
+                        missing_target_weight=0.0,
+                    )
+                return LearnedNonlinearModel(
+                    closure, encoder.detach().numpy().copy(), feature_scale.copy(), scales.copy(),
+                    deepcopy(settings), record
+                )
+
+            def optimizer_snapshot(completed_steps):
+                state = {
+                    "schema": np.asarray("nonlinear_adam_training_state.v1"),
+                    "completed_optimizer_steps": np.asarray(completed_steps, dtype=np.int64),
+                    "planned_optimizer_steps": np.asarray(settings.epochs, dtype=np.int64),
+                    "adam_learning_rate": np.asarray(optimizer.param_groups[0]["lr"]),
+                    "adam_betas": np.asarray(optimizer.param_groups[0]["betas"]),
+                    "adam_eps": np.asarray(optimizer.param_groups[0]["eps"]),
+                    "adam_weight_decay": np.asarray(optimizer.param_groups[0]["weight_decay"]),
+                    "adam_amsgrad": np.asarray(optimizer.param_groups[0]["amsgrad"]),
+                }
+                for name, parameter in zip(parameter_names, parameters, strict=True):
+                    state[f"parameter__{name}"] = parameter.detach().numpy().copy()
+                    moment = optimizer.state.get(parameter, {})
+                    for key in ("exp_avg", "exp_avg_sq", "step"):
+                        value = moment.get(key)
+                        if value is None:
+                            value = torch.zeros_like(parameter) if key != "step" else torch.tensor(0.)
+                        state[f"adam_{key}__{name}"] = value.detach().numpy().copy()
+                return state
+
             for epoch in range(settings.epochs):
                 optimizer.zero_grad()
                 positive = torch.nn.functional.softplus(raw)
@@ -802,56 +971,10 @@ def fit_nonlinear_model(
                     trace.append(row)
                 if log_step:
                     print(f"epoch {epoch + 1}: objective={row['objective']:.6g}", flush=True)
-            positive = torch.nn.functional.softplus(raw).detach().numpy()
-            bs = basis.numpy()
-            closure = NonlinearPassiveClosure(
-                mass,
-                positive[: b.shape[1]],
-                (bs * positive[b.shape[1] :]) @ bs.T,
-                bs @ port.detach().numpy(),
-                ((skew - skew.T) / 2).detach().numpy(),
-                np.diag(torch.nn.functional.softplus(decay).detach().numpy() + 1e-5),
-                settings.backbone,
-            )
-            record = {
-                "fitted_event_ids": sorted(s.event_id for s in samples),
-                "fitted_roles": ["train"],
-                "hidden_targets_read": False,
-                "future_observations_in_encoder": False,
-                "source_routing": False,
-                "normalization": "train_only",
-                "initializer": "shared_encoder_at_history_start_then_free_history_dynamics",
-                "warm_start": "nonnegative_visible_momentum_integral",
-                "loss_trace": trace,
-                "actual_optimizer_steps": settings.epochs,
-                "parameter_count": sum(p.numel() for p in parameters),
-                "device": str(raw.device),
-                "dtype": str(raw.dtype),
-                "training_rk4_event_steps": settings.epochs * (
-                    len(samples) * (history_count - 1)
-                    + sum(len(s.forecast_time) - 1 for s in samples)
-                ),
-                "training_rhs_event_evaluations": 4 * settings.epochs * (
-                    len(samples) * (history_count - 1)
-                    + sum(len(s.forecast_time) - 1 for s in samples)
-                ),
-            }
-            if paired_binding is not None:
-                record.update(**paired_record,
-                              warm_start="verified_paired_visible_backbone_no_nnls",
-                              final_checkpoint_optimizer_step=settings.epochs,
-                              gradient_clipped_steps=sum(row["gradient_clipped"] for row in trace),
-                              frozen_backbone_verified_each_update=freeze_backbone)
-            if allow_partial_horizons:
-                record.update(
-                    partial_horizons=True,
-                    loss_masks_are_features=False,
-                    real_target_counts={s.event_id: len(s.forecast_time) - 1 for s in samples},
-                    missing_target_weight=0.0,
-                )
-            return LearnedNonlinearModel(
-                closure, encoder.detach().numpy().copy(), feature_scale, scales, settings, record
-            )
+                if epoch + 1 in checkpoint_steps:
+                    checkpoint_callback(epoch + 1, model_snapshot(epoch + 1),
+                                        optimizer_snapshot(epoch + 1))
+            return model_snapshot(settings.epochs)
     finally:
         torch.set_num_threads(old_threads)
         torch.use_deterministic_algorithms(old_determinism)

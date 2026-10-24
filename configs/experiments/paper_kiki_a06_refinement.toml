@@ -1,0 +1,50 @@
+data_policy = "kiki_original_train_only"
+development_authorization_id = "kiki_a06_development_20261024"
+development_protocol_path = "docs/protocols/kiki_a06_development_authorization_20261024_zh.md"
+approval_protocol_sha256 = "3815416473c29f366d9f244e47898ba5c8b231a10900f65350fd03565673ad2c"
+source_root = "../kiki/private_data"
+sources = ["ieee39_postfault", "ieee39_expansion"]
+split_seed = 324
+seeds = [324, 325, 326]
+group = "J"
+history_count = 11
+power_index = 10
+input_contract = "measured_history_100ms_zoh_v1"
+updates_per_fit = 240
+checkpoints_at_updates = [80, 240]
+primary_checkpoint_update = 240
+optimizer = "Adam"
+optimizer_state = "fresh"
+learning_rate = 0.01
+dtype = "float64"
+encoder_penalty = 0.0001
+history_weight = 0.0
+gradient_clip = 10.0
+latent_dimension = 2
+encoder_frames = 3
+checkpoint_rule = "last_update_240"
+max_fit_attempts = 3
+max_optimizer_updates = 720
+source_run = "paper_kiki_a05_closeout-closeout-20261023T163350182759Z-26c29376-878bf661"
+source_manifest_sha256 = "2c31bdff0f58691b65c2ad76d62a1771fa467224a4a06f12e4390a455da36280"
+source_checkpoint_paths = [
+  "candidate-J-324/model.npz",
+  "candidate-J-325/model.npz",
+  "candidate-J-326/model.npz"
+]
+source_checkpoint_sha256 = [
+  "c81e4722a5bf6fb9514a6809f3fcd63fdfa5e651fa5ddeac64c329a043364e95",
+  "a54b74e6fef678d6b909848667c4907f9344506553073c7a5152ee5f272947a2",
+  "0a2df962d7842ab9cc71eed1ff6b87f354fa99ce7e3672aafebbe0822ca56f0c"
+]
+frozen_allocation_path = "results/paper_kiki_p2_a03_seed324-kiki_rerun-20261022T095918Z-21a5a23b/role_allocation.json"
+frozen_allocation_sha256 = "b103651cd33cb60dbdbad71c9d258545602cd6070a8860becc4fe9b2a6ac2b6d"
+source_val_payload_allowed = false
+source_test_payload_allowed = false
+labels_available_until_freeze = false
+labels_allowed_for_post_freeze_diagnostics_only = true
+prediction_delivery_allowed = false
+model_promotion_allowed = false
+design_path = "docs/research/kiki_a06_astra_design_20261024_zh.md"
+design_sha256 = "c9e3ee22769c5ec0552e9a42765ea422569180c16cddde9e2fe0993d868fe2be"
+claim_boundary = "User-authorized A06 fixed-budget J refinement: three seeds, 240 new updates each, fresh Adam, primary endpoint update 240; update 80 is diagnostic only. Full train/val development evaluation remains uncertified; no source val/test payloads, retry, deployment prediction or promotion."
