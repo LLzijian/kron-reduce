@@ -102,6 +102,12 @@ cached A09/A10 controls on all 258 eligible original train events, retaining
 268 allocations. It permits no fitting, labels, internal val, source val/test,
 promotion or deployment. Passing it does not open a later comparison.
 
+The A15 campaign has completed and its authorization is `consumed`, bound to
+its immutable run, actual read/compute budget and result receipt. The future
+transfer candidate was rejected (V passed, I and D failed); KEEP_BASELINE.
+Do not repeat its scientific execution or reopen its authority. Saved artifacts
+remain available for read-only audit; further comparisons need their own registration.
+
 The A06 campaign has completed and its authorization is now `consumed`,
 bound to its immutable run, three fits/720 updates and result receipt.
 Do not reactivate it or repeat its fits. Read-only audit remains available;

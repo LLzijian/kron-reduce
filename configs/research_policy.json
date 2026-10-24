@@ -895,7 +895,7 @@
       "design_sha256": "4d2ab8d9a5d543849bf0c1fb0c5ecc4a81feef5d24316f937bae2edff11312f7",
       "read_plan_sha256": "06c98ce46cdfdee2618ddf71d2d62188da7d19567774657ebeabe6985a40b9cd",
       "inventory_sha256": "2bec0624a04dba0282ab3bb0e46662f11458ed62596a212451ad3469af14f676",
-      "status": "user_approved",
+      "status": "consumed",
       "authority": "explicit_user_reply",
       "scientific_design_approver": "Astra Ultra",
       "experiment": "paper_kiki_a15_future_transfer",
@@ -964,7 +964,36 @@
         "docs/research/kiki_a15_future_transfer/implementation_validation.json": "d9e7eaae8054edd72c17a7b800c95b6637187764261ffb136e4c2c26be2ea022"
       },
       "implementation_bindings_path": "docs/research/kiki_a15_future_transfer/implementation_bindings.json",
-      "implementation_bindings_sha256": "f042cb60987753a28d0fb671e6537ba918ea33ff554eab4769f5042487820d18"
+      "implementation_bindings_sha256": "f042cb60987753a28d0fb671e6537ba918ea33ff554eab4769f5042487820d18",
+      "completed_run_id": "paper_kiki_a15_future_transfer-future_transfer-20261024T145313076879Z-f23e9b23-c2066d4e",
+      "completed_run_manifest_sha256": "e67dbb7c2d62ac82017e9d1049fd7a01c492c6b9c3587aa841d7bb89d247f1c4",
+      "completed_source_commit": "f23e9b237f95ded9c314401831f154c98d18651c",
+      "scientific_verdict": "REJECT",
+      "promotion_decision": "KEEP_BASELINE",
+      "actual_compute": {
+        "future_paths": 1548,
+        "rk4_updates": 1298646,
+        "integration_rhs": 5194584,
+        "physical_rhs": 434430,
+        "total_rhs": 5629014,
+        "model_constructions": 3,
+        "eigvalsh": 4653,
+        "fits": 0,
+        "optimizer_updates": 0,
+        "history_paths": 0,
+        "baseline_future_paths": 0,
+        "encoder": 0,
+        "expm": 0,
+        "svd": 0,
+        "ls": 0,
+        "independent_force": 0,
+        "labels": 0
+      },
+      "automatic_retry": false,
+      "result_receipt_path": "docs/reports/kiki_a15_future_transfer_20261024_evidence.json",
+      "result_receipt_sha256": "efe3dc913afaf0120710be8cf2d0a05f206fcd1b134376b00c432f3bfcb59fee",
+      "result_review_path": "docs/research/kiki_a15_future_transfer/astra_result_review_zh.md",
+      "result_review_sha256": "2d85e74d68bca4f212348016c64bbcf92b90a1effbb49002e31004c821cb9f40"
     }
   },
   "archived_development_results": {
