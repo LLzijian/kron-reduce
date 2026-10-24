@@ -149,6 +149,23 @@ Any new scientific comparison requires its own registered authorization;
 A10 supports proposing one uniform time-aggregation comparison, without
 automatically authorizing training. No A10 model has been promoted.
 
+A11 completed with REJECT and KEEP_BASELINE. Its six fits/1440 updates and
+all results are archived on `codex/kiki-a11-temporal-objective` at
+`70c463a9286cbde2acc5f16266b19fcb6c2a1555`; PR 10 is closed without merge.
+The archive remains consumed: do not repeat fits or import that branch's
+rejected algorithm into main. The active policy records its archive identity.
+
+A12 is a separately registered, one-use train input audit under
+`kiki_a12_development_20261024`. Only its dedicated module CLI may execute it;
+the generic project runner must reject before generic data verification.
+It reads the frozen 268 train slots, uses no model/fit/prediction/force/RHS,
+and freezes all unlabelled evidence before the 268 post-label metadata reads.
+Internal val/source val/test and CSV/splits remain closed. Astra Ultra must
+approve the exact implementation bindings before its policy becomes active.
+The authorization is spent on any execution or failure, without retries.
+An accepted input audit does not authorize new training, certify predictions,
+verify val coverage, promote a model, or establish zero missed instability.
+
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.
 - `docs/architecture.md`: scientific and software boundaries.
 - `docs/scientific_contract.md`: input, rollout, stability, and naming rules.

@@ -1,0 +1,16 @@
+{
+  "kind": "audit",
+  "exit_code": 0,
+  "status": "PASS",
+  "command": [
+    "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "-m",
+    "project_harness",
+    "audit"
+  ],
+  "log_path": "scratch/one_off/kiki-a12-implementation-20261024/v5-audit-20261024T102718881510Z.log",
+  "log_sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912",
+  "real_workflows_executed": 0,
+  "bindings_file": "implementation_candidate_bindings_v5.json",
+  "bindings_sha256": "556619944cc4b5d7c3d2af4f784f4615a96697f28734d9156f68dce6d060ba4b"
+}

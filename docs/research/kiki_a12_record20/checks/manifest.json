@@ -1,0 +1,41 @@
+{
+  "implementation_bindings_sha256": "4d2454cef234a3e85cb1299c6a329303db7b5458d7155d68f409a5e624a443c6",
+  "scientific_review_sha256": "f00e192ee465cc66d701889b9e4241ff7614f639e181649c0759cfa3d2783645",
+  "checks": {
+    "v5-audit-20261024T102718881510Z.json": {
+      "receipt_sha256": "8ddd256e01aa64165cf89cbcf555930e7a0648fadaa4326585d67f95588101b7",
+      "stdout_sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912",
+      "stdout_path": "scratch/one_off/kiki-a12-implementation-20261024/v5-audit-20261024T102718881510Z.log",
+      "status": "PASS"
+    },
+    "v5-pytest-20261024T102718672733Z.json": {
+      "receipt_sha256": "2daf11ad153f4f098633cc2bf7e4a164a5a2e4bb5d97ce23b0d39bb27161e112",
+      "stdout_sha256": "e0ccb2b6810647e2afacbb285df3aafea478f2d4e1917f0e38e13c9a6432de53",
+      "stdout_path": "scratch/one_off/kiki-a12-implementation-20261024/v5-pytest-20261024T102718672733Z.log",
+      "status": "PASS"
+    },
+    "v5-ruff-20261024T102718788893Z.json": {
+      "receipt_sha256": "3e902cf80d520f9f264a29c587cbe22245cc1e77f32d05b8d028116d77ca2e47",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "stdout_path": "scratch/one_off/kiki-a12-implementation-20261024/v5-ruff-20261024T102718788893Z.log",
+      "status": "PASS"
+    },
+    "v6-pytest-20261024T103348089723Z.json": {
+      "receipt_sha256": "9000fae1a4c509d6192eef7db59a7cbcaaa2e0ff5967603bb893c093c65c05e6",
+      "stdout_sha256": "96b1b0991d5a4b1046b2e3d36fdfbdf1c3a9823a96d2e9632fbdff8ad3ff24b4",
+      "stdout_path": "scratch/one_off/kiki-a12-implementation-20261024/v6-pytest-20261024T103348089723Z.log",
+      "status": "PASS"
+    },
+    "v6-ruff-20261024T103348059821Z.json": {
+      "receipt_sha256": "04a0ce2090d4b0ea75d98d14a3f5d1ced60bd57afa4f9549010909ce769fe369",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "stdout_path": "scratch/one_off/kiki-a12-implementation-20261024/v6-ruff-20261024T103348059821Z.log",
+      "status": "PASS"
+    }
+  },
+  "v5_comprehensive_tests": 125,
+  "v6_targeted_tests": 22,
+  "v7_change": "Only three trailing blank CRLF line endings in two tests normalized to LF; no source semantics changed.",
+  "raw_stdout_tracked": false,
+  "real_workflows_executed_by_checks": 0
+}

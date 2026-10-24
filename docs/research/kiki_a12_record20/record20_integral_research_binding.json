@@ -1,0 +1,79 @@
+{
+  "scope": "source, mathematics, sealed toy text only; not execution authorization",
+  "new_real_payload_reads": 0,
+  "new_real_fits": 0,
+  "new_real_forecasts": 0,
+  "new_rhs_calls": 0,
+  "new_synthetic_model_integrations": 0,
+  "A11_run_read": false,
+  "tracked_files_modified": false,
+  "files": [
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/record20ms_pre_audit_zh.md",
+      "sha256": "5b03c1a558561221796dabf4b12fcd6b8a15b70e466322c87d7c36cff6bdcca7",
+      "bytes": 12399
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/integral_hidden_initializer_question_zh.md",
+      "sha256": "2c5493800e7a837b6ad73c82e23016ae008a8692c0c8b22540b327daf71def4c",
+      "bytes": 12962
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/scratch/one_off/kiki-a12-concept-20261024/kiki_source_only_evidence.json",
+      "sha256": "dbc0dc0a1215a8ece8086e0765f08dcb0bc3742ca0c680f1b91bc794ccfb59cf",
+      "bytes": 15055
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/src/kron_reduce/data/history_contract.py",
+      "sha256": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+      "bytes": 1515
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/src/kron_reduce/data/kiki_history.py",
+      "sha256": "c9bed1a04f6c924976a3799cfb9cc5e558954c61c8d97bd0e76eb726e2ab715a",
+      "bytes": 10633
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/src/kron_reduce/models/causal_latent.py",
+      "sha256": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+      "bytes": 13234
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/src/kron_reduce/models/nonlinear_latent.py",
+      "sha256": "7d102e2e6d7fcdfef4d807ee976284d6d749b1763c029acfa8d2361dd7a3040f",
+      "bytes": 61671
+    },
+    {
+      "path": "E:/03-nn_Transfer_Func/kron-reduce/src/kron_reduce/physics/coordinates.py",
+      "sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+      "bytes": 1759
+    }
+  ],
+  "primary_sources": [
+    {
+      "title": "Optimal Rate of Direct Estimators in Systems of Ordinary Differential Equations Linear in Functions of the Parameters",
+      "authors": "Itai Dattner; Chris A. J. Klaassen",
+      "version": "arXiv:1305.4126v3",
+      "url": "https://arxiv.org/html/1305.4126v3",
+      "checked": "Equation (3), sections 2 and 3; no transfer of asymptotic guarantees"
+    },
+    {
+      "title": "Nonlinear Controllability and Observability",
+      "authors": "Robert Hermann; Arthur J. Krener",
+      "year": 1977,
+      "url": "https://www.math.ucdavis.edu/~krener/1-25/10.IEEETAC77.pdf",
+      "checked": "Section III; nonlinear observability does not establish finite-sample recovery"
+    }
+  ],
+  "independent_mathematical_review": {
+    "agent": "primary_nonlinear_memory",
+    "result": "PASS",
+    "scope": [
+      "minimum accepted length proof",
+      "seed-only comparison with unchanged closed-loop history propagation",
+      "conditional terminal state difference identity",
+      "explicit passive oscillator representation and units"
+    ],
+    "new_model_integration": false
+  }
+}

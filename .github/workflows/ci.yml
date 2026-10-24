@@ -42,6 +42,20 @@ jobs:
           tests/test_nested_memory.py tests/test_memory_order_workflow.py
           tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py
           tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py
+          tests/test_audit_access_ledger.py tests/test_durable_audit_ledger.py
+          tests/test_limited_hdf_audit.py tests/test_record20_input.py
+          tests/test_record20_coordinates.py tests/test_record20_metadata.py
+          tests/test_bounded_input_cli_guard.py tests/test_record20_workflow.py
+      - name: Check bounded input audit code
+        run: >-
+          python -m ruff check
+          src/kron_reduce/data/audit_access_ledger.py src/kron_reduce/data/durable_audit_ledger.py
+          src/kron_reduce/data/limited_hdf_audit.py src/kron_reduce/evaluation/record20_input.py
+          src/kron_reduce/evaluation/record20_coordinates.py src/kron_reduce/evaluation/record20_metadata.py
+          src/kron_reduce/workflows/kiki_record20_input_audit.py
+          tests/test_audit_access_ledger.py tests/test_durable_audit_ledger.py
+          tests/test_limited_hdf_audit.py tests/test_record20_input.py tests/test_record20_coordinates.py
+          tests/test_record20_metadata.py tests/test_bounded_input_cli_guard.py tests/test_record20_workflow.py
       - name: Check fixed-model audit code
         run: python -m ruff check src/kron_reduce/evaluation/audit_budget.py src/kron_reduce/evaluation/train_mechanism_audit.py src/kron_reduce/workflows/kiki_train_mechanism.py tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py
       - name: Check all-train refinement code
