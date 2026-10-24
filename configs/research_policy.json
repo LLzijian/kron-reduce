@@ -207,7 +207,7 @@
       "result_receipt_sha256": "8e7d78e9516ca1cb4f71900f8928f4a6e5589811568c542696a0a41a43260767"
     },
     "kiki_a08_development_20261024": {
-      "status": "user_approved",
+      "status": "consumed",
       "approved_date": "2026-10-24",
       "authority": "explicit_user_reply",
       "approval_text": "继续改进算法和设计，一定要降到0，持续工作，得到最终结果后向我汇报",
@@ -279,7 +279,16 @@
       "approval_protocol_sha256": "1dc98200cd1278ba317ef379161b5a7c9c8571eb430f06aba50823798914ab8c",
       "design_path": "docs/research/kiki_a08_astra_design_20261024_zh.md",
       "design_sha256": "d294bb0415af6a1449f1be2d5b43b4b310ef59292ceef73d947eedd4c382ab5a",
-      "evidence_kind": "uncertified_development_evaluation"
+      "evidence_kind": "uncertified_development_evaluation",
+      "consumed_at": "2026-10-24T05:16:50.119596+00:00",
+      "completed_run_id": "paper_kiki_a08_memory-memory_order-20261024T043102837210Z-e106704e-11796d31",
+      "source_commit": "e106704e34a51d3d3d86abf909a86745f455e663",
+      "scientific_plan_sha256": "ed98837090138287157c63efb6cbd96a26eaedb02c25ab67e7392d77b595e5a5",
+      "ledger_plan_sha256": "e52ef468dd4dc95ecae15a974fb538aa922227a00491001c3b82b03aca5fb981",
+      "final_fit_attempts": 6,
+      "final_confirmed_optimizer_steps": 1440,
+      "result_receipt_path": "docs/reports/kiki_a08_memory_order_20261024_evidence.json",
+      "result_receipt_sha256": "d1b40c1c7b8189f178f75957e86906bc666fd47b43f5539fb3a4d29f124ec8b3"
     },
     "kiki_a07_development_20261024": {
       "status": "consumed",
