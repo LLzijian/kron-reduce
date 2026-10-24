@@ -109,6 +109,23 @@ Do not reactivate it or repeat its fits. Read-only audit remains available;
 a new scientific comparison requires its own registered authorization.
 No A08 model has been promoted or selected for deployment.
 
+On 2026-10-24 the user continuation instruction authorizes the separately registered
+A09 fixed-model train mechanism audit, `kiki_a09_development_20261024`, as
+scientifically approved by Astra Ultra in the A08 result review. It permits
+only experiment `paper_kiki_a09_train_mechanism`, workflow
+`kiki_a09_train_mechanism_v1`, stage `train_mechanism`, and module
+`kron_reduce.workflows.kiki_train_mechanism`. Use all three frozen A06 step240
+models, all 268 allocated internal train events (258 eligible), and the exact
+100 ms causal contract. No fits or optimizer updates are permitted; up to
+1548 fixed-model paths, 672543 RK4 updates and 3141630 total RHS calls are
+registered. Only real available targets through at most 3 s may be audited.
+No labels/event times, internal/source val or test trajectories, future Pm,
+Pe, voltage or hidden truth may be decoded. File-integrity byte reads are
+recorded separately from decoded events. Preserve failed slots and all
+uncovered events; no retry. This is uncertified train-mechanism evidence,
+with no FSR claim, delivery, promotion, independent confirmation, or automatic
+new training. Prior authorizations remain consumed and unchanged.
+
 Authoritative entrypoints:
 
 - `configs/project_manifest.json`: datasets, experiments, and workflow roles.

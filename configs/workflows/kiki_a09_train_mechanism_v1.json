@@ -1,0 +1,105 @@
+{
+  "workflow": "kiki_a09_train_mechanism_v1",
+  "experiment": "paper_kiki_a09_train_mechanism",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "train_mechanism"
+  ],
+  "transitions": {
+    "scaffold": "train_mechanism"
+  },
+  "terminal_stages": [
+    "train_mechanism"
+  ],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "train_mechanism": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "scientific_verdict",
+        "promotion_decision",
+        "data_policy",
+        "source_val_ids_read",
+        "test_ids_read",
+        "hidden_training_targets_read",
+        "level_6_claimed",
+        "development_authorization_id",
+        "evidence_kind",
+        "certified_envelope_established",
+        "deployment_predictions_allowed",
+        "model_promoted",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "scientific_verdict",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "process_status": [
+          "PASS"
+        ],
+        "scientific_verdict": [
+          "ACCEPT",
+          "REJECT"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "data_policy": [
+          "kiki_original_train_only"
+        ],
+        "source_val_ids_read": [
+          []
+        ],
+        "test_ids_read": [
+          []
+        ],
+        "hidden_training_targets_read": [
+          false
+        ],
+        "level_6_claimed": [
+          false
+        ],
+        "development_authorization_id": [
+          "kiki_a09_development_20261024"
+        ],
+        "evidence_kind": [
+          "uncertified_train_mechanism_audit"
+        ],
+        "certified_envelope_established": [
+          false
+        ],
+        "deployment_predictions_allowed": [
+          false
+        ],
+        "model_promoted": [
+          false
+        ]
+      },
+      "fixed_budget": {
+        "max_steps": [
+          0.01,
+          0.005
+        ],
+        "max_future_points": 300,
+        "max_fit_attempts": 0,
+        "max_optimizer_updates": 0,
+        "max_prediction_paths": 1548,
+        "max_rollout_calls": 3096,
+        "max_rk4_updates": 672543,
+        "max_integration_rhs": 2690172,
+        "max_physical_rhs": 451458,
+        "max_total_rhs": 3141630
+      },
+      "protocol_sha256": "624ab4e81701bb486b9a7b6027f1a4091dd3347044d665e0aa09d9cc3de1d17a",
+      "design_sha256": "7041018da568ea611ce72e0dd74faf200a29bde46d99100ae78cccee43ad9d60"
+    }
+  }
+}
