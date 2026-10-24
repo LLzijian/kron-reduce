@@ -649,6 +649,9 @@ def fit_nonlinear_model(
     checkpoint_callback=None,
     optimizer_start=None,
     risk_temperature=None,
+    training_max_step=0.01,
+    temporal_temperature=None,
+    rhs_audit=None,
 ) -> LearnedNonlinearModel:
     """Fit train only, with visible history consistency and free multi-horizon loss."""
     import torch
@@ -665,6 +668,25 @@ def fit_nonlinear_model(
                 or not np.isfinite(risk_temperature) or risk_temperature <= 0):
             raise ValueError("risk_temperature must be a finite positive scalar or None")
         risk_temperature = float(risk_temperature)
+    if (isinstance(training_max_step, (bool, np.bool_))
+            or not isinstance(training_max_step, (int, float, np.integer, np.floating))
+            or not np.isfinite(training_max_step) or training_max_step <= 0
+            or training_max_step > 0.01):
+        raise ValueError("training_max_step must be finite, positive, and no greater than 0.01 s")
+    training_max_step = float(training_max_step)
+    if temporal_temperature is not None:
+        if (type(temporal_temperature) not in (int, float)
+                or not np.isfinite(temporal_temperature) or temporal_temperature <= 0):
+            raise ValueError("temporal_temperature must be a fixed finite positive Python scalar or None")
+        temporal_temperature = float(temporal_temperature)
+        if risk_temperature is not None:
+            raise ValueError("risk_temperature and temporal_temperature are mutually exclusive")
+        if optimizer_start is not None:
+            raise ValueError("temporal objective does not support optimizer_start restoration")
+    if optimizer_start is not None and training_max_step != 0.01:
+        raise ValueError("refined training requires a fresh Adam state")
+    if rhs_audit is not None and not callable(rhs_audit):
+        raise TypeError("rhs_audit must be callable or None")
     checkpoint_steps = tuple(checkpoint_steps)
     if (any(type(step) is not int or not 0 < step <= settings.epochs for step in checkpoint_steps)
             or tuple(sorted(set(checkpoint_steps))) != checkpoint_steps
@@ -718,6 +740,28 @@ def fit_nonlinear_model(
             )
         ):
             raise ValueError("learning violates history-step, power, or COI contract")
+    training_options_active = (training_max_step != 0.01 or temporal_temperature is not None
+                               or rhs_audit is not None)
+    if training_options_active:
+        history_intervals = np.stack([np.diff(sample.history.time) for sample in samples])
+        history_substeps = np.maximum(
+            1, np.ceil(history_intervals / training_max_step - 1e-12).astype(np.int64))
+        if training_max_step == 0.005 and np.any(history_substeps != 2):
+            raise ValueError("0.005 s refinement requires exactly two RK4 substeps per history interval")
+        if np.any(history_substeps > 2):
+            raise ValueError("refined training currently supports at most two RK4 substeps per history interval")
+        if np.any(history_substeps != history_substeps[0:1]):
+            raise ValueError("refined training requires a shared history substep schedule across events")
+        history_substeps_per_interval = history_substeps[0]
+        future_substeps = max(1, int(np.ceil(0.01 / training_max_step - 1e-12)))
+        if future_substeps > 2:
+            raise ValueError("refined training currently supports at most two RK4 substeps per future interval")
+        training_event_steps_per_update = int(history_substeps.sum()) + future_substeps * sum(
+            len(sample.forecast_time) - 1 for sample in samples)
+    else:
+        history_substeps_per_interval = None
+        future_substeps = 1
+        training_event_steps_per_update = None
     scale_population = samples if target_scale_samples is None else target_scale_samples
     if {s.event_id for s in scale_population} != {s.event_id for s in samples}:
         raise ValueError("normalization population differs from train fitting IDs")
@@ -893,7 +937,7 @@ def fit_nonlinear_model(
                 event_steps = completed_steps * (
                     len(samples) * (history_count - 1)
                     + sum(len(s.forecast_time) - 1 for s in samples)
-                )
+                ) if not training_options_active else completed_steps * training_event_steps_per_update
                 record = {
                     "fitted_event_ids": sorted(s.event_id for s in samples),
                     "fitted_roles": ["train"],
@@ -911,6 +955,15 @@ def fit_nonlinear_model(
                     "training_rk4_event_steps": event_steps,
                     "training_rhs_event_evaluations": 4 * event_steps,
                 }
+                if training_options_active:
+                    record.update(
+                        training_max_step=training_max_step,
+                        temporal_aggregation=("within_event_logsumexp" if temporal_temperature is not None
+                                              else "original_weighted_time_mean"),
+                        temporal_temperature=temporal_temperature,
+                        training_event_rk4_steps_per_optimizer_update=training_event_steps_per_update,
+                        rhs_audit_enabled=rhs_audit is not None,
+                    )
                 if paired_binding is not None:
                     record.update(**deepcopy(paired_record),
                                   warm_start="verified_paired_visible_backbone_no_nnls",
@@ -926,8 +979,10 @@ def fit_nonlinear_model(
                     record.update(warm_start="verified_full_raw_checkpoint_exact_adam_resume")
                 if optimizer_arrays is not None or risk_temperature is not None:
                     record.update(risk_temperature=risk_temperature,
-                                  objective_aggregation="weighted_mean" if risk_temperature is None
-                                  else "weighted_logsumexp")
+                                  objective_aggregation=(
+                                      "within_event_logsumexp" if temporal_temperature is not None
+                                      else "weighted_mean" if risk_temperature is None
+                                      else "weighted_logsumexp"))
                 if allow_partial_horizons:
                     record.update(
                         partial_horizons=True,
@@ -997,11 +1052,12 @@ def fit_nonlinear_model(
 
                 def step(state, h, indices=None, rhs=rhs):
                     def field(value):
-                        return (
-                            rhs(value)
-                            if indices is None
-                            else rhs(value, power=power[indices], eq=eq[indices])
-                        )
+                        if rhs_audit is None:
+                            return (rhs(value) if indices is None else
+                                    rhs(value, power=power[indices], eq=eq[indices]))
+                        kwargs = {} if indices is None else {
+                            "power": power[indices], "eq": eq[indices]}
+                        return rhs_audit(rhs, value, **kwargs)
 
                     a = field(state)
                     bb = field(state + h * a / 2)
@@ -1009,10 +1065,22 @@ def fit_nonlinear_model(
                     dd = field(state + h * c)
                     return state + h * (a + 2 * bb + 2 * c + dd) / 6
 
+                def advance(state, h, indices=None, substeps=1):
+                    if not training_options_active:
+                        return step(state, h, indices)
+                    increment = h / substeps
+                    for _ in range(substeps):
+                        state = step(state, increment, indices)
+                    return state
+
                 state = torch.cat((history[:, 0], x @ encoder.T), dim=1)
                 history_error = torch.zeros(len(samples), dtype=torch.float64)
                 for index in range(history_count - 1):
-                    state = step(state, hist_dt[:, index])
+                    if training_options_active:
+                        state = advance(state, hist_dt[:, index],
+                                        substeps=int(history_substeps_per_interval[index]))
+                    else:
+                        state = step(state, hist_dt[:, index])
                     history_error = history_error + torch.mean(
                         ((state[:, : 2 * n] - history[:, index + 1]) / scale) ** 2, dim=1
                     ) / (history_count - 1)
@@ -1020,6 +1088,7 @@ def fit_nonlinear_model(
                 # The hidden state follows the shared model's history rollout.
                 state = torch.cat((history[:, -1], state[:, 2 * n :]), dim=1)
                 future_error = torch.zeros(len(samples), dtype=torch.float64)
+                future_point_losses = []
                 for index in range(1, len(clock)):
                     if allow_partial_horizons:
                         indices = torch.as_tensor(
@@ -1028,22 +1097,37 @@ def fit_nonlinear_model(
                         )
                         if len(indices):
                             state = state.index_copy(
-                                0, indices, step(state[indices], 0.01, indices)
+                                0, indices, advance(state[indices], 0.01, indices, future_substeps)
                             )
                     else:
-                        state = step(state, 0.01)
+                        state = advance(state, 0.01, substeps=future_substeps)
                     weight = tw[:, index - 1] if allow_partial_horizons else tw[index - 1]
-                    future_error = future_error + weight * torch.mean(
+                    point_loss = torch.mean(
                         ((state[:, : 2 * n] - truth[:, index]) / scale) ** 2, dim=1
                     )
+                    if temporal_temperature is not None:
+                        future_point_losses.append(point_loss)
+                    future_error = future_error + weight * point_loss
                 future_loss, history_loss = (
                     torch.sum(wt * future_error),
                     torch.sum(wt * history_error),
                 )
                 risk_weights = wt
                 future_objective = future_loss
+                temporal_risk_weights = None
                 if risk_temperature is not None:
                     future_objective, risk_weights = _tilted_risk(future_error, wt, risk_temperature)
+                elif temporal_temperature is not None:
+                    from kron_reduce.models.temporal_risk import temporal_logsumexp_risk
+
+                    point_mse = torch.stack(future_point_losses, dim=1)
+                    event_time_weights = (tw if allow_partial_horizons
+                                          else tw.unsqueeze(0).expand(len(samples), -1))
+                    event_temporal_risk, temporal_risk_weights = temporal_logsumexp_risk(
+                        point_mse, event_time_weights, temporal_temperature,
+                        return_time_risk_weights=True,
+                    )
+                    future_objective = torch.sum(wt * event_temporal_risk)
                 loss = future_objective + settings.history_weight * history_loss
                 encoder_penalty = settings.encoder_penalty * torch.mean(encoder**2) if r else loss.new_zeros(())
                 if r:
@@ -1082,7 +1166,7 @@ def fit_nonlinear_model(
                 if progress_callback is not None:
                     progress_callback(epoch + 1)
                 log_step = epoch == 0 or (epoch + 1) % 25 == 0 or epoch + 1 == settings.epochs
-                if paired_binding is not None or log_step:
+                if paired_binding is not None or training_options_active or log_step:
                     row = {
                         "epoch": epoch + 1,
                         "objective": float(loss.detach()),
@@ -1097,6 +1181,21 @@ def fit_nonlinear_model(
                             risk_effective_sample_size=float(1 / torch.sum(risk_weights**2)),
                             risk_max_event_weight=float(torch.max(risk_weights)),
                             total_optimizer_steps=initial_optimizer_step + epoch + 1,
+                        )
+                    if training_options_active:
+                        row.update(
+                            future_objective=float(future_objective.detach()),
+                            temporal_temperature=temporal_temperature,
+                            training_max_step=training_max_step,
+                            temporal_aggregation=("within_event_logsumexp" if temporal_temperature is not None
+                                                  else "original_weighted_time_mean"),
+                        )
+                    if temporal_temperature is not None:
+                        row.update(
+                            temporal_aggregation="within_event_logsumexp",
+                            temporal_effective_time_points=(
+                                1.0 / torch.sum(temporal_risk_weights**2, dim=1)
+                            ).detach().tolist(),
                         )
                     if paired_binding is not None:
                         row.update(encoder_penalty=float(encoder_penalty.detach()), **gradient_record)

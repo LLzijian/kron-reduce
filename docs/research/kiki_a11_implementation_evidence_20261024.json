@@ -1,0 +1,224 @@
+{
+  "status": "PASS",
+  "scientific_review_path": "docs/research/kiki_a11_astra_implementation_review_20261024_zh.md",
+  "scientific_review_sha256": "4390d06aa5c258c6440f03b1b8c299bf5f9f3ac69861773106ae439d43927a45",
+  "source_sha256": {
+    "src/kron_reduce/evaluation/temporal_comparison.py": "690606af6de24ea159dc91d23d04a69c79b57c56c8704b2b19b28930677ae97e",
+    "src/kron_reduce/evaluation/event_rhs_budget.py": "1ed5978af2e278b356391a05cdcfefef55e94cb0158d2da1d01dfc1e262322d9",
+    "src/kron_reduce/evaluation/bounded_forecast.py": "2489299511dc7e2617b73e6ada6d56b23a726a3d3e49801927bff93842c187f6",
+    "src/kron_reduce/models/nonlinear_latent.py": "7d102e2e6d7fcdfef4d807ee976284d6d749b1763c029acfa8d2361dd7a3040f",
+    "src/kron_reduce/models/temporal_risk.py": "b88bc840f8104ec5fe797ac767f5ddc613520801f452f37bfa1ee4658f615594",
+    "src/kron_reduce/workflows/kiki_temporal_training.py": "66fef19de817c749167b727fefed2f2ad435435e3525910b9a63299594fc4562",
+    "tests/test_temporal_training.py": "4d8e2e5142c1d9f02f62a629f20c0d5e2592d86cc5c7e805eb984302ff565274",
+    "tests/test_temporal_comparison.py": "5fa6d4a75fd48f1f9829865954417d836bda8d56295d0dbbfe9aa259b885bcc2",
+    "tests/test_kiki_temporal_workflow.py": "617b0b70a0d5c65f2f290fc0cb646c84a0bc8c3bbe60c781a566615c4308a8f5",
+    "tests/test_event_rhs_budget.py": "1fa09077bcf0ec0ffacb1500673008c7bcd90aa3ee64509513af0ebdb042eb4e",
+    "tests/test_bounded_forecast.py": "ef2623edb12336929aabd05bf527d80f9654acebcb03b09858d5bfb2ad07be72"
+  },
+  "test_count": 280,
+  "ci_commands_passed": 8,
+  "supplemental_verification": {
+    "change": "Persist already computed per-path direct/reload physical checks; zero extra RHS.",
+    "targeted_pytest": {
+      "tests": [
+        "tests/test_kiki_temporal_workflow.py",
+        "tests/test_event_rhs_budget.py",
+        "tests/test_bounded_forecast.py"
+      ],
+      "passed": 23,
+      "exit_code": 0,
+      "tool_chunk_id": "70d0a4",
+      "observed_stdout": "23 passed in 1.74s"
+    },
+    "driver_ruff": {
+      "ignore": [
+        "BLE001"
+      ],
+      "exit_code": 0,
+      "observed_stdout": "All checks passed!"
+    },
+    "full_ci_base_test_count": 280,
+    "new_real_rhs": 0
+  },
+  "verification": {
+    "path": "scratch/one_off/kiki-a11-20261024/final-implementation-checks/verification-with-physical-records.json",
+    "sha256": "2a1d178bf835b6988c48744abc55c5bacc64c2904b8d843ed4679422751a69f8",
+    "logs": [
+      {
+        "command": [
+          "-m",
+          "project_harness",
+          "audit"
+        ],
+        "returncode": 0,
+        "log": "scratch\\one_off\\kiki-a11-20261024\\final-implementation-checks\\check-00.txt",
+        "sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912"
+      },
+      {
+        "command": [
+          "-m",
+          "pytest",
+          "-q",
+          "tests/test_research_policy.py",
+          "tests/test_runner_safety.py",
+          "tests/test_data_registry.py",
+          "tests/test_development_file_bindings.py",
+          "tests/test_kiki_history.py",
+          "tests/test_kiki_scoring.py",
+          "tests/test_kiki_stability_comparison.py",
+          "tests/test_nonlinear_latent.py",
+          "tests/test_causal_latent.py",
+          "tests/test_stability_region.py",
+          "tests/test_kiki_short_history_reader.py",
+          "tests/test_kiki_short_history.py",
+          "tests/test_recorded_error_audit.py",
+          "tests/test_paired_training.py",
+          "tests/test_paired_workflow.py",
+          "tests/test_joint_refinement.py",
+          "tests/test_joint_refinement_workflow.py",
+          "tests/test_tilted_optimizer_resume.py",
+          "tests/test_tilted_training_workflow.py",
+          "tests/test_nested_memory.py",
+          "tests/test_memory_order_workflow.py",
+          "tests/test_audit_budget.py",
+          "tests/test_train_mechanism_audit.py",
+          "tests/test_train_mechanism_workflow.py",
+          "tests/test_train_refinement_budget.py",
+          "tests/test_train_refinement_audit.py",
+          "tests/test_train_refinement_workflow.py",
+          "tests/test_temporal_training.py",
+          "tests/test_temporal_comparison.py",
+          "tests/test_kiki_temporal_workflow.py",
+          "tests/test_event_rhs_budget.py",
+          "tests/test_bounded_forecast.py"
+        ],
+        "returncode": 0,
+        "log": "scratch\\one_off\\kiki-a11-20261024\\final-implementation-checks\\check-01.txt",
+        "sha256": "c7276da8afd37af4e10053d4aa7290ac8ebe9a12178ec500dd6163fc95a77ace"
+      },
+      {
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "project_harness/policy.py",
+          "project_harness/git_state.py",
+          "project_harness/runner.py",
+          "scripts/register_kiki_dataset.py",
+          "tests/test_research_policy.py",
+          "tests/test_runner_safety.py",
+          "tests/test_development_file_bindings.py"
+        ],
+        "returncode": 0,
+        "log": "scratch\\one_off\\kiki-a11-20261024\\final-implementation-checks\\check-02.txt",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "src/kron_reduce/evaluation/audit_budget.py",
+          "src/kron_reduce/evaluation/train_mechanism_audit.py",
+          "src/kron_reduce/workflows/kiki_train_mechanism.py",
+          "tests/test_audit_budget.py",
+          "tests/test_train_mechanism_audit.py",
+          "tests/test_train_mechanism_workflow.py"
+        ],
+        "returncode": 0,
+        "log": "scratch\\one_off\\kiki-a11-20261024\\final-implementation-checks\\check-03.txt",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "src/kron_reduce/evaluation/train_refinement_audit.py",
+          "src/kron_reduce/workflows/kiki_train_refinement.py",
+          "tests/test_train_refinement_budget.py",
+          "tests/test_train_refinement_audit.py",
+          "tests/test_train_refinement_workflow.py"
+        ],
+        "returncode": 0,
+        "log": "scratch\\one_off\\kiki-a11-20261024\\final-implementation-checks\\check-04.txt",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "src/kron_reduce/models/temporal_risk.py",
+          "src/kron_reduce/models/nonlinear_latent.py",
+          "src/kron_reduce/evaluation/temporal_comparison.py",
+          "tests/test_temporal_training.py",
+          "tests/test_temporal_comparison.py",
+          "tests/test_kiki_temporal_workflow.py"
+        ],
+        "returncode": 0,
+        "log": "scratch\\one_off\\kiki-a11-20261024\\final-implementation-checks\\check-05.txt",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "--ignore",
+          "BLE001",
+          "src/kron_reduce/workflows/kiki_temporal_training.py"
+        ],
+        "returncode": 0,
+        "log": "scratch\\one_off\\kiki-a11-20261024\\final-implementation-checks\\check-06.txt",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "command": [
+          "-m",
+          "ruff",
+          "check",
+          "src/kron_reduce/evaluation/event_rhs_budget.py",
+          "src/kron_reduce/evaluation/bounded_forecast.py",
+          "tests/test_event_rhs_budget.py",
+          "tests/test_bounded_forecast.py"
+        ],
+        "returncode": 0,
+        "log": "scratch\\one_off\\kiki-a11-20261024\\final-implementation-checks\\check-07.txt",
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      }
+    ]
+  },
+  "train_only_preflight": {
+    "path": "scratch/one_off/kiki-a11-20261024/train-preflight-20261024T072733183133Z/preflight.json",
+    "sha256": "fbbf4a04b79495d494b69ff027e92e3db387cb50b78e0741f863b8adbe9d2ed2",
+    "status": "passed",
+    "scope": {
+      "source_role_loaded": "train",
+      "provider_load_calls": [
+        "train"
+      ],
+      "val_load_calls": 0,
+      "source_val_payload_opened": false,
+      "source_test_payload_opened": false,
+      "model_instances": 0,
+      "rhs_calls": 0,
+      "fits": 0,
+      "predictions": 0,
+      "cached_path_arrays_replayed_algebraically": true
+    },
+    "train_events": 258,
+    "future_points": 72147,
+    "source_checkpoint_count": 3,
+    "cached_train_replays": 6,
+    "frozen_auditor_sha256": "347851f67e79afb2d976857252d0f69bf910b209ffac069e25e36ce1fca0b1a4"
+  },
+  "temperature_preflight": {
+    "path": "scratch/one_off/kiki-a11-20261024/temperature_binding.json",
+    "sha256": "8797693a6d35af3d780611f2cfc021d8561a63f16e718c319bf78e04f956fcd1"
+  },
+  "real_fit_count": 0,
+  "new_real_rhs": 0,
+  "val_payload_decodes": 0,
+  "test_payload_decodes": 0
+}

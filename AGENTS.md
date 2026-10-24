@@ -225,3 +225,17 @@ Source val/test remain closed; labels are diagnostic only after evidence freeze.
 Failures consume their slots and cannot be retried. Results are uncertified
 development evidence with no deployment predictions or model promotion.
 A04 through A07 remain consumed and unchanged.
+
+On 2026-10-24 the user authorized one bounded A11 temporal-objective comparison,
+`kiki_a11_development_20261024`, as registered in the active policy and its
+bound development protocol and scientific design. It compares the frozen
+within-event mean and time-weighted objectives for seeds 324/325/326, with
+exactly six fits and 1440 updates. The fixed exception uses the existing
+source train allocation's internal train/val roles: all 258 eligible train and
+88 eligible val trajectories, while retaining all 369 allocated cases.
+Evaluation is limited to the registered 4446 paths and 887404644 total RHS
+calls. Labels are opened only after all models and trajectories are frozen,
+for diagnostics. Source val/test remain closed. Failures retain their slots
+and cannot be retried. Results are uncertified development evidence; no model
+is promoted, selected for deployment, or treated as certified. A04 through
+A10 remain consumed and unchanged.

@@ -42,10 +42,17 @@ jobs:
           tests/test_nested_memory.py tests/test_memory_order_workflow.py
           tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py
           tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py
+          tests/test_temporal_training.py tests/test_temporal_comparison.py tests/test_kiki_temporal_workflow.py
+          tests/test_event_rhs_budget.py tests/test_bounded_forecast.py
       - name: Check fixed-model audit code
         run: python -m ruff check src/kron_reduce/evaluation/audit_budget.py src/kron_reduce/evaluation/train_mechanism_audit.py src/kron_reduce/workflows/kiki_train_mechanism.py tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py
       - name: Check all-train refinement code
         run: python -m ruff check src/kron_reduce/evaluation/train_refinement_audit.py src/kron_reduce/workflows/kiki_train_refinement.py tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py
+      - name: Check temporal comparison code
+        run: |
+          python -m ruff check src/kron_reduce/models/temporal_risk.py src/kron_reduce/models/nonlinear_latent.py src/kron_reduce/evaluation/temporal_comparison.py tests/test_temporal_training.py tests/test_temporal_comparison.py tests/test_kiki_temporal_workflow.py
+          python -m ruff check --ignore BLE001 src/kron_reduce/workflows/kiki_temporal_training.py
+          python -m ruff check src/kron_reduce/evaluation/event_rhs_budget.py src/kron_reduce/evaluation/bounded_forecast.py tests/test_event_rhs_budget.py tests/test_bounded_forecast.py
       - name: Record actual environment
         if: always()
         run: python -m pip freeze > ci-environment.txt

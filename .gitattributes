@@ -14,3 +14,5 @@ legacy/source_manifest.sha256 -text
 paper/planning/ieee39_modular_energy_equivalent/qa_logs/p1_a03_candidate_acquisition_check.json -text
 # Preserve the exact approved A08 design bytes used by the immutable run.
 docs/research/kiki_a08_astra_design_20261024_zh.md -text
+# Keep the exact A11 test bytes bound by the frozen implementation receipt.
+tests/test_temporal_training.py -text
