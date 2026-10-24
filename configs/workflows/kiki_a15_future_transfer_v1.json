@@ -1,0 +1,127 @@
+{
+  "workflow": "kiki_a15_future_transfer_v1",
+  "experiment": "paper_kiki_a15_future_transfer",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "future_transfer"
+  ],
+  "transitions": {
+    "scaffold": "future_transfer"
+  },
+  "terminal_stages": [
+    "future_transfer"
+  ],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "future_transfer": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "scientific_verdict",
+        "promotion_decision",
+        "data_policy",
+        "source_val_ids_read",
+        "test_ids_read",
+        "hidden_training_targets_read",
+        "level_6_claimed",
+        "development_authorization_id",
+        "evidence_kind",
+        "certified_envelope_established",
+        "deployment_predictions_allowed",
+        "model_promoted",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary",
+        "internal_val_ids_read"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "scientific_verdict",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "process_status": [
+          "PASS"
+        ],
+        "scientific_verdict": [
+          "ACCEPT",
+          "REJECT"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "data_policy": [
+          "kiki_original_train_only"
+        ],
+        "source_val_ids_read": [
+          []
+        ],
+        "test_ids_read": [
+          []
+        ],
+        "hidden_training_targets_read": [
+          false
+        ],
+        "level_6_claimed": [
+          false
+        ],
+        "development_authorization_id": [
+          "kiki_a15_development_20261024"
+        ],
+        "evidence_kind": [
+          "uncertified_train_future_transfer"
+        ],
+        "certified_envelope_established": [
+          false
+        ],
+        "deployment_predictions_allowed": [
+          false
+        ],
+        "model_promoted": [
+          false
+        ],
+        "internal_val_ids_read": [
+          []
+        ]
+      },
+      "fixed_budget": {
+        "max_seed_event_slots": 774,
+        "max_campaign_executions": 1,
+        "max_npz_opens": 1559,
+        "max_members": 3136,
+        "max_logical_array_elements": 11213485,
+        "max_int64_elements": 1813,
+        "max_logical_array_bytes": 89707880,
+        "max_npz_integrity_bytes": 199075034,
+        "max_source_metadata_reads": 1563,
+        "max_source_metadata_bytes": 4173766,
+        "max_source_metadata_json_decodes": 1559,
+        "max_future_paths": 1548,
+        "max_rk4_updates": 1298646,
+        "max_integration_rhs": 5194584,
+        "max_physical_rhs": 434430,
+        "max_total_rhs": 5629014,
+        "max_model_constructions": 3,
+        "max_model_file_loads": 0,
+        "max_structural_validator_calls": 1551,
+        "max_eigvalsh": 4653,
+        "max_fit_attempts": 0,
+        "max_optimizer_updates": 0,
+        "max_history_paths": 0,
+        "max_baseline_future_paths": 0,
+        "max_encoder": 0,
+        "max_features": 0,
+        "max_expm": 0,
+        "max_svd": 0,
+        "max_ls": 0,
+        "max_independent_force": 0,
+        "max_label_reads": 0
+      },
+      "protocol_sha256": "ee9282c251f15a5df9dbcbc6796b7baf0d3a7bb7231d6547b8ad091abe7adf65",
+      "design_sha256": "4d2ab8d9a5d543849bf0c1fb0c5ecc4a81feef5d24316f937bae2edff11312f7"
+    }
+  }
+}

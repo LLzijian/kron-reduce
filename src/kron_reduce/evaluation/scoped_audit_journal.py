@@ -15,7 +15,7 @@ class ScopeJournalError(RuntimeError):
 
 _BUDGET_KEYS = frozenset({
     "expm", "svd", "force", "ls", "features", "encoder", "model_loads",
-    "model_constructions", "rollouts", "integration_rhs", "physical_rhs", "probe",
+    "model_constructions", "rollouts", "integration_rhs", "physical_rhs", "probe", "eigvalsh",
 })
 _IGNORED_RESERVATION_FIELDS = frozenset({
     "slot", "owner", "model_sha256", "input_sha256", "model_sources",
@@ -117,7 +117,7 @@ class ScopedAuditJournal:
     @staticmethod
     def _key(entry):
         category = entry.get("category")
-        if category in {"expm", "svd", "force", "ls"}:
+        if category in {"expm", "svd", "force", "ls", "eigvalsh"}:
             index = entry.get("index")
             if type(index) is not int or index < 0:
                 raise ValueError("operator transition needs a nonnegative index")
@@ -127,6 +127,11 @@ class ScopedAuditJournal:
             if type(seed) is not int:
                 raise ValueError("model load transition needs an integer seed")
             return (category, seed), ("model_loads", "model_constructions"), False
+        if category == "closure_construction":
+            seed = entry.get("seed")
+            if type(seed) is not int:
+                raise ValueError("closure construction needs an integer seed")
+            return (category, seed), "model_constructions", False
         if category == "rhs":
             seed, event_id, step = entry.get("seed"), entry.get("event_id"), entry.get("step")
             phase, sequence = entry.get("phase"), entry.get("sequence")

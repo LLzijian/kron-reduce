@@ -91,6 +91,17 @@ Do not reactivate the authorization or repeat its fits. Existing artifacts
 may be audited read-only; further scientific comparisons require their
 own registered authorization. No A05 model has been promoted.
 
+The continuing user instruction authorizes registering bounded A15 train
+future transfer under `kiki_a15_development_20261024`, independently of every
+consumed campaign. Its authority is `configs/research_policy.json` and
+`docs/protocols/kiki_a15_development_authorization_20261024_zh.md`.
+Implementation review by Astra Ultra, frozen source/member/budget bindings,
+synthetic checks and a clean committed source must all pass before activation
+and the single execution. It compares fixed A14 closed-loop resets against
+cached A09/A10 controls on all 258 eligible original train events, retaining
+268 allocations. It permits no fitting, labels, internal val, source val/test,
+promotion or deployment. Passing it does not open a later comparison.
+
 The A06 campaign has completed and its authorization is now `consumed`,
 bound to its immutable run, three fits/720 updates and result receipt.
 Do not reactivate it or repeat its fits. Read-only audit remains available;
