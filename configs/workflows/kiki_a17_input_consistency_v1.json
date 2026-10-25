@@ -98,7 +98,7 @@
           false
         ]
       },
-      "protocol_sha256": "738e5afbc4d5333c3ebfebf462d436168c4767ea4fc444c512d8f664893d1613",
+      "protocol_sha256": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
       "design_sha256": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
       "fixed_budget": {
         "max_campaign_executions": 1,
@@ -112,6 +112,30 @@
         "max_rk4_updates": 1345086,
         "max_new_history_paths": 1548,
         "max_new_future_paths": 1548
+      },
+      "field_types": {
+        "status": "string",
+        "process_status": "string",
+        "source_commit": "string",
+        "diagnostic_status": "string",
+        "promotion_decision": "string",
+        "data_policy": "string",
+        "development_authorization_id": "string",
+        "evidence_kind": "string",
+        "certified_envelope_established": "boolean",
+        "deployment_predictions_allowed": "boolean",
+        "model_promoted": "boolean",
+        "level_6_claimed": "boolean",
+        "internal_val_ids_read": "array",
+        "source_val_ids_read": "array",
+        "test_ids_read": "array",
+        "labels_read": "integer",
+        "result_dir": "string",
+        "artifact_manifest": "object",
+        "claim_boundary": "string",
+        "scientific_verdict": "string",
+        "new_missed_instability_result_established": "boolean",
+        "hidden_training_targets_read": "boolean"
       }
     }
   }

@@ -1,0 +1,15 @@
+{
+  "status": "METADATA_REGISTRATION_CHECK_PASS_EXECUTION_CLOSED",
+  "source_commit": "dd1643cb0fd3d0805fa8e7d3cf019ecf72bddc5a",
+  "core_bindings": 56,
+  "complete_bound_paths": 63,
+  "authorization_refusal": "DEVELOPMENT_AUTHORIZATION_NOT_ACTIVE_USER_APPROVED",
+  "common_budget_unspent": true,
+  "prior_authorizations_unchanged": true,
+  "prior_experiments_unchanged": true,
+  "raw_source_payload_opens_or_hashes": 0,
+  "new_models_ls_rhs_fits": 0,
+  "protocol_sha256": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+  "policy_snapshot_sha256": "7a99cf554e2eca529e2b6da1d6e52fd46f8d58983ed339b067a31e9cf2a6061b",
+  "final_pushed_commit_ci_and_independent_registration_review_pending": true
+}

@@ -1,0 +1,13 @@
+{
+  "status": "FIXED_REGISTRATION_BINDING_PENDING_REVIEW",
+  "rejected_commit": "dd1643cb0fd3d0805fa8e7d3cf019ecf72bddc5a",
+  "finding": "Workflow protocol_sha256 was not synchronized after immutable protocol wording correction; TOML/policy were correct. Detected by Astra before activation.",
+  "original_workflow_protocol_sha256": "738e5afbc4d5333c3ebfebf462d436168c4767ea4fc444c512d8f664893d1613",
+  "corrected_protocol_sha256": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+  "workflow_sha256": "d830fe35ba906a9c4be34c5a6a0f543a859c674cce359ebc0ec991e50fce6324",
+  "policy_sha256": "d837bf36aa57edf24c8d47223d36376f839c8e468669a2012708b63f9e93dd46",
+  "core_sources_and_read_compute_design_unchanged": true,
+  "source_payload_reads_or_hashes": 0,
+  "budget_spent": false,
+  "retry_or_execution_performed": false
+}

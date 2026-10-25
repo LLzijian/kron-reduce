@@ -1,0 +1,77 @@
+{
+  "review_kind": "A17_registration_metadata_support_review",
+  "reviewed_head": "dd1643cb0fd3d0805fa8e7d3cf019ecf72bddc5a",
+  "status": "ONE_REGISTRATION_SCHEMA_CORRECTION_REQUIRED",
+  "execution_authorized": false,
+  "activation_authorized": false,
+  "budget_consumed": false,
+  "old_source_payload_reads_or_hashes": 0,
+  "scientific_calls": 0,
+  "tests_executed": 0,
+  "production_files_modified": false,
+  "methods": "先读取当前 AGENTS.md；只读登记文件、harness 源码、已有审核文件，用指定 Python 3.12 的 json/tomllib/hashlib/subprocess 作控制元数据解析、逐类型比较及工作文件/HEAD 比较；未导入工作流、模型或科学 helper。",
+  "snapshot_boundary": "审核期间 root 已修复已知 workflow 协议 SHA；下列工作文件快照因此不全等于所列 HEAD。已知修复不计作本轮新增问题。",
+  "working_file_sha256": {
+    "AGENTS.md": "3449657fb5b04f9805b0647cf155f81bb6fabac1f668ee0deadac41a9cf11ee0",
+    "configs/research_policy.json": "d837bf36aa57edf24c8d47223d36376f839c8e468669a2012708b63f9e93dd46",
+    "configs/project_manifest.json": "32a0e41e59fe9dc69d5f9cf3f54016419599fb265eb49cb4c49ea107c9a31586",
+    "configs/input_contracts.json": "a3100031798df5b5a9255774ae4052f89c4d286eea1c7b7ebc85da09b7fca727",
+    "configs/workflows/kiki_a17_input_consistency_v1.json": "d830fe35ba906a9c4be34c5a6a0f543a859c674cce359ebc0ec991e50fce6324",
+    "configs/experiments/paper_kiki_a17_input_consistency.toml": "a2b76b991ab2bd3b39ec9e7f80457b450a693e983cc13304a916ececf24c9dc7",
+    "docs/protocols/kiki_a17_development_authorization_20261025_zh.md": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+    "docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md": "d16b02a724972f4d6d4c2186ff52fa83ac8293323c661def49931e7a70368508",
+    "docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json": "88b540e28a50f74440bee5769a43d3d684a25fc9b0d2cf7b1377b0549aa307f0"
+  },
+  "working_HEAD_differences": [
+    "configs/research_policy.json",
+    "configs/workflows/kiki_a17_input_consistency_v1.json"
+  ],
+  "passed_checks": [
+    "TOML 每项与 A17 policy 的对应值及递归 Python 类型一致，包括布尔开关、整数预算和三个整数 seed。",
+    "A17 policy 必要身份/预算/关闭边界字段与 controller 常量一致；状态仍 registration_review_pending，budget_executions_spent 为整数 0。",
+    "manifest 的 experiment/module/workflow/stage/config/AUTH/contract/dataset/执行模式一致；十节点、禁止空间聚类、val/test/deployment/promotion 布尔值正确。",
+    "input contract 的 11 点观测计数为整数，q/v/Pm 列表和历史 PL/未来原 Pm10 ZOH、各步长自己的隐藏末态及可见重置一致；source_clock_preserved/exact_clearing_state_claimed 为布尔值，anchor tolerance 为浮点 1e-12。",
+    "workflow 为 evidence_contract_version 整数 2；唯一 scaffold→input_consistency 转移且后者终结，无自动重跑或训练转移。",
+    "工程 process_status=PASS、diagnostic_status=COMPLETE 与科学 ACCEPT/REJECT 分开；没有只允许 ACCEPT 的 accepted_scientific_verdicts；无 RETRY 科学结果路径；始终 KEEP_BASELINE。",
+    "63 项 implementation_bindings 的当前工作文件哈希全部匹配；原 design/read/compute 控制及 56 项实现/依赖绑定未扩张科学范围。",
+    "protocol 明确保留真实持续委托原意，没有把它改写成用户新增的逐预算确认；本轮无需泛化为授权缺失或再次索取同一委托。是否激活由主审在最终登记审查中作范围判断。"
+  ],
+  "new_findings": [
+    {
+      "id": "A17_REG_FIELD_TYPES",
+      "severity": "P2",
+      "blocking_for_registration_schema_signoff": true,
+      "scientific_algorithm_change_required": false,
+      "file": "configs/workflows/kiki_a17_input_consistency_v1.json",
+      "line": 18,
+      "related_source": "project_harness/evidence.py:173,187,297",
+      "problem": "input_consistency 证据契约未声明 field_types。allowed_values 使用普通 Python 相等比较，若字段不在全局 V2_FIELD_TYPES 中，则 0 与 false、false 与 0 相等；non_empty 本身也不验证 source_commit 是字符串。",
+      "derived_counterexamples_not_executed": [
+        "其余证据合法时 labels_read=false 可匹配 allowed_values 的 [0]。",
+        "certified_envelope_established=0、deployment_predictions_allowed=0、model_promoted=0、hidden_training_targets_read=0 或 new_missed_instability_result_established=0 可匹配 [false]；这些字段不全受全局 v2 类型表覆盖。",
+        "source_commit=123 可以通过当前 non_empty 检查，且该字段不在全局 V2_FIELD_TYPES 中。"
+      ],
+      "impact": "生产 controller 当前写出正确类型，独立结果审核还有后续检查；这里是正式登记的阶段证据契约本身会错误接受类型，不能把 allowed_values 声称为严格逐类型约束。",
+      "repair": "仅在 workflow 的 input_consistency contract 增加完整 field_types：status/process_status/source_commit/diagnostic_status/promotion_decision/data_policy/development_authorization_id/evidence_kind/result_dir/claim_boundary/scientific_verdict 为 string，artifact_manifest 为 object，labels_read 为 integer，三组 ids 为 array，所有 certification/deployment/promotion/level_6/new_missed_instability/hidden_targets 边界字段为 boolean。更新 policy 中该 workflow 的 SHA。无需改科学源码。",
+      "closure_requirement": "最终修复文件与 policy 绑定再次核对，并确认类型表覆盖全部 required_fields；只用控制元数据或合成拒绝验证，不执行真实入口。"
+    }
+  ],
+  "known_issue_not_counted_as_new": {
+    "id": "workflow_protocol_sha",
+    "state": "root 修复已出现在本次工作文件快照；仍待提交后的 HEAD 绑定核验。",
+    "expected_protocol_sha256": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae"
+  },
+  "allowed_final_metadata_change_envelope": [
+    "完成上述 workflow 字段类型及已知协议 SHA 修复，并同步 policy 的精确 workflow 字节绑定。",
+    "增加独立登记审核正文/机器收据路径和 SHA、审核结论、审核时间及可核验的 registration commit/CI/runtime 证据；保留先前 whole implementation review 和 reviewed_commit 的历史身份。新审核文件可加入 implementation_bindings；不建立 policy 文件自哈希循环。",
+    "主审确认已有真实委托覆盖该唯一有界比较且所有登记条件闭合后，才可在另一次明确激活变更中将 A17 status 从 registration_review_pending 改为 user_approved，并使 policy/manifest 的 registration_status 与已完成审查一致。registration_review_required 可保留为要求并另记 fulfillment，或按明确 schema 改为已满足；不得只靠标签自证。此清单本身不作该状态修改，也不授权执行。",
+    "允许保存指定解释器、包版本/import 来源、最终 clean 且 pushed 的执行提交及该精确提交 CI 成功的证据；activation commit 的身份可在外部审核收据记录，避免文件包含自身提交 SHA 的循环。",
+    "激活前预算消耗数仍须为 0；不预建 reservation/completed/failed，不碰共享预算目录。实际预算只由随后获准的唯一专用 CLI 消费。"
+  ],
+  "changes_outside_this_envelope_require_new_review": [
+    "design/read/compute 控制任何字节、人口/权重、seed、步长、输入来源、时钟、阶段冻结、指标或接受条件变化。",
+    "科学/读取/日志/保存/审核源码或依赖哈希变化，以及任何预算增额、retry/resume、新候选、labels/val/test/未来 Pm 或新 I/E rollout 开放。",
+    "改写实际用户原话为不存在的新增逐预算批准、激活 A04–A16 已消费条目或把 KEEP_BASELINE 改成晋升。"
+  ],
+  "required_before_any_execution": "主审闭合登记问题、精确工作文件与 HEAD 绑定、已有委托范围、指定约束运行环境、最终推送提交 CI，并另行明确激活；本报告只完成登记辅助审查，不消费权限。"
+}

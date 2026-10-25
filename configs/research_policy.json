@@ -1071,7 +1071,7 @@
         "configs/experiments/paper_kiki_a17_input_consistency.toml": "a2b76b991ab2bd3b39ec9e7f80457b450a693e983cc13304a916ececf24c9dc7",
         "configs/project_manifest.json": "32a0e41e59fe9dc69d5f9cf3f54016419599fb265eb49cb4c49ea107c9a31586",
         "configs/input_contracts.json": "a3100031798df5b5a9255774ae4052f89c4d286eea1c7b7ebc85da09b7fca727",
-        "configs/workflows/kiki_a17_input_consistency_v1.json": "af1e15dc5a756d8df55defbe59cad98391489e6df4eba851931e6349b3818af1",
+        "configs/workflows/kiki_a17_input_consistency_v1.json": "123cefa69c0ea0ba4ac0b16d3c6bf7c752b1c3e08f5df710686215936508d90a",
         "docs/protocols/kiki_a17_development_authorization_20261025_zh.md": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
         "docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md": "d16b02a724972f4d6d4c2186ff52fa83ac8293323c661def49931e7a70368508",
         "docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json": "88b540e28a50f74440bee5769a43d3d684a25fc9b0d2cf7b1377b0549aa307f0"

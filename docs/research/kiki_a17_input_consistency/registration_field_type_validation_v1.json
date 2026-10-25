@@ -1,0 +1,144 @@
+{
+  "status": "PASS",
+  "scope": "Pure metadata _contract_error only; no artifact/data checker, model, CLI, fitting or result directory creation.",
+  "workflow_sha256": "123cefa69c0ea0ba4ac0b16d3c6bf7c752b1c3e08f5df710686215936508d90a",
+  "valid_metadata_examples_passed": 1,
+  "wrong_type_examples_rejected": 22,
+  "all_required_fields_have_explicit_types": true,
+  "cases": [
+    {
+      "field": "status",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "process_status",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "source_commit",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "diagnostic_status",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "promotion_decision",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "data_policy",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "development_authorization_id",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "evidence_kind",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "certified_envelope_established",
+      "expected": "boolean",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "deployment_predictions_allowed",
+      "expected": "boolean",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "model_promoted",
+      "expected": "boolean",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "level_6_claimed",
+      "expected": "boolean",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "internal_val_ids_read",
+      "expected": "array",
+      "wrong_python_type": "tuple",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "source_val_ids_read",
+      "expected": "array",
+      "wrong_python_type": "tuple",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "test_ids_read",
+      "expected": "array",
+      "wrong_python_type": "tuple",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "labels_read",
+      "expected": "integer",
+      "wrong_python_type": "bool",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "result_dir",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "artifact_manifest",
+      "expected": "object",
+      "wrong_python_type": "list",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "claim_boundary",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "scientific_verdict",
+      "expected": "string",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_ALLOWED"
+    },
+    {
+      "field": "new_missed_instability_result_established",
+      "expected": "boolean",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    },
+    {
+      "field": "hidden_training_targets_read",
+      "expected": "boolean",
+      "wrong_python_type": "int",
+      "rejection": "EVIDENCE_TYPE"
+    }
+  ],
+  "source_payload_reads_or_hashes": 0,
+  "scientific_operations": 0
+}

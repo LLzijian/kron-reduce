@@ -1,0 +1,8 @@
+{
+  "kind": "metadata_validation_script_failure_observation",
+  "script": "validate_registration_metadata_v2.py",
+  "error": "The script compared old policy including newly registered A17 against filtered current policy. Fixed original comparison anchor to reviewed implementation commit6babf354.",
+  "production_failure": false,
+  "scientific_execution_or_source_access": false,
+  "receipt_was_not_produced_on_failed_assertion": true
+}

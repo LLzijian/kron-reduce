@@ -1,0 +1,37 @@
+{
+  "status": "REGISTRATION_REPAIRED_VALIDATED_PENDING_INDEPENDENT_REVIEW",
+  "execution_authorized": false,
+  "reviewed_prior_failed_commit": "dd1643cb0fd3d0805fa8e7d3cf019ecf72bddc5a",
+  "original_findings_preserved": [
+    "workflow protocol SHA stale",
+    "required field types missing"
+  ],
+  "repairs": [
+    "workflow protocol and design hashes cross-checked against TOML/policy",
+    "all22 required fields have explicit types"
+  ],
+  "workflow_sha256": "123cefa69c0ea0ba4ac0b16d3c6bf7c752b1c3e08f5df710686215936508d90a",
+  "policy_snapshot_sha256": "7a99cf554e2eca529e2b6da1d6e52fd46f8d58983ed339b067a31e9cf2a6061b",
+  "metadata_validation": {
+    "path": "docs/research/kiki_a17_input_consistency/registration_metadata_validation_v4.json",
+    "sha256": "5cb2b0e2c2a2d7aaf0a8038cbd6f6e63d284401f4dc7af650e213ff5f880a119",
+    "program_path": "scratch/one_off/kiki-a17-input-consistency-20261025/validate_registration_metadata_v4.py",
+    "program_sha256": "a1ebb410b7e4358e35aab142b2eaac51cea5e704eea16e9793c06322c4e0b3bf"
+  },
+  "type_validation": {
+    "path": "docs/research/kiki_a17_input_consistency/registration_field_type_validation_v1.json",
+    "sha256": "f6f699896f37b9254a5f357e534ab3518a361fd3eff26765051e176fb599a729",
+    "program_path": "scratch/one_off/kiki-a17-input-consistency-20261025/validate_registration_field_types_v1.py",
+    "program_sha256": "84eb3184cd33a197b723ea45e4a9685a2c3722829fd33b41d0e5da5d801a171b",
+    "valid_passed": 1,
+    "wrong_types_rejected": 22,
+    "critical_bool_integer_aliases_rejected_by_type": true
+  },
+  "implementation_bindings": 63,
+  "core56_unchanged": true,
+  "scientific_read_compute_design_unchanged": true,
+  "raw_source_payload_opens_or_hashes": 0,
+  "new_model_ls_rhs_fit_calls": 0,
+  "common_budget_spent": false,
+  "local_metadata_script_failures_preserved": "v2 baseline comparison and v3 exclusive-output filename collision; no old result overwritten. Current v4 passed."
+}
