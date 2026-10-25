@@ -4,6 +4,7 @@ import copy
 import numpy as np
 import pytest
 
+from kron_reduce.evaluation import input_consistency_metrics as metrics_module
 from kron_reduce.evaluation.input_consistency_metrics import (
     campaign_verdict,
     future_event_scores,
@@ -106,3 +107,66 @@ def test_origin_mismatch_or_nonfinite_metric_is_preserved_as_failure():
     pred[1] = 1e200
     with np.errstate(over="ignore"), pytest.raises(FloatingPointError):
         future_event_scores(pred, truth, clock, np.ones(20))
+
+
+def _valid_all_twelve_groups():
+    counts, weights = np.array([300]), np.ones(1)
+    candidate = population_scores([scores(1., 300)], weights, counts)
+    reference = population_scores([scores(2., 300)], weights, counts)
+    paired = paired_group(candidate, reference)
+    return {
+        (ref, seed, step): paired
+        for ref in ("I", "E")
+        for seed in (324, 325, 326)
+        for step in (.005, .0025)
+    }
+
+
+def test_valid_paired_groups_cannot_turn_v_failure_into_acceptance():
+    groups = _valid_all_twelve_groups()
+    result = campaign_verdict(False, groups)
+    assert result["V_pass"] is False
+    assert result["G_I"] is result["G_E"] is False
+    assert result["scientific_verdict"] == "REJECT"
+
+
+@pytest.mark.parametrize("bad_pass", [1, "true", np.nan])
+def test_campaign_rejects_non_boolean_pass_fields(bad_pass):
+    groups = _valid_all_twelve_groups()
+    key = next(iter(groups))
+    groups[key] = copy.deepcopy(groups[key])
+    groups[key]["pass"] = bad_pass
+    with pytest.raises(ValueError, match="explicit complete/pass booleans"):
+        campaign_verdict(True, groups)
+
+
+def test_campaign_rejects_non_boolean_condition_or_nonfinite_difference():
+    groups = _valid_all_twelve_groups()
+    key = next(iter(groups))
+    bad_condition = copy.deepcopy(groups)
+    bad_condition[key]["conditions"]["q_not_higher"] = 1
+    with pytest.raises(ValueError, match="seven explicit conditions"):
+        campaign_verdict(True, bad_condition)
+
+    bad_difference = copy.deepcopy(groups)
+    bad_difference[key]["differences"]["primary"] = np.nan
+    with pytest.raises(FloatingPointError, match="nonfinite"):
+        campaign_verdict(True, bad_difference)
+
+
+def test_finite_population_inputs_that_overflow_derived_weighted_sum_fail():
+    maximum = np.finfo(np.float64).max
+    row = {name: maximum for name in ("primary", "q", "v", "horizon1", "horizon3")}
+    row["future_points"] = 1
+    # The frozen validator intentionally tolerates tiny floating summation error;
+    # these finite weights make the derived weighted sum overflow that allowance.
+    weights = np.array([0.6000000000005, 0.4])
+    assert abs(float(weights.sum()) - 1.) <= 1e-12
+    with pytest.raises(FloatingPointError, match="nonfinite derived"):
+        population_scores([row, row.copy()], weights, np.array([1, 1]))
+
+
+def test_nonfinite_derived_cvar_is_rejected_even_when_all_inputs_are_finite(monkeypatch):
+    monkeypatch.setattr(metrics_module, "weighted_cvar", lambda *args, **kwargs: float("inf"))
+    with pytest.raises(FloatingPointError, match="nonfinite derived"):
+        population_scores([scores(1., 1)], np.ones(1), np.array([1]))

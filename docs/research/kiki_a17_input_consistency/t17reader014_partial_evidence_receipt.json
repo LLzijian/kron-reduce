@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "runtime": "scratch/runtime/a07-py312/Scripts/python.exe (Python 3.12)",
+  "pytest": "56 passed in 15.31s",
+  "ruff": "All checks passed",
+  "basetemp": "scratch/one_off/t17reader014",
+  "log": "scratch/one_off/kiki-a17-input-consistency-20261025/t17reader014_pytest.log",
+  "log_sha256": "EF66A6B9191D918EF26E455F8ADD85B68ED28080AD2730DF8F724E433275A993",
+  "source_sha256": "CB24FB0F4EDA711135B76EF506C8422F042A8EC2D1BA01E2E9ED7B635E74A6A3",
+  "tests_sha256": "BF99F40E87BDE4DE3CE43186EF3399F0CDA693AEF59394CBC64ED86A3F565AAD",
+  "scope": "synthetic only; no production read plan, source payload, results, model or scientific compute",
+  "coverage": [
+    "header bytes retained on parse/descriptor failure",
+    "decoded and validated array states/counts separated",
+    "opaque archive/member SHA mismatch and nonfinite payload retained as unvalidated evidence",
+    "terminal log failure preserves callback return and counts",
+    "JSON-safe callback descriptor snapshot"
+  ]
+}

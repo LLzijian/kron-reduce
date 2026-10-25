@@ -1,0 +1,29 @@
+{
+  "task": "A17 synthetic post-OutputIO SealLedger validation",
+  "runtime": "scratch/runtime/a07-py312/Scripts/python.exe (Python 3.12)",
+  "pytest": {
+    "command": "python -m pytest tests/test_input_consistency_seal.py --basetemp scratch/one_off/t17seal002 -p no:cacheprovider -q",
+    "result": "8 passed in 0.28s",
+    "log": "seal_pytest_v1.log",
+    "sha256": "7D1154D99F9312EB0248C8CC01C40BB10F7C66A53851D05B3563AF744D4C591E"
+  },
+  "ruff": {
+    "result": "check passed; format check passed",
+    "log": "seal_ruff_v1.log",
+    "sha256": "55C7355E8649DD5B4C80A00C66A344C373033FEDD01112040C215C0675EF0DD5"
+  },
+  "files": {
+    "src/kron_reduce/evaluation/input_consistency_seal.py": "DF632107FCFA19C62BA5D22566AC03F3D43E8A4C5FCC317ABEAF4D4D6D3354EA",
+    "tests/test_input_consistency_seal.py": "C0EAA41D9FB6A7E7E54773C9653CF0FF9D81FC3C802CF6EBDDFAF8A941907789"
+  },
+  "verified": [
+    "successful native hash, line count, and exclusive JSON write byte accounting",
+    "returned hash prefix preserved across a later unknown read failure",
+    "known short write counted as returned bytes without unknown-byte inflation",
+    "flush, fsync and close failures capture durability uncertainty",
+    "manifest hash open failure, link rejection, cap, duplicate action and unsafe path fail closed",
+    "poisoned ledger rejects later operations without retry"
+  ],
+  "durability_boundary": "snapshot() is an in-memory deep copy. It is not durable until the independent caller writes it; interruption before that external write remains unknown/spent.",
+  "scientific_payloads_accessed": false
+}

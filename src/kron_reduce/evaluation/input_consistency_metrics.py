@@ -13,6 +13,20 @@ ATOL = 1e-12
 FIELDS = ("primary", "q", "v", "horizon1", "horizon3")
 
 
+def _require_finite_record(record):
+    def finite(value):
+        if isinstance(value, dict):
+            return all(finite(item) for item in value.values())
+        if isinstance(value, (list, tuple)):
+            return all(finite(item) for item in value)
+        return not isinstance(value, (float, np.floating)) or bool(np.isfinite(value))
+    if not finite(record):
+        error = FloatingPointError("nonfinite derived population/comparison metric")
+        error.partial_record = record
+        raise error
+    return record
+
+
 def future_event_scores(prediction, truth, clock, target_scale):
     pred = finite_array(prediction, "prediction")
     target = finite_array(truth, "truth")
@@ -77,17 +91,21 @@ def population_scores(records, weights, counts):
     full_mass = float(np.sum(weight[full]))
     conditional = (float(sum(weight[i] * records[i]["horizon3"] for i in np.flatnonzero(full))) / full_mass
                    if full_mass > 0 and bool(np.all(present[full])) else None)
-    return {"complete": complete, "allocated_eligible_events": n,
+    return _require_finite_record({"complete": complete, "allocated_eligible_events": n,
             "completed_events": int(np.sum(present)), "missing_weight": float(np.sum(weight[~present])),
             "partial_contributions_same_denominator": partial,
             "metrics": partial if complete else None,
             "worst10_cvar": weighted_cvar(values, weight, .1) if complete else None,
             "complete_3s_horizon3_conditional_mse": conditional,
-            "duration_groups": groups}
+            "duration_groups": groups})
 
 
 def paired_group(candidate, reference):
     """One seed/step comparison; six independent required groups are not averaged."""
+    if type(candidate["complete"]) is not bool or type(reference["complete"]) is not bool:
+        raise ValueError("population completeness must be an explicit boolean")
+    _require_finite_record(candidate)
+    _require_finite_record(reference)
     if not candidate["complete"] or not reference["complete"]:
         return {"complete": False, "pass": False, "reason": "original_population_incomplete",
                 "conditions": None, "differences": None}
@@ -100,8 +118,8 @@ def paired_group(candidate, reference):
         cv, rv = candidate[name], reference[name]
         conditions[name + "_not_higher"] = cv is not None and rv is not None and cv <= rv + ATOL
         differences[name] = None if cv is None or rv is None else cv - rv
-    return {"complete": True, "pass": bool(all(conditions.values())),
-            "conditions": conditions, "differences": differences, "comparison_atol": ATOL}
+    return _require_finite_record({"complete": True, "pass": bool(all(conditions.values())),
+                                   "conditions": conditions, "differences": differences, "comparison_atol": ATOL})
 
 
 def campaign_verdict(V_pass, groups):
@@ -110,8 +128,24 @@ def campaign_verdict(V_pass, groups):
                 for seed in (324, 325, 326) for step in (.005, .0025)}
     if type(V_pass) is not bool or set(groups) != expected:
         raise ValueError("all twelve frozen paired groups are required")
-    GI = all(groups[("I", seed, step)]["pass"] for seed in (324, 325, 326) for step in (.005, .0025))
-    GE = all(groups[("E", seed, step)]["pass"] for seed in (324, 325, 326) for step in (.005, .0025))
+    conditions_expected = {"primary_strictly_lower", "horizon1_not_higher", "horizon3_not_higher",
+                           "q_not_higher", "v_not_higher", "worst10_cvar_not_higher",
+                           "complete_3s_horizon3_conditional_mse_not_higher"}
+    for row in groups.values():
+        if (not isinstance(row, dict) or type(row.get("pass")) is not bool
+                or type(row.get("complete")) is not bool):
+            raise ValueError("paired verdicts must use explicit complete/pass booleans")
+        if row["complete"]:
+            conditions = row.get("conditions")
+            if (not isinstance(conditions, dict) or set(conditions) != conditions_expected
+                    or any(type(value) is not bool for value in conditions.values())
+                    or row["pass"] != all(conditions.values())):
+                raise ValueError("paired verdict disagrees with its seven explicit conditions")
+        elif row["pass"]:
+            raise ValueError("an incomplete paired group cannot pass")
+        _require_finite_record(row)
+    GI = V_pass and all(groups[("I", seed, step)]["pass"] for seed in (324, 325, 326) for step in (.005, .0025))
+    GE = V_pass and all(groups[("E", seed, step)]["pass"] for seed in (324, 325, 326) for step in (.005, .0025))
     return {"V_pass": V_pass, "G_I": GI, "G_E": GE,
             "scientific_verdict": "ACCEPT" if V_pass and GI and GE else "REJECT",
             "promotion_decision": "KEEP_BASELINE", "new_missed_instability_result_established": False}

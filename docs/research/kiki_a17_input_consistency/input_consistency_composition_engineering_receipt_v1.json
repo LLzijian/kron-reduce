@@ -1,0 +1,64 @@
+{
+  "task": "A17 journaled path-composition synthetic integration verification",
+  "scope": "Synthetic arrays and temporary result directories only; no controller, source providers, production read plan execution, or real payload access.",
+  "runtime": {
+    "python": "3.12.14",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe"
+  },
+  "pytest": {
+    "passed": 226,
+    "failed": 0,
+    "warnings": 2,
+    "command": "python -m pytest -q --basetemp scratch/one_off/t17composition002 -p no:cacheprovider tests/test_input_consistency_kernel.py tests/test_input_consistency_checks.py tests/test_input_consistency_journal.py tests/test_input_consistency_metrics.py tests/test_input_consistency_reader.py tests/test_input_consistency_paths.py tests/test_input_consistency_evidence.py tests/test_input_consistency_plan.py tests/test_input_consistency_sources.py tests/test_input_consistency_composition.py"
+  },
+  "ruff": {
+    "passed": true,
+    "command": "python -m ruff check --no-cache [all A17 modules and tests included by ci.yml]"
+  },
+  "composition_assertions": {
+    "journaled_initializer_and_diagnostics": true,
+    "history_steps": [
+      0.005,
+      0.0025
+    ],
+    "future_steps": [
+      0.005,
+      0.0025
+    ],
+    "visible_resets": 2,
+    "derived_updates": {
+      "history_0.005": 20,
+      "history_0.0025": 40,
+      "future_0.005": 4,
+      "future_0.0025": 8
+    },
+    "actual_rhs_callbacks": 288,
+    "pl_input_callbacks": 240,
+    "physical_callbacks": 28,
+    "fake_or_structural_counters": 0,
+    "result_saved_and_scope_closed": true,
+    "bad_future_clock_rejected_before_first_rhs": true
+  },
+  "files": {
+    "tests/test_input_consistency_composition.py": {
+      "size_bytes": 9708,
+      "sha256": "34707f1c53d84651dc48b4aea0e5c05d2fde7522c6d1e51506b4985b19c799c4"
+    },
+    "tests/test_input_consistency_evidence.py": {
+      "size_bytes": 2702,
+      "sha256": "88f9223219dccb525be16a8ffabfb5bd724941d7ab6bca6e4b5fe44b4ec36db7"
+    },
+    ".github/workflows/ci.yml": {
+      "size_bytes": 7766,
+      "sha256": "4a2a181c8c873f02fcc062877d4afeae4f41e3a15c74f30fd429cd7aef56b7bc"
+    },
+    "scratch/one_off/kiki-a17-input-consistency-20261025/input_consistency_composition_pytest_v2.log": {
+      "size_bytes": 1236,
+      "sha256": "cb5fdc33e842d71b81cb7e978cbd6e0fb96eebccc61b2783a651070e26098a28"
+    },
+    "scratch/one_off/kiki-a17-input-consistency-20261025/input_consistency_composition_ruff_v2.log": {
+      "size_bytes": 20,
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    }
+  }
+}

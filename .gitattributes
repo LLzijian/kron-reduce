@@ -46,3 +46,51 @@ docs/research/kiki_a17_input_consistency/astra_checks_readonly_review.json -text
 docs/research/kiki_a17_input_consistency/design_initial_zh.md -text
 docs/research/kiki_a17_input_consistency/astra_design_and_checks_receipt.json -text
 docs/research/kiki_a17_input_consistency/astra_checks_readonly_review.json -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_interface_review_v1_zh.md -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_interface_review_v1.json -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_scope_failure_decision_zh.md -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_paths_implementation_receipt.json -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_compute_plan_receipt.json -text
+
+docs/research/kiki_a17_input_consistency/input_consistency_plan_engineering_receipt_v1.json -text
+
+docs/research/kiki_a17_input_consistency/input_consistency_sources_engineering_receipt_v1.json -text
+
+docs/research/kiki_a17_input_consistency/input_consistency_sources_metadata_preparation_v1.json -text
+
+docs/research/kiki_a17_input_consistency/input_consistency_composition_engineering_receipt_v1.json -text
+
+docs/research/kiki_a17_input_consistency/output_io_receipt_v1.json -text
+
+docs/research/kiki_a17_input_consistency/t17reader014_partial_evidence_receipt.json -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_integration_preflight_v1.json -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_integration_preflight_v1_zh.md -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_integration_preflight_v2.json -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_integration_preflight_v2_zh.md -text
+
+docs/research/kiki_a17_input_consistency/workflow_io_receipt_v1.json -text
+
+docs/research/kiki_a17_input_consistency/workflow_io_receipt_v2.json -text
+
+docs/research/kiki_a17_input_consistency/seal_receipt_v1.json -text
+
+docs/research/kiki_a17_input_consistency/seal_receipt_v2.json -text
+
+docs/research/kiki_a17_input_consistency/root_witness_tool_observation_v1.json -text
+
+docs/research/kiki_a17_input_consistency/engineering_full_validation_v3_failed.json -text
+
+docs/research/kiki_a17_input_consistency/astra_a17_result_auditor_implementation_receipt_v1.json -text
+
+docs/research/kiki_a17_input_consistency/engineering_full_validation_v4.json -text
+
+docs/research/kiki_a17_input_consistency/implementation_bindings_v4.json -text

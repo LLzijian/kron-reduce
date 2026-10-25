@@ -1,0 +1,179 @@
+{
+  "kind": "A17_metadata_only_compute_preparation_receipt_v1",
+  "status": "PASS_PREPARATION_ONLY",
+  "execution_authorized": false,
+  "output": {
+    "path": "configs/proposals/kiki_a17_input_consistency_compute.json",
+    "bytes": 7697885,
+    "sha256": "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582"
+  },
+  "bindings": {
+    "read_plan": {
+      "path": "configs/proposals/kiki_a17_input_consistency_reads.json",
+      "bytes": 9568107,
+      "sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a"
+    },
+    "cap_helpers": {
+      "path": "src/kron_reduce/evaluation/input_consistency_paths.py",
+      "bytes": 18099,
+      "sha256": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be"
+    },
+    "diagnostic_helpers": {
+      "path": "src/kron_reduce/evaluation/input_consistency_checks.py",
+      "bytes": 14434,
+      "sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c"
+    },
+    "producer": {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/build_compute_plan.py",
+      "bytes": 20382,
+      "sha256": "332ea21a8f79c073dc69251a36f20b11bdbea21b4b9ab81537647d92deb384ab"
+    }
+  },
+  "scope_count": 10356,
+  "totals": {
+    "operators": {
+      "source_identity_checks": 1,
+      "closure_constructions": 3,
+      "structural_eigvalsh": 9,
+      "parameter_identity": 6,
+      "initializers": 774,
+      "decomposition_check": 774,
+      "ls": 774,
+      "ls_diagnostics": 774,
+      "quadrature_proxy": 774,
+      "history_clock_checks": 774,
+      "input_anchor_checks": 774,
+      "path_evaluations": 3096,
+      "rollouts": 3096,
+      "path_preflight": 3096,
+      "input_eval": 185760,
+      "integration_rhs": 5380344,
+      "physical_rhs": 451458,
+      "physical_judgement": 3096,
+      "visible_resets": 1548,
+      "energy_values": 3096,
+      "path_refinement": 3096,
+      "future_clock_checks": 258,
+      "reference_ancestry_hashes": 9,
+      "reference_identity_checks": 1548,
+      "event_scores": 4644,
+      "population_scores": 18,
+      "paired_groups": 12
+    },
+    "derived": {
+      "parameter_identity_values": 1098,
+      "parameter_identity_logical_bytes": 8784,
+      "observation_map_attempted": 774,
+      "observation_map_returned": 774,
+      "successful_rk4_updates": 1345086,
+      "reference_ancestry_logical_bytes": 88625792
+    },
+    "diagnostic_array_operations": {
+      "matmul": 4644,
+      "norm_calls": 15480,
+      "matrix_norms": 3870,
+      "vector_norms": 1325736
+    },
+    "operator_category_sum": 6049612,
+    "rhs_total": 5831802
+  },
+  "phase_totals": {
+    "1": {
+      "scope_count": 3100,
+      "operators": {
+        "source_identity_checks": 1,
+        "closure_constructions": 3,
+        "structural_eigvalsh": 9,
+        "parameter_identity": 3,
+        "initializers": 774,
+        "decomposition_check": 774,
+        "ls": 774,
+        "ls_diagnostics": 774,
+        "quadrature_proxy": 774,
+        "history_clock_checks": 774,
+        "input_anchor_checks": 774,
+        "path_evaluations": 1548,
+        "rollouts": 1548,
+        "path_preflight": 1548,
+        "input_eval": 185760,
+        "integration_rhs": 185760,
+        "physical_rhs": 17028,
+        "physical_judgement": 1548,
+        "visible_resets": 1548,
+        "energy_values": 3096,
+        "path_refinement": 774
+      },
+      "derived": {
+        "parameter_identity_values": 549,
+        "parameter_identity_logical_bytes": 4392,
+        "observation_map_attempted": 774,
+        "observation_map_returned": 774,
+        "successful_rk4_updates": 46440
+      },
+      "diagnostic_array_operations": {
+        "matmul": 4644,
+        "norm_calls": 10836,
+        "matrix_norms": 3870,
+        "vector_norms": 22446
+      },
+      "operator_category_sum": 405592,
+      "rhs_total": 202788
+    },
+    "2": {
+      "scope_count": 2580,
+      "operators": {
+        "future_clock_checks": 258,
+        "path_evaluations": 1548,
+        "rollouts": 1548,
+        "path_preflight": 1548,
+        "input_eval": 0,
+        "integration_rhs": 5194584,
+        "physical_rhs": 434430,
+        "physical_judgement": 1548,
+        "path_refinement": 774
+      },
+      "derived": {
+        "successful_rk4_updates": 1298646
+      },
+      "diagnostic_array_operations": {
+        "matmul": 0,
+        "norm_calls": 1548,
+        "matrix_norms": 0,
+        "vector_norms": 434430
+      },
+      "operator_category_sum": 5636238,
+      "rhs_total": 5629014
+    },
+    "3": {
+      "scope_count": 4676,
+      "operators": {
+        "reference_ancestry_hashes": 9,
+        "reference_identity_checks": 1548,
+        "path_refinement": 1548,
+        "event_scores": 4644,
+        "population_scores": 18,
+        "paired_groups": 12,
+        "parameter_identity": 3
+      },
+      "derived": {
+        "reference_ancestry_logical_bytes": 88625792,
+        "parameter_identity_values": 549,
+        "parameter_identity_logical_bytes": 4392
+      },
+      "diagnostic_array_operations": {
+        "matmul": 0,
+        "norm_calls": 3096,
+        "matrix_norms": 0,
+        "vector_norms": 868860
+      },
+      "operator_category_sum": 7782,
+      "rhs_total": 0
+    }
+  },
+  "independent_integer_review": "Astra child reviewed population metadata and independently matched phase scopes/RHS/updates/diagnostic counts. Include source_identity_checks=1, yielding total callback-category sum6049612.",
+  "real_npz_hdf_reads_hashes": 0,
+  "models_solvers_rhs_or_fits": 0,
+  "array_diagnostics_executed": 0,
+  "cap_factories_only": true,
+  "notes": "This control prepares exact bounds; no policy activation, campaign spending or scientific run. Initial preparation before adding per-scope closure range-read IO advice is preserved as compute_plan_v1_before_io_ranges.json and its original builder/receipt; scientific scopes and caps are unchanged."
+}

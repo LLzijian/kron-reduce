@@ -1,0 +1,110 @@
+{
+  "kind": "astra_a17_integration_preflight",
+  "version": 2,
+  "date": "2026-10-25",
+  "status": "NO_NEW_BLOCKER_IN_TARGETED_SOURCE_REVIEW",
+  "review_type": "targeted_v1_repair_preflight_not_final_approval",
+  "execution_authorized": false,
+  "exact_implementation_approved": false,
+  "full_campaign_regression_complete": false,
+  "reviewer": "/root/astra_a16_final_review/state_dependent_port_theory",
+  "previous_report": {
+    "path": "scratch/one_off/kiki-a17-input-consistency-20261025/astra_a17_integration_preflight_v1.json",
+    "sha256": "50ebeaeb230cd72baa2c3a2ade4ea94ccab0d8a91a1417c573db692a1245e02d",
+    "preserved": true
+  },
+  "scope": [
+    "Actual successful and failed-prefix PL input scheduling witnesses",
+    "Known short-write stop and known-versus-unknown byte accounting",
+    "Bounded post-OutputIO seal ledger, controller propagation and fatal evidence serialization",
+    "Scope-begin failure identity and poisoned-store ordinal preservation"
+  ],
+  "source_review_results": [
+    {
+      "finding_id": "A17-PREFLIGHT-001",
+      "status": "CLOSED_BY_SOURCE_REVIEW_PENDING_FINAL_REGRESSION",
+      "file": "src/kron_reduce/evaluation/input_consistency.py",
+      "lines": [135, 217],
+      "sha256": "02698c2ddb1f6ce769c0cce526c3afe3d063c7d66116500b939c7eb862a5acad",
+      "evidence": "evaluate_input appends its witness only inside the actually invoked callback, captures interval/substep/count/numerator/stage and returned power, then captures used power after dispatch returns. The substep variable k is bound in field defaults. The successful return packs indices/returned_power/used_power; the exception partial retains the actual list, including attempted-but-not-returned entries and no invented future entries. Constant input produces an empty witness. No new input_eval or RHS callback was added.",
+      "test_source_inspected": "test_input_consistency_kernel.py checks the actual successful schedule and returned/used inputs; existing callback-failure tests were read. The final combined runtime receipt is still pending."
+    },
+    {
+      "finding_id": "A17-PREFLIGHT-002",
+      "status": "CLOSED_BY_SOURCE_REVIEW_PENDING_FINAL_REGRESSION",
+      "file": "src/kron_reduce/evaluation/input_consistency_output_io.py",
+      "lines": [187, 223],
+      "sha256": "d45eb80de4bc523805a33bcf23eed050342621a4d00d2b23bd7c9a13af3f8c03",
+      "evidence": "The measured writer records the actual returned count, sets known_return, then raises on returned bytes differing from requested bytes. The failure permanently poisons OutputIO. Known short returns do not increment unknown byte/operation counts. Normal EOF reads retain their separate behavior. The journal exit synchronizes and closes its own stream in a finally-protected cleanup path.",
+      "test_source_inspected": "The new text/binary short-write tests assert stop, preserved actual bytes and zero unknown-byte increments. The final combined runtime receipt is still pending."
+    },
+    {
+      "finding_id": "A17-PREFLIGHT-003",
+      "status": "CLOSED_BY_SOURCE_REVIEW_AND_BOUND_COMPONENT_RECEIPT_PENDING_FINAL_INTEGRATION",
+      "files": [
+        {"path": "src/kron_reduce/evaluation/input_consistency_seal.py", "sha256": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e", "lines": [51, 317]},
+        {"path": "src/kron_reduce/workflows/kiki_input_consistency.py", "sha256": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d", "lines": [656, 782]},
+        {"path": "src/kron_reduce/evaluation/input_consistency_evidence.py", "sha256": "59a6852df552c8669f1b864736deb5fba3bec447b5dc74660eae9dca1523988b", "lines": [77, 85]}
+      ],
+      "evidence": "SealLedger reserves each finite action, measures returned read/write prefixes, records failures and durability uncertainty, rejects retries after poison and returns deep snapshots. Reads validate both byte totals and before/after file sizes; known early EOF is not counted as an unknown read. Controller stores the N+1 preceding hash/line-count actions in output_io_summary, returns the final four actions through the external shared-budget receipt, and attaches ledger snapshot plus phase to failures. error_record retains both fields. Cleanup failures are recorded without replacing the original scientific/seal error when fatal evidence saving succeeds.",
+      "durability_boundary": "The ledger is in memory until the caller saves its snapshot. Process interruption before that save remains unknown/spent. The final four success actions are not self-certified inside the run; their external completion receipt still needs its separate review.",
+      "bound_component_result": "Nine SealLedger synthetic tests and Ruff/check-format pass under the exact source/test hashes recorded below. The new controller integration suite is still pending."
+    },
+    {
+      "finding_id": "A17-PREFLIGHT-V2-SCOPE-FAILURE-FOLLOWUP",
+      "status": "NO_BLOCKER_FOUND_IN_SOURCE",
+      "file": "src/kron_reduce/workflows/kiki_input_consistency.py",
+      "lines": [150, 165, 773, 781],
+      "sha256": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d",
+      "evidence": "ScopeStore.execute checks poisoned/closed journal state before entering the routine that increments ordinal. If begin fails before active is assigned, fatal_prefix retains attempted_scope_without_closed_record from the last reserved schedule position; unvisited_scopes starts after that spent attempt. Existing active-but-unclosed scopes remain separately identified."
+    }
+  ],
+  "verified_existing_receipts": [
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/seal_receipt_v2.json",
+      "sha256": "4868355cd12da1957997729363df1c60c52520f7df1a6d73d093f293dc2150ec",
+      "source_sha256": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e",
+      "test_sha256": "c5e08f39570e1831795c096ed1ca17296d41da71ca0ce6108537fb5b98020458",
+      "pytest_result": "9 passed in 0.41s",
+      "pytest_log_sha256": "bc24a66ebe6d508531e4e8605621289188b3bea8a3cf8976130ce7a2ac7bb4cf",
+      "ruff_result": "check passed; format check passed",
+      "ruff_log_sha256": "55c7355e8649dd5b4c80a00c66a344c373033fedd01112040c215c0675ef0dd5",
+      "reviewer_action": "Read and independently hashed the existing receipt, logs, source and test; did not rerun tests."
+    }
+  ],
+  "evidence_not_promoted_to_current_validation": [
+    "The coordinator reported 82 passing tests from a tool result without a separately saved stdout/hash receipt. A later k=k closure binding repair occurred. This report does not treat the earlier 82-test output as validation of the current exact source.",
+    "workflow_io_receipt_v1 records six passing tests for an earlier test revision. It does not validate the new SealLedger/controller integration or the current workflow_io test hash.",
+    "The original OutputIO receipt likewise remains evidence for its own version only."
+  ],
+  "hash_inventory": {
+    "src/kron_reduce/workflows/kiki_input_consistency.py": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d",
+    "src/kron_reduce/evaluation/input_consistency.py": "02698c2ddb1f6ce769c0cce526c3afe3d063c7d66116500b939c7eb862a5acad",
+    "src/kron_reduce/evaluation/input_consistency_output_io.py": "d45eb80de4bc523805a33bcf23eed050342621a4d00d2b23bd7c9a13af3f8c03",
+    "src/kron_reduce/evaluation/input_consistency_seal.py": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e",
+    "src/kron_reduce/evaluation/input_consistency_evidence.py": "59a6852df552c8669f1b864736deb5fba3bec447b5dc74660eae9dca1523988b",
+    "src/kron_reduce/evaluation/input_consistency_paths.py": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be",
+    "tests/test_input_consistency_kernel.py": "5b4159d19c0dcdabfe11f795bace6b92e297ee1a5d8868b09d7b155c2ea2ddce",
+    "tests/test_input_consistency_output_io.py": "04d68916084a1ba2dabf7e57a04b190ebc1c4986937d040541ca54547402d5ac",
+    "tests/test_input_consistency_seal.py": "c5e08f39570e1831795c096ed1ca17296d41da71ca0ce6108537fb5b98020458",
+    "tests/test_input_consistency_workflow_io.py": "28ad3d7a97ad7ba848ad4a954bbe9332c43ca70a5a613ecf3b036615c953d7a3",
+    "configs/proposals/kiki_a17_input_consistency_reads.json": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+    "configs/proposals/kiki_a17_input_consistency_compute.json": "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582"
+  },
+  "version_stability": "The five reviewed production files and test/control hashes were remeasured at the end of the source review and matched its initial hash snapshot.",
+  "pending_before_formal_review": [
+    "Freeze the final combined implementation, including the separately developing independent result auditor.",
+    "Run the canonical complete synthetic pytest/Ruff checks once against final source hashes and retain raw stdout plus an exact binding receipt.",
+    "Include successful and failed-prefix PL witness assertions, known short-write failure, initial scope-begin failure, and each controller seal failure stage in final regression evidence.",
+    "Review final controller integration, saved-result independent audit and the external completion-receipt boundary under their final hashes.",
+    "Obtain the main Astra exact implementation review and the separate user/policy execution gate."
+  ],
+  "review_operations": {
+    "new_tests_run": 0,
+    "model_ls_rhs_fit_calls": 0,
+    "real_source_payload_reads": 0,
+    "real_source_payload_hashes": 0,
+    "production_edits": 0,
+    "activity": "Read source, test source, frozen control metadata and saved synthetic logs/receipts; hash these text/code artifacts; write this separate review."
+  }
+}

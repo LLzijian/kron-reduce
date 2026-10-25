@@ -1,0 +1,55 @@
+{
+  "task": "A17 metadata-only production plan validator engineering verification",
+  "scope": "Only the designated read-plan JSON and source/tests listed below; no results, NPZ, HDF, CSV, splits, payloads, model, RHS, or scientific comparison accessed.",
+  "runtime": {
+    "python": "3.12.14",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe"
+  },
+  "test_result": {
+    "passed": 19,
+    "failed": 0,
+    "command": "python -m pytest tests/test_input_consistency_plan.py --basetemp scratch/one_off/t17plan003 -p no:cacheprovider -q"
+  },
+  "ruff_result": {
+    "passed": true,
+    "command": "python -m ruff check --no-cache src/kron_reduce/evaluation/input_consistency_plan.py tests/test_input_consistency_plan.py"
+  },
+  "validated_counts": {
+    "npz_unique_files": 3358,
+    "npz_contexts": 3616,
+    "descriptors": 20406,
+    "arrays": 20406,
+    "array_elements": 21486372,
+    "array_logical_hash_bytes": 171890976,
+    "opaque_hash_passes": 6716,
+    "opaque_hash_bytes": 641698014,
+    "metadata_files": 3376,
+    "metadata_bytes": 72922783,
+    "npy_header_bytes_max": 204060000,
+    "npy_header_cap": 10000
+  },
+  "execution_authorized": false,
+  "files": {
+    "src/kron_reduce/evaluation/input_consistency_plan.py": {
+      "sha256": "934cc8d550906d2fc4e9c30eee577e2df5ae30729d81d8b4071b1fd955c4dafe",
+      "size_bytes": 16717
+    },
+    "tests/test_input_consistency_plan.py": {
+      "sha256": "36e20a28df461f236af2e3c833f630951993e09dbe1e704fe5cbc59aa463e28c",
+      "size_bytes": 4743
+    },
+    "configs/proposals/kiki_a17_input_consistency_reads.json": {
+      "sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+      "size_bytes": 9568107
+    },
+    "scratch/one_off/kiki-a17-input-consistency-20261025/input_consistency_plan_pytest_v3.log": {
+      "sha256": "9d8709732803bcd6fb6897e76a91ae92aa9c93866b89a6debe904d2392fbcb72",
+      "size_bytes": 102
+    },
+    "scratch/one_off/kiki-a17-input-consistency-20261025/input_consistency_plan_ruff_v3.log": {
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "size_bytes": 20
+    }
+  },
+  "prior_test_log": "input_consistency_plan_pytest_v1.log retained: 1 faulty mutation fixture did not actually change the path; corrected fixture and reran successfully in v2/v3."
+}

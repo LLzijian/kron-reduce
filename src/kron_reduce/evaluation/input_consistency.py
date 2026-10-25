@@ -54,7 +54,13 @@ def solve_saved_decomposition(*, U, singular, Vh, b, weighted_impulse,
             raise error
         return partial
 
-    return dispatch(solve)
+    try:
+        return dispatch(solve)
+    except BaseException as error:
+        error.input_consistency_partial_record = {"operation": "saved_ls", "intermediates": partial}
+        if not hasattr(error, "partial_record"):
+            error.partial_record = partial
+        raise
 
 
 def path_preflight(closure, q, v, z, clock, power, equilibrium, max_step, *, linear):
@@ -65,8 +71,14 @@ def path_preflight(closure, q, v, z, clock, power, equilibrium, max_step, *, lin
     q = finite_array(q, "initial q", (n,))
     v = finite_array(v, "initial v", (n,))
     z = finite_array(z, "initial z", (r,))
-    if max(abs(float(q @ closure.mass)), abs(float(v @ closure.mass))) > 1e-10:
-        raise ValueError("initial state must satisfy the original mass COI rule")
+    with np.errstate(over="ignore", invalid="ignore"):
+        q_coi, v_coi = float(q @ closure.mass), float(v @ closure.mass)
+        mass_sum = float(np.sum(closure.mass))
+    if (not np.isfinite([q_coi, v_coi, mass_sum]).all()
+            or max(abs(q_coi), abs(v_coi)) > 1e-10):
+        error = ValueError("initial state must satisfy the finite original mass COI rule")
+        error.partial_record = {"q_mass_coi": q_coi, "v_mass_coi": v_coi, "mass_sum": mass_sum}
+        raise error
     clock = finite_array(clock, "clock")
     if (clock.ndim != 1 or not len(clock) or clock[0] != 0
             or np.any(np.diff(clock) <= 0)
@@ -76,8 +88,9 @@ def path_preflight(closure, q, v, z, clock, power, equilibrium, max_step, *, lin
     if linear and len(clock) != 11:
         raise ValueError("PL history must have exactly eleven recorded points")
     power = finite_array(power, "power", (len(clock), n) if linear else (n,))
-    imbalance = np.sum(power, axis=-1) if linear else np.sum(power)
-    if np.max(np.abs(imbalance)) > 1e-10:
+    with np.errstate(over="ignore", invalid="ignore"):
+        imbalance = np.sum(power, axis=-1) if linear else np.sum(power)
+    if not np.isfinite(imbalance).all() or np.max(np.abs(imbalance)) > 1e-10:
         raise ValueError("input power must satisfy the original force balance rule")
     equilibrium = finite_array(equilibrium, "equilibrium", (n,))
     return np.concatenate((q, v, z)), clock, power, equilibrium
@@ -104,10 +117,22 @@ def rollout_fixed_input(closure, q, v, z, clock, power, equilibrium, *,
     """
     if linear and power_dispatch is None:
         raise ValueError("PL stage input evaluations require their own accounting")
-    state, clock, power, equilibrium = preflight_dispatch(
-        lambda: path_preflight(closure, q, v, z, clock, power, equilibrium,
-                               max_step, linear=linear))
+    preflight_values = {}
+
+    def preflight():
+        value = path_preflight(closure, q, v, z, clock, power, equilibrium, max_step, linear=linear)
+        preflight_values["returned"] = value
+        return value
+
+    try:
+        state, clock, power, equilibrium = preflight_dispatch(preflight)
+    except BaseException as error:
+        error.input_consistency_partial_record = {"phase": "preflight", **preflight_values}
+        if not hasattr(error, "partial_record"):
+            error.partial_record = error.input_consistency_partial_record
+        raise
     output = [state.copy()]
+    input_schedule = []
     updates = 0
     current = {"phase": "before_first_interval"}
     try:
@@ -120,17 +145,41 @@ def rollout_fixed_input(closure, q, v, z, clock, power, equilibrium, *,
                            "substep_count": count, "substep_size": h,
                            "substep_start_state": state.copy(), "stages": stages}
 
-                def field(value, numerator, stage, *, j=j, count=count,
+                def field(value, numerator, stage, *, j=j, k=k, count=count,
                           stages=stages, current=current):
                     current["stage"] = stage
                     current["phase"] = "input_evaluation" if linear else "rhs"
-                    u = (power_dispatch(lambda: linear_stage_power(power[j], power[j + 1],
-                                                                   numerator, count))
-                         if linear else power)
-                    stages[stage] = {"state": value.copy(), "power": u.copy()}
+                    stages[stage] = {"state": value.copy()}
+                    if not np.isfinite(value).all():
+                        raise FloatingPointError("nonfinite RK4 stage state")
+
+                    def evaluate_input():
+                        witness = {"interval_index": j, "substep_index": k, "substep_count": count,
+                                   "numerator": numerator, "stage_code": int(stage[1]),
+                                   "returned_power": None, "used_power": None}
+                        input_schedule.append(witness)
+                        result = linear_stage_power(power[j], power[j + 1], numerator, count)
+                        witness["returned_power"] = result.copy()
+                        stages[stage]["power"] = result.copy()
+                        return result
+
+                    u = power_dispatch(evaluate_input) if linear else power
+                    if linear:
+                        input_schedule[-1]["used_power"] = u.copy()
+                    stages[stage]["power"] = u.copy()
+                    if not np.isfinite(u).all():
+                        raise FloatingPointError("nonfinite PL stage power")
                     current["phase"] = "rhs"
-                    result = rhs_dispatch(lambda: closure.rhs(value, u, equilibrium))
-                    stages[stage]["returned_rhs"] = result.copy()
+
+                    def evaluate_rhs():
+                        result = closure.rhs(value, u, equilibrium)
+                        stages[stage]["returned_rhs"] = result.copy()
+                        return result
+
+                    result = rhs_dispatch(evaluate_rhs)
+                    stages[stage].setdefault("returned_rhs", result.copy())
+                    if not np.isfinite(result).all():
+                        raise FloatingPointError("nonfinite RK4 RHS return")
                     return result
 
                 k1 = field(state, k, "k1")
@@ -150,12 +199,22 @@ def rollout_fixed_input(closure, q, v, z, clock, power, equilibrium, *,
             output.append(state.copy())
     except BaseException as error:
         partial = {"output_prefix": np.stack(output), "last_state": state.copy(),
+                   "input_schedule_prefix": input_schedule,
                    "completed_updates": updates, "current": current}
         error.input_consistency_partial_record = partial
         if not hasattr(error, "partial_record"):
             error.partial_record = partial
         raise
-    return {"path": np.stack(output), "rk4_updates": updates}
+    schedule = {"index_fields": ["interval_index", "substep_index", "substep_count", "numerator", "stage_code"],
+                "stage_codes": {"k1": 1, "k2": 2, "k3": 3, "k4": 4},
+                "indices": np.asarray([[row[key] for key in ("interval_index", "substep_index", "substep_count",
+                                                               "numerator", "stage_code")]
+                                       for row in input_schedule], dtype=np.float64).reshape(-1, 5),
+                "returned_power": np.asarray([row["returned_power"] for row in input_schedule],
+                                             dtype=np.float64).reshape(-1, 10),
+                "used_power": np.asarray([row["used_power"] for row in input_schedule],
+                                         dtype=np.float64).reshape(-1, 10)}
+    return {"path": np.stack(output), "rk4_updates": updates, "input_schedule": schedule}
 
 
 def reset_visible_origin(closure, history_path, observed_endpoint, equilibrium, *, energy_dispatch=None):
@@ -163,15 +222,24 @@ def reset_visible_origin(closure, history_path, observed_endpoint, equilibrium, 
     path = finite_array(history_path, "closed-loop history", (11, 22))
     observed = finite_array(observed_endpoint, "observed endpoint", (20,))
     state = np.r_[observed, path[-1, 20:]]
-    dispatch = (lambda function: function()) if energy_dispatch is None else energy_dispatch
-    energy_before = dispatch(lambda: closure.energy(path[-1], equilibrium))
-    energy_after = dispatch(lambda: closure.energy(state, equilibrium))
     record = {"before": path[-1].copy(), "origin": state,
-              "energy_before": energy_before, "energy_after": energy_after,
-              "reset_energy_change": energy_after - energy_before,
               "reset_is_observation_injection_not_dissipative_dynamics": True}
-    if not np.isfinite([energy_before, energy_after, record["reset_energy_change"]]).all():
-        error = FloatingPointError("nonfinite visible-reset energy/change")
-        error.partial_record = record
-        raise error
-    return record
+    dispatch = (lambda function: function()) if energy_dispatch is None else energy_dispatch
+
+    def evaluate_energy(name, value):
+        result = closure.energy(value, equilibrium)
+        record[name] = result
+        return result
+
+    try:
+        energy_before = dispatch(lambda: evaluate_energy("energy_before", path[-1]))
+        energy_after = dispatch(lambda: evaluate_energy("energy_after", state))
+        record["reset_energy_change"] = energy_after - energy_before
+        if not np.isfinite([energy_before, energy_after, record["reset_energy_change"]]).all():
+            raise FloatingPointError("nonfinite visible-reset energy/change")
+        return record
+    except BaseException as error:
+        error.input_consistency_partial_record = record
+        if not hasattr(error, "partial_record"):
+            error.partial_record = record
+        raise

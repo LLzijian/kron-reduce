@@ -1,0 +1,198 @@
+{
+  "schema": "kiki_a17_pure_paths_implementation_v1",
+  "date": "2026-10-25",
+  "author": "Astra Ultra",
+  "status": "PREPARED_SYNTHETICALLY_VALIDATED_NOT_FULL_WORKFLOW_APPROVAL",
+  "execution_authorized": false,
+  "bindings": [
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_paths.py",
+      "bytes": 18099,
+      "sha256": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be"
+    },
+    {
+      "path": "tests/test_input_consistency_paths.py",
+      "bytes": 21188,
+      "sha256": "9cd66bfc1907a53a40e8dcf0b667764062993b8b215b69b53aef9b0fd575ae71"
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency.py",
+      "bytes": 10824,
+      "sha256": "13a9da845f862398df310734d03a6e320e5307c76c4f5aac1d250b6bdcd09d85"
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_checks.py",
+      "bytes": 14434,
+      "sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c"
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/astra-paths-pytest-v3.log",
+      "bytes": 101,
+      "sha256": "94356e75461d25e437acc49d047581767c9f6d09c9a0769c0382b5af496265aa"
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/astra-paths-ruff-v3.log",
+      "bytes": 20,
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    }
+  ],
+  "test_source_and_dependencies_stable_before_after_final_tests": true,
+  "runtime": "scratch/runtime/a07-py312/Scripts/python.exe",
+  "validation": {
+    "pytest": {
+      "command": "scratch/runtime/a07-py312/Scripts/python.exe -m pytest tests/test_input_consistency_paths.py -q -p no:cacheprovider",
+      "passed": 49,
+      "seconds": 1.17
+    },
+    "ruff": {
+      "command": "scratch/runtime/a07-py312/Scripts/python.exe -m ruff check src/kron_reduce/evaluation/input_consistency_paths.py tests/test_input_consistency_paths.py",
+      "status": "PASS"
+    },
+    "retained_earlier_logs": [
+      "astra-paths-pytest-v1.log",
+      "astra-paths-ruff-v1.log",
+      "astra-paths-pytest-v2.log",
+      "astra-paths-ruff-v2.log"
+    ],
+    "earlier_failure_explanation": "The first synthetic zero-impulse fixture compared the recomputed LS with an analytic target instead of the stored floating-point old LS. The fixture now stores Vh.T@((U.T@old_rhs)/s) exactly as A14. Production LS arithmetic was not changed to satisfy the test. Earlier Ruff style failures are retained.",
+    "independent_readonly_review": "state_dependent_port_theory reviewed composition; callback-vs-dispatch exception provenance and frozen pre-RHS update counts were corrected, then re-read. No remaining blocker identified within this module scope; no integrated workflow approval."
+  },
+  "api": {
+    "estimate_initial": "estimate_initial(integral, weighted_impulse_point, *, rank, threshold, natural_norm, determinant_lower, trace_upper, dispatch)",
+    "evaluate_fixed_path": "evaluate_fixed_path(closure, q, v, z, clock, power, equilibrium, *, max_step, linear, target_scale, dispatch)",
+    "reset_path_origin": "reset_path_origin(closure, history_path, observed_endpoint, equilibrium, *, dispatch)",
+    "dispatch": "dispatch(category, callable); executes exactly once and returns that exact callback value",
+    "partial_attribute": "input_consistency_paths_partial_record",
+    "preserved_attributes": [
+      "partial_record",
+      "input_consistency_partial_record",
+      "input_consistency_operation_partial"
+    ],
+    "dispatcher_numeric_exception": "RuntimeError with original cause and original partial attributes; cannot become a local numerical failure",
+    "original_input_error": "ValueError for original array/shape/finite/rank/threshold contract failures",
+    "numerical_gate_error": "FloatingPointError with returned checks and all available intermediate evidence",
+    "successful_return": "record with status=complete, call_counts, checks, diagnostic_operation_counts, derived_actual and operation-specific inputs/results",
+    "persistence_owner": "External workflow only. Complete returned path is attached to record before any physical check; external failure saver must collect the namespaced partial as well as original kernel/journal evidence.",
+    "target_scale": "Validated and retained for external pair refinement; unused in path integration and physical judgement."
+  },
+  "success_call_caps": {
+    "initializer": {
+      "initializers": 1,
+      "decomposition_check": 1,
+      "ls": 1,
+      "ls_diagnostics": 1,
+      "quadrature_proxy": 1
+    },
+    "history_005": {
+      "path_evaluations": 1,
+      "rollouts": 1,
+      "path_preflight": 1,
+      "input_eval": 80,
+      "integration_rhs": 80,
+      "physical_rhs": 11,
+      "physical_judgement": 1
+    },
+    "history_0025": {
+      "path_evaluations": 1,
+      "rollouts": 1,
+      "path_preflight": 1,
+      "input_eval": 160,
+      "integration_rhs": 160,
+      "physical_rhs": 11,
+      "physical_judgement": 1
+    },
+    "future_formula": {
+      "N": "number of intervals; point_count=N+1",
+      "step_005": "path_evaluations=1;rollouts=1;path_preflight=1;input_eval=0;integration_rhs=8N;physical_rhs=N+1;physical_judgement=1",
+      "step_0025": "path_evaluations=1;rollouts=1;path_preflight=1;input_eval=0;integration_rhs=16N;physical_rhs=N+1;physical_judgement=1"
+    },
+    "reset": {
+      "visible_resets": 1,
+      "energy_values": 2
+    }
+  },
+  "derived_limits": {
+    "initializer": {
+      "observation_map_attempted": 1,
+      "observation_map_returned": 1
+    },
+    "history_005": {
+      "successful_rk4_updates": 20
+    },
+    "history_0025": {
+      "successful_rk4_updates": 40
+    },
+    "future_005": "successful_rk4_updates=2N",
+    "future_0025": "successful_rk4_updates=4N",
+    "source": "RK4 actual completion sink; quadrature_proxy explicit matmul operation counts. No empty/dummy dispatch calls. RHS returned/4 is not a completion count.",
+    "frozen_preflight": "Within the one real path_preflight callback, after original preflight and before any RHS: sum(max(1,ceil(h/step-1e-12))) equals registered20/40 or2N/4N; future horizon <=3.0+1e-12. Source/clock identity remains an earlier workflow gate.",
+    "failure": "Actual cumulative sink count retained; no inferred missing updates, extra map, retry or re-computation."
+  },
+  "diagnostic_array_operations_per_success": {
+    "decomposition_check": {
+      "matmul": 3,
+      "norm_calls": 4,
+      "matrix_norms": 4,
+      "vector_norms": 0
+    },
+    "ls_diagnostics": {
+      "matmul": 2,
+      "norm_calls": 4,
+      "matrix_norms": 1,
+      "vector_norms": 3
+    },
+    "quadrature_proxy": {
+      "matmul": 1,
+      "norm_calls": 4,
+      "matrix_norms": 0,
+      "vector_norms": 4
+    },
+    "physical_judgement": {
+      "matmul": 0,
+      "norm_calls": 0,
+      "matrix_norms": 0,
+      "vector_norms": 0
+    },
+    "additional_non_diagnostic_operations": "Saved LS has two matrix-vector products, RHS addition and coefficient division inside its single ls callback. Each physical_rhs callback invokes energy_identity (one internal RHS), then two COI dot products. These are not separately dispatched or claimed as scalar-primitive audits.",
+    "observation_map": "The sole quadrature_proxy matmul is also the derived observation_map. Do not add it again to matmul totals.",
+    "scope": "explicit helper array operations only; no complete BLAS/scalar-primitive audit claim"
+  },
+  "full_registered_success_counts_from_protocol_only": {
+    "initializers": 774,
+    "decomposition_check": 774,
+    "ls": 774,
+    "ls_diagnostics": 774,
+    "quadrature_proxy": 774,
+    "path_evaluations": 3096,
+    "rollouts": 3096,
+    "path_preflight": 3096,
+    "input_eval": 185760,
+    "integration_rhs": 5380344,
+    "physical_rhs": 451458,
+    "physical_judgement": 3096,
+    "visible_resets": 1548,
+    "energy_values": 3096,
+    "derived_successful_rk4_updates": 1345086,
+    "derived_observation_map": 774,
+    "initializer_diagnostic_matmul": 4644,
+    "initializer_diagnostic_matrix_norms": 3870,
+    "initializer_diagnostic_vector_norms": 5418,
+    "initializer_diagnostic_norm_calls": 9288
+  },
+  "remaining_workflow_gates": [
+    "Exact sources, model/seed/event/cache-index/population and original clock identity before numerical work.",
+    "A16 plan -> consumed run/manifest/completion -> slot output SHA -> same A14 B file/member descriptors -> A17 B; same-slot impulse and Gram. Use determinant.lower/trace.upper, not point. Do not filter on normal-RHS resolved_nonzero.",
+    "Durable reservation before every scientific scope; operator caps and derived_limits handled separately; failure closes and global poison conform to accepted scope decision.",
+    "Immutable parameters and three-constructor/nine-eigvalsh budget remain caller responsibility.",
+    "Two complete origin/future freeze phases, reference I/E/truth causal access, original weights/failure population, path refinement and six-group scoring remain external.",
+    "Caller must retain full original kernel/journal error attributes and this module's partial evidence, without numerical or source retries."
+  ],
+  "real_source_npz_hdf_payload_reads_or_hashes": 0,
+  "real_scientific_calls": 0,
+  "scientific_authorization_or_budget_changes": 0,
+  "modified_existing_source_files": [],
+  "new_source_files": [
+    "src/kron_reduce/evaluation/input_consistency_paths.py",
+    "tests/test_input_consistency_paths.py"
+  ]
+}

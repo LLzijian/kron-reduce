@@ -104,6 +104,21 @@ jobs:
           src/kron_reduce/evaluation/input_consistency_checks.py
           src/kron_reduce/evaluation/input_consistency_journal.py
           src/kron_reduce/evaluation/input_consistency_metrics.py
+          src/kron_reduce/evaluation/input_consistency_paths.py
+          src/kron_reduce/evaluation/input_consistency_evidence.py
+          src/kron_reduce/evaluation/input_consistency_plan.py
+          src/kron_reduce/evaluation/input_consistency_sources.py
+          src/kron_reduce/evaluation/input_consistency_output_io.py
+          src/kron_reduce/evaluation/input_consistency_seal.py
+          src/kron_reduce/evaluation/input_consistency_result_audit.py
+          src/kron_reduce/workflows/kiki_input_consistency.py
+          tests/test_input_consistency_paths.py tests/test_input_consistency_evidence.py
+          tests/test_input_consistency_plan.py tests/test_input_consistency_sources.py
+          tests/test_input_consistency_composition.py
+          tests/test_input_consistency_output_io.py tests/test_input_consistency_seal.py
+          tests/test_input_consistency_result_audit.py tests/test_input_consistency_result_audit_metrics.py
+          tests/test_input_consistency_workflow.py tests/test_input_consistency_workflow_io.py
+          tests/test_input_consistency_entry_guards.py
           tests/test_input_consistency_kernel.py tests/test_input_consistency_checks.py
           tests/test_input_consistency_journal.py tests/test_input_consistency_metrics.py
           tests/test_input_consistency_reader.py
@@ -113,6 +128,13 @@ jobs:
           tests/test_input_consistency_kernel.py tests/test_input_consistency_checks.py
           tests/test_input_consistency_journal.py tests/test_input_consistency_metrics.py
           tests/test_input_consistency_reader.py
+          tests/test_input_consistency_paths.py tests/test_input_consistency_evidence.py
+          tests/test_input_consistency_plan.py tests/test_input_consistency_sources.py
+          tests/test_input_consistency_composition.py
+          tests/test_input_consistency_output_io.py tests/test_input_consistency_seal.py
+          tests/test_input_consistency_result_audit.py tests/test_input_consistency_result_audit_metrics.py
+          tests/test_input_consistency_workflow.py tests/test_input_consistency_workflow_io.py
+          tests/test_input_consistency_entry_guards.py
       - name: Record actual environment
         if: always()
         run: python -m pip freeze > ci-environment.txt

@@ -1,0 +1,148 @@
+{
+  "purpose": "bounded metadata schema and source identity preparation only",
+  "runtime": "3.12.14",
+  "plan": {
+    "path": "configs\\proposals\\kiki_a17_input_consistency_reads.json",
+    "size_bytes": 9568107,
+    "sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a"
+  },
+  "documents_read": 22,
+  "documents": [
+    {
+      "path": "results/paper_kiki_a09_train_mechanism-train_mechanism-20261024T054046076318Z-ff5ae772-e3d8db5f/artifact_hashes.json",
+      "size_bytes": 2296,
+      "sha256": "ae87ac95d337a9c8a1d4fdadd305701190e704cf9a85923f0ab9e27dbbfd4573",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a10_train_refinement-train_refinement-20261024T062534123221Z-161cae52-515f5625/artifact_hashes.json",
+      "size_bytes": 1784,
+      "sha256": "41741c4a3ab0973be2053cb23e29efd06ceaac3af02239e72f2cda140dccbc86",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/artifact_hashes.json",
+      "size_bytes": 1128155,
+      "sha256": "7438242d358244dece184a393ef871374322d04415237fff733ecd7c01767938",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a15_future_transfer-future_transfer-20261024T145313076879Z-f23e9b23-c2066d4e/artifact_hashes.json",
+      "size_bytes": 1131620,
+      "sha256": "e67dbb7c2d62ac82017e9d1049fd7a01c492c6b9c3587aa841d7bb89d247f1c4",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/artifact_hashes.json",
+      "size_bytes": 189054,
+      "sha256": "568a6271fd09dd98fb15c9c18e6d9a4c22799d639817f3fc988326dfd7134f7d",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/allocated_population.json",
+      "size_bytes": 252865,
+      "sha256": "6bfc5c51a5fb35ed011c7e49b2df9d126ffc443ecb0f114be607833c264089db",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/source_members.json",
+      "size_bytes": 394385,
+      "sha256": "2fc7469ded60ec250d766f564be88e8c962eadabbfaeea671c28eaf265daa821",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/summary.json",
+      "size_bytes": 2076,
+      "sha256": "9cf1ab27c4d0935f6f013c14e143c76e7ea324d5b44057bd7266c30a62f91ba8",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a15_future_transfer-future_transfer-20261024T145313076879Z-f23e9b23-c2066d4e/allocated_population.json",
+      "size_bytes": 258219,
+      "sha256": "598309c5a69426b4efa7373335599c30002df66f725b8a8829b2a96cf666ac05",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a15_future_transfer-future_transfer-20261024T145313076879Z-f23e9b23-c2066d4e/source_member_fingerprints.json",
+      "size_bytes": 654495,
+      "sha256": "0b2d60eff347802d5241ad4fe89ebee33ba5600f361ac432311237c05fa52327",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a15_future_transfer-future_transfer-20261024T145313076879Z-f23e9b23-c2066d4e/summary.json",
+      "size_bytes": 2091,
+      "sha256": "6a52e96793c202d24e40bcddfe76f08bf218c060b631c885627a5a17dbc18fc0",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/summary.json",
+      "size_bytes": 1164,
+      "sha256": "25d6528eff5325b6efa87197ddac120624689a1bffa5ba7ee8b326e3bd876136",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/frozen_plan.json",
+      "size_bytes": 2156571,
+      "sha256": "48e1beb23bd0cebdeb8e96eb76169feac129bd9f61d27e73dcfa50cdd1ddd8ac",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/allocated_slots.json",
+      "size_bytes": 402014,
+      "sha256": "c48f6c7a6503825f6c669e601b78c01b3124855fa5c39c86cf5c52f654e695c0",
+      "plan_match": true
+    },
+    {
+      "path": "docs/reports/kiki_a16_pm_impulse_20261025_evidence.json",
+      "size_bytes": 15561,
+      "sha256": "8d77a73edcd35bedde19959ec7f0eba3f41fa39a9460043871ea1acbc69fc4c8",
+      "plan_match": true
+    },
+    {
+      "path": "configs/proposals/kiki_a16_pm_impulse_reads.json",
+      "size_bytes": 1989555,
+      "sha256": "ba39f016dbb6ef468be09e68af595501dd69cf283c26acc9fbdb128fb2642bd0",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/permitted_inputs.json",
+      "size_bytes": 1275,
+      "sha256": "aae95f178024fc1f82c500d44a5addcaa0f92d6bfa056138a426868bd812c094",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/static-324.json",
+      "size_bytes": 6371,
+      "sha256": "adc6491aa93b545ff7b6297b1f8c4c4dab3d91f55fcda58f71a1dd0ca97cee9b",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/seed-324-event-000/integral.json",
+      "size_bytes": 70346,
+      "sha256": "d905de5491bce3db56a5c370c855484a9417df556ce546c55621b410ed553395",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/slot-324-000.json",
+      "size_bytes": 8063,
+      "sha256": "83d37508056b057026a7b238ee9ec62b7c4916991c54e6a92292922dd7d0ab7e",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/impulse-000.json",
+      "size_bytes": 7790,
+      "sha256": "f10ab3e8c903255c9c32086b4279b4110585fdaffab48046abace25ab0e13232",
+      "plan_match": true
+    },
+    {
+      "path": "results/paper_kiki_a15_future_transfer-future_transfer-20261024T145313076879Z-f23e9b23-c2066d4e/seed-324-event-000/future-0.005.json",
+      "size_bytes": 1016,
+      "sha256": "576138ac596e4bf70369d48c69933be3042d1a11159e5e6902127c07d6f8a8ab",
+      "plan_match": true
+    }
+  ],
+  "payloads_opened": 0,
+  "npz_decoded": 0,
+  "hdf_opened": 0,
+  "scientific_comparison": false
+}

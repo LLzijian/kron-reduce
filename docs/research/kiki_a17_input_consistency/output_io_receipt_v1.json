@@ -1,0 +1,28 @@
+{
+  "task": "A17 synthetic OutputIO engineering validation",
+  "runtime": "scratch/runtime/a07-py312/Scripts/python.exe (Python 3.12)",
+  "pytest": {
+    "command": "python -m pytest tests/test_input_consistency_output_io.py --basetemp scratch/one_off/t17outputio006 -p no:cacheprovider -q",
+    "result": "5 passed",
+    "log": "output_io_pytest_v1.log",
+    "sha256": "5555297B86D230ACCA775E82FB2A00743EB0534855F6025FFF5AC25D946F382D"
+  },
+  "ruff": {
+    "result": "check passed; format check passed",
+    "log": "output_io_ruff_v1.log",
+    "sha256": "D2B8316E7999989F966672DA92FECC518598B5A3C40FDEFED6D02C9886442E6B"
+  },
+  "files": {
+    "src/kron_reduce/evaluation/input_consistency_output_io.py": "8BF3DB2A28CDD23F210691D80ADE2BF190DD526A630F5BDBC64E1FC06368FAA4",
+    "tests/test_input_consistency_output_io.py": "F7CC6DBA350AA59F63CA3AFA55C23C2505259C883A0C4AFA11D0539E56B9E635"
+  },
+  "coverage": [
+    "text/binary and NumPy ZIP writes, reads, seek accounting",
+    "scope journal byte-range reads and append-only journal fsync accounting",
+    "external source path and unregistered file descriptor passthrough",
+    "unknown partial read/write failures poison and stop later opens",
+    "unsafe path, open, fsync, close and transition-cap failures poison",
+    "Path.open and os.fsync restoration"
+  ],
+  "scientific_payloads_accessed": false
+}

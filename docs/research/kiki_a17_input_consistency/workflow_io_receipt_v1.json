@@ -1,0 +1,28 @@
+{
+  "task": "A17 synthetic workflow and OutputIO integration validation",
+  "runtime": "scratch/runtime/a07-py312/Scripts/python.exe (Python 3.12)",
+  "pytest": {
+    "command": "python -m pytest tests/test_input_consistency_workflow.py tests/test_input_consistency_workflow_io.py --basetemp scratch/one_off/t17workflowio003 -p no:cacheprovider -q",
+    "result": "6 passed in 83.58s",
+    "log": "workflow_io_pytest_v1.log",
+    "sha256": "89430B567751BDC617D92F242C7F13CC73FFCBABA56C7FF6F783DDD533142BC0"
+  },
+  "ruff": {
+    "result": "check passed; format check passed",
+    "log": "workflow_io_ruff_v1.log",
+    "sha256": "194B272E58B4F28531A8ED411051FC0E9E0DE0FF34B74139D156EC0139E8989F"
+  },
+  "files": {
+    "tests/test_input_consistency_workflow.py": "79698401368B106F0B5A814268B5347D4CE75C57A1EB2BA77A204FE01C7B435E",
+    "tests/test_input_consistency_workflow_io.py": "CF4C3E6CA090E9A54467E571A543E696B3E8F982205D934EECF5AA01F233A55B"
+  },
+  "integration_checks": [
+    "Three-phase synthetic Campaign executed through _execute with OutputIO active",
+    "Native fsync successful run sealed summary, scope closures, output I/O summary, and exact artifact SHA manifest",
+    "Synthetic source provider wrote attempted/returned transition rows; each source context was consumed once",
+    "Scope result NPZ fsync failure retained original OSError, an unknown-spent active scope, and cleanup failure evidence",
+    "Summary JSON fsync failure retained completed scope/source evidence but produced no successful seal",
+    "Both fsync failures prevented retries and preserved fatal prefix evidence"
+  ],
+  "scientific_payloads_accessed": false
+}

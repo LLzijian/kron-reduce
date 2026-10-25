@@ -1,0 +1,16 @@
+{
+  "kind": "root_tool_observation_not_a_final_binding_receipt",
+  "source_tool_chunk": "209e8c",
+  "basetemp": "scratch/one_off/t17witness001",
+  "command": "python -m pytest tests/test_input_consistency_kernel.py tests/test_input_consistency_paths.py tests/test_input_consistency_output_io.py -q -p no:cacheprovider --basetemp scratch/one_off/t17witness001",
+  "observed_pytest": "82 passed in 2.01s",
+  "combined_command_exit_code": 1,
+  "ruff_after_pytest": {
+    "status": "FAIL",
+    "code": "B023",
+    "message": "Function definition does not bind loop variable k"
+  },
+  "subsequent_change": "Bound k=k in field default arguments; subsequent Ruff passed. Final whole-source pytest/ruff is still pending.",
+  "source_bindings_at_execution_time": null,
+  "boundary": "This is a faithful record of tool output, not a claim of an independently frozen source/log receipt or authorization. No real source payloads or scientific execution occurred."
+}

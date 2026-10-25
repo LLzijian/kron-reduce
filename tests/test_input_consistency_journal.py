@@ -40,6 +40,103 @@ def test_local_numerical_failure_keeps_failed_slot_then_next_independent_scope(t
     assert len(journal.closed_scopes) == 2
 
 
+def test_retry_after_local_failure_is_rejected_and_globally_stops(tmp_path):
+    journal = InputConsistencyJournal(tmp_path / "failure-lock")
+    journal.begin("synthetic-failed-slot", {"ls": 2})
+    dispatched = []
+
+    def numerical_failure():
+        dispatched.append("first")
+        raise FloatingPointError("synthetic numerical failure")
+
+    with pytest.raises(FloatingPointError):
+        journal.call("ls", numerical_failure)
+    with pytest.raises(ScopeJournalError, match="failed A17 scope"):
+        journal.call("ls", lambda: dispatched.append("retry"))
+    assert dispatched == ["first"]
+    assert journal.poisoned
+    assert journal.attempted == journal.failed == {"ls": 1}
+    assert journal.next_index == {"ls": 1}
+    with pytest.raises(ScopeJournalError):
+        journal.persist_and_finish(lambda: pytest.fail("normal close forbidden"), status="numerical_failure")
+    with pytest.raises(ScopeJournalError):
+        journal.begin("synthetic-independent-slot", {"ls": 1})
+    assert not (journal.directory / "synthetic-failed-slot-closed.json").exists()
+    journal.close()
+
+
+def test_returned_value_survives_a_failed_terminal_record(tmp_path, monkeypatch):
+    journal = InputConsistencyJournal(tmp_path / "terminal-failure")
+    journal.begin("synthetic-returned", {"ls": 1})
+    original = journal.append
+
+    def fail_terminal(entry):
+        if entry["transition"] == "returned":
+            raise OSError("terminal write failed")
+        return original(entry)
+
+    monkeypatch.setattr(journal, "append", fail_terminal)
+    with pytest.raises(OSError) as caught:
+        journal.call("ls", lambda: {"answer": [2., 3.]})
+    partial = caught.value.input_consistency_operation_partial
+    assert partial["function_started"] and partial["function_returned"]
+    assert partial["returned_value"] == {"answer": [2., 3.]}
+    assert journal.poisoned and not (journal.directory / "synthetic-returned-closed.json").exists()
+    journal.close()
+
+
+def test_original_numerical_error_is_kept_when_failed_record_also_fails(tmp_path, monkeypatch):
+    journal = InputConsistencyJournal(tmp_path / "failed-terminal")
+    journal.begin("synthetic-numerical", {"ls": 1})
+    original = journal.append
+
+    def fail_terminal(entry):
+        if entry["transition"] == "failed":
+            raise OSError("failure record write failed")
+        return original(entry)
+
+    def fail_science():
+        error = FloatingPointError("numeric failure")
+        error.partial_record = {"original": [4., 5.]}
+        raise error
+
+    monkeypatch.setattr(journal, "append", fail_terminal)
+    with pytest.raises(OSError) as caught:
+        journal.call("ls", fail_science)
+    partial = caught.value.input_consistency_operation_partial
+    assert partial["function_started"] and not partial["function_returned"]
+    assert partial["function_failure"]["type"] == "FloatingPointError"
+    assert partial["function_failure"]["partial_record"] == {"original": [4., 5.]}
+    assert journal.poisoned
+    journal.close()
+
+
+@pytest.mark.parametrize(
+    ("status", "evidence"),
+    [
+        ("success", None),
+        ("complete", {"artifact_hashes": {"forged.json": "f" * 64}}),
+        ("complete", {"status": "numerical_failure"}),
+    ],
+)
+def test_close_status_and_artifact_evidence_cannot_be_overridden(
+    tmp_path, status, evidence
+):
+    journal = InputConsistencyJournal(tmp_path / f"invalid-close-{status}-{bool(evidence)}")
+    journal.begin("synthetic-close", {"ls": 0})
+    saved = []
+    with pytest.raises(ScopeJournalError):
+        journal.persist_and_finish(
+            lambda: saved.append(True) or {"real.json": "a" * 64},
+            status=status,
+            evidence=evidence,
+        )
+    assert saved == []
+    assert journal.poisoned
+    assert not (journal.directory / "synthetic-close-closed.json").exists()
+    journal.close()
+
+
 @pytest.mark.parametrize("phase", ["reservation", "attempt", "save", "close"])
 def test_durability_or_save_error_permanently_poisons_the_object(tmp_path, monkeypatch, phase):
     journal = InputConsistencyJournal(tmp_path / "operations")

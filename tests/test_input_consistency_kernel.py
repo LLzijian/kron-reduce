@@ -86,6 +86,16 @@ def test_pl_input_every_rk4_stage_and_model_generated_states():
     assert len(calls) == 4 * result["rk4_updates"]
     assert np.array_equal(calls, expected)
     assert np.array_equal(rhs_powers, expected)
+    schedule = result["input_schedule"]
+    assert np.array_equal(schedule["returned_power"], expected)
+    assert np.array_equal(schedule["used_power"], rhs_powers)
+    expected_indices = []
+    for j, interval in enumerate(np.diff(clock)):
+        n = max(1, int(np.ceil(interval / .005 - 1e-12)))
+        for k in range(n):
+            expected_indices.extend([[j, k, n, x, stage] for stage, x in
+                                     enumerate((k, k + .5, k + .5, k + 1), start=1)])
+    assert np.array_equal(schedule["indices"], expected_indices)
     assert np.array_equal(calls[-1], powers[-1])
     assert np.any(np.stack(states)[1:, :20] != 0)
     assert np.array_equal(powers, np.arange(11)[:, None] * pattern[None, :] * .001)
@@ -163,7 +173,7 @@ def test_numerical_failure_retains_prefix_without_another_rhs():
                             np.linspace(0, .1, 11), np.zeros((11, 10)), np.zeros(10),
                             max_step=.005, linear=True, preflight_dispatch=direct,
                             rhs_dispatch=failing_rhs, power_dispatch=direct)
-    assert len(calls) == 4
+    assert len(calls) == 1
     partial = caught.value.partial_record
     assert partial["output_prefix"].shape == (1, 22)
     assert partial["completed_updates"] == 0
@@ -215,3 +225,84 @@ def test_reset_subtraction_overflow_retains_both_finite_energies():
     assert partial["energy_before"] == -1e308
     assert partial["energy_after"] == 1e308
     assert np.isinf(partial["reset_energy_change"])
+
+
+@pytest.mark.parametrize("bad", ["coi_dot", "power_sum"])
+def test_nonfinite_derived_preflight_scalar_stops_before_rhs(bad):
+    class FixedParameters:
+        n_nodes, latent_dimension = 10, 2
+        mass = np.full(10, 2.)
+
+    q, power = np.zeros(10), np.zeros(10)
+    if bad == "coi_dot":
+        q[:] = [1e308, -1e308] * 5
+    else:
+        power[:4] = [1e308, 1e308, -1e308, -1e308]
+    with np.errstate(over="ignore", invalid="ignore"), pytest.raises(ValueError):
+        rollout_fixed_input(FixedParameters(), q, np.zeros(10), np.zeros(2),
+                            np.array([0., .01]), power, np.zeros(10), max_step=.005,
+                            linear=False, preflight_dispatch=direct,
+                            rhs_dispatch=lambda f: pytest.fail("invalid preflight dispatched RHS"))
+
+
+def test_ls_return_is_kept_if_dispatch_terminal_fails():
+    U = np.zeros((100, 2))
+    U[:2] = np.eye(2)
+    s = np.ones(2)
+    threshold = float(64 * np.finfo(float).eps * 100)
+
+    def returned_then_failed(function):
+        function()
+        raise OSError("terminal log fsync")
+
+    with pytest.raises(OSError) as caught:
+        solve_saved_decomposition(U=U, singular=s, Vh=np.eye(2), b=np.ones(100),
+                                 weighted_impulse=np.ones(100), rank=2, threshold=threshold,
+                                 natural_norm=1., dispatch=returned_then_failed)
+    assert np.array_equal(caught.value.partial_record["z0"], np.array([2., 2.]))
+
+
+@pytest.mark.parametrize("mode", ["energy_function", "energy_terminal"])
+def test_first_energy_is_kept_on_later_energy_or_terminal_failure(mode):
+    model = closure()
+    count = 0
+
+    def energy_dispatch(function):
+        nonlocal count
+        count += 1
+        if mode == "energy_function" and count == 2:
+            raise FloatingPointError("second energy function failed")
+        value = function()
+        if mode == "energy_terminal":
+            raise OSError("first energy terminal failed")
+        return value
+
+    with pytest.raises((FloatingPointError, OSError)) as caught:
+        reset_visible_origin(model, np.zeros((11, 22)), np.zeros(20), np.zeros(10),
+                             energy_dispatch=energy_dispatch)
+    assert caught.value.input_consistency_partial_record["energy_before"] == 0.
+
+
+@pytest.mark.parametrize("operation", ["power", "rhs", "preflight"])
+def test_actual_callback_return_survives_terminal_logging_failure(operation):
+    model = closure()
+
+    def returned_then_failed(function):
+        function()
+        raise OSError("terminal log failure")
+
+    with pytest.raises(OSError) as caught:
+        rollout_fixed_input(model, np.zeros(10), np.zeros(10), np.zeros(2),
+                            np.linspace(0, .1, 11), np.zeros((11, 10)), np.zeros(10),
+                            max_step=.005, linear=True,
+                            preflight_dispatch=returned_then_failed if operation == "preflight" else direct,
+                            rhs_dispatch=returned_then_failed if operation == "rhs" else direct,
+                            power_dispatch=returned_then_failed if operation == "power" else direct)
+    partial = caught.value.input_consistency_partial_record
+    if operation == "preflight":
+        assert "returned" in partial
+    else:
+        stage = partial["current"]["stages"]["k1"]
+        assert stage["power"].shape == (10,)
+        if operation == "rhs":
+            assert stage["returned_rhs"].shape == (22,)

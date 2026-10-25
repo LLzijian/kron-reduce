@@ -1,0 +1,106 @@
+{
+  "kind": "A17_independent_saved_result_auditor_implementation_receipt_v1",
+  "status": "MODULE_SYNTHETIC_PASS_FULL_CANONICAL_INTEGRATION_PENDING",
+  "execution_authorized": false,
+  "scientific_acceptance": null,
+  "files": [
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_result_audit.py",
+      "sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+      "size_bytes": 93678
+    },
+    {
+      "path": "tests/test_input_consistency_result_audit.py",
+      "sha256": "ad4b28779fc4d5037406baf84648ce7adda5ea3891c8b06cfeda6acdc9302a8f",
+      "size_bytes": 46164
+    },
+    {
+      "path": "tests/test_input_consistency_result_audit_metrics.py",
+      "sha256": "228833044fd1b32e62fbcd8d746cf520fa4ac59bead61c99bed816148c339138",
+      "size_bytes": 13783
+    }
+  ],
+  "runtime": {
+    "python": "3.12.14",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe"
+  },
+  "validation": {
+    "synthetic_tests": 230,
+    "test_log": {
+      "path": "scratch/one_off/kiki-a17-result-audit-20261025/auditor-synthetic-pytest-v5.log",
+      "sha256": "a4462c4efa636f1cdd347bee441dad659712876bd66714ccf928af31ee8bd927",
+      "size_bytes": 345
+    },
+    "ruff_log": {
+      "path": "scratch/one_off/kiki-a17-result-audit-20261025/auditor-synthetic-ruff-v4.log",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "size_bytes": 20
+    },
+    "old_logs_preserved": true,
+    "prior_metric_test_failure": "metrics-synthetic-pytest-v1.log retained: nonfinite rejection exception precedence expectation; fixed test accepted ValueError/FloatingPointError for NaN condition only",
+    "prior_lint_failure": "auditor-synthetic-ruff-v2.log retained: test import ordering, no scientific change",
+    "independent_read_only_fix_review": {
+      "agent": "/root/astra_a16_final_review/state_dependent_port_theory",
+      "source_sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+      "result": "No additional blocking issue in reviewed fixes; not an execution authorization",
+      "tests_run_by_that_review": 0
+    }
+  },
+  "public_contract": {
+    "external_hashes_required": [
+      "artifact_manifest",
+      "read_plan",
+      "compute_plan"
+    ],
+    "population": {
+      "allocated_train": 268,
+      "eligible_train": 258,
+      "seed_event_slots": 774,
+      "scopes": 10356,
+      "phase_scopes": [
+        3100,
+        2580,
+        4676
+      ]
+    },
+    "scoring": {
+      "groups": 18,
+      "paired_groups": 12,
+      "promotion_decision": "KEEP_BASELINE"
+    },
+    "public_population_reduction_option": false,
+    "new_run_only": true,
+    "source_paths_in_metadata_are_never_followed": true,
+    "external_shared_budget_completion_receipt_read": false,
+    "last_four_seal_actions": "Counts/bytes independently reconstructable; actual completion requires the separate coordinating-agent shared-budget receipt audit"
+  },
+  "scope": [
+    "Sealed run file SHA, safe relative paths, exact NPZ inventories and logical array fingerprints",
+    "All reserved scientific scopes, ordered dependencies, nested actual transitions, exact successful caps and local-failure prefixes",
+    "Derived and diagnostic counts reconstructed from saved helper returns without extra callbacks",
+    "Reader selector order, both integrity passes, phase freezes, scalar/payload/header counts",
+    "Saved metadata manifest chains, original populations/weights, A14/A06 parameters, same-slot A16 Gram and A15 I/A09-A10 E ancestry",
+    "Actual PL stage schedule, input endpoint identities, complete reset origins and own hidden states",
+    "Saved scalar gate formulas, actual mass-weighted COI and refinement replay from corresponding saved paths",
+    "Independent event/population/paired-score replay with original NumPy float64 accumulation order and exact frozen acceptance inequalities",
+    "Output I/O durable lifecycle, freeze ordering and N+1 saved sealing-prefix actions"
+  ],
+  "activity_boundary": {
+    "old_real_source_payload_reads_or_hashes": 0,
+    "models_constructed": 0,
+    "least_squares_calls": 0,
+    "decompositions": 0,
+    "rhs_calls": 0,
+    "fits": 0,
+    "optimizer_updates": 0,
+    "new_real_scientific_comparisons": 0,
+    "labels_val_test_reads": 0,
+    "policy_or_authorization_changes": 0,
+    "synthetic_work": "New test-owned arrays and saved records only; independent existing-metric/diagnostic evidence replay is not a new campaign"
+  },
+  "outstanding": [
+    "Coordinating agent full canonical suite and final exact source binding/CI",
+    "Full workflow scientific acceptance remains a separate Astra review",
+    "No A17 registration or real execution is authorized by this receipt"
+  ]
+}

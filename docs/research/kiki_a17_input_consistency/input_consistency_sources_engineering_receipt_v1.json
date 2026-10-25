@@ -1,0 +1,68 @@
+{
+  "task": "A17 source-document ancestry verifier engineering verification",
+  "scope": "Source verifier has no IO and used synthetic document envelopes in tests. Actual metadata preparation was restricted to the 22 paths listed in the referenced preparation receipt; no NPZ/HDF/CSV/splits/payload was opened or decoded.",
+  "runtime": {
+    "python": "3.12.14",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe"
+  },
+  "synthetic_tests": {
+    "passed": 9,
+    "failed": 0,
+    "command": "python -m pytest tests/test_input_consistency_sources.py --basetemp scratch/one_off/t17sources009 -p no:cacheprovider -q"
+  },
+  "ruff": {
+    "passed": true,
+    "command": "python -m ruff check --no-cache src/kron_reduce/evaluation/input_consistency_sources.py tests/test_input_consistency_sources.py"
+  },
+  "source_metadata_preparation_receipt": {
+    "path": "scratch\\one_off\\kiki-a17-input-consistency-20261025\\input_consistency_sources_metadata_preparation_v1.json",
+    "sha256": "1c7ea11d99d99a368aeb077787f2e85a140cd19d085e996b1c7c18ca22caacec",
+    "documents_read": 22
+  },
+  "result_interface": {
+    "slot_bindings": 774,
+    "contains_rank_threshold_tol_natural_norm": true,
+    "contains_A16_weighted_impulse_gram_trace_determinant_u11_d": true,
+    "contains_A15_candidate_baseline_truth_clock_descriptors": true,
+    "contains_A09_A10_bulk_E_truth_clock_offset_ancestry": true,
+    "json_serializable": true
+  },
+  "historical_verdicts_preserved": {
+    "A14": "ACCEPT; V/I pass; KEEP_BASELINE",
+    "A15": "REJECT; V pass, I/D fail; KEEP_BASELINE"
+  },
+  "real_source_documents_passed_to_verifier": false,
+  "files": {
+    "src/kron_reduce/evaluation/input_consistency_sources.py": {
+      "size_bytes": 28721,
+      "sha256": "075919b6cd65d0cdd694a32ed2736ca4aa718543223e5f768fb8b75cb280d73d"
+    },
+    "tests/test_input_consistency_sources.py": {
+      "size_bytes": 15610,
+      "sha256": "ef9119c555bd50fecb66dfc8ea16cf4b97e901ca33c73c696fc923f72ff831cf"
+    },
+    "configs/proposals/kiki_a17_input_consistency_reads.json": {
+      "size_bytes": 9568107,
+      "sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a"
+    },
+    "scratch/one_off/kiki-a17-input-consistency-20261025/input_consistency_sources_metadata_preparation_v1.json": {
+      "size_bytes": 6535,
+      "sha256": "1c7ea11d99d99a368aeb077787f2e85a140cd19d085e996b1c7c18ca22caacec"
+    },
+    "scratch/one_off/kiki-a17-input-consistency-20261025/input_consistency_sources_pytest_v9.log": {
+      "size_bytes": 101,
+      "sha256": "627c974c5f6970031e2320e4b9abe3695cbe76a1f89779797f4cd1e524fb3a7b"
+    },
+    "scratch/one_off/kiki-a17-input-consistency-20261025/input_consistency_sources_ruff_v9.log": {
+      "size_bytes": 20,
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    }
+  },
+  "retained_earlier_failure_logs": [
+    "input_consistency_sources_pytest_v1.log",
+    "input_consistency_sources_pytest_v2.log",
+    "input_consistency_sources_pytest_v4.log",
+    "input_consistency_sources_pytest_v5.log",
+    "input_consistency_sources_pytest_v8.log"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "kind": "astra_a17_integration_preflight",
+  "version": 1,
+  "date": "2026-10-25",
+  "status": "BLOCKING_FINDINGS_IN_OBSERVED_REVISION",
+  "review_type": "registration_preflight_not_exact_implementation_approval",
+  "execution_authorized": false,
+  "scientific_execution_performed": false,
+  "source_payload_reads": 0,
+  "source_payload_hashes": 0,
+  "new_model_ls_rhs_calls": 0,
+  "production_files_modified_by_reviewer": [],
+  "reviewer": "/root/astra_a16_final_review/state_dependent_port_theory",
+  "authority_boundary": "This review neither activates A17 nor approves an exact implementation. The absent A17 policy/experiment entries are deliberate pending registration, not a reported implementation defect.",
+  "revision_caveat": {
+    "concurrent_edits": true,
+    "description": "The coordinator began repairs after receiving findings. Kernel and OutputIO were changed before their first SHA snapshot in this review. Their old findings are supported by earlier tool-read source excerpts and line numbers, not by an invented full-file hash. The hash inventory below records the subsequently observed files and explicitly does not bind those two old snippets. No complete immutable pre-repair kernel/OutputIO copy was available. The coordinator confirmed this limitation.",
+    "required_followup": "Preserve this v1. Bind repaired files and synthetic regression evidence in a separate v2 before exact implementation approval. A later repair notice does not close a finding in this report."
+  },
+  "findings": [
+    {
+      "id": "A17-PREFLIGHT-001",
+      "severity": "P1",
+      "blocking_before_real_execution": true,
+      "status_at_observation": "open",
+      "title": "Successful PL input evaluations lack a saved actual scheduling witness",
+      "file": "src/kron_reduce/evaluation/input_consistency.py",
+      "observed_lines": [138, 199],
+      "observed_full_file_sha256": null,
+      "sha_unavailable_reason": "Concurrent repair preceded the first file hash; the old source was read through the tool before repair.",
+      "related_files": [
+        {"path": "src/kron_reduce/evaluation/input_consistency_paths.py", "lines": [314, 323], "sha256": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be"},
+        {"path": "src/kron_reduce/evaluation/input_consistency_journal.py", "lines": [57, 69], "sha256": "283de129fa1445feb048bd52d24d554bf4c740be41329594a3183e141e100bcb"}
+      ],
+      "evidence": [
+        "The original kernel retained interval_index/substep_index/substep_count/stage only in the current/stages local records and attached those records on exceptions.",
+        "The original successful return was return {\"path\": np.stack(output), \"rk4_updates\": updates}.",
+        "The paths wrapper dispatched input_eval with no scheduling details; the journal defaulted details to null. Successful records therefore contained input_eval indices/counts without each actual interval/stage/fraction."
+      ],
+      "trigger": "Any successful historical PL rollout, even with every numerical and physical gate passing.",
+      "impact": "The independent new-run-only audit cannot verify the actual four-stage PL input schedule required by protocol section 4. Reconstructing an intended schedule from source and input nodes is not a saved witness of the calls that occurred.",
+      "repair_direction": "Record interval, substep, count, stage, numerator/fraction and actual returned/used input at the existing callback invocation, either in journal details or a compact returned witness. Preserve only genuinely attempted/returned entries on failure. Do not add input evaluations or RHS calls.",
+      "required_regression": "A successful nonconstant PL case and injected input callback failures must preserve exactly the actual schedule prefix, endpoint identity, four stage fractions, and unchanged scientific operation counts.",
+      "coordinator_response": "Repair in progress: compact schedule witness added after this observation; separate exact v2 review and regression still required."
+    },
+    {
+      "id": "A17-PREFLIGHT-002",
+      "severity": "P1",
+      "blocking_before_real_execution": true,
+      "status_at_observation": "open",
+      "title": "Measured short writes can remain successful and be sealed",
+      "file": "src/kron_reduce/evaluation/input_consistency_output_io.py",
+      "observed_lines": [185, 217],
+      "observed_full_file_sha256": null,
+      "sha_unavailable_reason": "Concurrent repair preceded the first file hash; do not substitute an earlier engineering receipt SHA for the actual text read.",
+      "related_files": [
+        {"path": "src/kron_reduce/evaluation/input_consistency_evidence.py", "lines": [24, 30], "sha256": "393344f474386aa78c4f9a0332f519e5c54a49a429254b8888c6fb72a9dfd436"},
+        {"path": "src/kron_reduce/workflows/kiki_input_consistency.py", "lines": [644, 648], "sha256": "77493e9c01a2ef3a5d0d0ee2a283c12357a06a88c20310c76b0e8f1f1be4544c"}
+      ],
+      "evidence": [
+        "The original measured write counted returned bytes, incremented short_writes when actual < requested, then returned without poisoning or raising.",
+        "write_json delegates chunks to json.dump without checking each stream.write return; archive writers likewise rely on stream write semantics.",
+        "The seal precondition checked poisoned/unknown/active handles but did not reject short_writes. Hashing the resulting bytes alone cannot prove that the intended evidence was fully written."
+      ],
+      "trigger": "An underlying evidence writer returns a known count smaller than the request without raising; a JSON chunk or NPZ segment is truncated.",
+      "impact": "A damaged result record can be closed and hashed as successful, losing evidence or altering a saved scalar despite normal scientific counters.",
+      "repair_direction": "Reject any invalid or short write count immediately as a global persistence failure. Retain the known returned byte count and the short-write flag; do not relabel a known short return as an unknown prefix. Normal short reads at EOF remain valid when the caller's length/hash check permits them.",
+      "required_regression": "Inject a known short write through the actual evidence writer and assert permanent poison, no successful scope/seal, retained requested/returned counts, and zero unknown-byte increments for that known return.",
+      "coordinator_response": "Repair in progress: stop-on-short-write added after this observation; separate exact v2 review and regression still required."
+    },
+    {
+      "id": "A17-PREFLIGHT-003",
+      "severity": "P1",
+      "blocking_before_real_execution": true,
+      "status_at_observation": "open",
+      "title": "Failures during the unmetered sealing tail lose actual I/O progress",
+      "file": "src/kron_reduce/workflows/kiki_input_consistency.py",
+      "observed_lines": [637, 707],
+      "observed_full_file_sha256": "77493e9c01a2ef3a5d0d0ee2a283c12357a06a88c20310c76b0e8f1f1be4544c",
+      "related_lines": [741, 757],
+      "evidence": [
+        "seal_result runs after OutputIO exits, maintaining manifest/hash_bytes and file read/write state only as local variables.",
+        "The successful tail return reports total reads/writes, but the original function has no failure ledger or exception partial attachment for hash reads, source-line counting, summary writes/fsync, manifest writes/fsync, or the final manifest hash.",
+        "The outer fatal_prefix saves io.snapshot from before sealing, so a sealing exception does not preserve the sealing actions already attempted or returned. The exact checks on the two final write_tail calls do not by themselves close this gap."
+      ],
+      "trigger": "Any sealing hash read, summary/manifest write, flush, fsync, close or final hash fails after one or more earlier tail operations returned.",
+      "impact": "The campaign stops, but its I/O accounting and failure evidence omit the actual finite tail prefix. A reviewer cannot reconcile attempted/returned/failed sealing actions or known versus unknown byte returns.",
+      "repair_direction": "Use a finite append-only tail ledger or equivalent exception-attached progress record with action identity, attempted/returned/failed status, actual returned bytes, and durability outcome. Preserve the original error and serialize the tail partial through the independent fatal evidence writer. Continue to forbid resealing/retry and adjust the I/O envelope if new actions are introduced.",
+      "required_regression": "Inject failures after at least one successful tail hash, during source-line reading, summary write/fsync, manifest write/fsync and final hash. Confirm complete known prefixes, explicit unknown interrupted operations, no invented returns, no successful final seal, and no scientific recomputation.",
+      "coordinator_response": "Repair in progress: coordinator is implementing a bounded TailLedger; not reviewed in this v1."
+    }
+  ],
+  "verified_control_properties": {
+    "controller_scope_order_count": 10356,
+    "frozen_scope_order_count": 10356,
+    "controller_vs_frozen_scope_order_mismatches": [],
+    "phase_scope_counts": [3100, 2580, 4676],
+    "all_success_scopes": 10326,
+    "records_present_including_failures_scopes": 30,
+    "groups_and_pairs": {"population_groups": 18, "paired_groups": 12},
+    "dependency_field": "ScopeStore now reads prerequisite_scope_ids; earlier field mismatch is resolved in the observed controller.",
+    "operation_category_sum": 6049612,
+    "total_rhs": 5831802,
+    "successful_rk4_updates": 1345086,
+    "observation_map_attempted_and_returned": 774,
+    "diagnostic_array_operations": {"matmul": 4644, "norm_calls": 15480, "matrix_norms": 3870, "vector_norms": 1325736},
+    "count_semantics": "Nested callback/process categories are not disjoint scalar scientific primitives.",
+    "phase_freezes": "Controller saves all original history/reset or future records, JSON/NPZ hashes, the closed-scope count/end offset/closure-chain digest, then reader.advance binds the freeze SHA before the next phase is loaded.",
+    "failure_population": "Numerical failures consume scopes; all_success dependants remain explicit zero-work failures; group/pair summaries retain original weights and missing mass. No retry or complete-case replacement is introduced by the inspected control flow.",
+    "physical_input_flow": "Single rhs=btilde4+weighted_impulse(point) solve using saved factors; historical inputs use all eleven recorded point columns; each step keeps its own latent history endpoint, resets visible q/v and saves reset energies; future uses original constant_power with the actual delta_u retained.",
+    "source_and_parameter_flow": "Whitelisted reader phases and source metadata proof precede model construction. I/E/truth decode follows the future freeze. E ancestry uses nine bounded in-memory hashes. Parameters are compared against saved arrays before and after the campaign; final parameter scope is last.",
+    "metric_boundary": "All six seed/step comparisons are independently required for each I/E reference; V=false forces both group gates false. No labels, LOS or new missed-instability claim is introduced."
+  },
+  "hash_inventory_note": "These are exact file hashes obtained during this review, after concurrent fixes had begun. The kernel and OutputIO hashes below identify then-current repaired/in-progress files, not the pre-repair snippets underlying findings 001 and 002. They are not exact approval bindings.",
+  "hash_inventory": {
+    "src/kron_reduce/workflows/kiki_input_consistency.py": "77493e9c01a2ef3a5d0d0ee2a283c12357a06a88c20310c76b0e8f1f1be4544c",
+    "src/kron_reduce/evaluation/input_consistency.py": "a40db3dab28786357100b09cc74a8af0e3e72e497aba850a83fe32d781f1fde4",
+    "src/kron_reduce/evaluation/input_consistency_output_io.py": "d45eb80de4bc523805a33bcf23eed050342621a4d00d2b23bd7c9a13af3f8c03",
+    "src/kron_reduce/evaluation/input_consistency_paths.py": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be",
+    "src/kron_reduce/evaluation/input_consistency_checks.py": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+    "src/kron_reduce/evaluation/input_consistency_journal.py": "283de129fa1445feb048bd52d24d554bf4c740be41329594a3183e141e100bcb",
+    "src/kron_reduce/evaluation/input_consistency_metrics.py": "e1e4b86f6d90c048c26697f6f8a8a4bf86e64c0577891279fbc6ddf249d6ee40",
+    "src/kron_reduce/evaluation/input_consistency_sources.py": "075919b6cd65d0cdd694a32ed2736ca4aa718543223e5f768fb8b75cb280d73d",
+    "src/kron_reduce/data/input_consistency_reader.py": "3bd291230bac1d4a0851d57bc2543ad6c72b7b9f91e9cc67eb7bab4a0ce9bb46",
+    "src/kron_reduce/evaluation/input_consistency_evidence.py": "393344f474386aa78c4f9a0332f519e5c54a49a429254b8888c6fb72a9dfd436",
+    "src/kron_reduce/evaluation/input_consistency_plan.py": "934cc8d550906d2fc4e9c30eee577e2df5ae30729d81d8b4071b1fd955c4dafe",
+    "src/kron_reduce/evaluation/scoped_audit_journal.py": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+    "configs/proposals/kiki_a17_input_consistency_reads.json": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+    "configs/proposals/kiki_a17_input_consistency_compute.json": "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582",
+    "scratch/one_off/kiki-a17-input-consistency-20261025/astra_a17_scientific_protocol_zh.md": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d"
+  },
+  "validation_performed": [
+    "Read-only source/control metadata review and integer reconstruction of the complete controller scope order.",
+    "No tests, models, LS, RHS, real payload reads or payload hashes were run for this preflight.",
+    "Existing independent metric replay log was read: metrics-synthetic-pytest-v2.log records 100 synthetic tests passed. This earlier result does not validate concurrent kernel/OutputIO/seal repairs."
+  ],
+  "next_review": "Require a separate exact-SHA v2 review of the three repairs and their synthetic failure regressions, then the main Astra exact implementation review. No authorization or policy activation is supplied by this report."
+}

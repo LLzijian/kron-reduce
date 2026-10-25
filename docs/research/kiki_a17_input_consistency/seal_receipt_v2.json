@@ -1,0 +1,27 @@
+{
+  "task": "A17 synthetic post-OutputIO SealLedger validation, size and poison snapshot follow-up",
+  "runtime": "scratch/runtime/a07-py312/Scripts/python.exe (Python 3.12)",
+  "pytest": {
+    "command": "python -m pytest tests/test_input_consistency_seal.py --basetemp scratch/one_off/t17seal003 -p no:cacheprovider -q",
+    "result": "9 passed in 0.41s",
+    "log": "seal_pytest_v2.log",
+    "sha256": "BC24A66EBE6D508531E4E8605621289188B3BEA8A3CF8976130CE7A2AC7BB4CF"
+  },
+  "ruff": {
+    "result": "check passed; format check passed",
+    "log": "seal_ruff_v2.log",
+    "sha256": "55C7355E8649DD5B4C80A00C66A344C373033FEDD01112040C215C0675EF0DD5"
+  },
+  "files": {
+    "src/kron_reduce/evaluation/input_consistency_seal.py": "106B0171C24B3B9850037BC2ACDD42A9CADF12B16AAEF9B87B87D408007EFF9E",
+    "tests/test_input_consistency_seal.py": "C5E08F39570E1831795C096ED1CA17296D41DA71CA0CE6108537FB5B98020458"
+  },
+  "additions_verified": [
+    "hash and line-count actions record pre-read and post-read file sizes",
+    "known early EOF and changed post-read size fail without inventing unknown bytes",
+    "count_lines records whether the final byte was newline",
+    "poison rejection carries a deep snapshot and does not reserve another action"
+  ],
+  "durability_boundary": "snapshot() remains in-memory until the independent caller persists it; interruption before that write remains unknown/spent.",
+  "scientific_payloads_accessed": false
+}

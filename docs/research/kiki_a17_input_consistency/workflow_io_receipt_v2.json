@@ -1,0 +1,38 @@
+{
+  "task": "A17 synthetic workflow, sealed-evidence audit and fatal seal-prefix validation",
+  "runtime": "scratch/runtime/a07-py312/Scripts/python.exe (Python 3.12)",
+  "pytest": {
+    "command": "python -m pytest tests/test_input_consistency_workflow.py tests/test_input_consistency_workflow_io.py --basetemp scratch/one_off/t17workflowio005 -p no:cacheprovider -q",
+    "result": "8 passed in 124.32s",
+    "log": "workflow_io_pytest_v2.log",
+    "sha256": "2D8A08908A37F8CB37C1A962CA354CA46B54CB990143DC60AA8744A72E2645C2"
+  },
+  "ruff": {
+    "result": "check passed; format check passed",
+    "log": "workflow_io_ruff_v2.log",
+    "sha256": "194B272E58B4F28531A8ED411051FC0E9E0DE0FF34B74139D156EC0139E8989F"
+  },
+  "files": {
+    "tests/test_input_consistency_workflow.py": "79698401368B106F0B5A814268B5347D4CE75C57A1EB2BA77A204FE01C7B435E",
+    "tests/test_input_consistency_workflow_io.py": "971B9C7440E5F0045FDDB71C323487847FF34DF5625604E10FB90E6C3CC9C6F7"
+  },
+  "independent_saved_audit": {
+    "run": "fresh synthetic _execute run from test_execute_native_fsync_seals_complete_synthetic_campaign",
+    "interfaces": [
+      "SealedRun",
+      "audit_scope_store",
+      "audit_saved_scientific_values",
+      "audit_output_io(compute=toy_compute)"
+    ],
+    "result": "PASS; scope closures and saved values replayed; two freeze phases and output lifecycles verified",
+    "public_production_population_gate_changed": false
+  },
+  "fault_injection": [
+    "scope result NPZ fsync: fatal prefix retains an unknown-spent active scope and original OSError",
+    "summary JSON fsync: all scientific scopes complete but no successful run seal is reported",
+    "artifact_hashes.json write fsync: seal partial records full returned prefix and unknown durability",
+    "artifact_hashes.json hash open: seal partial preserves preceding actions and zero unknown read bytes",
+    "source contexts and scientific scopes are not retried after any injected failure"
+  ],
+  "scientific_payloads_accessed": false
+}

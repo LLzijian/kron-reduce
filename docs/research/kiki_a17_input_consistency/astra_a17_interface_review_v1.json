@@ -1,0 +1,40 @@
+{
+  "schema": "kiki_a17_interface_review_v1",
+  "date": "2026-10-25",
+  "reviewer": "Astra Ultra",
+  "decision": "BLOCKED_PENDING_FIXES_AND_INTEGRATED_REVIEW",
+  "implementation_approved": false,
+  "execution_authorized": false,
+  "report": {
+    "path": "scratch/one_off/kiki-a17-input-consistency-20261025/astra_a17_interface_review_v1_zh.md",
+    "bytes": 11211,
+    "sha256": "c909a0ccf416045bc7411c0683f9121a8ed6f3b43f770118b8a84bec3b7513ef"
+  },
+  "review_scope": [
+    "src/kron_reduce/evaluation/input_consistency.py",
+    "src/kron_reduce/evaluation/input_consistency_metrics.py",
+    "src/kron_reduce/evaluation/input_consistency_journal.py",
+    "src/kron_reduce/data/input_consistency_reader.py",
+    "src/kron_reduce/evaluation/input_consistency_checks.py",
+    "corresponding synthetic test source",
+    "accepted scoped journal and bounded NPY helper source",
+    "fixed Python 3.12 runtime NumPy header parser source",
+    "metadata read-plan builder source"
+  ],
+  "version_boundary": "Findings refer to first-read source statements identified in the report. Root was concurrently implementing fixes. No mutable workspace source hashes are represented as an exact approval binding, and the findings are not asserted to remain in subsequently modified files.",
+  "blockers": [
+    "B01_nonfinite_aggregate_and_pair_values",
+    "B02_strict_group_booleans_and_validity_gating",
+    "B03_after_hash_order",
+    "B04_bounded_metadata_freeze_and_npy_header_reads",
+    "B05_preserve_actual_returned_and_partial_failure_evidence",
+    "B06_immutable_plan_and_explicit_closed_state",
+    "B07_failed_scope_lock_and_reserved_closure_fields",
+    "B08_finite_derived_coi_and_power_prechecks"
+  ],
+  "new_tests_executed_for_this_review": 0,
+  "real_npz_or_hdf_opened_or_hashed": 0,
+  "real_scientific_calls": 0,
+  "source_edits_for_this_review": 0,
+  "required_next_evidence": "Targeted synthetic regressions, fixes re-read at exact bindings, then complete workflow, phase freezes, failure retention, budgets and integrated synthetic evidence. Existing preparation tests retain their original meaning but do not close these findings."
+}
