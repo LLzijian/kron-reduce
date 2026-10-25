@@ -1,0 +1,266 @@
+{
+  "kind": "astra_ultra_a16_result_review_bindings_v1",
+  "date": "2026-10-25",
+  "reviewer": "Astra Ultra",
+  "decision": "APPROVE ENGINEERING MAIN INTEGRATION ONLY",
+  "selection": "KEEP_BASELINE",
+  "diagnostic_complete": true,
+  "mechanism_accept": false,
+  "source_commit": "45a2d989c6351d50e3b835b70b12cd4429f2182b",
+  "run_id": "paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+  "run_path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+  "result_manifest_sha256": "568a6271fd09dd98fb15c9c18e6d9a4c22799d639817f3fc988326dfd7134f7d",
+  "manifest_identity_basis": "Bound independent saved-metrics audit receipt and coordinator execution identity; reviewer did not reopen the result manifest or original sources.",
+  "review": {
+    "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/astra_a16_result_review_zh.md",
+    "sha256": "fed08fff8577256c298eb03176d878949c7c2c263b8abd06bb372f5194673c3a",
+    "bytes": 10880,
+    "kind": "scientific_result_review"
+  },
+  "directly_reviewed_result_json": [
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/summary.json",
+      "sha256": "25d6528eff5325b6efa87197ddac120624689a1bffa5ba7ee8b326e3bd876136",
+      "bytes": 1164,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/frozen_plan.json",
+      "sha256": "48e1beb23bd0cebdeb8e96eb76169feac129bd9f61d27e73dcfa50cdd1ddd8ac",
+      "bytes": 2156571,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/aggregate-324.json",
+      "sha256": "2bb276c6633bd4b9a27836fe8d3f752f8d868225b0c14a44bf62bdf0a81c5013",
+      "bytes": 5343,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/aggregate-325.json",
+      "sha256": "537cc7aba57e92dd14fed5201f1da56e6299ef1432b1181033bfbf6d00a87f18",
+      "bytes": 5348,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/aggregate-326.json",
+      "sha256": "2cb964e7e53fb7e9270bdf6c888889a0a92e260f39a64a3642f8815d4de9a722",
+      "bytes": 5348,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/identity_checks.json",
+      "sha256": "b05ebbe3f379a5da9114fd5b42c537283df1325e693c14927714f79812db827b",
+      "bytes": 187,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/source-input-ieee39_expansion.json",
+      "sha256": "fd6083aabf179c89f64c216ddf43a659b5346279d08b1cd84ae278d567109e43",
+      "bytes": 65867,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/source-input-ieee39_postfault.json",
+      "sha256": "506ddf9edc5bbc0525bae208638405ad144703e2d46dc21f683449730b169657",
+      "bytes": 108726,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/impulse-000.json",
+      "sha256": "f10ab3e8c903255c9c32086b4279b4110585fdaffab48046abace25ab0e13232",
+      "bytes": 7790,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/impulse-257.json",
+      "sha256": "ecd7dd28112ad70af690f6fcfb4d040b0be2d183a1de659c269555dbe3297017",
+      "bytes": 7789,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/slot-324-000.json",
+      "sha256": "83d37508056b057026a7b238ee9ec62b7c4916991c54e6a92292922dd7d0ab7e",
+      "bytes": 8063,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/slot-324-257.json",
+      "sha256": "35b8ed4841d58e5a7ae1054bf61a110dd716df01dcff21842d8c20fed720aaa1",
+      "bytes": 8060,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/slot-325-000.json",
+      "sha256": "49e78f508550e13006793d9906e0c2b2f333c10bed9efb9931fc506a8804c998",
+      "bytes": 8062,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/slot-325-257.json",
+      "sha256": "60fb7cd0cf97caf82b98d967d22a1234281509752ccb5012537128807a9234dc",
+      "bytes": 8058,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/slot-326-000.json",
+      "sha256": "73ba06d6aab6277d9a81ef4c88d73c7741b45562e9b95ee78e203ecf68520e5c",
+      "bytes": 8065,
+      "kind": "new_result_saved_json_directly_reviewed"
+    },
+    {
+      "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/slot-326-257.json",
+      "sha256": "2f0f78224191b594d3af991a2e76af72e85250ec8f584486ec053aa95b97c5f3",
+      "bytes": 8056,
+      "kind": "new_result_saved_json_directly_reviewed"
+    }
+  ],
+  "audit_evidence": [
+    {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/metrics-audit-real-v1.json",
+      "sha256": "6f08119842e1111ee057bc8bed01cbfd16641a18586fed9829d35ae795bd37ae",
+      "bytes": 7790,
+      "kind": "independent_saved_scalar_audit_pass"
+    },
+    {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/integrity-audit-real-v1.json",
+      "sha256": "00b4e35284c0420ec67cdf3c8a6520e10ac89861a34d2d8a7d4115352ad81c5e",
+      "bytes": 689,
+      "kind": "retained_original_auditor_failure"
+    },
+    {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/integrity-audit-real-v2.json",
+      "sha256": "51d74c422c40d142a10eb7df2fd4b317ec283576a57b3da405f49d7d60343c52",
+      "bytes": 440,
+      "kind": "corrected_integrity_audit_pass"
+    },
+    {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/audit_saved_metrics_v2.py",
+      "sha256": "fb7f001d79db82e9945cdc8d669af8f3cfa099d0ac26e3a61855cc1d35eeafa4",
+      "bytes": 7776,
+      "kind": "reviewed_auditor_source"
+    },
+    {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/result_integrity_audit_v2.py",
+      "sha256": "abc75e49f43760a8e11d4872519510c87b6604a7f8d4d9f4c73c60c3ec56f57d",
+      "bytes": 21393,
+      "kind": "retained_original_auditor_source_identity_only"
+    },
+    {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/result_integrity_audit_v3.py",
+      "sha256": "4ddf7a12855641e24387b8391acf243cfbf0a03bd2eef1c387beed1df6d892a6",
+      "bytes": 23175,
+      "kind": "reviewed_corrected_auditor_source"
+    }
+  ],
+  "related_theory_and_next_question": [
+    {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/astra_next_closed_loop_theory_zh.md",
+      "sha256": "ade955e55e8e22176c79b3f0bf89c13ed4d546e7d7e98d791d4e52329b75214c",
+      "bytes": 16696,
+      "kind": "pre_result_theory_unchanged"
+    },
+    {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/astra_cq_energy_barrier_addendum_zh.md",
+      "sha256": "4542876f20bca60e058053548318e0c7584165d6a73e7d0e9dcc4059e449c5c6",
+      "bytes": 4057,
+      "kind": "post_result_theory_limit_addendum"
+    },
+    {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/astra_a16_next_input_control_draft_zh.md",
+      "sha256": "c12582e41a54471e92ee8bbe89516ca1acb997517c2884c3b2f063f9a6324946",
+      "bytes": 8114,
+      "kind": "next_question_unregistered_draft_only"
+    }
+  ],
+  "audit_execution_binding": {
+    "metrics": {
+      "program": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/audit_saved_metrics_v2.py",
+        "sha256": "fb7f001d79db82e9945cdc8d669af8f3cfa099d0ac26e3a61855cc1d35eeafa4",
+        "bytes": 7776,
+        "kind": "reviewed_auditor_source"
+      },
+      "receipt": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/metrics-audit-real-v1.json",
+        "sha256": "6f08119842e1111ee057bc8bed01cbfd16641a18586fed9829d35ae795bd37ae",
+        "bytes": 7790,
+        "kind": "independent_saved_scalar_audit_pass"
+      },
+      "run_id": "paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+      "checks": 49829,
+      "status": "PASS"
+    },
+    "integrity": {
+      "program": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/result_integrity_audit_v3.py",
+        "sha256": "4ddf7a12855641e24387b8391acf243cfbf0a03bd2eef1c387beed1df6d892a6",
+        "bytes": 23175,
+        "kind": "reviewed_corrected_auditor_source"
+      },
+      "receipt": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/integrity-audit-real-v2.json",
+        "sha256": "51d74c422c40d142a10eb7df2fd4b317ec283576a57b3da405f49d7d60343c52",
+        "bytes": 440,
+        "kind": "corrected_integrity_audit_pass"
+      },
+      "run_id": "paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+      "checks": 149429,
+      "status": "PASS",
+      "identity_note": "Input run identity supplied by coordinator actual invocation; final curated result receipt must preserve actual invocation/run/manifest/program/receipt binding."
+    },
+    "retained_failed_integrity": {
+      "program": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/result_integrity_audit_v2.py",
+        "sha256": "abc75e49f43760a8e11d4872519510c87b6604a7f8d4d9f4c73c60c3ec56f57d",
+        "bytes": 21393,
+        "kind": "retained_original_auditor_source_identity_only"
+      },
+      "receipt": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/integrity-audit-real-v1.json",
+        "sha256": "00b4e35284c0420ec67cdf3c8a6520e10ac89861a34d2d8a7d4115352ad81c5e",
+        "bytes": 689,
+        "kind": "retained_original_auditor_failure"
+      },
+      "run_id": "paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+      "status": "FAIL",
+      "reason": "Auditor synthetic-only old100_common assumption selected zero real eligible rows; fixed canonical real population identity in v3 without changing scientific output."
+    }
+  },
+  "review_scope": {
+    "original_source_payload_reads": 0,
+    "original_source_payload_hashes": 0,
+    "npz_decodes": 0,
+    "new_model_calls": 0,
+    "new_fit_or_updates": 0,
+    "new_kernel_or_state_solves": 0,
+    "new_rhs_or_rollouts": 0,
+    "labels_or_val_or_test_reads": 0,
+    "full_population_scalar_evidence": "Independent audit read all 774 saved slot JSONs; reviewer directly inspected six ordered endpoint examples plus all three aggregate JSONs.",
+    "additional_text_context": [
+      "A15 archived design/result-review text at 5ac8b571751467f677fb569df3c0a1f4c323d065",
+      "Previously reviewed A16 implementation/configuration/protocol and fixed passive-model source",
+      "Primary theoretical references recorded in the pre-result theory and addendum"
+    ],
+    "interval_meaning": "Directed-rounding enclosures for exact saved finite floating-point inputs; not statistical confidence intervals or interpolation/model uncertainty."
+  },
+  "approval_scope": [
+    "Dedicated bounded A16 engineering implementation and tests",
+    "Immutable result receipt and consumed authorization record",
+    "Scientific audit documentation preserving all outcomes and the original auditor FAIL"
+  ],
+  "not_authorized": [
+    "Rerun or resume A16 or any consumed experiment",
+    "Model promotion or changing default initializer/model",
+    "Any new scientific comparison or C(q) training",
+    "New source/val/test/label access",
+    "New FSR or future-causal claim"
+  ],
+  "next_question": {
+    "status": "PROPOSE_ONLY_NOT_REGISTERED_NOT_EXECUTABLE",
+    "question": "Does a single zero-fit history-input-consistent pipeline using observed Pm11 in both fixed LS initialization and closed-loop history, with unchanged Pm10 future input, improve future closed-loop error versus saved A15 I while separately comparing saved baseline E?",
+    "new_authorization_required": true,
+    "budget_allocated_now": false
+  },
+  "preserved_pre_result_theory_sha256": "ade955e55e8e22176c79b3f0bf89c13ed4d546e7d7e98d791d4e52329b75214c"
+}

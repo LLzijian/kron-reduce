@@ -294,3 +294,11 @@ and scalar budgets; zero models/fits/RHS/new states/future/labels/val/test.
 The shared budget is spent before source reads, without retry or resume.
 Results remain uncertified history evidence with KEEP_BASELINE and establish
 no new missed-instability result or model promotion.
+
+A16 has completed once and its authorization is consumed, bound to its immutable
+run, 774 completed slots, 1037 core scopes and two independent saved-result
+audits. The fixed history equation responds to the input correction, while
+holding the old state increases both registered residual measures. No new
+state, fit, future prediction or missed-instability metric was produced.
+Do not rerun A16. KEEP_BASELINE applies; input-consistency controls or C(q)
+training require their own registration and exact scientific approval.

@@ -1,0 +1,447 @@
+{
+  "run_id": "paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+  "date": "2026-10-25",
+  "source_commit": "45a2d989c6351d50e3b835b70b12cd4429f2182b",
+  "private_repository": "LLzijian/kron-reduce",
+  "pull_request": "https://github.com/LLzijian/kron-reduce/pull/14",
+  "authorization": "kiki_a16_development_20261025",
+  "authorization_status": "consumed",
+  "result_artifact_manifest_sha256": "568a6271fd09dd98fb15c9c18e6d9a4c22799d639817f3fc988326dfd7134f7d",
+  "result_artifacts": 2093,
+  "selected_artifact_hashes": {
+    "summary.json": "25d6528eff5325b6efa87197ddac120624689a1bffa5ba7ee8b326e3bd876136",
+    "frozen_plan.json": "48e1beb23bd0cebdeb8e96eb76169feac129bd9f61d27e73dcfa50cdd1ddd8ac",
+    "identity_checks.json": "b05ebbe3f379a5da9114fd5b42c537283df1325e693c14927714f79812db827b",
+    "access_ledger.json": "295dd22e65c8693fa288e0ab104e774ecd2b952c019484d7d6da603903dfe153",
+    "scientific_scopes.json": "da6464fbf56650f6dc6820bc739398bf8dada9f506b376428abda9ad28d9005b",
+    "allocated_slots.json": "c48f6c7a6503825f6c669e601b78c01b3124855fa5c39c86cf5c52f654e695c0",
+    "stage_evidence.json": "473ffd3cb443a22ec7780fa1802252eb5fe51875133e9504b752ff716e8301f2",
+    "scientific_calls.jsonl": "b16e5f0411d5c866598ff8b4afab42e9cdc118f3b0a0ab8d85254dec5ba39f79",
+    "io_access.jsonl": "0fbb4a789b210d3907495724f210632ddb842694eea9f125f167e57b20fdba37",
+    "array_access.jsonl": "0055ca89b431fc81c8ff87c478faf99baaa3841a7a8ad5466926a348e565c29d",
+    "aggregate-324.json": "2bb276c6633bd4b9a27836fe8d3f752f8d868225b0c14a44bf62bdf0a81c5013",
+    "aggregate-325.json": "537cc7aba57e92dd14fed5201f1da56e6299ef1432b1181033bfbf6d00a87f18",
+    "aggregate-326.json": "2cb964e7e53fb7e9270bdf6c888889a0a92e260f39a64a3642f8815d4de9a722"
+  },
+  "diagnostic_status": "COMPLETE",
+  "V_pass": true,
+  "mechanism_acceptance_defined": false,
+  "statuses_by_seed": {
+    "324": {
+      "resolved_nonzero": 258
+    },
+    "325": {
+      "resolved_nonzero": 258
+    },
+    "326": {
+      "resolved_nonzero": 258
+    }
+  },
+  "allocated_train": 268,
+  "eligible_train": 258,
+  "seed_event_slots": 774,
+  "completed_slots": 774,
+  "failed_or_unresolved_slots": 0,
+  "input_contract": "measured_history_100ms_zoh_v1",
+  "observation_window": "record points 0..10; first 100 ms from record start",
+  "weighting": "unchanged original source-line-event weights, separately per seed; seeds are repeated models on the same events",
+  "metric_definition": "weighted squared norms of the frozen cS-scaled fixed-state residuals and input impulses; not RMSE or prediction MSE",
+  "weighted_registered_metrics": {
+    "324": {
+      "impulse_sq": {
+        "point": 0.0001140059704193864,
+        "lower": 0.00011400597041937869,
+        "upper": 0.00011400597041939422
+      },
+      "weighted_impulse_sq": {
+        "point": 1.0928332667060594,
+        "lower": 1.092833266705985,
+        "upper": 1.0928332667061345
+      },
+      "g4_reference_sq": {
+        "point": 0.04128088708504883,
+        "lower": 0.04128088708504748,
+        "upper": 0.04128088708505011
+      },
+      "btilde4_reference_sq": {
+        "point": 484.6827672966065,
+        "lower": 484.6827672965903,
+        "upper": 484.682767296622
+      },
+      "normal_rhs_sq": {
+        "point": 17.769010752128693,
+        "lower": 17.769010752126448,
+        "upper": 17.769010752130868
+      },
+      "dynamic_before_sq": {
+        "point": 167.6983831382585,
+        "lower": 167.69838313825244,
+        "upper": 167.69838313826415
+      },
+      "dynamic_after_sq": {
+        "point": 169.423922306849,
+        "lower": 169.4239223068425,
+        "upper": 169.42392230685542
+      },
+      "force_before_sq": {
+        "point": 198.48105604559225,
+        "lower": 198.48105604558515,
+        "upper": 198.48105604559942
+      },
+      "force_after_sq": {
+        "point": 199.6328993433074,
+        "lower": 199.63289934329921,
+        "upper": 199.63289934331561
+      },
+      "force_impulse_sq": {
+        "point": 1.1524995375956508,
+        "lower": 1.1524995375955347,
+        "upper": 1.1524995375957663
+      },
+      "dynamic_delta_direct": {
+        "point": 1.7255391685906045,
+        "lower": 1.7255391685867292,
+        "upper": 1.7255391685944796
+      },
+      "dynamic_delta_cross": {
+        "point": 1.725539168590578,
+        "lower": 1.7255391685899293,
+        "upper": 1.7255391685912278
+      },
+      "force_delta_direct": {
+        "point": 1.151843297715172,
+        "lower": 1.1518432977100284,
+        "upper": 1.1518432977203434
+      },
+      "force_delta_cross": {
+        "point": 1.1518432977151845,
+        "lower": 1.1518432977139446,
+        "upper": 1.151843297716427
+      }
+    },
+    "325": {
+      "impulse_sq": {
+        "point": 0.0001140059704193864,
+        "lower": 0.00011400597041937869,
+        "upper": 0.00011400597041939422
+      },
+      "weighted_impulse_sq": {
+        "point": 1.0928332667060594,
+        "lower": 1.092833266705985,
+        "upper": 1.0928332667061345
+      },
+      "g4_reference_sq": {
+        "point": 0.040828682665456285,
+        "lower": 0.04082868266545498,
+        "upper": 0.040828682665457576
+      },
+      "btilde4_reference_sq": {
+        "point": 490.30351817853864,
+        "lower": 490.3035181785229,
+        "upper": 490.3035181785548
+      },
+      "normal_rhs_sq": {
+        "point": 19.618369605738394,
+        "lower": 19.61836960573589,
+        "upper": 19.618369605740938
+      },
+      "dynamic_before_sq": {
+        "point": 161.31588580460823,
+        "lower": 161.31588580460254,
+        "upper": 161.31588580461383
+      },
+      "dynamic_after_sq": {
+        "point": 163.18712891383404,
+        "lower": 163.18712891382796,
+        "upper": 163.18712891384027
+      },
+      "force_before_sq": {
+        "point": 194.792721629384,
+        "lower": 194.7927216293769,
+        "upper": 194.79272162939114
+      },
+      "force_after_sq": {
+        "point": 196.03961937722735,
+        "lower": 196.039619377219,
+        "upper": 196.03961937723534
+      },
+      "force_impulse_sq": {
+        "point": 1.1684709428059878,
+        "lower": 1.168470942805872,
+        "upper": 1.168470942806106
+      },
+      "dynamic_delta_direct": {
+        "point": 1.87124310922607,
+        "lower": 1.8712431092223039,
+        "upper": 1.8712431092298192
+      },
+      "dynamic_delta_cross": {
+        "point": 1.8712431092260757,
+        "lower": 1.8712431092254513,
+        "upper": 1.8712431092267032
+      },
+      "force_delta_direct": {
+        "point": 1.2468977478432437,
+        "lower": 1.2468977478381642,
+        "upper": 1.2468977478483403
+      },
+      "force_delta_cross": {
+        "point": 1.2468977478432541,
+        "lower": 1.2468977478420347,
+        "upper": 1.2468977478444712
+      }
+    },
+    "326": {
+      "impulse_sq": {
+        "point": 0.0001140059704193864,
+        "lower": 0.00011400597041937869,
+        "upper": 0.00011400597041939422
+      },
+      "weighted_impulse_sq": {
+        "point": 1.0928332667060594,
+        "lower": 1.092833266705985,
+        "upper": 1.0928332667061345
+      },
+      "g4_reference_sq": {
+        "point": 0.040623766397463755,
+        "lower": 0.04062376639746245,
+        "upper": 0.040623766397465025
+      },
+      "btilde4_reference_sq": {
+        "point": 470.46027046473813,
+        "lower": 470.46027046472284,
+        "upper": 470.4602704647548
+      },
+      "normal_rhs_sq": {
+        "point": 16.92581185860396,
+        "lower": 16.925811858601893,
+        "upper": 16.92581185860604
+      },
+      "dynamic_before_sq": {
+        "point": 169.42918355838805,
+        "lower": 169.42918355838205,
+        "upper": 169.429183558394
+      },
+      "dynamic_after_sq": {
+        "point": 171.191268459781,
+        "lower": 171.19126845977416,
+        "upper": 171.1912684597881
+      },
+      "force_before_sq": {
+        "point": 197.71674978628403,
+        "lower": 197.7167497862767,
+        "upper": 197.7167497862911
+      },
+      "force_after_sq": {
+        "point": 198.97938049138878,
+        "lower": 198.97938049138034,
+        "upper": 198.97938049139697
+      },
+      "force_impulse_sq": {
+        "point": 1.1392189635317984,
+        "lower": 1.1392189635316832,
+        "upper": 1.1392189635319119
+      },
+      "dynamic_delta_direct": {
+        "point": 1.7620849013929438,
+        "lower": 1.7620849013890258,
+        "upper": 1.762084901396841
+      },
+      "dynamic_delta_cross": {
+        "point": 1.7620849013929212,
+        "lower": 1.7620849013922695,
+        "upper": 1.7620849013935718
+      },
+      "force_delta_direct": {
+        "point": 1.262630705104713,
+        "lower": 1.2626307050995744,
+        "upper": 1.2626307051097971
+      },
+      "force_delta_cross": {
+        "point": 1.2626307051047094,
+        "lower": 1.2626307051034849,
+        "upper": 1.2626307051059347
+      }
+    }
+  },
+  "actual_source_io": {
+    "npz_contexts": 778,
+    "npz_members": 6978,
+    "hdf_contexts": 2,
+    "array_selections": 7498,
+    "array_descriptors": 7498,
+    "root_attributes": 18,
+    "array_elements": 533480,
+    "metadata_json_files": 783,
+    "metadata_bytes": 56170683,
+    "npz_integrity_bytes": 190630248,
+    "hdf_integrity_bytes": 6870747346
+  },
+  "scientific_scopes": 1037,
+  "durable_scope_closures_including_identity": 1038,
+  "scalar_attempted_and_returned": {
+    "identity.bits": 2580,
+    "input.finite": 617436,
+    "input.positive": 18856,
+    "interval.add": 5144560,
+    "interval.compare": 17273776,
+    "interval.div": 125984,
+    "interval.finite": 27851300,
+    "interval.mul": 10856640,
+    "interval.nextafter": 11529068,
+    "interval.sqrt": 20124,
+    "interval.sub": 174924,
+    "point.abs": 2580,
+    "point.add": 2572280,
+    "point.compare": 44396,
+    "point.div": 31496,
+    "point.finite": 5767114,
+    "point.mul": 3063234,
+    "point.sqrt": 10062,
+    "point.sub": 87462
+  },
+  "total_scalar_attempts": 85193872,
+  "identity_arithmetic": {
+    "counts": {
+      "sub": 8276,
+      "finite_check": 8276,
+      "abs": 20
+    },
+    "clock_order_bitwise": true,
+    "shared_P_and_h_bitwise": true,
+    "source_mass_absolute_tolerance": 1e-12
+  },
+  "zero_compute": {
+    "model_constructions": 0,
+    "fit_attempts": 0,
+    "optimizer_updates": 0,
+    "rhs": 0,
+    "rollouts": 0,
+    "force": 0,
+    "expm": 0,
+    "svd": 0,
+    "qr": 0,
+    "eig": 0,
+    "inverse": 0,
+    "solve": 0,
+    "new_latent_states": 0
+  },
+  "execution_receipt": {
+    "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/real-execution-receipt.json",
+    "sha256": "83954295e16720d810db0040435015241372934656b205d2e26938d175849773",
+    "size_bytes": 461
+  },
+  "elapsed_seconds": 1393.0,
+  "source_ci": {
+    "head": "45a2d989c6351d50e3b835b70b12cd4429f2182b",
+    "runs": [
+      {
+        "id": 40154712314,
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "45a2d989c6351d50e3b835b70b12cd4429f2182b",
+        "html_url": "https://github.com/LLzijian/kron-reduce/actions/runs/40154712314"
+      },
+      {
+        "id": 40154709374,
+        "event": "push",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "45a2d989c6351d50e3b835b70b12cd4429f2182b",
+        "html_url": "https://github.com/LLzijian/kron-reduce/actions/runs/40154709374"
+      }
+    ]
+  },
+  "independent_audits": [
+    {
+      "kind": "integrity_and_counts",
+      "result": "PASS",
+      "checks": 149429,
+      "receipt": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/integrity-audit-real-v2.json",
+        "sha256": "51d74c422c40d142a10eb7df2fd4b317ec283576a57b3da405f49d7d60343c52",
+        "size_bytes": 440
+      },
+      "program": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/result_integrity_audit_v3.py",
+        "sha256": "4ddf7a12855641e24387b8391acf243cfbf0a03bd2eef1c387beed1df6d892a6",
+        "size_bytes": 23175
+      },
+      "input_run": "paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+      "input_manifest_sha256": "568a6271fd09dd98fb15c9c18e6d9a4c22799d639817f3fc988326dfd7134f7d",
+      "command": [
+        "scratch/runtime/a07-py312/Scripts/python.exe",
+        "scratch/one_off/kiki-a16-pm-impulse-20261024/result_integrity_audit_v3.py",
+        "--run-dir",
+        "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+        "--out",
+        "scratch/one_off/kiki-a16-pm-impulse-20261024/integrity-audit-real-v2.json"
+      ],
+      "original_source_reads": 0,
+      "npz_decodes": 0,
+      "new_model_or_rhs_calls": 0
+    },
+    {
+      "kind": "scalar_bounds_and_weighted_metrics",
+      "result": "PASS",
+      "checks": 49829,
+      "receipt": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/metrics-audit-real-v1.json",
+        "sha256": "6f08119842e1111ee057bc8bed01cbfd16641a18586fed9829d35ae795bd37ae",
+        "size_bytes": 7790
+      },
+      "program": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/audit_saved_metrics_v2.py",
+        "sha256": "fb7f001d79db82e9945cdc8d669af8f3cfa099d0ac26e3a61855cc1d35eeafa4",
+        "size_bytes": 7776
+      },
+      "input_run": "paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+      "input_manifest_sha256": "568a6271fd09dd98fb15c9c18e6d9a4c22799d639817f3fc988326dfd7134f7d",
+      "command": [
+        "scratch/runtime/a07-py312/Scripts/python.exe",
+        "scratch/one_off/kiki-a16-pm-impulse-20261024/audit_saved_metrics_v2.py",
+        "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+        "--out",
+        "scratch/one_off/kiki-a16-pm-impulse-20261024/metrics-audit-real-v1.json"
+      ],
+      "original_source_reads": 0,
+      "npz_decodes": 0,
+      "new_model_or_rhs_calls": 0
+    }
+  ],
+  "prior_failed_integrity_audit": {
+    "receipt": {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/integrity-audit-real-v1.json",
+      "sha256": "00b4e35284c0420ec67cdf3c8a6520e10ac89861a34d2d8a7d4115352ad81c5e",
+      "size_bytes": 689
+    },
+    "program": {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/result_integrity_audit_v2.py",
+      "sha256": "abc75e49f43760a8e11d4872519510c87b6604a7f8d4d9f4c73c60c3ec56f57d",
+      "size_bytes": 21393
+    },
+    "scientific_execution_repeated": false,
+    "reason": "Auditor assumed toy old100_common allocation field; canonical A14 cache_rows/input_status identities differ. Only auditor bookkeeping repaired; frozen data, inputs and scientific output unchanged."
+  },
+  "scientific_result_review": {
+    "path": "docs/research/kiki_a16_pm_impulse/astra_a16_result_review_zh.md",
+    "sha256": "fed08fff8577256c298eb03176d878949c7c2c263b8abd06bb372f5194673c3a",
+    "size_bytes": 10880
+  },
+  "scientific_result_bindings": {
+    "path": "docs/research/kiki_a16_pm_impulse/result_review_bindings.json",
+    "sha256": "c2995c8ed19b57096ce444b1f726ce532f4b6266b3cd1d1eff1150e808a3ca60",
+    "size_bytes": 12965
+  },
+  "promotion_decision": "KEEP_BASELINE",
+  "model_promoted": false,
+  "certified": false,
+  "new_training_authorized": false,
+  "future_evaluation_authorized": false,
+  "internal_val_opened": false,
+  "source_val_test_opened": false,
+  "labels_read": 0,
+  "new_missed_instability_result_established": false,
+  "claim_boundary": "Uncertified fixed-train-history input-equation response only; no new state, future attribution, model improvement, FSR, certification or deployment."
+}

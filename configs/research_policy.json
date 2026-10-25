@@ -867,7 +867,7 @@
       "labels_allowed": false,
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false,
-      "status": "user_approved",
+      "status": "consumed",
       "authority": "explicit_user_reply",
       "approval_text": "继续改进算法和设计，一定要降到0，持续工作，得到最终结果后向我汇报",
       "authorization_scope": "Independently bounded train-only A16 diagnostic; not automatic training until pass.",
@@ -931,7 +931,21 @@
       "scientific_bindings_sha256": "9fd850b47718888a5b4e378739246d60b2d48540a0cfff01ae9f7392729f6c8f",
       "scientific_reviewed_commit": "4adb51091233761abf9f1724b5ee90669a7463a4",
       "successful_path_evidence_inheritance_approved": true,
-      "actual_execution_commit_ci_required": true
+      "actual_execution_commit_ci_required": true,
+      "consumed_at": "2026-10-25T02:56:01.818428+00:00",
+      "completed_run_id": "paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832",
+      "source_commit": "45a2d989c6351d50e3b835b70b12cd4429f2182b",
+      "diagnostic_status": "COMPLETE",
+      "V_pass": true,
+      "final_fit_attempts": 0,
+      "final_rhs": 0,
+      "final_seed_event_slots": 774,
+      "final_core_scopes": 1037,
+      "final_scalar_attempts": 85193872,
+      "result_receipt_path": "docs/reports/kiki_a16_pm_impulse_20261025_evidence.json",
+      "result_receipt_sha256": "8d77a73edcd35bedde19959ec7f0eba3f41fa39a9460043871ea1acbc69fc4c8",
+      "scientific_result_review_path": "docs/research/kiki_a16_pm_impulse/astra_a16_result_review_zh.md",
+      "scientific_result_review_sha256": "fed08fff8577256c298eb03176d878949c7c2c263b8abd06bb372f5194673c3a"
     }
   },
   "archived_development_results": {
