@@ -732,11 +732,18 @@ def audit_saved_provenance(store, plan):
                 require(manifests[key].get(path[len(prefix):]) == row["sha256"], "metadata source manifest chain differs")
 
     def descriptor(value):
+        require(isinstance(value, Mapping), "source array descriptor must be an object")
+        require(all(key in value for key in ("shape", "dtype", "sha256_c_order_bytes")),
+                "source array descriptor lacks its fingerprint")
         return {key: value[key] for key in ("array_member", "shape", "dtype", "sha256_c_order_bytes", "columns") if key in value}
 
     def fingerprint(value):
+        require(isinstance(value, Mapping), "source array fingerprint must be an object")
+        require(all(key in value for key in ("shape", "dtype", "sha256_c_order_bytes")),
+                "source array fingerprint lacks required fields")
         return {key: value[key] for key in ("shape", "dtype", "sha256_c_order_bytes")}
 
+    parameter_names = ("mass", "edge_stiffness", "damping", "coupling", "latent_skew", "latent_dissipation")
     contexts, context_docs = {}, {}
     for row in plan["contexts"]:
         identity, path = row["context_id"], row["path"]
@@ -746,6 +753,25 @@ def audit_saved_provenance(store, plan):
                 "payload descriptor/source manifest binding differs")
         doc = documents[path.removesuffix(".npz") + ".json"]
         context_docs[identity] = doc
+        if identity.startswith("static-"):
+            members = row["members"]
+            require(isinstance(members, list) and len(members) == len(parameter_names)
+                    and all(isinstance(member, Mapping) and isinstance(member.get("name"), str)
+                            for member in members)
+                    and {member.get("name") for member in members}
+                    == {"parameters__" + name for name in parameter_names},
+                    identity + ": frozen static member inventory differs")
+            parameters = doc.get("parameters")
+            require(isinstance(parameters, Mapping)
+                    and set(parameters) == {*parameter_names, "backbone"},
+                    identity + ": saved static parameters schema differs")
+            require(parameters["backbone"] == "sine",
+                    identity + ": saved static backbone differs from the fixed sine family")
+            for name in parameter_names:
+                value = parameters[name]
+                require(isinstance(value, Mapping)
+                        and value.get("array_member") == "parameters__" + name,
+                        identity + ": required parameter descriptor differs: " + name)
         for member in row["members"]:
             name = member["name"]
             if identity.startswith("weighted-"):
@@ -821,11 +847,13 @@ def audit_saved_provenance(store, plan):
         source_key = f"A06/checkpoint-240-{seed}/model.npz"
         static_descriptors = context_docs[f"static-{seed}"]["parameters"]
         source_descriptors = a14_members[source_key]
-        for name in static_descriptors:
+        # The A14 dataclass record also contains the scalar backbone identity.
+        # Only the six registered members are arrays; none may be skipped.
+        for name in parameter_names:
             require(fingerprint(static_descriptors[name]) == fingerprint(source_descriptors[name]), "fixed A06 parameter ancestor differs")
         same_record(lineage["A14_static"][str(seed)], {"source_key": source_key,
-                    "descriptors": {name: descriptor(value) for name, value in static_descriptors.items()},
-                    "source_member_descriptors": {name: descriptor(source_descriptors[name]) for name in static_descriptors}},
+                    "descriptors": {name: descriptor(static_descriptors[name]) for name in parameter_names},
+                    "source_member_descriptors": {name: descriptor(source_descriptors[name]) for name in parameter_names}},
                     "fixed A06 parameter proof")
         for code, _step in STEPS:
             ancestor = "A09" if code == "h005" else "A10"
@@ -1324,14 +1352,17 @@ def audit_result_run(directory, *, expected_manifest_sha256, expected_read_plan_
     Returns PASS/FAIL evidence, never an execution authorization. Failures stop
     this read-only audit without altering any run artifact or scientific result.
     """
-    report = {"status": "FAIL", "audit_kind": "A17_independent_saved_evidence_replay_v1",
+    report = {"status": "FAIL", "audit_kind": "A17_independent_saved_evidence_replay_v2",
               "execution_authorized": False, "new_scientific_comparison": False,
               "model_ls_rhs_fit_calls": 0, "old_source_payload_reads": 0,
               "run_directory": str(Path(directory).absolute())}
     store = None
+    stage = "run_directory_identity"
     try:
         require(Path(directory).name.startswith("paper_kiki_a17_input_consistency-"), "not a new A17 result directory")
+        stage = "manifest_and_sealed_files"
         store = SealedRun(directory, expected_manifest_sha256)
+        stage = "saved_controls_and_reservation"
         require(store.manifest.get("read_plan.json") == expected_read_plan_sha256
                 and store.manifest.get("compute_plan.json") == expected_compute_plan_sha256,
                 "saved controls differ from externally approved hashes")
@@ -1346,6 +1377,7 @@ def audit_result_run(directory, *, expected_manifest_sha256, expected_read_plan_
         require(plan.get("authorization") == compute.get("authorization") == AUTH
                 and compute["bindings"]["read_plan"]["sha256"] == expected_read_plan_sha256,
                 "control authorization or cross-binding differs")
+        stage = "original_population"
         pop = plan["population"]
         same_record(store.json("allocated_slots.json"), pop, "original allocation")
         population_sha = hashlib.sha256(json.dumps(pop, sort_keys=True, separators=(",", ":"),
@@ -1358,15 +1390,24 @@ def audit_result_run(directory, *, expected_manifest_sha256, expected_read_plan_
                 "production population or scope allocation differs")
         require([row for row in pop["allocated_slots"] if row["input_status"] == "eligible"] == pop["cache_rows"],
                 "original eligible allocation was filtered or reordered")
+        stage = "scientific_scope_store"
         scopes = audit_scope_store(store, compute)
+        stage = "scientific_phase_population"
         require(Counter(compute["scopes"][name]["phase"] for name in compute["scope_order"])
                 == {1: 3100, 2: 2580, 3: 4676}, "registered phase scope counts differ")
+        stage = "phase_freezes"
         freezes = audit_freezes(store, plan, compute, receipt, scopes)
+        stage = "source_reader_schedule"
         reader = audit_reader_journal(_stream_jsonl(store, "source_access.jsonl"), plan, freezes)
+        stage = "saved_access_snapshot"
         access = audit_access_snapshot(store, plan, reader)
+        stage = "saved_source_provenance"
         provenance = audit_saved_provenance(store, plan)
+        stage = "saved_phase_inputs"
         copies = audit_saved_inputs(store, plan)
+        stage = "saved_scientific_values"
         values, verdict = audit_saved_scientific_values(store, plan, scopes["statuses"], copies)
+        stage = "final_scientific_summary"
         summary = store.json("summary.json")
         same_record({key: summary[key] for key in verdict}, verdict, "final scientific verdict")
         require(summary.get("diagnostic_status") == "COMPLETE" and summary.get("allocated_train") == 268
@@ -1375,7 +1416,8 @@ def audit_result_run(directory, *, expected_manifest_sha256, expected_read_plan_
                 and summary.get("authorization") == AUTH
                 and summary.get("scope_statuses") == dict(Counter(scopes["statuses"].values())),
                 "final diagnostic population/status summary differs")
-        stage = store.json("stage_evidence.json")
+        stage = "harness_stage_evidence"
+        stage_evidence = store.json("stage_evidence.json")
         for field, expected in {"status": "PASS", "process_status": "PASS", "source_commit": receipt["source_commit"],
                                 "diagnostic_status": "COMPLETE", "scientific_verdict": verdict["scientific_verdict"],
                                 "promotion_decision": "KEEP_BASELINE", "development_authorization_id": AUTH,
@@ -1383,7 +1425,8 @@ def audit_result_run(directory, *, expected_manifest_sha256, expected_read_plan_
                                 "model_promoted": False, "level_6_claimed": False, "hidden_training_targets_read": False,
                                 "labels_read": 0, "internal_val_ids_read": [], "source_val_ids_read": [], "test_ids_read": [],
                                 "new_missed_instability_result_established": False, "result_dir": store.root.name}.items():
-            same_record(stage[field], expected, "stage evidence " + field)
+            same_record(stage_evidence[field], expected, "stage evidence " + field)
+        stage = "output_io_and_preceding_seal"
         io = audit_output_io(store, reader["transition_records"], compute=compute)
         report.update(status="PASS", manifest_sha256=expected_manifest_sha256,
                       population_sha256=population_sha, scientific_verdict=verdict,
@@ -1394,7 +1437,15 @@ def audit_result_run(directory, *, expected_manifest_sha256, expected_read_plan_
                       access=access, provenance=provenance, saved_value_checks=values, output_io=io,
                       boundary="Saved-evidence consistency only. No new fit, solve, rollout, labels, FSR or promotion; KEEP_BASELINE.")
     except (OSError, ValueError, TypeError, KeyError, IndexError, ArithmeticError, zipfile.BadZipFile) as error:
-        report["failure"] = {"type": type(error).__name__, "message": str(error)}
+        trace, locations = error.__traceback__, []
+        while trace is not None:
+            code = trace.tb_frame.f_code
+            locations.append({"file": code.co_filename, "function": code.co_name,
+                              "line": trace.tb_lineno})
+            trace = trace.tb_next
+        report["failure"] = {"type": type(error).__name__, "message": str(error),
+                             "stage": stage, "last_code_location": locations[-1] if locations else None,
+                             "code_locations": locations}
     if store is not None:
         report["audit_reads"] = {"run_files_opened": len(store.opens), "file_open_count": sum(store.opens.values()),
                                  "hash_json_and_journal_bytes_measured": sum(store.bytes_read.values()),

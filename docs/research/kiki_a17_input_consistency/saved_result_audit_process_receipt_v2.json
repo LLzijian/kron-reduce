@@ -1,0 +1,31 @@
+{
+  "kind": "A17_saved_result_audit_process_receipt_v2",
+  "command": [
+    "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "-m",
+    "kron_reduce.evaluation.input_consistency_result_audit",
+    "E:\\03-nn_Transfer_Func\\kron-reduce\\results\\paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9",
+    "--manifest-sha256",
+    "708839cb627812282e0abfcc32f54c712e8afab4556b853c7253f742d88dcf2e",
+    "--read-plan-sha256",
+    "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+    "--compute-plan-sha256",
+    "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582"
+  ],
+  "started_at": "2026-10-25T10:54:14.850651+00:00",
+  "finished_at": "2026-10-25T11:10:41.083243+00:00",
+  "actual_returncode": 0,
+  "launch_or_stream_error": null,
+  "log_durability_or_hash_error": null,
+  "revision_review_sha256": "0f5eb3b58e07ee82ab363b65415aca62490ca4c3da534d866d39a4744918c1d9",
+  "revision_receipt_sha256": "da74de26639f4271a7d6f30524378ec0532cb8548ab8bcca627155598f0097d8",
+  "scientific_execution_repeated": false,
+  "audit_module_sha256": "560ad5ca1c04286b11a8cf8a12b0a37257a95ef254eb9ee30d564d2a58ef3bc3",
+  "stdout_log": "a17_saved_result_audit_stdout_v2.log",
+  "stdout_log_sha256": "27f28529cde2a96e02e1158e98ff5a47fd6948a0a5e59ee9a76247fbc009e3f9",
+  "external_manifest_sha256": "708839cb627812282e0abfcc32f54c712e8afab4556b853c7253f742d88dcf2e",
+  "source_commit": "e736e26091a777f96025f70f865186eb02290d7c",
+  "run_id": "paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9",
+  "retry_allowed": false,
+  "automatic_retry": false
+}

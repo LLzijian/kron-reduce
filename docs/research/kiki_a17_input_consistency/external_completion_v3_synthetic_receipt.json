@@ -1,0 +1,12 @@
+{
+  "kind": "A17_external_completion_v3_production_sealer_synthetic_fixture",
+  "status": "PASS",
+  "fixture_source": "actual frozen seal_result + OutputIO over two synthetic JSON files",
+  "valid_production_layout_accepted": true,
+  "top_level_source_transition_lines": 2,
+  "flat_seal_byte_mismatch_rejected": true,
+  "final_manifest_action_byte_mismatch_rejected": true,
+  "real_run_or_common_budget_read": false,
+  "source_payload_read": false,
+  "scientific_computation": false
+}

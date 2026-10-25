@@ -1,0 +1,23 @@
+{
+  "kind": "A17_static_journal_efficiency_review_v1",
+  "status": "PROPOSAL_ONLY_NOT_APPROVED",
+  "head": "e736e26091a777f96025f70f865186eb02290d7c",
+  "sources_read": {
+    "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+    "src/kron_reduce/data/limited_npz_audit.py": "e96e939f9b7df72a4895906ca444e3c85c3bcd144360b413ba201ad5c1e57031",
+    "src/kron_reduce/data/input_consistency_reader.py": "3bd291230bac1d4a0851d57bc2543ad6c72b7b9f91e9cc67eb7bab4a0ce9bb46",
+    "src/kron_reduce/evaluation/input_consistency_output_io.py": "9a0bbe83959e5e5edff471c4e3b1bd667e3c369460e049e69bbbe30b86ddf16a0"
+  },
+  "static_findings": [
+    "AppendOnlyAuditJournal append performs write, flush, fsync per transition; durable ledger reserves before callback and closes outcomes afterward.",
+    "limited_npz_audit defaults to in-memory AccessLedger and supports injected ledger factory; it has no independent fsync loop.",
+    "InputConsistencyReader uses AppendOnlyAuditJournal and persists attempted before source callback and terminal state after callback; journal close syncs too.",
+    "OutputIO journal transitions flush per record, then flush/fsync on context exit; business-file fsync is measured separately."
+  ],
+  "future_proposal_only": "Consider bounded terminal-record batches only under a new protocol that retains durable pre-callback reservations, unknown/spent crash semantics, preserved synchronized prefix, no retries, and no additional source access. Requires Astra review and separate tests; not applied to A17.",
+  "payloads_or_run_outputs_read": false,
+  "common_budget_read": false,
+  "benchmarks_or_timing_performed": false,
+  "scientific_computation_performed": false,
+  "authorization_or_policy_changed": false
+}

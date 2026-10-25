@@ -1,0 +1,108 @@
+{
+  "schema": "a17_independent_result_review_checklist_v1",
+  "created_date": "2026-10-25",
+  "reviewer": "Astra Ultra",
+  "purpose": "Prepare the independent result review before seeing any A17 result",
+  "status": "PREPARED_RESULTS_UNSEEN",
+  "scientific_result_review_started": false,
+  "result_run_id": null,
+  "result_manifest_sha256": null,
+  "V_pass": null,
+  "G_I": null,
+  "G_E": null,
+  "scientific_verdict": null,
+  "engineering_main_integration_decision": null,
+  "grants_execution_authorization": false,
+  "grants_retry_or_resume": false,
+  "grants_training_authorization": false,
+  "grants_promotion": false,
+  "registered_invariant_promotion_decision": "KEEP_BASELINE",
+  "parent_reported_execution_source_commit": "e736e26091a777f96025f70f865186eb02290d7c",
+  "execution_source_commit_verification": "PENDING_FORMAL_RESULT_EVIDENCE",
+  "read_text_bindings": [
+    {
+      "path": "docs/research/kiki_a17_input_consistency/design_zh.md",
+      "sha256": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
+      "bytes": 24121
+    },
+    {
+      "path": "docs/protocols/kiki_a17_development_authorization_20261025_zh.md",
+      "sha256": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+      "bytes": 7269
+    }
+  ],
+  "control_hashes_quoted_from_frozen_protocol_not_reopened": {
+    "read_plan_sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+    "compute_plan_sha256": "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582"
+  },
+  "artifact": {
+    "path": "scratch/one_off/kiki-a17-input-consistency-20261025/review_checklist_v1.md",
+    "sha256": "f7864da87766327f5ab653b69a817cd603a2504dda3b68d6b7a00c18bd40647a",
+    "bytes": 15636
+  },
+  "review_start_conditions": [
+    "Parent explicitly announces that the unique real CLI has terminated",
+    "Parent provides completed new-run-only independent audit evidence",
+    "The exact permitted new-run files and external completion-receipt scope are fixed",
+    "No source payload reopening, model construction, LS, RHS, fit or path replay is needed"
+  ],
+  "checklist_items": [
+    {"id": "R01", "subject": "Terminal state and exact identity", "status": "PENDING"},
+    {"id": "R02", "subject": "Independent saved-evidence audit", "status": "PENDING"},
+    {"id": "R03", "subject": "Exact permitted review file boundary", "status": "PENDING"},
+    {"id": "R04", "subject": "268 allocated / 258 eligible / 774 slots and original weights", "status": "PENDING"},
+    {"id": "R05", "subject": "Fixed models, physical units and parameter fingerprints", "status": "PENDING"},
+    {"id": "R06", "subject": "C / rejected I / baseline E provenance", "status": "PENDING"},
+    {"id": "R07", "subject": "Actual durable three-phase freeze order", "status": "PENDING"},
+    {"id": "R08", "subject": "Single saved-decomposition initializer", "status": "PENDING"},
+    {"id": "R09", "subject": "Frozen initializer numerical gates", "status": "PENDING"},
+    {"id": "R10", "subject": "Original history clock and full initial state", "status": "PENDING"},
+    {"id": "R11", "subject": "Actual PL input evaluation witnesses", "status": "PENDING"},
+    {"id": "R12", "subject": "Per-step-size closed-loop hidden state and reset identity", "status": "PENDING"},
+    {"id": "R13", "subject": "Reset energy and historical/future power endpoint distinction", "status": "PENDING"},
+    {"id": "R14", "subject": "Constant Pm10 future contract", "status": "PENDING"},
+    {"id": "R15", "subject": "Finite and physical checks at every required point", "status": "PENDING"},
+    {"id": "R16", "subject": "All prescribed coarse/fine refinements", "status": "PENDING"},
+    {"id": "R17", "subject": "Failure prefixes, dependency retention and permanent stop", "status": "PENDING"},
+    {"id": "R18", "subject": "Conjunctive V gate", "status": "PENDING"},
+    {"id": "R19", "subject": "Fixed MSE definitions and all 18 groups", "status": "PENDING"},
+    {"id": "R20", "subject": "Seven frozen paired criteria", "status": "PENDING"},
+    {"id": "R21", "subject": "Fractional weighted tail and complete-3s metric", "status": "PENDING"},
+    {"id": "R22", "subject": "Six G_I groups / six G_E groups and missing mass", "status": "PENDING"},
+    {"id": "R23", "subject": "Scope order, dependencies and actual operation transitions", "status": "PENDING"},
+    {"id": "R24", "subject": "Exact full-success compute counts or actual failure prefixes", "status": "PENDING"},
+    {"id": "R25", "subject": "Bounded source reads and measured I/O", "status": "PENDING"},
+    {"id": "R26", "subject": "Run seal and four external tail actions", "status": "PENDING"},
+    {"id": "R27", "subject": "CLI/harness terminal state and independent audit closure", "status": "PENDING"},
+    {"id": "R28", "subject": "Frozen scientific verdict", "status": "PENDING"},
+    {"id": "R29", "subject": "Claim and causal attribution limits", "status": "PENDING"},
+    {"id": "R30", "subject": "Archive versus main integration and next-study permissions", "status": "PENDING"}
+  ],
+  "paired_groups": [
+    {"seed": 324, "max_step": "0.005", "G_I_components": null, "G_E_components": null},
+    {"seed": 324, "max_step": "0.0025", "G_I_components": null, "G_E_components": null},
+    {"seed": 325, "max_step": "0.005", "G_I_components": null, "G_E_components": null},
+    {"seed": 325, "max_step": "0.0025", "G_I_components": null, "G_E_components": null},
+    {"seed": 326, "max_step": "0.005", "G_I_components": null, "G_E_components": null},
+    {"seed": 326, "max_step": "0.0025", "G_I_components": null, "G_E_components": null}
+  ],
+  "scope_activity_for_this_checklist": {
+    "live_a17_artifact_reads": 0,
+    "shared_budget_reads": 0,
+    "old_real_payload_reads": 0,
+    "old_real_payload_hashes": 0,
+    "model_constructions": 0,
+    "LS_calls": 0,
+    "RHS_calls": 0,
+    "fits": 0,
+    "scientific_metric_comparisons": 0,
+    "tracked_file_changes": 0,
+    "environment_changes": 0,
+    "prior_conditional_draft_changes": 0
+  },
+  "independent_concept_crosscheck": {
+    "agent": "/root/astra_a16_final_review/state_dependent_port_theory",
+    "scope": "Five conceptual distinctions derived only from the same frozen design and protocol",
+    "result_evidence_examined": false
+  }
+}

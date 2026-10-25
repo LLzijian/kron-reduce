@@ -1,0 +1,20 @@
+{
+  "kind": "A17_consumed_authorization_metadata_verification_v2",
+  "status": "PASS",
+  "checked_at": "2026-10-25T11:33:38.722672+00:00",
+  "authorization": "kiki_a17_development_20261025",
+  "expected_state": "consumed",
+  "actual_guard_error_type": "RuntimeError",
+  "authorization_error": "DEVELOPMENT_AUTHORIZATION_NOT_ACTIVE_USER_APPROVED",
+  "campaign_CLI_not_called": true,
+  "source_payloads_opened": 0,
+  "model_LS_RHS_fit_calls": 0,
+  "source_commit_of_scientific_run": "e736e26091a777f96025f70f865186eb02290d7c",
+  "prior_wrapper_failure": {
+    "tool_chunk_id": "b3b1c7",
+    "expected_exception_type_in_wrapper": "PermissionError",
+    "actual_guard_exception": "RuntimeError",
+    "guard_rejected_correctly": true,
+    "science_not_repeated": true
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "returncode": 0,
+  "finished_at": "2026-10-25T10:29:35.953080+00:00",
+  "source_commit": "e736e26091a777f96025f70f865186eb02290d7c",
+  "stdout_sha256": "79aa4ba95168d0d9704ffffd34180bdb3242c83a94385ac9226c0c866228bc6b",
+  "retry_allowed": false
+}

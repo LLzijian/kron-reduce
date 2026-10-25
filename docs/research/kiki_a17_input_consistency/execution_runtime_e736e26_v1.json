@@ -1,0 +1,72 @@
+{
+  "kind": "A17_final_clean_startup_provenance_v1",
+  "head": "e736e26091a777f96025f70f865186eb02290d7c",
+  "working_tree_clean_before_and_after": true,
+  "python_executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+  "python_version": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "python_312_14": true,
+  "packages": {
+    "filelock": {
+      "constraint": "==3.32.2",
+      "installed": "3.32.2",
+      "public_version": "3.32.2",
+      "match": true
+    },
+    "h5py": {
+      "constraint": "==3.16.0",
+      "installed": "3.16.0",
+      "public_version": "3.16.0",
+      "match": true
+    },
+    "numpy": {
+      "constraint": "==2.5.2",
+      "installed": "2.5.2",
+      "public_version": "2.5.2",
+      "match": true
+    },
+    "scipy": {
+      "constraint": "==1.18.0",
+      "installed": "1.18.0",
+      "public_version": "1.18.0",
+      "match": true
+    },
+    "torch": {
+      "constraint": "==2.13.0",
+      "installed": "2.13.0+cpu",
+      "public_version": "2.13.0",
+      "match": true
+    },
+    "pytest": {
+      "constraint": "==9.1.1",
+      "installed": "9.1.1",
+      "public_version": "9.1.1",
+      "match": true
+    },
+    "ruff": {
+      "constraint": "==0.16.2",
+      "installed": "0.16.2",
+      "public_version": "0.16.2",
+      "match": true
+    }
+  },
+  "all_package_constraints_match": true,
+  "modules_imported": 29,
+  "module_origins_and_head_sources_match": true,
+  "implementation_binding_count": 65,
+  "implementation_bindings_match_worktree_and_head": true,
+  "review_manifest_sha256": "db3352681c46f28be58c17fca7c7fa4c3eef15b115c1ece87a3014c318105068",
+  "authorization_gate": "metadata_only_pass",
+  "authorization_status": "user_approved",
+  "budget_executions_spent": 0,
+  "common_budget_directory_absent": true,
+  "prior_development_authorizations_all_consumed": true,
+  "scientific_execution_called": false,
+  "real_payload_or_result_files_read_or_hashed": false,
+  "execution_authorized_by_this_receipt": false,
+  "ci_status": "not checked here; root supplies independent CI evidence",
+  "sources_sha256_receipt": "final_startup_source_sha256_v1.json",
+  "head_before": "e736e26091a777f96025f70f865186eb02290d7c",
+  "head_after": "e736e26091a777f96025f70f865186eb02290d7c",
+  "status_before": "",
+  "status_after": ""
+}

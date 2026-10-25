@@ -1,0 +1,23 @@
+{
+  "kind": "A17_external_completion_process_receipt_v3",
+  "command": [
+    "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\one_off\\kiki-a17-input-consistency-20261025\\postrun_external_completion_v3.py",
+    "--root",
+    "E:\\03-nn_Transfer_Func\\kron-reduce"
+  ],
+  "started_at": "2026-10-25T10:45:50.164991+00:00",
+  "finished_at": "2026-10-25T10:51:34.676600+00:00",
+  "returncode": 0,
+  "source_commit": "e736e26091a777f96025f70f865186eb02290d7c",
+  "run_id": "paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9",
+  "checker_sha256": "e189139a83d6d5e25d1f671b605e1c7b0a20c90f91a2bc8a21fde3e96388de14",
+  "stdout_log": "a17_external_completion_stdout_v3.log",
+  "stdout_log_sha256": "692b5ddc5bb5f50919eb7c5595d4478b013db991a6f91320d581b73428170a86",
+  "report_status": "PASS",
+  "manifest_sha256": "708839cb627812282e0abfcc32f54c712e8afab4556b853c7253f742d88dcf2e",
+  "launch_error": null,
+  "log_error": null,
+  "retry_allowed": false,
+  "automatic_retry": false
+}

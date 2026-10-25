@@ -303,18 +303,21 @@ state, fit, future prediction or missed-instability metric was produced.
 Do not rerun A16. KEEP_BASELINE applies; input-consistency controls or C(q)
 training require their own registration and exact scientific approval.
 
-A17 input consistency has passed the exact Astra Ultra implementation review
-for independent bounded registration at commit `6babf354fa3986fd3220ebd53ff3d86dc6ada64b`.
-Its independent registration at `25993bb7ceed9af857dd1895cc4becdc527788d5`
-has been approved for one bounded activation. Its policy is `user_approved`;
-execution still requires the final clean activation HEAD, exact push/CI,
-fresh constrained-runtime/import evidence and an unspent common budget.
-The scientific
-design and bounded protocol are `docs/research/kiki_a17_input_consistency/design_zh.md`
-and `docs/protocols/kiki_a17_development_authorization_20261025_zh.md`.
-Use only the dedicated CLI after those startup conditions are verified;
-do not use a real source call to probe them. The 65 implementation/registration
-bindings and frozen protocol/read/compute limits govern this unique execution;
-the shared one-use budget must be spent before real source access, with no retry
-or resume. All 268 allocated events and failures retain their original weights.
-A16 remains consumed; no new missed-instability result or model promotion is established.
+A17 has completed once and its authorization is consumed, bound to the immutable
+run, 774 seed-event slots, 10356 complete scopes, 1548 history and 1548 future
+paths, and 5831802 RHS calls. Both independent saved-evidence and external
+completion audits passed. Astra Ultra accepted the valid negative result:
+V passed; G_I and G_E failed in all six seed-step groups; REJECT and
+KEEP_BASELINE apply. No initializer or model has been promoted.
+Preserve the original failed post-run checker receipts and their reviewed
+repairs; they did not rerun or alter the scientific comparison. Do not retry,
+resume or reactivate A17. The original execution bindings stay historical;
+the post-run read-only auditor revision has its own exact review and receipts.
+The candidate is not approved for main/default integration. Main may receive
+only a separately reviewed archive identity record. Further code extraction,
+comparisons and training require independent review/registration. By the
+predeclared G_I-failure rule, joint LS and C(q) training remain closed. The
+next priority is preparation of one known-truth constant-coupling synthetic
+information-sufficiency question; this result authorizes no new calculation.
+No labels, val/test trajectories or new missed-instability result were evaluated;
+the zero missed-instability target remains unestablished.

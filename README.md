@@ -9,6 +9,13 @@ Existing test exposure prevents fresh confirmatory claims; a new independent
 kiki holdout must be registered before confirmation. The original canonical
 dataset is retained for explicit historical reproduction.
 
+The [completed A17 comparison](docs/reports/kiki_a17_input_consistency_20261025_zh.md)
+retains all 268 allocated train records and zero new fits. Physical, numerical
+and independent evidence checks passed; the input-consistency candidate failed
+all frozen improvement comparisons. Astra reviewed this as a valid negative
+result: REJECT, KEEP_BASELINE, consumed authorization and no new missed-instability
+claim. The complete proposal, checker failures and repairs are archived.
+
 Spatial clustering is paused: retain ten generator nodes while learning and
 pruning the dynamical/latent modules. Synthetic ground-truth checks continue.
 See `configs/research_policy.json` and

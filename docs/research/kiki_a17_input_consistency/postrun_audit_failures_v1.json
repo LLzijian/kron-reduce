@@ -1,0 +1,74 @@
+{
+  "kind": "A17_postrun_independent_audit_failures_v1",
+  "created_at": "2026-10-25T10:42:28.306589+00:00",
+  "real_scientific_execution_returncode": 0,
+  "real_run_id": "paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9",
+  "source_commit": "e736e26091a777f96025f70f865186eb02290d7c",
+  "real_scientific_verdict": "REJECT",
+  "promotion_decision": "KEEP_BASELINE",
+  "no_scientific_rerun": true,
+  "new_missed_instability_result_established": false,
+  "external_checker_v2": {
+    "returncode": 1,
+    "reason": "source_transition_lines read from sealing object instead of the production output-summary top level",
+    "diagnosis_status": "source_layout_confirmed",
+    "evidence": [
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/postrun_external_completion_v2.py",
+        "sha256": "34b66a907b3a26352e750f8de38593e1c031ac5f61eb086512b81879344b547a",
+        "bytes": 18762
+      },
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/launch_external_completion_once_v1.py",
+        "sha256": "f044b747d21dc5d45f6b57e23593c3dfdc3342cbdcc2c31cb50dbcac15971ea0",
+        "bytes": 1647
+      },
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_external_completion_stdout_v2.log",
+        "sha256": "89f5fb941c5fb6d4eb44e5cafb857a2d969e933f3a4c3c541b2dd91f641afd66",
+        "bytes": 971
+      },
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_external_completion_process_receipt_v2.json",
+        "sha256": "bd1d895345efafdf5adb9dae99fdb09c721b885b2abfb91e6cbb0357701b1b0a",
+        "bytes": 635
+      }
+    ]
+  },
+  "saved_evidence_auditor_v1": {
+    "returncode": 1,
+    "audit_module_sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+    "failure": {
+      "type": "TypeError",
+      "message": "string indices must be integers, not 'str'"
+    },
+    "diagnosis_status": "Astra_investigating_without_relaxing_gates",
+    "audit_reads": {
+      "run_files_opened": 41449,
+      "file_open_count": 72529,
+      "hash_json_and_journal_bytes_measured": 5423731788,
+      "npz_members_decoded": 0,
+      "npz_decode_stream_bytes": "not separately metered; archive hashes and logical member hashes verified"
+    },
+    "model_ls_rhs_fit_calls": 0,
+    "old_source_payload_reads": 0,
+    "evidence": [
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/launch_saved_audit_once_v1.py",
+        "sha256": "35f3d83444656d97f6d69dce319387d7968c8b518c88fe33bd6745e442832819",
+        "bytes": 8838
+      },
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_result_audit_stdout_v1.log",
+        "sha256": "7bb288bb77546176ce239704f5b31e519df422ae9b9b9d60ba92155c9d03c136",
+        "bytes": 782
+      },
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_result_audit_process_receipt_v1.json",
+        "sha256": "45b33663f9b0c563562958bced15f57b80de1e333c0899df77e34a3165d18f82",
+        "bytes": 1451
+      }
+    ]
+  },
+  "boundary": "Read-only checker failures are preserved. Revisions require new evidence identities; they never authorize scientific rerun, changed artifacts, training or promotion."
+}

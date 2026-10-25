@@ -463,6 +463,34 @@ def test_public_audit_refuses_non_a17_directory_without_open(tmp_path):
     assert result["status"] == "FAIL"
     assert result["old_source_payload_reads"] == result["model_ls_rhs_fit_calls"] == 0
     assert "audit_reads" not in result
+    assert result["audit_kind"] == "A17_independent_saved_evidence_replay_v2"
+    assert result["failure"]["stage"] == "run_directory_identity"
+    assert result["failure"]["last_code_location"]["function"] == "require"
+    assert all(type(location["line"]) is int and location["line"] > 0
+               for location in result["failure"]["code_locations"])
+
+
+def test_public_audit_preserves_typeerror_stage_and_code_location(tmp_path, monkeypatch):
+    from kron_reduce.evaluation import input_consistency_result_audit as audit
+
+    def malformed_manifest(*_args):
+        raise TypeError("synthetic malformed manifest")
+
+    monkeypatch.setattr(audit, "SealedRun", malformed_manifest)
+    result = audit.audit_result_run(tmp_path / "paper_kiki_a17_input_consistency-synthetic",
+                                    expected_manifest_sha256="0" * 64,
+                                    expected_read_plan_sha256="0" * 64,
+                                    expected_compute_plan_sha256="0" * 64)
+    assert result["status"] == "FAIL"
+    assert result["failure"]["stage"] == "manifest_and_sealed_files"
+    assert result["failure"]["type"] == "TypeError"
+    assert result["failure"]["message"] == "synthetic malformed manifest"
+    assert result["failure"]["last_code_location"] == {
+        "file": malformed_manifest.__code__.co_filename,
+        "function": "malformed_manifest",
+        "line": malformed_manifest.__code__.co_firstlineno + 1,
+    }
+    assert "audit_reads" not in result
 
 
 class SavedMemory:
@@ -696,7 +724,11 @@ def provenance_fixture():
     for seed in (324, 325, 326):
         key = f"{seed}-000"
         parameters = {name: desc("parameters__" + name) for name in ("mass", "edge_stiffness", "damping", "coupling", "latent_skew", "latent_dissipation")}
-        context(f"static-{seed}", "A14", f"static-{seed}", {"parameters": parameters}, ["parameters__" + name for name in parameters])
+        # Actual A14 dataclass schema: six array descriptors plus scalar
+        # backbone metadata. The compact proof contains only the six arrays.
+        context(f"static-{seed}", "A14", f"static-{seed}",
+                {"parameters": {**parameters, "backbone": "sine"}},
+                ["parameters__" + name for name in parameters])
         source_key = f"A06/checkpoint-240-{seed}/model.npz"
         a14_members[source_key] = {name: desc(name) for name in parameters}
         static_lineage[str(seed)] = {"source_key": source_key, "descriptors": copy.deepcopy(parameters),
@@ -765,8 +797,70 @@ def provenance_fixture():
 
 
 def test_compact_source_proof_connects_saved_metadata_slots_and_manifest_chain():
-    result = audit_saved_provenance(*provenance_fixture())
+    store, plan = provenance_fixture()
+    parameters = store.records["access_ledger"]["partial_record"]["metadata_documents"][
+        "results/synthetic_A14/static-324.json"]["parameters"]
+    assert parameters["backbone"] == "sine"
+    assert len(parameters) == 7
+    assert len(store.records["sources"]["value"]["ancestry_fingerprints"]["A14_static"]["324"]["descriptors"]) == 6
+    result = audit_saved_provenance(store, plan)
     assert result["same_slot_bindings"] == 3
+
+
+@pytest.mark.parametrize("attack", [
+    "parameter_string", "parameter_missing", "parameter_member", "parameter_fingerprint_missing",
+    "backbone_missing", "backbone_wrong", "backbone_descriptor", "unexpected_parameter",
+    "context_missing", "context_duplicate", "context_prefix", "context_extra",
+    "ancestor_hash", "ancestor_shape", "ancestor_dtype", "ancestor_string",
+    "proof_missing", "proof_extra", "proof_swapped",
+])
+def test_production_static_schema_keeps_all_six_parameter_identity_checks(attack):
+    store, plan = provenance_fixture()
+    documents = store.records["access_ledger"]["partial_record"]["metadata_documents"]
+    parameters = documents["results/synthetic_A14/static-324.json"]["parameters"]
+    context = next(row for row in plan["contexts"] if row["context_id"] == "static-324")
+    ancestor = documents["results/synthetic_A14/source_members.json"]["A06/checkpoint-240-324/model.npz"]
+    proof = store.records["sources"]["value"]["ancestry_fingerprints"]["A14_static"]["324"]["descriptors"]
+    if attack == "parameter_string":
+        parameters["mass"] = "must not silently skip this required array"
+    elif attack == "parameter_missing":
+        parameters.pop("mass")
+    elif attack == "parameter_member":
+        parameters["mass"]["array_member"] = "parameters__damping"
+    elif attack == "parameter_fingerprint_missing":
+        parameters["mass"].pop("shape")
+    elif attack == "backbone_missing":
+        parameters.pop("backbone")
+    elif attack == "backbone_wrong":
+        parameters["backbone"] = "linear"
+    elif attack == "backbone_descriptor":
+        parameters["backbone"] = copy.deepcopy(parameters["mass"])
+    elif attack == "unexpected_parameter":
+        parameters["extra_parameter"] = copy.deepcopy(parameters["mass"])
+    elif attack == "context_missing":
+        context["members"].pop()
+    elif attack == "context_duplicate":
+        context["members"][1] = copy.deepcopy(context["members"][0])
+    elif attack == "context_prefix":
+        context["members"][0]["name"] = "mass"
+    elif attack == "context_extra":
+        context["members"].append(copy.deepcopy(context["members"][0]))
+    elif attack == "ancestor_hash":
+        ancestor["mass"]["sha256_c_order_bytes"] = "f" * 64
+    elif attack == "ancestor_shape":
+        ancestor["mass"]["shape"] = [2]
+    elif attack == "ancestor_dtype":
+        ancestor["mass"]["dtype"] = "<f4"
+    elif attack == "ancestor_string":
+        ancestor["mass"] = "not a fingerprint"
+    elif attack == "proof_missing":
+        proof.pop("mass")
+    elif attack == "proof_extra":
+        proof["backbone"] = "sine"
+    else:
+        proof["mass"], proof["damping"] = proof["damping"], proof["mass"]
+    with pytest.raises(EvidenceError):
+        audit_saved_provenance(store, plan)
 
 
 @pytest.mark.parametrize("attack", ["determinant", "threshold", "event", "source_B", "future_descriptor", "ancestor_hash", "manifest", "dropped_slot"])

@@ -1,0 +1,115 @@
+{
+  "schema": "a17_saved_auditor_v2_fix_receipt_v1",
+  "decision": "APPROVE_BOUNDED_READ_ONLY_AUDITOR_REVISION",
+  "revised_real_audit_executed": false,
+  "scientific_result_review_complete": false,
+  "execution_authorized": false,
+  "scientific_campaign_rerun_authorized": false,
+  "training_authorized": false,
+  "original_execution_commit": "e736e26091a777f96025f70f865186eb02290d7c",
+  "original_auditor_git_blob_sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+  "original_failure_preserved": true,
+  "original_failure_location": {
+    "function": "audit_saved_provenance",
+    "caller_line": 825,
+    "callee": "fingerprint",
+    "callee_line": 738,
+    "type": "TypeError",
+    "message": "string indices must be integers, not 'str'"
+  },
+  "cause": "A14 static.parameters has six array descriptors plus backbone=\"sine\". v1 incorrectly fingerprints all seven values. Synthetic fixture previously omitted the scalar field.",
+  "fix": "Require the exact six frozen static members and their descriptors, separately require backbone=\"sine\", retain ancestor and compact-proof identity checks; add audit v2 stage and traceback locations.",
+  "changed_tracked_files": [
+    "src/kron_reduce/evaluation/input_consistency_result_audit.py",
+    "tests/test_input_consistency_result_audit.py"
+  ],
+  "bindings": [
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_result_audit.py",
+      "sha256": "560ad5ca1c04286b11a8cf8a12b0a37257a95ef254eb9ee30d564d2a58ef3bc3",
+      "bytes": 96750
+    },
+    {
+      "path": "tests/test_input_consistency_result_audit.py",
+      "sha256": "28a3e58692fbde7e845d4a0945166e0dda2f9e2cf2735e1437bfab59dc651a9e",
+      "bytes": 51034
+    },
+    {
+      "path": "tests/test_input_consistency_result_audit_metrics.py",
+      "sha256": "228833044fd1b32e62fbcd8d746cf520fa4ac59bead61c99bed816148c339138",
+      "bytes": 13783
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_auditor_v2_pytest_01.log",
+      "sha256": "0b519fca750380142431946194b7c7552918a02a8f88e5ba544944ce1f72c4d3",
+      "bytes": 981
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_auditor_v2_ruff_01.log",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "bytes": 20
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_auditor_v2_fix_review_zh.md",
+      "sha256": "0f5eb3b58e07ee82ab363b65415aca62490ca4c3da534d866d39a4744918c1d9",
+      "bytes": 4861
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_result_audit_stdout_v1.log",
+      "sha256": "7bb288bb77546176ce239704f5b31e519df422ae9b9b9d60ba92155c9d03c136",
+      "bytes": 782
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_result_audit_process_receipt_v1.json",
+      "sha256": "45b33663f9b0c563562958bced15f57b80de1e333c0899df77e34a3165d18f82",
+      "bytes": 1451
+    }
+  ],
+  "focused_newrun_json_inputs": [
+    {
+      "path": "results/paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9/read_plan.json",
+      "sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+      "bytes": 9568107
+    },
+    {
+      "path": "results/paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9/access_ledger.json",
+      "sha256": "34cb72e0c4cbb139d2085501a419baa00ca1d4a069660e97fa6bedf4b975739c",
+      "bytes": 239532174
+    },
+    {
+      "path": "results/paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9/sources.json",
+      "sha256": "fa83cfd6c111caf0c359a92068eb5a37bd5ea1ea881eab3d9a886154b3d6502c",
+      "bytes": 13818378
+    }
+  ],
+  "focused_reproducer_boundaries": {
+    "old_auditor_provenance_metadata_function_calls": 1,
+    "full_audit_calls": 0,
+    "newrun_npz_decodes": 0,
+    "old_source_payload_reads": 0,
+    "old_source_payload_hashes": 0,
+    "model_LS_RHS_rollout_fit_calls": 0,
+    "new_scientific_comparisons": 0,
+    "result_artifact_mutations": 0
+  },
+  "validation": {
+    "python": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "python_version": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "pytest_passed": 250,
+    "pytest_failed": 0,
+    "pytest_seconds": 6.56,
+    "warnings": 1,
+    "warning_reason": "PytestCacheWarning: cache directory write access denied; all tests passed",
+    "ruff": "PASS",
+    "real_audit_not_repeated": true
+  },
+  "independent_readonly_review": {
+    "agent": "/root/astra_a16_final_review/state_dependent_port_theory",
+    "finding": "No blocking issue in this bounded schema repair; no scientific gate relaxation",
+    "real_run_reads": 0,
+    "tests_reexecuted": false
+  },
+  "allowed_next_step": "Coordinator verifies exact v2 bindings and separately launches one saved-evidence audit of the same immutable new run into new receipts. No source-following, model, solve, RHS, rollout, fit, thresholds changes or scientific retry.",
+  "prior_v1_failure_must_remain": true,
+  "promotion_decision_invariant": "KEEP_BASELINE"
+}

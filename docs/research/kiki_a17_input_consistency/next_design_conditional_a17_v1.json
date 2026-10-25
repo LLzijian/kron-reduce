@@ -1,0 +1,450 @@
+{
+  "kind": "A17_blind_conditional_next_design_v1",
+  "author": "Astra Ultra",
+  "created_utc": "2026-10-25 09:03:10 UTC",
+  "status": "CONCEPTUAL_DRAFT_ONLY_NOT_REGISTERED_NOT_EXECUTABLE",
+  "repository_head": "e736e26091a777f96025f70f865186eb02290d7c",
+  "working_tree_clean_after_draft": true,
+  "ignored_scratch_only": true,
+  "a17_results_seen": false,
+  "a17_current_scientific_outcome": null,
+  "proposal": {
+    "path": "scratch/one_off/kiki-a17-input-consistency-20261025/next_design_conditional_a17_v1.md",
+    "sha256": "1c9328aa6af93d677aad35624d97475c8fd19ffa299885180b175e489d70d4d7",
+    "bytes": 18771
+  },
+  "skills_applied": [
+    "researchwrite: partial conceptual plan, foundation compressed into this receipt per requested two-file deliverable",
+    "nature-academic-search: focused primary-source discovery and verification",
+    "anti-defensive-writing: evidence and scope precise; no effect guarantees"
+  ],
+  "proposed_unique_question": "Whether current-parameter integral-LS initialization jointly adapted through closed-loop history and future loss, within the existing constant-C model class, makes Pm11 history input outperform an identically trained Pm10 control and the saved E quality baseline.",
+  "new_campaign_authorized": false,
+  "activation_or_policy_change": false,
+  "new_real_budget_allocated": false,
+  "research_canon": [
+    {
+      "claim": "A13 contains a known-truth counterexample with zero integral residual and wrong inferred hidden state under input mismatch.",
+      "source": "docs/research/kiki_a13_integral_synthetic/astra_synthetic_result_review_zh.md",
+      "status": "existing synthetic evidence"
+    },
+    {
+      "claim": "A14 accepted history reconstruction; A15 rejected transfer to future.",
+      "source": [
+        "docs/research/kiki_a14_integral_history/design_zh.md",
+        "git:5ac8b571751467f677fb569df3c0a1f4c323d065:docs/research/kiki_a15_future_transfer/astra_result_review_zh.md"
+      ],
+      "status": "existing curated result evidence"
+    },
+    {
+      "claim": "A16 established an effect on the fixed LS equation, not a future improvement or physical cause.",
+      "source": "docs/research/kiki_a16_pm_impulse/astra_a16_result_review_zh.md",
+      "status": "existing curated diagnostic evidence"
+    },
+    {
+      "claim": "Initial states and pH matrices can be calibrated together while retaining structural constraints in the cited linear synthetic study.",
+      "source": "https://arxiv.org/pdf/2301.02019",
+      "status": "primary-paper method class; not this nonlinear pipeline guarantee"
+    },
+    {
+      "claim": "SUBNET learns an initial-state reconstruction map and prediction model through a prediction graph under stated assumptions.",
+      "source": "https://arxiv.org/html/2210.14816v2",
+      "status": "primary-paper method class; its consistency assumptions not transferred"
+    },
+    {
+      "claim": "Skew interconnection cancels in the power identity; passivity additionally needs an admissible lower-bounded storage/domain.",
+      "source": "https://people.math.ethz.ch/~hiptmair/Seminars/PHS_24/VSJ14.pdf",
+      "status": "primary theory; project formula and barrier limits separately derived"
+    },
+    {
+      "claim": "A17 scientific outcomes are unknown to this draft.",
+      "source": "review activity boundary",
+      "status": "no current A17 source/output/result reads"
+    }
+  ],
+  "evidence_table": [
+    {
+      "claim": "Old parameters may compensate input approximation.",
+      "strength": "conditional local linearization hypothesis",
+      "evidence": "Jp delta_p + Ju delta_u; no real Jacobians evaluated",
+      "forbidden_upgrade": "not diagnosis of A17 failure"
+    },
+    {
+      "claim": "Joint adaptation is a falsifiable next question.",
+      "strength": "conditional proposal",
+      "evidence": "same model class and paired training, no C(q)",
+      "forbidden_upgrade": "not assured benefit"
+    },
+    {
+      "claim": "LS derivative includes residual term.",
+      "strength": "direct derivation plus limited independent toy check",
+      "evidence": "G dz=L.T(db-dL z)+dL.T r",
+      "forbidden_upgrade": "not whole-integrator gradient validation"
+    },
+    {
+      "claim": "Full-rank conditional LS is not full parameter identifiability.",
+      "strength": "mathematical boundary",
+      "evidence": "orthogonal hidden coordinate gauge, parameter compensation and weak excitation",
+      "forbidden_upgrade": "not physical hidden-state recovery"
+    },
+    {
+      "claim": "Common energy barrier limits pure C(q) repair.",
+      "strength": "conditional mathematical implication",
+      "evidence": "docs/research/kiki_a16_pm_impulse/astra_cq_energy_barrier_addendum_zh.md",
+      "forbidden_upgrade": "no actual misclassified event located inside a certified region"
+    },
+    {
+      "claim": "Constant-input negative control must agree across paired implementations.",
+      "strength": "necessary synthetic acceptance criterion not yet executed",
+      "evidence": "same input and algorithm imply same computation",
+      "forbidden_upgrade": "not real effectiveness"
+    },
+    {
+      "claim": "Three-second train error cannot establish eight-second or zero-FSR performance.",
+      "strength": "scope boundary",
+      "evidence": "different horizon/population and no new labels/independent confirmation",
+      "forbidden_upgrade": "no zero-miss conclusion"
+    }
+  ],
+  "argument_map": {
+    "question": "Does input-consistent current-theta state estimation and dynamics adaptation improve the full future chain under matched training?",
+    "logic": [
+      "A14/A15 show historical fit cannot choose a future initializer alone",
+      "A16 motivates A17 but not training causality",
+      "Parameter compensation is possible, not established",
+      "A matched constant-C training pair separates input policy from extra optimization and added capacity",
+      "C(q) remains a separately justified future structure question"
+    ],
+    "counterarguments": [
+      "fixed-model input failure may reflect negligible input effect or other model/input closure errors",
+      "free per-event latent fits can use future targets implicitly",
+      "extra training and altered initializer can explain gains over zero-training anchors",
+      "joint parameter/state ambiguity remains",
+      "pure skew cannot cross a proven common sufficient energy barrier"
+    ],
+    "resolution": "Use causal current-theta deterministic LS, same train budget and model family, frozen population and outcome gates; stop if no reliable benefit rationale."
+  },
+  "section_contracts": [
+    {
+      "purpose": "motivation",
+      "allowed": "conditional compensation mechanism",
+      "forbidden": "A17 outcome or true cause claim"
+    },
+    {
+      "purpose": "mathematics",
+      "allowed": "fixed-theta power identity and full-rank LS derivative",
+      "forbidden": "global stability or real identifiability guarantee"
+    },
+    {
+      "purpose": "training design",
+      "allowed": "one paired proposal with new supervised train-target permission required",
+      "forbidden": "existing authorization reuse or future features"
+    },
+    {
+      "purpose": "resource draft",
+      "allowed": "metadata integer schedule and explicit unbudgeted backend details",
+      "forbidden": "claiming a complete executable ledger or free backward operations"
+    },
+    {
+      "purpose": "decision conditions",
+      "allowed": "three valid-outcome branches and invalidity stop",
+      "forbidden": "automatic training/C(q)/new candidate after a negative result"
+    }
+  ],
+  "foundation_review": {
+    "status": "PASS_FOR_CONDITIONAL_CONCEPT_ONLY",
+    "subjective_writing_readiness_score_out_of_10": 8.0,
+    "score_is_not_scientific_evidence": true,
+    "independent_theory_support": [
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/next_design_conditional_support_v1.json",
+        "sha256": "2d15e59713ff5b0bd6425319906a11a7e5d52e86488d6daad8e927ce34069598",
+        "bytes": 18055
+      },
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/next_design_conditional_support_v2.json",
+        "sha256": "92f9ff6b449b61e8446d64f7eb988ac1d08aa499a1ac0e056b7b782ed2f91ad9",
+        "bytes": 23715
+      }
+    ],
+    "unresolved": [
+      "A17 outcome",
+      "whole-chain gradients and near-rank conditioning",
+      "actual paired synthetic compensation recovery",
+      "complete backend/read/IO budgets",
+      "new explicit independent registration"
+    ]
+  },
+  "fixed_mathematical_scope": {
+    "nodes": 10,
+    "latent_dimension": 2,
+    "learned_raw_dynamics_parameters": 78,
+    "identifiable_parameter_count_claimed": false,
+    "new_encoder_parameters": 0,
+    "event_specific_learned_states": 0,
+    "mass_scales_equilibrium_and_balanced_basis": "fixed original values; mass/raw unit conventions retained",
+    "coupling": "constant C=N W; no C(q)",
+    "initializer": "full-rank weighted integral LS rebuilt at each current theta, no frozen A14/A17 decomposition reuse",
+    "ls_directional_derivative": "(L.T L) dz=L.T(db-dL z)+dL.T(b-Lz)",
+    "inference_information": "only 11 historical q/v/Pm values and declared priors; original future Pm10 ZOH",
+    "supervised_training_permission": "future original-train q/v enters loss/global parameter gradient only; new permission, not A17 truth-last",
+    "no_hidden_physical_recovery_claim": true
+  },
+  "proposed_training_not_authorized": {
+    "groups": [
+      "current-theta LS + closed history with Pm10 constant",
+      "current-theta LS + closed history with Pm11 piecewise linear"
+    ],
+    "seeds": [
+      324,
+      325,
+      326
+    ],
+    "fits": 6,
+    "updates_per_fit": 60,
+    "population_passes_per_fit": 10,
+    "batches_per_pass": 6,
+    "events_per_batch": 43,
+    "optimizer": "fresh Adam",
+    "learning_rate": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0,
+    "full_gradient_clip_norm": 10.0,
+    "dtype": "float64",
+    "primary_endpoint_update": 60,
+    "training_step": 0.005,
+    "endpoint_steps": [
+      0.005,
+      0.0025
+    ],
+    "loss": "6 sum of original wi*li within each frozen batch; li original 1s/3s mean normalized future q/v MSE",
+    "history_loss_weight": 0,
+    "batch_weight_renormalization": false,
+    "early_stopping": false,
+    "retry": false,
+    "resume_or_extra_training": false,
+    "zero_training_quality_anchors": [
+      "saved E",
+      "frozen A17 C after independent audit"
+    ],
+    "paired_control_is_not_historical_replay": true
+  },
+  "budget_integer_derivation_only": {
+    "cached_eligible_events": 258,
+    "allocated_events": 268,
+    "sum_future_intervals": 72147,
+    "fit_attempts": 6,
+    "optimizer_updates": 360,
+    "training_event_initializations": 15480,
+    "initialization_expm_calls_if_ten_uncached_per_event": 154800,
+    "forward_training_ls": 15480,
+    "training_thin_factorizations": 15480,
+    "implicit_backward_linear_solves": 15480,
+    "training_Gauss4_force_calls": 619200,
+    "training_RK4_event_updates": 8967240,
+    "training_forward_integration_event_RHS": 35868960,
+    "endpoint_initializations": 1548,
+    "endpoint_GL2_GL4_rhs_solves": 3096,
+    "endpoint_history_paths": 3096,
+    "endpoint_future_paths": 3096,
+    "endpoint_RK4_updates": 2690172,
+    "endpoint_integration_RHS": 10760688,
+    "endpoint_physical_RHS": 902916,
+    "forward_training_plus_endpoint_RHS": 47532564,
+    "backward_stage_event_VJPs_if_stored_graph_no_recompute": 35868960,
+    "backend_primitive_and_read_IO_ledger_complete": false,
+    "must_add": [
+      "expm/force/integral derivatives",
+      "all diagnostic/scope/structure/identity operations",
+      "optimizer operations",
+      "actual vectorized-call vs event-operation accounting",
+      "all saved sources/member/bytes reads",
+      "durable source/science/output/sealing accounting"
+    ],
+    "gradient_checkpoint_forward_recomputation_included": false,
+    "any_recompute_requires_preexecution_new_budget_review": true
+  },
+  "conditional_decisions": [
+    {
+      "condition": "A17 not independently reviewed or V=false",
+      "decision": "NO_TRAIN; preserve spent run; no retry and no valid-subset selection"
+    },
+    {
+      "condition": "V=true G_I=true G_E=true",
+      "decision": "Consider this sole paired proposal only after remaining-error rationale and complete necessary synthetic evidence; no automatic training/C(q)"
+    },
+    {
+      "condition": "V=true G_I=true G_E=false",
+      "decision": "At most conditional paired proposal if stable input effect plus independent compensation/negative-control evidence; no baseline improvement claim"
+    },
+    {
+      "condition": "V=true G_I=false",
+      "decision": "Default NO_TRAIN for this input-adaptation follow-on; compensation story alone is insufficient; do not select favorable seed/event/metric"
+    }
+  ],
+  "primary_sources_verified": [
+    {
+      "authors": [
+        "Michael Guenther",
+        "Birgit Jacob",
+        "Claudia Totzeck"
+      ],
+      "title": "Structure-preserving identification of port-Hamiltonian systems -- a sensitivity-based approach",
+      "year": 2023,
+      "url": "https://arxiv.org/pdf/2301.02019",
+      "identifier": "arXiv:2301.02019v1",
+      "verified": "native arXiv metadata and author PDF; linear synthetic calibration",
+      "boundary": "not nonlinear power-system initializer efficacy"
+    },
+    {
+      "authors": [
+        "Gerben I. Beintema",
+        "Maarten Schoukens",
+        "Roland Toth"
+      ],
+      "title": "Deep Subspace Encoders for Nonlinear System Identification",
+      "year": 2023,
+      "url": "https://arxiv.org/html/2210.14816v2",
+      "identifier": "arXiv:2210.14816v2",
+      "verified": "arXiv metadata and author full text sections 3.2-3.3 and assumptions",
+      "boundary": "truncated discrete-time learning, not adopted consistency guarantee or validation stopping"
+    },
+    {
+      "authors": [
+        "Arjan van der Schaft",
+        "Dimitri Jeltsema"
+      ],
+      "title": "Port-Hamiltonian Systems Theory: An Introductory Overview",
+      "year": 2014,
+      "doi": "10.1561/2600000002",
+      "url": "https://people.math.ethz.ch/~hiptmair/Seminars/PHS_24/VSJ14.pdf",
+      "verified": "author text equations 4.10 and 7.5; lower-bounded storage caveat",
+      "boundary": "does not certify current model/sample region"
+    }
+  ],
+  "literature_retrieval_notes": {
+    "discovery": "Sider Scholar arXiv-native record plus arXiv-scoped OpenAlex; claims checked in primary author pages/full text",
+    "failed_fetch_preserved": "Attempted 2210.14816v3 HTML returned 404; arXiv record identifies v2, which was then read successfully",
+    "external_repo_or_environment_installations": 0
+  },
+  "local_text_bindings": [
+    {
+      "path": "docs/research/kiki_a13_integral_synthetic/primary_literature_verified.md",
+      "sha256": "ca9b4006d0a0854d33724bc56b9a37e713094333da657cdd3c4cd1053fe44191",
+      "bytes": 6185
+    },
+    {
+      "path": "docs/research/kiki_a13_integral_synthetic/astra_synthetic_result_review_zh.md",
+      "sha256": "05c89aec4c84c4f4d446ba1bb0d3b4bc7fe39e431d11a1880b52d6471c356fad",
+      "bytes": 8705
+    },
+    {
+      "path": "docs/research/kiki_a14_integral_history/design_zh.md",
+      "sha256": "eed74751bbf1f53761ab8da71ee7d31b31baa586f391d3a344bcb1f06ba88831",
+      "bytes": 21553
+    },
+    {
+      "path": "docs/research/kiki_a16_pm_impulse/astra_next_closed_loop_theory_zh.md",
+      "sha256": "ade955e55e8e22176c79b3f0bf89c13ed4d546e7d7e98d791d4e52329b75214c",
+      "bytes": 16696
+    },
+    {
+      "path": "docs/research/kiki_a16_pm_impulse/astra_cq_energy_barrier_addendum_zh.md",
+      "sha256": "4542876f20bca60e058053548318e0c7584165d6a73e7d0e9dcc4059e449c5c6",
+      "bytes": 4057
+    },
+    {
+      "path": "docs/research/kiki_a16_pm_impulse/astra_a16_next_input_control_draft_zh.md",
+      "sha256": "c12582e41a54471e92ee8bbe89516ca1acb997517c2884c3b2f063f9a6324946",
+      "bytes": 8114
+    },
+    {
+      "path": "docs/research/kiki_a16_pm_impulse/astra_a16_result_review_zh.md",
+      "sha256": "fed08fff8577256c298eb03176d878949c7c2c263b8abd06bb372f5194673c3a",
+      "bytes": 10880
+    },
+    {
+      "path": "docs/research/kiki_a06_astra_design_20261024_zh.md",
+      "sha256": "c9e3ee22769c5ec0552e9a42765ea422569180c16cddde9e2fe0993d868fe2be",
+      "bytes": 11816
+    },
+    {
+      "path": "configs/experiments/paper_kiki_a06_refinement.toml",
+      "sha256": "af3e84468af324936c9e7a8701751257ef7bb3dcbde38f109ae6605081408614",
+      "bytes": 2325
+    },
+    {
+      "path": "src/kron_reduce/models/learned_latent.py",
+      "sha256": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+      "bytes": 20199
+    },
+    {
+      "path": "src/kron_reduce/models/nonlinear_latent.py",
+      "sha256": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+      "bytes": 55295
+    },
+    {
+      "path": "src/kron_reduce/workflows/kiki_joint_refinement.py",
+      "sha256": "db3f9dcec63dd10a3051d06cf10c51e577280357433072bb806a86753a160923",
+      "bytes": 25390
+    },
+    {
+      "path": "src/kron_reduce/physics/coordinates.py",
+      "sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+      "bytes": 1759
+    }
+  ],
+  "archived_A15_text_binding": {
+    "commit": "5ac8b571751467f677fb569df3c0a1f4c323d065",
+    "path": "docs/research/kiki_a15_future_transfer/astra_result_review_zh.md",
+    "sha256": "2d85e74d68bca4f212348016c64bbcf92b90a1effbb49002e31004c821cb9f40",
+    "bytes": 12409
+  },
+  "parallel_limited_mathematical_check": {
+    "producer": "Luna separately tasked by root; reviewer did not run it",
+    "files": [
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/math_implicit_ls_20261025_01/implicit_ls_synthetic_check_v1.py",
+        "sha256": "2b735a56a4bfe6a54e9ced7de1265294f383615f9a57c3f49306643dbc7d0062",
+        "bytes": 5966
+      },
+      {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/math_implicit_ls_20261025_01/implicit_ls_synthetic_receipt_v1.json",
+        "sha256": "a5f79a96edb74356838d45ad107238aa55c7c86c749ab3c1720589f2d5f368fe",
+        "bytes": 7354
+      }
+    ],
+    "accepted_scope": "10 well-conditioned toy LS directional derivatives and explicit nonzero-residual-term counterexample; 31 reference lstsq calls",
+    "rank_case_qualification": "rank-deficient matrix identified by rank assertion; no call to the solve rejection path despite receipt field name",
+    "not_covered": [
+      "near-rank or repeated-positive-singular-value gradients",
+      "production stable solve/VJP implementation",
+      "current-theta expm and full integration gradient",
+      "paired training recovery or real effectiveness"
+    ],
+    "formal_scientific_campaign_authority_created": false
+  },
+  "preserved_scope_boundaries": [
+    "KEEP_BASELINE",
+    "no new FSR/LOS or zero-miss guarantee",
+    "no future Pm/Pe/voltage/labels/internal val/source val/test",
+    "no dropping allocated/failing cases",
+    "no all-unstable or all-refusal route to zero",
+    "3s train target is not 8s independent stability evidence"
+  ],
+  "reviewer_activity": {
+    "tracked_edits": 0,
+    "environment_changes": 0,
+    "policy_or_controls_changes": 0,
+    "a17_runtime_payload_source_or_output_reads_or_hashes": 0,
+    "old_real_payload_reads_or_hashes": 0,
+    "real_model_LS_RHS_fit_calls": 0,
+    "new_synthetic_calls_by_reviewer": 0,
+    "source_text_reads": "only archived docs/config and static legacy model/training parameter declarations; no A17 controller or runtime output",
+    "integer_budget_arithmetic_only": true
+  }
+}

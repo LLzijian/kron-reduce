@@ -1,0 +1,542 @@
+{
+  "head": "e736e26091a777f96025f70f865186eb02290d7c",
+  "module_sources": {
+    "kron_reduce.data.input_consistency_reader": {
+      "path": "src/kron_reduce/data/input_consistency_reader.py",
+      "sha256": "3bd291230bac1d4a0851d57bc2543ad6c72b7b9f91e9cc67eb7bab4a0ce9bb46",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency": {
+      "path": "src/kron_reduce/evaluation/input_consistency.py",
+      "sha256": "02698c2ddb1f6ce769c0cce526c3afe3d063c7d66116500b939c7eb862a5acad",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_checks": {
+      "path": "src/kron_reduce/evaluation/input_consistency_checks.py",
+      "sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_evidence": {
+      "path": "src/kron_reduce/evaluation/input_consistency_evidence.py",
+      "sha256": "59a6852df552c8669f1b864736deb5fba3bec447b5dc74660eae9dca1523988b",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_journal": {
+      "path": "src/kron_reduce/evaluation/input_consistency_journal.py",
+      "sha256": "283de129fa1445feb048bd52d24d554bf4c740be41329594a3183e141e100bcb",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_metrics": {
+      "path": "src/kron_reduce/evaluation/input_consistency_metrics.py",
+      "sha256": "e1e4b86f6d90c048c26697f6f8a8a4bf86e64c0577891279fbc6ddf249d6ee40",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_output_io": {
+      "path": "src/kron_reduce/evaluation/input_consistency_output_io.py",
+      "sha256": "9a0bbe83959e5eedff471c4ce3b1bd667e3c369460e049e69bbe30b86ddf16a0",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_paths": {
+      "path": "src/kron_reduce/evaluation/input_consistency_paths.py",
+      "sha256": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_plan": {
+      "path": "src/kron_reduce/evaluation/input_consistency_plan.py",
+      "sha256": "934cc8d550906d2fc4e9c30eee577e2df5ae30729d81d8b4071b1fd955c4dafe",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_result_audit": {
+      "path": "src/kron_reduce/evaluation/input_consistency_result_audit.py",
+      "sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_seal": {
+      "path": "src/kron_reduce/evaluation/input_consistency_seal.py",
+      "sha256": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.input_consistency_sources": {
+      "path": "src/kron_reduce/evaluation/input_consistency_sources.py",
+      "sha256": "075919b6cd65d0cdd694a32ed2736ca4aa718543223e5f768fb8b75cb280d73d",
+      "matches_head": true
+    },
+    "kron_reduce.workflows.kiki_input_consistency": {
+      "path": "src/kron_reduce/workflows/kiki_input_consistency.py",
+      "sha256": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d",
+      "matches_head": true
+    },
+    "kron_reduce.models.nonlinear_latent": {
+      "path": "src/kron_reduce/models/nonlinear_latent.py",
+      "sha256": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+      "matches_head": true
+    },
+    "kron_reduce.models.causal_latent": {
+      "path": "src/kron_reduce/models/causal_latent.py",
+      "sha256": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+      "matches_head": true
+    },
+    "kron_reduce.models.learned_latent": {
+      "path": "src/kron_reduce/models/learned_latent.py",
+      "sha256": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+      "matches_head": true
+    },
+    "kron_reduce.data.history_contract": {
+      "path": "src/kron_reduce/data/history_contract.py",
+      "sha256": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+      "matches_head": true
+    },
+    "kron_reduce.physics.coordinates": {
+      "path": "src/kron_reduce/physics/coordinates.py",
+      "sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.history_metrics": {
+      "path": "src/kron_reduce/evaluation/history_metrics.py",
+      "sha256": "7bd641bae5b66dcb76445615c722cce17bc23f7bace679a4fd3e80197313c9bc",
+      "matches_head": true
+    },
+    "kron_reduce.evaluation.scoped_audit_journal": {
+      "path": "src/kron_reduce/evaluation/scoped_audit_journal.py",
+      "sha256": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+      "matches_head": true
+    },
+    "kron_reduce.data.limited_npz_audit": {
+      "path": "src/kron_reduce/data/limited_npz_audit.py",
+      "sha256": "e96e939f9b7df72a4895906ca444e3c85c3bcd144360b413ba201ad5c1e57031",
+      "matches_head": true
+    },
+    "kron_reduce.data.durable_audit_ledger": {
+      "path": "src/kron_reduce/data/durable_audit_ledger.py",
+      "sha256": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+      "matches_head": true
+    },
+    "kron_reduce.data.audit_access_ledger": {
+      "path": "src/kron_reduce/data/audit_access_ledger.py",
+      "sha256": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+      "matches_head": true
+    },
+    "project_harness.runner": {
+      "path": "project_harness/runner.py",
+      "sha256": "051aecfe5fd39d74bed9703e2d3b4649c1816f8af9a9e2b4322b1a67f5cd3662",
+      "matches_head": true
+    },
+    "project_harness.policy": {
+      "path": "project_harness/policy.py",
+      "sha256": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+      "matches_head": true
+    },
+    "project_harness.git_state": {
+      "path": "project_harness/git_state.py",
+      "sha256": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+      "matches_head": true
+    },
+    "project_harness.manifest": {
+      "path": "project_harness/manifest.py",
+      "sha256": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+      "matches_head": true
+    },
+    "project_harness.evidence": {
+      "path": "project_harness/evidence.py",
+      "sha256": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+      "matches_head": true
+    },
+    "project_harness.loop": {
+      "path": "project_harness/loop.py",
+      "sha256": "f8e214696d6392f8b2200af6b8972b29b5966a791695612b53bc29d70a2de090",
+      "matches_head": true
+    }
+  },
+  "implementation_bindings": [
+    {
+      "path": "src/kron_reduce/data/input_consistency_reader.py",
+      "sha256": "3bd291230bac1d4a0851d57bc2543ad6c72b7b9f91e9cc67eb7bab4a0ce9bb46",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/workflows/kiki_input_consistency.py",
+      "sha256": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency.py",
+      "sha256": "02698c2ddb1f6ce769c0cce526c3afe3d063c7d66116500b939c7eb862a5acad",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_checks.py",
+      "sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_evidence.py",
+      "sha256": "59a6852df552c8669f1b864736deb5fba3bec447b5dc74660eae9dca1523988b",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_journal.py",
+      "sha256": "283de129fa1445feb048bd52d24d554bf4c740be41329594a3183e141e100bcb",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_metrics.py",
+      "sha256": "e1e4b86f6d90c048c26697f6f8a8a4bf86e64c0577891279fbc6ddf249d6ee40",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_output_io.py",
+      "sha256": "9a0bbe83959e5eedff471c4ce3b1bd667e3c369460e049e69bbe30b86ddf16a0",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_paths.py",
+      "sha256": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_plan.py",
+      "sha256": "934cc8d550906d2fc4e9c30eee577e2df5ae30729d81d8b4071b1fd955c4dafe",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_result_audit.py",
+      "sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_seal.py",
+      "sha256": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_sources.py",
+      "sha256": "075919b6cd65d0cdd694a32ed2736ca4aa718543223e5f768fb8b75cb280d73d",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_checks.py",
+      "sha256": "419afe95c28d52f6283e82e907c7d7186789e2ff170884fb0e3aeab6a34db171",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_composition.py",
+      "sha256": "34707f1c53d84651dc48b4aea0e5c05d2fde7522c6d1e51506b4985b19c799c4",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_entry_guards.py",
+      "sha256": "dbbf1260d2f29a64b43120aa4c2075585c24a4bcbb4d564e2af7b0a01ac9b12e",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_evidence.py",
+      "sha256": "88f9223219dccb525be16a8ffabfb5bd724941d7ab6bca6e4b5fe44b4ec36db7",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_journal.py",
+      "sha256": "d2735531416d339c53c3cb1ecc485bf1139bf29e9a2e47aff680a03a81fcdad1",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_kernel.py",
+      "sha256": "5b4159d19c0dcdabfe11f795bace6b92e297ee1a5d8868b09d7b155c2ea2ddce",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_metrics.py",
+      "sha256": "fbb607c2f5bad27def470d8bcaeb4faee9a7b427181b1d7b6fc22d7be0396a25",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_output_io.py",
+      "sha256": "aceb631c37bc4b8e9e261c5d983fa329bba2b54f82045f89b5a3879828f14f70",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_paths.py",
+      "sha256": "9cd66bfc1907a53a40e8dcf0b667764062993b8b215b69b53aef9b0fd575ae71",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_plan.py",
+      "sha256": "36e20a28df461f236af2e3c833f630951993e09dbe1e704fe5cbc59aa463e28c",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_reader.py",
+      "sha256": "76544b29eebc519d3e62069a339b148e11422e6e10c5e2c8df3df627a9fd9059",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_result_audit.py",
+      "sha256": "ad4b28779fc4d5037406baf84648ce7adda5ea3891c8b06cfeda6acdc9302a8f",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_result_audit_metrics.py",
+      "sha256": "228833044fd1b32e62fbcd8d746cf520fa4ac59bead61c99bed816148c339138",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_seal.py",
+      "sha256": "c5e08f39570e1831795c096ed1ca17296d41da71ca0ce6108537fb5b98020458",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_sources.py",
+      "sha256": "ef9119c555bd50fecb66dfc8ea16cf4b97e901ca33c73c696fc923f72ff831cf",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_workflow.py",
+      "sha256": "79698401368b106f0b5a814268b5347d4ce75c57a1eb2ba77a204fe01c7b435e",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_input_consistency_workflow_io.py",
+      "sha256": "971b9c7440e5f0045fddb71c323487847ff34df5625604e10fb90e6c3cc9c6f7",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_scoped_audit_journal.py",
+      "sha256": "4c9c65ef2af108cacbad447cdc63a62ff61fbd0fbbc11a8f993cbfdcc818114e",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "tests/test_pm_impulse_durability.py",
+      "sha256": "defa99f378088cc866b2def6e06727276de11ae123f47e686e58565bcda69fc1",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "configs/proposals/kiki_a17_input_consistency_reads.json",
+      "sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "configs/proposals/kiki_a17_input_consistency_compute.json",
+      "sha256": "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "docs/research/kiki_a17_input_consistency/design_zh.md",
+      "sha256": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "requirements/constraints-py312.txt",
+      "sha256": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "2c82d0daf43c71f463ca70f2b968226fbdcae31c02cd4e2aac2cc331ad7f5e05",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/models/nonlinear_latent.py",
+      "sha256": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/models/causal_latent.py",
+      "sha256": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/physics/coordinates.py",
+      "sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/history_metrics.py",
+      "sha256": "7bd641bae5b66dcb76445615c722cce17bc23f7bace679a4fd3e80197313c9bc",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/evaluation/scoped_audit_journal.py",
+      "sha256": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/data/durable_audit_ledger.py",
+      "sha256": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/data/limited_npz_audit.py",
+      "sha256": "e96e939f9b7df72a4895906ca444e3c85c3bcd144360b413ba201ad5c1e57031",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "project_harness/git_state.py",
+      "sha256": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "project_harness/policy.py",
+      "sha256": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "project_harness/runner.py",
+      "sha256": "051aecfe5fd39d74bed9703e2d3b4649c1816f8af9a9e2b4322b1a67f5cd3662",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "project_harness/manifest.py",
+      "sha256": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "project_harness/evidence.py",
+      "sha256": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "project_harness/loop.py",
+      "sha256": "f8e214696d6392f8b2200af6b8972b29b5966a791695612b53bc29d70a2de090",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "project_harness/audit.py",
+      "sha256": "6b655a46be91a1aeeba422b025b0b30e3e9352518ea206652c0bc5e2b5c79e97",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "project_harness/data_check.py",
+      "sha256": "2ac5412637dc6ec9039a78329a22b1cef09a497304f5a8e61ed7900120504947",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/data/audit_access_ledger.py",
+      "sha256": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/data/history_contract.py",
+      "sha256": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "src/kron_reduce/models/learned_latent.py",
+      "sha256": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "d0eb909ca05c392f8b1e2e069ab1a119193ba552f84fa1da3915e0182dabc32e",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "configs/experiments/paper_kiki_a17_input_consistency.toml",
+      "sha256": "a2b76b991ab2bd3b39ec9e7f80457b450a693e983cc13304a916ececf24c9dc7",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "configs/project_manifest.json",
+      "sha256": "db3352681c46f28be58c17fca7c7fa4c3eef15b115c1ece87a3014c318105068",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "configs/input_contracts.json",
+      "sha256": "a3100031798df5b5a9255774ae4052f89c4d286eea1c7b7ebc85da09b7fca727",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "configs/workflows/kiki_a17_input_consistency_v1.json",
+      "sha256": "123cefa69c0ea0ba4ac0b16d3c6bf7c752b1c3e08f5df710686215936508d90a",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "docs/protocols/kiki_a17_development_authorization_20261025_zh.md",
+      "sha256": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md",
+      "sha256": "d16b02a724972f4d6d4c2186ff52fa83ac8293323c661def49931e7a70368508",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json",
+      "sha256": "88b540e28a50f74440bee5769a43d3d684a25fc9b0d2cf7b1377b0549aa307f0",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "docs/research/kiki_a17_input_consistency/registration_review_zh.md",
+      "sha256": "d01b1fd0365be078c117044616761912efbdd0ec768755867fb6a6998e099d7f",
+      "matches_worktree": true,
+      "matches_head": true
+    },
+    {
+      "path": "docs/research/kiki_a17_input_consistency/registration_review_bindings.json",
+      "sha256": "7c2f4eeca54441b3344c6c1d2df69c02f2080b2084ddf479a6436ae2892067c3",
+      "matches_worktree": true,
+      "matches_head": true
+    }
+  ]
+}

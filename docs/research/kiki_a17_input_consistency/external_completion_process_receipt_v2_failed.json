@@ -1,0 +1,14 @@
+{
+  "command": [
+    "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\one_off\\kiki-a17-input-consistency-20261025\\postrun_external_completion_v2.py",
+    "--root",
+    "E:\\03-nn_Transfer_Func\\kron-reduce"
+  ],
+  "started_at": "2026-10-25T10:30:43.896131+00:00",
+  "finished_at": "2026-10-25T10:34:41.053672+00:00",
+  "returncode": 1,
+  "stdout_sha256": "89f5fb941c5fb6d4eb44e5cafb857a2d969e933f3a4c3c541b2dd91f641afd66",
+  "checker_sha256": "34b66a907b3a26352e750f8de38593e1c031ac5f61eb086512b81879344b547a",
+  "automatic_retry": false
+}

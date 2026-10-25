@@ -1,0 +1,15 @@
+{
+  "kind": "synthetic_implicit_ls_evidence_scope_clarification_v1",
+  "original_receipt": "implicit_ls_synthetic_receipt_v1.json",
+  "original_receipt_sha256": "A5F79A96EDB74356838D45AD107238AA55C7C86C749AB3C1720589F2D5F368FE",
+  "original_script": "implicit_ls_synthetic_check_v1.py",
+  "original_script_sha256": "2B735A56A4BFE6A54E9CED7DE1265294F383615F9A57C3F49306643DBC7D0062",
+  "clarification": "The rank-deficient example was checked by a matrix-rank assertion only. It was not passed to the reference least-squares solver or another solver to observe a rejection.",
+  "evidence_scope": [
+    "The successful derivative checks apply to the specified counterexample, zero-residual case, and eight well-conditioned full-rank synthetic cases.",
+    "No production solver rank-deficiency rejection path was tested.",
+    "No weak-direction gradient or repeated-positive-singular-value behavior was tested.",
+    "No end-to-end or full-chain gradient was tested.",
+    "This addendum reports no new numerical computation and does not change the original script or receipt."
+  ]
+}

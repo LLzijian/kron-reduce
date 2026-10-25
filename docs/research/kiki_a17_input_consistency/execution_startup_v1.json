@@ -1,0 +1,29 @@
+{
+  "source_commit": "e736e26091a777f96025f70f865186eb02290d7c",
+  "started_at": "2026-10-25T08:33:47.064767+00:00",
+  "runtime_receipt_sha256": "7cd9a4f010b452114a8f02f09bdc006d8d5bf837a632749ccd099f5a88bb758c",
+  "ci": [
+    {
+      "id": 40176634063,
+      "event": "push",
+      "conclusion": "success",
+      "head_sha": "e736e26091a777f96025f70f865186eb02290d7c"
+    },
+    {
+      "id": 40176636650,
+      "event": "pull_request",
+      "conclusion": "success",
+      "head_sha": "e736e26091a777f96025f70f865186eb02290d7c"
+    }
+  ],
+  "reviewed_registration_commit": "25993bb7ceed9af857dd1895cc4becdc527788d5",
+  "command": [
+    "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "-m",
+    "kron_reduce.workflows.kiki_input_consistency",
+    "--root",
+    "E:\\03-nn_Transfer_Func\\kron-reduce"
+  ],
+  "retry_allowed": false,
+  "all_startup_conditions_verified": true
+}

@@ -1,0 +1,139 @@
+{
+  "kind": "A17_curated_archive_preparation_v1",
+  "formal_result_review": "pending_final_document",
+  "raw_trajectories_results_bodies_logs_and_environment_not_copied": true,
+  "copied_selected_keyresults_verification_metadata_and_manifests": [
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_result_packet_v3.json",
+      "path": "docs/reports/kiki_a17_input_consistency_20261025_evidence.json",
+      "sha256": "40e12170da64e284f68aae55b7d7e673c425f883f6e07cdebb64e4fb8cbfcafe",
+      "bytes": 33020
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/real_execution_startup_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/execution_startup_v1.json",
+      "sha256": "bc44323be12ea316d965ed7b04537cd39978b1bc2bba0c6ff3b0f0437d61d7c8",
+      "bytes": 922
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/real_execution_process_receipt_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/execution_process_receipt_v1.json",
+      "sha256": "fccd5fbc276d58dcc825873f463dd2f702ae2f131a3b3152e37909ec71a99f2a",
+      "bytes": 251
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/final_startup_runtime_e736e26_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/execution_runtime_e736e26_v1.json",
+      "sha256": "7cd9a4f010b452114a8f02f09bdc006d8d5bf837a632749ccd099f5a88bb758c",
+      "bytes": 2342
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/final_startup_source_sha256_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/execution_runtime_source_sha256_v1.json",
+      "sha256": "41aa16960dd675300b5c1285f68b4cbb26c363ac4a61d10aaa6b9e1be9c05563",
+      "bytes": 20871
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_auditor_v2_fix_review_zh.md",
+      "path": "docs/research/kiki_a17_input_consistency/a17_saved_auditor_v2_fix_review_zh.md",
+      "sha256": "0f5eb3b58e07ee82ab363b65415aca62490ca4c3da534d866d39a4744918c1d9",
+      "bytes": 4861
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_auditor_v2_fix_receipt.json",
+      "path": "docs/research/kiki_a17_input_consistency/a17_saved_auditor_v2_fix_receipt.json",
+      "sha256": "da74de26639f4271a7d6f30524378ec0532cb8548ab8bcca627155598f0097d8",
+      "bytes": 5248
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/postrun_audit_failures_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/postrun_audit_failures_v1.json",
+      "sha256": "cc1b9e2bf64d45ee4637220542313f575a045252364d0de794cd515f4b857caa",
+      "bytes": 3284
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_external_completion_process_receipt_v2.json",
+      "path": "docs/research/kiki_a17_input_consistency/external_completion_process_receipt_v2_failed.json",
+      "sha256": "bd1d895345efafdf5adb9dae99fdb09c721b885b2abfb91e6cbb0357701b1b0a",
+      "bytes": 635
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_external_completion_process_receipt_v3.json",
+      "path": "docs/research/kiki_a17_input_consistency/external_completion_process_receipt_v3.json",
+      "sha256": "d4e063c39f1f9b67e8ef8066f15cf617382c90e8ab857c697825422f7c396d7c",
+      "bytes": 1109
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_result_audit_process_receipt_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/saved_result_audit_process_receipt_v1_failed.json",
+      "sha256": "45b33663f9b0c563562958bced15f57b80de1e333c0899df77e34a3165d18f82",
+      "bytes": 1451
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/a17_saved_result_audit_process_receipt_v2.json",
+      "path": "docs/research/kiki_a17_input_consistency/saved_result_audit_process_receipt_v2.json",
+      "sha256": "8b614b078dda2eb4e4be58d72a63b9c67b5b726651a860e059933dc54357481f",
+      "bytes": 1686
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/postrun_external_completion_v3_synthetic_receipt.json",
+      "path": "docs/research/kiki_a17_input_consistency/external_completion_v3_synthetic_receipt.json",
+      "sha256": "d06e194ce604c4489767ed223eab039c651f2435505e6171bc66444230b8c5a7",
+      "bytes": 497
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/next_design_conditional_a17_v1.md",
+      "path": "docs/research/kiki_a17_input_consistency/next_design_conditional_a17_v1_zh.md",
+      "sha256": "1c9328aa6af93d677aad35624d97475c8fd19ffa299885180b175e489d70d4d7",
+      "bytes": 18771
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/next_design_conditional_a17_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/next_design_conditional_a17_v1.json",
+      "sha256": "da062c353e9216d2ec52f6953f50b3a1c1557a5ebb8728675741a25bfb596334",
+      "bytes": 19738
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/review_checklist_v1.md",
+      "path": "docs/research/kiki_a17_input_consistency/blind_result_review_checklist_v1_zh.md",
+      "sha256": "f7864da87766327f5ab653b69a817cd603a2504dda3b68d6b7a00c18bd40647a",
+      "bytes": 15636
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/review_checklist_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/blind_result_review_checklist_v1.json",
+      "sha256": "3231677e44a2db70632b9da40b389cfb06a25ff3db6e948b0346da12722a635d",
+      "bytes": 6277
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/journal_efficiency_design_v1.md",
+      "path": "docs/research/kiki_a17_input_consistency/journal_efficiency_design_v1_zh.md",
+      "sha256": "8f94bbbac973abd00f205cac4de257281efc9084a25d9492f8eb8704d238b047",
+      "bytes": 3448
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/journal_efficiency_design_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/journal_efficiency_design_v1.json",
+      "sha256": "d8bc540d70447fb38b94fc4506f615033581197763681775c27aa03b0a8618fc",
+      "bytes": 1797
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/math_implicit_ls_20261025_01/clarification_v1.md",
+      "path": "docs/research/kiki_a17_input_consistency/implicit_ls_math_clarification_v1_zh.md",
+      "sha256": "f17287ffe87822f4e4e84404324a8a2ad391c1039e79eada31bc07ea7a6c2123",
+      "bytes": 796
+    },
+    {
+      "source": "scratch/one_off/kiki-a17-input-consistency-20261025/math_implicit_ls_20261025_01/clarification_v1.json",
+      "path": "docs/research/kiki_a17_input_consistency/implicit_ls_math_clarification_v1.json",
+      "sha256": "d530af9b82787ffd2019737283d8c0e44dd46e483773fe907270e53f5b2bfcf2",
+      "bytes": 1098
+    },
+    {
+      "source": "results/paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9/artifact_hashes.json",
+      "path": "docs/research/kiki_a17_input_consistency/result_artifact_manifest.json",
+      "sha256": "708839cb627812282e0abfcc32f54c712e8afab4556b853c7253f742d88dcf2e",
+      "bytes": 4375256
+    }
+  ]
+}
