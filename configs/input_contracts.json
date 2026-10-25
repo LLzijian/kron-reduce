@@ -29,5 +29,22 @@
     "task_role": "input_availability_audit_only_no_prediction",
     "source_clock_preserved": true,
     "exact_clearing_state_claimed": false
+  },
+  "measured_history_pm11_linear_100ms_zoh_v1": {
+    "forecast_origin": "end_of_11_real_samples_at_nominal_10ms",
+    "real_observation_count": 11,
+    "observed_channels": [
+      "q",
+      "v",
+      "Pm"
+    ],
+    "history_power_policy": "piecewise_linear_real_observed_Pm11_at_every_RK4_stage",
+    "power_policy": "future_zoh_from_original_declared_origin_power_Pm10",
+    "task_role": "history_initialized_fixed_model_train_comparison_only",
+    "source_clock_preserved": true,
+    "exact_clearing_state_claimed": false,
+    "input_anchor_absolute_tolerance": 1e-12,
+    "hidden_reset": "each_own_closed_history_endpoint",
+    "visible_reset": "observed_q_v_at_forecast_origin"
   }
 }

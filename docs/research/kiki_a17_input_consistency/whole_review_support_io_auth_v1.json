@@ -1,0 +1,92 @@
+{
+  "review_kind": "A17_whole_implementation_support_io_authorization",
+  "reviewed_commit": "6babf354fa3986fd3220ebd53ff3d86dc6ada64b",
+  "recommendation": "APPROVE_FOR_INDEPENDENT_BOUNDED_REGISTRATION",
+  "scope": "专用入口、共享一次预算、输出记录恢复、封存末四动作及后置登记绑定条件的只读辅助审核；主 Astra 汇总后作整体判断。",
+  "execution_authorized": false,
+  "activation_authorized": false,
+  "registration_performed": false,
+  "production_files_modified": false,
+  "tests_run_by_this_reviewer": 0,
+  "old_source_payload_reads_or_hashes": 0,
+  "new_model_ls_rhs_fit_calls": 0,
+  "blocking_findings": [],
+  "evidence": {
+    "canonical_receipt": "scratch/one_off/kiki-a17-input-consistency-20261025/canonical_validation_v4.json",
+    "canonical_receipt_sha256": "49fbb883a8ef9d30ef36fc7d2e4d8128e09acfd858c8a14758b5020f9f178733",
+    "canonical_pytest_log_sha256": "39c26ce5feb491a6141cfcdd45950115ba47ce01a53059d3aef88f322949219b",
+    "canonical_ruff_log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "saved_validation_result": "509 synthetic tests passed; Ruff passed; two expected overflow-test warnings",
+    "source_and_control_bindings_rehashed": 48,
+    "binding_mismatches": [],
+    "evidence_boundary": "读取并校验已有日志和收据；本审查未重新执行测试。"
+  },
+  "key_source_bindings": {
+    "src/kron_reduce/workflows/kiki_input_consistency.py": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d",
+    "src/kron_reduce/evaluation/input_consistency_output_io.py": "9a0bbe83959e5eedff471c4ce3b1bd667e3c369460e049e69bbe30b86ddf16a0",
+    "src/kron_reduce/evaluation/input_consistency_seal.py": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e",
+    "src/kron_reduce/evaluation/input_consistency_result_audit.py": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+    "project_harness/runner.py": "051aecfe5fd39d74bed9703e2d3b4649c1816f8af9a9e2b4322b1a67f5cd3662",
+    "project_harness/policy.py": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/loop.py": "f8e214696d6392f8b2200af6b8972b29b5966a791695612b53bc29d70a2de090",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "configs/proposals/kiki_a17_input_consistency_reads.json": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+    "configs/proposals/kiki_a17_input_consistency_compute.json": "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582"
+  },
+  "closed_checks": [
+    {
+      "id": "dedicated_entry_and_source_boundary",
+      "locations": ["src/kron_reduce/workflows/kiki_input_consistency.py:80", "src/kron_reduce/workflows/kiki_input_consistency.py:785", "src/kron_reduce/workflows/kiki_input_consistency.py:807", "project_harness/runner.py:34"],
+      "conclusion": "专用 CLI 只接受 root；授权和绑定检查先于共享预算和源载荷读取。通用 runner 对 bounded_history_cache_audit_cli_only 在 generic data verification 前拒绝。直接专用 run 也重新验证授权。"
+    },
+    {
+      "id": "one_use_common_budget",
+      "locations": ["src/kron_reduce/workflows/kiki_input_consistency.py:127", "src/kron_reduce/workflows/kiki_input_consistency.py:791"],
+      "conclusion": "git-common-dir 下 AUTH 专属目录用 exist_ok=False 独占创建；先写已消耗收据，再进入 _execute。多个关联 worktree 共享此预算。目录或预订写失败均不允许删除、补跑或重用；中断按未知且已消耗处理。工作目录锁不是一次预算的唯一防线。"
+    },
+    {
+      "id": "output_hook_restoration",
+      "locations": ["src/kron_reduce/evaluation/input_consistency_output_io.py:370", "src/kron_reduce/evaluation/input_consistency_output_io.py:640", "tests/test_input_consistency_output_io.py:305"],
+      "conclusion": "记录具体 Path 类是否原有 open 槽；退出时恢复原槽或删除临时槽以恢复继承关系，并在 finally 恢复 os.fsync。合成回归覆盖原有/继承两种槽、正常/异常退出及后续父类 hook。已知短写记录实际返回量后停止，不误计未知返回字节。"
+    },
+    {
+      "id": "seal_tail_and_external_completion",
+      "locations": ["src/kron_reduce/workflows/kiki_input_consistency.py:656", "src/kron_reduce/workflows/kiki_input_consistency.py:797", "src/kron_reduce/evaluation/input_consistency_seal.py:51", "src/kron_reduce/evaluation/input_consistency_result_audit.py:1313"],
+      "conclusion": "仅在输出日志已同步关闭且无未知操作后封存。N 次原文件哈希加一次源日志计行形成已保存前段；summary 写/哈希和 manifest 写/哈希为最后四动作。完整实际计数和 manifest SHA 写入 git-common-dir 外部 completed 收据。新 run 内审核明确不声称验证该外部收据。异常保留 partial 与 phase，不重试；硬中断未持久化部分为未知且已消耗。"
+    }
+  ],
+  "mandatory_registration_conditions": [
+    {
+      "id": "independent_authority_identity",
+      "condition": "独立 policy、experiment TOML、project manifest、workflow、input-contract 登记和授权正文应互相一致。AUTH=kiki_a17_development_20261025；experiment=paper_kiki_a17_input_consistency；workflow=kiki_a17_input_consistency_v1；stage=input_consistency；module=kron_reduce.workflows.kiki_input_consistency；MODE=bounded_history_cache_audit_cli_only；contract=measured_history_pm11_linear_100ms_zoh_v1；dataset=kiki_ieee39_v1，保留十节点、关闭空间聚类和 val/test/labels。当前刻意未登记不是缺陷，本报告不得写成 status=user_approved 的执行授权。"
+    },
+    {
+      "id": "exact_approved_limits_and_texts",
+      "condition": "后续单独获准激活时，authorization 第 84–92 行字段须逐值逐类型匹配；TOML 每个字段须存在于 approval 且值一致。协议路径/哈希、design 路径/哈希、review 路径/哈希、read/compute plan 路径/哈希须完整绑定并进入 HEAD。development_protocol_path 与 approval_protocol_path 的双重命名需保持一致。冻结 268/258/774 人口、3 seeds、两固定步长、10,356 scopes、6,049,612 回调类别总计、5,831,802 RHS、774 唯一新 LS、零 fits/updates、禁止 retry/resume/换候选；引用 exact compute plan 而非重新简化预算。"
+    },
+    {
+      "id": "complete_dependency_bindings",
+      "condition": "代码只强制 implementation_bindings 含 controller，并逐项验证提供的条目，不自动证明该清单完整。登记审查必须要求 13 个新模块及所有实际科学/读取依赖，包括 nonlinear_latent、causal_latent、coordinates、history_metrics、scoped_audit_journal、durable_audit_ledger、limited_npz_audit；并绑定 harness 的 runner/policy/git_state/manifest/evidence/loop、constraints 和最终 workflow/config/contract。检查 transitive import 来源与审核 checkout 一致。canonical 收据未列出的 evidence.py/loop.py 当前 SHA 已单列于本报告，不能把它们冒称为该收据已列绑定。"
+    },
+    {
+      "id": "workflow_evidence_contract",
+      "condition": "workflow 必须 evidence_contract_version=2；next_stage 必须唯一到 input_consistency 且该阶段为 terminal，无自动再训练/重跑转移。stage_evidence 契约同时保留 process PASS 与科学 ACCEPT/REJECT 区别，强制 KEEP_BASELINE、false certification/deployment/promotion/LOS 声明及读取边界。绑定 protocol/design SHA 和 exact fixed budget。manifest 的 module/workflow/auth/contract 字段必须显式逐项核对，不能只依赖 approval 内同名字段；现 authorization 不逐一比较这些 manifest 身份常量。"
+    },
+    {
+      "id": "explicit_constrained_runtime_and_activation_commit",
+      "condition": "入口只强制 Python 3.12，environment.json 只是运行后版本记录。启动前另行确认选定 Python 3.12.14 解释器、import 来源、constraints 的 numpy=2.5.2/scipy=1.18.0/h5py=3.16.0/torch=2.13.0/filelock=3.32.2，以及测试工具版本；直接调用已核解释器，不用 uv run。独立登记/激活后的提交须 clean、pushed、CI PASS，核心源哈希与最终认可一致。运行中禁止改代码、环境、policy 或 controls。此项为后置启动证据条件，不声称现代码已自动强制全部包版本或 CI。"
+    },
+    {
+      "id": "external_tail_and_harness_acceptance",
+      "condition": "以后唯一获准执行若完成，综合验收须核对 git-common-dir 外部 completed 收据的 final_seal、末四动作成功/实际字节/manifest SHA，与 harness strict artifact manifest 校验、独立 saved-run auditor 结果一致。completed 写入先于 harness record_stage；若之后 harness 失败或出现 RUN_FAILED.json，不得仅凭 completed 文件宣称整个工程成功。外部完成收据写失败/截断或未出现均保持已消耗且未确认完成，不能重跑。"
+    },
+    {
+      "id": "metadata_only_registration_checks",
+      "condition": "登记/审查保持读取控制 JSON、源码与已有合成证据范围，不用 generic data-check、audit_project 或新旧科学执行来探测注册是否正确；不重开旧真实载荷。预算目录不得删除、重命名规避，独立 checkout/clone 不构成新的预算授权。"
+    }
+  ],
+  "final_boundary": "已审实现可进入独立有界登记准备。上述条件不是执行命令，也未创建 policy entry、experiment、授权文档或新 run。"
+}

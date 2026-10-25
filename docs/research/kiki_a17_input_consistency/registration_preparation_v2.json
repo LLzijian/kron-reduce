@@ -1,0 +1,16 @@
+{
+  "status": "REGISTRATION_REVIEW_PENDING_NOT_ACTIVE",
+  "reason_for_v2": "Protocol wording states immutable registration terms, not a mutable current activation status; no permissions or science changed.",
+  "registration_files": {
+    "configs/experiments/paper_kiki_a17_input_consistency.toml": "a2b76b991ab2bd3b39ec9e7f80457b450a693e983cc13304a916ececf24c9dc7",
+    "docs/protocols/kiki_a17_development_authorization_20261025_zh.md": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+    "configs/project_manifest.json": "32a0e41e59fe9dc69d5f9cf3f54016419599fb265eb49cb4c49ea107c9a31586",
+    "configs/input_contracts.json": "a3100031798df5b5a9255774ae4052f89c4d286eea1c7b7ebc85da09b7fca727",
+    "configs/workflows/kiki_a17_input_consistency_v1.json": "af1e15dc5a756d8df55defbe59cad98391489e6df4eba851931e6349b3818af1",
+    "AGENTS.md": "3449657fb5b04f9805b0647cf155f81bb6fabac1f668ee0deadac41a9cf11ee0"
+  },
+  "policy_snapshot_sha256": "abd9a54ea112af9a1ac5903e090890bc5300747ce588407ffc4a2a5957daf058",
+  "execution_authorized": false,
+  "source_payload_reads_or_hashes": 0,
+  "new_models_ls_rhs_fits": 0
+}

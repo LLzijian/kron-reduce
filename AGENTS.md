@@ -303,10 +303,15 @@ state, fit, future prediction or missed-instability metric was produced.
 Do not rerun A16. KEEP_BASELINE applies; input-consistency controls or C(q)
 training require their own registration and exact scientific approval.
 
-A17 input consistency is in design/engineering preparation only. Its scientific
-protocol is `docs/research/kiki_a17_input_consistency/design_zh.md`. No A17
-authorization is active: do not decode/hash old NPZ/HDF payloads or perform real
-LS/RHS/rollouts before the independent finite read/compute plans, dedicated CLI,
-synthetic checks and exact Astra Ultra implementation approval are frozen.
-Metadata-only inventories and explicitly synthetic engineering tests may proceed.
-A16 remains consumed; no new missed-instability result is established.
+A17 input consistency has passed the exact Astra Ultra implementation review
+for independent bounded registration at commit `6babf354fa3986fd3220ebd53ff3d86dc6ada64b`.
+Its policy status is `registration_review_pending`, not active. The scientific
+design and bounded protocol are `docs/research/kiki_a17_input_consistency/design_zh.md`
+and `docs/protocols/kiki_a17_development_authorization_20261025_zh.md`.
+Do not decode/hash old NPZ/HDF payloads or perform real LS/RHS/rollouts until
+the final registration, user authorization basis, complete SHA bindings,
+selected runtime and exact pushed execution commit CI are independently reviewed
+and the separate policy is explicitly activated. Use only the dedicated CLI;
+the shared one-use budget must be spent before real source access, with no retry
+or resume. All 268 allocated events and failures retain their original weights.
+A16 remains consumed; no new missed-instability result or model promotion is established.

@@ -1,0 +1,27 @@
+{
+  "source_commit": "6babf354fa3986fd3220ebd53ff3d86dc6ada64b",
+  "branch": "codex/kiki-a17-input-consistency",
+  "pull_request": "https://github.com/LLzijian/kron-reduce/pull/15",
+  "checked_at": "2026-10-25T07:31:13.125396+00:00",
+  "checks": [
+    {
+      "id": 40172621914,
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "6babf354fa3986fd3220ebd53ff3d86dc6ada64b",
+      "url": "https://github.com/LLzijian/kron-reduce/actions/runs/40172621914"
+    },
+    {
+      "id": 40172625937,
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "6babf354fa3986fd3220ebd53ff3d86dc6ada64b",
+      "url": "https://github.com/LLzijian/kron-reduce/actions/runs/40172625937"
+    }
+  ],
+  "evidence_source": "Authenticated GitHub REST API via existing gh connection; no workflow reruns were requested.",
+  "execution_authorized": false,
+  "whole_implementation_review": "pending"
+}

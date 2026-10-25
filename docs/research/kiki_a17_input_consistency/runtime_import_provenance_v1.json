@@ -1,0 +1,395 @@
+{
+  "purpose": "read-only A17 startup/import provenance; conditional evidence only",
+  "execution_authorized": false,
+  "real_source_payloads_opened": false,
+  "real_result_files_opened_or_hashed": false,
+  "model_constructed": false,
+  "ls_rhs_fit_or_cli_called": false,
+  "runtime": {
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "python_version": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "python_version_info": [
+      3,
+      12,
+      14
+    ],
+    "sys_path": [
+      "E:\\03-nn_Transfer_Func\\kron-reduce",
+      "E:\\03-nn_Transfer_Func\\kron-reduce",
+      "E:\\03-nn_Transfer_Func\\kron-reduce\\src",
+      "C:\\Users\\LLLzijian\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python312.zip",
+      "C:\\Users\\LLLzijian\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\DLLs",
+      "C:\\Users\\LLLzijian\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib",
+      "C:\\Users\\LLLzijian\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python",
+      "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312",
+      "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Lib\\site-packages"
+    ]
+  },
+  "required_python_312_14": true,
+  "packages": {
+    "numpy": {
+      "constraint": "==2.5.2",
+      "installed": "2.5.2",
+      "compared_version": "2.5.2",
+      "match": true
+    },
+    "scipy": {
+      "constraint": "==1.18.0",
+      "installed": "1.18.0",
+      "compared_version": "1.18.0",
+      "match": true
+    },
+    "h5py": {
+      "constraint": "==3.16.0",
+      "installed": "3.16.0",
+      "compared_version": "3.16.0",
+      "match": true
+    },
+    "torch": {
+      "constraint": "==2.13.0",
+      "installed": "2.13.0+cpu",
+      "compared_version": "2.13.0",
+      "match": true
+    },
+    "filelock": {
+      "constraint": "==3.32.2",
+      "installed": "3.32.2",
+      "compared_version": "3.32.2",
+      "match": true
+    },
+    "pytest": {
+      "constraint": "==9.1.1",
+      "installed": "9.1.1",
+      "compared_version": "9.1.1",
+      "match": true
+    },
+    "ruff": {
+      "constraint": "==0.16.2",
+      "installed": "0.16.2",
+      "compared_version": "0.16.2",
+      "match": true
+    }
+  },
+  "all_packages_match_constraints": true,
+  "repository": {
+    "root": "E:\\03-nn_Transfer_Func\\kron-reduce",
+    "expected_head": "6babf354fa3986fd3220ebd53ff3d86dc6ada64b",
+    "actual_head": "6babf354fa3986fd3220ebd53ff3d86dc6ada64b",
+    "head_matches": true,
+    "status_porcelain": "M .gitattributes\n?? docs/research/kiki_a17_input_consistency/repository_ci_6babf35.json\n?? docs/research/kiki_a17_input_consistency/whole_implementation_binding_audit_v1.json\n?? docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json\n?? docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md\n?? docs/research/kiki_a17_input_consistency/whole_review_support_io_auth_v1.json",
+    "working_tree_clean": false,
+    "receipt_is_ignored": true
+  },
+  "source_import_review": {
+    "static_review_completed_before_import": true,
+    "top_level_import_effects": "imports, constants, dataclass/lru_cache/re.compile/finfo setup only; reader IO and scientific work are instance/function calls",
+    "workflow_and_saved_audit_main_guards_not_executed": true,
+    "output_io_restore_policy": "preserves concrete path class __dict__ own-open slot; restores prior descriptor or deletes temporary child override when originally inherited",
+    "supporting_unit_coverage": "own/inherited class slot × normal/error exit and later parent Path.open hook",
+    "supporting_receipts": {
+      "scratch/one_off/kiki-a17-input-consistency-20261025/canonical_pytest_v4.log": {
+        "exists": true,
+        "sha256": "39c26ce5feb491a6141cfcdd45950115ba47ce01a53059d3aef88f322949219b"
+      },
+      "scratch/one_off/kiki-a17-input-consistency-20261025/canonical_validation_v4.json": {
+        "exists": true,
+        "sha256": "49fbb883a8ef9d30ef36fc7d2e4d8128e09acfd858c8a14758b5020f9f178733"
+      }
+    }
+  },
+  "modules": {
+    "kron_reduce.data.input_consistency_reader": {
+      "expected_checkout_path": "src/kron_reduce/data/input_consistency_reader.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\data\\input_consistency_reader.py",
+      "import_file_relative": "src/kron_reduce/data/input_consistency_reader.py",
+      "origin_matches_expected": true,
+      "sha256": "3bd291230bac1d4a0851d57bc2543ad6c72b7b9f91e9cc67eb7bab4a0ce9bb46",
+      "git_head_blob_sha1": "ea69ab131d5f356ce2f995b92d7481cb780c07af",
+      "worktree_blob_sha1": "ea69ab131d5f356ce2f995b92d7481cb780c07af",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency.py",
+      "origin_matches_expected": true,
+      "sha256": "02698c2ddb1f6ce769c0cce526c3afe3d063c7d66116500b939c7eb862a5acad",
+      "git_head_blob_sha1": "7560be3eec27c3d35a8abc6027b56ce6e72b6dde",
+      "worktree_blob_sha1": "7560be3eec27c3d35a8abc6027b56ce6e72b6dde",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_checks": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_checks.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_checks.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_checks.py",
+      "origin_matches_expected": true,
+      "sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+      "git_head_blob_sha1": "4d1bbaabcd7c4fdde166739bea7292c43917a188",
+      "worktree_blob_sha1": "4d1bbaabcd7c4fdde166739bea7292c43917a188",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_evidence": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_evidence.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_evidence.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_evidence.py",
+      "origin_matches_expected": true,
+      "sha256": "59a6852df552c8669f1b864736deb5fba3bec447b5dc74660eae9dca1523988b",
+      "git_head_blob_sha1": "75a40b85333fa92f61ed755f93ff63ecd2771e08",
+      "worktree_blob_sha1": "75a40b85333fa92f61ed755f93ff63ecd2771e08",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_journal": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_journal.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_journal.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_journal.py",
+      "origin_matches_expected": true,
+      "sha256": "283de129fa1445feb048bd52d24d554bf4c740be41329594a3183e141e100bcb",
+      "git_head_blob_sha1": "f44026644b7e75df7de022dc7a6966c7ce4624a4",
+      "worktree_blob_sha1": "f44026644b7e75df7de022dc7a6966c7ce4624a4",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_metrics": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_metrics.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_metrics.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_metrics.py",
+      "origin_matches_expected": true,
+      "sha256": "e1e4b86f6d90c048c26697f6f8a8a4bf86e64c0577891279fbc6ddf249d6ee40",
+      "git_head_blob_sha1": "f90fe1894b9be4f67ce29c6957a16bcccbdf10ee",
+      "worktree_blob_sha1": "f90fe1894b9be4f67ce29c6957a16bcccbdf10ee",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_output_io": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_output_io.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_output_io.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_output_io.py",
+      "origin_matches_expected": true,
+      "sha256": "9a0bbe83959e5eedff471c4ce3b1bd667e3c369460e049e69bbe30b86ddf16a0",
+      "git_head_blob_sha1": "dd5e0fb6cd63542bfbef70a03be647c15a8b8b93",
+      "worktree_blob_sha1": "dd5e0fb6cd63542bfbef70a03be647c15a8b8b93",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_paths": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_paths.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_paths.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_paths.py",
+      "origin_matches_expected": true,
+      "sha256": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be",
+      "git_head_blob_sha1": "cca6ed4203baa5ad469783f33b1e1db7c77a5116",
+      "worktree_blob_sha1": "cca6ed4203baa5ad469783f33b1e1db7c77a5116",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_plan": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_plan.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_plan.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_plan.py",
+      "origin_matches_expected": true,
+      "sha256": "934cc8d550906d2fc4e9c30eee577e2df5ae30729d81d8b4071b1fd955c4dafe",
+      "git_head_blob_sha1": "0a73c20350e3503e5e197991ff8455809ca78782",
+      "worktree_blob_sha1": "0a73c20350e3503e5e197991ff8455809ca78782",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_result_audit": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_result_audit.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_result_audit.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_result_audit.py",
+      "origin_matches_expected": true,
+      "sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+      "git_head_blob_sha1": "5c4d27d19f858bddd32ca15d9097d89cd905c1e7",
+      "worktree_blob_sha1": "5c4d27d19f858bddd32ca15d9097d89cd905c1e7",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_seal": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_seal.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_seal.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_seal.py",
+      "origin_matches_expected": true,
+      "sha256": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e",
+      "git_head_blob_sha1": "639fbfe7c2de86615345afb6885a9b65f5381961",
+      "worktree_blob_sha1": "639fbfe7c2de86615345afb6885a9b65f5381961",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.input_consistency_sources": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/input_consistency_sources.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\input_consistency_sources.py",
+      "import_file_relative": "src/kron_reduce/evaluation/input_consistency_sources.py",
+      "origin_matches_expected": true,
+      "sha256": "075919b6cd65d0cdd694a32ed2736ca4aa718543223e5f768fb8b75cb280d73d",
+      "git_head_blob_sha1": "b2792ce3ea3820eb27c51e7afcdb87d31d1dc969",
+      "worktree_blob_sha1": "b2792ce3ea3820eb27c51e7afcdb87d31d1dc969",
+      "matches_head_source": true
+    },
+    "kron_reduce.workflows.kiki_input_consistency": {
+      "expected_checkout_path": "src/kron_reduce/workflows/kiki_input_consistency.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\workflows\\kiki_input_consistency.py",
+      "import_file_relative": "src/kron_reduce/workflows/kiki_input_consistency.py",
+      "origin_matches_expected": true,
+      "sha256": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d",
+      "git_head_blob_sha1": "110abb4d7248a509a449c7f5d63e87859d01e311",
+      "worktree_blob_sha1": "110abb4d7248a509a449c7f5d63e87859d01e311",
+      "matches_head_source": true
+    },
+    "kron_reduce.models.nonlinear_latent": {
+      "expected_checkout_path": "src/kron_reduce/models/nonlinear_latent.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\models\\nonlinear_latent.py",
+      "import_file_relative": "src/kron_reduce/models/nonlinear_latent.py",
+      "origin_matches_expected": true,
+      "sha256": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+      "git_head_blob_sha1": "5c9a4276fd30d6e36f060315a3a65eaf41514855",
+      "worktree_blob_sha1": "5c9a4276fd30d6e36f060315a3a65eaf41514855",
+      "matches_head_source": true
+    },
+    "kron_reduce.models.causal_latent": {
+      "expected_checkout_path": "src/kron_reduce/models/causal_latent.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\models\\causal_latent.py",
+      "import_file_relative": "src/kron_reduce/models/causal_latent.py",
+      "origin_matches_expected": true,
+      "sha256": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+      "git_head_blob_sha1": "659fb92e09a0689d5e095a02e0a6101ed2901e6f",
+      "worktree_blob_sha1": "659fb92e09a0689d5e095a02e0a6101ed2901e6f",
+      "matches_head_source": true
+    },
+    "kron_reduce.models.learned_latent": {
+      "expected_checkout_path": "src/kron_reduce/models/learned_latent.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\models\\learned_latent.py",
+      "import_file_relative": "src/kron_reduce/models/learned_latent.py",
+      "origin_matches_expected": true,
+      "sha256": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+      "git_head_blob_sha1": "62147c556bd8fefcb091e95849eda04f4812a80b",
+      "worktree_blob_sha1": "62147c556bd8fefcb091e95849eda04f4812a80b",
+      "matches_head_source": true
+    },
+    "kron_reduce.data.history_contract": {
+      "expected_checkout_path": "src/kron_reduce/data/history_contract.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\data\\history_contract.py",
+      "import_file_relative": "src/kron_reduce/data/history_contract.py",
+      "origin_matches_expected": true,
+      "sha256": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+      "git_head_blob_sha1": "d0ab5332cc7307dff5fcb5ff4916f0b50efa6e92",
+      "worktree_blob_sha1": "d0ab5332cc7307dff5fcb5ff4916f0b50efa6e92",
+      "matches_head_source": true
+    },
+    "kron_reduce.physics.coordinates": {
+      "expected_checkout_path": "src/kron_reduce/physics/coordinates.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\physics\\coordinates.py",
+      "import_file_relative": "src/kron_reduce/physics/coordinates.py",
+      "origin_matches_expected": true,
+      "sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+      "git_head_blob_sha1": "01d1bd3a9ed203bbb50fcb6c04a678d410e858f6",
+      "worktree_blob_sha1": "01d1bd3a9ed203bbb50fcb6c04a678d410e858f6",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.history_metrics": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/history_metrics.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\history_metrics.py",
+      "import_file_relative": "src/kron_reduce/evaluation/history_metrics.py",
+      "origin_matches_expected": true,
+      "sha256": "7bd641bae5b66dcb76445615c722cce17bc23f7bace679a4fd3e80197313c9bc",
+      "git_head_blob_sha1": "53f38fe5868d85c27d5c8dadbb05023601602f8b",
+      "worktree_blob_sha1": "53f38fe5868d85c27d5c8dadbb05023601602f8b",
+      "matches_head_source": true
+    },
+    "kron_reduce.evaluation.scoped_audit_journal": {
+      "expected_checkout_path": "src/kron_reduce/evaluation/scoped_audit_journal.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\evaluation\\scoped_audit_journal.py",
+      "import_file_relative": "src/kron_reduce/evaluation/scoped_audit_journal.py",
+      "origin_matches_expected": true,
+      "sha256": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+      "git_head_blob_sha1": "a66351145651045575deeac161441447cc3d7926",
+      "worktree_blob_sha1": "a66351145651045575deeac161441447cc3d7926",
+      "matches_head_source": true
+    },
+    "kron_reduce.data.limited_npz_audit": {
+      "expected_checkout_path": "src/kron_reduce/data/limited_npz_audit.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\data\\limited_npz_audit.py",
+      "import_file_relative": "src/kron_reduce/data/limited_npz_audit.py",
+      "origin_matches_expected": true,
+      "sha256": "e96e939f9b7df72a4895906ca444e3c85c3bcd144360b413ba201ad5c1e57031",
+      "git_head_blob_sha1": "ca35151607ac899e48fe11e7862e2fee1d668128",
+      "worktree_blob_sha1": "ca35151607ac899e48fe11e7862e2fee1d668128",
+      "matches_head_source": true
+    },
+    "kron_reduce.data.durable_audit_ledger": {
+      "expected_checkout_path": "src/kron_reduce/data/durable_audit_ledger.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\data\\durable_audit_ledger.py",
+      "import_file_relative": "src/kron_reduce/data/durable_audit_ledger.py",
+      "origin_matches_expected": true,
+      "sha256": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+      "git_head_blob_sha1": "7b2659ad9d99bccf7e2f222df3db617d44f7ffc6",
+      "worktree_blob_sha1": "7b2659ad9d99bccf7e2f222df3db617d44f7ffc6",
+      "matches_head_source": true
+    },
+    "kron_reduce.data.audit_access_ledger": {
+      "expected_checkout_path": "src/kron_reduce/data/audit_access_ledger.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\src\\kron_reduce\\data\\audit_access_ledger.py",
+      "import_file_relative": "src/kron_reduce/data/audit_access_ledger.py",
+      "origin_matches_expected": true,
+      "sha256": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+      "git_head_blob_sha1": "a99f63d31c832235382cd3cc02049bcfcc9f57e3",
+      "worktree_blob_sha1": "a99f63d31c832235382cd3cc02049bcfcc9f57e3",
+      "matches_head_source": true
+    },
+    "project_harness.runner": {
+      "expected_checkout_path": "project_harness/runner.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\project_harness\\runner.py",
+      "import_file_relative": "project_harness/runner.py",
+      "origin_matches_expected": true,
+      "sha256": "051aecfe5fd39d74bed9703e2d3b4649c1816f8af9a9e2b4322b1a67f5cd3662",
+      "git_head_blob_sha1": "9772e9025cabca0c80fa8f7984f2d44bfed818ed",
+      "worktree_blob_sha1": "9772e9025cabca0c80fa8f7984f2d44bfed818ed",
+      "matches_head_source": true
+    },
+    "project_harness.policy": {
+      "expected_checkout_path": "project_harness/policy.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\project_harness\\policy.py",
+      "import_file_relative": "project_harness/policy.py",
+      "origin_matches_expected": true,
+      "sha256": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+      "git_head_blob_sha1": "0b323321b3adcb5ab864fb486c13470b564b9d01",
+      "worktree_blob_sha1": "0b323321b3adcb5ab864fb486c13470b564b9d01",
+      "matches_head_source": true
+    },
+    "project_harness.git_state": {
+      "expected_checkout_path": "project_harness/git_state.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\project_harness\\git_state.py",
+      "import_file_relative": "project_harness/git_state.py",
+      "origin_matches_expected": true,
+      "sha256": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+      "git_head_blob_sha1": "2485b4e30c45983d7f6c83bf106c36f2141dbeb1",
+      "worktree_blob_sha1": "2485b4e30c45983d7f6c83bf106c36f2141dbeb1",
+      "matches_head_source": true
+    },
+    "project_harness.manifest": {
+      "expected_checkout_path": "project_harness/manifest.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\project_harness\\manifest.py",
+      "import_file_relative": "project_harness/manifest.py",
+      "origin_matches_expected": true,
+      "sha256": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+      "git_head_blob_sha1": "4e362e7e45d87de5481b4c190ee286f6f05312e9",
+      "worktree_blob_sha1": "4e362e7e45d87de5481b4c190ee286f6f05312e9",
+      "matches_head_source": true
+    },
+    "project_harness.evidence": {
+      "expected_checkout_path": "project_harness/evidence.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\project_harness\\evidence.py",
+      "import_file_relative": "project_harness/evidence.py",
+      "origin_matches_expected": true,
+      "sha256": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+      "git_head_blob_sha1": "ff024880a5a6c56488349b0f828f41125ef66f0d",
+      "worktree_blob_sha1": "ff024880a5a6c56488349b0f828f41125ef66f0d",
+      "matches_head_source": true
+    },
+    "project_harness.loop": {
+      "expected_checkout_path": "project_harness/loop.py",
+      "import_file": "E:\\03-nn_Transfer_Func\\kron-reduce\\project_harness\\loop.py",
+      "import_file_relative": "project_harness/loop.py",
+      "origin_matches_expected": true,
+      "sha256": "f8e214696d6392f8b2200af6b8972b29b5966a791695612b53bc29d70a2de090",
+      "git_head_blob_sha1": "a48ce2efc4e351eff8d080d84ce1544ddc7eaa1d",
+      "worktree_blob_sha1": "a48ce2efc4e351eff8d080d84ce1544ddc7eaa1d",
+      "matches_head_source": true
+    }
+  },
+  "all_module_origins_and_head_sources_match": true,
+  "origin_failures": [],
+  "conditional_startup_boundary": "Still requires final A17 registration/policy and CI/whole-Astra review. This receipt does not activate authorization or permit scientific execution."
+}

@@ -1,0 +1,21 @@
+{
+  "status": "REGISTRATION_REVIEW_PENDING_NOT_ACTIVE",
+  "execution_authorized": false,
+  "source_payload_reads_or_hashes": 0,
+  "new_models_ls_rhs_fits": 0,
+  "implementation_review_sha256": "d16b02a724972f4d6d4c2186ff52fa83ac8293323c661def49931e7a70368508",
+  "registration_files": {
+    "configs/experiments/paper_kiki_a17_input_consistency.toml": "d972d122d2f1a5ab0eb9788ebb891aed7a10fa54065820af1de0bc90b244aae9",
+    "configs/project_manifest.json": "32a0e41e59fe9dc69d5f9cf3f54016419599fb265eb49cb4c49ea107c9a31586",
+    "configs/input_contracts.json": "a3100031798df5b5a9255774ae4052f89c4d286eea1c7b7ebc85da09b7fca727",
+    "configs/workflows/kiki_a17_input_consistency_v1.json": "af1e15dc5a756d8df55defbe59cad98391489e6df4eba851931e6349b3818af1",
+    "docs/protocols/kiki_a17_development_authorization_20261025_zh.md": "738e5afbc4d5333c3ebfebf462d436168c4767ea4fc444c512d8f664893d1613",
+    "docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md": "d16b02a724972f4d6d4c2186ff52fa83ac8293323c661def49931e7a70368508",
+    "docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json": "88b540e28a50f74440bee5769a43d3d684a25fc9b0d2cf7b1377b0549aa307f0"
+  },
+  "policy_snapshot_sha256": "213ad2779bfb4a002d78f76f4a3f8561646afac64751d0c627f8e6ff39345eed",
+  "prior_development_authorizations_unchanged": true,
+  "prior_experiments_unchanged": true,
+  "core_required_bindings_preserved": 56,
+  "total_implementation_bindings": 63
+}

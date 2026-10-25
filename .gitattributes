@@ -94,3 +94,23 @@ docs/research/kiki_a17_input_consistency/astra_a17_result_auditor_implementation
 docs/research/kiki_a17_input_consistency/engineering_full_validation_v4.json -text
 
 docs/research/kiki_a17_input_consistency/implementation_bindings_v4.json -text
+
+docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md -text
+
+docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json -text
+
+docs/research/kiki_a17_input_consistency/whole_implementation_binding_audit_v1.json -text
+
+docs/research/kiki_a17_input_consistency/whole_review_support_io_auth_v1.json -text
+
+docs/research/kiki_a17_input_consistency/repository_ci_6babf35.json -text
+
+docs/research/kiki_a17_input_consistency/runtime_import_provenance_v1.json -text
+
+docs/research/kiki_a17_input_consistency/registration_preparation_v1.json -text
+
+docs/research/kiki_a17_input_consistency/registration_preparation_v2.json -text
+
+docs/research/kiki_a17_input_consistency/registration_metadata_validation_v1.json -text
+
+docs/protocols/kiki_a17_development_authorization_20261025_zh.md -text

@@ -1,0 +1,118 @@
+{
+  "workflow": "kiki_a17_input_consistency_v1",
+  "experiment": "paper_kiki_a17_input_consistency",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "input_consistency"
+  ],
+  "transitions": {
+    "scaffold": "input_consistency"
+  },
+  "terminal_stages": [
+    "input_consistency"
+  ],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "input_consistency": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "diagnostic_status",
+        "promotion_decision",
+        "data_policy",
+        "development_authorization_id",
+        "evidence_kind",
+        "certified_envelope_established",
+        "deployment_predictions_allowed",
+        "model_promoted",
+        "level_6_claimed",
+        "internal_val_ids_read",
+        "source_val_ids_read",
+        "test_ids_read",
+        "labels_read",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary",
+        "scientific_verdict",
+        "new_missed_instability_result_established",
+        "hidden_training_targets_read"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "process_status": [
+          "PASS"
+        ],
+        "diagnostic_status": [
+          "COMPLETE"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "data_policy": [
+          "kiki_original_train_only"
+        ],
+        "development_authorization_id": [
+          "kiki_a17_development_20261025"
+        ],
+        "evidence_kind": [
+          "uncertified_train_input_consistency"
+        ],
+        "certified_envelope_established": [
+          false
+        ],
+        "deployment_predictions_allowed": [
+          false
+        ],
+        "model_promoted": [
+          false
+        ],
+        "level_6_claimed": [
+          false
+        ],
+        "internal_val_ids_read": [
+          []
+        ],
+        "source_val_ids_read": [
+          []
+        ],
+        "test_ids_read": [
+          []
+        ],
+        "labels_read": [
+          0
+        ],
+        "scientific_verdict": [
+          "ACCEPT",
+          "REJECT"
+        ],
+        "new_missed_instability_result_established": [
+          false
+        ],
+        "hidden_training_targets_read": [
+          false
+        ]
+      },
+      "protocol_sha256": "738e5afbc4d5333c3ebfebf462d436168c4767ea4fc444c512d8f664893d1613",
+      "design_sha256": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
+      "fixed_budget": {
+        "max_campaign_executions": 1,
+        "max_seed_event_slots": 774,
+        "max_fit_attempts": 0,
+        "max_optimizer_updates": 0,
+        "max_rhs": 5831802,
+        "max_scopes": 10356,
+        "max_process_callbacks": 6049612,
+        "max_ls": 774,
+        "max_rk4_updates": 1345086,
+        "max_new_history_paths": 1548,
+        "max_new_future_paths": 1548
+      }
+    }
+  }
+}
