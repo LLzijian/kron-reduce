@@ -1,0 +1,89 @@
+{
+  "status": "design_preparation_only",
+  "scientific_design_approver": "Astra Ultra",
+  "implementation_approved": false,
+  "execution_authorized": false,
+  "new_real_source_payload_reads": 0,
+  "new_fits": 0,
+  "base_main_commit": "42cf70fa1d2ce877a9d5cf8b115417ad76ad50dc",
+  "a16_integration": {
+    "imported_exact_merge": "42cf70fa1d2ce877a9d5cf8b115417ad76ad50dc",
+    "working_tree_content_unchanged": true,
+    "branch": "codex/kiki-a17-input-consistency",
+    "model_promoted": false
+  },
+  "design_path": "docs/research/kiki_a17_input_consistency/design_zh.md",
+  "design_sha256": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
+  "claim_boundary": "No A17 data decode or scientific execution. Exact source/read/compute plans and final Astra implementation review are still required.",
+  "superseded_initial_design": {
+    "path": "docs/research/kiki_a17_input_consistency/design_initial_zh.md",
+    "sha256": "f35ef2f631fc7f72566ca41e4fd37ec48753258802ad445502d94509d3205b32"
+  },
+  "new_real_rhs": 0,
+  "read_plan_preparation": {
+    "status": "prepared_inactive",
+    "path": "configs/proposals/kiki_a17_input_consistency_reads.json",
+    "sha256": "405d0cf5c810add4084302e1a8c15bbca1a4d76b2e3c2d845d3da772a7366a12",
+    "size_bytes": 9529268,
+    "limits": {
+      "npz_unique_files": 3358,
+      "npz_contexts": 3616,
+      "descriptors": 20406,
+      "arrays": 20406,
+      "array_elements": 21486372,
+      "array_logical_hash_bytes": 171890976,
+      "opaque_hash_passes": 6716,
+      "opaque_hash_bytes": 641698014,
+      "metadata_files": 3369,
+      "metadata_bytes": 68353751
+    },
+    "generation": {
+      "inventory_sha256": "d7eafcd6862b405bbdc674d35e41704616fae607bf2e65c85a821e9654424d1f",
+      "npz_opens": 0,
+      "npz_hashes": 0,
+      "npz_header_reads": 0,
+      "npz_payload_decodes": 0,
+      "hdf_reads": 0,
+      "models_solves_rhs_fits": 0,
+      "metadata_reads": [
+        {
+          "path": "results/paper_kiki_a09_train_mechanism-train_mechanism-20261024T054046076318Z-ff5ae772-e3d8db5f/artifact_hashes.json",
+          "size_bytes": 2296,
+          "sha256": "ae87ac95d337a9c8a1d4fdadd305701190e704cf9a85923f0ab9e27dbbfd4573"
+        },
+        {
+          "path": "results/paper_kiki_a10_train_refinement-train_refinement-20261024T062534123221Z-161cae52-515f5625/artifact_hashes.json",
+          "size_bytes": 1784,
+          "sha256": "41741c4a3ab0973be2053cb23e29efd06ceaac3af02239e72f2cda140dccbc86"
+        },
+        {
+          "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/artifact_hashes.json",
+          "size_bytes": 1128155,
+          "sha256": "7438242d358244dece184a393ef871374322d04415237fff733ecd7c01767938"
+        },
+        {
+          "path": "results/paper_kiki_a15_future_transfer-future_transfer-20261024T145313076879Z-f23e9b23-c2066d4e/artifact_hashes.json",
+          "size_bytes": 1131620,
+          "sha256": "e67dbb7c2d62ac82017e9d1049fd7a01c492c6b9c3587aa841d7bb89d247f1c4"
+        },
+        {
+          "path": "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832/artifact_hashes.json",
+          "size_bytes": 189054,
+          "sha256": "568a6271fd09dd98fb15c9c18e6d9a4c22799d639817f3fc988326dfd7134f7d"
+        },
+        {
+          "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/allocated_population.json",
+          "size_bytes": 252865,
+          "sha256": "6bfc5c51a5fb35ed011c7e49b2df9d126ffc443ecb0f114be607833c264089db"
+        },
+        {
+          "path": "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f/source_members.json",
+          "size_bytes": 394385,
+          "sha256": "2fc7469ded60ec250d766f564be88e8c962eadabbfaeea671c28eaf265daa821",
+          "additional_metadata_only": true
+        }
+      ],
+      "producer_sha256": "a8df0a8914bd85bcfb8608ad408e72142b11f08d51e71c53de45c7d6b51f09af"
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "status": "metadata_only_preparation",
+  "inventory": {
+    "path": "scratch/one_off/kiki-a17-input-consistency-20261025/inventory_saved_metadata_v5.json",
+    "size_bytes": 8076931,
+    "sha256": "d7eafcd6862b405bbdc674d35e41704616fae607bf2e65c85a821e9654424d1f"
+  },
+  "producer": {
+    "path": "scratch/one_off/kiki-a17-input-consistency-20261025/inventory_saved_metadata.py",
+    "size_bytes": 26574,
+    "sha256": "0332120b939e7a68038133baf20eae12d91bf8748c8182df82b599b3c684258e"
+  },
+  "validations": [
+    {
+      "binding": {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/inventory_saved_metadata_v5_check.json",
+        "size_bytes": 297,
+        "sha256": "2bcfcaefe4bf03b6f17a70e185612faae8c594545c1203f7a54eaaad74d63790"
+      },
+      "receipt": {
+        "status": "PASS",
+        "checks": 23568,
+        "failures": [],
+        "source_manifests": 5,
+        "npz_stat_refs": 3363,
+        "descriptor_metadata_links": 3363,
+        "metadata_file_read_records": 3374,
+        "manifest_bound_metadata_reads": 3369,
+        "explicit_manifest_controls": 5,
+        "npz_payload_reads_or_hashes": 0
+      }
+    },
+    {
+      "binding": {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/root_inventory_crosscheck_v1.json",
+        "size_bytes": 454,
+        "sha256": "e1949035f7ebed43b60820ec3eb10e097f16f8ecd885edf4e42b6812a8a1395d"
+      },
+      "receipt": {
+        "status": "PASS",
+        "inventory_sha256": "d7eafcd6862b405bbdc674d35e41704616fae607bf2e65c85a821e9654424d1f",
+        "independently_matched_source_metadata": 3369,
+        "sealed_manifest_controls": 5,
+        "npz_opens": 0,
+        "npz_hashes": 0,
+        "scientific_operators": 0,
+        "method": "Compare actual JSON SHA values already recorded by inventory against independently loaded and SHA-bound run-relative sealed manifest mappings. No original arrays read."
+      }
+    },
+    {
+      "binding": {
+        "path": "scratch/one_off/kiki-a17-input-consistency-20261025/t17reader004_validation_receipt.json",
+        "size_bytes": 790,
+        "sha256": "9514737d972372c99c0b618b2ac1a196fa186590f1424b9387255a60aaf56a08"
+      },
+      "receipt": {
+        "status": "PASS",
+        "runtime": "scratch/runtime/a07-py312/Scripts/python.exe (Python 3.12)",
+        "pytest": "24 passed in 5.73s",
+        "ruff": "All checks passed",
+        "basetemp": "scratch/one_off/t17reader004",
+        "payload_scope": "synthetic fixtures only; no production read plan or source payload",
+        "source_sha256": {
+          "src/kron_reduce/data/durable_audit_ledger.py": "C1AA5889395F7D8E280A6D787C82C8F8247A79F2EE506974C09A2554DDA87943",
+          "src/kron_reduce/data/input_consistency_reader.py": "0B9B87F37F460A26AC146A57E9B7DE839799E02D05D9116D13163402E5997903"
+        },
+        "test_sha256": "772629559CBB619472628F002970BD3C184AD58582DC8A9E5761B7FBB7E34090",
+        "previous_failure_preserved": "t17reader003 pytest result: 23 passed, close-fsync poison assertion failed before the fix"
+      }
+    }
+  ],
+  "preserved_inventory_versions": [
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/inventory_saved_metadata_v1.json",
+      "size_bytes": 90689469,
+      "sha256": "daa1dff010c66613f8e50d7c7e680358d066329d6321e05b2d29ee36a9929c7f"
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/inventory_saved_metadata_v2.json",
+      "size_bytes": 16696789,
+      "sha256": "f1a280d629f6598beaf81fc1ee9cca5639623cbf7efececd150bbd46f5b3bdda"
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/inventory_saved_metadata_v3.json",
+      "size_bytes": 8623953,
+      "sha256": "7bae481cf7f1bbcdc5e8a6ba7609785aaca1da7f314efa56552a5fe951e5f652"
+    },
+    {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/inventory_saved_metadata_v4.json",
+      "size_bytes": 7522443,
+      "sha256": "42a4472a08d4bd6a07e7b913e681188a7bef95695cdd6eda96f35cf1b71a389e"
+    }
+  ],
+  "correction": "The initial inventory looked up full paths in a run-relative manifest. v5 requires the correct key and bound identity for all source JSON; root independently matched all 3369 source JSON hashes. No NPZ payload was decoded or hashed by metadata preparation.",
+  "scientific_execution_authorized": false
+}

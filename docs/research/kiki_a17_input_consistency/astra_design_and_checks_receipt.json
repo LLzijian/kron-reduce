@@ -1,0 +1,151 @@
+{
+  "kind": "astra_a17_scientific_design_and_pure_array_checks_v1",
+  "scientific_execution_authorized": false,
+  "full_implementation_approved": false,
+  "status": "SCIENCE_PROTOCOL_AND_SYNTHETIC_CHECKS_READY_FOR_INTEGRATION",
+  "files": {
+    "protocol": {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/astra_a17_scientific_protocol_zh.md",
+      "sha256": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
+      "bytes": 24121
+    },
+    "checks_source": {
+      "path": "src/kron_reduce/evaluation/input_consistency_checks.py",
+      "sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+      "bytes": 14434
+    },
+    "checks_tests": {
+      "path": "tests/test_input_consistency_checks.py",
+      "sha256": "419afe95c28d52f6283e82e907c7d7186789e2ff170884fb0e3aeab6a34db171",
+      "bytes": 10245
+    },
+    "pytest_pass": {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/astra-checks-pytest-v2.log",
+      "sha256": "b9734c60617a2d5cfb39fe157fee053ca690e3625f38787b68f64509dbc190ee",
+      "bytes": 101
+    },
+    "ruff_pass": {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/astra-checks-ruff-v2.log",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "bytes": 20
+    },
+    "pytest_previous": {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/astra-checks-pytest-v1.log",
+      "sha256": "7207852f02df8dee87a59b0e7337d7ce97bc62c506d9c8790c195a9433a7e5ea",
+      "bytes": 738
+    },
+    "ruff_previous": {
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/astra-checks-ruff-v1.log",
+      "sha256": "e33c52ff50d11c30ed61d3af583392ca65c8d2a94da408b10616a8c5437d4216",
+      "bytes": 1154
+    },
+    "constraints": {
+      "path": "requirements/constraints-py312.txt",
+      "sha256": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+      "bytes": 265
+    }
+  },
+  "runtime": {
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "version": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]"
+  },
+  "validation": {
+    "pytest": {
+      "passed": 34,
+      "command": "scratch/runtime/a07-py312/Scripts/python.exe -m pytest tests/test_input_consistency_checks.py -q -p no:cacheprovider"
+    },
+    "ruff": {
+      "status": "PASS",
+      "files": 2
+    },
+    "retained_previous_logs": "First pytest passed with a shared-cache write warning; first Ruff found two dict-literal style violations. Fixed style and explicit bound-output fields, then final targeted test/Ruff checks passed."
+  },
+  "api": {
+    "check_decomposition": {
+      "category": "decomposition_check",
+      "matmul": 3,
+      "norm_calls": 4,
+      "matrix_norms": 4,
+      "vector_norms": 0,
+      "campaign_calls": 774
+    },
+    "check_ls_solution": {
+      "category": "ls_diagnostics",
+      "matmul": 2,
+      "norm_calls": 4,
+      "matrix_norms": 1,
+      "vector_norms": 3,
+      "campaign_calls": 774
+    },
+    "check_inherited_quadrature": {
+      "category": "quadrature_proxy",
+      "matmul": 1,
+      "norm_calls": 4,
+      "matrix_norms": 0,
+      "vector_norms": 4,
+      "campaign_calls": 774
+    },
+    "check_refinement": {
+      "category": "path_refinement",
+      "matmul": 0,
+      "norm_calls": 2,
+      "matrix_norms": 0,
+      "vector_norms": "2*N",
+      "campaign_calls": 3096,
+      "groups": "C history,C future,I future,E future"
+    },
+    "judge_physical_checks": {
+      "category": "physical_judgement",
+      "matmul": 0,
+      "norm_calls": 0,
+      "matrix_norms": 0,
+      "vector_norms": 0,
+      "campaign_calls": 3096,
+      "campaign_points": 451458
+    }
+  },
+  "counter_contract": {
+    "successful_counts_only": "All successful calls have the exact listed counts; invalid/numerical failure returns actual attempted/returned prefix counts. Dispatch infrastructure errors propagate and are not numerical results.",
+    "granularity": "High-level fixed array operations, not scalar primitives or all arithmetic inside NumPy.",
+    "physical_identity_records": "The caller retains original precomputed per-point records; helper checks every required scalar and exact saved identity_error relation, with no new RHS."
+  },
+  "integration_requirements": [
+    "Bind A16 Gram interval metadata to the same weighted B; no cross-seed/slot substitution.",
+    "Call fixed-rank/threshold validation and factor checks before dispatching the one new LS.",
+    "Reject any qualified=false result for its dependent candidate paths; preserve other fixed independent slots and original weights.",
+    "Use new observed-driven endpoint only for inherited quadrature proxy, never the future origin.",
+    "Keep tau/scales/step/refinement gates fixed; conditions are numerical proxies, not strict forward error or physical-state certificates.",
+    "A17 exact read inventory and full workflow implementation approval remain outstanding."
+  ],
+  "fixed_scientific_budgets": {
+    "closure_constructions": 3,
+    "structural_eigvalsh": 9,
+    "initial_ls": 774,
+    "observed_driven_maps": 774,
+    "history_paths": 1548,
+    "future_paths": 1548,
+    "path_preflights": 3096,
+    "history_input_eval": 185760,
+    "rk4_updates": 1345086,
+    "integration_rhs": 5380344,
+    "physical_rhs": 451458,
+    "total_rhs": 5831802,
+    "visible_resets": 1548,
+    "reset_energy_calls": 3096,
+    "event_future_metrics": 4644,
+    "aggregate_metric_groups": 18,
+    "paired_acceptance_groups": 12
+  },
+  "zero_real_execution": {
+    "source_payload_reads": 0,
+    "source_payload_hashes": 0,
+    "npz_hdf_decodes": 0,
+    "real_ls": 0,
+    "real_model_constructions": 0,
+    "real_rhs": 0,
+    "real_fit_updates": 0,
+    "real_rollouts": 0,
+    "label_val_test_reads": 0
+  },
+  "unchanged_authority": "A16 remains consumed; no A17 activation or shared campaign budget was created by this agent."
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "a17_scoped_pure_array_helper_readonly_review",
+  "reviewer": "Astra Ultra independent theory subagent",
+  "reviewer_task": "/root/astra_a16_final_review/state_dependent_port_theory",
+  "status": "NO_BLOCKERS_IN_SCOPED_HELPERS_ONLY",
+  "bindings": {
+    "src/kron_reduce/evaluation/input_consistency_checks.py": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+    "tests/test_input_consistency_checks.py": "419afe95c28d52f6283e82e907c7d7186789e2ff170884fb0e3aeab6a34db171",
+    "scratch/one_off/kiki-a17-input-consistency-20261025/astra_a17_scientific_protocol_zh.md": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
+    "scratch/one_off/kiki-a17-input-consistency-20261025/astra_a17_design_and_checks_receipt.json": "9ca7a41e362ab774273e96f29df05e39fe9445264f4a4861db551d672b4d8444"
+  },
+  "checked": [
+    "Fixed tau, A_num and Gram lower ratio/outward-step order",
+    "Frobenius orthogonality and reconstruction",
+    "One observed-driven affine map for inherited quadrature proxy",
+    "Refinement norms and exact inequalities",
+    "Finite/nonnegative and rate-difference consistency of physical dictionaries",
+    "Attempted/returned high-level operation counts",
+    "Infrastructure dispatch exceptions propagate"
+  ],
+  "required_workflow_preconditions": [
+    "Original rank=2",
+    "Original threshold bitwise binding and singular values strictly above it",
+    "A16 Gram bounds bound to the same weighted B, seed and event",
+    "Full A17 read/budget/freeze/failure workflow still needs exact integrated review"
+  ],
+  "review_execution": {
+    "tests_run": 0,
+    "real_payload_reads": 0,
+    "real_payload_hashes": 0,
+    "npz_hdf_decodes": 0,
+    "model_rhs_fit_solve_calls": 0
+  },
+  "full_implementation_approved": false,
+  "scientific_execution_authorized": false
+}

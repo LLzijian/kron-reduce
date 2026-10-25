@@ -37,3 +37,12 @@ docs/research/kiki_a16_pm_impulse/result_review_bindings.json -text
 docs/research/kiki_a16_pm_impulse/astra_next_closed_loop_theory_zh.md -text
 docs/research/kiki_a16_pm_impulse/astra_a16_next_input_control_draft_zh.md -text
 docs/research/kiki_a16_pm_impulse/astra_cq_energy_barrier_addendum_zh.md -text
+
+# Preserve the independently authored A17 scientific design bytes.
+docs/research/kiki_a17_input_consistency/design_zh.md -text
+docs/research/kiki_a17_input_consistency/design_initial_zh.md -text
+docs/research/kiki_a17_input_consistency/astra_design_and_checks_receipt.json -text
+docs/research/kiki_a17_input_consistency/astra_checks_readonly_review.json -text
+docs/research/kiki_a17_input_consistency/design_initial_zh.md -text
+docs/research/kiki_a17_input_consistency/astra_design_and_checks_receipt.json -text
+docs/research/kiki_a17_input_consistency/astra_checks_readonly_review.json -text

@@ -1,0 +1,142 @@
+{
+  "status": "PASS",
+  "scope": "synthetic engineering preparation only; no real scientific execution",
+  "source_bindings": [
+    {
+      "path": "src/kron_reduce/data/input_consistency_reader.py",
+      "sha256": "0b9b87f37f460a26ac146a57e9b7de839799e02d05d9116d13163402e5997903",
+      "size_bytes": 13484
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency.py",
+      "sha256": "310ada6fbc850447fcc860dceae3dbb620eb672242898e59bad1862af790e126",
+      "size_bytes": 8820
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_checks.py",
+      "sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+      "size_bytes": 14434
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_journal.py",
+      "sha256": "f1719736f18ecc4b988f0f4330cc836a8861b240ac3406435c903265b3002724",
+      "size_bytes": 3752
+    },
+    {
+      "path": "src/kron_reduce/evaluation/input_consistency_metrics.py",
+      "sha256": "d3b880e110fc000714c2d51df27ec3688702fdb0dd9155f5aab62ba8f8dc8555",
+      "size_bytes": 6734
+    },
+    {
+      "path": "tests/test_input_consistency_kernel.py",
+      "sha256": "dd24d40d2a40d1773ded3e6480a593fb82b6018729de8ad4ba904bb761501a67",
+      "size_bytes": 8941
+    },
+    {
+      "path": "tests/test_input_consistency_checks.py",
+      "sha256": "419afe95c28d52f6283e82e907c7d7186789e2ff170884fb0e3aeab6a34db171",
+      "size_bytes": 10245
+    },
+    {
+      "path": "tests/test_input_consistency_journal.py",
+      "sha256": "a1366955e1598c27edacec8cb97c6ce3219f4db144dec40ebecb2373f916d2fe",
+      "size_bytes": 3465
+    },
+    {
+      "path": "tests/test_input_consistency_metrics.py",
+      "sha256": "a4f89caecf7e9c14785f526b08f88f4ee4f3e3dd2e8d948ce1cacbd76b020774",
+      "size_bytes": 4647
+    },
+    {
+      "path": "tests/test_input_consistency_reader.py",
+      "sha256": "772629559cbb619472628f002970bd3c184ad58582dc8a9e5761b7fbb7e34090",
+      "size_bytes": 13842
+    }
+  ],
+  "checks": [
+    {
+      "command": [
+        "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "src/kron_reduce/data/input_consistency_reader.py",
+        "src/kron_reduce/evaluation/input_consistency.py",
+        "src/kron_reduce/evaluation/input_consistency_checks.py",
+        "src/kron_reduce/evaluation/input_consistency_journal.py",
+        "src/kron_reduce/evaluation/input_consistency_metrics.py",
+        "tests/test_input_consistency_kernel.py",
+        "tests/test_input_consistency_checks.py",
+        "tests/test_input_consistency_journal.py",
+        "tests/test_input_consistency_metrics.py",
+        "tests/test_input_consistency_reader.py"
+      ],
+      "returncode": 0,
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/ruff-preparation-v1.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "size_bytes": 19
+    },
+    {
+      "command": [
+        "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_input_consistency_kernel.py",
+        "tests/test_input_consistency_checks.py",
+        "tests/test_input_consistency_journal.py",
+        "tests/test_input_consistency_metrics.py",
+        "tests/test_input_consistency_reader.py",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp",
+        "scratch/one_off/t17preparation001"
+      ],
+      "returncode": 0,
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/pytest-preparation-v1.log",
+      "sha256": "702446f6c5a27345bbc47a5164490cba2aedcfc9c8d80b1e933725876f3b72a0",
+      "size_bytes": 182
+    },
+    {
+      "command": [
+        "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+        "-m",
+        "project_harness",
+        "audit"
+      ],
+      "returncode": 0,
+      "path": "scratch/one_off/kiki-a17-input-consistency-20261025/harness-preparation-v1.log",
+      "sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912",
+      "size_bytes": 61
+    }
+  ],
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\runtime\\a07-py312\\Scripts\\python.exe",
+    "versions": {
+      "numpy": "2.5.2",
+      "scipy": "1.18.0",
+      "h5py": "3.16.0",
+      "torch": "2.13.0+cpu",
+      "filelock": "3.32.2"
+    }
+  },
+  "original_validation_receipt": {
+    "path": "scratch/one_off/kiki-a17-input-consistency-20261025/preparation_validation_v1.json",
+    "size_bytes": 4720,
+    "sha256": "0fa9b4581a973512fce1b988021cc2e2496713ee386b1286ee8c7c03e2c2f426"
+  },
+  "synthetic_tests_passed": 90,
+  "full_implementation_approved": false,
+  "execution_authorized": false,
+  "new_A17_real_payload_decodes": 0,
+  "new_A17_model_solves_rhs_fits": 0,
+  "operational_integrity_audit": {
+    "performed": true,
+    "command": "python -m project_harness audit",
+    "status": "PASS",
+    "errors": 0,
+    "scope": "Read-only integrity verification of previously completed immutable result manifests and their bodies; opaque saved-result file hashing is separate maintenance, not an A17 scientific comparison or permission to start its reader. The original receipt combined zero field must not be interpreted as zero operational NPZ hashes."
+  },
+  "outstanding_review": "Astra interface review identified additional finite-access, partial-record and verdict-boundary gaps after the first 90 synthetic tests. These are pending engineering repairs; no real A17 execution is active."
+}
