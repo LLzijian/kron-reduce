@@ -1,0 +1,98 @@
+{
+  "workflow": "kiki_a16_pm_impulse_v1",
+  "experiment": "paper_kiki_a16_pm_impulse",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "input_impulse"
+  ],
+  "transitions": {
+    "scaffold": "input_impulse"
+  },
+  "terminal_stages": [
+    "input_impulse"
+  ],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "input_impulse": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "diagnostic_status",
+        "promotion_decision",
+        "data_policy",
+        "development_authorization_id",
+        "evidence_kind",
+        "certified_envelope_established",
+        "deployment_predictions_allowed",
+        "model_promoted",
+        "level_6_claimed",
+        "internal_val_ids_read",
+        "source_val_ids_read",
+        "test_ids_read",
+        "labels_read",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "process_status": [
+          "PASS"
+        ],
+        "diagnostic_status": [
+          "COMPLETE"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "data_policy": [
+          "kiki_original_train_only"
+        ],
+        "development_authorization_id": [
+          "kiki_a16_development_20261025"
+        ],
+        "evidence_kind": [
+          "uncertified_train_history_input_diagnostic"
+        ],
+        "certified_envelope_established": [
+          false
+        ],
+        "deployment_predictions_allowed": [
+          false
+        ],
+        "model_promoted": [
+          false
+        ],
+        "level_6_claimed": [
+          false
+        ],
+        "internal_val_ids_read": [
+          []
+        ],
+        "source_val_ids_read": [
+          []
+        ],
+        "test_ids_read": [
+          []
+        ],
+        "labels_read": [
+          0
+        ]
+      },
+      "protocol_sha256": "4ef87e657a904842e485c044cad78493ca432009a5d43b8cfe78ae1587d86cae",
+      "design_sha256": "db5a1daa9654ec608951bdb02664b7e77e3f2610cc0877d4d3a6e53f7b157660",
+      "fixed_budget": {
+        "max_campaign_executions": 1,
+        "max_seed_event_slots": 774,
+        "max_fit_attempts": 0,
+        "max_rhs": 0
+      }
+    }
+  }
+}

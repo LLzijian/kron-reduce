@@ -276,3 +276,19 @@ Astra accepted the history mechanism and engineering main integration.
 Do not rerun A14 or change the default deployment initializer. No future
 trajectory, label or new FNR result was evaluated; KEEP_BASELINE applies.
 Further comparisons require independent registration and Astra approval.
+
+A15 completed with REJECT and KEEP_BASELINE: V passed, I and D failed.
+Its unique 1548 future paths/5629014 RHS and all results are archived on
+`codex/kiki-a15-future-transfer` at
+`5ac8b571751467f677fb569df3c0a1f4c323d065`; PR 13 is closed without merge.
+The authority remains consumed. Do not repeat its scientific execution or
+import its rejected initializer into main. The active policy records its
+archive identity; any independent engineering extraction needs its own review.
+
+A16 is prepared as a separately bounded history-power diagnostic under
+`kiki_a16_development_20261025`. Its policy status remains
+`implementation_review_pending`: the numerical kernel has synthetic evidence,
+but final integrated implementation approval by Astra Ultra is outstanding.
+Do not activate its authorization, read/hash real source payloads, consume its
+shared campaign budget, or infer a new missed-instability result before that
+review. Engineering tests and explicitly synthetic fixtures may proceed.
