@@ -883,9 +883,9 @@
       "scientific_review_sha256": "PENDING",
       "implementation_bindings": {},
       "proposed_implementation_bindings": {
-        "src/kron_reduce/data/pm_impulse_reader.py": "b156656517d8443ced28c81dcb64f96acf285f07d192a9bcfc3ea75c4820dbba",
+        "src/kron_reduce/data/pm_impulse_reader.py": "5242b436b506c30595acc51292c50b3082d5c8494e0b4eb383f12cf08f9bb77b",
         "src/kron_reduce/evaluation/pm_impulse_audit.py": "776d449e7c60c949e3f8e137f0331f51a8c0db691fdfa70dddc8c099df439112",
-        "src/kron_reduce/workflows/kiki_pm_impulse_audit.py": "80924d9f0053f66a0458e3b3718925d9e5d3998b359a091b4c320fdeb9079664",
+        "src/kron_reduce/workflows/kiki_pm_impulse_audit.py": "8e1b8c2e278ffc2be0b0d81057399bca44826f8419c6d621f12d2279c6bce60d",
         "tests/test_pm_impulse_reader.py": "2673eb3bbfc7adee4247f62bdb651bff60ed33cb1afd0065d9839b0e96da2162",
         "tests/test_pm_impulse_audit.py": "75089a3ba705dfaf8a1c1a3b790eea794bc89b75b2a5d260e3cb2f69c0c334ed",
         "tests/test_pm_impulse_workflow.py": "d3cf17e1a0853fc966c48804aca6f302f8e397220c06f64e625203099bab2749",
@@ -901,10 +901,11 @@
         "project_harness/policy.py": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
         "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
         "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
-        ".github/workflows/ci.yml": "7fa2f95753c2d41539a8ca813d35f30360de9ec79cf3d4b56ff06152a93bdf1e"
+        ".github/workflows/ci.yml": "05aaded555dd76a8e9cbba778ebcca2c086368f60c464acfc537d970bdf4980b",
+        "tests/test_pm_impulse_durability.py": "defa99f378088cc866b2def6e06727276de11ae123f47e686e58565bcda69fc1"
       },
-      "implementation_validation_path": "docs/research/kiki_a16_pm_impulse/implementation_validation.json",
-      "implementation_validation_sha256": "5b00de51e8caf1799b98592a6e42e299baec809872e6fab80ea7e28243221c4d"
+      "implementation_validation_path": "docs/research/kiki_a16_pm_impulse/implementation_validation_v2.json",
+      "implementation_validation_sha256": "29ce8fd866a405ecfc14819916b62d8f7afe6e1631f5abcc2390ca78220b919a"
     }
   },
   "archived_development_results": {

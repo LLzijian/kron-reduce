@@ -49,6 +49,15 @@ class FiniteAccessLedger:
         self.failed = False
 
     def call(self, key, function, *, element_count):
+        if self.failed:
+            raise PermissionError("A16 access ledger is poisoned after failure")
+        try:
+            return self._call(key, function, element_count=element_count)
+        except BaseException:
+            self.failed = True
+            raise
+
+    def _call(self, key, function, *, element_count):
         if self.failed or key not in self.slots or self.slots[key]["status"] != "not_attempted":
             self.failed = True
             raise PermissionError("A16 selector is unknown, repeated or poisoned")

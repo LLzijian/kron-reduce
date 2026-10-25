@@ -103,6 +103,19 @@ def save_record(directory, name, value):
     return {js.name: sha256_file(js), npz.name: sha256_file(npz)}
 
 
+def persistable_counts(snapshot):
+    """Keep exact integer counters and explicitly preserve nonfinite returns."""
+    counts = dict(snapshot)
+    last = counts.get("last_numeric_return")
+    if isinstance(last, dict):
+        counts["last_numeric_return"] = dict(last)
+        value = last.get("value")
+        if isinstance(value, float) and not math.isfinite(value):
+            counts["last_numeric_return"].update(value=None, representation=repr(value),
+                                                  reason="nonfinite_numeric_return")
+    return counts
+
+
 def authorization(root, experiment, config):
     """All checks precede budget consumption and real-data byte access."""
     validate_run_policy(root, EXPERIMENT, experiment)
@@ -273,8 +286,19 @@ class ScientificScopes:
         self.journal = AppendOnlyAuditJournal(self.directory / "scientific_calls.jsonl")
         self.rows = []
         self.seen = set()
+        self.failed = False
 
     def invoke(self, name, kind, function, *, allow_numerical_failure=False, prerequisite=None):
+        if self.failed:
+            raise RuntimeError("A16 scientific scopes are poisoned after failure")
+        try:
+            return self._invoke(name, kind, function,
+                allow_numerical_failure=allow_numerical_failure, prerequisite=prerequisite)
+        except BaseException:
+            self.failed = True
+            raise
+
+    def _invoke(self, name, kind, function, *, allow_numerical_failure=False, prerequisite=None):
         if name in self.seen:
             raise RuntimeError("A16 scientific scope already spent")
         self.seen.add(name)
@@ -296,7 +320,7 @@ class ScientificScopes:
                      "partial_values": error.partial_record, "counts": error.counts}
         else:
             value = result
-        counts = ledger.snapshot()
+        counts = persistable_counts(ledger.snapshot())
         if (not counts["closed"] or any(n > limits.get(key, 0) for key, n in counts["attempted"].items())
                 or any(n > counts["attempted"].get(key, 0) for key, n in counts["returned"].items())):
             raise RuntimeError("A16 scalar scope did not close within its reservation")
