@@ -302,3 +302,29 @@ holding the old state increases both registered residual measures. No new
 state, fit, future prediction or missed-instability metric was produced.
 Do not rerun A16. KEEP_BASELINE applies; input-consistency controls or C(q)
 training require their own registration and exact scientific approval.
+
+A17 has completed and its authorization `kiki_a17_development_20261025` is
+consumed. The result is REJECT with KEEP_BASELINE (`V=true`, `G_I=false`,
+`G_E=false`); no zero missed-instability result was established. The archived
+implementation is on `codex/kiki-a17-input-consistency` at
+`637cdf0510a9408197e982f2dce88c30a2852af3`; PR 15 is closed without merge.
+The completed run is
+`paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9`
+from source commit `e736e26091a777f96025f70f865186eb02290d7c`, with manifest
+SHA256 `708839cb627812282e0abfcc32f54c712e8afab4556b853c7253f742d88dcf2e`.
+Its archived result receipt is
+`docs/reports/kiki_a17_input_consistency_20261025_evidence.json` (SHA256
+`40e12170da64e284f68aae55b7d7e673c425f883f6e07cdebb64e4fb8cbfcafe`); the
+scientific review is
+`docs/research/kiki_a17_input_consistency/a17_scientific_result_review_v1.md`
+(SHA256 `cceec186606e6da19d46dbbec200749471c14231811faa86e8ae5b0f6c457c70`),
+with formal review receipt SHA256
+`eb2198860c0fd95c6bc7994042769d4afd3cba9f52a64c874aac02adf5077a54`.
+The audit consumed 774 seed-event slots, 1548 history paths, 1548 future paths
+and 5831802 RHS calls across 10356 scopes, with zero fits or optimizer updates.
+Source val/test and internal val were not opened, and no labels were read.
+Do not reactivate or rerun A17, or import its rejected candidate/default
+initializer or code. Any independent engineering extraction requires a new
+explicit review. The next work is limited to preparing the known-truth
+constant-C, 100 ms information-sufficiency question; this authorizes no new
+calculation.

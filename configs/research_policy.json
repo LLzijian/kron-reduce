@@ -985,6 +985,61 @@
       "internal_val_opened": false,
       "labels_read": 0,
       "reactivation_or_reexecution_allowed": false
+    },
+    "kiki_a17_development_20261025": {
+      "status": "consumed",
+      "scientific_verdict": "REJECT",
+      "promotion_decision": "KEEP_BASELINE",
+      "V_pass": true,
+      "G_I": false,
+      "G_E": false,
+      "archive_branch": "codex/kiki-a17-input-consistency",
+      "archive_commit": "637cdf0510a9408197e982f2dce88c30a2852af3",
+      "pull_request": "https://github.com/LLzijian/kron-reduce/pull/15",
+      "pull_request_state": "closed_unmerged",
+      "completed_run_id": "paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9",
+      "execution_source_commit": "e736e26091a777f96025f70f865186eb02290d7c",
+      "completed_run_manifest_sha256": "708839cb627812282e0abfcc32f54c712e8afab4556b853c7253f742d88dcf2e",
+      "result_receipt_path_in_archive": "docs/reports/kiki_a17_input_consistency_20261025_evidence.json",
+      "result_receipt_sha256": "40e12170da64e284f68aae55b7d7e673c425f883f6e07cdebb64e4fb8cbfcafe",
+      "result_review_path_in_archive": "docs/research/kiki_a17_input_consistency/a17_scientific_result_review_v1.md",
+      "result_review_sha256": "cceec186606e6da19d46dbbec200749471c14231811faa86e8ae5b0f6c457c70",
+      "formal_result_review_receipt_sha256": "eb2198860c0fd95c6bc7994042769d4afd3cba9f52a64c874aac02adf5077a54",
+      "fits_consumed": 0,
+      "optimizer_updates_consumed": 0,
+      "seed_event_slots": 774,
+      "history_paths_consumed": 1548,
+      "future_paths_consumed": 1548,
+      "rhs_consumed": 5831802,
+      "core_scopes_consumed": 10356,
+      "source_val_test_opened": false,
+      "internal_val_opened": false,
+      "labels_read": 0,
+      "new_missed_instability_result_established": false,
+      "zero_missed_instability_result_established": false,
+      "reactivation_or_reexecution_allowed": false,
+      "candidate_initializer_import_allowed": false,
+      "default_initializer_import_allowed": false,
+      "code_import_allowed": false,
+      "archive_ci": [
+        {
+          "event": "push",
+          "run_id": 40189661734,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "637cdf0510a9408197e982f2dce88c30a2852af3",
+          "url": "https://github.com/LLzijian/kron-reduce/actions/runs/40189661734"
+        },
+        {
+          "event": "pull_request",
+          "run_id": 40189664831,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "637cdf0510a9408197e982f2dce88c30a2852af3",
+          "url": "https://github.com/LLzijian/kron-reduce/actions/runs/40189664831"
+        }
+      ],
+      "formal_result_review_receipt_path_in_archive": "docs/research/kiki_a17_input_consistency/a17_scientific_result_review_v1.json"
     }
   }
 }
