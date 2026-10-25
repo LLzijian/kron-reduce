@@ -993,7 +993,7 @@
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false,
       "automatic_training_until_threshold_allowed": false,
-      "status": "registration_review_pending",
+      "status": "user_approved",
       "authority": "explicit_user_reply",
       "approval_text": "开始推进，最核心算法设计与防线判断由Astra Ultra完成，你来统筹；继续改进算法和设计，一定要降到0，持续工作，得到最终结果后向我汇报；继续",
       "authorization_basis": "Existing explicit continuation and delegated scientific decisions support preparing this one bounded train-only comparison; these are not a newly invented budget-specific user reply. Registration and activation remain separate, subject to independent review.",
@@ -1069,17 +1069,26 @@
         "src/kron_reduce/models/learned_latent.py": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
         "pyproject.toml": "d0eb909ca05c392f8b1e2e069ab1a119193ba552f84fa1da3915e0182dabc32e",
         "configs/experiments/paper_kiki_a17_input_consistency.toml": "a2b76b991ab2bd3b39ec9e7f80457b450a693e983cc13304a916ececf24c9dc7",
-        "configs/project_manifest.json": "32a0e41e59fe9dc69d5f9cf3f54016419599fb265eb49cb4c49ea107c9a31586",
+        "configs/project_manifest.json": "db3352681c46f28be58c17fca7c7fa4c3eef15b115c1ece87a3014c318105068",
         "configs/input_contracts.json": "a3100031798df5b5a9255774ae4052f89c4d286eea1c7b7ebc85da09b7fca727",
         "configs/workflows/kiki_a17_input_consistency_v1.json": "123cefa69c0ea0ba4ac0b16d3c6bf7c752b1c3e08f5df710686215936508d90a",
         "docs/protocols/kiki_a17_development_authorization_20261025_zh.md": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
         "docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md": "d16b02a724972f4d6d4c2186ff52fa83ac8293323c661def49931e7a70368508",
-        "docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json": "88b540e28a50f74440bee5769a43d3d684a25fc9b0d2cf7b1377b0549aa307f0"
+        "docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json": "88b540e28a50f74440bee5769a43d3d684a25fc9b0d2cf7b1377b0549aa307f0",
+        "docs/research/kiki_a17_input_consistency/registration_review_zh.md": "d01b1fd0365be078c117044616761912efbdd0ec768755867fb6a6998e099d7f",
+        "docs/research/kiki_a17_input_consistency/registration_review_bindings.json": "7c2f4eeca54441b3344c6c1d2df69c02f2080b2084ddf479a6436ae2892067c3"
       },
       "registration_review_required": true,
       "actual_execution_commit_ci_required": true,
-      "registration_status": "pending_independent_review",
-      "budget_executions_spent": 0
+      "registration_status": "approved_for_one_bounded_activation",
+      "budget_executions_spent": 0,
+      "registration_review_path": "docs/research/kiki_a17_input_consistency/registration_review_zh.md",
+      "registration_review_sha256": "d01b1fd0365be078c117044616761912efbdd0ec768755867fb6a6998e099d7f",
+      "registration_bindings_path": "docs/research/kiki_a17_input_consistency/registration_review_bindings.json",
+      "registration_bindings_sha256": "7c2f4eeca54441b3344c6c1d2df69c02f2080b2084ddf479a6436ae2892067c3",
+      "registration_review_decision": "APPROVE_FOR_ONE_BOUNDED_ACTIVATION",
+      "registration_reviewed_commit": "25993bb7ceed9af857dd1895cc4becdc527788d5",
+      "registration_review_completed": true
     }
   },
   "archived_development_results": {

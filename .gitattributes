@@ -128,3 +128,13 @@ docs/research/kiki_a17_input_consistency/registration_metadata_validation_v4.jso
 docs/research/kiki_a17_input_consistency/registration_field_type_validation_v1.json -text
 
 docs/research/kiki_a17_input_consistency/registration_validation_v2.json -text
+
+docs/research/kiki_a17_input_consistency/registration_review_zh.md -text
+
+docs/research/kiki_a17_input_consistency/registration_review_bindings.json -text
+
+docs/research/kiki_a17_input_consistency/registration_independent_audit_final_v2.json -text
+
+docs/research/kiki_a17_input_consistency/repository_ci_25993bb.json -text
+
+docs/research/kiki_a17_input_consistency/activation_preparation_v1.json -text

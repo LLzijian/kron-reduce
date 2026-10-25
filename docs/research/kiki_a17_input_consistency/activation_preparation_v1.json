@@ -1,0 +1,20 @@
+{
+  "status": "ACTIVATION_METADATA_PREPARED_EXECUTION_PRECHECKS_PENDING",
+  "source_registration_commit": "25993bb7ceed9af857dd1895cc4becdc527788d5",
+  "registration_review_sha256": "d01b1fd0365be078c117044616761912efbdd0ec768755867fb6a6998e099d7f",
+  "registration_bindings_sha256": "7c2f4eeca54441b3344c6c1d2df69c02f2080b2084ddf479a6436ae2892067c3",
+  "policy_sha256": "de9c2d08d44d92788914e1f642e6035d272e9f274a00e0035223016470d76bbe",
+  "manifest_sha256": "db3352681c46f28be58c17fca7c7fa4c3eef15b115c1ece87a3014c318105068",
+  "bound_paths": 65,
+  "core56_protocol_toml_workflow_contracts_design_read_compute_unchanged": true,
+  "prior_authorizations_unchanged": true,
+  "common_budget_spent": false,
+  "raw_source_payload_reads_or_hashes": 0,
+  "new_model_ls_rhs_fit_calls": 0,
+  "remaining_conditions": [
+    "clean exact activation commit",
+    "exact push and CI PASS",
+    "fresh runtime/import origin evidence at that HEAD",
+    "positive metadata authorization and common budget still absent before unique dedicated CLI"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "source_commit": "25993bb7ceed9af857dd1895cc4becdc527788d5",
+  "checked_at": "2026-10-25T08:19:22.635669+00:00",
+  "checks": [
+    {
+      "id": 40175693693,
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/LLzijian/kron-reduce/actions/runs/40175693693"
+    },
+    {
+      "id": 40175696141,
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/LLzijian/kron-reduce/actions/runs/40175696141"
+    }
+  ],
+  "evidence_source": "Authenticated GitHub REST API via gh; no rerun requested.",
+  "boundary": "Registration commit only; final activation commit requires its own CI."
+}

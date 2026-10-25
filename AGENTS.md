@@ -305,13 +305,16 @@ training require their own registration and exact scientific approval.
 
 A17 input consistency has passed the exact Astra Ultra implementation review
 for independent bounded registration at commit `6babf354fa3986fd3220ebd53ff3d86dc6ada64b`.
-Its policy status is `registration_review_pending`, not active. The scientific
+Its independent registration at `25993bb7ceed9af857dd1895cc4becdc527788d5`
+has been approved for one bounded activation. Its policy is `user_approved`;
+execution still requires the final clean activation HEAD, exact push/CI,
+fresh constrained-runtime/import evidence and an unspent common budget.
+The scientific
 design and bounded protocol are `docs/research/kiki_a17_input_consistency/design_zh.md`
 and `docs/protocols/kiki_a17_development_authorization_20261025_zh.md`.
-Do not decode/hash old NPZ/HDF payloads or perform real LS/RHS/rollouts until
-the final registration, user authorization basis, complete SHA bindings,
-selected runtime and exact pushed execution commit CI are independently reviewed
-and the separate policy is explicitly activated. Use only the dedicated CLI;
+Use only the dedicated CLI after those startup conditions are verified;
+do not use a real source call to probe them. The 65 implementation/registration
+bindings and frozen protocol/read/compute limits govern this unique execution;
 the shared one-use budget must be spent before real source access, with no retry
 or resume. All 268 allocated events and failures retain their original weights.
 A16 remains consumed; no new missed-instability result or model promotion is established.

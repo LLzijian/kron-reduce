@@ -1982,7 +1982,7 @@
       "development_only": true,
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false,
-      "registration_status": "pending_independent_review"
+      "registration_status": "approved_for_one_bounded_activation"
     }
   },
   "active_policy": "configs/research_policy.json",

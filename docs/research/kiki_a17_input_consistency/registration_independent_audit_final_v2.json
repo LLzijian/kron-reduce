@@ -1,0 +1,1882 @@
+{
+  "kind": "A17_independent_registration_binding_audit",
+  "reviewed_commit": "25993bb7ceed9af857dd1895cc4becdc527788d5",
+  "implementation_commit": "6babf354fa3986fd3220ebd53ff3d86dc6ada64b",
+  "status": "PASS",
+  "checks_count": 282,
+  "failures": [],
+  "checks": [
+    {
+      "name": "pending_not_active",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:data_policy",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:development_authorization_id",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:development_protocol_path",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:approval_protocol_sha256",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:design_path",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:design_sha256",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:read_plan_path",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:read_plan_sha256",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:compute_plan_path",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:compute_plan_sha256",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:input_contract",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:allocated_train",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:eligible_train",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:seeds",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_seed_event_slots",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_campaign_executions",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:retry_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:resume_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_fit_attempts",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_optimizer_updates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_rhs",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_scopes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_process_callbacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_ls",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_rk4_updates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_new_history_paths",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:max_new_future_paths",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:labels_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:event_time_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:internal_val_payload_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:source_val_payload_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:source_test_payload_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:source_hdf_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:future_pm_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:pe_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:voltage_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:new_reference_rollouts_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:saved_future_qv_targets_after_candidate_freeze_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:model_promotion_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:deployment_predictions_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "config_policy_value_type:automatic_training_until_threshold_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:module",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:workflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:stage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:execution_mode",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:input_contract_id",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:development_authorization_id",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:dataset",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:spatial_node_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:spatial_clustering",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:reads_validation_performance",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:reads_test_performance",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:development_only",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:model_promotion_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "manifest_value_type:deployment_predictions_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "policy_identity:module",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "policy_identity:workflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "policy_identity:stage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "policy_identity:dataset",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "policy_identity:development_authorization_id",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_identity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_v2_single_terminal",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_campaign_executions",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_seed_event_slots",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_fit_attempts",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_optimizer_updates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_rhs",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_scopes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_process_callbacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_ls",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_rk4_updates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_new_history_paths",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_budget:max_new_future_paths",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_protocol_sha",
+      "pass": true,
+      "detail": {
+        "workflow": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+        "config": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae"
+      }
+    },
+    {
+      "name": "workflow_design_sha",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_complete_strict_field_types",
+      "pass": true,
+      "detail": {
+        "expected": {
+          "status": "string",
+          "process_status": "string",
+          "source_commit": "string",
+          "diagnostic_status": "string",
+          "promotion_decision": "string",
+          "data_policy": "string",
+          "development_authorization_id": "string",
+          "evidence_kind": "string",
+          "certified_envelope_established": "boolean",
+          "deployment_predictions_allowed": "boolean",
+          "model_promoted": "boolean",
+          "level_6_claimed": "boolean",
+          "internal_val_ids_read": "array",
+          "source_val_ids_read": "array",
+          "test_ids_read": "array",
+          "labels_read": "integer",
+          "result_dir": "string",
+          "artifact_manifest": "object",
+          "claim_boundary": "string",
+          "scientific_verdict": "string",
+          "new_missed_instability_result_established": "boolean",
+          "hidden_training_targets_read": "boolean"
+        },
+        "actual": {
+          "status": "string",
+          "process_status": "string",
+          "source_commit": "string",
+          "diagnostic_status": "string",
+          "promotion_decision": "string",
+          "data_policy": "string",
+          "development_authorization_id": "string",
+          "evidence_kind": "string",
+          "certified_envelope_established": "boolean",
+          "deployment_predictions_allowed": "boolean",
+          "model_promoted": "boolean",
+          "level_6_claimed": "boolean",
+          "internal_val_ids_read": "array",
+          "source_val_ids_read": "array",
+          "test_ids_read": "array",
+          "labels_read": "integer",
+          "result_dir": "string",
+          "artifact_manifest": "object",
+          "claim_boundary": "string",
+          "scientific_verdict": "string",
+          "new_missed_instability_result_established": "boolean",
+          "hidden_training_targets_read": "boolean"
+        }
+      }
+    },
+    {
+      "name": "workflow_allowed_values:process_status",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:diagnostic_status",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:promotion_decision",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:scientific_verdict",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:labels_read",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:certified_envelope_established",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:deployment_predictions_allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:model_promoted",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:level_6_claimed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:new_missed_instability_result_established",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:hidden_training_targets_read",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:internal_val_ids_read",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:source_val_ids_read",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "workflow_allowed_values:test_ids_read",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "required56_included",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/data/input_consistency_reader.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/data/input_consistency_reader.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/workflows/kiki_input_consistency.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/workflows/kiki_input_consistency.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_checks.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_checks.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_evidence.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_evidence.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_output_io.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_output_io.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_paths.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_paths.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_plan.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_plan.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_result_audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_result_audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_seal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_seal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/input_consistency_sources.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/input_consistency_sources.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_checks.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_checks.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_composition.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_composition.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_entry_guards.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_entry_guards.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_evidence.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_evidence.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_kernel.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_kernel.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_output_io.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_output_io.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_paths.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_paths.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_plan.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_plan.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_reader.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_reader.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_result_audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_result_audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_result_audit_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_result_audit_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_seal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_seal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_sources.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_sources.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_workflow.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_workflow.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_input_consistency_workflow_io.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_input_consistency_workflow_io.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_scoped_audit_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_scoped_audit_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:tests/test_pm_impulse_durability.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:tests/test_pm_impulse_durability.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:configs/proposals/kiki_a17_input_consistency_reads.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:configs/proposals/kiki_a17_input_consistency_reads.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:configs/proposals/kiki_a17_input_consistency_compute.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:configs/proposals/kiki_a17_input_consistency_compute.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:docs/research/kiki_a17_input_consistency/design_zh.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:docs/research/kiki_a17_input_consistency/design_zh.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:requirements/constraints-py312.txt",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:requirements/constraints-py312.txt",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:.github/workflows/ci.yml",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:.github/workflows/ci.yml",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/models/nonlinear_latent.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/models/nonlinear_latent.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/models/causal_latent.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/models/causal_latent.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/physics/coordinates.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/physics/coordinates.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/history_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/history_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/evaluation/scoped_audit_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/evaluation/scoped_audit_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/data/durable_audit_ledger.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/data/durable_audit_ledger.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/data/limited_npz_audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/data/limited_npz_audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:project_harness/git_state.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:project_harness/git_state.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:project_harness/policy.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:project_harness/policy.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:project_harness/runner.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:project_harness/runner.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:project_harness/manifest.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:project_harness/manifest.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:project_harness/evidence.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:project_harness/evidence.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:project_harness/loop.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:project_harness/loop.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:project_harness/audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:project_harness/audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:project_harness/data_check.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:project_harness/data_check.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/data/audit_access_ledger.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/data/audit_access_ledger.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/data/history_contract.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/data/history_contract.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:src/kron_reduce/models/learned_latent.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:src/kron_reduce/models/learned_latent.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:pyproject.toml",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:pyproject.toml",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:configs/experiments/paper_kiki_a17_input_consistency.toml",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:configs/experiments/paper_kiki_a17_input_consistency.toml",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:configs/project_manifest.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:configs/project_manifest.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:configs/input_contracts.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:configs/input_contracts.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:configs/workflows/kiki_a17_input_consistency_v1.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:configs/workflows/kiki_a17_input_consistency_v1.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:docs/protocols/kiki_a17_development_authorization_20261025_zh.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:docs/protocols/kiki_a17_development_authorization_20261025_zh.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_commit:docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bound_worktree:docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/data/input_consistency_reader.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/workflows/kiki_input_consistency.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_checks.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_evidence.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_output_io.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_paths.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_plan.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_result_audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_seal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/input_consistency_sources.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_checks.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_composition.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_entry_guards.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_evidence.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_kernel.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_output_io.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_paths.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_plan.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_reader.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_result_audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_result_audit_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_seal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_sources.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_workflow.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_input_consistency_workflow_io.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_scoped_audit_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:tests/test_pm_impulse_durability.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:configs/proposals/kiki_a17_input_consistency_reads.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:configs/proposals/kiki_a17_input_consistency_compute.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:docs/research/kiki_a17_input_consistency/design_zh.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:requirements/constraints-py312.txt",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:.github/workflows/ci.yml",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/models/nonlinear_latent.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/models/causal_latent.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/physics/coordinates.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/history_metrics.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/evaluation/scoped_audit_journal.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/data/durable_audit_ledger.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/data/limited_npz_audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:project_harness/git_state.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:project_harness/policy.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:project_harness/runner.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:project_harness/manifest.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:project_harness/evidence.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:project_harness/loop.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:project_harness/audit.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:project_harness/data_check.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/data/audit_access_ledger.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/data/history_contract.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:src/kron_reduce/models/learned_latent.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "core_unchanged:pyproject.toml",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "control_sha:development_protocol_path",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "control_sha:design_path",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "control_sha:read_plan_path",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "control_sha:compute_plan_path",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "prior_policy_unchanged",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "prior_manifest_unchanged",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "prior_input_contracts_unchanged",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "history_contract",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "binding_count": 63,
+  "bindings": {
+    "src/kron_reduce/data/input_consistency_reader.py": {
+      "expected_sha256": "3bd291230bac1d4a0851d57bc2543ad6c72b7b9f91e9cc67eb7bab4a0ce9bb46",
+      "commit_blob_sha256": "3bd291230bac1d4a0851d57bc2543ad6c72b7b9f91e9cc67eb7bab4a0ce9bb46",
+      "worktree_sha256": "3bd291230bac1d4a0851d57bc2543ad6c72b7b9f91e9cc67eb7bab4a0ce9bb46",
+      "bytes": 27722
+    },
+    "src/kron_reduce/workflows/kiki_input_consistency.py": {
+      "expected_sha256": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d",
+      "commit_blob_sha256": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d",
+      "worktree_sha256": "65667aa68788292d34076515249a3819e6e40880fbed4945311e9245b40d042d",
+      "bytes": 44823
+    },
+    "src/kron_reduce/evaluation/input_consistency.py": {
+      "expected_sha256": "02698c2ddb1f6ce769c0cce526c3afe3d063c7d66116500b939c7eb862a5acad",
+      "commit_blob_sha256": "02698c2ddb1f6ce769c0cce526c3afe3d063c7d66116500b939c7eb862a5acad",
+      "worktree_sha256": "02698c2ddb1f6ce769c0cce526c3afe3d063c7d66116500b939c7eb862a5acad",
+      "bytes": 12255
+    },
+    "src/kron_reduce/evaluation/input_consistency_checks.py": {
+      "expected_sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+      "commit_blob_sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+      "worktree_sha256": "98a5a1f3a5e170826ce441a117834722abdd66e56673a07f4b39c15fe966436c",
+      "bytes": 14434
+    },
+    "src/kron_reduce/evaluation/input_consistency_evidence.py": {
+      "expected_sha256": "59a6852df552c8669f1b864736deb5fba3bec447b5dc74660eae9dca1523988b",
+      "commit_blob_sha256": "59a6852df552c8669f1b864736deb5fba3bec447b5dc74660eae9dca1523988b",
+      "worktree_sha256": "59a6852df552c8669f1b864736deb5fba3bec447b5dc74660eae9dca1523988b",
+      "bytes": 4606
+    },
+    "src/kron_reduce/evaluation/input_consistency_journal.py": {
+      "expected_sha256": "283de129fa1445feb048bd52d24d554bf4c740be41329594a3183e141e100bcb",
+      "commit_blob_sha256": "283de129fa1445feb048bd52d24d554bf4c740be41329594a3183e141e100bcb",
+      "worktree_sha256": "283de129fa1445feb048bd52d24d554bf4c740be41329594a3183e141e100bcb",
+      "bytes": 6121
+    },
+    "src/kron_reduce/evaluation/input_consistency_metrics.py": {
+      "expected_sha256": "e1e4b86f6d90c048c26697f6f8a8a4bf86e64c0577891279fbc6ddf249d6ee40",
+      "commit_blob_sha256": "e1e4b86f6d90c048c26697f6f8a8a4bf86e64c0577891279fbc6ddf249d6ee40",
+      "worktree_sha256": "e1e4b86f6d90c048c26697f6f8a8a4bf86e64c0577891279fbc6ddf249d6ee40",
+      "bytes": 8673
+    },
+    "src/kron_reduce/evaluation/input_consistency_output_io.py": {
+      "expected_sha256": "9a0bbe83959e5eedff471c4ce3b1bd667e3c369460e049e69bbe30b86ddf16a0",
+      "commit_blob_sha256": "9a0bbe83959e5eedff471c4ce3b1bd667e3c369460e049e69bbe30b86ddf16a0",
+      "worktree_sha256": "9a0bbe83959e5eedff471c4ce3b1bd667e3c369460e049e69bbe30b86ddf16a0",
+      "bytes": 28161
+    },
+    "src/kron_reduce/evaluation/input_consistency_paths.py": {
+      "expected_sha256": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be",
+      "commit_blob_sha256": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be",
+      "worktree_sha256": "544e75b12bf0b0e23e6d341dfb7158a499159dd3cb03dd98fdaebd685242d8be",
+      "bytes": 18099
+    },
+    "src/kron_reduce/evaluation/input_consistency_plan.py": {
+      "expected_sha256": "934cc8d550906d2fc4e9c30eee577e2df5ae30729d81d8b4071b1fd955c4dafe",
+      "commit_blob_sha256": "934cc8d550906d2fc4e9c30eee577e2df5ae30729d81d8b4071b1fd955c4dafe",
+      "worktree_sha256": "934cc8d550906d2fc4e9c30eee577e2df5ae30729d81d8b4071b1fd955c4dafe",
+      "bytes": 16717
+    },
+    "src/kron_reduce/evaluation/input_consistency_result_audit.py": {
+      "expected_sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+      "commit_blob_sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+      "worktree_sha256": "6159a1a6c38f7b2bb39be18670f4dc5da11246f0d1a96a86d626e7ce9199bc73",
+      "bytes": 93678
+    },
+    "src/kron_reduce/evaluation/input_consistency_seal.py": {
+      "expected_sha256": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e",
+      "commit_blob_sha256": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e",
+      "worktree_sha256": "106b0171c24b3b9850037bc2acdd42a9cadf12b16aaef9b87b87d408007eff9e",
+      "bytes": 12845
+    },
+    "src/kron_reduce/evaluation/input_consistency_sources.py": {
+      "expected_sha256": "075919b6cd65d0cdd694a32ed2736ca4aa718543223e5f768fb8b75cb280d73d",
+      "commit_blob_sha256": "075919b6cd65d0cdd694a32ed2736ca4aa718543223e5f768fb8b75cb280d73d",
+      "worktree_sha256": "075919b6cd65d0cdd694a32ed2736ca4aa718543223e5f768fb8b75cb280d73d",
+      "bytes": 28721
+    },
+    "tests/test_input_consistency_checks.py": {
+      "expected_sha256": "419afe95c28d52f6283e82e907c7d7186789e2ff170884fb0e3aeab6a34db171",
+      "commit_blob_sha256": "419afe95c28d52f6283e82e907c7d7186789e2ff170884fb0e3aeab6a34db171",
+      "worktree_sha256": "419afe95c28d52f6283e82e907c7d7186789e2ff170884fb0e3aeab6a34db171",
+      "bytes": 10245
+    },
+    "tests/test_input_consistency_composition.py": {
+      "expected_sha256": "34707f1c53d84651dc48b4aea0e5c05d2fde7522c6d1e51506b4985b19c799c4",
+      "commit_blob_sha256": "34707f1c53d84651dc48b4aea0e5c05d2fde7522c6d1e51506b4985b19c799c4",
+      "worktree_sha256": "34707f1c53d84651dc48b4aea0e5c05d2fde7522c6d1e51506b4985b19c799c4",
+      "bytes": 9708
+    },
+    "tests/test_input_consistency_entry_guards.py": {
+      "expected_sha256": "dbbf1260d2f29a64b43120aa4c2075585c24a4bcbb4d564e2af7b0a01ac9b12e",
+      "commit_blob_sha256": "dbbf1260d2f29a64b43120aa4c2075585c24a4bcbb4d564e2af7b0a01ac9b12e",
+      "worktree_sha256": "dbbf1260d2f29a64b43120aa4c2075585c24a4bcbb4d564e2af7b0a01ac9b12e",
+      "bytes": 2657
+    },
+    "tests/test_input_consistency_evidence.py": {
+      "expected_sha256": "88f9223219dccb525be16a8ffabfb5bd724941d7ab6bca6e4b5fe44b4ec36db7",
+      "commit_blob_sha256": "88f9223219dccb525be16a8ffabfb5bd724941d7ab6bca6e4b5fe44b4ec36db7",
+      "worktree_sha256": "88f9223219dccb525be16a8ffabfb5bd724941d7ab6bca6e4b5fe44b4ec36db7",
+      "bytes": 2702
+    },
+    "tests/test_input_consistency_journal.py": {
+      "expected_sha256": "d2735531416d339c53c3cb1ecc485bf1139bf29e9a2e47aff680a03a81fcdad1",
+      "commit_blob_sha256": "d2735531416d339c53c3cb1ecc485bf1139bf29e9a2e47aff680a03a81fcdad1",
+      "worktree_sha256": "d2735531416d339c53c3cb1ecc485bf1139bf29e9a2e47aff680a03a81fcdad1",
+      "bytes": 7318
+    },
+    "tests/test_input_consistency_kernel.py": {
+      "expected_sha256": "5b4159d19c0dcdabfe11f795bace6b92e297ee1a5d8868b09d7b155c2ea2ddce",
+      "commit_blob_sha256": "5b4159d19c0dcdabfe11f795bace6b92e297ee1a5d8868b09d7b155c2ea2ddce",
+      "worktree_sha256": "5b4159d19c0dcdabfe11f795bace6b92e297ee1a5d8868b09d7b155c2ea2ddce",
+      "bytes": 12951
+    },
+    "tests/test_input_consistency_metrics.py": {
+      "expected_sha256": "fbb607c2f5bad27def470d8bcaeb4faee9a7b427181b1d7b6fc22d7be0396a25",
+      "commit_blob_sha256": "fbb607c2f5bad27def470d8bcaeb4faee9a7b427181b1d7b6fc22d7be0396a25",
+      "worktree_sha256": "fbb607c2f5bad27def470d8bcaeb4faee9a7b427181b1d7b6fc22d7be0396a25",
+      "bytes": 7373
+    },
+    "tests/test_input_consistency_output_io.py": {
+      "expected_sha256": "aceb631c37bc4b8e9e261c5d983fa329bba2b54f82045f89b5a3879828f14f70",
+      "commit_blob_sha256": "aceb631c37bc4b8e9e261c5d983fa329bba2b54f82045f89b5a3879828f14f70",
+      "worktree_sha256": "aceb631c37bc4b8e9e261c5d983fa329bba2b54f82045f89b5a3879828f14f70",
+      "bytes": 13366
+    },
+    "tests/test_input_consistency_paths.py": {
+      "expected_sha256": "9cd66bfc1907a53a40e8dcf0b667764062993b8b215b69b53aef9b0fd575ae71",
+      "commit_blob_sha256": "9cd66bfc1907a53a40e8dcf0b667764062993b8b215b69b53aef9b0fd575ae71",
+      "worktree_sha256": "9cd66bfc1907a53a40e8dcf0b667764062993b8b215b69b53aef9b0fd575ae71",
+      "bytes": 21188
+    },
+    "tests/test_input_consistency_plan.py": {
+      "expected_sha256": "36e20a28df461f236af2e3c833f630951993e09dbe1e704fe5cbc59aa463e28c",
+      "commit_blob_sha256": "36e20a28df461f236af2e3c833f630951993e09dbe1e704fe5cbc59aa463e28c",
+      "worktree_sha256": "36e20a28df461f236af2e3c833f630951993e09dbe1e704fe5cbc59aa463e28c",
+      "bytes": 4743
+    },
+    "tests/test_input_consistency_reader.py": {
+      "expected_sha256": "76544b29eebc519d3e62069a339b148e11422e6e10c5e2c8df3df627a9fd9059",
+      "commit_blob_sha256": "76544b29eebc519d3e62069a339b148e11422e6e10c5e2c8df3df627a9fd9059",
+      "worktree_sha256": "76544b29eebc519d3e62069a339b148e11422e6e10c5e2c8df3df627a9fd9059",
+      "bytes": 37610
+    },
+    "tests/test_input_consistency_result_audit.py": {
+      "expected_sha256": "ad4b28779fc4d5037406baf84648ce7adda5ea3891c8b06cfeda6acdc9302a8f",
+      "commit_blob_sha256": "ad4b28779fc4d5037406baf84648ce7adda5ea3891c8b06cfeda6acdc9302a8f",
+      "worktree_sha256": "ad4b28779fc4d5037406baf84648ce7adda5ea3891c8b06cfeda6acdc9302a8f",
+      "bytes": 46164
+    },
+    "tests/test_input_consistency_result_audit_metrics.py": {
+      "expected_sha256": "228833044fd1b32e62fbcd8d746cf520fa4ac59bead61c99bed816148c339138",
+      "commit_blob_sha256": "228833044fd1b32e62fbcd8d746cf520fa4ac59bead61c99bed816148c339138",
+      "worktree_sha256": "228833044fd1b32e62fbcd8d746cf520fa4ac59bead61c99bed816148c339138",
+      "bytes": 13783
+    },
+    "tests/test_input_consistency_seal.py": {
+      "expected_sha256": "c5e08f39570e1831795c096ed1ca17296d41da71ca0ce6108537fb5b98020458",
+      "commit_blob_sha256": "c5e08f39570e1831795c096ed1ca17296d41da71ca0ce6108537fb5b98020458",
+      "worktree_sha256": "c5e08f39570e1831795c096ed1ca17296d41da71ca0ce6108537fb5b98020458",
+      "bytes": 13074
+    },
+    "tests/test_input_consistency_sources.py": {
+      "expected_sha256": "ef9119c555bd50fecb66dfc8ea16cf4b97e901ca33c73c696fc923f72ff831cf",
+      "commit_blob_sha256": "ef9119c555bd50fecb66dfc8ea16cf4b97e901ca33c73c696fc923f72ff831cf",
+      "worktree_sha256": "ef9119c555bd50fecb66dfc8ea16cf4b97e901ca33c73c696fc923f72ff831cf",
+      "bytes": 15610
+    },
+    "tests/test_input_consistency_workflow.py": {
+      "expected_sha256": "79698401368b106f0b5a814268b5347d4ce75c57a1eb2ba77a204fe01c7b435e",
+      "commit_blob_sha256": "79698401368b106f0b5a814268b5347d4ce75c57a1eb2ba77a204fe01c7b435e",
+      "worktree_sha256": "79698401368b106f0b5a814268b5347d4ce75c57a1eb2ba77a204fe01c7b435e",
+      "bytes": 12285
+    },
+    "tests/test_input_consistency_workflow_io.py": {
+      "expected_sha256": "971b9c7440e5f0045fddb71c323487847ff34df5625604e10fb90e6c3cc9c6f7",
+      "commit_blob_sha256": "971b9c7440e5f0045fddb71c323487847ff34df5625604e10fb90e6c3cc9c6f7",
+      "worktree_sha256": "971b9c7440e5f0045fddb71c323487847ff34df5625604e10fb90e6c3cc9c6f7",
+      "bytes": 15407
+    },
+    "tests/test_scoped_audit_journal.py": {
+      "expected_sha256": "4c9c65ef2af108cacbad447cdc63a62ff61fbd0fbbc11a8f993cbfdcc818114e",
+      "commit_blob_sha256": "4c9c65ef2af108cacbad447cdc63a62ff61fbd0fbbc11a8f993cbfdcc818114e",
+      "worktree_sha256": "4c9c65ef2af108cacbad447cdc63a62ff61fbd0fbbc11a8f993cbfdcc818114e",
+      "bytes": 9368
+    },
+    "tests/test_pm_impulse_durability.py": {
+      "expected_sha256": "defa99f378088cc866b2def6e06727276de11ae123f47e686e58565bcda69fc1",
+      "commit_blob_sha256": "defa99f378088cc866b2def6e06727276de11ae123f47e686e58565bcda69fc1",
+      "worktree_sha256": "defa99f378088cc866b2def6e06727276de11ae123f47e686e58565bcda69fc1",
+      "bytes": 9117
+    },
+    "configs/proposals/kiki_a17_input_consistency_reads.json": {
+      "expected_sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+      "commit_blob_sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+      "worktree_sha256": "ee8a7aa51b6baf1da8be5f3671956a31590ddd659ccfbc307d5c5f60c641076a",
+      "bytes": 9568107
+    },
+    "configs/proposals/kiki_a17_input_consistency_compute.json": {
+      "expected_sha256": "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582",
+      "commit_blob_sha256": "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582",
+      "worktree_sha256": "efa025a251783804d555970152a4e62e3245a5457c6d6746d3a57bc6c3659582",
+      "bytes": 7697885
+    },
+    "docs/research/kiki_a17_input_consistency/design_zh.md": {
+      "expected_sha256": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
+      "commit_blob_sha256": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
+      "worktree_sha256": "61d50be6cc1a480cabf2ded798a152ef152c716a9b7103ab2ff1462a9cfc609d",
+      "bytes": 24121
+    },
+    "requirements/constraints-py312.txt": {
+      "expected_sha256": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+      "commit_blob_sha256": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+      "worktree_sha256": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+      "bytes": 265
+    },
+    ".github/workflows/ci.yml": {
+      "expected_sha256": "2c82d0daf43c71f463ca70f2b968226fbdcae31c02cd4e2aac2cc331ad7f5e05",
+      "commit_blob_sha256": "2c82d0daf43c71f463ca70f2b968226fbdcae31c02cd4e2aac2cc331ad7f5e05",
+      "worktree_sha256": "2c82d0daf43c71f463ca70f2b968226fbdcae31c02cd4e2aac2cc331ad7f5e05",
+      "bytes": 8724
+    },
+    "src/kron_reduce/models/nonlinear_latent.py": {
+      "expected_sha256": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+      "commit_blob_sha256": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+      "worktree_sha256": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+      "bytes": 55295
+    },
+    "src/kron_reduce/models/causal_latent.py": {
+      "expected_sha256": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+      "commit_blob_sha256": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+      "worktree_sha256": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+      "bytes": 13234
+    },
+    "src/kron_reduce/physics/coordinates.py": {
+      "expected_sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+      "commit_blob_sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+      "worktree_sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+      "bytes": 1759
+    },
+    "src/kron_reduce/evaluation/history_metrics.py": {
+      "expected_sha256": "7bd641bae5b66dcb76445615c722cce17bc23f7bace679a4fd3e80197313c9bc",
+      "commit_blob_sha256": "7bd641bae5b66dcb76445615c722cce17bc23f7bace679a4fd3e80197313c9bc",
+      "worktree_sha256": "7bd641bae5b66dcb76445615c722cce17bc23f7bace679a4fd3e80197313c9bc",
+      "bytes": 5921
+    },
+    "src/kron_reduce/evaluation/scoped_audit_journal.py": {
+      "expected_sha256": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+      "commit_blob_sha256": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+      "worktree_sha256": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+      "bytes": 15274
+    },
+    "src/kron_reduce/data/durable_audit_ledger.py": {
+      "expected_sha256": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+      "commit_blob_sha256": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+      "worktree_sha256": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+      "bytes": 9551
+    },
+    "src/kron_reduce/data/limited_npz_audit.py": {
+      "expected_sha256": "e96e939f9b7df72a4895906ca444e3c85c3bcd144360b413ba201ad5c1e57031",
+      "commit_blob_sha256": "e96e939f9b7df72a4895906ca444e3c85c3bcd144360b413ba201ad5c1e57031",
+      "worktree_sha256": "e96e939f9b7df72a4895906ca444e3c85c3bcd144360b413ba201ad5c1e57031",
+      "bytes": 17334
+    },
+    "project_harness/git_state.py": {
+      "expected_sha256": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+      "commit_blob_sha256": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+      "worktree_sha256": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+      "bytes": 3401
+    },
+    "project_harness/policy.py": {
+      "expected_sha256": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+      "commit_blob_sha256": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+      "worktree_sha256": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+      "bytes": 3815
+    },
+    "project_harness/runner.py": {
+      "expected_sha256": "051aecfe5fd39d74bed9703e2d3b4649c1816f8af9a9e2b4322b1a67f5cd3662",
+      "commit_blob_sha256": "051aecfe5fd39d74bed9703e2d3b4649c1816f8af9a9e2b4322b1a67f5cd3662",
+      "worktree_sha256": "051aecfe5fd39d74bed9703e2d3b4649c1816f8af9a9e2b4322b1a67f5cd3662",
+      "bytes": 9232
+    },
+    "project_harness/manifest.py": {
+      "expected_sha256": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+      "commit_blob_sha256": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+      "worktree_sha256": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+      "bytes": 466
+    },
+    "project_harness/evidence.py": {
+      "expected_sha256": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+      "commit_blob_sha256": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+      "worktree_sha256": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+      "bytes": 20152
+    },
+    "project_harness/loop.py": {
+      "expected_sha256": "f8e214696d6392f8b2200af6b8972b29b5966a791695612b53bc29d70a2de090",
+      "commit_blob_sha256": "f8e214696d6392f8b2200af6b8972b29b5966a791695612b53bc29d70a2de090",
+      "worktree_sha256": "f8e214696d6392f8b2200af6b8972b29b5966a791695612b53bc29d70a2de090",
+      "bytes": 6651
+    },
+    "project_harness/audit.py": {
+      "expected_sha256": "6b655a46be91a1aeeba422b025b0b30e3e9352518ea206652c0bc5e2b5c79e97",
+      "commit_blob_sha256": "6b655a46be91a1aeeba422b025b0b30e3e9352518ea206652c0bc5e2b5c79e97",
+      "worktree_sha256": "6b655a46be91a1aeeba422b025b0b30e3e9352518ea206652c0bc5e2b5c79e97",
+      "bytes": 26637
+    },
+    "project_harness/data_check.py": {
+      "expected_sha256": "2ac5412637dc6ec9039a78329a22b1cef09a497304f5a8e61ed7900120504947",
+      "commit_blob_sha256": "2ac5412637dc6ec9039a78329a22b1cef09a497304f5a8e61ed7900120504947",
+      "worktree_sha256": "2ac5412637dc6ec9039a78329a22b1cef09a497304f5a8e61ed7900120504947",
+      "bytes": 6642
+    },
+    "src/kron_reduce/data/audit_access_ledger.py": {
+      "expected_sha256": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+      "commit_blob_sha256": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+      "worktree_sha256": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+      "bytes": 15166
+    },
+    "src/kron_reduce/data/history_contract.py": {
+      "expected_sha256": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+      "commit_blob_sha256": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+      "worktree_sha256": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+      "bytes": 1515
+    },
+    "src/kron_reduce/models/learned_latent.py": {
+      "expected_sha256": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+      "commit_blob_sha256": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+      "worktree_sha256": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+      "bytes": 20199
+    },
+    "pyproject.toml": {
+      "expected_sha256": "d0eb909ca05c392f8b1e2e069ab1a119193ba552f84fa1da3915e0182dabc32e",
+      "commit_blob_sha256": "d0eb909ca05c392f8b1e2e069ab1a119193ba552f84fa1da3915e0182dabc32e",
+      "worktree_sha256": "d0eb909ca05c392f8b1e2e069ab1a119193ba552f84fa1da3915e0182dabc32e",
+      "bytes": 788
+    },
+    "configs/experiments/paper_kiki_a17_input_consistency.toml": {
+      "expected_sha256": "a2b76b991ab2bd3b39ec9e7f80457b450a693e983cc13304a916ececf24c9dc7",
+      "commit_blob_sha256": "a2b76b991ab2bd3b39ec9e7f80457b450a693e983cc13304a916ececf24c9dc7",
+      "worktree_sha256": "a2b76b991ab2bd3b39ec9e7f80457b450a693e983cc13304a916ececf24c9dc7",
+      "bytes": 1693
+    },
+    "configs/project_manifest.json": {
+      "expected_sha256": "32a0e41e59fe9dc69d5f9cf3f54016419599fb265eb49cb4c49ea107c9a31586",
+      "commit_blob_sha256": "32a0e41e59fe9dc69d5f9cf3f54016419599fb265eb49cb4c49ea107c9a31586",
+      "worktree_sha256": "32a0e41e59fe9dc69d5f9cf3f54016419599fb265eb49cb4c49ea107c9a31586",
+      "bytes": 87096
+    },
+    "configs/input_contracts.json": {
+      "expected_sha256": "a3100031798df5b5a9255774ae4052f89c4d286eea1c7b7ebc85da09b7fca727",
+      "commit_blob_sha256": "a3100031798df5b5a9255774ae4052f89c4d286eea1c7b7ebc85da09b7fca727",
+      "worktree_sha256": "a3100031798df5b5a9255774ae4052f89c4d286eea1c7b7ebc85da09b7fca727",
+      "bytes": 1858
+    },
+    "configs/workflows/kiki_a17_input_consistency_v1.json": {
+      "expected_sha256": "123cefa69c0ea0ba4ac0b16d3c6bf7c752b1c3e08f5df710686215936508d90a",
+      "commit_blob_sha256": "123cefa69c0ea0ba4ac0b16d3c6bf7c752b1c3e08f5df710686215936508d90a",
+      "worktree_sha256": "123cefa69c0ea0ba4ac0b16d3c6bf7c752b1c3e08f5df710686215936508d90a",
+      "bytes": 3911
+    },
+    "docs/protocols/kiki_a17_development_authorization_20261025_zh.md": {
+      "expected_sha256": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+      "commit_blob_sha256": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+      "worktree_sha256": "f64b2eaa17bb48637d06d222d00b05ebb62ee30be85eabcfa92e2e60c54f76ae",
+      "bytes": 7269
+    },
+    "docs/research/kiki_a17_input_consistency/whole_implementation_review_zh.md": {
+      "expected_sha256": "d16b02a724972f4d6d4c2186ff52fa83ac8293323c661def49931e7a70368508",
+      "commit_blob_sha256": "d16b02a724972f4d6d4c2186ff52fa83ac8293323c661def49931e7a70368508",
+      "worktree_sha256": "d16b02a724972f4d6d4c2186ff52fa83ac8293323c661def49931e7a70368508",
+      "bytes": 11086
+    },
+    "docs/research/kiki_a17_input_consistency/whole_implementation_review_bindings.json": {
+      "expected_sha256": "88b540e28a50f74440bee5769a43d3d684a25fc9b0d2cf7b1377b0549aa307f0",
+      "commit_blob_sha256": "88b540e28a50f74440bee5769a43d3d684a25fc9b0d2cf7b1377b0549aa307f0",
+      "worktree_sha256": "88b540e28a50f74440bee5769a43d3d684a25fc9b0d2cf7b1377b0549aa307f0",
+      "bytes": 21195
+    }
+  },
+  "context_snapshots": {
+    "configs/research_policy.json": {
+      "sha256": "7a99cf554e2eca529e2b6da1d6e52fd46f8d58983ed339b067a31e9cf2a6061b",
+      "bytes": 68721
+    },
+    "AGENTS.md": {
+      "sha256": "3449657fb5b04f9805b0647cf155f81bb6fabac1f668ee0deadac41a9cf11ee0",
+      "bytes": 20752
+    },
+    ".gitattributes": {
+      "sha256": "afeb125f58a975ff7d558ddace1dc19721070eeb2e2003859ea72778932e9b57",
+      "bytes": 6102
+    },
+    "docs/research/kiki_a17_input_consistency/registration_metadata_validation_v1.json": {
+      "sha256": "4d542ede691ba71beafcc7e78355b7e0303ae155309835a072f539a54c93583e",
+      "bytes": 716
+    },
+    "docs/research/kiki_a17_input_consistency/runtime_import_provenance_v1.json": {
+      "sha256": "9455ad496926259112906e51a5bc67a12c8735aafea0a45521625b1e94923e5f",
+      "bytes": 22522
+    }
+  },
+  "activity": {
+    "production_edits": 0,
+    "real_payload_reads_or_hashes": 0,
+    "models_ls_rhs_fits": 0,
+    "policy_activation": false,
+    "budget_consumption": false
+  }
+}
