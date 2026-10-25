@@ -1,0 +1,227 @@
+{
+  "kind": "A16_final_implementation_validation",
+  "date": "2026-10-25",
+  "authorization_status": "implementation_review_pending",
+  "initial_validation": {
+    "path": "docs/research/kiki_a16_pm_impulse/implementation_validation.json",
+    "size_bytes": 8969,
+    "sha256": "5b00de51e8caf1799b98592a6e42e299baec809872e6fab80ea7e28243221c4d"
+  },
+  "source_bindings": [
+    {
+      "path": "src/kron_reduce/data/pm_impulse_reader.py",
+      "size_bytes": 18651,
+      "sha256": "5242b436b506c30595acc51292c50b3082d5c8494e0b4eb383f12cf08f9bb77b"
+    },
+    {
+      "path": "src/kron_reduce/evaluation/pm_impulse_audit.py",
+      "size_bytes": 22908,
+      "sha256": "776d449e7c60c949e3f8e137f0331f51a8c0db691fdfa70dddc8c099df439112"
+    },
+    {
+      "path": "src/kron_reduce/workflows/kiki_pm_impulse_audit.py",
+      "size_bytes": 29199,
+      "sha256": "8e1b8c2e278ffc2be0b0d81057399bca44826f8419c6d621f12d2279c6bce60d"
+    },
+    {
+      "path": "tests/test_pm_impulse_reader.py",
+      "size_bytes": 10141,
+      "sha256": "2673eb3bbfc7adee4247f62bdb651bff60ed33cb1afd0065d9839b0e96da2162"
+    },
+    {
+      "path": "tests/test_pm_impulse_audit.py",
+      "size_bytes": 14838,
+      "sha256": "75089a3ba705dfaf8a1c1a3b790eea794bc89b75b2a5d260e3cb2f69c0c334ed"
+    },
+    {
+      "path": "tests/test_pm_impulse_workflow.py",
+      "size_bytes": 11901,
+      "sha256": "d3cf17e1a0853fc966c48804aca6f302f8e397220c06f64e625203099bab2749"
+    },
+    {
+      "path": "src/kron_reduce/data/durable_audit_ledger.py",
+      "size_bytes": 9551,
+      "sha256": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943"
+    },
+    {
+      "path": "src/kron_reduce/data/limited_npz_audit.py",
+      "size_bytes": 17334,
+      "sha256": "e96e939f9b7df72a4895906ca444e3c85c3bcd144360b413ba201ad5c1e57031"
+    },
+    {
+      "path": "src/kron_reduce/data/limited_hdf_audit.py",
+      "size_bytes": 22778,
+      "sha256": "4d1125da99e47cb43653b8ca39689f696e24e13994ae3df8c78c896f96f035e0"
+    },
+    {
+      "path": "src/kron_reduce/workflows/kiki_record20_input_audit.py",
+      "size_bytes": 29893,
+      "sha256": "79f0cf267c623a39f4769490a5352e694cc5c8cea42ab3fdc979a977e420d3b3"
+    },
+    {
+      "path": "src/kron_reduce/physics/coordinates.py",
+      "size_bytes": 1759,
+      "sha256": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089"
+    },
+    {
+      "path": "src/kron_reduce/data/kiki_history.py",
+      "size_bytes": 10633,
+      "sha256": "c9bed1a04f6c924976a3799cfb9cc5e558954c61c8d97bd0e76eb726e2ab715a"
+    },
+    {
+      "path": "project_harness/runner.py",
+      "size_bytes": 9232,
+      "sha256": "051aecfe5fd39d74bed9703e2d3b4649c1816f8af9a9e2b4322b1a67f5cd3662"
+    },
+    {
+      "path": "project_harness/evidence.py",
+      "size_bytes": 20152,
+      "sha256": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae"
+    },
+    {
+      "path": "project_harness/git_state.py",
+      "size_bytes": 3401,
+      "sha256": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6"
+    },
+    {
+      "path": "project_harness/policy.py",
+      "size_bytes": 3815,
+      "sha256": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150"
+    },
+    {
+      "path": "project_harness/manifest.py",
+      "size_bytes": 466,
+      "sha256": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea"
+    },
+    {
+      "path": "requirements/constraints-py312.txt",
+      "size_bytes": 265,
+      "sha256": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "size_bytes": 6090,
+      "sha256": "05aaded555dd76a8e9cbba778ebcca2c086368f60c464acfc537d970bdf4980b"
+    },
+    {
+      "path": "tests/test_pm_impulse_durability.py",
+      "size_bytes": 9117,
+      "sha256": "defa99f378088cc866b2def6e06727276de11ae123f47e686e58565bcda69fc1"
+    }
+  ],
+  "tests": 63,
+  "test_status": "PASS",
+  "ruff_status": "PASS",
+  "runtime": "scratch/runtime/a07-py312/Scripts/python.exe; Python 3.12.14; unchanged constrained environment",
+  "test_log": {
+    "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/pytest-final63.log",
+    "size_bytes": 102,
+    "sha256": "37a144a844fc497fb10d03a8177a7aebd04f8e606af4f0764f214de25130ef64"
+  },
+  "ruff_log": {
+    "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/ruff-final.log",
+    "size_bytes": 20,
+    "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+  },
+  "new_native_fsync_regressions": {
+    "tests": 8,
+    "test_file": {
+      "path": "tests/test_pm_impulse_durability.py",
+      "size_bytes": 9117,
+      "sha256": "defa99f378088cc866b2def6e06727276de11ae123f47e686e58565bcda69fc1"
+    },
+    "targeted_log": {
+      "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/new-durability-review01/pytest.log",
+      "size_bytes": 100,
+      "sha256": "1c37dfd25a4c83403b863d33ed5bf8ef88584ab1876cc4f6c287f187d6567808"
+    },
+    "cases": [
+      "reservation fsync before kernel",
+      "NPZ and JSON output fsync",
+      "close journal fsync before publishing row",
+      "descriptor/array attempt fsync before payload",
+      "native-fsync successful source and slot",
+      "actual kernel overflow closes safely and later independent scopes continue",
+      "failed-slot original weight retained; no complete-population metric"
+    ]
+  },
+  "successful_path_inheritance": {
+    "source_commit": "680f671ddfd008e00865d9032c8324ea0ae63b14",
+    "full_functional_execution": {
+      "receipt": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/full-synthetic-run2.execution.json",
+        "size_bytes": 2050,
+        "sha256": "49782fb7aed3bb6ec128d953f52e77773a39ca8b7e70d7434f51b8563d40f034"
+      },
+      "source_bindings": {
+        "src/kron_reduce/data/pm_impulse_reader.py": "b156656517d8443ced28c81dcb64f96acf285f07d192a9bcfc3ea75c4820dbba",
+        "src/kron_reduce/evaluation/pm_impulse_audit.py": "776d449e7c60c949e3f8e137f0331f51a8c0db691fdfa70dddc8c099df439112",
+        "src/kron_reduce/workflows/kiki_pm_impulse_audit.py": "80924d9f0053f66a0458e3b3718925d9e5d3998b359a091b4c320fdeb9079664"
+      },
+      "elapsed_seconds": 145.0,
+      "artifact_manifest_sha256": "7a6d7737419bdc38efbf573583f07a1dec1e0b8437dd23c27db172da8daf60cd",
+      "npz_files": 778,
+      "selected_members": 6978,
+      "metadata_files": 783,
+      "hdf_files": 2,
+      "logical_array_elements": 533480,
+      "core_scopes": 1037,
+      "seed_event_slots": 774,
+      "fsync_counts": {
+        "attempted": 40444,
+        "returned": 40444
+      },
+      "os_fsync_instrumented": true,
+      "os_crash_durability_acceptance": false,
+      "generator": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/build_full_synthetic.py",
+        "size_bytes": 15956,
+        "sha256": "1915d4c811aa1f455a1b1892481233fb9bc0447c15e6226bb774c6f6d29bbc1f"
+      },
+      "driver": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/run_full_synthetic_instrumented.py",
+        "size_bytes": 3156,
+        "sha256": "ae2dd0e97443f08037174bc602810b08bd1784a33ee8a1ef84ef3ca68a51d878"
+      },
+      "fixture_plan": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/fixture-v1/fixture_plan.json",
+        "size_bytes": 1793044,
+        "sha256": "4e43738001095b3753976804bc4dc81b8290c61f91b6b7fac4eb520540a14a4f"
+      }
+    },
+    "independent_fraction_audit": {
+      "receipt": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/full-synthetic-run2.audit.json",
+        "size_bytes": 557,
+        "sha256": "99620fbdf9949c3e3619ad598bc3ac8599b9342ecf77c52bce9c9356e41a8ed7"
+      },
+      "program": {
+        "path": "scratch/one_off/kiki-a16-pm-impulse-20261024/audit_full_synthetic.py",
+        "size_bytes": 5638,
+        "sha256": "aaa965d09d02fe1f15be0a8db85a1607acf7064fa8272e60d98c13e526f610ac"
+      },
+      "checks": 50253,
+      "slot_fraction_oracles": 774,
+      "aggregate_fraction_oracles": 3,
+      "status": "PASS"
+    },
+    "no_repeated_774_slot_execution": true,
+    "review_basis": "Astra Ultra reviewed the restricted diff: two object-level exception poison wrappers and JSON-safe nonfinite count encoding; no kernel, successful arithmetic sequence, counts or finite outputs changed."
+  },
+  "conservative_failure_semantics": "Sensitivity-bound overflow is numerical_failure/complete=false; the original slot and its weight remain. No fallback or additional algebra.",
+  "initial_commit_ci": {
+    "head": "680f671ddfd008e00865d9032c8324ea0ae63b14",
+    "push_run": 40153004017,
+    "pull_request_run": 40153134628,
+    "both_conclusions": "success",
+    "new_commit_ci_required_before_real_execution": true
+  },
+  "real_payload_decodes": 0,
+  "real_source_hashes": 0,
+  "real_campaign_budget_consumed": false,
+  "model_constructions": 0,
+  "fits": 0,
+  "rhs": 0,
+  "integrated_scientific_approval": false,
+  "new_missed_instability_result_established": false
+}

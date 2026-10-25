@@ -27,3 +27,13 @@ docs/research/kiki_a14_integral_history/kernel_api_and_validation_zh.md -text
 
 # Preserve the frozen A13 synthetic arithmetic reference byte-for-byte.
 tests/fixtures/integral_reference.py -text
+
+# Keep Astra's exact A16 approval and original/portable binding records.
+docs/research/kiki_a16_pm_impulse/astra_final_implementation_review_zh.md -text
+docs/research/kiki_a16_pm_impulse/bindings.json -text
+docs/research/kiki_a16_pm_impulse/bindings_original.json -text
+docs/research/kiki_a16_pm_impulse/astra_a16_result_review_zh.md -text
+docs/research/kiki_a16_pm_impulse/result_review_bindings.json -text
+docs/research/kiki_a16_pm_impulse/astra_next_closed_loop_theory_zh.md -text
+docs/research/kiki_a16_pm_impulse/astra_a16_next_input_control_draft_zh.md -text
+docs/research/kiki_a16_pm_impulse/astra_cq_energy_barrier_addendum_zh.md -text

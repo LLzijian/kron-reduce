@@ -276,3 +276,29 @@ Astra accepted the history mechanism and engineering main integration.
 Do not rerun A14 or change the default deployment initializer. No future
 trajectory, label or new FNR result was evaluated; KEEP_BASELINE applies.
 Further comparisons require independent registration and Astra approval.
+
+A15 completed with REJECT and KEEP_BASELINE: V passed, I and D failed.
+Its unique 1548 future paths/5629014 RHS and all results are archived on
+`codex/kiki-a15-future-transfer` at
+`5ac8b571751467f677fb569df3c0a1f4c323d065`; PR 13 is closed without merge.
+The authority remains consumed. Do not repeat its scientific execution or
+import its rejected initializer into main. The active policy records its
+archive identity; any independent engineering extraction needs its own review.
+
+A16 is separately registered under `kiki_a16_development_20261025` for one
+bounded train-history power diagnostic. Astra Ultra approved the exact
+implementation and bindings on 2026-10-25; the active policy records the review.
+Only its dedicated CLI may execute after the activation commit is pushed,
+clean and passes CI. Keep the frozen 258 train events/774 slots, finite reads
+and scalar budgets; zero models/fits/RHS/new states/future/labels/val/test.
+The shared budget is spent before source reads, without retry or resume.
+Results remain uncertified history evidence with KEEP_BASELINE and establish
+no new missed-instability result or model promotion.
+
+A16 has completed once and its authorization is consumed, bound to its immutable
+run, 774 completed slots, 1037 core scopes and two independent saved-result
+audits. The fixed history equation responds to the input correction, while
+holding the old state increases both registered residual measures. No new
+state, fit, future prediction or missed-instability metric was produced.
+Do not rerun A16. KEEP_BASELINE applies; input-consistency controls or C(q)
+training require their own registration and exact scientific approval.
