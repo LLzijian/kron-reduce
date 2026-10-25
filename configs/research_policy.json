@@ -867,7 +867,7 @@
       "labels_allowed": false,
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false,
-      "status": "implementation_review_pending",
+      "status": "user_approved",
       "authority": "explicit_user_reply",
       "approval_text": "继续改进算法和设计，一定要降到0，持续工作，得到最终结果后向我汇报",
       "authorization_scope": "Independently bounded train-only A16 diagnostic; not automatic training until pass.",
@@ -879,9 +879,30 @@
       "stage": "input_impulse",
       "dataset": "kiki_ieee39_v1",
       "module": "kron_reduce.workflows.kiki_pm_impulse_audit",
-      "scientific_review_path": "PENDING",
-      "scientific_review_sha256": "PENDING",
-      "implementation_bindings": {},
+      "scientific_review_path": "docs/research/kiki_a16_pm_impulse/astra_final_implementation_review_zh.md",
+      "scientific_review_sha256": "8a3889fe15c4ceb53d882bf2dac39e7821f2e3ced55fc3561e13a6b6256feb0e",
+      "implementation_bindings": {
+        "src/kron_reduce/data/pm_impulse_reader.py": "5242b436b506c30595acc51292c50b3082d5c8494e0b4eb383f12cf08f9bb77b",
+        "src/kron_reduce/evaluation/pm_impulse_audit.py": "776d449e7c60c949e3f8e137f0331f51a8c0db691fdfa70dddc8c099df439112",
+        "src/kron_reduce/workflows/kiki_pm_impulse_audit.py": "8e1b8c2e278ffc2be0b0d81057399bca44826f8419c6d621f12d2279c6bce60d",
+        "tests/test_pm_impulse_reader.py": "2673eb3bbfc7adee4247f62bdb651bff60ed33cb1afd0065d9839b0e96da2162",
+        "tests/test_pm_impulse_audit.py": "75089a3ba705dfaf8a1c1a3b790eea794bc89b75b2a5d260e3cb2f69c0c334ed",
+        "tests/test_pm_impulse_workflow.py": "d3cf17e1a0853fc966c48804aca6f302f8e397220c06f64e625203099bab2749",
+        "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+        "src/kron_reduce/data/limited_npz_audit.py": "e96e939f9b7df72a4895906ca444e3c85c3bcd144360b413ba201ad5c1e57031",
+        "src/kron_reduce/data/limited_hdf_audit.py": "4d1125da99e47cb43653b8ca39689f696e24e13994ae3df8c78c896f96f035e0",
+        "src/kron_reduce/workflows/kiki_record20_input_audit.py": "79f0cf267c623a39f4769490a5352e694cc5c8cea42ab3fdc979a977e420d3b3",
+        "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+        "src/kron_reduce/data/kiki_history.py": "c9bed1a04f6c924976a3799cfb9cc5e558954c61c8d97bd0e76eb726e2ab715a",
+        "project_harness/runner.py": "051aecfe5fd39d74bed9703e2d3b4649c1816f8af9a9e2b4322b1a67f5cd3662",
+        "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+        "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+        "project_harness/policy.py": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+        "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+        "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+        ".github/workflows/ci.yml": "05aaded555dd76a8e9cbba778ebcca2c086368f60c464acfc537d970bdf4980b",
+        "tests/test_pm_impulse_durability.py": "defa99f378088cc866b2def6e06727276de11ae123f47e686e58565bcda69fc1"
+      },
       "proposed_implementation_bindings": {
         "src/kron_reduce/data/pm_impulse_reader.py": "5242b436b506c30595acc51292c50b3082d5c8494e0b4eb383f12cf08f9bb77b",
         "src/kron_reduce/evaluation/pm_impulse_audit.py": "776d449e7c60c949e3f8e137f0331f51a8c0db691fdfa70dddc8c099df439112",
@@ -905,7 +926,12 @@
         "tests/test_pm_impulse_durability.py": "defa99f378088cc866b2def6e06727276de11ae123f47e686e58565bcda69fc1"
       },
       "implementation_validation_path": "docs/research/kiki_a16_pm_impulse/implementation_validation_v2.json",
-      "implementation_validation_sha256": "29ce8fd866a405ecfc14819916b62d8f7afe6e1631f5abcc2390ca78220b919a"
+      "implementation_validation_sha256": "29ce8fd866a405ecfc14819916b62d8f7afe6e1631f5abcc2390ca78220b919a",
+      "scientific_bindings_path": "docs/research/kiki_a16_pm_impulse/bindings.json",
+      "scientific_bindings_sha256": "9fd850b47718888a5b4e378739246d60b2d48540a0cfff01ae9f7392729f6c8f",
+      "scientific_reviewed_commit": "4adb51091233761abf9f1724b5ee90669a7463a4",
+      "successful_path_evidence_inheritance_approved": true,
+      "actual_execution_commit_ci_required": true
     }
   },
   "archived_development_results": {

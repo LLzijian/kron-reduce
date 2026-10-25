@@ -285,10 +285,12 @@ The authority remains consumed. Do not repeat its scientific execution or
 import its rejected initializer into main. The active policy records its
 archive identity; any independent engineering extraction needs its own review.
 
-A16 is prepared as a separately bounded history-power diagnostic under
-`kiki_a16_development_20261025`. Its policy status remains
-`implementation_review_pending`: the numerical kernel has synthetic evidence,
-but final integrated implementation approval by Astra Ultra is outstanding.
-Do not activate its authorization, read/hash real source payloads, consume its
-shared campaign budget, or infer a new missed-instability result before that
-review. Engineering tests and explicitly synthetic fixtures may proceed.
+A16 is separately registered under `kiki_a16_development_20261025` for one
+bounded train-history power diagnostic. Astra Ultra approved the exact
+implementation and bindings on 2026-10-25; the active policy records the review.
+Only its dedicated CLI may execute after the activation commit is pushed,
+clean and passes CI. Keep the frozen 258 train events/774 slots, finite reads
+and scalar budgets; zero models/fits/RHS/new states/future/labels/val/test.
+The shared budget is spent before source reads, without retry or resume.
+Results remain uncertified history evidence with KEEP_BASELINE and establish
+no new missed-instability result or model promotion.
