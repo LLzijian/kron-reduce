@@ -35,6 +35,8 @@ from its directory policy README. `project_harness audit` enforces this boundary
 not contain scientific model logic. `src/kron_reduce` contains the scientific
 implementation and must not contain task numbers or result-directory constants.
 
+## Workflow execution
+
 The loop is a command-driven state machine. `configs/workflows/` defines stages,
 evidence contracts, and verdict routes. `configs/project_manifest.json` binds
 experiments to their implementation and workflow. `configs/research_policy.json`
@@ -52,6 +54,24 @@ draws on DVC experiment tracking and Nextflow run logs.
 [Snakemake layout](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html)
 · [DVC experiment tracking](https://doc.dvc.org/user-guide/experiment-management)
 · [Nextflow run reports](https://docs.seqera.io/nextflow/reports/)
+
+### Engineering task allocation
+
+The coordinating agent splits work into tasks with clear file ownership,
+deliverables and acceptance checks. Assign independent, straightforward work
+to the least costly capable subagent. Use Luna when available for scoped
+edits, fixture tests and read-only checks. Provide the context each task needs and
+run independent tasks in parallel when their changes can be reviewed separately.
+Keep trivial or tightly coupled steps together when a handoff would cost more
+than the work itself.
+
+Astra Ultra handles core algorithm design and scientific acceptance or boundary
+decisions. The coordinating agent reviews returned changes and evidence, runs
+integration checks, and owns Git integration and gated workflow transitions.
+Task allocation happens at the coordination layer. The runtime loop advances
+through its registered commands, approvals and evidence checks.
+
+## Scientific implementation
 
 The physics stack uses mass-weighted COI coordinates and one shared,
 COI-preserving RK4 definition. M0 and graph-SINDy M2A identify integral

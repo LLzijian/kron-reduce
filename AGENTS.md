@@ -60,8 +60,10 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
 
 - The coordinating agent owns runtime changes, integration and evidence
   verification. Delegate core algorithm design, scientific acceptance and
-  boundary decisions to Astra Ultra. Bounded implementation and tests may use
-  Luna. Do not invoke Claude Code or CC Orchestrator for this project.
+  boundary decisions to Astra Ultra. Assign independent, well-scoped work to
+  the least costly capable subagent, typically Luna for simple edits and tests.
+  Follow the [engineering task allocation rules](docs/architecture.md#engineering-task-allocation).
+  Do not invoke Claude Code or CC Orchestrator for this project.
 - Invoke the selected Python 3.12 interpreter directly with versions constrained
   by `requirements/constraints-py312.txt`. Keep replacement environments and
   temporary programs in ignored `scratch/`. Use `scratch/one_off/<run-id>/` for

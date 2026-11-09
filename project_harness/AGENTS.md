@@ -16,6 +16,10 @@ stability classifiers belong in `src/kron_reduce/`.
   reject those registrations before generic data verification.
 - Assign a new run ID to every experiment attempt. Retain failure evidence and
   keep spent one-use authorizations closed.
+- Assign simple, independent work to a lightweight subagent with explicit
+  scope and acceptance checks. The coordinator reviews and integrates the
+  result. See
+  [engineering task allocation](../docs/architecture.md#engineering-task-allocation).
 - Validate harness changes with `python -m project_harness audit` and the
   harness regression tests. Run source checksum verification as a separate
   authorized `data-check`.
