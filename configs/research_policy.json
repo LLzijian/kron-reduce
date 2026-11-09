@@ -1088,5 +1088,54 @@
       ],
       "formal_result_review_receipt_path_in_archive": "docs/research/kiki_a17_input_consistency/a17_scientific_result_review_v1.json"
     }
+  },
+  "bounded_synthetic_evaluations": {
+    "constant_c_100ms_synthetic_v1_20261109": {
+      "authorization": "constant_c_100ms_synthetic_v1_20261109",
+      "experiment": "constant_c_100ms_synthetic_v1",
+      "workflow": "constant_c_100ms_synthetic_v1",
+      "stage": "synthetic_audit",
+      "module": "kron_reduce.workflows.constant_c_synthetic",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "data_policy": "analytic_synthetic_only",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "real_data_reads": 0,
+      "fit_attempts": 0,
+      "optimizer_updates": 0,
+      "status": "active",
+      "user_authorization": "2026-11-09: 按规划开始自主推进；仅本轮独立登记的阶段一合成研究",
+      "plan_path": "configs/proposals/constant_c_100ms_synthetic_v1.json",
+      "plan_sha256": "17afaeddf4113a8904d763b636fe38d1918822238fd7714efaa23df2cc5df4fe",
+      "protocol_path": "docs/protocols/constant_c_100ms_synthetic_v1_zh.md",
+      "protocol_sha256": "401622a9be1e8568f88d37b2e8c621d12dfac0646d112f86cbe6e898b1d509eb",
+      "review_path": "docs/research/constant_c_100ms_synthetic_review_20261109.json",
+      "review_sha256": "6275eccaa45d660764f76229d90cc53aebd6bcda8067208f01575d2d7286ee5e",
+      "implementation_bindings": {
+        "configs/experiments/constant_c_100ms_synthetic_v1.toml": "3ced43d9942828803c34d82179eb9aa523b8ca78f646f8bcc18d11cf9eca2a30",
+        "configs/project_manifest.json": "8e39ae564fb37759a272d71346e0c6b6d0ae7893fcc8b235fd3991f16c76b1f7",
+        "configs/workflows/constant_c_100ms_synthetic_v1.json": "8cbfcce12a263e566ea8c11050e2066591153ce82aa45a234464be458f008c63",
+        "docs/protocols/constant_c_100ms_synthetic_v1_zh.md": "401622a9be1e8568f88d37b2e8c621d12dfac0646d112f86cbe6e898b1d509eb",
+        "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+        "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+        "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+        "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+        "project_harness/policy.py": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+        "project_harness/runner.py": "6cdf0539ddafee3b9330ad2f54b036f1bc2e2225ec0c2b67a01635ad09291307",
+        "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+        "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+        "src/kron_reduce/evaluation/constant_c_observability.py": "df561c25f081972f7a875fd0e464e96be963b157bfa6586542e5eaf09fef11d6",
+        "src/kron_reduce/evaluation/scoped_audit_journal.py": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+        "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+        "src/kron_reduce/models/learned_latent.py": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+        "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+        "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+        "src/kron_reduce/workflows/constant_c_synthetic.py": "cba3e3376a52cdb49a453151f30faf60cd8edf50ae1e4cec60b63eaef96cb863",
+        "tests/test_constant_c_synthetic_guard.py": "8b23a204b64f510235e9ebff72b064ca0def4da6e9892419f05121e8474c0d87"
+      },
+      "model_promotion_allowed": false,
+      "deployment_predictions_allowed": false,
+      "later_candidate_stages_authorized": false
+    }
   }
 }

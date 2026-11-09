@@ -1,0 +1,444 @@
+{
+  "schema": "constant_c_100ms_synthetic_v1",
+  "scope": {
+    "authorization": "constant_c_100ms_synthetic_v1_20261109",
+    "experiment": "constant_c_100ms_synthetic_v1",
+    "workflow": "constant_c_100ms_synthetic_v1",
+    "stage": "synthetic_audit",
+    "module": "kron_reduce.workflows.constant_c_synthetic",
+    "dataset": "synthetic_benchmark_registry_v1",
+    "data_policy": "analytic_synthetic_only",
+    "max_executions": 1,
+    "retry_allowed": false,
+    "real_data_reads": 0,
+    "fit_attempts": 0,
+    "optimizer_updates": 0
+  },
+  "protocol_path": "docs/protocols/constant_c_100ms_synthetic_v1_zh.md",
+  "protocol_sha256": "401622a9be1e8568f88d37b2e8c621d12dfac0646d112f86cbe6e898b1d509eb",
+  "implementation_bindings": {
+    "configs/experiments/constant_c_100ms_synthetic_v1.toml": "3ced43d9942828803c34d82179eb9aa523b8ca78f646f8bcc18d11cf9eca2a30",
+    "configs/project_manifest.json": "8e39ae564fb37759a272d71346e0c6b6d0ae7893fcc8b235fd3991f16c76b1f7",
+    "configs/workflows/constant_c_100ms_synthetic_v1.json": "8cbfcce12a263e566ea8c11050e2066591153ce82aa45a234464be458f008c63",
+    "docs/protocols/constant_c_100ms_synthetic_v1_zh.md": "401622a9be1e8568f88d37b2e8c621d12dfac0646d112f86cbe6e898b1d509eb",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+    "project_harness/policy.py": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+    "project_harness/runner.py": "6cdf0539ddafee3b9330ad2f54b036f1bc2e2225ec0c2b67a01635ad09291307",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "df561c25f081972f7a875fd0e464e96be963b157bfa6586542e5eaf09fef11d6",
+    "src/kron_reduce/evaluation/scoped_audit_journal.py": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+    "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+    "src/kron_reduce/models/learned_latent.py": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/constant_c_synthetic.py": "cba3e3376a52cdb49a453151f30faf60cd8edf50ae1e4cec60b63eaef96cb863",
+    "tests/test_constant_c_synthetic_guard.py": "8b23a204b64f510235e9ebff72b064ca0def4da6e9892419f05121e8474c0d87"
+  },
+  "base": {
+    "mass": [
+      1.0,
+      1.1,
+      1.2,
+      1.3,
+      1.4,
+      1.5,
+      1.6,
+      1.7,
+      1.8,
+      1.9
+    ],
+    "edge_stiffness": 0.12,
+    "stiffness_mismatch": 0.06,
+    "damping_gain": 0.08,
+    "port_gains": [
+      0.7,
+      0.45
+    ],
+    "weak_port_factor": 0.0001,
+    "latent_rate": 1.1,
+    "latent_decay": [
+      0.35,
+      0.55
+    ],
+    "q_initial": [
+      0.3,
+      -0.2,
+      0.1,
+      -0.05,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "v_initial": [
+      0.12,
+      -0.06,
+      0.04,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "z_initial": [
+      0.6,
+      -0.4
+    ],
+    "power": [
+      0.08,
+      -0.04,
+      0.02,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "noise": {
+    "q": 1e-05,
+    "v": 0.0001,
+    "weak_rms": 1e-05
+  },
+  "tolerances": {
+    "algebra": 1e-10,
+    "coi": 1e-10,
+    "energy_identity": 1e-10,
+    "exponential": 1e-10,
+    "refinement": 1e-08,
+    "exact_recovery": 1e-09,
+    "noise_response": 1e-08,
+    "alias": 1e-10,
+    "state_clean": 0.001,
+    "state_noisy": 0.01,
+    "future_clean": 0.001,
+    "future_noisy": 0.01
+  },
+  "sine_steps": [
+    0.00125,
+    0.000625
+  ],
+  "dispatch_step_multiplier": 1.0000000001,
+  "linear_cases": [
+    {
+      "id": "L100_clean",
+      "model": "main",
+      "intervals": 10,
+      "noise": "clean"
+    },
+    {
+      "id": "L100_alt",
+      "model": "main",
+      "intervals": 10,
+      "noise": "alternating"
+    },
+    {
+      "id": "L100_weakdir",
+      "model": "main",
+      "intervals": 10,
+      "noise": "weak_direction"
+    },
+    {
+      "id": "W100_clean",
+      "model": "weak",
+      "intervals": 10,
+      "noise": "clean"
+    },
+    {
+      "id": "W100_weakdir",
+      "model": "weak",
+      "intervals": 10,
+      "noise": "weak_direction"
+    },
+    {
+      "id": "K100_mismatch",
+      "model": "mismatch",
+      "intervals": 10,
+      "noise": "clean"
+    },
+    {
+      "id": "L020_clean",
+      "model": "main",
+      "intervals": 2,
+      "noise": "clean"
+    },
+    {
+      "id": "L050_clean",
+      "model": "main",
+      "intervals": 5,
+      "noise": "clean"
+    },
+    {
+      "id": "L200_clean",
+      "model": "main",
+      "intervals": 20,
+      "noise": "clean"
+    }
+  ],
+  "case_roster": [
+    "L100_clean",
+    "L100_alt",
+    "L100_weakdir",
+    "W100_clean",
+    "W100_weakdir",
+    "K100_mismatch",
+    "L020_clean",
+    "L050_clean",
+    "L200_clean",
+    "S100_clean",
+    "S100_alt",
+    "A_alias",
+    "U_hidden_null",
+    "D_force_orth",
+    "D_column_confounded",
+    "D_port_temporal",
+    "I_constant_input"
+  ],
+  "scope_roster": [
+    "linear-fixtures",
+    "L100_clean",
+    "L100_alt",
+    "L100_weakdir",
+    "W100_clean",
+    "W100_weakdir",
+    "K100_mismatch",
+    "L020_clean",
+    "L050_clean",
+    "L200_clean",
+    "sine-truth",
+    "S100_clean",
+    "S100_alt",
+    "A_alias",
+    "U_hidden_null",
+    "D_force_orth",
+    "D_column_confounded",
+    "D_port_temporal",
+    "I_constant_input"
+  ],
+  "operator_limits": {
+    "expm": 54,
+    "svd": 36,
+    "ls": 38,
+    "force": 762,
+    "probe": 168,
+    "rollouts": 93,
+    "physical_rhs": 312,
+    "integration_rhs": 389760
+  },
+  "scope_limits": {
+    "linear-fixtures": {
+      "expm": 21,
+      "probe": 6,
+      "rollouts": 2,
+      "physical_rhs": 15
+    },
+    "L100_clean": {
+      "expm": 2,
+      "svd": 3,
+      "ls": 3,
+      "force": 60,
+      "probe": 15,
+      "rollouts": 11,
+      "physical_rhs": 33
+    },
+    "L100_alt": {
+      "expm": 2,
+      "svd": 3,
+      "ls": 3,
+      "force": 60,
+      "probe": 14,
+      "rollouts": 7,
+      "physical_rhs": 21
+    },
+    "L100_weakdir": {
+      "expm": 2,
+      "svd": 3,
+      "ls": 3,
+      "force": 60,
+      "probe": 14,
+      "rollouts": 7,
+      "physical_rhs": 21
+    },
+    "W100_clean": {
+      "expm": 2,
+      "svd": 3,
+      "ls": 3,
+      "force": 60,
+      "probe": 15,
+      "rollouts": 11,
+      "physical_rhs": 33
+    },
+    "W100_weakdir": {
+      "expm": 2,
+      "svd": 3,
+      "ls": 3,
+      "force": 60,
+      "probe": 14,
+      "rollouts": 7,
+      "physical_rhs": 21
+    },
+    "K100_mismatch": {
+      "expm": 2,
+      "svd": 3,
+      "ls": 3,
+      "force": 60,
+      "probe": 14,
+      "rollouts": 7,
+      "physical_rhs": 21
+    },
+    "L020_clean": {
+      "expm": 2,
+      "svd": 3,
+      "ls": 3,
+      "force": 12,
+      "probe": 14,
+      "rollouts": 7,
+      "physical_rhs": 21
+    },
+    "L050_clean": {
+      "expm": 2,
+      "svd": 3,
+      "ls": 3,
+      "force": 30,
+      "probe": 14,
+      "rollouts": 7,
+      "physical_rhs": 21
+    },
+    "L200_clean": {
+      "expm": 2,
+      "svd": 3,
+      "ls": 3,
+      "force": 120,
+      "probe": 14,
+      "rollouts": 7,
+      "physical_rhs": 21
+    },
+    "sine-truth": {
+      "probe": 1,
+      "rollouts": 2,
+      "physical_rhs": 6,
+      "integration_rhs": 78720
+    },
+    "S100_clean": {
+      "expm": 2,
+      "svd": 2,
+      "ls": 2,
+      "force": 60,
+      "probe": 13,
+      "rollouts": 8,
+      "physical_rhs": 24,
+      "integration_rhs": 155520
+    },
+    "S100_alt": {
+      "expm": 2,
+      "svd": 2,
+      "ls": 2,
+      "force": 60,
+      "probe": 13,
+      "rollouts": 8,
+      "physical_rhs": 24,
+      "integration_rhs": 155520
+    },
+    "A_alias": {
+      "expm": 2,
+      "svd": 2,
+      "ls": 2,
+      "force": 60,
+      "probe": 2,
+      "physical_rhs": 21
+    },
+    "U_hidden_null": {
+      "expm": 9,
+      "svd": 3,
+      "force": 60,
+      "probe": 5,
+      "rollouts": 2,
+      "physical_rhs": 9
+    },
+    "D_force_orth": {
+      "ls": 2
+    },
+    "D_column_confounded": {
+      "ls": 1
+    },
+    "D_port_temporal": {
+      "ls": 1
+    },
+    "I_constant_input": {
+      "ls": 1
+    }
+  },
+  "expected_integration_rhs": 389760,
+  "rank_unresolved_rhs_rule": "78720 + 77760 * resolved_sine_method_count; 2 + 4 * count path segments; never propagate an unresolved estimate",
+  "expected_sine_path_segments": 18,
+  "matrix_dimensions": {
+    "state": 22,
+    "affine": [
+      23,
+      23
+    ],
+    "hidden_convolution": [
+      8,
+      8
+    ],
+    "continuous_gram_block": [
+      4,
+      4
+    ],
+    "PC": [
+      10,
+      2
+    ],
+    "sampled_map": "20J x 2",
+    "integral_map": "10J x 2"
+  },
+  "cached_exponentials": {
+    "models": [
+      "main",
+      "weak",
+      "mismatch",
+      "hidden_null"
+    ],
+    "output_intervals": [
+      1,
+      2,
+      5,
+      10,
+      20,
+      800,
+      820
+    ]
+  },
+  "fixed_formula_counts": {
+    "linear_history_intervals": "6*10 + 2 + 5 + 20 = 87",
+    "force_evaluations": "6 force evaluations per interval across each integral_system: 6*(87 linear + 20 sine + 10 alias + 10 hidden_null) = 762",
+    "expm": "4 linear bundles (main, weak, mismatch, hidden_null)*7=28; 13 integral-system augmented exponentials; 13 continuous-Gram block exponentials = 54",
+    "integral_system_svd": "2 per integral_system across 9 linear + 2 sine + 1 alias + 1 hidden_null = 26; plus sampled-map SVD for 9 linear + 1 hidden_null = 10; total 36",
+    "least_squares": "3 per linear case (exact sampled + two integral quadratures) * 9 + 2 per sine case + 2 alias + (2+1+1+1) algebra scopes = 38; hidden_null rank-deficient path performs none",
+    "score_probes": "linear: 9 cases * 3 methods * (truth comparison + oracle comparison) + 2 finite-noise-pair comparisons = 56; sine: 2 cases * 2 methods * (truth + oracle comparison) = 8; total score probes = 64",
+    "reset_energy_probes": "linear: 3 resolved methods * 2 reset states * 9 cases = 54; sine: 2 methods * 2 step sizes * 2 reset states * 2 cases = 16; total 70",
+    "other_probes": "sampled maps 10 + Gram spectra 13 + model constructions 7 (three fixtures, sine truth, alias, hidden-null initial and replacement) + generator checks 4 = 34; with score probes 64 and reset-energy probes 70, total probe calls = 168",
+    "integration_rhs": "RK4 invokes four RHS per update: (6560+13120) truth updates*4 = 78720; (6480+12960) updates per sine method, 2 methods*2 cases*4 RHS = 311040; total 389760",
+    "physical_rhs": "linear fixtures 15 + linear cases 9*21 + noise pairs 2*12 + sine truth 6 + sine cases 2*24 + alias 21 + hidden-null 9 = 312",
+    "linear_bundle_recurrence_matmul": "4 bundles * 820 recurrence steps = 3280",
+    "sampled_operator_recurrence_matmul": "sum(linear intervals 87) + hidden-null intervals 10 = 97",
+    "exact_linear_state_matvec": "fixtures 2*820 + linear cases sum(4*J+2400)=21948 + two finite-noise pairs 2*2*(10+800)=3240 + hidden-null 2*820 = 28468",
+    "integral_hidden_prefix_matmul": "sum intervals over 9 linear (87) + 2 sine (20) + alias (10) + hidden-null (10) = 127"
+  },
+  "notes": [
+    "Scope caps are independent and non-transferable. They cover only registered synthetic calls; zero-data-read, zero-fit, zero-update limits are enforced by authorization and evidence, not operator categories.",
+    "The global cap is the sum of per-scope caps. Any rank-deficient method remains unresolved and leaves its predeclared LS cap unused; this does not change the roster or trigger a retry.",
+    "Matrix propagation counts describe existing recurrence products; no per-element arithmetic or untracked setup algebra is assigned as a journal operator call.",
+    "Score probes count one errors() evaluation per comparison; each evaluation stores the 3 s and 8 s metric rows. Reset-energy probes are separate calls."
+  ]
+}

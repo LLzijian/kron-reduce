@@ -4,12 +4,15 @@ Check the [research policy](../../configs/research_policy.json) for current
 execution authority. Registered protocols define each experiment's data access,
 budget, entry point and stopping gates.
 
-## Current preparation scope
+## Current research scope
 
-The next research question is whether 100 ms of observations suffice in a
-known-truth system with constant `C`. The scope covers design preparation and
-review of saved evidence. New calculations require separate registration and
-scientific approval. Keep the baseline and default deployment initializer.
+The current question is whether 100 ms of observations suffice in a
+known-truth system with constant `C`. The [fixed synthetic protocol](../protocols/constant_c_100ms_synthetic_v1_zh.md)
+defines 17 cases separating discrete observation information, initialization
+error and visible future equivalence. Its dedicated CLI requires the new
+policy registration, exact implementation review and a clean bound checkout
+before spending its single execution. This scope opens no real data or later
+algorithm candidates. Keep the baseline and default deployment initializer.
 Rejected candidates remain archived. Independent engineering extraction requires
 explicit review.
 

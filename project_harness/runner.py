@@ -31,6 +31,10 @@ def run_experiment(
     experiment = manifest["experiments"].get(experiment_name)
     if experiment is None:
         raise KeyError(f"unregistered experiment: {experiment_name}")
+    if experiment.get("execution_mode") == "bounded_synthetic_cli_only":
+        raise RuntimeError(
+            "BOUNDED_SYNTHETIC_CLI_ONLY: use the registered dedicated synthetic CLI"
+        )
     if experiment.get("execution_mode") == "bounded_input_audit_cli_only":
         raise RuntimeError(
             "BOUNDED_INPUT_AUDIT_CLI_ONLY: use the registered dedicated audit CLI; "

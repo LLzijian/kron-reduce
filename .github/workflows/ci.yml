@@ -41,6 +41,8 @@ jobs:
           src/kron_reduce/workflows/kiki_integral_history_audit.py
           src/kron_reduce/data/pm_impulse_reader.py src/kron_reduce/evaluation/pm_impulse_audit.py
           src/kron_reduce/workflows/kiki_pm_impulse_audit.py src/kron_reduce/workflows/kiki_task3_frozen_eval.py
+          src/kron_reduce/evaluation/constant_c_observability.py src/kron_reduce/workflows/constant_c_synthetic.py
+          tests/test_constant_c_synthetic_guard.py
           tests/test_harness.py tests/test_research_policy.py tests/test_runner_safety.py
           tests/test_development_file_bindings.py tests/test_kiki_task3_frozen_eval.py
           tests/test_audit_access_ledger.py tests/test_durable_audit_ledger.py
@@ -60,6 +62,7 @@ jobs:
         run: >-
           python -m pytest -q -k "not test_data_checksums"
           tests/test_harness.py tests/test_kiki_task3_frozen_eval.py
+          tests/test_constant_c_synthetic_guard.py
           tests/test_research_policy.py tests/test_runner_safety.py tests/test_data_registry.py
           tests/test_development_file_bindings.py
           tests/test_kiki_history.py tests/test_kiki_scoring.py
