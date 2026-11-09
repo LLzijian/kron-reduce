@@ -23,9 +23,16 @@ preserve the original preparation and source identities.
 The separate [execution protocol](../protocols/constant_c_energy_execution_v1_zh.md)
 and [exact implementation approval](constant_c_energy_execution_review_20261109_zh.md)
 now bind the saved-input reader, conditional propagation and complete budgets.
-The new one-use authority `constant_c_energy_initializer_v1_20261109` permits
-the fixed comparison after clean committed source, push and CI gates pass.
-It opens no later candidate stage and leaves phase-one authority consumed.
+The [completed comparison](../reports/constant_c_energy_initializer_20261109_zh.md)
+retains all 27 records. The fixed bound controls energy inflation and improves
+visible futures in the weak-coupling noisy case; hidden-state recovery still
+fails its threshold. Both positive bounds remain inactive in the stiffness
+mismatch case. The [scientific result review](constant_c_energy_result_review_20261109_zh.md)
+accepts these bounded findings with `KEEP_BASELINE`.
+Authority `constant_c_energy_initializer_v1_20261109` is consumed; phase-one
+authority also remains consumed. Read-only evidence synthesis and preparation
+of an independently registered follow-up remain available. No later candidate
+stage or real-data comparison is authorized by this result.
 State-dependent ports, potential changes and time objectives remain separate
 candidates. Keep the baseline and default deployment initializer.
 Rejected candidates remain archived. Independent engineering extraction requires

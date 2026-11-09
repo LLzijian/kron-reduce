@@ -1,0 +1,112 @@
+{
+  "schema": "constant_c_energy_initializer_result_receipt_v1",
+  "authorization": "constant_c_energy_initializer_v1_20261109",
+  "authorization_status": "consumed",
+  "run_id": "constant_c_energy_initializer_v1-synthetic_comparison-20261109T101705739984Z-4d06ae48-ba48733d",
+  "source_commit": "4d06ae48efe8e5138ea40ad9849e87df6ddb4d4d",
+  "source_ci": {
+    "run_id": 42599402595,
+    "status": "success",
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/42599402595"
+  },
+  "plan_path": "configs/proposals/constant_c_energy_execution_v1.json",
+  "plan_sha256": "d9b7e8d7be67371b8e5f02a548b236c8a53cfba263c804b79cbb781c95a9f0be",
+  "artifact_manifest_path": "results/constant_c_energy_initializer_v1-synthetic_comparison-20261109T101705739984Z-4d06ae48-ba48733d/artifact_hashes.json",
+  "artifact_manifest_sha256": "27d195309f723d1b77bfed2f3ab57a5f50b32e0853a92c6e36b592a1b49e7b1e",
+  "process_status": "PASS",
+  "scientific_verdict": "ACCEPT",
+  "promotion_decision": "KEEP_BASELINE",
+  "scientific_review_path": "docs/research/constant_c_energy_result_review_20261109_zh.md",
+  "scientific_review_sha256": "06d6353e4d0928a062b29c97e5db569093eef686deee0bfab36e0cb6785e2778",
+  "report_path": "docs/reports/constant_c_energy_initializer_20261109_zh.md",
+  "report_sha256": "0c1dc74cfdd5cac0338937b5d81c0a7841420cf99492e661109cb5bf5be8a867",
+  "case_count": 9,
+  "candidate_count": 27,
+  "branch_counts": {
+    "zero_baseline": 9,
+    "active": 7,
+    "inactive": 9,
+    "unresolved": 2
+  },
+  "scope_count": 11,
+  "operator_attempted": {
+    "probe": 362,
+    "rollouts": 40,
+    "physical_rhs": 120,
+    "integration_rhs": 311040
+  },
+  "operator_returned": {
+    "probe": 362,
+    "rollouts": 40,
+    "physical_rhs": 120,
+    "integration_rhs": 311040
+  },
+  "new_linear_candidates": 12,
+  "new_sine_candidates": 4,
+  "new_path_segments": 40,
+  "rk4_updates": 77760,
+  "solver_evaluations": 278,
+  "solver_updates": 264,
+  "source_reads": {
+    "verified": true,
+    "failed": false,
+    "source_files_registered": 25,
+    "source_files_attempted": 25,
+    "source_files_verified": 25,
+    "source_files_failed": 0,
+    "npz_files_registered": 11,
+    "npz_files_loaded": 11,
+    "loaded_stems": [
+      "K100_mismatch",
+      "L100_alt",
+      "L100_clean",
+      "L100_weakdir",
+      "S100_alt",
+      "S100_clean",
+      "U_hidden_null",
+      "W100_clean",
+      "W100_weakdir",
+      "linear-fixtures",
+      "sine-truth"
+    ],
+    "array_members_registered": 189,
+    "array_members_attempted": 189,
+    "array_members_decoded": 189,
+    "array_members_failed": 0,
+    "duplicate_payload_reads": 0,
+    "probe_calls": 214
+  },
+  "saved_audits": [
+    {
+      "path": "reports/generated/constant_c_energy_initializer_20261109/saved-audit-v1.json",
+      "sha256": "f35506b84eebe3a3c2c25146f857514712c68f524fd3edf039a75367754f1660",
+      "checks": 1888,
+      "mismatches": 0,
+      "new_solver_calls": 0,
+      "new_paths": 0,
+      "new_rhs": 0
+    },
+    {
+      "path": "reports/generated/constant_c_energy_initializer_20261109/independent-source-budget-audit.json",
+      "sha256": "40c6a603aff601b40cdc6ac456b41132466e9a5f76b9d5806841ba3292463551",
+      "checks": 36,
+      "mismatches": 0,
+      "decoded_npz_members": 0
+    }
+  ],
+  "audit_archive_manifest": {
+    "path": "reports/generated/constant_c_energy_initializer_20261109/artifact_hashes.json",
+    "sha256": "dae21171ff4168ab8e0b5407efa3c679cab7eb17d032608521d55f2e8121f88b"
+  },
+  "engineering_tests": 50,
+  "real_data_reads": 0,
+  "fit_attempts": 0,
+  "optimizer_updates": 0,
+  "claim_boundary": "Fixed saved synthetic cases; energy-inflation control does not establish hidden-state recovery, model-mismatch correction, real-data performance or model promotion.",
+  "postrun_source_metadata_reads_for_report": [
+    "W100_weakdir.json",
+    "W100_clean.json",
+    "K100_mismatch.json"
+  ],
+  "postrun_source_npz_decodes_for_report": 0
+}

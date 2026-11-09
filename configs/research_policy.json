@@ -1157,7 +1157,7 @@
       "real_data_reads": 0,
       "fit_attempts": 0,
       "optimizer_updates": 0,
-      "status": "active",
+      "status": "consumed",
       "user_authorization": "2026-11-09: 按照计划继续推进；固定9病例、3类半径的一次合成对照，准确实现审核与门禁通过后执行。",
       "plan_path": "configs/proposals/constant_c_energy_execution_v1.json",
       "plan_sha256": "d9b7e8d7be67371b8e5f02a548b236c8a53cfba263c804b79cbb781c95a9f0be",
@@ -1198,7 +1198,17 @@
       },
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false,
-      "later_candidate_stages_authorized": false
+      "later_candidate_stages_authorized": false,
+      "consumed_at": "2026-11-09T10:27:17.733139+00:00",
+      "completed_run_id": "constant_c_energy_initializer_v1-synthetic_comparison-20261109T101705739984Z-4d06ae48-ba48733d",
+      "source_commit": "4d06ae48efe8e5138ea40ad9849e87df6ddb4d4d",
+      "artifact_manifest_sha256": "27d195309f723d1b77bfed2f3ab57a5f50b32e0853a92c6e36b592a1b49e7b1e",
+      "result_receipt_path": "docs/reports/constant_c_energy_initializer_20261109_evidence.json",
+      "result_receipt_sha256": "ebc91d8ea1b109a5fa294f069547167472dfe2e39a4f65dfb3741f8df4c04278",
+      "scientific_review_path": "docs/research/constant_c_energy_result_review_20261109_zh.md",
+      "scientific_review_sha256": "06d6353e4d0928a062b29c97e5db569093eef686deee0bfab36e0cb6785e2778",
+      "scientific_verdict": "ACCEPT",
+      "promotion_decision": "KEEP_BASELINE"
     }
   }
 }
