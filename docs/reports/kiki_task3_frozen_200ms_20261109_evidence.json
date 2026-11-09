@@ -1,0 +1,46 @@
+{
+  "schema": "kron_reduce.frozen_retrospective_evaluation_receipt.v1",
+  "authorization_id": "kiki_task3_frozen_200ms_20261109",
+  "status": "consumed",
+  "completed_run_id": "kiki_task3_frozen_200ms_20261109-20261109T024831303717Z-aa86374c",
+  "source_commit": "8860a40a775f85c80e2a50c4e6a6628f841430c2",
+  "artifact_manifest_sha256": "08fd216a7a479bdcef1661c124a18664e345c09187a85893b7e7024c36dc20fd",
+  "saved_comparison_sha256": "96029ca2f4e4cbe7f4a0f0bb701edd64c3dd25b834d2f291644b626937fa16bb",
+  "task3_cohorts": {
+    "val": {
+      "allocated": 117,
+      "decoded": 105
+    },
+    "test": {
+      "allocated": 86,
+      "decoded": 75,
+      "prior_exposure": true
+    }
+  },
+  "counts": {
+    "status": "COMPLETE",
+    "model_events_reserved": 540,
+    "paths_reserved": 1080,
+    "rk4_updates_reserved": 1328400,
+    "rhs_calls_reserved": 5313600,
+    "fit_attempts": 0,
+    "optimizer_updates": 0,
+    "promotion_decision": "KEEP_BASELINE",
+    "independent_test": false
+  },
+  "qa": {
+    "strict_result_manifest": "PASS",
+    "saved_outcomes_and_rmse_rows_reconciled": 18,
+    "first_test_read_after_val_frozen": true,
+    "source_hdf5_opened": false,
+    "train_arrays_decoded": false,
+    "numerical_unresolved": 0,
+    "path_failures": 0,
+    "refinement_paths": 0
+  },
+  "scientific_review": {
+    "reviewer": "Astra Ultra",
+    "decision": "CONSUME_ONE_USE_KEEP_BASELINE",
+    "claim_boundary": "Frozen Pm[20] transfer with zero-common output convention. Same TASK3 evaluation cohorts; no matched training, fresh independent confirmation, model promotion or deployment."
+  }
+}

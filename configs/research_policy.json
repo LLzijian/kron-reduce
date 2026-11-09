@@ -18,7 +18,15 @@
   "model_promotion_requires_registered_acceptance": true,
   "frozen_retrospective_evaluations": {
     "kiki_task3_frozen_200ms_20261109": {
-      "status": "active",
+      "status": "consumed",
+      "completed_run_id": "kiki_task3_frozen_200ms_20261109-20261109T024831303717Z-aa86374c",
+      "result_manifest_sha256": "08fd216a7a479bdcef1661c124a18664e345c09187a85893b7e7024c36dc20fd",
+      "result_receipt_path": "docs/reports/kiki_task3_frozen_200ms_20261109_evidence.json",
+      "result_receipt_sha256": "33a2d4e967b361d83b4c2acce0a70416eb8e8d2a36a5f5b159a0ed85f28f1c9b",
+      "final_model_event_combinations": 540,
+      "final_model_paths": 1080,
+      "final_rk4_updates": 1328400,
+      "final_rhs_calls": 5313600,
       "approved_date": "2026-11-09",
       "authority": "explicit_user_frozen_evaluation_after_exact_TASK3_scope",
       "approval_text": "不再重训，直接使用冻结的参数进行评估",
