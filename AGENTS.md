@@ -35,6 +35,76 @@ regime labels never route predictions; unsupported modules are removed and
 evaluations outside the certified excitation envelope refuse rather than
 extrapolate.
 
+## Research workflow
+
+- `configs/project_manifest.json` registers datasets and experiments.
+  `configs/workflows/` defines stages, approval gates and evidence contracts.
+  `configs/research_policy.json` governs scientific authority, including
+  one-use authorizations and retrospective evaluations.
+- Start with `python -m project_harness loop --workflow <name> plan`. Review
+  the next stage, required evidence, approval status and registered entry
+  point. Use `loop status` for the full local history and `list` for the
+  registry. These commands inspect saved records.
+- Advance one step at a time. Use `loop run-one` for a built-in check, the
+  registered runner or dedicated CLI for an authorized experiment, and
+  `loop advance` for verified external stage evidence. Record a gate with
+  `loop approve` only after explicit operator approval. A loop gate supplies
+  workflow approval; scientific execution authority comes from research policy.
+- Use `python -m project_harness audit` to check registry metadata and replay
+  saved workflow evidence. Use `git-check` for a clean-checkout gate and
+  `data-check --dataset <name>` for a permitted source checksum check. Follow
+  the approved read scope before any dataset access.
+- See [architecture](docs/architecture.md) and the
+  [scientific contract](docs/scientific_contract.md). Read the nearest local
+  `AGENTS.md` before editing a subsystem.
+
+## Shared operating rules
+
+- The coordinating agent owns research runtime changes. Use an explicitly
+  selected Python 3.12 environment constrained by
+  `requirements/constraints-py312.txt` and invoke its Python directly.
+  Do not use `uv run` in the shared checkout: it can recreate `.venv` while
+  another task is using it. Prepare replacement environments under ignored
+  `scratch/` and record the actual runtime with the experiment evidence.
+
+- Agent assignment for the current research programme: core algorithm design
+  and scientific acceptance/boundary decisions are delegated to Astra with
+  Ultra reasoning. The coordinating agent owns integration and evidence
+  verification. Bounded simple implementation and test tasks may use Luna.
+  Do not invoke Claude Code or CC Orchestrator for this project.
+
+- Never overwrite a result run. Every execution gets a new immutable run ID.
+- Never use test data for fitting, normalization, calibration, or selection.
+- Clearing-state task inputs contain the clearing state, declared priors and
+  registered causal exogenous policy. History tasks additionally receive only
+  the real observations declared by their named input contract, with a distinct
+  forecast origin and comparison population.
+- `Pe`, voltage, labels, event time, valid length, masks, fault metadata, and
+  future summaries are never main-model features.
+- Stability is derived from predicted trajectories and remains exploratory.
+- Use `M2A-LYAP` only when every numerical certificate gate passes; otherwise
+  use the gate-selected storage or energy-regularized name.
+- Claims are bounded by certified excitation envelopes; an evaluation outside
+  every certified envelope must refuse, not extrapolate, except for the
+  explicitly registered, bounded development evaluations described here. The name
+  `stability-certified equivalent` additionally requires the Level 6
+  certificate suite and region/margin gates (see
+  `docs/structure_discovery_roadmap.md`).
+- Temporary programs belong under `scratch/one_off/<run-id>/`.
+- Historical canonical experiment replay requires `--historical-reproduction`
+  and unchanged registered configuration/workflow hashes. It is not new model
+  selection or fresh test evidence.
+- Each completed engineering/research change is committed and pushed to the
+  private GitHub repository. Use `codex/` branches for subsequent work and
+  review before main integration. Scientific model promotion retains its own
+  acceptance and approval gates. Raw trajectories, result bodies, archives,
+  credentials and local environments stay outside Git; track their manifests.
+
+## Research campaign records
+
+Use the current status in `configs/research_policy.json` for every campaign.
+The records below preserve the scope of each approval and its outcome.
+
 On 2026-10-23 the user explicitly approved one pre-certification development
 evaluation, `kiki_a04_development_20261023`, as registered in the active policy
 and `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
@@ -133,10 +203,6 @@ and all three failed trajectory-refinement comparisons; no new training is
 authorized by A09. Read-only saved-artifact audit remains available. Any
 new numerical comparison requires its own registered authorization.
 
-Authoritative entrypoints:
-
-A09 is completed and consumed. Its fixed-model train audit retained three
-numerical-refinement failures and REJECT; it cannot be rerun or reclassified.
 The separately authorized bounded A10 all-train numerical audit, `kiki_a10_development_20261024`,
 is now completed and consumed in the active policy, bound to its immutable
 run and result receipt. A10 reused A09 saved .005 s paths and created only .0025 s paths for the same 258 train events and three
@@ -191,53 +257,6 @@ before durable closure. Any interrupted scope is unknown/spent. Numerical
 failures stay in the fixed population. V and I follow the frozen protocol;
 even ACCEPT remains uncertified history evidence and KEEP_BASELINE, and
 authorizes neither training nor future comparison nor model promotion.
-
-- `configs/project_manifest.json`: datasets, experiments, and workflow roles.
-- `docs/architecture.md`: scientific and software boundaries.
-- `docs/scientific_contract.md`: input, rollout, stability, and naming rules.
-- `python -m project_harness list|audit|git-check|data-check`.
-
-Rules:
-
-- The coordinating agent owns research runtime changes. Use an explicitly
-  selected Python 3.12 environment constrained by
-  `requirements/constraints-py312.txt` and invoke its Python directly.
-  Do not use `uv run` in the shared checkout: it can recreate `.venv` while
-  another task is using it. Prepare replacement environments under ignored
-  `scratch/` and record the actual runtime with the experiment evidence.
-
-- Agent assignment for the current research programme: core algorithm design
-  and scientific acceptance/boundary decisions are delegated to Astra with
-  Ultra reasoning. The coordinating agent owns integration and evidence
-  verification. Bounded simple implementation and test tasks may use Luna.
-  Do not invoke Claude Code or CC Orchestrator for this project.
-
-- Never overwrite a result run. Every execution gets a new immutable run ID.
-- Never use test data for fitting, normalization, calibration, or selection.
-- Clearing-state task inputs contain the clearing state, declared priors and
-  registered causal exogenous policy. History tasks additionally receive only
-  the real observations declared by their named input contract, with a distinct
-  forecast origin and comparison population.
-- `Pe`, voltage, labels, event time, valid length, masks, fault metadata, and
-  future summaries are never main-model features.
-- Stability is derived from predicted trajectories and remains exploratory.
-- Use `M2A-LYAP` only when every numerical certificate gate passes; otherwise
-  use the gate-selected storage or energy-regularized name.
-- Claims are bounded by certified excitation envelopes; an evaluation outside
-  every certified envelope must refuse, not extrapolate, except for the
-  explicitly registered, bounded development evaluations described here. The name
-  `stability-certified equivalent` additionally requires the Level 6
-  certificate suite and region/margin gates (see
-  `docs/structure_discovery_roadmap.md`).
-- Temporary programs belong under `scratch/one_off/<run-id>/`.
-- Historical canonical experiment replay requires `--historical-reproduction`
-  and unchanged registered configuration/workflow hashes. It is not new model
-  selection or fresh test evidence.
-- Each completed engineering/research change is committed and pushed to the
-  private GitHub repository. Use `codex/` branches for subsequent work and
-  review before main integration. Scientific model promotion retains its own
-  acceptance and approval gates. Raw trajectories, result bodies, archives,
-  credentials and local environments stay outside Git; track their manifests.
 
 On 2026-10-24 the user authorized one bounded A07 tilted-objective development
 comparison, `kiki_a07_development_20261024`, as registered in the active policy
@@ -328,3 +347,13 @@ initializer or code. Any independent engineering extraction requires a new
 explicit review. The next work is limited to preparing the known-truth
 constant-C, 100 ms information-sufficiency question; this authorizes no new
 calculation.
+
+The separate TASK3 200 ms frozen retrospective evaluation
+`kiki_task3_frozen_200ms_20261109` completed with `KEEP_BASELINE`. Its one-use
+authorization is consumed and bound to the immutable run and
+[result receipt](docs/reports/kiki_task3_frozen_200ms_20261109_evidence.json).
+The [protocol](docs/protocols/kiki_task3_frozen_200ms_20261109_zh.md) used
+frozen A03 checkpoints, 105 TASK3 `val` events and 75 previously exposed
+TASK3 `test` events, with zero fitting or optimizer updates. Treat the result
+as a retrospective comparison. Use the saved evidence for review and keep
+the consumed authorization closed.

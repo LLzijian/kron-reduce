@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [TASK3 frozen 200 ms result receipt](kiki_task3_frozen_200ms_20261109_evidence.json) | Retrospective A03 checkpoint comparison on 105 `val` and 75 previously exposed `test` events, with a consumed authorization and `KEEP_BASELINE` |
 | `kiki_a06_joint_refinement_20261024_zh.md` | Three full-model refinements, one remaining FN per seed, complete numerical gates, retained coverage and a consumed fixed budget |
 | `kiki_a05_paired_training_20261024_zh.md` | Completed six-fit F/J comparison, rejection of permanent backbone freezing, retained numerical failure, zero-fit closeout repair and consumed authorization |
 | `kiki_a05_recorded_error_audit_20261023_zh.md` | JSON-only decomposition of frozen A04 errors, stable/unstable tradeoffs and the proposed fixed-versus-joint backbone training diagnostic |

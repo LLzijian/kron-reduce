@@ -59,6 +59,8 @@ Use `--workflow <name>` before a loop subcommand. The default `paper_v1` is
 the historical paper workflow. Workflow definitions live in `configs/workflows/`.
 `git-check` checks the clean-checkout gate. `data-check --dataset <name>` checks
 registered metadata and source hashes separately from the workflow preview.
+Contributor rules are in [AGENTS.md](AGENTS.md) and the
+[harness instructions](project_harness/AGENTS.md).
 
 Set `KIKI_DATA_ROOT` to the directory containing `ieee39_postfault` and
 `ieee39_expansion`; the local fallback is `../kiki/private_data`. The raw HDF5
