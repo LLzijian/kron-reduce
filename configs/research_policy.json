@@ -1223,7 +1223,7 @@
       "real_data_reads": 0,
       "fit_attempts": 0,
       "optimizer_updates": 0,
-      "status": "active",
+      "status": "consumed",
       "user_authorization": "2026-11-09: 按照计划继续推进；依据阶段二结果审核，独立注册并准确批准后完成一次固定半径的新参数/噪声合成确认。",
       "plan_path": "configs/proposals/constant_c_energy_confirmation_v1.json",
       "plan_sha256": "db489c2010fe174b8dd98f77bc3a5be9d45e4dab54c097ed1c0364f5f7b6cbc1",
@@ -1349,7 +1349,17 @@
       "source_array_reads": 0,
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false,
-      "later_candidate_stages_authorized": false
+      "later_candidate_stages_authorized": false,
+      "consumed_at": "2026-11-09T13:12:56.043905+00:00",
+      "completed_run_id": "constant_c_energy_confirmation_v1-synthetic_confirmation-20261109T130353444021Z-1edf0ebd-832d4649",
+      "source_commit": "1edf0ebd4633ac3878fd14e888feda081dfc7aad",
+      "artifact_manifest_sha256": "3553fb7b15ab7af22ec5d132305c67437d375869abacf26bc9f27139ca5e4530",
+      "result_receipt_path": "docs/reports/constant_c_energy_confirmation_20261109_evidence.json",
+      "result_receipt_sha256": "810818dd2dbc2b6af8b5d3469233890cd6a7c3b7f0f3eb20076005d5f45585bd",
+      "scientific_review_path": "docs/research/constant_c_energy_confirmation_result_review_20261109_zh.md",
+      "scientific_review_sha256": "50cef92c88a6db6654a71fbaedfcdb01929cf5764a139e3e4189d7d77e835a22",
+      "scientific_verdict": "ACCEPT",
+      "promotion_decision": "KEEP_BASELINE"
     }
   }
 }

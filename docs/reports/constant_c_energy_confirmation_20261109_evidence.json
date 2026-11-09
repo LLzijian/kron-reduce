@@ -1,0 +1,88 @@
+{
+  "schema": "constant_c_energy_confirmation_result_receipt_v1",
+  "authorization": "constant_c_energy_confirmation_v1_20261109",
+  "authorization_status": "consumed",
+  "run_id": "constant_c_energy_confirmation_v1-synthetic_confirmation-20261109T130353444021Z-1edf0ebd-832d4649",
+  "source_commit": "1edf0ebd4633ac3878fd14e888feda081dfc7aad",
+  "source_ci": {
+    "run_id": 42621865156,
+    "status": "success",
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/42621865156"
+  },
+  "plan_path": "configs/proposals/constant_c_energy_confirmation_v1.json",
+  "plan_sha256": "db489c2010fe174b8dd98f77bc3a5be9d45e4dab54c097ed1c0364f5f7b6cbc1",
+  "artifact_manifest_path": "results/constant_c_energy_confirmation_v1-synthetic_confirmation-20261109T130353444021Z-1edf0ebd-832d4649/artifact_hashes.json",
+  "artifact_manifest_sha256": "3553fb7b15ab7af22ec5d132305c67437d375869abacf26bc9f27139ca5e4530",
+  "artifact_file_count": 36,
+  "process_status": "PASS",
+  "scientific_verdict": "ACCEPT",
+  "promotion_decision": "KEEP_BASELINE",
+  "scientific_review_path": "docs/research/constant_c_energy_confirmation_result_review_20261109_zh.md",
+  "scientific_review_sha256": "50cef92c88a6db6654a71fbaedfcdb01929cf5764a139e3e4189d7d77e835a22",
+  "report_path": "docs/reports/constant_c_energy_confirmation_20261109_zh.md",
+  "report_sha256": "1907d6c0ab723a008ca323c187224b2dc20612550f0245523fef83aa7867bec3",
+  "case_count": 6,
+  "method_count": 24,
+  "active_fixed_count": 2,
+  "inactive_fixed_count": 4,
+  "scope_count": 8,
+  "confirmation_gates": {
+    "fixed_all_absolute": true,
+    "fixed_all_noninferior": true,
+    "weak_noisy_constraint_exercised": true,
+    "confirmation_criteria_met": true
+  },
+  "operator_attempted": {
+    "probe": 112,
+    "expm": 20,
+    "physical_rhs": 132,
+    "rollouts": 42,
+    "svd": 14,
+    "force": 360,
+    "ls": 12
+  },
+  "operator_returned": {
+    "probe": 112,
+    "expm": 20,
+    "physical_rhs": 132,
+    "rollouts": 42,
+    "svd": 14,
+    "force": 360,
+    "ls": 12
+  },
+  "solver_evaluations": 73,
+  "solver_updates": 69,
+  "source_array_reads": 0,
+  "real_data_reads": 0,
+  "fit_attempts": 0,
+  "optimizer_updates": 0,
+  "engineering_tests": 18,
+  "saved_audits": [
+    {
+      "path": "reports/generated/constant_c_energy_confirmation_20261109/saved-audit.json",
+      "sha256": "967feb9931990b9c1e6ef4ef163b1512430b0787d2970181098d0ac64489375f",
+      "checks": 1460,
+      "mismatches": 0,
+      "new_scientific_calls": 0
+    },
+    {
+      "path": "reports/generated/constant_c_energy_confirmation_20261109/independent-audit.json",
+      "sha256": "2bab8dc5a2fc62aa85871a2e3e3b50e9a0fe76e23d1c9a00bbd488decd2304c8",
+      "checks": 24,
+      "mismatches": 0,
+      "decoded_npz_members": 0,
+      "policy_status_at_audit": "active; shared execution budget already spent"
+    }
+  ],
+  "audit_archive_manifest": {
+    "path": "reports/generated/constant_c_energy_confirmation_20261109/artifact_hashes-v2.json",
+    "sha256": "c269cdaf45712872dc9087a954b20ff291eb3695443c697a16f1af72819a6f25"
+  },
+  "audit_correction": {
+    "path": "reports/generated/constant_c_energy_confirmation_20261109/audit-correction-v2.json",
+    "sha256": "90225255f550c1e845508031648519cac8935b3afd19a1f3dde17931173eccd4",
+    "initial_report_sha256_observed_by_reviewer": "832939871c476697ac6b68ac5e0b2172fd6a9ca2e5e9646435c551731a3cb983",
+    "reason": "Audit script initially expected nested policy scope; corrected flat-field comparison without changing scientific source or acceptance criteria."
+  },
+  "claim_boundary": "Fixed rho=1 versus unconstrained integral LS in six new deterministic cases from an exposed matched linear family; not best across controls, full hidden recovery, external validation or real-data evidence."
+}
