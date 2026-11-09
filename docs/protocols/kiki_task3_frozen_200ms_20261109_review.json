@@ -3,7 +3,13 @@
   "decision": "APPROVE_EXACT_ONE_USE_FROZEN_RETROSPECTIVE_EVALUATION",
   "date": "2026-11-09",
   "authorization_id": "kiki_task3_frozen_200ms_20261109",
-  "proposal_sha256": "1a2dec863b016b930cb3061a9e1c5dca2a6863fc2d125efd666862cbf2c8430d",
+  "proposal_sha256": "457a5aa09dde2b5f41b7d872c4e8c34ddf916a63fbe2ef600fbd9fd4cbec4a86",
+  "pre_access_correction": {
+    "previous_proposal_sha256": "1a2dec863b016b930cb3061a9e1c5dca2a6863fc2d125efd666862cbf2c8430d",
+    "previous_review_sha256": "e9de581df545585febac64d4b239a7733b8b07a6db2c172f531422b28ebc7f45",
+    "decision": "ASTRA_ULTRA_APPROVES_DEPENDENCY_DIGEST_TRANSCRIPTION_CORRECTION",
+    "reason": "Preflight rejected TASK3 data/__init__.py digest before any cache read or spend; all executable and scientific bindings unchanged."
+  },
   "implementation_bindings": {
     "src/kron_reduce/workflows/kiki_task3_frozen_eval.py": "45f918820650d41f1c1a6a8d5d39c609dbc7d5ca42d2ce0bfefa990c40b70af0",
     "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",

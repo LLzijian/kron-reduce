@@ -21,7 +21,7 @@
     "src/task3/c200/safety.py": "12a1e40e543fe70daed9f9ac72d159d1e788a88f0705aece6a31d10d44363adc",
     "src/task3/c200/protocol.py": "3b82f00397573a126f752f7f6b779840d2ff5e0923a4b4fcadcd8b6c53066c79",
     "src/task3/protocol.py": "c09d9d8a142377b8d7ff414fa477b41d5b28b1e29cc633b8a9378b9d94cc9d59",
-    "src/task3/data/__init__.py": "c9793c85e680075e8ea89bd05a89ee911098fa9b17986846e9f0d01c961faee6",
+    "src/task3/data/__init__.py": "c9793c85e680075e8ea45bd05a89ee911098fa9b17986846e9f0d01c961faee6",
     "src/task3/data/kiki_dataset.py": "da7dbe8d950a1ec3b8440c77acbc0433b2ce9e971aa950e92a05b27a0807d89c"
   },
   "val": {"allocated": 117, "eligible": 105, "unstable": 10},
