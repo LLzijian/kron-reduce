@@ -13,6 +13,10 @@ scientific approval. Keep the baseline and default deployment initializer.
 Rejected candidates remain archived. Independent engineering extraction requires
 explicit review.
 
+See the [evidence review and constant-C 100 ms preparation](constant_c_100ms_preparation_20261109_zh.md)
+for the distinction between discrete observation information, integral-estimator
+error and model mismatch, and the items to freeze before a new registration.
+
 ## Records
 
 - [Campaign history through 2026-11-09](campaign_history_through_20261109.md)
