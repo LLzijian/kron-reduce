@@ -13,12 +13,17 @@ is consumed; review the saved evidence rather than rerunning it. The fixed main
 system supports accurate 100 ms recovery, while weak coupling, aliasing and
 hidden-null controls delimit that result. This establishes no real-data claim.
 
-The next preparation question is a separately registered energy-constrained
-initializer comparison with a radius fixed before results, retaining both
-hidden-state and visible-future outcomes. State-dependent ports, potential
-changes and time objectives remain separate candidates. New calculations
-require independent registration and scientific review. Keep the baseline and
-default deployment initializer.
+The [energy-constrained initializer preparation](../protocols/constant_c_energy_initializer_v1_zh.md)
+now defines nine saved synthetic cases and three fixed radius roles, retaining
+both hidden-state and visible-future outcomes. The isolated algebra solver has
+engineering tests; the [preparation review](constant_c_energy_preparation_review_20261109_zh.md)
+accepts that scope. The [machine-readable plan](../../configs/proposals/constant_c_energy_initializer_preparation_v1.json)
+and [saved-input manifest](../../configs/proposals/constant_c_energy_saved_sources_v1.json)
+record the source identities and prospective budgets. Their status is
+`DRAFT_PREPARATION_NO_EXECUTION_AUTHORITY`: the future propagation executor,
+complete call budgets and independent registration remain pending.
+State-dependent ports, potential changes and time objectives remain separate
+candidates. Keep the baseline and default deployment initializer.
 Rejected candidates remain archived. Independent engineering extraction requires
 explicit review.
 

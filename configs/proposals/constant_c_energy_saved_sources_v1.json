@@ -1,0 +1,736 @@
+{
+  "schema": "constant_c_energy_saved_sources_v1",
+  "status": "DRAFT_PREPARATION_NO_EXECUTION_AUTHORITY",
+  "phase1_source": {
+    "run_id": "constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64",
+    "source_commit": "fcbcd28708d38b2a54b93725cfae4b803a6bd630",
+    "artifact_manifest_path": "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/artifact_hashes.json",
+    "artifact_manifest_sha256": "978e6ad9c1f77ace19f3be6e09b0c6834e11861d0e607dfccade69d8ab6fb2d1",
+    "artifact_manifest_entry_count": 80,
+    "all_artifact_manifest_entries_match_raw_file_sha256": true,
+    "execution_freeze_sha256": "698ebb90323a7988a818ee83a2efd4354740fa1ebdf57cc7908df44bea90ccef",
+    "summary_sha256": "55b3780be27308bd478abebfcdaea9add89e95769c32bcdb91252b5aebdf19b0",
+    "implementation_binding_count": 20,
+    "src_and_project_harness_binding_count": 14,
+    "source_binding_rawbyte_match_count": 20,
+    "source_binding_git_blob_rawbyte_match_count": 20
+  },
+  "inventory_method": {
+    "json": "field names and array descriptors only; no scientific scalar metric values used",
+    "npz": "ZIP member names and NPY shape/dtype headers only; no ndarray payloads loaded"
+  },
+  "files": {
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/L100_clean.json": "4a0dbf96b1179dc148c0f2bdc621aac42335f5c2a61fe0a7a86db1bdeeb7322e",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/L100_clean.npz": "a8898153d3750b6574f226ae684dd9920d1c973deae336a4e4db96404a77c83e",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/L100_alt.json": "4316a208eb720c9ac88b41622ee8d3fc9c1e7cc880502c1906ce9b14bb015acd",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/L100_alt.npz": "96c6a9e24b5caa65ee5f927172e1ce18f51892250ec4923f3a39c7f30b10f152",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/L100_weakdir.json": "6d70996e840f1bf20bff1fa27e57aa0782f58618600f2fc3d04125532e241a42",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/L100_weakdir.npz": "8729bc09c1de1d5a7ead9cc72e615a1d187cd37efdf678f12192549848196ef9",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/S100_clean.json": "411e276f3fee4f417c28a897d712e7eb027b43d5a584ccf69c6aff2e34a9a068",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/S100_clean.npz": "dd8853dcb3c5dbb4d60a22f5fccaa4867a0336b3da1c2dbdf286ab25b97e79dc",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/S100_alt.json": "320f1dc9e472ed7365368ad91038da6fbf052c6b9eb77b973f11e81dd1692460",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/S100_alt.npz": "7ce6ea9a0fd1546db1f6a2a0bf888cf56ef7a4246cad0bb3c7590e9191e88c7d",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/W100_clean.json": "7b03c15fbcb32a0027ed5a5731c392f6d9516c36ea82025dc8f340e59b76b607",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/W100_clean.npz": "f7a1406908e082b7b19575e33d46dece58e2f4b216258f10e57e794fb1a57e8c",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/W100_weakdir.json": "952cf22244a2190eb4bc3880ef08ee99c00fc19b5238d3a3a274e4732fed0b92",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/W100_weakdir.npz": "95288769ba341ec08963fdf36f6814348eba0fafad2e4a46b5e9a629b7a93227",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/K100_mismatch.json": "af6b327e4a73f5e5b4b5c17515d644d8f6db0691feec24aaebb9f17028394611",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/K100_mismatch.npz": "d2927cbc72ae4a162dfbd6ec1eecea55d5dc91376d5827696c1a2ed6278c09d7",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/U_hidden_null.json": "9dd9d4c1a44f3bd7682a156aad557a9109dfc5d44a22cff711e6895335c3091a",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/U_hidden_null.npz": "170b3f241b6db7584e92b33e15769f962db44314345730cb0327b3cab4c575a5",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/linear-fixtures.json": "36960f07279220c5c7ac6d9d1e99113f3a69211fa940d61f6b15892b519dff7b",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/linear-fixtures.npz": "323666f870783cc01228150cbdafbd115214f576c246a26742cde0cd74c4db4c",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/sine-truth.json": "9606e62599a3bf3d9b130e824cbf31d4a82800ac36a32d2c8991c9e2f78c9952",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/sine-truth.npz": "26477d092d574590c565f7383307413bac22c071742459540c428ba21994e709",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/artifact_hashes.json": "978e6ad9c1f77ace19f3be6e09b0c6834e11861d0e607dfccade69d8ab6fb2d1",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/execution_freeze.json": "698ebb90323a7988a818ee83a2efd4354740fa1ebdf57cc7908df44bea90ccef",
+    "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/summary.json": "55b3780be27308bd478abebfcdaea9add89e95769c32bcdb91252b5aebdf19b0"
+  },
+  "npz_member_whitelist": {
+    "linear-fixtures.npz": [
+      {
+        "member": "linear-fixtures__bundles__main__transition",
+        "shape": [
+          23,
+          23
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__bundles__weak__transition",
+        "shape": [
+          23,
+          23
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__bundles__mismatch__transition",
+        "shape": [
+          23,
+          23
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__main__mass",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__main__edge_stiffness",
+        "shape": [
+          45
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__main__damping",
+        "shape": [
+          10,
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__main__coupling",
+        "shape": [
+          10,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__main__latent_skew",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__main__latent_dissipation",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__weak__mass",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__weak__edge_stiffness",
+        "shape": [
+          45
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__weak__damping",
+        "shape": [
+          10,
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__weak__coupling",
+        "shape": [
+          10,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__weak__latent_skew",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__weak__latent_dissipation",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__mismatch__mass",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__mismatch__edge_stiffness",
+        "shape": [
+          45
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__mismatch__damping",
+        "shape": [
+          10,
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__mismatch__coupling",
+        "shape": [
+          10,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__mismatch__latent_skew",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__parameters__mismatch__latent_dissipation",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__powers__main",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__powers__weak",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "linear-fixtures__powers__mismatch",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      }
+    ],
+    "sine-truth.npz": [
+      {
+        "member": "sine-truth__power",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "sine-truth__parameters__mass",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "sine-truth__parameters__edge_stiffness",
+        "shape": [
+          45
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "sine-truth__parameters__damping",
+        "shape": [
+          10,
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "sine-truth__parameters__coupling",
+        "shape": [
+          10,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "sine-truth__parameters__latent_skew",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "sine-truth__parameters__latent_dissipation",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      }
+    ],
+    "linear_100ms_cases": {
+      "case_ids": [
+        "L100_clean",
+        "L100_alt",
+        "L100_weakdir",
+        "W100_clean",
+        "W100_weakdir",
+        "K100_mismatch"
+      ],
+      "member_template": [
+        {
+          "member": "L100_clean__observed",
+          "shape": [
+            11,
+            20
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__truth_history",
+          "shape": [
+            11,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__truth_future",
+          "shape": [
+            801,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__integral__matrix",
+          "shape": [
+            100,
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__integral__right4",
+          "shape": [
+            100
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__integral__z4",
+          "shape": [
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__integral__svd__u",
+          "shape": [
+            100,
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__integral__svd__s",
+          "shape": [
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__integral__svd__vh",
+          "shape": [
+            2,
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__paths__integral_ls__z",
+          "shape": [
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__paths__integral_ls__history",
+          "shape": [
+            11,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__paths__integral_ls__reset",
+          "shape": [
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__paths__integral_ls__future",
+          "shape": [
+            801,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__paths__true_z_reference__z",
+          "shape": [
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__paths__true_z_reference__history",
+          "shape": [
+            11,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__paths__true_z_reference__reset",
+          "shape": [
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "L100_clean__paths__true_z_reference__future",
+          "shape": [
+            801,
+            22
+          ],
+          "dtype": "<f8"
+        }
+      ],
+      "name_pattern": "{case_id}__{suffix}"
+    },
+    "sine_cases": {
+      "case_ids": [
+        "S100_clean",
+        "S100_alt"
+      ],
+      "member_template": [
+        {
+          "member": "S100_clean__observed",
+          "shape": [
+            11,
+            20
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__truth_history",
+          "shape": [
+            11,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__truth_future",
+          "shape": [
+            801,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__integral__matrix",
+          "shape": [
+            100,
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__integral__right4",
+          "shape": [
+            100
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__integral__z4",
+          "shape": [
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__integral__svd__u",
+          "shape": [
+            100,
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__integral__svd__s",
+          "shape": [
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__integral__svd__vh",
+          "shape": [
+            2,
+            2
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__integral_ls__0__history",
+          "shape": [
+            11,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__integral_ls__0__reset",
+          "shape": [
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__integral_ls__0__future",
+          "shape": [
+            801,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__integral_ls__1__history",
+          "shape": [
+            11,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__integral_ls__1__reset",
+          "shape": [
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__integral_ls__1__future",
+          "shape": [
+            801,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__true_z_reference__0__history",
+          "shape": [
+            11,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__true_z_reference__0__reset",
+          "shape": [
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__true_z_reference__0__future",
+          "shape": [
+            801,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__true_z_reference__1__history",
+          "shape": [
+            11,
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__true_z_reference__1__reset",
+          "shape": [
+            22
+          ],
+          "dtype": "<f8"
+        },
+        {
+          "member": "S100_clean__paths__true_z_reference__1__future",
+          "shape": [
+            801,
+            22
+          ],
+          "dtype": "<f8"
+        }
+      ],
+      "name_pattern": "{case_id}__{suffix}"
+    },
+    "U_hidden_null.npz": [
+      {
+        "member": "U_hidden_null__first",
+        "shape": [
+          821,
+          22
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__integral__matrix",
+        "shape": [
+          100,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__integral__right4",
+        "shape": [
+          100
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__integral__svd__u",
+        "shape": [
+          100,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__integral__svd__s",
+        "shape": [
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__integral__svd__vh",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__parameters__mass",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__parameters__edge_stiffness",
+        "shape": [
+          45
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__parameters__damping",
+        "shape": [
+          10,
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__parameters__coupling",
+        "shape": [
+          10,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__parameters__latent_skew",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__parameters__latent_dissipation",
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__power",
+        "shape": [
+          10
+        ],
+        "dtype": "<f8"
+      },
+      {
+        "member": "U_hidden_null__bundle__transition",
+        "shape": [
+          23,
+          23
+        ],
+        "dtype": "<f8"
+      }
+    ]
+  },
+  "member_template_rule": "Replace only the leading case ID with each listed case_id; array shapes and dtype stay fixed.",
+  "history_origin_mapping": {
+    "ordinary_cases": "Use saved observed/truth_history/truth_future and integral Gauss4 fields.",
+    "U_hidden_null": {
+      "history": "first[10:21]",
+      "future": "first[20:]",
+      "true_z_h": "first[10,20:]",
+      "positive_radius": "unresolved",
+      "zero": "propagate explicit zero baseline",
+      "unconstrained_comparison": null
+    }
+  },
+  "model_families": {
+    "L100_clean": "main",
+    "L100_alt": "main",
+    "L100_weakdir": "main",
+    "W100_clean": "weak",
+    "W100_weakdir": "weak",
+    "K100_mismatch": "mismatch estimator / main truth",
+    "S100_clean": "sine-truth.parameters",
+    "S100_alt": "sine-truth.parameters",
+    "U_hidden_null": "U_hidden_null.parameters"
+  },
+  "auxiliary_metadata": "Saved JSON descriptors supply ranks, thresholds and array keys. No array value was decoded during this preparation inventory."
+}

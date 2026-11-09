@@ -1,0 +1,183 @@
+{
+  "schema": "constant_c_energy_initializer_preparation_v1",
+  "status": "DRAFT_PREPARATION_NO_EXECUTION_AUTHORITY",
+  "scientific_execution_authorized": false,
+  "scientific_entrypoint": null,
+  "question": "Can a fixed initial hidden-energy ball control initialization inflation without losing visible future accuracy in the same saved synthetic cases?",
+  "preparation_bindings": {
+    "docs/protocols/constant_c_energy_initializer_v1_zh.md": "c93c6e492d6153a165297c1ae8da227993ad22ce556ae0cb65c47e3da900cda6",
+    "src/kron_reduce/evaluation/energy_constrained_initializer.py": "71e6be51569ce43eb67bce466ddfa6e222a0cf32338c2a33a10ae5ed76f9ef74",
+    "tests/test_energy_constrained_initializer.py": "6ac6526c5422658ad1389e36610a74759154872b16a5eb1931b6da5c2ae4f1c7",
+    "docs/research/constant_c_energy_preparation_review_20261109_zh.md": "bd7e714637ded95f6af37a48ff1fc3e11ae0f42f38c913ee96fa34daaee5315a",
+    "configs/proposals/constant_c_energy_saved_sources_v1.json": "441ac8924c1e027fe79587d5866076834a8060debca06844845d3928751bd4be"
+  },
+  "prior_authorization": {
+    "id": "constant_c_100ms_synthetic_v1_20261109",
+    "status": "consumed",
+    "reexecution_allowed": false
+  },
+  "cases": [
+    "L100_clean",
+    "L100_alt",
+    "L100_weakdir",
+    "S100_clean",
+    "S100_alt",
+    "W100_clean",
+    "W100_weakdir",
+    "K100_mismatch",
+    "U_hidden_null"
+  ],
+  "radii": [
+    {
+      "id": "zero",
+      "role": "zero_hidden_baseline",
+      "radius": 0.0,
+      "energy_bound": 0.0
+    },
+    {
+      "id": "oracle_radius",
+      "role": "oracle_bound",
+      "radius_expression": "norm(true_z_h)",
+      "deployable_prior": false,
+      "claim": "Truth is feasible; optimal hidden recovery and future accuracy are not guaranteed."
+    },
+    {
+      "id": "fixed_radius",
+      "role": "fixed_engineering_bound",
+      "radius": 1.0,
+      "energy_bound": 0.5,
+      "center": "origin",
+      "calibrated_physical_prior": false
+    }
+  ],
+  "candidate_input_keys": [
+    "integral.matrix",
+    "integral.right4",
+    "integral.svd",
+    "integral.z4",
+    "radius"
+  ],
+  "information_separation": "Only the oracle-radius caller uses hidden truth to set its radius; truth direction and future outcomes never enter the solver or radius selection.",
+  "solver_rules": {
+    "zero_precedes_rank": true,
+    "zero_multiplier": null,
+    "zero_multiplier_kind": "zero_radius_limit",
+    "positive_radius_rank_deficient": "unresolved_without_propagation",
+    "inactive": "return elementwise-identical saved z4 and reuse all original paths",
+    "active": "positive secular root; feasible bracket upper endpoint; original-equation KKT checks",
+    "rank_threshold": "reuse saved phase1 value without refitting",
+    "max_root_updates": 64,
+    "max_secular_evaluations": 80,
+    "max_upper_bracket_repairs": 8,
+    "relative_boundary_tolerance": 1e-12,
+    "scaled_stationarity_tolerance": 1e-10,
+    "scaled_complementarity_tolerance": 3e-12,
+    "failure": "stop, preserve diagnostics and spent budget, do not return a fallback candidate or retry"
+  },
+  "prospective_budget_not_authorization": {
+    "candidate_records": "9 cases * 3 radii = 27: 9 zero; 2 positive-radius rank-unresolved; 16 full-rank positive-radius",
+    "new_linear_candidates": "7 <= k_l <= 19",
+    "new_linear_path_segments": "2*k_l",
+    "saved_transition_matrix_actions": "810*k_l, maximum 15390",
+    "new_sine_candidates": "2 <= k_s <= 6",
+    "new_sine_path_segments": "4*k_s",
+    "rk4_updates_per_candidate": 19440,
+    "integration_rhs_per_candidate": 77760,
+    "integration_rhs_maximum": 466560,
+    "all_new_path_segments_maximum": 62,
+    "physical_rhs_formula": "6*k_l + 12*k_s",
+    "physical_rhs_maximum": 186,
+    "positive_root_solves_maximum": 16,
+    "root_updates_per_solve_maximum": 64,
+    "root_function_evaluations_per_solve_maximum": 80,
+    "root_updates_total_maximum": 1024,
+    "root_function_evaluations_total_maximum": 1280,
+    "new_truths": 0,
+    "new_svd": 0,
+    "new_matrix_exponential": 0,
+    "generic_ls": 0,
+    "training": 0,
+    "executor_auxiliary_budgets": "Model construction, matrix arithmetic, energy probes and scoring calls still require an implementation-specific static call tree; protocol says this is not authorized yet."
+  },
+  "outcome_axes": {
+    "initial_state": [
+      "z_h",
+      "hidden_recovery_error",
+      "hidden_energy",
+      "radius_source",
+      "truth_feasible",
+      "multiplier",
+      "constraint_active",
+      "constraint_binding",
+      "regularization_active",
+      "weighted_residual",
+      "objective",
+      "KKT",
+      "root_trace"
+    ],
+    "forecast_origin": [
+      "z_T_closed_loop",
+      "hidden_recovery_error",
+      "hidden_energy",
+      "energy_growth",
+      "energy_ratio_or_null_if_zero_denominator",
+      "visible_reset_energy_jump"
+    ],
+    "visible_future": {
+      "horizons_s": [
+        3,
+        8
+      ],
+      "channels": [
+        "q",
+        "v"
+      ],
+      "metrics": [
+        "normalized_RMS",
+        "maximum_absolute_error"
+      ],
+      "references": [
+        "clean_truth",
+        "same_case_true_z_reference"
+      ],
+      "unconstrained_error_delta": true,
+      "numerical_noninferiority_tolerance": 1e-08
+    },
+    "retain_all_radii_and_failures": true,
+    "no_selection_by_future_error": true
+  },
+  "engineering_validation": {
+    "kind": "artificial matrices and supplied analytic thin SVD only",
+    "passed": 25,
+    "scientific_arrays_used": false,
+    "log": {
+      "path": "scratch/one_off/constant-c-energy-preparation-20261109/solver-tests-final.txt",
+      "sha256": "efa895ca611aaaa9aa78460eda3f6cd707467667c49a8af5355fd325fb3b6a6d"
+    },
+    "fixed_budget_failure_fixture_retained": true,
+    "repository_audit": "PASS: zero errors, zero findings"
+  },
+  "pending_before_scientific_execution": [
+    "Implement isolated saved-input reader and conditional propagation executor with complete static per-scope budgets.",
+    "Independently review exact implementation and register a new one-use authority.",
+    "Bind clean pushed source and passing CI before the single immutable run.",
+    "Independently audit saved evidence and obtain scientific result review."
+  ],
+  "unchanged": [
+    "configs/research_policy.json",
+    "src/kron_reduce/evaluation/integral_initializer.py",
+    "default deployment initializer",
+    "KEEP_BASELINE"
+  ],
+  "excluded": [
+    "real train/val/test",
+    "parameter training",
+    "new SVD or expm",
+    "new truth generation",
+    "C(q)",
+    "potential modifications",
+    "time objectives",
+    "radius sweep",
+    "rejected branch imports"
+  ]
+}
