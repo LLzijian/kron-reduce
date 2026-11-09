@@ -103,13 +103,22 @@ class EnergyCapSavedInputs:
                     self.decoded.add(key)
                     with archive.open(member) as stream:
                         magic = stream.read(8)
+                        self.npy_header_bytes += len(magic)
                         if magic[:6] != b"\x93NUMPY" or magic[6:] not in {b"\x01\x00", b"\x02\x00", b"\x03\x00"}:
                             raise ValueError("unsupported NPY format")
                         size_length = 2 if magic[6] == 1 else 4
-                        header_size = int.from_bytes(stream.read(size_length), "little")
+                        size_bytes = stream.read(size_length)
+                        self.npy_header_bytes += len(size_bytes)
+                        if len(size_bytes) != size_length:
+                            raise ValueError("truncated saved-array header length")
+                        header_size = int.from_bytes(size_bytes, "little")
                         if not 0 < header_size <= 4096:
                             raise ValueError("saved-array header exceeds its fixed byte limit")
-                        header = ast.literal_eval(stream.read(header_size).decode("utf-8" if magic[6] == 3 else "latin1"))
+                        header_bytes = stream.read(header_size)
+                        self.npy_header_bytes += len(header_bytes)
+                        if len(header_bytes) != header_size:
+                            raise ValueError("truncated saved-array header")
+                        header = ast.literal_eval(header_bytes.decode("utf-8" if magic[6] == 3 else "latin1"))
                         nbytes = math.prod(spec["shape"]) * np.dtype(spec["dtype"]).itemsize
                         if (not isinstance(header, dict) or set(header) != {"descr", "fortran_order", "shape"}
                                 or header["descr"] != spec["dtype"] or type(header["fortran_order"]) is not bool
@@ -117,10 +126,9 @@ class EnergyCapSavedInputs:
                                 or archive.getinfo(member).file_size != 8 + size_length + header_size + nbytes):
                             raise ValueError("saved-array shape, dtype or finiteness contract differs before payload decode")
                         raw = stream.read(nbytes)
+                        self.logical_bytes += len(raw)
                         if len(raw) != nbytes:
                             raise ValueError("truncated saved-array payload")
-                        self.npy_header_bytes += 8 + size_length + header_size
-                        self.logical_bytes += nbytes
                     value = np.frombuffer(raw, dtype=spec["dtype"]).reshape(
                         spec["shape"], order="F" if header["fortran_order"] else "C")
                     if not np.isfinite(value).all():

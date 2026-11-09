@@ -106,6 +106,7 @@ def test_npz_decodes_only_whitelisted_arrays_and_preserves_int64_offset(tmp_path
     assert arrays["offset"].dtype.str == "<i8"
     np.testing.assert_array_equal(arrays["offset"], offset)
     assert arrays["offset"].flags.writeable is False
+    assert reader.snapshot()["logical_bytes"] == offset.nbytes
     assert operations.attempted == operations.returned == 2
     assert reader.snapshot()["members_attempted"] == 1
     with pytest.raises(PermissionError, match="not a registered NPZ source"):
@@ -126,6 +127,7 @@ def test_npz_preserves_fortran_order_and_checks_canonical_array_hash(tmp_path):
 
     np.testing.assert_array_equal(loaded, array)
     assert loaded.flags.writeable is False
+    assert reader.snapshot()["logical_bytes"] == array.nbytes
 
 
 def test_invalid_npy_header_is_rejected_before_payload_read(tmp_path, monkeypatch):
@@ -162,6 +164,9 @@ def test_invalid_npy_header_is_rejected_before_payload_read(tmp_path, monkeypatc
     assert reads[:2] == [8, 2]
     assert reads[2] > 0
     assert 16 not in reads
+    snapshot = reader.snapshot()
+    assert snapshot["npy_header_bytes"] > 0
+    assert snapshot["logical_bytes"] == 0
 
 
 def test_bad_file_hash_is_spent_and_cannot_be_retried(tmp_path):

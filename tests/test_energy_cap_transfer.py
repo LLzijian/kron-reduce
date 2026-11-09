@@ -447,6 +447,7 @@ class ExecuteReader:
         for name, value in arrays.items():
             self.operations.call("probe", lambda: None, tag=f"source_member:{relative}:{name}")
             self.decoded.add(relative + ":" + name)
+            self.npy_header_bytes += 128
             self.logical_bytes += np.asarray(value).nbytes
         self.arrays_by_path[relative] = arrays
         return arrays
@@ -529,12 +530,24 @@ def test_execute_inactive_slots_freeze_before_reading_future_source_and_never_ro
     file_count = 8 + rows * 7 + 2 + rows * 4
     direct_probe_count = len((324,)) + rows * 9 + 3
     probe_limit = member_count + file_count + direct_probe_count
+    future_points = sum(count + 1 for count in future_counts)
+    input_bytes = (rows * 11 * 20 + rows * 11 + rows * 10 * 2 + 10 + 20) * 8
+    static_bytes = len(transfer.PARAMETERS) * 10 * 8
+    integral_bytes = rows * 18 * 8
+    history_bytes = rows * 2 * 759 * 8
+    clock_bytes = (259 + future_points + rows) * 8
+    future_bytes = sum(2 * (65 * (count + 1) + 22) * 8 for count in future_counts)
+    logical_byte_cap = input_bytes + static_bytes + integral_bytes + history_bytes + clock_bytes + future_bytes
     result_dir = tmp_path / "result"
     result_dir.mkdir()
     plan = {
         "sources_path": "sources.json",
         "future_counts": future_counts,
         "operator_limits": {"probe": probe_limit},
+        "source_read_plan": {
+            "decoded_array_byte_cap": logical_byte_cap,
+            "npy_header_max_bytes_per_member": 4108,
+        },
     }
 
     summary = transfer.execute(root=tmp_path, result_dir=result_dir, plan=plan, runtime={"fake": "test"})
@@ -550,6 +563,8 @@ def test_execute_inactive_slots_freeze_before_reading_future_source_and_never_ro
     assert reader.attempted == set(reader.files)
     assert len(reader.decoded) == sum(len(spec["members"]) for spec in reader.files.values())
     assert reader.bytes_read == sum(spec["size_bytes"] for spec in reader.files.values())
+    assert reader.logical_bytes == logical_byte_cap
+    assert reader.npy_header_bytes <= len(reader.decoded) * 4108
     assert len(score_calls) == rows * 3
     assert summary["conditional_budget"]["expected_calls"] == {
         "rollouts": 0, "integration_rhs": 0, "physical_rhs": 0,

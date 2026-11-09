@@ -395,7 +395,9 @@ def execute(*, root, result_dir, plan, runtime):
                 or ops.counts["probe"] != plan["operator_limits"]["probe"]
                 or ops.returns != ops.counts
                 or len(reader.decoded) != sum(len(spec.get("members", {})) for spec in reader.files.values())
-                or reader.bytes_read != sum(spec["size_bytes"] for spec in reader.files.values())):
+                or reader.bytes_read != sum(spec["size_bytes"] for spec in reader.files.values())
+                or reader.logical_bytes != plan["source_read_plan"]["decoded_array_byte_cap"]
+                or reader.npy_header_bytes > len(reader.decoded) * plan["source_read_plan"]["npy_header_max_bytes_per_member"]):
             raise RuntimeError("actual scalar, source or probe accounting differs from the frozen plan")
         write_json(result_dir / "source-access.json", reader.snapshot())
         write_json(result_dir / "summary.json", summary)
