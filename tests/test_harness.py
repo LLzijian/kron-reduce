@@ -50,9 +50,14 @@ def test_loop_starts_at_scaffold_and_cannot_skip(root, tmp_path):
     workflow_dir = tmp_path / "configs" / "workflows"
     workflow_dir.mkdir(parents=True)
     shutil.copy2(root / "configs" / "workflows" / "paper_v1.json", workflow_dir)
+    shutil.copy2(root / "configs" / "project_manifest.json", workflow_dir.parent)
     state = load_state(tmp_path)
     assert state["current_stage"] == "scaffold"
     assert next_stage(tmp_path) == "data_verified"
+    preview = plan(tmp_path)
+    assert preview["built_in_check"] is True
+    assert preview["registered_experiments"] == []
+    assert "paper_v1_full" in preview["experiments_without_stage"]
     assert not (tmp_path / ".project_state").exists()
     with pytest.raises(RuntimeError, match="expected 'data_verified'"):
         record_stage(tmp_path, "smoke", {"status": "PASS"})

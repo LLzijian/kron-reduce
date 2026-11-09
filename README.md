@@ -42,6 +42,7 @@ information budget.
    shows the dataset and experiment registry. `loop plan` shows the current
    and next stages, the evidence contract, pending approvals, and matching
    experiment registrations with their execution modes and authorization status.
+   Entries registered at the workflow level appear separately.
    `loop status` shows the full saved history. These inspection commands read
    repository metadata and saved evidence.
 2. **Execute one step.** Use `loop run-one` for a built-in check. For an

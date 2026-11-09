@@ -186,7 +186,8 @@ def plan(root: Path, workflow_name: str = "paper_v1") -> dict:
         "pending_approval": pending_gate,
         "built_in_check": built_in_check,
         "evidence_contract": workflow.get("stage_evidence_contracts", {}).get(target),
-        "registered_experiments": experiments,
+        "registered_experiments": [row for row in experiments if row["stage"] is not None],
+        "experiments_without_stage": [row["name"] for row in experiments if row["stage"] is None],
         "last_result": last_result or None,
     }
 
