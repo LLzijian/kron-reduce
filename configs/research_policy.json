@@ -1103,7 +1103,7 @@
       "real_data_reads": 0,
       "fit_attempts": 0,
       "optimizer_updates": 0,
-      "status": "active",
+      "status": "consumed",
       "user_authorization": "2026-11-09: 按规划开始自主推进；仅本轮独立登记的阶段一合成研究",
       "plan_path": "configs/proposals/constant_c_100ms_synthetic_v1.json",
       "plan_sha256": "17afaeddf4113a8904d763b636fe38d1918822238fd7714efaa23df2cc5df4fe",
@@ -1135,7 +1135,14 @@
       },
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false,
-      "later_candidate_stages_authorized": false
+      "later_candidate_stages_authorized": false,
+      "completed_run_id": "constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64",
+      "source_commit": "fcbcd28708d38b2a54b93725cfae4b803a6bd630",
+      "artifact_manifest_sha256": "978e6ad9c1f77ace19f3be6e09b0c6834e11861d0e607dfccade69d8ab6fb2d1",
+      "result_receipt_path": "docs/reports/constant_c_100ms_synthetic_20261109_evidence.json",
+      "result_receipt_sha256": "16bbf06f431e70035cfbc7e9f5d9f631a5c9b811e61aac2442b093ce28fa3216",
+      "scientific_verdict": "ACCEPT",
+      "promotion_decision": "KEEP_BASELINE"
     }
   }
 }

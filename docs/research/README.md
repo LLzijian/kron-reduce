@@ -6,13 +6,19 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
-The current question is whether 100 ms of observations suffice in a
-known-truth system with constant `C`. The [fixed synthetic protocol](../protocols/constant_c_100ms_synthetic_v1_zh.md)
-defines 17 cases separating discrete observation information, initialization
-error and visible future equivalence. Its dedicated CLI requires the new
-policy registration, exact implementation review and a clean bound checkout
-before spending its single execution. This scope opens no real data or later
-algorithm candidates. Keep the baseline and default deployment initializer.
+The [constant-C synthetic study](../reports/constant_c_100ms_synthetic_20261109_zh.md)
+completed its one registered execution: 17 cases separate discrete observation
+information, initialization error and visible future equivalence. Its authority
+is consumed; review the saved evidence rather than rerunning it. The fixed main
+system supports accurate 100 ms recovery, while weak coupling, aliasing and
+hidden-null controls delimit that result. This establishes no real-data claim.
+
+The next preparation question is a separately registered energy-constrained
+initializer comparison with a radius fixed before results, retaining both
+hidden-state and visible-future outcomes. State-dependent ports, potential
+changes and time objectives remain separate candidates. New calculations
+require independent registration and scientific review. Keep the baseline and
+default deployment initializer.
 Rejected candidates remain archived. Independent engineering extraction requires
 explicit review.
 

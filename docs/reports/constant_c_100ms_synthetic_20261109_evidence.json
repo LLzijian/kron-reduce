@@ -1,0 +1,100 @@
+{
+  "schema": "constant_c_100ms_synthetic_result_receipt_v1",
+  "authorization": "constant_c_100ms_synthetic_v1_20261109",
+  "authorization_status": "consumed",
+  "run_id": "constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64",
+  "source_commit": "fcbcd28708d38b2a54b93725cfae4b803a6bd630",
+  "result_directory": "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64",
+  "artifact_manifest_sha256": "978e6ad9c1f77ace19f3be6e09b0c6834e11861d0e607dfccade69d8ab6fb2d1",
+  "summary_sha256": "55b3780be27308bd478abebfcdaea9add89e95769c32bcdb91252b5aebdf19b0",
+  "plan_path": "configs/proposals/constant_c_100ms_synthetic_v1.json",
+  "plan_sha256": "17afaeddf4113a8904d763b636fe38d1918822238fd7714efaa23df2cc5df4fe",
+  "process_status": "PASS",
+  "scientific_verdict": "ACCEPT",
+  "promotion_decision": "KEEP_BASELINE",
+  "case_count": 17,
+  "scope_count": 19,
+  "operator_attempted": {
+    "probe": 168,
+    "expm": 54,
+    "physical_rhs": 312,
+    "rollouts": 93,
+    "svd": 36,
+    "ls": 38,
+    "force": 762,
+    "integration_rhs": 389760
+  },
+  "operator_returned": {
+    "probe": 168,
+    "expm": 54,
+    "physical_rhs": 312,
+    "rollouts": 93,
+    "svd": 36,
+    "ls": 38,
+    "force": 762,
+    "integration_rhs": 389760
+  },
+  "sine_path_segments": 18,
+  "rk4_updates": 97440,
+  "real_data_reads": 0,
+  "fit_attempts": 0,
+  "optimizer_updates": 0,
+  "labels_read": 0,
+  "new_missed_instability_claim": false,
+  "execution_ci": {
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/42578771195",
+    "conclusion": "success"
+  },
+  "saved_evidence_audit": {
+    "status": "PASS",
+    "checks": 1969,
+    "mismatches": 0,
+    "bundle_directory": "reports/generated/constant_c_100ms_synthetic_20261109",
+    "bundle_manifest_sha256": "d7870ea1b2f972a1d65dbd677b55b08827dd158993ca3d186fc96a2dcb205575",
+    "final_report": "saved-audit-v3.json",
+    "final_report_sha256": "629cd3efb47c8ae20e7091a0fe4f87d3dc30e2ec2abc5d60ef176ff86ab06d1d",
+    "script_sha256": "0e33e5ad0b3991f90514f4685cf4a7d8b6ad1f6ab0cf7ca477be7ccb1013871b",
+    "retained_prior_attempts": [
+      {
+        "path": "saved-audit-v1.json",
+        "sha256": "bb729ff8c9f047a65c12806831378f52ee2104597cf692030ad358df0cec3aba",
+        "classification": "auditor_schema_error",
+        "reason": "sine path has no z field; use saved initial history state"
+      },
+      {
+        "path": "saved-audit-v2.json",
+        "sha256": "69af7883d92bf9a1cb8b0d40886833e15bbf0908bd3d727c33d585d0475a92b9",
+        "classification": "auditor_schema_error",
+        "reason": "clock scope preserves underscores while journal scope uses hyphens"
+      }
+    ],
+    "new_scientific_operator_calls": 0
+  },
+  "scientific_review": {
+    "path": "docs/research/constant_c_100ms_synthetic_result_review_20261109_zh.md",
+    "sha256": "120a225a849bdb9685216e572bbd3475a113483a08c97999d8e8b6e1e8e8e9b3",
+    "reviewer": "Astra Ultra"
+  },
+  "report_path": "docs/reports/constant_c_100ms_synthetic_20261109_zh.md",
+  "observation_identifiability": {
+    "L100_clean": "known_linear_unique",
+    "L100_alt": "known_linear_unique",
+    "L100_weakdir": "known_linear_unique",
+    "W100_clean": "known_linear_unique",
+    "W100_weakdir": "known_linear_unique",
+    "K100_mismatch": "known_linear_unique",
+    "L020_clean": "known_linear_unique",
+    "L050_clean": "known_linear_unique",
+    "L200_clean": "known_linear_unique",
+    "S100_clean": "nonlinear_not_certified",
+    "S100_alt": "nonlinear_not_certified",
+    "A_alias": "future_relevant_alias_counterexample",
+    "U_hidden_null": "hidden_nonunique_visible_future_equivalent",
+    "D_force_orth": "algebra_only",
+    "D_column_confounded": "algebra_only",
+    "D_port_temporal": "algebra_only",
+    "I_constant_input": "algebra_only"
+  },
+  "claim_boundary": "Fixed synthetic cases only; no real-data sufficiency, general nonlinear identifiability, A15/A17 causal-root, FNR or stability-certificate claim.",
+  "next_scope": "Prepare a separately reviewed energy-constrained initializer candidate; no new calculation authorized by this result."
+}

@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Constant-C 100 ms synthetic study](constant_c_100ms_synthetic_20261109_zh.md) | One completed 17-case study separating sampled identifiability, initialization error and visible future equivalence; zero real-data reads, consumed authority and `KEEP_BASELINE` |
 | [TASK3 frozen 200 ms result receipt](kiki_task3_frozen_200ms_20261109_evidence.json) | Retrospective A03 checkpoint comparison on 105 `val` and 75 previously exposed `test` events, with a consumed authorization and `KEEP_BASELINE` |
 | `kiki_a06_joint_refinement_20261024_zh.md` | Three full-model refinements, one remaining FN per seed, complete numerical gates, retained coverage and a consumed fixed budget |
 | `kiki_a05_paired_training_20261024_zh.md` | Completed six-fit F/J comparison, rejection of permanent backbone freezing, retained numerical failure, zero-fit closeout repair and consumed authorization |
