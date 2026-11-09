@@ -995,7 +995,7 @@
       "scientific_result_review_sha256": "fed08fff8577256c298eb03176d878949c7c2c263b8abd06bb372f5194673c3a"
     },
     "kiki_energy_cap_transfer_v1_20261109": {
-      "status": "user_approved",
+      "status": "consumed",
       "authorization": "kiki_energy_cap_transfer_v1_20261109",
       "experiment": "kiki_energy_cap_transfer_v1",
       "workflow": "kiki_energy_cap_transfer_v1",
@@ -1066,7 +1066,22 @@
         "tests/test_scoped_audit_journal.py": "4c9c65ef2af108cacbad447cdc63a62ff61fbd0fbbc11a8f993cbfdcc818114e"
       },
       "promotion_decision": "KEEP_BASELINE",
-      "review_sha256": "770284232656c2bbccc3b05ea67c4ed47164622ef9e8c3ba58336ffefea1d3be"
+      "review_sha256": "770284232656c2bbccc3b05ea67c4ed47164622ef9e8c3ba58336ffefea1d3be",
+      "consumed_at": "2026-11-09T17:00:14.842511+00:00",
+      "completed_run_id": "kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575",
+      "source_commit": "891358534869dea5810893083bb651b95c378a32",
+      "artifact_manifest_sha256": "6abadbc49d115e297fff59c2be018fa936d9f281ceeb9e9208157f5404cb751d",
+      "scientific_verdict": "REJECT",
+      "result_receipt_path": "docs/reports/kiki_energy_cap_transfer_20261110_evidence.json",
+      "result_receipt_sha256": "83a7a020808971b08c1541e7443031ac3e123d0300d464684ad748872a95a96b",
+      "scientific_review_path": "docs/research/kiki_energy_cap_result_review_20261110_zh.md",
+      "scientific_review_sha256": "3d708dda6806e3785448450f586b9cd3415c6854d129f8fae570f4d9753e9b55",
+      "scientific_review_receipt": {
+        "path": "docs/research/kiki_energy_cap_result_review_20261110.json",
+        "sha256": "525f76b49cea1c3b41b418d287890d2824f5aa42b828de733f44ad57dd844239"
+      },
+      "archive_branch": "codex/encoder-energy-cap-transfer",
+      "followup_scope": "Read-only synthesis and independent design; no direct replacement or automatic joint training."
     }
   },
   "archived_development_results": {
@@ -1434,6 +1449,47 @@
       "scientific_review_sha256": "50cef92c88a6db6654a71fbaedfcdb01929cf5764a139e3e4189d7d77e835a22",
       "scientific_verdict": "ACCEPT",
       "promotion_decision": "KEEP_BASELINE"
+    }
+  },
+  "saved_evidence_audits": {
+    "kiki_energy_cap_truth_window_audit_v1_20261110": {
+      "status": "consumed",
+      "plan_path": "configs/proposals/kiki_energy_cap_truth_window_audit_v1.json",
+      "plan_sha256": "5230ac84e4c4c927fa5eb94b36bddc715dd2332befc3f110058269ef2ac9e0c8",
+      "purpose": "Correct only the independent auditor truth-window selection; original scientific run remains consumed.",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "run_id": "kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575",
+      "limits": {
+        "files": 4991,
+        "file_bytes": 484126094,
+        "members": 5206,
+        "logical_bytes": 254839136,
+        "npy_header_bytes_per_member": 4108,
+        "method_records": 2322,
+        "replacement_checks": 20898,
+        "solver": 0,
+        "rollout": 0,
+        "rhs": 0,
+        "svd": 0,
+        "expm": 0,
+        "fit": 0,
+        "max_executions": 1,
+        "retry_allowed": false
+      },
+      "review_path": "docs/research/kiki_energy_cap_truth_window_approval_20261110.json",
+      "review_sha256": "8dfb774dccaf76a3c7d6ef2bee9fa05d5aeef5bba68d9a051df9cdcf055083a5",
+      "consumed_at": "2026-11-09T17:19:26.733681+00:00",
+      "result": {
+        "path": "reports/generated/kiki_energy_cap_transfer_20261110/truth-window-audit.json",
+        "sha256": "f14a9930021eb95567d02b1ae0765bacbbd39231ee777adabff301ea503b519e"
+      },
+      "closeout": {
+        "path": "reports/generated/kiki_energy_cap_transfer_20261110/numeric-closeout.json",
+        "sha256": "b8c5c3e538d1d313d6e95c4e5cd6df6f6d9a11af85d4eeb0e199ffb0153c3c0b"
+      },
+      "checks": 20898,
+      "mismatches": 0
     }
   }
 }

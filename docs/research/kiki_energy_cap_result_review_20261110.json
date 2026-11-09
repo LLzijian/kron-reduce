@@ -1,0 +1,565 @@
+{
+  "schema": "kiki_energy_cap_result_review_v1",
+  "review_date": "2026-11-10",
+  "reviewer": "Astra Ultra scientific reviewer",
+  "model": "gpt-6-astra",
+  "reasoning": "ultra",
+  "model_identity_basis": "Coordinating agent delegation configuration; not local runtime introspection",
+  "review_completed": true,
+  "evidence_status": "PASS_AFTER_EXPLICIT_AUDIT_FAMILY_REPLACEMENT_AND_METADATA_CLOSEOUT",
+  "process_status": "PASS",
+  "scientific_verdict": "REJECT",
+  "promotion_decision": "KEEP_BASELINE",
+  "selected_model": null,
+  "certified": false,
+  "new_training_authorized": false,
+  "val_evaluation_authorized": false,
+  "test_evaluation_authorized": false,
+  "run_id": "kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575",
+  "source_commit": "891358534869dea5810893083bb651b95c378a32",
+  "artifact_manifest_sha256": "6abadbc49d115e297fff59c2be018fa936d9f281ceeb9e9208157f5404cb751d",
+  "summary_path": "results/kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575/summary.json",
+  "summary_sha256": "28c846bcd1c65fa0a96e4a62c5fd58a76cad0b8a0a3ded12469b313773484c14",
+  "comparison_authority": "kiki_energy_cap_transfer_v1_20261109",
+  "supplement_authority": "kiki_energy_cap_truth_window_audit_v1_20261110",
+  "population": {
+    "allocated_events": 268,
+    "eligible_train_events": 258,
+    "seeds": [
+      324,
+      325,
+      326
+    ],
+    "slots": 774,
+    "completed_slots": 774,
+    "active_slots": 666,
+    "inactive_slots": 108,
+    "zero_radius_slots": 0
+  },
+  "gates": {
+    "V": true,
+    "mechanism_exercised": true,
+    "G_E": false,
+    "G_I": true,
+    "D": false,
+    "acceptance_rule": "V and mechanism_exercised and G_E and D"
+  },
+  "comparisons": {
+    "E": {
+      "324": {
+        "refinement_proxy": 3.402874648728016E-10,
+        "required_numerical_effect": 3.402874648728016E-09,
+        "minimum_improvement": -0.4269097607565018,
+        "effect_resolved": false,
+        "steps": {
+          "0.005": {
+            "candidate_M": 0.4879705748894306,
+            "reference_M": 0.06106081413292878,
+            "absolute_improvement": -0.4269097607565018,
+            "relative_improvement": -6.991550420980689,
+            "one_percent": false,
+            "protections": {
+              "horizon1": false,
+              "horizon3": false,
+              "q": false,
+              "v": false,
+              "cvar10": false,
+              "complete3": false
+            },
+            "qualified": false
+          },
+          "0.0025": {
+            "candidate_M": 0.4879705745491431,
+            "reference_M": 0.06106081401415767,
+            "absolute_improvement": -0.4269097605349854,
+            "relative_improvement": -6.991550430952351,
+            "one_percent": false,
+            "protections": {
+              "horizon1": false,
+              "horizon3": false,
+              "q": false,
+              "v": false,
+              "cvar10": false,
+              "complete3": false
+            },
+            "qualified": false
+          }
+        },
+        "qualified": false
+      },
+      "325": {
+        "refinement_proxy": 1.9160506514737108E-10,
+        "required_numerical_effect": 1.9160506514737108E-09,
+        "minimum_improvement": -0.4266119540052642,
+        "effect_resolved": false,
+        "steps": {
+          "0.005": {
+            "candidate_M": 0.48666907515906654,
+            "reference_M": 0.060057121508355085,
+            "absolute_improvement": -0.4266119536507115,
+            "relative_improvement": -7.1034365773151755,
+            "one_percent": false,
+            "protections": {
+              "horizon1": false,
+              "horizon3": false,
+              "q": false,
+              "v": false,
+              "cvar10": false,
+              "complete3": false
+            },
+            "qualified": false
+          },
+          "0.0025": {
+            "candidate_M": 0.4866690753506716,
+            "reference_M": 0.0600571213454074,
+            "absolute_improvement": -0.4266119540052642,
+            "relative_improvement": -7.103436602491895,
+            "one_percent": false,
+            "protections": {
+              "horizon1": false,
+              "horizon3": false,
+              "q": false,
+              "v": false,
+              "cvar10": false,
+              "complete3": false
+            },
+            "qualified": false
+          }
+        },
+        "qualified": false
+      },
+      "326": {
+        "refinement_proxy": 2.341172811171077E-10,
+        "required_numerical_effect": 2.3411728111710772E-09,
+        "minimum_improvement": -0.4182484995663259,
+        "effect_resolved": false,
+        "steps": {
+          "0.005": {
+            "candidate_M": 0.479182894632619,
+            "reference_M": 0.06093439506629306,
+            "absolute_improvement": -0.4182484995663259,
+            "relative_improvement": -6.863914856482879,
+            "one_percent": false,
+            "protections": {
+              "horizon1": false,
+              "horizon3": false,
+              "q": false,
+              "v": false,
+              "cvar10": false,
+              "complete3": false
+            },
+            "qualified": false
+          },
+          "0.0025": {
+            "candidate_M": 0.4791828943985017,
+            "reference_M": 0.060934394948703105,
+            "absolute_improvement": -0.4182484994497986,
+            "relative_improvement": -6.863914867816381,
+            "one_percent": false,
+            "protections": {
+              "horizon1": false,
+              "horizon3": false,
+              "q": false,
+              "v": false,
+              "cvar10": false,
+              "complete3": false
+            },
+            "qualified": false
+          }
+        },
+        "qualified": false
+      }
+    },
+    "I": {
+      "324": {
+        "refinement_proxy": 6.075666636462529E-10,
+        "required_numerical_effect": 6.075666636462529E-09,
+        "minimum_improvement": 0.4701761044536697,
+        "effect_resolved": true,
+        "steps": {
+          "0.005": {
+            "candidate_M": 0.4879705748894306,
+            "reference_M": 0.9581466796103795,
+            "absolute_improvement": 0.4701761047209489,
+            "relative_improvement": 0.49071412000523884,
+            "one_percent": true,
+            "protections": {
+              "horizon1": true,
+              "horizon3": true,
+              "q": true,
+              "v": true,
+              "cvar10": true,
+              "complete3": true
+            },
+            "qualified": true
+          },
+          "0.0025": {
+            "candidate_M": 0.4879705745491431,
+            "reference_M": 0.9581466790028128,
+            "absolute_improvement": 0.4701761044536697,
+            "relative_improvement": 0.4907141200374493,
+            "one_percent": true,
+            "protections": {
+              "horizon1": true,
+              "horizon3": true,
+              "q": true,
+              "v": true,
+              "cvar10": true,
+              "complete3": true
+            },
+            "qualified": true
+          }
+        },
+        "qualified": true
+      },
+      "325": {
+        "refinement_proxy": 5.849691842030325E-10,
+        "required_numerical_effect": 5.8496918420303246E-09,
+        "minimum_improvement": 0.3909053310516162,
+        "effect_resolved": true,
+        "steps": {
+          "0.005": {
+            "candidate_M": 0.48666907515906654,
+            "reference_M": 0.877574406987257,
+            "absolute_improvement": 0.3909053318281904,
+            "relative_improvement": 0.4454383909965901,
+            "one_percent": true,
+            "protections": {
+              "horizon1": true,
+              "horizon3": true,
+              "q": true,
+              "v": true,
+              "cvar10": true,
+              "complete3": true
+            },
+            "qualified": true
+          },
+          "0.0025": {
+            "candidate_M": 0.4866690753506716,
+            "reference_M": 0.8775744064022878,
+            "absolute_improvement": 0.3909053310516162,
+            "relative_improvement": 0.44543839040859834,
+            "one_percent": true,
+            "protections": {
+              "horizon1": true,
+              "horizon3": true,
+              "q": true,
+              "v": true,
+              "cvar10": true,
+              "complete3": true
+            },
+            "qualified": true
+          }
+        },
+        "qualified": true
+      },
+      "326": {
+        "refinement_proxy": 7.391027789793725E-10,
+        "required_numerical_effect": 7.391027789793725E-09,
+        "minimum_improvement": 0.44194255686972295,
+        "effect_resolved": true,
+        "steps": {
+          "0.005": {
+            "candidate_M": 0.479182894632619,
+            "reference_M": 0.9211254520073274,
+            "absolute_improvement": 0.44194255737470844,
+            "relative_improvement": 0.4797854151262697,
+            "one_percent": true,
+            "protections": {
+              "horizon1": true,
+              "horizon3": true,
+              "q": true,
+              "v": true,
+              "cvar10": true,
+              "complete3": true
+            },
+            "qualified": true
+          },
+          "0.0025": {
+            "candidate_M": 0.4791828943985017,
+            "reference_M": 0.9211254512682246,
+            "absolute_improvement": 0.44194255686972295,
+            "relative_improvement": 0.47978541496301863,
+            "one_percent": true,
+            "protections": {
+              "horizon1": true,
+              "horizon3": true,
+              "q": true,
+              "v": true,
+              "cvar10": true,
+              "complete3": true
+            },
+            "qualified": true
+          }
+        },
+        "qualified": true
+      }
+    }
+  },
+  "rule_protection": {
+    "324": {
+      "0.005": {
+        "rule_complete": true,
+        "candidate_miss": 16,
+        "encoder_miss": 17,
+        "candidate_extra": 2,
+        "encoder_extra": 0,
+        "qualified": false
+      },
+      "0.0025": {
+        "rule_complete": true,
+        "candidate_miss": 16,
+        "encoder_miss": 17,
+        "candidate_extra": 2,
+        "encoder_extra": 0,
+        "qualified": false
+      }
+    },
+    "325": {
+      "0.005": {
+        "rule_complete": true,
+        "candidate_miss": 16,
+        "encoder_miss": 17,
+        "candidate_extra": 2,
+        "encoder_extra": 0,
+        "qualified": false
+      },
+      "0.0025": {
+        "rule_complete": true,
+        "candidate_miss": 16,
+        "encoder_miss": 17,
+        "candidate_extra": 2,
+        "encoder_extra": 0,
+        "qualified": false
+      }
+    },
+    "326": {
+      "0.005": {
+        "rule_complete": true,
+        "candidate_miss": 16,
+        "encoder_miss": 17,
+        "candidate_extra": 2,
+        "encoder_extra": 0,
+        "qualified": false
+      },
+      "0.0025": {
+        "rule_complete": true,
+        "candidate_miss": 16,
+        "encoder_miss": 17,
+        "candidate_extra": 2,
+        "encoder_extra": 0,
+        "qualified": false
+      }
+    }
+  },
+  "fine_step_summary": [
+    {
+      "seed": 324,
+      "step": 0.0025,
+      "future_M": {
+        "E": 0.06106081401415767,
+        "I": 0.9581466790028128,
+        "C": 0.4879705745491431
+      },
+      "history_normalized_mse": {
+        "E": 0.04026324717617673,
+        "I": 0.019532819847860577,
+        "C": 0.027602678781463764
+      },
+      "rule_miss_extra": {
+        "E": [
+          17,
+          0
+        ],
+        "I": [
+          12,
+          3
+        ],
+        "C": [
+          16,
+          2
+        ]
+      },
+      "active_weight_mass": 0.8436641483516483
+    },
+    {
+      "seed": 325,
+      "step": 0.0025,
+      "future_M": {
+        "E": 0.0600571213454074,
+        "I": 0.8775744064022878,
+        "C": 0.4866690753506716
+      },
+      "history_normalized_mse": {
+        "E": 0.03836743835936428,
+        "I": 0.019019832195217707,
+        "C": 0.026160786058221315
+      },
+      "rule_miss_extra": {
+        "E": [
+          17,
+          0
+        ],
+        "I": [
+          12,
+          3
+        ],
+        "C": [
+          16,
+          2
+        ]
+      },
+      "active_weight_mass": 0.8398695054945055
+    },
+    {
+      "seed": 326,
+      "step": 0.0025,
+      "future_M": {
+        "E": 0.060934394948703105,
+        "I": 0.9211254512682246,
+        "C": 0.4791828943985017
+      },
+      "history_normalized_mse": {
+        "E": 0.04069946953276083,
+        "I": 0.019708159716561858,
+        "C": 0.027026730337581954
+      },
+      "rule_miss_extra": {
+        "E": [
+          17,
+          0
+        ],
+        "I": [
+          12,
+          4
+        ],
+        "C": [
+          16,
+          2
+        ]
+      },
+      "active_weight_mass": 0.8656879578754579
+    }
+  ],
+  "metric_definition": "Original source-line-event weighting; within each event equally weighted available 1s and 3s normalized MSE. Initial prediction point excluded. History uses ten post-initial points. MSE is not RMSE.",
+  "operations": {
+    "attempted": {
+      "probe": 37199,
+      "rollouts": 2664,
+      "integration_rhs": 4690800,
+      "physical_rhs": 393564
+    },
+    "returned": {
+      "probe": 37199,
+      "integration_rhs": 4690800,
+      "rollouts": 2664,
+      "physical_rhs": 393564
+    }
+  },
+  "conditional_budget": {
+    "active_slots": 666,
+    "active_future_points": 188790,
+    "expected_calls": {
+      "rollouts": 2664,
+      "integration_rhs": 4690800,
+      "physical_rhs": 393564
+    },
+    "solver_updates": 24132,
+    "solver_evaluations": 25464,
+    "positive_multiplier_slots": 666
+  },
+  "audits": [
+    {
+      "path": "reports/generated/kiki_energy_cap_transfer_20261110/numeric-audit.json",
+      "sha256": "c419c61a743dcf116bae7049f7d93fcd338751cc4264f1efe63f85533c2ddafd"
+    },
+    {
+      "path": "reports/generated/kiki_energy_cap_transfer_20261110/truth-window-audit.json",
+      "sha256": "f14a9930021eb95567d02b1ae0765bacbbd39231ee777adabff301ea503b519e"
+    },
+    {
+      "path": "reports/generated/kiki_energy_cap_transfer_20261110/metadata-audit.json",
+      "sha256": "e99728eaa3724edc8ab4bfb689e451326a3f8338e116ea022073c4a322c8a1b5"
+    },
+    {
+      "path": "reports/generated/kiki_energy_cap_transfer_20261110/metadata-closeout.json",
+      "sha256": "328ba207ed3e7cb5fd9a0879bb5c2207220b006a717675508f4aa1454ab5b6d4"
+    }
+  ],
+  "numerical_audit_reconciliation": {
+    "original_status": "FAIL",
+    "original_checks": 242102,
+    "original_mismatches": 15407,
+    "cause": "The original audit used coarse predictions to select the representative five-point window. Frozen scoring correctly selects the original truth window.",
+    "superseded_old_family_checks": 20898,
+    "retained_unaffected_old_checks": 221204,
+    "replacement_status": "PASS",
+    "replacement_checks": 20898,
+    "replacement_mismatches": 0,
+    "effective_numerical_checks": 242102,
+    "supplement_ledger_checks": 12,
+    "double_counted_checks": 0,
+    "original_report_preserved": true,
+    "scientific_code_thresholds_and_results_unchanged": true
+  },
+  "metadata_audit_reconciliation": {
+    "original_status": "FAIL",
+    "retained_original_passes": 6,
+    "closed_state_checks": 1,
+    "effective_checks": 7,
+    "closeout_status": "PASS",
+    "historical_user_approved_was_valid": true,
+    "comparison_authority_consumed": true,
+    "shared_reservation_spent": true,
+    "source_or_run_payload_rescan_for_closeout": false,
+    "original_report_preserved": true
+  },
+  "supplement_read_ledger": {
+    "run_files": 3443,
+    "run_members": 1336,
+    "a15_files": 1548,
+    "a15_members": 3870,
+    "source_file_bytes": 484126094,
+    "source_logical_bytes": 254839136,
+    "source_header_bytes": 666368
+  },
+  "scientific_findings": [
+    "The constrained candidate improves future MSE over unconstrained integral initialization by 44.54 to 49.07 percent, but remains 7.86 to 8.10 times the original encoder MSE.",
+    "All six protections fail against the encoder for every seed and both steps, while all pass against the unconstrained integral reference.",
+    "The candidate misses 16 trajectory-rule triggers and adds 2 extra triggers per seed/step; the encoder misses 17 and adds 0. Fewer misses cannot offset the extra-trigger protection failure.",
+    "Lower closed-loop history MSE than the encoder and controlled initial hidden-state norm coexist with much worse future prediction. This specific fixed-model energy-ball replacement does not meet the future objective.",
+    "The comparison does not establish a unique physical cause of the transfer failure, real hidden-state recovery, new label classification performance or a general impossibility of joint training."
+  ],
+  "route_decision": {
+    "keep": [
+      "Original encoder and fixed model defaults",
+      "The limited finding that this energy ball mitigates unconstrained-integral continuous prediction error"
+    ],
+    "end": [
+      "Directly replacing the encoder in these fixed A06 models with this encoder-referenced ball-LS initializer",
+      "Treating success of this direct replacement as an established premise for automatically proceeding to training"
+    ],
+    "unexecuted_and_not_falsified": [
+      "Joint differentiable training",
+      "State-dependent port candidates",
+      "Potential-energy candidates",
+      "Time-objective candidates"
+    ],
+    "future_work": "Any continuation needs a revised hypothesis and independently frozen causal design, acceptance criteria and budget; no radius search or new scientific execution is authorized by this result review."
+  },
+  "goal_resolution": {
+    "condition_met": "VERIFIED_SPECIFIC_PLAN_REQUIRES_ADJUSTMENT",
+    "all_original_stages_completed": false,
+    "basis": "New bounded real-train evidence rejects the prespecified fixed-model direct replacement, satisfying the user-provided alternative completion condition without claiming other candidates impossible."
+  },
+  "review_access": {
+    "sealed_json_and_code_only": true,
+    "npz_payload_reads": 0,
+    "model_calls": 0,
+    "solver_calls": 0,
+    "rhs_calls": 0,
+    "rollouts": 0
+  },
+  "review_document_path": "docs/research/kiki_energy_cap_result_review_20261110_zh.md",
+  "review_document_sha256": "3d708dda6806e3785448450f586b9cd3415c6854d129f8fae570f4d9753e9b55"
+}

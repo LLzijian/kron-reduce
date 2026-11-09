@@ -1,0 +1,84 @@
+{
+  "schema": "kiki_energy_cap_truth_window_approval_v1",
+  "approved": true,
+  "decision": "APPROVED_FOR_ONE_NARROW_SAVED_EVIDENCE_REPLACEMENT_AUDIT",
+  "review_date": "2026-11-10",
+  "reviewer": "Astra Ultra scientific reviewer",
+  "model": "gpt-6-astra",
+  "reasoning": "ultra",
+  "model_identity_basis": "Coordinating agent delegation configuration; not local runtime introspection",
+  "authority": "kiki_energy_cap_truth_window_audit_v1_20261110",
+  "plan_path": "configs/proposals/kiki_energy_cap_truth_window_audit_v1.json",
+  "plan_sha256": "5230ac84e4c4c927fa5eb94b36bddc715dd2332befc3f110058269ef2ac9e0c8",
+  "implementation_bindings": {
+    "scratch/one_off/energy-cap-registration/audit_numeric.py": "317cb2b9e335294934f7f7ec29b7a245670103ec27f5ce85e58d507c4b21f804",
+    "scratch/one_off/energy-cap-registration/audit_truth_window.py": "7bd3e7a7cf2598b946f56bd62e7053c56e491cff2e3bd4004f6ad9af6737a92a",
+    "scratch/one_off/energy-cap-registration/execute_truth_window.py": "1897e97faad9a5c9c85bc4de34330a28de8b14668fe135d1b92b862cd15841d6",
+    "scratch/one_off/energy-cap-registration/test_window_audit_artificial.py": "4a70a74adcccc1b4f5f9afe2cbd608783d4a78f55d3695b83613dac08f7f9080",
+    "docs/protocols/kiki_energy_cap_truth_window_audit_20261110_zh.md": "92248d1cc0987fc52a3cb06519b5121108ce62a893aacecd96e1b5c37b5c8731"
+  },
+  "scope": "Saved arrays only: original-truth representative window, eight fields plus bound; no rerun of the comparison or full audit.",
+  "run_id": "kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575",
+  "run_manifest_sha256": "6abadbc49d115e297fff59c2be018fa936d9f281ceeb9e9208157f5404cb751d",
+  "original_audit_path": "reports/generated/kiki_energy_cap_transfer_20261110/numeric-audit.json",
+  "original_audit_sha256": "c419c61a743dcf116bae7049f7d93fcd338751cc4264f1efe63f85533c2ddafd",
+  "limits": {
+    "files": 4991,
+    "file_bytes": 484126094,
+    "members": 5206,
+    "logical_bytes": 254839136,
+    "npy_header_bytes_per_member": 4108,
+    "method_records": 2322,
+    "replacement_checks": 20898,
+    "solver": 0,
+    "rollout": 0,
+    "rhs": 0,
+    "svd": 0,
+    "expm": 0,
+    "fit": 0,
+    "max_executions": 1,
+    "retry_allowed": false
+  },
+  "execution_wrapper": "scratch/one_off/energy-cap-registration/execute_truth_window.py",
+  "review_findings": [
+    "The original audit selected the representative window from coarse predictions. Frozen scoring selects the original-truth window; the scientific scoring code remains unchanged.",
+    "The bound replacement independently chooses the original-truth five-point window with end index at least 11 and earliest-end tie breaking, then compares eight fields plus the fixed-window bound for all 2322 method records.",
+    "All five implementation file hashes match. All 4991 allowed file hashes agree with their sealed new-run or A15 manifests; metadata totals match the exact declared file/member/byte limits.",
+    "Only coarse truth, both-step saved E/I futures, both-step active C futures, observed history, equilibrium, mass, omega_s and necessary JSON are permitted. No full original audit entry point is called.",
+    "The artificial shifted-window fixture distinguishes truth window 11:15 from coarse window 16:20; the supplied fabricated-reader fixture covers all declared paths and 20898 comparisons without real payloads.",
+    "Exceptions retain a partial read ledger; the wrapper consumes a new independent common-directory reservation and refuses reuse, including after failure."
+  ],
+  "check_accounting": {
+    "original_total": 242102,
+    "original_mismatches": 15407,
+    "superseded_old_family": 20898,
+    "retained_unaffected_old_checks": 221204,
+    "replacement_method_records": 2322,
+    "replacement_checks": 20898,
+    "combined_effective_check_count_if_replacement_passes": 242102,
+    "rule": "Supersede the entire old representative-window family, including coincidentally passing checks; do not add all old passes to all replacement checks."
+  },
+  "acceptance_criteria": [
+    "Exactly 2322 method records and 20898 replacement comparisons with zero mismatch",
+    "All separate source/read-ledger checks pass with exact planned files and members, exact raw/logical bytes, and bounded NPY header bytes",
+    "Original FAIL and its hash remain preserved; replacement output is a new immutable artifact",
+    "No original experiment, full numerical audit, model construction, solver, RHS, SVD, expm, fitting or rollout is executed"
+  ],
+  "execution_conditions": [
+    "Register this new authority independently in saved_evidence_audits with this exact approval and plan",
+    "Use only the bound execution wrapper with Python 3.12 and sys.flags.optimize=0",
+    "Before dispatch verify all 4991 file stat sizes against the plan and preserve source files unchanged; the coordinating agent reports this metadata-only preflight passed",
+    "Consume the new exclusive reservation before payload access; max_executions=1, no retry/resume and no budget transfer",
+    "Keep the original experiment and original audit authorities consumed; preserve original FAIL rather than rewriting it",
+    "Commit and archive the approval, correction explanation, final output and consumed receipt after this bounded audit"
+  ],
+  "scientific_decision_boundary": "This supplement replaces only the erroneous representative-window audit family. It creates no new candidate, metric selection or improvement claim, and does not alter the frozen GE/GI/D decision or KEEP_BASELINE.",
+  "review_access": {
+    "source_npz_payload_reads": 0,
+    "new_model_constructions": 0,
+    "solver_calls": 0,
+    "rhs_calls": 0,
+    "rollouts": 0,
+    "source_manifest_json_and_code_only": true
+  }
+}

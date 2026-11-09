@@ -46,12 +46,21 @@ review and registration; the result does not start another execution.
 
 State-dependent ports, potential changes and time objectives remain separate
 candidates. Keep the baseline and default deployment initializer.
-The next [registered-design preparation](../protocols/kiki_energy_cap_transfer_v1_zh.md)
-compares a fixed A06 initializer constrained by each event's encoder starting
-energy against saved encoder and unconstrained-integral paths on all eligible
-train events. The [design review](kiki_energy_cap_design_review_20261109_zh.md)
-selects this real-model mechanism check before differentiable training. This
-causal empirical reference is not a physical hidden-energy certificate.
+The [encoder-referenced energy-ball comparison](../reports/kiki_energy_cap_transfer_20261110_zh.md)
+completed all 774 fixed-A06 train slots with `REJECT / KEEP_BASELINE`:
+`V=true`, the constraint was active in 666 slots, `G_I=true`, `G_E=false`,
+and `D=false`. C improved the unconstrained initializer but retained roughly
+eight times the encoder's future MSE and added two rule triggers per seed.
+Authority `kiki_energy_cap_transfer_v1_20261109` is consumed.
+This new evidence ends the tested direct-replacement route. Do not treat the
+empirical energy ball as a validated precursor that automatically advances to
+differentiable training. Further joint-training or structural candidates need
+an independent falsifiable mechanism, protocol and exact review; their
+impossibility was not established by this comparison.
+The [result review](kiki_energy_cap_result_review_20261110_zh.md) records the
+route decision. The [representative-window audit correction](../protocols/kiki_energy_cap_truth_window_audit_20261110_zh.md)
+has its own saved-evidence scope and preserves the initial audit failure;
+it does not reopen the scientific run.
 Rejected candidates remain archived. Independent engineering extraction requires
 explicit review.
 
