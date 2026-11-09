@@ -9,12 +9,17 @@ from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
 
-from filelock import FileLock, Timeout
-
 from .data_check import verify_data
 from .evidence import sha256_file, verify_artifact_directory
 from .git_state import assert_clean, git_head, verify_bound_file
-from .loop import is_approved, next_stage, record_stage
+from .loop import (
+    _load_state,
+    _record_stage,
+    _workflow,
+    approval_recorded,
+    check_stage,
+    workflow_lock,
+)
 from .manifest import load_manifest
 from .policy import load_policy, validate_run_policy
 
@@ -42,22 +47,14 @@ def run_experiment(
         root, experiment, historical_reproduction=historical_reproduction,
     )
     policy = load_policy(root)
-    if (policy and not historical_reproduction
-            and experiment.get("dataset") == policy["primary_real_dataset"]
-            and verify_data(root, dataset_name=experiment["dataset"])["status"] != "PASS"):
-        raise RuntimeError("DATA_INTEGRITY: registered kiki source hashes do not match")
+    verify_source = bool(
+        policy and not historical_reproduction and experiment.get("dataset") == policy["primary_real_dataset"]
+    )
     workflow_name = experiment.get("workflow", "paper_v1")
-    lock_dir = root / ".project_state/locks"
-    lock_dir.mkdir(parents=True, exist_ok=True)
-    lock = FileLock(lock_dir / f"{workflow_name}.lock", timeout=0)
-    try:
-        lock.acquire()
-    except Timeout as error:
-        raise RuntimeError(f"WORKFLOW_BUSY: {workflow_name} already has an active runner") from error
-    try:
-        return _run_experiment(root, experiment_name, stage)
-    finally:
-        lock.release()
+    with workflow_lock(root, workflow_name):
+        return _run_experiment(
+            root, experiment_name, stage, experiment=experiment, verify_source=verify_source,
+        )
 
 
 def _verify_development_text_bindings(
@@ -103,7 +100,11 @@ def _verify_development_text_bindings(
         verify_bound_file(root, relative, digest)
 
 
-def _run_experiment(root: Path, experiment_name: str, stage: str) -> Path:
+def _run_experiment(
+    root: Path, experiment_name: str, stage: str, *, experiment: dict | None = None,
+    verify_source: bool = False,
+) -> Path:
+    """Dispatch one attempt with the workflow lock held by its entry point."""
     # Permit direct execution from a source checkout without requiring an
     # editable installation. The path is derived from the repository root,
     # so no machine- or task-specific absolute path enters the project.
@@ -111,24 +112,24 @@ def _run_experiment(root: Path, experiment_name: str, stage: str) -> Path:
     if src_dir not in sys.path:
         sys.path.insert(0, src_dir)
 
-    manifest = load_manifest(root)
-    experiment = manifest["experiments"].get(experiment_name)
     if experiment is None:
-        raise KeyError(f"unregistered experiment: {experiment_name}")
+        experiment = load_manifest(root)["experiments"].get(experiment_name)
+        if experiment is None:
+            raise KeyError(f"unregistered experiment: {experiment_name}")
     workflow_name = experiment.get("workflow", "paper_v1")
-    workflow_path = root / "configs" / "workflows" / f"{workflow_name}.json"
-    workflow = json.loads(workflow_path.read_text(encoding="utf-8"))
+    workflow = _workflow(root, workflow_name)
+    state = _load_state(root, workflow)
+    registered_stage = experiment.get("stage")
+    if registered_stage is not None and stage != registered_stage:
+        raise RuntimeError(f"experiment {experiment_name} is registered for stage {registered_stage!r}")
     required_gate = experiment.get("required_gate")
-    if required_gate and not is_approved(root, required_gate, workflow_name):
+    if required_gate and not approval_recorded(state, required_gate):
         raise RuntimeError(f"experiment is locked by gate: {required_gate}")
+    check_stage(workflow, state, stage)
     if experiment.get("status") == "gated" or stage == "full":
         assert_clean(root)
-    expected_stage = next_stage(root, workflow_name)
-    if stage != expected_stage:
-        raise RuntimeError(
-            f"workflow permits only the next registered stage: expected "
-            f"{expected_stage!r}, got {stage!r}"
-        )
+    if verify_source and verify_data(root, dataset_name=experiment["dataset"])["status"] != "PASS":
+        raise RuntimeError("DATA_INTEGRITY: registered kiki source hashes do not match")
     timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S%fZ")
     run_id = f"{experiment_name}-{stage}-{timestamp}-{git_head(root)[:8]}-{uuid4().hex[:8]}"
     result_dir = root / "results" / run_id
@@ -165,7 +166,7 @@ def _run_experiment(root: Path, experiment_name: str, stage: str) -> Path:
                     if key in evidence and evidence[key] != acceptance[key]:
                         raise RuntimeError(f"acceptance.json conflicts with stage_evidence.json for {key}")
                     evidence[key] = acceptance[key]
-        record_stage(root, stage, evidence, workflow_name)
+        _record_stage(root, workflow, state, stage, evidence)
     except Exception as error:
         (result_dir / "RUN_FAILED.json").write_text(json.dumps({
             "run_id": run_id, "status": "failed", "error_type": type(error).__name__,

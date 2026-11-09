@@ -24,11 +24,42 @@ jobs:
           python -m pip install -e '.[dev]' -c requirements/constraints-py312.txt
       - name: Audit contracts and registered metadata
         run: python -m project_harness audit
-      - name: Check engineering changes
-        run: python -m ruff check project_harness/policy.py project_harness/git_state.py project_harness/runner.py scripts/register_kiki_dataset.py tests/test_research_policy.py tests/test_runner_safety.py tests/test_development_file_bindings.py
-      - name: Run policy, causality and synthetic checks
+      - name: Lint the harness and audited workflows
         run: >-
-          python -m pytest -q
+          python -m ruff check project_harness scripts/register_kiki_dataset.py
+          src/kron_reduce/data/audit_access_ledger.py src/kron_reduce/data/durable_audit_ledger.py
+          src/kron_reduce/data/limited_hdf_audit.py src/kron_reduce/evaluation/record20_input.py
+          src/kron_reduce/evaluation/record20_coordinates.py src/kron_reduce/evaluation/record20_metadata.py
+          src/kron_reduce/workflows/kiki_record20_input_audit.py
+          src/kron_reduce/evaluation/audit_budget.py src/kron_reduce/evaluation/train_mechanism_audit.py
+          src/kron_reduce/workflows/kiki_train_mechanism.py
+          src/kron_reduce/evaluation/train_refinement_audit.py
+          src/kron_reduce/workflows/kiki_train_refinement.py
+          src/kron_reduce/data/limited_npz_audit.py src/kron_reduce/evaluation/integral_initializer.py
+          src/kron_reduce/evaluation/history_metrics.py src/kron_reduce/evaluation/history_mechanism.py
+          src/kron_reduce/evaluation/scoped_audit_journal.py src/kron_reduce/evaluation/history_cache_preflight.py
+          src/kron_reduce/workflows/kiki_integral_history_audit.py
+          src/kron_reduce/data/pm_impulse_reader.py src/kron_reduce/evaluation/pm_impulse_audit.py
+          src/kron_reduce/workflows/kiki_pm_impulse_audit.py src/kron_reduce/workflows/kiki_task3_frozen_eval.py
+          tests/test_harness.py tests/test_research_policy.py tests/test_runner_safety.py
+          tests/test_development_file_bindings.py tests/test_kiki_task3_frozen_eval.py
+          tests/test_audit_access_ledger.py tests/test_durable_audit_ledger.py
+          tests/test_limited_hdf_audit.py tests/test_record20_input.py
+          tests/test_record20_coordinates.py tests/test_record20_metadata.py
+          tests/test_bounded_input_cli_guard.py tests/test_record20_workflow.py
+          tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py
+          tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py
+          tests/test_limited_npz_audit.py tests/test_integral_initializer.py
+          tests/test_history_cache_preflight.py tests/test_history_metrics.py tests/test_history_mechanism.py
+          tests/test_scoped_audit_journal.py tests/test_integral_history_workflow.py
+          tests/test_integral_history_artifact_contract.py
+          tests/test_pm_impulse_reader.py tests/test_pm_impulse_audit.py
+          tests/test_pm_impulse_workflow.py tests/test_pm_impulse_durability.py
+      - name: Test the harness, policy and synthetic workflows
+        # Source-file checksum verification requires the private local dataset.
+        run: >-
+          python -m pytest -q -k "not test_data_checksums"
+          tests/test_harness.py tests/test_kiki_task3_frozen_eval.py
           tests/test_research_policy.py tests/test_runner_safety.py tests/test_data_registry.py
           tests/test_development_file_bindings.py
           tests/test_kiki_history.py tests/test_kiki_scoring.py
@@ -46,54 +77,10 @@ jobs:
           tests/test_limited_hdf_audit.py tests/test_record20_input.py
           tests/test_record20_coordinates.py tests/test_record20_metadata.py
           tests/test_bounded_input_cli_guard.py tests/test_record20_workflow.py
-      - name: Check bounded input audit code
-        run: >-
-          python -m ruff check
-          src/kron_reduce/data/audit_access_ledger.py src/kron_reduce/data/durable_audit_ledger.py
-          src/kron_reduce/data/limited_hdf_audit.py src/kron_reduce/evaluation/record20_input.py
-          src/kron_reduce/evaluation/record20_coordinates.py src/kron_reduce/evaluation/record20_metadata.py
-          src/kron_reduce/workflows/kiki_record20_input_audit.py
-          tests/test_audit_access_ledger.py tests/test_durable_audit_ledger.py
-          tests/test_limited_hdf_audit.py tests/test_record20_input.py tests/test_record20_coordinates.py
-          tests/test_record20_metadata.py tests/test_bounded_input_cli_guard.py tests/test_record20_workflow.py
-      - name: Check fixed-model audit code
-        run: python -m ruff check src/kron_reduce/evaluation/audit_budget.py src/kron_reduce/evaluation/train_mechanism_audit.py src/kron_reduce/workflows/kiki_train_mechanism.py tests/test_audit_budget.py tests/test_train_mechanism_audit.py tests/test_train_mechanism_workflow.py
-      - name: Check all-train refinement code
-        run: python -m ruff check src/kron_reduce/evaluation/train_refinement_audit.py src/kron_reduce/workflows/kiki_train_refinement.py tests/test_train_refinement_budget.py tests/test_train_refinement_audit.py tests/test_train_refinement_workflow.py
-      - name: Check integral history code
-        run: >-
-          python -m ruff check
-          src/kron_reduce/data/limited_npz_audit.py
-          src/kron_reduce/evaluation/integral_initializer.py
-          src/kron_reduce/evaluation/history_metrics.py
-          src/kron_reduce/evaluation/history_mechanism.py
-          src/kron_reduce/evaluation/scoped_audit_journal.py
-          src/kron_reduce/evaluation/history_cache_preflight.py
-          src/kron_reduce/workflows/kiki_integral_history_audit.py
           tests/test_limited_npz_audit.py tests/test_integral_initializer.py
-          tests/test_history_cache_preflight.py
-          tests/test_history_metrics.py tests/test_history_mechanism.py
+          tests/test_history_cache_preflight.py tests/test_history_metrics.py tests/test_history_mechanism.py
           tests/test_scoped_audit_journal.py tests/test_integral_history_workflow.py
           tests/test_integral_history_artifact_contract.py
-      - name: Run A14 integral history synthetic checks
-        run: >-
-          python -m pytest -q
-          tests/test_limited_npz_audit.py tests/test_integral_initializer.py
-          tests/test_history_cache_preflight.py
-          tests/test_history_metrics.py tests/test_history_mechanism.py
-          tests/test_scoped_audit_journal.py tests/test_integral_history_workflow.py
-          tests/test_integral_history_artifact_contract.py
-      - name: Check A16 finite power diagnostic
-        run: >-
-          python -m ruff check
-          src/kron_reduce/data/pm_impulse_reader.py
-          src/kron_reduce/evaluation/pm_impulse_audit.py
-          src/kron_reduce/workflows/kiki_pm_impulse_audit.py
-          tests/test_pm_impulse_reader.py tests/test_pm_impulse_audit.py
-          tests/test_pm_impulse_workflow.py tests/test_pm_impulse_durability.py
-      - name: Run A16 synthetic and finite-read checks
-        run: >-
-          python -m pytest -q
           tests/test_pm_impulse_reader.py tests/test_pm_impulse_audit.py
           tests/test_pm_impulse_workflow.py tests/test_pm_impulse_durability.py
       - name: Record actual environment

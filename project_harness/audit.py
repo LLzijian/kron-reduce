@@ -12,6 +12,7 @@ from .evidence import (
     sha256_file,
     validate_stage_evidence,
 )
+from .loop import approval_recorded, transition_target, workflow_state_path
 from .manifest import load_manifest
 from .policy import audit_research_policy
 
@@ -222,30 +223,6 @@ def audit_artifact_layout(root: Path) -> list[dict]:
     return findings
 
 
-def _workflow_state_path(root: Path, workflow_name: str) -> Path:
-    filename = "loop_state.json" if workflow_name == "paper_v1" else f"{workflow_name}_state.json"
-    return root / ".project_state" / filename
-
-
-def _transition_targets(workflow: dict, stage: str, entry_evidence: dict) -> set[str]:
-    transitions = workflow.get("transitions")
-    stages = workflow["stages"]
-    if not transitions:
-        index = stages.index(stage)
-        return {stages[index + 1]} if index + 1 < len(stages) else set()
-    spec = transitions.get(stage)
-    if spec is None:
-        return set()
-    if isinstance(spec, str):
-        return {spec}
-    if not isinstance(spec, dict):
-        return set()
-    verdict = entry_evidence.get("scientific_verdict")
-    if verdict in spec:
-        return {spec[verdict]}
-    return set(spec.values())
-
-
 def _stage_evidence_error(
     root: Path, workflow: dict, stage: str, evidence: object, predecessor: str | None, state: dict | None = None
 ) -> str | None:
@@ -440,7 +417,7 @@ def audit_workflow_registry(root: Path) -> list[dict]:
                         }
                     )
 
-        state_path = _workflow_state_path(root, path.stem)
+        state_path = workflow_state_path(root, path.stem)
         if not state_path.is_file():
             continue
         try:
@@ -465,32 +442,44 @@ def audit_workflow_registry(root: Path) -> list[dict]:
             continue
 
         expected_from = stages[0]
-        entry_evidence: dict = {}
-        approved = set(state.get("approvals", {}))
-        if not approved.issubset(approvals):
+        approval_records = state.get("approvals", {})
+        if not isinstance(approval_records, dict) or not set(approval_records).issubset(approvals):
             findings.append(
                 {
                     "severity": "ERROR",
                     "check": "workflow_state_approval",
-                    "message": f"unregistered approval recorded in {state_path.relative_to(root)}",
+                    "message": f"invalid approval records in {state_path.relative_to(root)}",
                 }
             )
-        for event_index, event in enumerate(state.get("history", [])):
+            continue
+        history = state.get("history", [])
+        for event_index, event in enumerate(history):
             if event.get("action") != "advance":
                 continue
             source = event.get("from")
             target = event.get("to")
+            prefix_state = {**state, "current_stage": expected_from, "history": history[:event_index]}
+            if target in approvals and not approval_recorded(prefix_state, target):
+                findings.append(
+                    {
+                        "severity": "ERROR",
+                        "check": "workflow_state_approval",
+                        "message": (
+                            f"stage {target!r} advanced without prior approval "
+                            f"in {state_path.relative_to(root)}"
+                        ),
+                    }
+                )
             evidence = event.get("evidence", {})
-            allowed_targets = (
-                _transition_targets(workflow, source, entry_evidence)
-                if source in stages
-                else set()
-            )
-            prefix_state = {**state, "history": state.get("history", [])[:event_index]}
+            try:
+                expected_target = transition_target(workflow, prefix_state)
+            except (RuntimeError, TypeError):
+                expected_target = None
             evidence_error = _stage_evidence_error(root, workflow, target, evidence, source, prefix_state)
             if (
                 source != expected_from
-                or target not in allowed_targets
+                or expected_target is None
+                or target != expected_target
                 or evidence_error is not None
             ):
                 findings.append(
@@ -499,28 +488,18 @@ def audit_workflow_registry(root: Path) -> list[dict]:
                         "check": "workflow_state_history",
                         "message": (
                             f"non-contiguous or unverified transition in {state_path.relative_to(root)}; "
-                            f"allowed={sorted(allowed_targets)}, evidence_error={evidence_error}"
+                            f"expected={expected_target!r}, evidence_error={evidence_error}"
                         ),
                     }
                 )
                 break
             expected_from = target
-            entry_evidence = evidence
         if state.get("current_stage") != expected_from:
             findings.append(
                 {
                     "severity": "ERROR",
                     "check": "workflow_state_history",
                     "message": f"current stage does not match transition history in {state_path.relative_to(root)}",
-                }
-            )
-        current = state.get("current_stage")
-        if current in approvals and current not in approved:
-            findings.append(
-                {
-                    "severity": "ERROR",
-                    "check": "workflow_state_approval",
-                    "message": f"approval-controlled stage lacks approval in {state_path.relative_to(root)}",
                 }
             )
     return findings

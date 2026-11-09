@@ -17,7 +17,7 @@ from project_harness.evidence import (
     validate_stage_evidence,
     verify_artifact_directory,
 )
-from project_harness.loop import approve, load_state, next_stage, record_stage
+from project_harness.loop import approve, load_state, next_stage, plan, record_stage
 from project_harness.runner import run_experiment
 
 
@@ -53,8 +53,30 @@ def test_loop_starts_at_scaffold_and_cannot_skip(root, tmp_path):
     state = load_state(tmp_path)
     assert state["current_stage"] == "scaffold"
     assert next_stage(tmp_path) == "data_verified"
+    assert not (tmp_path / ".project_state").exists()
     with pytest.raises(RuntimeError, match="expected 'data_verified'"):
         record_stage(tmp_path, "smoke", {"status": "PASS"})
+
+
+def test_loop_plan_reports_consumed_authorization_without_creating_state(root, tmp_path):
+    name = "kiki_a06_refinement_v1"
+    configs = tmp_path / "configs"
+    (configs / "workflows").mkdir(parents=True)
+    shutil.copy2(root / "configs" / "workflows" / f"{name}.json", configs / "workflows")
+    for filename in ("project_manifest.json", "research_policy.json"):
+        shutil.copy2(root / "configs" / filename, configs)
+
+    preview = plan(tmp_path, name)
+    assert preview["current_stage"] == "scaffold"
+    assert preview["next_stage"] == "joint_refinement"
+    assert preview["built_in_check"] is False
+    assert "artifact_manifest" in preview["evidence_contract"]["required_fields"]
+    assert len(preview["registered_experiments"]) == 1
+    experiment = preview["registered_experiments"][0]
+    assert experiment["name"] == "paper_kiki_a06_refinement"
+    assert experiment["authorization_status"] == "consumed"
+    assert experiment["completed_run_id"].startswith("paper_kiki_a06_refinement-")
+    assert not (tmp_path / ".project_state").exists()
 
 
 def test_named_workflow_has_independent_state(root, tmp_path):
@@ -437,6 +459,45 @@ def test_branching_workflow_requires_acceptance_contract_and_merge_approval(tmp_
     record_stage(tmp_path, "merge_gate", {"status": "PASS"}, "branching_test")
     assert next_stage(tmp_path, "branching_test") is None
     assert audit_workflow_registry(tmp_path) == []
+
+
+def test_audit_rejects_branch_without_recorded_verdict(tmp_path):
+    _write_branching_workflow(tmp_path)
+    workflow_path = tmp_path / "configs/workflows/branching_test.json"
+    workflow = json.loads(workflow_path.read_text(encoding="utf-8"))
+    del workflow["stage_evidence_contracts"]
+    workflow_path.write_text(json.dumps(workflow), encoding="utf-8")
+    state = record_stage(tmp_path, "acceptance", {"status": "PASS"}, "branching_test")
+    with pytest.raises(RuntimeError, match="registered outcomes"):
+        next_stage(tmp_path, "branching_test")
+
+    state["current_stage"] = "rollback_report"
+    state["history"].append({
+        "action": "advance",
+        "from": "acceptance",
+        "to": "rollback_report",
+        "evidence": {"status": "PASS"},
+    })
+    (tmp_path / ".project_state/branching_test_state.json").write_text(
+        json.dumps(state), encoding="utf-8"
+    )
+    assert audit_workflow_registry(tmp_path)[0]["check"] == "workflow_state_history"
+
+
+def test_audit_rejects_gate_approved_after_advance(tmp_path):
+    _write_branching_workflow(tmp_path)
+    record_stage(tmp_path, "acceptance", _acceptance_evidence("ACCEPT"), "branching_test")
+    approve(tmp_path, "merge_gate", "branching_test")
+    state = record_stage(tmp_path, "merge_gate", {"status": "PASS"}, "branching_test")
+    approval = state["history"].pop(1)
+    state["history"].append(approval)
+    (tmp_path / ".project_state/branching_test_state.json").write_text(
+        json.dumps(state), encoding="utf-8"
+    )
+    assert any(
+        item["check"] == "workflow_state_approval" and "without prior approval" in item["message"]
+        for item in audit_workflow_registry(tmp_path)
+    )
 
 
 def test_master_workflow_registers_single_model_and_level6_boundaries(root):
