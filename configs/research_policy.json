@@ -995,7 +995,7 @@
       "scientific_result_review_sha256": "fed08fff8577256c298eb03176d878949c7c2c263b8abd06bb372f5194673c3a"
     },
     "kiki_energy_cap_transfer_v1_20261109": {
-      "status": "implementation_review_pending",
+      "status": "user_approved",
       "authorization": "kiki_energy_cap_transfer_v1_20261109",
       "experiment": "kiki_energy_cap_transfer_v1",
       "workflow": "kiki_energy_cap_transfer_v1",
@@ -1065,7 +1065,8 @@
         "tests/test_runner_safety.py": "2c8039b0f8213a60c03e3a0f1652f09c0c73aaf73b1655dc9861a615a2f9d203",
         "tests/test_scoped_audit_journal.py": "4c9c65ef2af108cacbad447cdc63a62ff61fbd0fbbc11a8f993cbfdcc818114e"
       },
-      "promotion_decision": "KEEP_BASELINE"
+      "promotion_decision": "KEEP_BASELINE",
+      "review_sha256": "770284232656c2bbccc3b05ea67c4ed47164622ef9e8c3ba58336ffefea1d3be"
     }
   },
   "archived_development_results": {

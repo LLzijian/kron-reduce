@@ -1,0 +1,234 @@
+{
+  "schema": "kiki_energy_cap_implementation_review_v1",
+  "approved": true,
+  "decision": "APPROVED_FOR_ONE_BOUNDED_SAVED_TRAIN_COMPARISON_AFTER_RELEASE_GATES",
+  "review_date": "2026-11-09",
+  "reviewer": "Astra Ultra scientific reviewer",
+  "model": "gpt-6-astra",
+  "reasoning": "ultra",
+  "model_identity_basis": "Coordinating agent delegation configuration; not local runtime introspection",
+  "scope": {
+    "authorization": "kiki_energy_cap_transfer_v1_20261109",
+    "experiment": "kiki_energy_cap_transfer_v1",
+    "workflow": "kiki_energy_cap_transfer_v1",
+    "stage": "train_transfer",
+    "module": "kron_reduce.workflows.kiki_energy_cap_transfer",
+    "dataset": "kiki_ieee39_v1",
+    "data_policy": "frozen_saved_train_only",
+    "max_executions": 1,
+    "retry_allowed": false,
+    "fit_attempts": 0,
+    "optimizer_updates": 0,
+    "allocated_events": 268,
+    "eligible_events": 258,
+    "seed_event_slots": 774,
+    "source_payload_reads": 0,
+    "internal_val_reads": 0,
+    "source_val_reads": 0,
+    "test_reads": 0,
+    "label_reads": 0
+  },
+  "plan_path": "configs/proposals/kiki_energy_cap_transfer_v1.json",
+  "plan_sha256": "3ca756b4be5c6c73a26864258a7554a34c27b87cd3f03bc75e0389c284a63bf6",
+  "protocol_path": "docs/protocols/kiki_energy_cap_transfer_v1_zh.md",
+  "protocol_sha256": "0e0cca43e50dbb9a6b03c9311b84c7c413ebe604bfba3d8ab06c9e76a1272219",
+  "implementation_bindings": {
+    ".github/workflows/ci.yml": "d3167010f9d059042dffb00b6874176b152a7917ed9a73c0a3953eae58ff4e3c",
+    "configs/experiments/kiki_energy_cap_transfer_v1.toml": "8eeccbbec5f886600051b66eba8fd6914a1de94765671eca677fe5d0d50a9d11",
+    "configs/project_manifest.json": "b7f784b594c04ce3167fa34c60b70b4a07863049fc5589a941b3d3c563fa1f72",
+    "configs/proposals/kiki_energy_cap_saved_sources_v1.json": "d0dcdfdcebf768ae29d2f1b7e87d40e773f1fa5ad29095b63f1f1ac1f80a3ed1",
+    "configs/workflows/kiki_energy_cap_transfer_v1.json": "ced2c55b62a92425561cbbaebcb818de19e30a735cc6120f78c7ca915672dbf1",
+    "docs/protocols/kiki_energy_cap_transfer_v1_zh.md": "0e0cca43e50dbb9a6b03c9311b84c7c413ebe604bfba3d8ab06c9e76a1272219",
+    "docs/research/kiki_energy_cap_design_review_20261109_zh.md": "fec2b1baa573771c0d1a5bc7f198abf562f02f046a861e69dbdaef38e1fc7c72",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+    "project_harness/policy.py": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+    "project_harness/runner.py": "3d46eebcd8590648c3f47ed490aa8381b397432bc2cfb4559f60dd47c76537d0",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/energy_cap_saved_inputs.py": "aceca0ae62ed6dfd3fa061e5ed7f0dab446282daf2ea2bbe313858926f09ad2f",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "df561c25f081972f7a875fd0e464e96be963b157bfa6586542e5eaf09fef11d6",
+    "src/kron_reduce/evaluation/encoder_energy_cap.py": "5c27c0b5a728b760a4c3d9514b368f0e1c533e14920b5c8dd0f016d6f9e7d4c6",
+    "src/kron_reduce/evaluation/energy_cap_scores.py": "c227824d58cb38eff07e658abf0ab9d4b59b75bf5d023d2ab633a12b937bffa4",
+    "src/kron_reduce/evaluation/energy_cap_transfer.py": "26d17565a9fef40538d2a1e8ad2213da8738fc45ae0df02c6bfa156cca125f2d",
+    "src/kron_reduce/evaluation/energy_constrained_initializer.py": "71e6be51569ce43eb67bce466ddfa6e222a0cf32338c2a33a10ae5ed76f9ef74",
+    "src/kron_reduce/evaluation/history_metrics.py": "7bd641bae5b66dcb76445615c722cce17bc23f7bace679a4fd3e80197313c9bc",
+    "src/kron_reduce/evaluation/scoped_audit_journal.py": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+    "src/kron_reduce/evaluation/train_mechanism_audit.py": "d035641edffa8317a5199b0b0eba34c10647b6cd2dd485891fc2e98da78f5e75",
+    "src/kron_reduce/evaluation/train_refinement_audit.py": "b9cc1071cef3c3b67c0539f2318862073910d74ccd22339eb5b4d1c4d99baf5a",
+    "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+    "src/kron_reduce/models/learned_latent.py": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/constant_c_synthetic.py": "cba3e3376a52cdb49a453151f30faf60cd8edf50ae1e4cec60b63eaef96cb863",
+    "src/kron_reduce/workflows/kiki_energy_cap_transfer.py": "542c094cbe5c576698fbeb1f14343678281de3dd5ba5e879719551ec232f640e",
+    "tests/test_encoder_energy_cap.py": "9ec28734a42c896cf950e73ccd3cbda9d2882f32f19dcc05af45b74ae0d54d6f",
+    "tests/test_energy_cap_saved_inputs.py": "40b5273f7b9827c524ed4226b6bb0d66f9fdb96c8e0243fb0ee210de2cf4b9d9",
+    "tests/test_energy_cap_scores.py": "8ca8b943a7a370d4746b4c0844d3d129a1982478f6fe796f7fa87f93d8e51a55",
+    "tests/test_energy_cap_transfer.py": "a92e741d2f24ded01786ea8b85037b3f1c17ba34b16b703bad298a4f8c99d915",
+    "tests/test_energy_cap_workflow.py": "7e985810c8f55a77d829ee910d1af6905fab22989376ef96e85466e5cf2fa055",
+    "tests/test_energy_constrained_initializer.py": "6ac6526c5422658ad1389e36610a74759154872b16a5eb1931b6da5c2ae4f1c7",
+    "tests/test_harness.py": "8503fc9c8df4782aeb907aabdc643c0f64cf0ccfdce257d9e31a789abe0da468",
+    "tests/test_runner_safety.py": "2c8039b0f8213a60c03e3a0f1652f09c0c73aaf73b1655dc9861a615a2f9d203",
+    "tests/test_scoped_audit_journal.py": "4c9c65ef2af108cacbad447cdc63a62ff61fbd0fbbc11a8f993cbfdcc818114e"
+  },
+  "sources_path": "configs/proposals/kiki_energy_cap_saved_sources_v1.json",
+  "sources_sha256": "d0dcdfdcebf768ae29d2f1b7e87d40e773f1fa5ad29095b63f1f1ac1f80a3ed1",
+  "binding_verification": {
+    "files_verified": 40,
+    "mismatches": [],
+    "method": "Read all bound file bytes and compare SHA256; no source NPZ opened"
+  },
+  "engineering_evidence": {
+    "path": "scratch/one_off/energy-cap-registration/engineering-tests.txt",
+    "sha256": "8c947719d684e6c0ec506c43acef6ca248b6c4ed951bbf2fc6788b34cb2be891",
+    "pytest_passed": 70,
+    "ruff": "PASS",
+    "scope": "Artificial arrays, mock execution, bounded reader and temporary Git workflow fixtures"
+  },
+  "review_basis": [
+    "Frozen mathematical protocol, causal ordering, exact KKT/rank/zero-radius and inactive reuse branches",
+    "A14/A15 JSON schema and frozen whitelist; same-step history/reset and future comparisons",
+    "Source read phases, per-scope reservations, global and conditional operator budgets, failure preservation",
+    "Frozen all-population GE/GI/D scoring and numerical refinement gates; 40 exact implementation bindings"
+  ],
+  "approved_comparison": {
+    "model": "Fixed A06 step240 sine models",
+    "seeds": [
+      324,
+      325,
+      326
+    ],
+    "allocated_events": 268,
+    "eligible_events": 258,
+    "seed_event_slots": 774,
+    "methods": [
+      "E_saved_encoder",
+      "I_saved_unconstrained_integral",
+      "C_encoder_referenced_energy_ball"
+    ],
+    "steps": [
+      0.005,
+      0.0025
+    ],
+    "radius": "L2 norm of the same-event saved encoder hidden state at history start",
+    "forecast_input": "Frozen same-event Pm10; no future target input",
+    "max_executions": 1
+  },
+  "source_read_budget": {
+    "file_count": 8528,
+    "json_file_count": 4653,
+    "npz_file_count": 3875,
+    "member_decode_count": 21699,
+    "source_file_byte_cap": 418279836,
+    "decoded_array_byte_cap": 239827112,
+    "one_read_per_file_and_one_decode_per_whitelisted_member": true,
+    "source_artifact_manifest_rawbyte_verification": {
+      "a14_files": 10098,
+      "a15_files": 10116,
+      "missing": 0,
+      "unlisted": 0,
+      "sha256_mismatches": 0
+    },
+    "phases": {
+      "source_root_and_initialization_history": {
+        "files": 5430,
+        "members": 13956,
+        "source_bytes": 189856779,
+        "decoded_array_bytes": 13067688
+      },
+      "clock_inputs_after_history_freeze": {
+        "files": 2,
+        "members": 3,
+        "source_bytes": 11047690,
+        "decoded_array_bytes": 583376
+      },
+      "future_scores_after_future_freeze": {
+        "files": 3096,
+        "members": 7740,
+        "source_bytes": 217375367,
+        "decoded_array_bytes": 226176048
+      }
+    },
+    "npy_header_max_bytes_per_member": 4108
+  },
+  "operator_limits": {
+    "expm": 0,
+    "svd": 0,
+    "force": 0,
+    "ls": 0,
+    "features": 0,
+    "encoder": 0,
+    "model_loads": 0,
+    "rollouts": 3096,
+    "integration_rhs": 5380344,
+    "physical_rhs": 451458,
+    "probe": 37199
+  },
+  "conditional_budget": {
+    "A": "Number of active-or-zero-radius slots generating new paths",
+    "S_A": "Sum of their registered future point counts",
+    "R": "Number of positive-multiplier active slots",
+    "scope_count": "3873+2*A",
+    "scope_count_max": 5421,
+    "new_paths": "4*A",
+    "integration_rhs": "240*A+24*S_A",
+    "physical_rhs": "24*A+2*S_A",
+    "total_rhs_max": 5831802,
+    "probe": 37199,
+    "root_updates_max": "64*R",
+    "scalar_evaluations_max": "80*R",
+    "closure_validations": "3+4*A",
+    "eigvalsh": "9+12*A"
+  },
+  "saved_evidence_audits": {
+    "max_independent_passes": 2,
+    "each_pass_source_files": 8528,
+    "each_pass_source_members": 21699,
+    "each_pass_source_bytes": 418279836,
+    "each_pass_new_result_files": "all files in this completed run's sealed manifest, at most once each",
+    "source_arrays": "only the bound source whitelist, at most once per member per audit",
+    "forbidden": [
+      "model_construction",
+      "solver",
+      "RHS",
+      "SVD",
+      "expm",
+      "fitting",
+      "rollout"
+    ]
+  },
+  "execution_conditions": [
+    "Activate only the new separately registered authorization with this receipt and exact plan/protocol/bindings",
+    "Clean committed checkout, pushed source commit and successful applicable CI for that same commit before dispatch",
+    "Actual Python 3.12 module paths, hashes and constrained dependency versions pass the runtime guard",
+    "Consume the common-directory one-use reservation before saved scientific payload reads or candidate calls",
+    "Do not revive any consumed source authorization; no retries, resume, new radius, event selection or budget transfer",
+    "Two saved-evidence audit passes only, separately accounted under the frozen whitelist and no new scientific operators"
+  ],
+  "scientific_acceptance": "V and mechanism_exercised and G_E and D; G_I reported independently",
+  "decision_boundary": {
+    "promotion_decision": "KEEP_BASELINE",
+    "selected_model": null,
+    "certified": false,
+    "new_training_authorized": false,
+    "val_evaluation_authorized": false,
+    "test_evaluation_authorized": false,
+    "claim_boundary": "Fixed A06-model encoder-referenced energy-ball train comparison on the saved A14/A15 roster only; no certification, promotion, training, validation or test."
+  },
+  "authority_basis": "The user explicitly requested continued autonomous progress. This exact new bounded comparison is approved after its independent registration and release gates; no repeated broad permission request is required.",
+  "source_payload_read_interpretation": "scope.source_payload_reads=0 forbids original provider/source dataset access. The separately enumerated saved train whitelist is explicitly permitted by this receipt.",
+  "review_operations": {
+    "source_npz_reads": 0,
+    "model_constructions": 0,
+    "solver_calls": 0,
+    "rhs_calls": 0,
+    "rollouts": 0,
+    "new_svd": 0,
+    "new_expm": 0
+  },
+  "review_document_path": "docs/research/kiki_energy_cap_implementation_review_20261109_zh.md",
+  "review_document_sha256": "e44d52eff97c5c099ddeb069e5b178bb7e84ab28afb99e9a2178fd50f218696a"
+}
