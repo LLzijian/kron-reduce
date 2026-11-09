@@ -15,7 +15,8 @@ See `configs/research_policy.json` and
 `docs/reports/research_governance_20261023_zh.md` for the active decision.
 
 The research policy records active and consumed authorizations. See the
-[research report index](docs/reports/README.md) for saved results and protocols.
+[research index](docs/research/README.md) for the follow-up scope, protocols
+and saved results.
 
 ## Scientific scope
 
