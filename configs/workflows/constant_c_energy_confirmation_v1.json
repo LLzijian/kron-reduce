@@ -1,0 +1,65 @@
+{
+  "workflow": "constant_c_energy_confirmation_v1",
+  "experiment": "constant_c_energy_confirmation_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "synthetic_confirmation"
+  ],
+  "transitions": {
+    "scaffold": "synthetic_confirmation"
+  },
+  "terminal_stages": [
+    "synthetic_confirmation"
+  ],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "synthetic_confirmation": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "data_policy",
+        "case_count",
+        "promotion_decision",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary",
+        "method_count"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "status": [
+          "PASS"
+        ],
+        "process_status": [
+          "PASS"
+        ],
+        "data_policy": [
+          "analytic_synthetic_only"
+        ],
+        "case_count": [
+          6
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "method_count": [
+          24
+        ]
+      }
+    }
+  },
+  "scientific_target": "confirm_fixed_energy_bound_in_new_parameters_and_noise_of_exposed_linear_family",
+  "locked_claims": [
+    "real_data_accuracy",
+    "global_nonlinear_observability",
+    "causal_root_identification",
+    "stability_certificate",
+    "model_promotion"
+  ]
+}

@@ -48,6 +48,9 @@ jobs:
           src/kron_reduce/evaluation/energy_initializer_audit.py
           tests/test_energy_initializer_workflow.py
           tests/test_energy_saved_inputs.py tests/test_energy_initializer_audit.py
+          src/kron_reduce/evaluation/energy_confirmation.py
+          src/kron_reduce/workflows/energy_confirmation_synthetic.py
+          tests/test_energy_confirmation.py tests/test_energy_confirmation_workflow.py
           tests/test_constant_c_synthetic_guard.py
           tests/test_harness.py tests/test_research_policy.py tests/test_runner_safety.py
           tests/test_development_file_bindings.py tests/test_kiki_task3_frozen_eval.py
@@ -71,6 +74,7 @@ jobs:
           tests/test_constant_c_synthetic_guard.py
           tests/test_energy_initializer_workflow.py
           tests/test_energy_saved_inputs.py tests/test_energy_initializer_audit.py
+          tests/test_energy_confirmation.py tests/test_energy_confirmation_workflow.py
           tests/test_energy_constrained_initializer.py
           tests/test_research_policy.py tests/test_runner_safety.py tests/test_data_registry.py
           tests/test_development_file_bindings.py

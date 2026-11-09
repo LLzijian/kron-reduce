@@ -33,6 +33,15 @@ Authority `constant_c_energy_initializer_v1_20261109` is consumed; phase-one
 authority also remains consumed. Read-only evidence synthesis and preparation
 of an independently registered follow-up remain available. No later candidate
 stage or real-data comparison is authorized by this result.
+A separate [fixed-radius confirmation](../protocols/constant_c_energy_confirmation_v1_zh.md)
+uses six new parameter/noise cases within the already exposed matched linear
+family. It freezes radius 1 and compares integral LS, zero, true-state reference
+and the constrained estimate. Its own implementation review and one-use
+registration govern execution; previous scopes stay consumed. All fixed-radius
+cases must meet the frozen future thresholds and noninferiority rule, and a
+prelisted weak-coupling noisy case must exercise the constraint. Hidden-state
+recovery remains a separate result. This is not external independent validation.
+
 State-dependent ports, potential changes and time objectives remain separate
 candidates. Keep the baseline and default deployment initializer.
 Rejected candidates remain archived. Independent engineering extraction requires
