@@ -1,0 +1,68 @@
+{
+  "workflow": "kiki_energy_cap_transfer_v1",
+  "experiment": "kiki_energy_cap_transfer_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "train_transfer"
+  ],
+  "transitions": {
+    "scaffold": "train_transfer"
+  },
+  "terminal_stages": [
+    "train_transfer"
+  ],
+  "approval_required": [],
+  "stage_evidence_contracts": {
+    "train_transfer": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "data_policy",
+        "slot_count",
+        "scientific_verdict",
+        "promotion_decision",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "status": [
+          "PASS"
+        ],
+        "process_status": [
+          "PASS"
+        ],
+        "data_policy": [
+          "frozen_saved_train_only"
+        ],
+        "slot_count": [
+          774
+        ],
+        "scientific_verdict": [
+          "ACCEPT",
+          "REJECT"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ]
+      }
+    }
+  },
+  "scientific_target": "compare_the_fixed_encoder_referenced_energy_ball_against_saved_encoder_and_integral_train_paths",
+  "locked_claims": [
+    "test_performance",
+    "validation_performance",
+    "new_training",
+    "model_promotion",
+    "stability_certificate",
+    "global_nonlinear_observability",
+    "real_hidden_state_recovery"
+  ]
+}

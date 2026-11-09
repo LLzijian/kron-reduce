@@ -46,6 +46,12 @@ review and registration; the result does not start another execution.
 
 State-dependent ports, potential changes and time objectives remain separate
 candidates. Keep the baseline and default deployment initializer.
+The next [registered-design preparation](../protocols/kiki_energy_cap_transfer_v1_zh.md)
+compares a fixed A06 initializer constrained by each event's encoder starting
+energy against saved encoder and unconstrained-integral paths on all eligible
+train events. The [design review](kiki_energy_cap_design_review_20261109_zh.md)
+selects this real-model mechanism check before differentiable training. This
+causal empirical reference is not a physical hidden-energy certificate.
 Rejected candidates remain archived. Independent engineering extraction requires
 explicit review.
 

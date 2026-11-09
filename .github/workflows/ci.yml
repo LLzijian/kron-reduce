@@ -48,6 +48,14 @@ jobs:
           src/kron_reduce/evaluation/energy_initializer_audit.py
           tests/test_energy_initializer_workflow.py
           tests/test_energy_saved_inputs.py tests/test_energy_initializer_audit.py
+          src/kron_reduce/data/energy_cap_saved_inputs.py
+          src/kron_reduce/evaluation/encoder_energy_cap.py
+          src/kron_reduce/evaluation/energy_cap_scores.py
+          src/kron_reduce/evaluation/energy_cap_transfer.py
+          src/kron_reduce/workflows/kiki_energy_cap_transfer.py
+          tests/test_encoder_energy_cap.py tests/test_energy_cap_saved_inputs.py
+          tests/test_energy_cap_scores.py tests/test_energy_cap_transfer.py
+          tests/test_energy_cap_workflow.py
           src/kron_reduce/evaluation/energy_confirmation.py
           src/kron_reduce/workflows/energy_confirmation_synthetic.py
           tests/test_energy_confirmation.py tests/test_energy_confirmation_workflow.py
@@ -72,6 +80,9 @@ jobs:
           python -m pytest -q -k "not test_data_checksums"
           tests/test_harness.py tests/test_kiki_task3_frozen_eval.py
           tests/test_constant_c_synthetic_guard.py
+          tests/test_encoder_energy_cap.py tests/test_energy_cap_saved_inputs.py
+          tests/test_energy_cap_scores.py tests/test_energy_cap_transfer.py
+          tests/test_energy_cap_workflow.py
           tests/test_energy_initializer_workflow.py
           tests/test_energy_saved_inputs.py tests/test_energy_initializer_audit.py
           tests/test_energy_confirmation.py tests/test_energy_confirmation_workflow.py
