@@ -35,11 +35,23 @@ from its directory policy README. `project_harness audit` enforces this boundary
 not contain scientific model logic. `src/kron_reduce` contains the scientific
 implementation and must not contain task numbers or result-directory constants.
 
-The loop is a persistent, command-driven state machine, not a background service.
-Each invocation validates the registered next edge, durable PASS evidence, and any
-explicit approval before advancing. The project audit additionally checks workflow
-identity, stage uniqueness, contiguous history, approval integrity, and the ordered
-AFSD evidence chain.
+The loop is a command-driven state machine. `configs/workflows/` defines stages,
+evidence contracts, and verdict routes. `configs/project_manifest.json` binds
+experiments to their implementation and workflow. `configs/research_policy.json`
+records scientific authority, and `.project_state/` records local progress.
+`loop plan` reads these records and shows the next stage and its requirements.
+
+Each mutation takes the same per-workflow lock. The runner checks the registered
+stage and approvals before source verification or experiment dispatch. A state
+transition requires valid evidence. The audit replays the history in order and
+checks the recorded verdict route and prior approval at each transition.
+
+The layout follows the separation of workflow definitions, configuration, and
+outputs used by Snakemake. Inspecting a saved run separately from execution
+draws on DVC experiment tracking and Nextflow run logs.
+[Snakemake layout](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html)
+· [DVC experiment tracking](https://doc.dvc.org/user-guide/experiment-management)
+· [Nextflow run reports](https://docs.seqera.io/nextflow/reports/)
 
 The physics stack uses mass-weighted COI coordinates and one shared,
 COI-preserving RK4 definition. M0 and graph-SINDy M2A identify integral

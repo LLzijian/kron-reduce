@@ -14,20 +14,9 @@ pruning the dynamical/latent modules. Synthetic ground-truth checks continue.
 See `configs/research_policy.json` and
 `docs/reports/research_governance_20261023_zh.md` for the active decision.
 
-The [next-phase research design](docs/research/kiki_next_phase_20261023_zh.md)
-and [A04 proposed protocol](docs/protocols/kiki_a04_short_history_design_20261023_zh.md)
-define the next short-history comparison, uncertainty and local-region work.
-The fixed real-data comparison is complete; no new real model has been promoted.
-
-The [A04 engineering and mechanism results](docs/reports/kiki_a04_execution_20261023_zh.md)
-record implemented short-history tools, accepted synthetic checks and the
-earlier real-data envelope prerequisite. The user has now approved the
-[bounded A04 development evaluation](docs/protocols/kiki_a04_development_authorization_20261023_zh.md)
-on frozen internal train/val inside original source train. The
-[completed A04 result](docs/reports/kiki_a04_development_20261023_zh.md) retains
-all 12 fits and 960 updates. The registered improvement gates were not met;
-the existing model is retained and the one-time authorization is consumed.
-Source val/test, prediction deployment and model promotion remain closed.
+The research policy records active and consumed authorizations. See the
+[research index](docs/research/README.md) for the follow-up scope, protocols
+and saved results.
 
 ## Scientific scope
 
@@ -42,28 +31,37 @@ physics-informed neural ODE, and an autoregressive LSTM. Operator forecasts and
 direct prefix classifiers are supplementary because they use a different
 information budget.
 
-## Commands
+## Research workflow
 
 ```powershell
-./.venv/Scripts/python.exe -m pytest -q
-./.venv/Scripts/python.exe -m project_harness list
 ./.venv/Scripts/python.exe -m project_harness audit
-./.venv/Scripts/python.exe -m project_harness data-check
-./.venv/Scripts/python.exe -m project_harness git-check
-./.venv/Scripts/python.exe -m project_harness data-check --dataset ieee39_postclear_canonical_v1
-./.venv/Scripts/python.exe -m project_harness loop status
+./.venv/Scripts/python.exe -m project_harness list
+./.venv/Scripts/python.exe -m project_harness loop --workflow kiki_a06_refinement_v1 plan
 ```
 
-Use `--workflow <name>` before the loop subcommand to inspect a named workflow,
-for example:
+1. **Inspect.** `audit` checks repository contracts and saved evidence. `list`
+   shows the dataset and experiment registry. `loop plan` shows the current
+   and next stages, the evidence contract, pending approvals, and matching
+   experiment registrations with their execution modes and authorization status.
+   Entries registered at the workflow level appear separately.
+   `loop status` shows the full saved history. These inspection commands read
+   repository metadata and saved evidence.
+2. **Execute one step.** Use `loop run-one` for a built-in check. For an
+   authorized experiment, use its registered entry point and stage. Generic
+   experiments use `run <experiment> --stage <stage>`. Dedicated audits use the
+   module and procedure in their approved protocol. `loop approve <gate>`
+   records an explicit operator approval. `loop advance <stage> --evidence-file
+   <file>` records externally produced evidence for the next stage.
+3. **Review.** The loop advances after the evidence passes validation. A
+   scientific verdict can route to acceptance or rollback according to the
+   registered workflow. Each attempted experiment keeps its own run directory.
 
-```powershell
-./.venv/Scripts/python.exe -m project_harness loop --workflow m0_afsd_v4_graph_compositional_discovery status
-```
-
-The loop is command-driven rather than a resident background process. Its state,
-ordered evidence, explicit approvals, data locks, and Git gates persist between
-commands and are checked again by `project_harness audit`.
+Use `--workflow <name>` before a loop subcommand. The default `paper_v1` is
+the historical paper workflow. Workflow definitions live in `configs/workflows/`.
+`git-check` checks the clean-checkout gate. `data-check --dataset <name>` checks
+registered metadata and source hashes separately from the workflow preview.
+Contributor rules are in [AGENTS.md](AGENTS.md) and the
+[harness instructions](project_harness/AGENTS.md).
 
 Set `KIKI_DATA_ROOT` to the directory containing `ieee39_postfault` and
 `ieee39_expansion`; the local fallback is `../kiki/private_data`. The raw HDF5

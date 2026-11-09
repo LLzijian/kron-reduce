@@ -1,0 +1,42 @@
+{
+  "authorization_id": "kiki_task3_frozen_200ms_20261109",
+  "checkout": "E:/03-nn_Transfer_Func/kron-reduce",
+  "user_authorization": "不再重训，直接使用冻结的参数进行评估",
+  "input_contract": "task3_200ms_origin_power_frozen_transfer_v1",
+  "dataset": "kiki_ieee39_v1",
+  "evaluation_dataset_scope": "TASK3 frozen kiki val and previously exposed expansion plus holdout supplement test caches",
+  "checkpoint_run": "paper_kiki_p2_a03_seed324-kiki_rerun-20261022T095918Z-21a5a23b",
+  "checkpoint_allocation_sha256": "b103651cd33cb60dbdbad71c9d258545602cd6070a8860becc4fe9b2a6ac2b6d",
+  "checkpoints": {
+    "sine-no-history-loss": "6a7d9ba63eed520af7173cc80a886e37a1ce8519792000541929ad1195b4117e",
+    "sine-memoryless": "ff02092387a534a622aee47f8fd72b1533fd87dacfed13be4a5ec57bb176a6d3",
+    "linear-history": "2a9d63fdddec5d0e26836492a3cc221beb26c87a0f183d2c60051b7e77330e4b"
+  },
+  "task3_delivery": "outputs/01a0dc52-71e0-7832-8ce2-af0cc8a4d960/200ms/delivery_manifest.json",
+  "task3_delivery_sha256": "931dd7caad62a9a71199d986690e2ca8769d0611846c42f1ed25a2d92b6e6798",
+  "task3_code": {
+    "src/task3/__init__.py": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+    "src/task3/c200/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/task3/c200/evaluation.py": "b14b6b84c70646ddf809b2108d8d20be782353777c120c91efae21ff37a96f78",
+    "src/task3/c200/safety.py": "12a1e40e543fe70daed9f9ac72d159d1e788a88f0705aece6a31d10d44363adc",
+    "src/task3/c200/protocol.py": "3b82f00397573a126f752f7f6b779840d2ff5e0923a4b4fcadcd8b6c53066c79",
+    "src/task3/protocol.py": "c09d9d8a142377b8d7ff414fa477b41d5b28b1e29cc633b8a9378b9d94cc9d59",
+    "src/task3/data/__init__.py": "c9793c85e680075e8ea45bd05a89ee911098fa9b17986846e9f0d01c961faee6",
+    "src/task3/data/kiki_dataset.py": "da7dbe8d950a1ec3b8440c77acbc0433b2ce9e971aa950e92a05b27a0807d89c"
+  },
+  "val": {"allocated": 117, "eligible": 105, "unstable": 10},
+  "test": {"allocated": 86, "eligible": 75, "unstable": 8, "prior_exposure": true},
+  "observation_points": 21,
+  "power_index": 20,
+  "future_s": 8,
+  "output_convention": "native COI relative outputs; zero common-speed deviation after the observed origin",
+  "failure_convention": "An A03 exception discards the unavailable whole future path; do not claim parity for failed prefixes.",
+  "reference_models": ["small_transformer", "gru_seq2seq", "latent_neural_ode", "koopman_shred_faithful", "graph_gru", "TASK2_F23_P0"],
+  "max_model_event_combinations": 540,
+  "max_model_paths": 1620,
+  "max_rk4_updates": 3099600,
+  "max_rhs_calls": 12398400,
+  "fit_attempts": 0,
+  "optimizer_updates": 0,
+  "retries_allowed": false
+}

@@ -1,0 +1,44 @@
+{
+  "reviewer": "Astra Ultra",
+  "decision": "APPROVE_EXACT_ONE_USE_FROZEN_RETROSPECTIVE_EVALUATION",
+  "date": "2026-11-09",
+  "authorization_id": "kiki_task3_frozen_200ms_20261109",
+  "proposal_sha256": "457a5aa09dde2b5f41b7d872c4e8c34ddf916a63fbe2ef600fbd9fd4cbec4a86",
+  "pre_access_correction": {
+    "previous_proposal_sha256": "1a2dec863b016b930cb3061a9e1c5dca2a6863fc2d125efd666862cbf2c8430d",
+    "previous_review_sha256": "e9de581df545585febac64d4b239a7733b8b07a6db2c172f531422b28ebc7f45",
+    "decision": "ASTRA_ULTRA_APPROVES_DEPENDENCY_DIGEST_TRANSCRIPTION_CORRECTION",
+    "reason": "Preflight rejected TASK3 data/__init__.py digest before any cache read or spend; all executable and scientific bindings unchanged."
+  },
+  "implementation_bindings": {
+    "src/kron_reduce/workflows/kiki_task3_frozen_eval.py": "45f918820650d41f1c1a6a8d5d39c609dbc7d5ca42d2ce0bfefa990c40b70af0",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/models/learned_latent.py": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+    "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+    "src/kron_reduce/data/audit_access_ledger.py": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/policy.py": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "docs/protocols/kiki_task3_frozen_200ms_20261109_zh.md": "86961c03b01cf3ecef14a4f317fd09b92630d847fd56fb01bc6303f43a473487",
+    "configs/input_contracts.json": "6c31fb878d3bed1d43bf70acf84995b5ec5d6d1f2ae64a1809febe0c00b3f83c",
+    "tests/test_kiki_task3_frozen_eval.py": "846d1327d272ec58785467e3ec9998f100b196738e2de482cad9e8764590d4cb"
+  },
+  "scope": "Three fixed A03 checkpoints; 105 val and 75 previously exposed test TASK3 caches. Pm[20] input transfer, zero common-speed output convention, whole path unavailable on original A03 exception. Preserve generic TEST_EXPOSED.",
+  "budget": {
+    "model_event_combinations": 540,
+    "model_paths": 1620,
+    "rk4_updates": 3099600,
+    "rhs_calls": 12398400,
+    "fit_attempts": 0,
+    "optimizer_updates": 0
+  },
+  "engineering_checks_reported": {
+    "focused_tests_passed": 14,
+    "ruff": "PASS"
+  },
+  "promotion_decision": "KEEP_BASELINE",
+  "independent_confirmation": false
+}
