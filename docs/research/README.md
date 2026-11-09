@@ -19,9 +19,13 @@ both hidden-state and visible-future outcomes. The isolated algebra solver has
 engineering tests; the [preparation review](constant_c_energy_preparation_review_20261109_zh.md)
 accepts that scope. The [machine-readable plan](../../configs/proposals/constant_c_energy_initializer_preparation_v1.json)
 and [saved-input manifest](../../configs/proposals/constant_c_energy_saved_sources_v1.json)
-record the source identities and prospective budgets. Their status is
-`DRAFT_PREPARATION_NO_EXECUTION_AUTHORITY`: the future propagation executor,
-complete call budgets and independent registration remain pending.
+preserve the original preparation and source identities.
+The separate [execution protocol](../protocols/constant_c_energy_execution_v1_zh.md)
+and [exact implementation approval](constant_c_energy_execution_review_20261109_zh.md)
+now bind the saved-input reader, conditional propagation and complete budgets.
+The new one-use authority `constant_c_energy_initializer_v1_20261109` permits
+the fixed comparison after clean committed source, push and CI gates pass.
+It opens no later candidate stage and leaves phase-one authority consumed.
 State-dependent ports, potential changes and time objectives remain separate
 candidates. Keep the baseline and default deployment initializer.
 Rejected candidates remain archived. Independent engineering extraction requires
