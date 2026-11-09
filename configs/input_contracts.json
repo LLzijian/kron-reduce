@@ -29,5 +29,13 @@
     "task_role": "input_availability_audit_only_no_prediction",
     "source_clock_preserved": true,
     "exact_clearing_state_claimed": false
+  },
+  "task3_200ms_origin_power_frozen_transfer_v1": {
+    "forecast_origin": "end_of_21_real_samples_at_10ms",
+    "real_observation_count": 21,
+    "power_policy": "zoh_from_declared_origin_power",
+    "power_index": 20,
+    "task_role": "frozen_retrospective_history_prediction",
+    "common_speed_output": "zero_deviation_fixed_convention"
   }
 }
