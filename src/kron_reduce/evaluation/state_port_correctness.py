@@ -175,7 +175,7 @@ def _algebra(models, states, power, eq, theta, scale):
             "negative_one_sided_residual": normalized_bad,
             "pass": all(all(row[key] <= 1e-11 for key in row
                             if key not in {"model", "state"}) for row in checks)
-                    and normalized_bad > 1e-10}
+                    and bool(normalized_bad > 1e-10)}
 
 
 def _jacobians(models, state, power, eq, theta, scale, calls):

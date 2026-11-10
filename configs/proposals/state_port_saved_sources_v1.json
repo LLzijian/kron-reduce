@@ -1,0 +1,95 @@
+{
+  "run_id": "state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0",
+  "source_commit": "992738b0c4bfbf26e073f40a29f67cea4c4ac429",
+  "process_status": "FAIL_PRESERVED",
+  "files": {
+    "algebra.json": {
+      "sha256": "8bbbffe48e7b55e5f5d911cb86f3d4d0ef2cd6b66f7919694fe14f81357026b4",
+      "bytes": 6572
+    },
+    "algebra.npz": {
+      "sha256": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "bytes": 22
+    },
+    "failed-operation.json": {
+      "sha256": "717577f79cbc1c574784fa76682ff65ffada387e2f25ea218c496a0d66f4e016",
+      "bytes": 703
+    },
+    "failed-operation.npz": {
+      "sha256": "50837c1b02cacc5f225af47faae64f015222558d29f869d895d5007bfa562276",
+      "bytes": 881
+    },
+    "failure.json": {
+      "sha256": "531c5d8e323bc0244123fdc572050f4d2a9f790c74a51183bec44021c42358e7",
+      "bytes": 394
+    },
+    "inputs.json": {
+      "sha256": "55f9f08b4fb4dd53a7a2466180f1bc0ee9c4b9d57e994ce897cbc63c127a90d3",
+      "bytes": 7109
+    },
+    "inputs.npz": {
+      "sha256": "36b0784796d0d83c18b6d2b3c6df4c79b180a80d39439370e6ab2b37256f8132",
+      "bytes": 13614
+    },
+    "jacobians.json": {
+      "sha256": "39b3c59ec9697b02506628495087bea6ce4ce42dd5b92d5426e148a45d539aab",
+      "bytes": 6248
+    },
+    "jacobians.npz": {
+      "sha256": "48e51723b45589fa28f8a43065e05c1100d540a2f90ab19523c4b73b81dab61a",
+      "bytes": 54100
+    },
+    "journal/algebra-closed.json": {
+      "sha256": "3562689c389909e859799189e25f4236392342e2ad56bc93aef13eefd641375b",
+      "bytes": 363
+    },
+    "journal/algebra-reserved.json": {
+      "sha256": "4624ec09697f154cad62359d5045acf742024d07a05c309c987dbe4220ff75b1",
+      "bytes": 232
+    },
+    "journal/calls.jsonl": {
+      "sha256": "a5bb928bc9be2e0411c66027a7fcf23dae2cf2ba6d19e7861a8c00cf2a2d711e",
+      "bytes": 43757
+    },
+    "journal/jacobians-closed.json": {
+      "sha256": "57b41c456bc3d3d8a4b1c625281f0ad8069faf317c94c6decece72ae2a9c202e",
+      "bytes": 365
+    },
+    "journal/jacobians-reserved.json": {
+      "sha256": "f084c196532182ecfb0770ab9ca807b9ee928ff86129adc8b3bc7cc6ad4c35c8",
+      "bytes": 234
+    },
+    "journal/paths-closed.json": {
+      "sha256": "f2de30356ee298e1c323fe8379be0facbf4cb8f0b21e0981b7a9f45a7a116e10",
+      "bytes": 373
+    },
+    "journal/paths-reserved.json": {
+      "sha256": "b52253f892d75700f29c12a094efb764b19310f18419772b0a1408aaeef4ea29",
+      "bytes": 240
+    },
+    "journal/setup-closed.json": {
+      "sha256": "368c9aee7729dd35adb17bbf9a5dc2787ad40b12ca338c7a9b50ea72256bbd4e",
+      "bytes": 359
+    },
+    "journal/setup-reserved.json": {
+      "sha256": "a74b067a2ad3342c21a896020d310e11bbad1f0f58253d0feb339d1584097e5b",
+      "bytes": 228
+    },
+    "paths.json": {
+      "sha256": "b0a0fd94a28081edcad3d18dab81aee2ee85ac7d9fcb3f35279da745c5f02da8",
+      "bytes": 46684
+    },
+    "paths.npz": {
+      "sha256": "4a1fef4cb97adef1c6c6e1b2bd88bb345eb1b18ab2029e19fb2113d6ead3c212",
+      "bytes": 1120842
+    },
+    "RUN_FAILED.json": {
+      "sha256": "1eb09ff49357111133762f486221f867432bf190c176f92b93f70d64b7a05c07",
+      "bytes": 2406
+    },
+    "summary.json": {
+      "sha256": "3d112f949fe6832289a96b837bed0969dbf7165eb4927296517665dea552932f",
+      "bytes": 90
+    }
+  }
+}

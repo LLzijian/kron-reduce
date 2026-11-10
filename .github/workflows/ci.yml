@@ -30,6 +30,7 @@ jobs:
           src/kron_reduce/models/state_port.py src/kron_reduce/evaluation/state_port_correctness.py
           src/kron_reduce/workflows/state_port_synthetic.py
           tests/test_state_port.py tests/test_state_port_workflow.py
+          scripts/audit_state_port_saved.py tests/test_state_port_saved_audit.py
           src/kron_reduce/data/audit_access_ledger.py src/kron_reduce/data/durable_audit_ledger.py
           src/kron_reduce/data/limited_hdf_audit.py src/kron_reduce/evaluation/record20_input.py
           src/kron_reduce/evaluation/record20_coordinates.py src/kron_reduce/evaluation/record20_metadata.py
@@ -82,6 +83,7 @@ jobs:
         run: >-
           python -m pytest -q -k "not test_data_checksums"
           tests/test_state_port.py tests/test_state_port_workflow.py
+          tests/test_state_port_saved_audit.py
           tests/test_harness.py tests/test_kiki_task3_frozen_eval.py
           tests/test_constant_c_synthetic_guard.py
           tests/test_encoder_energy_cap.py tests/test_energy_cap_saved_inputs.py

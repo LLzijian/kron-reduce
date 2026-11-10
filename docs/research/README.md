@@ -6,6 +6,22 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [research plan](research_plan_20261110_zh.md) prioritizes A1: matched
+18-parameter constant and state-dependent ports, a common complete forecast
+state, and the unchanged A06 reference. B remains an independent initializer
+training question; A2 needs the stated mathematical corrections; C is deferred.
+
+The single [A1-S0 execution](../protocols/state_port_synthetic_v1_zh.md) saved
+all numerical checks, then failed while serializing the final summary. Its
+scientific authority is consumed and the failed run remains immutable. The
+[separate saved-evidence review](../protocols/state_port_saved_review_20261111_zh.md)
+checks existing arrays and arithmetic with zero new model or trajectory calls.
+It cannot turn the failed workflow into a successful execution. Real train
+comparisons require their own design and registration; keep the baseline and
+default deployment initializer.
+
+## Precursor evidence
+
 The [constant-C synthetic study](../reports/constant_c_100ms_synthetic_20261109_zh.md)
 completed its one registered execution: 17 cases separate discrete observation
 information, initialization error and visible future equivalence. Its authority
@@ -44,14 +60,6 @@ still failed in all three weak-coupling cases. Authority
 independent validation. Further comparisons require their own design, exact
 review and registration; the result does not start another execution.
 
-The [2026-11-10 research plan](research_plan_20261110_zh.md) sets the candidate
-order. The next bounded scope is the zero-fit A1-S0 correctness check in the
-[protocol](../protocols/state_port_synthetic_v1_zh.md); it needs an independent
-approval receipt and explicit synthetic_correctness workflow gate. Passing it
-permits design work on a separate A1 train comparison only. B remains
-independent, A2 requires mathematical correction, and C stays deferred. These
-are design decisions, not execution authority. Keep the baseline and default
-deployment initializer.
 The [encoder-referenced energy-ball comparison](../reports/kiki_energy_cap_transfer_20261110_zh.md)
 completed all 774 fixed-A06 train slots with `REJECT / KEEP_BASELINE`:
 `V=true`, the constraint was active in 666 slots, `G_I=true`, `G_E=false`,

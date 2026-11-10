@@ -1463,7 +1463,7 @@
       "real_data_reads": 0,
       "fit_attempts": 0,
       "optimizer_updates": 0,
-      "status": "active",
+      "status": "consumed",
       "approved_date": "2026-11-11",
       "authority": "explicit_user_autonomous_research_request_with_exact_Astra_Ultra_review",
       "approval_text": "按照讨论的内容调整项目设置的研究方案，并开始自主研究",
@@ -1523,7 +1523,16 @@
         "rollout_validations": 158
       },
       "model_promotion_allowed": false,
-      "deployment_predictions_allowed": false
+      "deployment_predictions_allowed": false,
+      "consumed_at": "2026-11-10T16:21:00.503775+00:00",
+      "failed_run_id": "state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0",
+      "source_commit": "992738b0c4bfbf26e073f40a29f67cea4c4ac429",
+      "process_status": "FAIL_PRESERVED",
+      "failure_path": "results/state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0/RUN_FAILED.json",
+      "failure_sha256": "1eb09ff49357111133762f486221f867432bf190c176f92b93f70d64b7a05c07",
+      "saved_source_manifest_path": "configs/proposals/state_port_saved_sources_v1.json",
+      "saved_source_manifest_sha256": "9c06a82592879750ef9b4a93b9c8d339f5728905dfd24346571eb577f1631841",
+      "scientific_verdict": "PENDING_INDEPENDENT_SAVED_EVIDENCE_REVIEW"
     }
   },
   "saved_evidence_audits": {
@@ -1565,6 +1574,23 @@
       },
       "checks": 20898,
       "mismatches": 0
+    },
+    "state_port_saved_review_v1_20261111": {
+      "status": "active",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "run_id": "state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0",
+      "source_commit": "992738b0c4bfbf26e073f40a29f67cea4c4ac429",
+      "plan_path": "configs/proposals/state_port_saved_review_v1.json",
+      "plan_sha256": "4f7544efa707ad136a631eae7d0e314d4b11d498e64a0a15f58cc98accde602a",
+      "review_path": "docs/research/state_port_saved_review_approval_20261111.json",
+      "review_sha256": "ff89e61c5ecc3d96e9d8b40cb2d7e80aa75c420b77f5170e41423ae3358d4f36",
+      "authority": "explicit_user_autonomous_research_with_exact_Astra_saved_evidence_review",
+      "approval_text": "按照讨论的内容调整项目设置的研究方案，并开始自主研究",
+      "purpose": "Read existing synthetic evidence only; original process failure remains immutable.",
+      "max_npz_decodes": 4,
+      "new_scientific_calls": 0,
+      "promotion_decision": "KEEP_BASELINE"
     }
   }
 }

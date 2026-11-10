@@ -3,6 +3,8 @@ import pytest
 from scipy.linalg import helmert
 
 from kron_reduce.evaluation import state_port_correctness as evaluation
+from kron_reduce.models.nonlinear_latent import NonlinearPassiveClosure
+from kron_reduce.models.state_port import StatePortClosure
 from kron_reduce.workflows import state_port_synthetic as workflow
 
 
@@ -89,3 +91,28 @@ def test_small_counted_models_record_construction_and_rhs_failures():
         port.rhs(np.zeros(7), power, equilibrium)
     assert calls.counts["numpy_rhs"] == 3
     assert calls.returned["numpy_rhs"] == 2
+
+
+def test_algebra_gate_is_builtin_bool_and_writes_strict_summary_json(tmp_path):
+    n, r = 10, 2
+    basis = helmert(n, full=False).T
+    common = {
+        "mass": np.ones(n),
+        "edge_stiffness": np.ones(n * (n - 1) // 2),
+        "damping": 0.2 * basis @ basis.T,
+        "coupling": 0.15 * basis[:, :r],
+        "latent_skew": np.zeros((r, r)),
+        "latent_dissipation": 0.3 * np.eye(r),
+    }
+    models = {
+        "baseline": NonlinearPassiveClosure(**common),
+        "state": StatePortClosure(**common, delta=np.zeros((n - 1, r)), port_kind="state"),
+    }
+    record = evaluation._algebra(
+        models, {"zero": np.zeros(2 * n + r)}, np.zeros(n), np.zeros(n),
+        np.zeros((n - 1, r)), 1.0,
+    )
+    assert type(record["pass"]) is bool
+    path = tmp_path / "algebra-summary.json"
+    evaluation.write_json(path, {"gates": {"algebra": record["pass"]}, "algebra": record})
+    assert '"algebra": true' in path.read_text(encoding="utf-8")
