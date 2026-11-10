@@ -1,0 +1,58 @@
+{
+  "workflow": "state_port_synthetic_v1",
+  "experiment": "state_port_synthetic_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "synthetic_correctness"
+  ],
+  "transitions": {
+    "scaffold": "synthetic_correctness"
+  },
+  "terminal_stages": [
+    "synthetic_correctness"
+  ],
+  "approval_required": [
+    "synthetic_correctness"
+  ],
+  "stage_evidence_contracts": {
+    "synthetic_correctness": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "data_policy",
+        "promotion_decision",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "status": [
+          "PASS"
+        ],
+        "process_status": [
+          "PASS"
+        ],
+        "data_policy": [
+          "analytic_synthetic_only"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ]
+      }
+    }
+  },
+  "scientific_target": "verify_reciprocal_state_port_correctness_before_separate_paired_train_design",
+  "locked_claims": [
+    "real_data_accuracy",
+    "causal_root_identification",
+    "stability_certificate",
+    "model_promotion"
+  ]
+}

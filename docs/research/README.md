@@ -44,19 +44,26 @@ still failed in all three weak-coupling cases. Authority
 independent validation. Further comparisons require their own design, exact
 review and registration; the result does not start another execution.
 
-State-dependent ports, potential changes and time objectives remain separate
-candidates. Keep the baseline and default deployment initializer.
+The [2026-11-10 research plan](research_plan_20261110_zh.md) sets the candidate
+order. The next bounded scope is the zero-fit A1-S0 correctness check in the
+[protocol](../protocols/state_port_synthetic_v1_zh.md); it needs an independent
+approval receipt and explicit synthetic_correctness workflow gate. Passing it
+permits design work on a separate A1 train comparison only. B remains
+independent, A2 requires mathematical correction, and C stays deferred. These
+are design decisions, not execution authority. Keep the baseline and default
+deployment initializer.
 The [encoder-referenced energy-ball comparison](../reports/kiki_energy_cap_transfer_20261110_zh.md)
 completed all 774 fixed-A06 train slots with `REJECT / KEEP_BASELINE`:
 `V=true`, the constraint was active in 666 slots, `G_I=true`, `G_E=false`,
 and `D=false`. C improved the unconstrained initializer but retained roughly
 eight times the encoder's future MSE and added two rule triggers per seed.
 Authority `kiki_energy_cap_transfer_v1_20261109` is consumed.
-This new evidence ends the tested direct-replacement route. Do not treat the
-empirical energy ball as a validated precursor that automatically advances to
-differentiable training. Further joint-training or structural candidates need
-an independent falsifiable mechanism, protocol and exact review; their
-impossibility was not established by this comparison.
+This new evidence closes the tested post-hoc replacement of the encoder in
+fixed A06 models under the registered history contract and energy-ball rule.
+It does not test or rule out all integral initializers, joint training or
+structural candidates. The empirical energy ball does not automatically
+authorize differentiable training. Any follow-up needs an independent,
+falsifiable mechanism, protocol and exact review.
 The [result review](kiki_energy_cap_result_review_20261110_zh.md) records the
 route decision. The [representative-window audit correction](../protocols/kiki_energy_cap_truth_window_audit_20261110_zh.md)
 has its own saved-evidence scope and preserves the initial audit failure;
