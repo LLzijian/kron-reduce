@@ -1,0 +1,59 @@
+{
+  "schema": "state_port_synthetic_result_receipt_v1",
+  "authorization": "state_port_synthetic_v1_20261110",
+  "authorization_status": "consumed",
+  "run_id": "state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0",
+  "source_commit": "992738b0c4bfbf26e073f40a29f67cea4c4ac429",
+  "source_ci": {
+    "run_id": 42852275799,
+    "status": "success",
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/42852275799"
+  },
+  "plan_path": "configs/proposals/state_port_synthetic_v1.json",
+  "plan_sha256": "2f0919965b08f56678d3bc8d0ac1ed30d1e1e75971c77f4074e256578a6dc545",
+  "source_manifest_path": "configs/proposals/state_port_saved_sources_v1.json",
+  "source_manifest_sha256": "9c06a82592879750ef9b4a93b9c8d339f5728905dfd24346571eb577f1631841",
+  "source_file_count": 22,
+  "process_status": "FAIL_PRESERVED",
+  "scientific_verdict": "ACCEPT",
+  "scientific_checks": "PASS_FROM_SAVED_EVIDENCE",
+  "promotion_decision": "KEEP_BASELINE",
+  "scientific_review_path": "docs/research/state_port_result_review_20261111.json",
+  "scientific_review_sha256": "2cdee068e2b503412efe0ce02298960c4bf9c0c4ead6fb3aefd8ff5641ebe07e",
+  "report_path": "docs/reports/state_port_synthetic_20261111_zh.md",
+  "report_sha256": "c73c6693d9e2ac31d24649901fc3666114806fa5e29b92e84e9eeedc954de9da",
+  "saved_audit": {
+    "authorization": "state_port_saved_review_v1_20261111",
+    "authorization_status": "consumed",
+    "path": "reports/generated/state_port_synthetic_20261111/saved-audit.json",
+    "sha256": "7b4b8040622fb003be67243552bde2bae60e28b09d95ed86ca9540b3eaf7f29c",
+    "checks": 200,
+    "mismatches": 0,
+    "npz_decodes": 4,
+    "new_scientific_calls": 0,
+    "plan_path": "configs/proposals/state_port_saved_review_v1.json",
+    "plan_sha256": "4f7544efa707ad136a631eae7d0e314d4b11d498e64a0a15f58cc98accde602a",
+    "approval_path": "docs/research/state_port_saved_review_approval_20261111.json",
+    "approval_sha256": "ff89e61c5ecc3d96e9d8b40cb2d7e80aa75c420b77f5170e41423ae3358d4f36",
+    "completion_path": ".git/state_port_saved_review_budgets/state_port_saved_review_v1_20261111/completed.json",
+    "completion_sha256": "065035f1f9539f5223d504b2df7eae584305869c133d45d522d936b864422ee3"
+  },
+  "logical_operations": {
+    "numpy_rhs": 69017,
+    "torch_rhs": 9769,
+    "jacobian": 5,
+    "scalar_backward": 2,
+    "model_constructions": 614,
+    "rollout_validations": 158
+  },
+  "operator_counts": {
+    "probe": 3,
+    "rollouts": 162
+  },
+  "real_data_reads": 0,
+  "fit_attempts": 0,
+  "optimizer_updates": 0,
+  "original_workflow_advanced": false,
+  "claim_boundary": "Finite A1-S0 implementation, gradient and numerical consistency checks; no real-data comparison, training benefit or stability certificate.",
+  "next_step": "PREPARE_SEPARATE_A1_TRAIN_PAIRED_DESIGN"
+}

@@ -1532,7 +1532,13 @@
       "failure_sha256": "1eb09ff49357111133762f486221f867432bf190c176f92b93f70d64b7a05c07",
       "saved_source_manifest_path": "configs/proposals/state_port_saved_sources_v1.json",
       "saved_source_manifest_sha256": "9c06a82592879750ef9b4a93b9c8d339f5728905dfd24346571eb577f1631841",
-      "scientific_verdict": "PENDING_INDEPENDENT_SAVED_EVIDENCE_REVIEW"
+      "scientific_verdict": "ACCEPT",
+      "scientific_checks": "PASS_FROM_SAVED_EVIDENCE",
+      "scientific_review_path": "docs/research/state_port_result_review_20261111.json",
+      "scientific_review_sha256": "2cdee068e2b503412efe0ce02298960c4bf9c0c4ead6fb3aefd8ff5641ebe07e",
+      "result_receipt_path": "docs/reports/state_port_synthetic_20261111_evidence.json",
+      "result_receipt_sha256": "4fd2dc1eae7ee735264c6f2bf9611319ac386ea6e6946df367ec731cd579ca42",
+      "promotion_decision": "KEEP_BASELINE"
     }
   },
   "saved_evidence_audits": {
@@ -1576,7 +1582,7 @@
       "mismatches": 0
     },
     "state_port_saved_review_v1_20261111": {
-      "status": "active",
+      "status": "consumed",
       "max_executions": 1,
       "retry_allowed": false,
       "run_id": "state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0",
@@ -1590,7 +1596,16 @@
       "purpose": "Read existing synthetic evidence only; original process failure remains immutable.",
       "max_npz_decodes": 4,
       "new_scientific_calls": 0,
-      "promotion_decision": "KEEP_BASELINE"
+      "promotion_decision": "KEEP_BASELINE",
+      "consumed_at": "2026-11-10T16:45:23.731635+00:00",
+      "result": {
+        "path": "reports/generated/state_port_synthetic_20261111/saved-audit.json",
+        "sha256": "7b4b8040622fb003be67243552bde2bae60e28b09d95ed86ca9540b3eaf7f29c"
+      },
+      "checks": 200,
+      "mismatches": 0,
+      "result_receipt_path": "docs/reports/state_port_synthetic_20261111_evidence.json",
+      "result_receipt_sha256": "4fd2dc1eae7ee735264c6f2bf9611319ac386ea6e6946df367ec731cd579ca42"
     }
   }
 }

@@ -1,0 +1,88 @@
+{
+  "schema": "state_port_result_review_v1",
+  "review_date": "2026-11-11",
+  "reviewer": "Astra Ultra scientific reviewer",
+  "model": "gpt-6-astra",
+  "reasoning": "ultra",
+  "model_identity_basis": "Coordinating agent delegation configuration; not runtime introspection",
+  "scientific_verdict": "ACCEPT",
+  "scientific_checks": "PASS_FROM_SAVED_EVIDENCE",
+  "process_status": "FAIL_PRESERVED",
+  "promotion_decision": "KEEP_BASELINE",
+  "run_id": "state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0",
+  "source_commit": "992738b0c4bfbf26e073f40a29f67cea4c4ac429",
+  "source_manifest_path": "configs/proposals/state_port_saved_sources_v1.json",
+  "source_manifest_sha256": "9c06a82592879750ef9b4a93b9c8d339f5728905dfd24346571eb577f1631841",
+  "saved_audit_path": "reports/generated/state_port_synthetic_20261111/saved-audit.json",
+  "saved_audit_sha256": "7b4b8040622fb003be67243552bde2bae60e28b09d95ed86ca9540b3eaf7f29c",
+  "saved_audit_authorization": "state_port_saved_review_v1_20261111",
+  "saved_audit_plan_path": "configs/proposals/state_port_saved_review_v1.json",
+  "saved_audit_plan_sha256": "4f7544efa707ad136a631eae7d0e314d4b11d498e64a0a15f58cc98accde602a",
+  "saved_audit_approval_path": "docs/research/state_port_saved_review_approval_20261111.json",
+  "saved_audit_approval_sha256": "ff89e61c5ecc3d96e9d8b40cb2d7e80aa75c420b77f5170e41423ae3358d4f36",
+  "saved_audit_completion_path": ".git/state_port_saved_review_budgets/state_port_saved_review_v1_20261111/completed.json",
+  "saved_audit_completion_sha256": "065035f1f9539f5223d504b2df7eae584305869c133d45d522d936b864422ee3",
+  "original_plan_path": "configs/proposals/state_port_synthetic_v1.json",
+  "original_plan_sha256": "2f0919965b08f56678d3bc8d0ac1ed30d1e1e75971c77f4074e256578a6dc545",
+  "original_failure_files": {
+    "failure.json": {
+      "sha256": "531c5d8e323bc0244123fdc572050f4d2a9f790c74a51183bec44021c42358e7",
+      "bytes": 394
+    },
+    "RUN_FAILED.json": {
+      "sha256": "1eb09ff49357111133762f486221f867432bf190c176f92b93f70d64b7a05c07",
+      "bytes": 2406
+    },
+    "summary.json": {
+      "sha256": "3d112f949fe6832289a96b837bed0969dbf7165eb4927296517665dea552932f",
+      "bytes": 90
+    }
+  },
+  "review_document_path": "docs/research/state_port_result_review_20261111_zh.md",
+  "review_document_sha256": "338484235bf88c5905d511c94e42e2d177030944875a6b245b2403c62bb74d1c",
+  "audit_result": {
+    "status": "PASS",
+    "checks": 200,
+    "mismatches": 0,
+    "source_files": 22,
+    "source_bytes": 1305816,
+    "npz_decodes": 4,
+    "decode_limit_per_npz": 1,
+    "scientific_calls": {
+      "model": 0,
+      "rhs": 0,
+      "integration": 0,
+      "autograd": 0
+    }
+  },
+  "original_logical_operations": {
+    "numpy_rhs": 69017,
+    "torch_rhs": 9769,
+    "jacobian": 5,
+    "scalar_backward": 2,
+    "model_constructions": 614,
+    "rollout_validations": 158
+  },
+  "original_operator_counts": {
+    "probe": 3,
+    "rollouts": 162
+  },
+  "accepted_claims": [
+    "Within the fixed A1-S0 synthetic states, parameters and times, reciprocal constant and state-dependent port implementations pass the preregistered energy, COI, backend, zero-increment and step-refinement checks.",
+    "Full state/parameter Jacobians at the registered points and short-rollout parameter gradients pass both preregistered central-difference comparisons.",
+    "Both isolated one-sided-coupling and detached-angle-gradient negative controls are detected by their frozen criteria.",
+    "Saved-source completeness, arithmetic and attempted/returned budgets passed the separately authorized audit."
+  ],
+  "claim_limits": [
+    "The original process remains failed because summary serialization failed after numerical scopes closed; no original file or workflow state is repaired by this acceptance.",
+    "Finite checks and two-step agreement do not constitute global derivative reliability, a rigorous continuous-ODE error bound or a stability certificate.",
+    "No real-data predictive advantage, learned comparison, cause of historical error, model promotion or deployment change has been established."
+  ],
+  "review_method": "Read only saved-audit JSON, source inventory JSON, completion receipt and report; verify their hashes. No NPZ decoding, scientific functions or repeated numerical audit.",
+  "reviewer_npz_decodes": 0,
+  "reviewer_new_scientific_calls": 0,
+  "next_step": "PREPARE_SEPARATE_A1_TRAIN_PAIRED_DESIGN",
+  "next_step_requirements": "Freeze a shared complete forecast initial state and backbone, compare equal 18-parameter constant/state ports with A06 reference, then separately register data scope, budgets, criteria and exact implementation.",
+  "new_scientific_execution_authorized": false,
+  "original_workflow_advance_authorized": false
+}

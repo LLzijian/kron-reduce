@@ -15,8 +15,11 @@ The single [A1-S0 execution](../protocols/state_port_synthetic_v1_zh.md) saved
 all numerical checks, then failed while serializing the final summary. Its
 scientific authority is consumed and the failed run remains immutable. The
 [separate saved-evidence review](../protocols/state_port_saved_review_20261111_zh.md)
-checks existing arrays and arithmetic with zero new model or trajectory calls.
-It cannot turn the failed workflow into a successful execution. Real train
+completed 200 checks with zero mismatches and zero new model or trajectory
+calls. The [result report](../reports/state_port_synthetic_20261111_zh.md) records
+`PASS_FROM_SAVED_EVIDENCE` while preserving the failed process. The
+[scientific result review](state_port_result_review_20261111_zh.md) accepts
+these finite checks; both execution authorities are consumed. Real train
 comparisons require their own design and registration; keep the baseline and
 default deployment initializer.
 

@@ -6,7 +6,7 @@
 
 能量球迁移比较在固定 A06 模型、现有 100 ms 历史合同和指定球约束下，检验了事后积分初态对原 encoder 的直接替换。球约束缓解了无约束积分初态的未来误差，但没有达到 encoder 的未来误差与规则保护门槛。因此关闭的是这条固定模型后处理替换路线。结果没有证明所有积分初始化都不可行，也没有判定联合训练或结构修改的效果。
 
-下一步先完成 A1-S0：零真实载荷、零拟合的状态端口结构与梯度检查；其通过只允许继续准备独立的 A1 train 方案。A1 的理论背景见用户提供的[研究讨论](chatgpt-conversation://6af25e1f-db88-83e9-a3ae-d02442950a25)、[A16 闭环理论](kiki_a16_pm_impulse/astra_next_closed_loop_theory_zh.md)和[能量屏障补充推导](kiki_a16_pm_impulse/astra_cq_energy_barrier_addendum_zh.md)。本文件记录设计顺序，不构成实验授权。
+A1-S0 已完成数值检查，并通过独立保存证据审核；[结果审核](state_port_result_review_20261111_zh.md)接受固定合成范围内的结构与梯度结论，原运行的汇总写入失败状态保留。下一步仅准备独立的 A1 train 配对方案，执行须另行登记审核。A1 的理论背景见用户提供的[研究讨论](chatgpt-conversation://6af25e1f-db88-83e9-a3ae-d02442950a25)、[A16 闭环理论](kiki_a16_pm_impulse/astra_next_closed_loop_theory_zh.md)和[能量屏障补充推导](kiki_a16_pm_impulse/astra_cq_energy_barrier_addendum_zh.md)。本文件记录设计顺序，不构成实验授权。
 
 ## 候选路线
 

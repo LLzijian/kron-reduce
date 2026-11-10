@@ -1,6 +1,6 @@
 # 状态依赖端口：结构与完整梯度检查
 
-2026-11-11。研究范围为 A1-S0：一个固定十节点、两隐藏状态的合成系统，零拟合、零真实数据读取。原运行在完成数值检查后因汇总 JSON 序列化失败而关闭；保存记录中的检查全部通过，独立保存证据审核另行给出结论。基线保持 `KEEP_BASELINE`。
+2026-11-11。研究范围为 A1-S0：一个固定十节点、两隐藏状态的合成系统，零拟合、零真实数据读取。独立保存证据审核的 **200 项检查全部通过，0 项不一致**，支持本轮结构、完整梯度和数值一致性结论。原运行在完成数值检查后因汇总 JSON 序列化失败而关闭，其失败状态保留。基线保持 `KEEP_BASELINE`。
 
 ## 比较设计
 
@@ -36,6 +36,8 @@ C_{\rm state}(q)=C_0+P\operatorname{diag}(\sin(Qq))N\Delta,
 
 原运行 ID：`state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0`，源提交 `992738b0c4bfbf26e073f40a29f67cea4c4ac429`，执行前 [CI](https://github.com/LLzijian/kron-reduce/actions/runs/42852275799) 通过。各数值范围关闭后，最终汇总中的 NumPy 布尔值不能直接写入严格 JSON，导致 `TypeError`。该问题已通过显式布尔转换修复，并增加独立人工 fixture 的序列化回归；未重跑本轮参数矩阵或补写原汇总。
 
-原运行状态始终为 `FAIL_PRESERVED`。[外置来源清单](../../configs/proposals/state_port_saved_sources_v1.json)封存其全部 22 个文件，包括不完整 summary 和失败日志。独立审核依据[保存证据协议](../protocols/state_port_saved_review_20261111_zh.md)，只核已有数组、算术和账目；原工作流不因审核而推进。
+原运行状态始终为 `FAIL_PRESERVED`。[外置来源清单](../../configs/proposals/state_port_saved_sources_v1.json)封存其全部 22 个文件，包括不完整 summary 和失败日志。独立审核依据[保存证据协议](../protocols/state_port_saved_review_20261111_zh.md)，将四个指定 NPZ 各解码一次，只核已有数组、算术和账目；没有新增模型、RHS、积分或求导调用。[审核结果](../../reports/generated/state_port_synthetic_20261111/saved-audit.json)记录 `PASS_FROM_SAVED_EVIDENCE`，原工作流不因审核而推进。
+
+[Astra 结果审核](../research/state_port_result_review_20261111_zh.md)接受上述有限科学结论，记为 `ACCEPT`。[证据收据](state_port_synthetic_20261111_evidence.json)绑定原运行、独立审核与结果审核；两项一次性授权均已关闭。审计脚本的 Linux 可执行标记已补齐，文件内容及其冻结哈希保持不变。
 
 这轮研究的作用是检查状态端口实现及其训练所需梯度。它没有证明状态依赖端口能够改善真实预测，也没有识别既有误差根因。下一项研究仍是独立登记的 A1 train 配对机制比较：相同完整起报态、相同 18 参数预算、冻结骨架，并同时与常值修正组和原 A06 比较。B 初始化联合训练、A2 势能修改和 C 时间目标继续分开。

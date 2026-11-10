@@ -33,7 +33,7 @@
       ]
     },
     "kiki_energy_dynamics_v1": {
-      "status": "state_port_correctness_preparation_model_not_promoted",
+      "status": "state_port_correctness_accepted_train_design_only",
       "dataset": "kiki_ieee39_v1",
       "spatial_node_count": 10,
       "spatial_clustering": "paused",
@@ -49,7 +49,11 @@
         "B_joint_initializer_training",
         "A2_conservative_potential",
         "C_fixed_time_weights"
-      ]
+      ],
+      "current_research_stage": "A1_train_paired_design",
+      "prerequisite_scientific_verdict": "ACCEPT",
+      "prerequisite_process_status": "FAIL_PRESERVED",
+      "current_result_receipt": "docs/reports/state_port_synthetic_20261111_evidence.json"
     }
   },
   "datasets": {
