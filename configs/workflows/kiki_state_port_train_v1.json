@@ -1,0 +1,63 @@
+{
+  "workflow": "kiki_state_port_train_v1",
+  "experiment": "kiki_state_port_train_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "train_mechanism"
+  ],
+  "transitions": {
+    "scaffold": "train_mechanism"
+  },
+  "terminal_stages": [
+    "train_mechanism"
+  ],
+  "approval_required": [
+    "train_mechanism"
+  ],
+  "stage_evidence_contracts": {
+    "train_mechanism": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "data_policy",
+        "promotion_decision",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary",
+        "scientific_verdict"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "status": [
+          "PASS"
+        ],
+        "process_status": [
+          "PASS"
+        ],
+        "data_policy": [
+          "frozen_saved_train_only"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "scientific_verdict": [
+          "ACCEPT",
+          "REJECT"
+        ]
+      }
+    }
+  },
+  "scientific_target": "matched_18_parameter_state_and_constant_ports_with_shared_A06_forecast_state",
+  "locked_claims": [
+    "val_performance",
+    "test_performance",
+    "model_promotion",
+    "stability_certificate"
+  ]
+}

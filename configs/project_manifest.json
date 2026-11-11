@@ -33,7 +33,7 @@
       ]
     },
     "kiki_energy_dynamics_v1": {
-      "status": "state_port_correctness_accepted_train_design_only",
+      "status": "state_port_train_preparation",
       "dataset": "kiki_ieee39_v1",
       "spatial_node_count": 10,
       "spatial_clustering": "paused",
@@ -50,7 +50,7 @@
         "A2_conservative_potential",
         "C_fixed_time_weights"
       ],
-      "current_research_stage": "A1_train_paired_design",
+      "current_research_stage": "A1_train_paired_preparation",
       "prerequisite_scientific_verdict": "ACCEPT",
       "prerequisite_process_status": "FAIL_PRESERVED",
       "current_result_receipt": "docs/reports/state_port_synthetic_20261111_evidence.json"
@@ -2051,6 +2051,27 @@
       "dataset": "synthetic_benchmark_registry_v1",
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false
+    },
+    "kiki_state_port_train_v1": {
+      "status": "gated",
+      "execution_mode": "bounded_saved_train_cli_only",
+      "module": "kron_reduce.workflows.kiki_state_port_train",
+      "workflow": "kiki_state_port_train_v1",
+      "config": "kiki_state_port_train_v1.toml",
+      "stage": "train_mechanism",
+      "data_policy": "frozen_saved_train_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "dataset": "kiki_ieee39_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "input_contract_id": "measured_history_100ms_zoh_v1",
+      "development_authorization_id": "kiki_state_port_train_v1_20261111",
+      "workflow_evidence_contract": "configs/workflows/kiki_state_port_train_v1.json",
+      "development_only": true,
+      "model_promotion_allowed": false,
+      "deployment_predictions_allowed": false,
+      "required_gate": "train_mechanism"
     }
   },
   "active_policy": "configs/research_policy.json",

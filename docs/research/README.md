@@ -23,6 +23,14 @@ these finite checks; both execution authorities are consumed. Real train
 comparisons require their own design and registration; keep the baseline and
 default deployment initializer.
 
+The [A1 train protocol](../protocols/kiki_state_port_train_v1_zh.md) now fixes
+six fits of 40 updates using saved train inputs, common complete A06 forecast
+states and matched 18-parameter ports. Its [design review](state_port_train_design_review_20261111_zh.md)
+requires improvements over both the constant-port group and A06, plus numerical
+and trajectory-rule protections. The separate `kiki_state_port_train_v1`
+workflow is registered; exact implementation approval and one-use execution
+authority are tracked in the research policy.
+
 ## Precursor evidence
 
 The [constant-C synthetic study](../reports/constant_c_100ms_synthetic_20261109_zh.md)

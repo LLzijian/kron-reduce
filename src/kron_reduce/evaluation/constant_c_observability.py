@@ -19,8 +19,9 @@ from project_harness.git_state import git_head
 
 
 def write_json(path, value):
+    payload = json.dumps(value, ensure_ascii=False, allow_nan=False, indent=2)
     with path.open("x", encoding="utf-8") as stream:
-        json.dump(value, stream, ensure_ascii=False, allow_nan=False, indent=2)
+        stream.write(payload)
         stream.flush()
         os.fsync(stream.fileno())
 

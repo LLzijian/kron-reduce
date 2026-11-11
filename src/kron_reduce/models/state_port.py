@@ -71,29 +71,58 @@ class StatePortClosure(NonlinearPassiveClosure):
             delta = tensor(self.delta)
         else:
             delta = torch.as_tensor(delta, dtype=torch.float64)
-        if delta.shape != self.delta.shape or not torch.isfinite(delta).all():
-            raise ValueError("delta must have the registered shape and finite values")
+        if (delta.shape != self.delta.shape or delta.dtype != torch.float64
+                or delta.device.type != "cpu" or not torch.isfinite(delta).all()):
+            raise ValueError("delta must be finite CPU float64 with the registered shape")
         n, r, kind = self.n_nodes, self.latent_dimension, self.port_kind
 
         def rhs(state, power, equilibrium):
-            if state.shape != (2 * n + r,):
+            if state.ndim == 1:
+                if state.shape != (2 * n + r,):
+                    raise ValueError("state has wrong dimension")
+                power = torch.as_tensor(power, dtype=state.dtype, device=state.device)
+                equilibrium = torch.as_tensor(equilibrium, dtype=state.dtype, device=state.device)
+                if (state.dtype != torch.float64 or state.device.type != "cpu"
+                        or power.shape != (n,) or equilibrium.shape != (n,)):
+                    raise ValueError("research RHS requires CPU float64 and node-aligned inputs")
+                q, v, z = state[:n], state[n : 2 * n], state[2 * n :]
+                edge, reference = incidence.T @ q, incidence.T @ equilibrium
+                force = edge if self.backbone == "linear" else torch.sin(edge + reference) - torch.sin(reference)
+                increment = basis @ delta
+                if kind == "state":
+                    increment = p @ (torch.sin(projection @ q)[:, None] * increment)
+                port = coupling + increment
+                visible_force = power - incidence @ (stiffness * force) - damping @ v - port @ z
+                visible_force = visible_force - visible_force.sum() * mass / mass.sum()
+                return torch.cat(
+                    (v, visible_force / mass, coupling.T @ v + increment.T @ (projection @ v) + (skew - dissipation) @ z)
+                )
+            if state.ndim != 2 or state.shape[1] != 2 * n + r:
                 raise ValueError("state has wrong dimension")
             power = torch.as_tensor(power, dtype=state.dtype, device=state.device)
             equilibrium = torch.as_tensor(equilibrium, dtype=state.dtype, device=state.device)
-            if (state.dtype != torch.float64 or state.device.type != "cpu"
-                    or power.shape != (n,) or equilibrium.shape != (n,)):
-                raise ValueError("research RHS requires CPU float64 and node-aligned inputs")
-            q, v, z = state[:n], state[n : 2 * n], state[2 * n :]
-            edge, reference = incidence.T @ q, incidence.T @ equilibrium
+            batch = state.shape[0]
+            if (batch < 1 or state.dtype != torch.float64 or state.device.type != "cpu"
+                    or power.shape != (batch, n) or equilibrium.shape != (batch, n)):
+                raise ValueError("batched research RHS requires CPU float64 and (batch, nodes) inputs")
+            q, v, z = state[:, :n], state[:, n : 2 * n], state[:, 2 * n :]
+            edge, reference = q @ incidence, equilibrium @ incidence
             force = edge if self.backbone == "linear" else torch.sin(edge + reference) - torch.sin(reference)
-            increment = basis @ delta
+            base_increment = basis @ delta
             if kind == "state":
-                increment = p @ (torch.sin(projection @ q)[:, None] * increment)
-            port = coupling + increment
-            visible_force = power - incidence @ (stiffness * force) - damping @ v - port @ z
-            visible_force = visible_force - visible_force.sum() * mass / mass.sum()
+                increment = torch.einsum(
+                    "ij,bj,jr->bir", p, torch.sin(q @ projection.T), base_increment
+                )
+            else:
+                increment = base_increment.expand(batch, -1, -1)
+            port = coupling.unsqueeze(0) + increment
+            visible_force = (power - (force * stiffness) @ incidence.T - v @ damping.T
+                             - torch.einsum("bnr,br->bn", port, z))
+            visible_force = visible_force - visible_force.sum(dim=1, keepdim=True) * mass / mass.sum()
             return torch.cat(
-                (v, visible_force / mass, coupling.T @ v + increment.T @ (projection @ v) + (skew - dissipation) @ z)
+                (v, visible_force / mass, v @ coupling
+                 + torch.einsum("bnr,bn->br", increment, v @ projection.T)
+                 + z @ (skew - dissipation).T), dim=1
             )
 
         return rhs
