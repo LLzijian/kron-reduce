@@ -1104,7 +1104,7 @@
       "seed_event_slots": 774,
       "fit_attempts": 6,
       "optimizer_updates": 240,
-      "status": "user_approved",
+      "status": "consumed",
       "approved_date": "2026-11-11",
       "authority": "explicit_user_autonomous_continuation_with_exact_Astra_Ultra_review",
       "approval_text": "继续推进（承接按照讨论调整研究方案并开始自主研究的授权）",
@@ -1199,7 +1199,26 @@
         "numpy_integration_rhs": 28800
       },
       "model_promotion_allowed": false,
-      "deployment_predictions_allowed": false
+      "deployment_predictions_allowed": false,
+      "consumed_at_utc": "2026-11-11T01:52:28.347539+00:00",
+      "completed_run_id": "kiki_state_port_train_v1-train_mechanism-20261111T012130667376Z-5fb30e45-5ac1c107",
+      "source_commit": "5fb30e45ff1131e15da0661616a57ab0f6a2c9c0",
+      "artifact_manifest_sha256": "068db0d5cf048d9c19a96683b868d72206c8bd956359f010fad11bb358f71c4d",
+      "process_status": "PASS",
+      "scientific_verdict": "REJECT",
+      "promotion_decision": "KEEP_BASELINE",
+      "result_review_path": "docs/research/state_port_train_result_review_20261111.json",
+      "result_review_sha256": "25c2f6b6b4cb623134887431f1922435b6524000b6907a17fa7358c8f0cf4ada",
+      "result_receipt_path": "docs/reports/kiki_state_port_train_20261111_evidence.json",
+      "result_receipt_sha256": "bac78b169d716e1804ce95945a02008a207966ecd5487d8fb0081437e6f1c564",
+      "saved_arithmetic_audit_result": {
+        "status": "PASS",
+        "consumed": true,
+        "path": "reports/generated/kiki_state_port_train_20261111/saved-audit.json",
+        "sha256": "35d75e12d3ff6b0a1418d8b1c592dd745834d8448b9bf34707664515f5c305f8",
+        "checks": 76,
+        "mismatches": 0
+      }
     }
   },
   "archived_development_results": {

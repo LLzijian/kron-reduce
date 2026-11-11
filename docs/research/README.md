@@ -23,13 +23,20 @@ these finite checks; both execution authorities are consumed. Real train
 comparisons require their own design and registration; keep the baseline and
 default deployment initializer.
 
-The [A1 train protocol](../protocols/kiki_state_port_train_v1_zh.md) now fixes
-six fits of 40 updates using saved train inputs, common complete A06 forecast
-states and matched 18-parameter ports. Its [design review](state_port_train_design_review_20261111_zh.md)
-requires improvements over both the constant-port group and A06, plus numerical
-and trajectory-rule protections. The separate `kiki_state_port_train_v1`
-workflow is registered; exact implementation approval and one-use execution
-authority are tracked in the research policy.
+The [A1 train comparison](../reports/kiki_state_port_train_20261111_zh.md)
+completed all six 40-update fits and its separate saved arithmetic audit
+(76 checks, zero mismatches). State-dependent ports improved weighted trajectory
+MSE over both references, but added one train rule miss in every seed. The
+[scientific review](state_port_train_result_review_20261111_zh.md) accepts the
+complete evidence and confirms `REJECT / KEEP_BASELINE`. Authority
+`kiki_state_port_train_v1_20261111` and its one-use saved audit are consumed.
+
+The next preparation scope is an independent B0 synthetic correctness design
+for training through a different initializer, history propagation and future
+rollout. Distinguish that question from A06's existing jointly trained encoder.
+No new train run, A1 retuning, val/test access or model promotion follows from
+this result. Keep the [A1 protocol](../protocols/kiki_state_port_train_v1_zh.md),
+its exact implementation review and all completed evidence frozen.
 
 ## Precursor evidence
 

@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [State-dependent port train comparison](kiki_state_port_train_20261111_zh.md) | Six fixed 40-update fits on 258 eligible train events; weighted trajectory gains over A06 and matched constant ports, one added rule miss per seed; 76 saved-evidence checks passed, REJECT / KEEP_BASELINE |
 | [State-dependent port correctness](state_port_synthetic_20261111_zh.md) | Fixed ten-node synthetic structure, Jacobian and propagation-gradient checks; 200 saved-evidence checks passed, original summary-write failure retained, no fitting or real-data reads; KEEP_BASELINE |
 | [Encoder-referenced energy-ball transfer](kiki_energy_cap_transfer_20261110_zh.md) | Completed 774 fixed-A06 train slots; improved unconstrained integral initialization but failed encoder-relative future and rule protections; REJECT, consumed authority and KEEP_BASELINE |
 | [Fixed-radius confirmation](constant_c_energy_confirmation_20261109_zh.md) | Six new parameter/noise cases within the exposed matched linear family; all frozen confirmation criteria met, hidden-state failures and zero-baseline comparisons retained; consumed authority and `KEEP_BASELINE` |

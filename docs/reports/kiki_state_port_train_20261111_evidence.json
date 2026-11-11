@@ -1,0 +1,123 @@
+{
+  "schema": "kiki_state_port_train_result_receipt_v1",
+  "authorization": "kiki_state_port_train_v1_20261111",
+  "authorization_status": "consumed",
+  "run_id": "kiki_state_port_train_v1-train_mechanism-20261111T012130667376Z-5fb30e45-5ac1c107",
+  "source_commit": "5fb30e45ff1131e15da0661616a57ab0f6a2c9c0",
+  "source_ci": {
+    "run_id": 42938084079,
+    "status": "success",
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/42938084079"
+  },
+  "plan_path": "configs/proposals/kiki_state_port_train_v1.json",
+  "plan_sha256": "a16d5961a426d7e221828d513761822fcf95af2fdfca749f0eae6da88ef5dbe3",
+  "protocol_path": "docs/protocols/kiki_state_port_train_v1_zh.md",
+  "protocol_sha256": "5c9e9ea8054468d76799a73e914107d24437074ce9a26ba9eddcb43c4349495d",
+  "artifact_manifest_path": "results/kiki_state_port_train_v1-train_mechanism-20261111T012130667376Z-5fb30e45-5ac1c107/artifact_hashes.json",
+  "artifact_manifest_sha256": "068db0d5cf048d9c19a96683b868d72206c8bd956359f010fad11bb358f71c4d",
+  "summary_path": "results/kiki_state_port_train_v1-train_mechanism-20261111T012130667376Z-5fb30e45-5ac1c107/summary.json",
+  "summary_sha256": "de012393a4888e05f292df2b6573d53ce70767b7a6f0ed88af3c361eff27b81b",
+  "process_status": "PASS",
+  "review_status": "ACCEPT_COMPLETE_EVIDENCE",
+  "scientific_verdict": "REJECT",
+  "promotion_decision": "KEEP_BASELINE",
+  "scientific_review_path": "docs/research/state_port_train_result_review_20261111.json",
+  "scientific_review_sha256": "25c2f6b6b4cb623134887431f1922435b6524000b6907a17fa7358c8f0cf4ada",
+  "report_path": "docs/reports/kiki_state_port_train_20261111_zh.md",
+  "report_sha256": "60f4f0be7d41051375adca5fae6dab4904a3905d7eb8b354d985695bc1c166d0",
+  "saved_audit": {
+    "path": "reports/generated/kiki_state_port_train_20261111/saved-audit.json",
+    "sha256": "35d75e12d3ff6b0a1418d8b1c592dd745834d8448b9bf34707664515f5c305f8",
+    "status": "PASS",
+    "consumed": true,
+    "checks": 76,
+    "mismatches": 0,
+    "details": {
+      "manifest_files": 1169,
+      "manifest_bytes": 445346563,
+      "decoded_npz_count": 281,
+      "trace_updates": 240,
+      "path_records": 18,
+      "score_pair_calls": 2322,
+      "aggregate_group_calls": 18,
+      "journal": {
+        "scopes": 293,
+        "operator_calls": 6774,
+        "transitions": 13548,
+        "log_bytes": 2434716
+      },
+      "source_access": {
+        "files_attempted": 1560,
+        "members_attempted": 2088,
+        "bytes_read": 127941753,
+        "logical_bytes": 51032160,
+        "npy_header_bytes": 267264
+      },
+      "scientific_verdict": "REJECT"
+    },
+    "scientific_calls": {
+      "model": 0,
+      "rhs": 0,
+      "autograd": 0,
+      "optimizer": 0
+    },
+    "completion_path": ".git/state_port_train_saved_audit_budgets/kiki_state_port_train_v1_20261111/completed.json",
+    "completion_sha256": "2ee69c54dda43a5cfa01236edcb40658ded882c07e95f8c3adc68b349451a73e"
+  },
+  "completion_path": ".git/state_port_train_budgets/kiki_state_port_train_v1_20261111/completed.json",
+  "completion_sha256": "e839ed83219fb2c868a9da48b33cb5e78a6e0afcf2615f65aac14b05b52ee777",
+  "data_scope": {
+    "split": "train",
+    "allocated": 268,
+    "eligible": 258,
+    "uncovered": 10,
+    "seeds": [
+      324,
+      325,
+      326
+    ],
+    "truth_rule_triggered_per_seed": 21,
+    "truth_rule_not_triggered_per_seed": 237,
+    "source_payload_reads": 0,
+    "saved_train_files_read": 1560,
+    "val_reads": 0,
+    "test_reads": 0,
+    "label_reads": 0
+  },
+  "gates": {
+    "V": true,
+    "G_baseline": true,
+    "G_constant": true,
+    "D_baseline": false,
+    "D_constant": false
+  },
+  "logical_operations": {
+    "model_constructions": 15,
+    "fit_attempts": 6,
+    "training_forward": 240,
+    "torch_batch_rhs": 352800,
+    "torch_event_rhs": 84844872,
+    "backward": 240,
+    "gradient_clip": 240,
+    "optimizer_update": 240,
+    "evaluation_forward": 18,
+    "physical_rhs": 13932,
+    "numpy_rollout": 6,
+    "numpy_integration_rhs": 28800
+  },
+  "operator_counts": {
+    "probe": 6750,
+    "rollouts": 24
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\.venv\\Scripts\\python.exe",
+    "torch_threads": 1,
+    "torch_deterministic": true,
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "torch": "2.13.0+cpu"
+  },
+  "claim_boundary": "Fixed-state, fixed-backbone train mechanism comparison at 40 updates; no val/test or deployment claim.",
+  "next_step": "PREPARE_SEPARATE_B0_SYNTHETIC_DESIGN_ONLY"
+}
