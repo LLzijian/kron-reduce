@@ -1,0 +1,374 @@
+{
+  "schema": "kron_reduce.machine_local_joint_observer_result_review.v1",
+  "reviewer": "Astra Ultra",
+  "review_date": "2026-11-12",
+  "approved": true,
+  "review_completed": true,
+  "result_evidence_accepted": true,
+  "scientific_pass": false,
+  "decision": "ACCEPT_EVIDENCE_REJECT_FRESH_NOISY_PREDICTION",
+  "promotion_decision": "KEEP_BASELINE",
+  "next_route": "NOISE_MODEL_REPAIR_REQUIRED",
+  "paired_mechanism_supported": true,
+  "learned_model_confirmed": false,
+  "t0_allowed": false,
+  "run_id": "machine_local_joint_observer_v1-fixed-20261112T101522545706Z-6228cbca-99b92ecc",
+  "run_path": "results/machine_local_joint_observer_v1-fixed-20261112T101522545706Z-6228cbca-99b92ecc",
+  "source_commit": "6228cbca76194d5a65d0e637d41a1c0a9076438a",
+  "plan_path": "configs/proposals/machine_local_joint_observer_v1.json",
+  "plan_sha256": "06a30710590b6be5e6218156d1c1454e18577ef1367bbde8e4d408bac2f19b17",
+  "protocol_path": "docs/protocols/machine_local_joint_observer_v1_zh.md",
+  "protocol_sha256": "7873562f1c3b3596a76f3ab082a345c3e9c887b615e1478ae60821af272b9f6f",
+  "artifact_manifest_sha256": "fbcfae6e2d7e6cc64efb00726433021979c9f4ee9e07c7c2f87d4c0e6d500858",
+  "summary_sha256": "3313b19ef02295945c63232f4a277c1a04dfbe407f2fa713f04081f74c6dabab",
+  "saved_arithmetic_audit": {
+    "path": "reports/generated/machine_local_joint_observer_20261112/saved-audit.json",
+    "sha256": "6ea3a3173b2c2ddec628606a5ddd2d94a3ec6d9e301a024e1d757eb92869b6d6",
+    "script_sha256": "52435babe5c433cdb7c4c4a50c6957f35ea979528fe726da76437180a972e014",
+    "status": "PASS",
+    "npz_files_decoded_once": 11,
+    "scope": "Saved joint basis, SVD factors, 28-dimensional initial coordinates, ten-dimensional hidden state, causal reconstruction, visible reset, complete finite/COI checks, all role metrics, old train/val pairing, unchanged fresh all-role gates and operation journal. No new propagation, factorization or solver call."
+  },
+  "gates": {
+    "numerical_pass": true,
+    "clean_recovery_pass": true,
+    "noise_prediction_pass": false,
+    "equal_rate_rank27_negative_pass": true
+  },
+  "operations": {
+    "npz_decodes": 2,
+    "expm": 6,
+    "matrix_products": 24465,
+    "rollouts": 25,
+    "svd": 13
+  },
+  "operations_returned": {
+    "npz_decodes": 2,
+    "expm": 6,
+    "matrix_products": 24465,
+    "rollouts": 25,
+    "svd": 13
+  },
+  "successful_scopes": 10,
+  "all_issued_allocations_returned": true,
+  "paired_train_val": {
+    "local": {
+      "train": {
+        "original_main_nmse": 0.002927422690461448,
+        "joint_main_nmse": 0.0022188522721476697,
+        "ratio": 0.7579541824887316,
+        "improves_5pct": true
+      },
+      "val": {
+        "original_main_nmse": 0.002131613622921697,
+        "joint_main_nmse": 0.0014456402467782742,
+        "ratio": 0.6781905647594835,
+        "improves_5pct": true
+      }
+    },
+    "nonlocal": {
+      "train": {
+        "original_main_nmse": 0.0008250485089232799,
+        "joint_main_nmse": 0.00048816105022242564,
+        "ratio": 0.591675574154415,
+        "improves_5pct": true
+      },
+      "val": {
+        "original_main_nmse": 0.000835921737600239,
+        "joint_main_nmse": 0.00036417318174033136,
+        "ratio": 0.4356546377006517,
+        "improves_5pct": true
+      }
+    }
+  },
+  "key_results": {
+    "old_local_noise01": {
+      "condition_number": 1935.0102526043054,
+      "metrics": {
+        "train": {
+          "main_nrmse": 0.047104694799432356,
+          "nrmse_3s_all": 0.05422105925506182,
+          "hidden_start_rmse": 0.1389563981447072,
+          "hidden_origin_rmse": 0.08241580272822616
+        },
+        "val": {
+          "main_nrmse": 0.0380215760690989,
+          "nrmse_3s_all": 0.04322628513159137,
+          "hidden_start_rmse": 0.11437351590099391,
+          "hidden_origin_rmse": 0.06720183328615892
+        },
+        "test": {
+          "main_nrmse": 0.03885011628954034,
+          "nrmse_3s_all": 0.04441713526254474,
+          "hidden_start_rmse": 0.12634927204477706,
+          "hidden_origin_rmse": 0.07182416400909791
+        }
+      },
+      "initial_visible_metrics": {
+        "train": {
+          "estimated_q_rmse": 0.0005327736734582082,
+          "estimated_v_rmse": 0.0005698611729522376,
+          "observed_q_rmse": 0.001718612584724177,
+          "observed_v_rmse": 0.0008863998607414167
+        },
+        "val": {
+          "estimated_q_rmse": 0.0004872970209058484,
+          "estimated_v_rmse": 0.000526285089789134,
+          "observed_q_rmse": 0.0019095972475465036,
+          "observed_v_rmse": 0.000908117509053752
+        },
+        "test": {
+          "estimated_q_rmse": 0.0004979392384439676,
+          "estimated_v_rmse": 0.0005238997321329469,
+          "observed_q_rmse": 0.001722102048965149,
+          "observed_v_rmse": 0.0008589338466243964
+        }
+      }
+    },
+    "old_nonlocal_noise01": {
+      "condition_number": 66067.91711426023,
+      "metrics": {
+        "train": {
+          "main_nrmse": 0.02209436693418541,
+          "nrmse_3s_all": 0.02269532462359325,
+          "hidden_start_rmse": 5.305751842366332,
+          "hidden_origin_rmse": 0.7197255985056245
+        },
+        "val": {
+          "main_nrmse": 0.01908332208344059,
+          "nrmse_3s_all": 0.019314897955875543,
+          "hidden_start_rmse": 4.852177147599488,
+          "hidden_origin_rmse": 0.6581213210990424
+        },
+        "test": {
+          "main_nrmse": 0.02272857141990898,
+          "nrmse_3s_all": 0.02381698841052654,
+          "hidden_start_rmse": 3.4710279196575065,
+          "hidden_origin_rmse": 0.4711601808640729
+        }
+      },
+      "initial_visible_metrics": {
+        "train": {
+          "estimated_q_rmse": 0.0005450320714215985,
+          "estimated_v_rmse": 0.0005451408664299911,
+          "observed_q_rmse": 0.0018132020606543137,
+          "observed_v_rmse": 0.0009015737944541149
+        },
+        "val": {
+          "estimated_q_rmse": 0.0004949603485192872,
+          "estimated_v_rmse": 0.0005488452107457013,
+          "observed_q_rmse": 0.0017900925919280707,
+          "observed_v_rmse": 0.0008726879586480285
+        },
+        "test": {
+          "estimated_q_rmse": 0.0005234418663581956,
+          "estimated_v_rmse": 0.0005721334853074861,
+          "observed_q_rmse": 0.0020516368352938162,
+          "observed_v_rmse": 0.0008387663628582956
+        }
+      }
+    },
+    "local_clean": {
+      "condition_number": 2361.0613531156887,
+      "metrics": {
+        "train": {
+          "main_nrmse": 1.1278785028264538E-09,
+          "nrmse_3s_all": 1.3473506944316039E-09,
+          "hidden_start_rmse": 4.271511471783611E-09,
+          "hidden_origin_rmse": 2.4971489371930056E-09
+        },
+        "val": {
+          "main_nrmse": 7.751184989398124E-10,
+          "nrmse_3s_all": 9.272165271697703E-10,
+          "hidden_start_rmse": 2.9815848180631937E-09,
+          "hidden_origin_rmse": 1.7368651767116372E-09
+        },
+        "test": {
+          "main_nrmse": 1.2901969774595736E-09,
+          "nrmse_3s_all": 1.5424156208096155E-09,
+          "hidden_start_rmse": 4.9159084077905315E-09,
+          "hidden_origin_rmse": 2.8584081098855677E-09
+        }
+      },
+      "initial_visible_metrics": {
+        "train": {
+          "estimated_q_rmse": 1.3448226600717807E-12,
+          "estimated_v_rmse": 3.979116638100508E-12,
+          "observed_q_rmse": 0.0,
+          "observed_v_rmse": 0.0
+        },
+        "val": {
+          "estimated_q_rmse": 9.007688795852121E-13,
+          "estimated_v_rmse": 2.286986588856124E-12,
+          "observed_q_rmse": 0.0,
+          "observed_v_rmse": 0.0
+        },
+        "test": {
+          "estimated_q_rmse": 1.4497407364924723E-12,
+          "estimated_v_rmse": 3.984015647401882E-12,
+          "observed_q_rmse": 0.0,
+          "observed_v_rmse": 0.0
+        }
+      }
+    },
+    "local_noise01": {
+      "condition_number": 2361.0613531156887,
+      "metrics": {
+        "train": {
+          "main_nrmse": 0.05010049507659071,
+          "nrmse_3s_all": 0.05834873588414528,
+          "hidden_start_rmse": 0.15196057430101723,
+          "hidden_origin_rmse": 0.09119594563109032
+        },
+        "val": {
+          "main_nrmse": 0.042124773364709836,
+          "nrmse_3s_all": 0.048855850924096215,
+          "hidden_start_rmse": 0.12421722315834376,
+          "hidden_origin_rmse": 0.07356668575163515
+        },
+        "test": {
+          "main_nrmse": 0.07238480132708303,
+          "nrmse_3s_all": 0.08515595558426024,
+          "hidden_start_rmse": 0.23780220612021774,
+          "hidden_origin_rmse": 0.13969065381427723
+        }
+      },
+      "initial_visible_metrics": {
+        "train": {
+          "estimated_q_rmse": 0.0005130744739591159,
+          "estimated_v_rmse": 0.0006003924491865049,
+          "observed_q_rmse": 0.0017291013319731448,
+          "observed_v_rmse": 0.0009344436032164869
+        },
+        "val": {
+          "estimated_q_rmse": 0.0005896015894433645,
+          "estimated_v_rmse": 0.0005077973028563542,
+          "observed_q_rmse": 0.001835347015870408,
+          "observed_v_rmse": 0.0008724843875044301
+        },
+        "test": {
+          "estimated_q_rmse": 0.0005430858567072251,
+          "estimated_v_rmse": 0.0006230805393741655,
+          "observed_q_rmse": 0.0018162912123426312,
+          "observed_v_rmse": 0.0008749788576597372
+        }
+      }
+    },
+    "nonlocal_clean": {
+      "condition_number": 66393.65092960003,
+      "metrics": {
+        "train": {
+          "main_nrmse": 3.015461437235448E-11,
+          "nrmse_3s_all": 2.9089402568863607E-11,
+          "hidden_start_rmse": 3.269734895738658E-08,
+          "hidden_origin_rmse": 4.713209700458089E-09
+        },
+        "val": {
+          "main_nrmse": 2.260006635410187E-11,
+          "nrmse_3s_all": 2.184813342916927E-11,
+          "hidden_start_rmse": 2.7397508586669403E-08,
+          "hidden_origin_rmse": 3.841508381687652E-09
+        },
+        "test": {
+          "main_nrmse": 2.383738243947633E-11,
+          "nrmse_3s_all": 2.3064125272183967E-11,
+          "hidden_start_rmse": 2.858943945939623E-08,
+          "hidden_origin_rmse": 4.184120814870009E-09
+        }
+      },
+      "initial_visible_metrics": {
+        "train": {
+          "estimated_q_rmse": 5.740113853630598E-13,
+          "estimated_v_rmse": 4.57648306324252E-13,
+          "observed_q_rmse": 0.0,
+          "observed_v_rmse": 0.0
+        },
+        "val": {
+          "estimated_q_rmse": 4.844001807315733E-13,
+          "estimated_v_rmse": 3.4284755810057964E-13,
+          "observed_q_rmse": 0.0,
+          "observed_v_rmse": 0.0
+        },
+        "test": {
+          "estimated_q_rmse": 4.776251603714017E-13,
+          "estimated_v_rmse": 3.6992474030298295E-13,
+          "observed_q_rmse": 0.0,
+          "observed_v_rmse": 0.0
+        }
+      }
+    },
+    "nonlocal_noise01": {
+      "condition_number": 66393.65092960003,
+      "metrics": {
+        "train": {
+          "main_nrmse": 0.021193542895416882,
+          "nrmse_3s_all": 0.022048809845759212,
+          "hidden_start_rmse": 4.804498568540125,
+          "hidden_origin_rmse": 0.6518071225855783
+        },
+        "val": {
+          "main_nrmse": 0.02061601127652358,
+          "nrmse_3s_all": 0.020983019561171455,
+          "hidden_start_rmse": 4.332031143387724,
+          "hidden_origin_rmse": 0.5877447995131031
+        },
+        "test": {
+          "main_nrmse": 0.022330063509358244,
+          "nrmse_3s_all": 0.023474004210818553,
+          "hidden_start_rmse": 4.674362071751179,
+          "hidden_origin_rmse": 0.634063478378828
+        }
+      },
+      "initial_visible_metrics": {
+        "train": {
+          "estimated_q_rmse": 0.0005275856538727961,
+          "estimated_v_rmse": 0.0005443924418517779,
+          "observed_q_rmse": 0.0018084425354580648,
+          "observed_v_rmse": 0.0008604743576554734
+        },
+        "val": {
+          "estimated_q_rmse": 0.00049459885430543,
+          "estimated_v_rmse": 0.0005617652935297539,
+          "observed_q_rmse": 0.001862293787081712,
+          "observed_v_rmse": 0.0008481849148623726
+        },
+        "test": {
+          "estimated_q_rmse": 0.0005713049717827729,
+          "estimated_v_rmse": 0.0005758676030088048,
+          "observed_q_rmse": 0.0015775450938143622,
+          "observed_v_rmse": 0.0008268214662780214
+        }
+      }
+    }
+  },
+  "findings_supported": [
+    "Releasing the noisy first-visible-frame equality constraints improves all four predeclared old train/val main-NMSE comparisons by more than five percent.",
+    "The estimated initial visible q/v errors are lower than the raw first-frame errors in the paired noisy cases.",
+    "Both fresh clean families recover state and predict accurately, while both fresh noisy families fail the frozen main/three-second gates across train, val and test.",
+    "Paired mechanism support and fresh predictive success are distinct; mechanism support does not override the failed confirmation gate.",
+    "The larger joint response condition numbers and noisy latent errors motivate a noise/prior information diagnostic, without establishing an impossibility result."
+  ],
+  "causes_not_identified": [
+    "Whether the frozen noisy target is attainable in expected squared error from the specified 100 ms history.",
+    "The respective remaining contributions of discarded noise covariance, absent prior information and the forced visible forecast-origin reset.",
+    "A train-only deployable prior/noise estimator or successful unknown-dynamics learning."
+  ],
+  "next_action": {
+    "direction": "Exact Gaussian posterior information control under known generating dynamics, prior and noise; compare posterior-mean prediction and the same posterior with the prior visible-reset contract.",
+    "plan_path": "docs/research/machine_local_gaussian_oracle_plan_20261112_zh.md",
+    "protocol_path": "docs/protocols/machine_local_gaussian_oracle_v1_zh.md",
+    "new_scope_and_exact_implementation_review_required": true,
+    "user_authorization_already_received": true,
+    "source_npz_decodes_proposed": 2,
+    "new_seeds": 0,
+    "parameter_searches": 0,
+    "real_data_reads": 0,
+    "boundary": "Oracle diagnostic only. Expected main and three-second NMSE are compared with 0.0004; this is not a claim that a finite test sample cannot pass by chance."
+  },
+  "review_operations": {
+    "npz_decodes": 0,
+    "scientific_calls": 0,
+    "inputs": "Saved JSON, bound source, audit script and byte hashes."
+  },
+  "claim_boundary": "Accepted completed joint-observer evidence. The paired mechanism is supported but independent noisy prediction remains rejected. Baseline and T0 remain unchanged."
+}

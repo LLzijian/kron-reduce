@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Joint initial-state observer](machine_local_joint_observer_20261112_zh.md) | Clean state recovery passed; 1% noise failed; rank-27 rejection and saved-array audit passed, KEEP_BASELINE / STOP_T0 |
 | [Discrete-history initializer](machine_local_observer_20261112_zh.md) | Clean state recovery passed; 1% noise failed; rank-9 rejection and saved-array audit passed, KEEP_BASELINE / STOP_T0 |
 | [Machine-local initializer diagnosis](machine_local_initializer_diagnosis_20261112_zh.md) | Valid saved diagnosis; route `INITIALIZER_LIMITATION_PRIORITY`; one-use authority consumed; KEEP_BASELINE |
 | [Machine-local S1-base comparison](machine_local_s1_20261112_zh.md) | Twelve 240-update synthetic fits; physical/numerical/observation checks passed, all six required prediction pairs failed; REJECT / KEEP_BASELINE / STOP_T0 |

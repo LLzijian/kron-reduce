@@ -1,0 +1,103 @@
+{
+  "schema": "machine_local_stage_result_receipt_v1",
+  "stage": "fixed",
+  "run_id": "machine_local_joint_observer_v1-fixed-20261112T101522545706Z-6228cbca-99b92ecc",
+  "authorization": "machine_local_joint_observer_v1_20261112",
+  "authorization_status": "consumed",
+  "source_commit": "6228cbca76194d5a65d0e637d41a1c0a9076438a",
+  "source_ci": {
+    "status": "success",
+    "run_id": 43198562820,
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/43198562820"
+  },
+  "process_status": "PASS",
+  "scientific_pass": false,
+  "scientific_verdict": "NOISE_GATE_FAILED",
+  "promotion_decision": "KEEP_BASELINE",
+  "t0_allowed": false,
+  "artifact_manifest_sha256": "fbcfae6e2d7e6cc64efb00726433021979c9f4ee9e07c7c2f87d4c0e6d500858",
+  "artifacts": {
+    "frozen_inputs.json": "6c7aea2f0d5bf6825c7bfefd3ee10e7b65b3052e4e080801eedc010f76f146cd",
+    "local_clean.json": "dd65bc0ae157fa2e5bd4c7c6363166a6b2fbe2e7e54ebd59330e960bff5c1c2b",
+    "local_clean.npz": "f9edf93872ad21127dbb878d5d0a66998517a45f5682b83e9e63a028ffd9e6e6",
+    "local_inputs.npz": "fe56c9ac5730e76cd880a7d8a396a950f03f56cec5ce145b53000e56180324d9",
+    "local_noise01.json": "4ed4d78ae9084d37301789250df7859bb40c919ccf74b5653cda58990160176d",
+    "local_noise01.npz": "9e5211eb3f06687e970f34aaf569f4476331f9a255a987ec72cf0cf78415bce5",
+    "nonlocal_clean.json": "eecf55c27adc6f2dea60303d0cd2a647cc739fa26ed0458f8cd32f57a4494831",
+    "nonlocal_clean.npz": "6a5150281361fe9b0bf2ed3bee8de4b54bd11b922cb40a0b7ee06fb6af8208ef",
+    "nonlocal_inputs.npz": "72307579c131d2702b9c7878a09ca303b3e1225930d3a9132d9efe046b28752f",
+    "nonlocal_noise01.json": "a9b611c0d4cc878fe6e051d2f4ece7c4aa129963fc9c98291ca75f7594c1b814",
+    "nonlocal_noise01.npz": "b86eae643bb81d8589c07c0358a9440f866bef67503d994283133a084c3ce2d4",
+    "old_local_inputs.npz": "5ce15448f879173fd4948e4a2408df9f24db43dc3453760b6426c6eb6929e70d",
+    "old_local_noise01.json": "bc217fc9f1f5efa8eb5e5745d076603722104344181a91067404d7e34f83f222",
+    "old_local_noise01.npz": "3ad88a023bc47aeff40f41266261590631f2739b4c4c3143781c1160c5508f1e",
+    "old_nonlocal_inputs.npz": "aea21145e06000faf0317d2fdc614b1fc2e5ac04e74839919db5249c4aabe136",
+    "old_nonlocal_noise01.json": "d097aa190d875804ef76abd9e75f087d6167abcbb5f31d7b013cd31d1d2300a7",
+    "old_nonlocal_noise01.npz": "f5926d7916fec959b88516b9531e3599589ace98afe0acf1305ae8093f17a8f9",
+    "operations.jsonl": "7172b2ee0cf8c0c49701c970e8d3b619b4d829747426fa5b8a1944278c792abf",
+    "rank_control.json": "2d35834f238f407c5cbe24b6a6ea1f8588a86ab326b9975f74a268dabf25b548",
+    "rank_control.npz": "c99a86ff26cbdb536e25182d01064f30eccfa93e5181ef767afc191dde4499b3",
+    "stage_evidence.json": "0d69a40135263a9eaff68134293978db17d786773d7dcbbbfc564df4bbbf38cb",
+    "summary.json": "3313b19ef02295945c63232f4a277c1a04dfbe407f2fa713f04081f74c6dabab"
+  },
+  "scientific_review_path": "docs/research/machine_local_joint_observer_result_review_20261112.json",
+  "scientific_review_sha256": "b582a22e62cadae6f592670f0fb5e82f7ef9f4eabdfbaf3e6a677c221e995f54",
+  "report_path": "docs/reports/machine_local_joint_observer_20261112_zh.md",
+  "report_sha256": "1f88dd9556856347ba265a7dcf659a2c40c77770151639369066df3a7412a2b9",
+  "saved_audit": {
+    "path": "reports/generated/machine_local_joint_observer_20261112/saved-audit.json",
+    "sha256": "6ea3a3173b2c2ddec628606a5ddd2d94a3ec6d9e301a024e1d757eb92869b6d6",
+    "script_sha256": "52435babe5c433cdb7c4c4a50c6957f35ea979528fe726da76437180a972e014",
+    "npz_decodes": 11,
+    "new_scientific_calls": 0,
+    "status": "PASS"
+  },
+  "gates": {
+    "scientific_pass": false,
+    "numerical_pass": true,
+    "clean_recovery_pass": true,
+    "noise_prediction_pass": false,
+    "next_route": "NOISE_MODEL_REPAIR_REQUIRED",
+    "paired_train_val": {
+      "local": {
+        "train": {
+          "original_main_nmse": 0.002927422690461448,
+          "joint_main_nmse": 0.0022188522721476697,
+          "ratio": 0.7579541824887316,
+          "improves_5pct": true
+        },
+        "val": {
+          "original_main_nmse": 0.002131613622921697,
+          "joint_main_nmse": 0.0014456402467782742,
+          "ratio": 0.6781905647594835,
+          "improves_5pct": true
+        }
+      },
+      "nonlocal": {
+        "train": {
+          "original_main_nmse": 0.0008250485089232799,
+          "joint_main_nmse": 0.00048816105022242564,
+          "ratio": 0.591675574154415,
+          "improves_5pct": true
+        },
+        "val": {
+          "original_main_nmse": 0.000835921737600239,
+          "joint_main_nmse": 0.00036417318174033136,
+          "ratio": 0.4356546377006517,
+          "improves_5pct": true
+        }
+      }
+    },
+    "paired_mechanism_supported": true,
+    "learned_model_confirmed": false,
+    "t0_allowed": false
+  },
+  "operations": {
+    "npz_decodes": 2,
+    "expm": 6,
+    "matrix_products": 24465,
+    "rollouts": 25,
+    "svd": 13
+  },
+  "next_step": "GAUSSIAN_POSTERIOR_INFORMATION_DIAGNOSIS"
+}

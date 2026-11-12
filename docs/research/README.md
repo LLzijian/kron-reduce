@@ -12,10 +12,13 @@ passed its numerical and saved-evidence checks. Its route is
 the val target under true dynamics. Its authority and saved audit are consumed.
 The [discrete-history observer](../reports/machine_local_observer_20261112_zh.md)
 recovered clean hidden states, but failed the 1% noise gate. Its run and saved
-arithmetic audit are consumed. The next [joint initial-state correction](machine_local_joint_observer_plan_20261112_zh.md)
-estimates the first visible state along with the hidden state from the same
-eleven observations. Its [protocol](../protocols/machine_local_joint_observer_v1_zh.md)
-uses paired train/val diagnostics and new frozen synthetic samples. Future
+arithmetic audit are consumed. The [joint initial-state correction](../reports/machine_local_joint_observer_20261112_zh.md)
+reduced paired train/val errors, while fresh noisy cases still failed the target.
+Its saved-array audit and scientific review are complete; that authority is consumed.
+The next [Gaussian information diagnosis](machine_local_gaussian_oracle_plan_20261112_zh.md)
+uses known dynamics, prior and observation noise to separate information limits
+from the cost of resetting visible states. Its [protocol](../protocols/machine_local_gaussian_oracle_v1_zh.md)
+is an oracle diagnostic, with no fitting or model promotion. Future
 real fits and tests follow the [TASK3 split standard](../protocols/kiki_official_train_test_v1_zh.md):
 346 train / 107 val / 76 test, reusing its frozen test roster.
 
