@@ -18,6 +18,11 @@ The research policy records active and consumed authorizations. See the
 [research index](docs/research/README.md) for the follow-up scope, protocols
 and saved results.
 
+The current [algorithm design](docs/research/machine_local_structure_plan_20261112_zh.md)
+prepares one hidden state per machine and learnable physical modules, with
+separate checks for prediction accuracy and structure identifiability. A06
+remains the reference; the new design does not authorize an experiment.
+
 ## Scientific scope
 
 The primary task is closed-loop prediction of `delta(t), omega(t)` from the

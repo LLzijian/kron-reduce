@@ -33,7 +33,7 @@
       ]
     },
     "kiki_energy_dynamics_v1": {
-      "status": "state_port_train_preparation",
+      "status": "machine_local_structure_preparation",
       "dataset": "kiki_ieee39_v1",
       "spatial_node_count": 10,
       "spatial_clustering": "paused",
@@ -42,18 +42,19 @@
       "synthetic_correctness_checks_retained": true,
       "fresh_test": "requires_new_independent_kiki_registration",
       "historical_program": "ieee39_modular_energy_paper_v1",
-      "current_research_plan": "docs/research/research_plan_20261110_zh.md",
-      "current_priority": "A1_matched_18_parameter_future_port_mechanism",
-      "current_prerequisite_experiment": "state_port_synthetic_v1",
+      "current_research_plan": "docs/research/machine_local_structure_plan_20261112_zh.md",
+      "current_priority": "machine_local_hidden_states_and_module_identification",
+      "current_prerequisite_experiment": "kiki_state_port_train_v1",
       "independent_followup_candidates": [
         "B_joint_initializer_training",
         "A2_conservative_potential",
         "C_fixed_time_weights"
       ],
-      "current_research_stage": "A1_train_paired_preparation",
-      "prerequisite_scientific_verdict": "ACCEPT",
-      "prerequisite_process_status": "FAIL_PRESERVED",
-      "current_result_receipt": "docs/reports/state_port_synthetic_20261111_evidence.json"
+      "current_research_stage": "machine_local_synthetic_protocol_preparation",
+      "prerequisite_scientific_verdict": "REJECT",
+      "prerequisite_process_status": "PASS",
+      "current_result_receipt": "docs/reports/kiki_state_port_train_20261111_evidence.json",
+      "current_design_review": "docs/research/machine_local_structure_review_20261112_zh.md"
     }
   },
   "datasets": {

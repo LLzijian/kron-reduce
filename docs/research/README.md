@@ -6,10 +6,15 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
-The [research plan](research_plan_20261110_zh.md) prioritizes A1: matched
-18-parameter constant and state-dependent ports, a common complete forecast
-state, and the unchanged A06 reference. B remains an independent initializer
-training question; A2 needs the stated mathematical corrections; C is deferred.
+The current [research plan](machine_local_structure_plan_20261112_zh.md)
+prepares ten machine-local hidden states and learnable physical modules.
+Its first comparison separates model order (G2/G10) from local port structure
+(G10/L10), with the unchanged A06 as the performance reference. Initialization,
+history propagation and future rollout use each candidate's own causal model.
+The [design review](machine_local_structure_review_20261112_zh.md) covers this
+preparation scope; execution requires a separately frozen protocol and budget.
+The [2026-11-10 plan](research_plan_20261110_zh.md) remains the historical,
+hash-bound design for the completed A1 work below.
 
 The single [A1-S0 execution](../protocols/state_port_synthetic_v1_zh.md) saved
 all numerical checks, then failed while serializing the final summary. Its
@@ -31,12 +36,15 @@ MSE over both references, but added one train rule miss in every seed. The
 complete evidence and confirms `REJECT / KEEP_BASELINE`. Authority
 `kiki_state_port_train_v1_20261111` and its one-use saved audit are consumed.
 
-The next preparation scope is an independent B0 synthetic correctness design
-for training through a different initializer, history propagation and future
-rollout. Distinguish that question from A06's existing jointly trained encoder.
-No new train run, A1 retuning, val/test access or model promotion follows from
-this result. Keep the [A1 protocol](../protocols/kiki_state_port_train_v1_zh.md),
-its exact implementation review and all completed evidence frozen.
+The next preparation scope is the machine-local design's synthetic correctness
+and identifiability protocol: reciprocal ports, complete causal gradients,
+discrete observation sensitivity, and known-truth controls that can reject an
+unsupported local structure. B0 remains an independent initializer candidate,
+as originally recommended by the A1 result review; the user's 2026-11-12 request
+changes the prospective priority. Potential, input and time-objective changes
+remain separate. No new train run, A1 retuning, val/test access or model promotion
+follows from this plan. Keep the [A1 protocol](../protocols/kiki_state_port_train_v1_zh.md),
+its implementation review and all completed evidence frozen.
 
 ## Precursor evidence
 
