@@ -28,6 +28,12 @@
 
 用户已授权沿该标准自主推进。每个新实验登记具体拟合、val 选择和 test 评价预算。val 的选择规则先行冻结；test 在模型参数、预处理、阈值、源码和测试名单全部冻结后评价，test 结果不返回选择流程。分阶段授权分别记录拟合与 test 读取次数、冻结清单和 SHA-256，不复用已消费的测试授权。
 
+每个新获授权的训练轮次都要形成完整的 val/test 评价记录。模型与评价合同冻结后，
+即使 RMSE 未达到晋升门，也完成两个名单的评估；是否晋升与是否完成评估是两项独立判断。
+test 结果只用于该轮报告，不用于调参或修改模型。新一轮先给出不叠加额外噪声的快速初步结果，
+再完成冻结名单上的完整评估。缺失、非有限或其他无效结果标为明确失败并报告覆盖情况，
+不以零或臆造数值代替。
+
 新真实实验登记 `data_policy=kiki_official_train_test_v1`、`training_split=train`、`val_use=official_val_for_preregistered_selection`、`test_population=task3_campaign2_final_test`、`internal_resplit=false`，并绑定 `configs/proposals/kiki_task3_split_reference_v1.json` 的 SHA-256。运行器在读取数据前核对来源限定名单、样本数、阶段批准与预算。历史实验的注册内容与样本范围保持不变。
 
 TASK3 `test=76` 已有历史暴露。新结果用于同一固定名单上的比较评价，不作为未见数据的独立确认。用户已授权按该名单开展后续对比；需要独立确认时，另行登记独立样本。

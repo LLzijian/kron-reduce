@@ -47,6 +47,13 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   Report this previously exposed test roster as a fixed comparison benchmark.
   Independent confirmation requires independent data. Consumed historical
   protocols retain their original splits.
+- For each newly authorized training round, freeze its model and evaluation
+  contract, then complete the registered `val` and `test` evaluations whether
+  or not RMSE meets the promotion gate. Never use `test` to tune or revise the
+  model. Start with a quick assessment without added noise, then finish the
+  full frozen evaluation. Missing, nonfinite or otherwise invalid metrics are
+  explicit failures with their coverage reported; never replace them with zero
+  or an invented value.
 - Follow the named causal input contract and its forecast origin. Main-model
   features exclude `Pe`, voltage, labels, event time, valid length, masks,
   fault metadata and future summaries. Fit one model per supplied corpus.

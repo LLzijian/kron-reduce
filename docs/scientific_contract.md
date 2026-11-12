@@ -49,6 +49,14 @@ See `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
   training route.
 - `test` IDs may not enter fitting, normalization, checkpoint selection,
   calibration, or gate construction.
+- In each newly authorized round, freeze the model and evaluation contract,
+  then finish the registered `val` and `test` evaluations regardless of whether
+  RMSE passes its promotion gate. `test` results are reporting-only and never
+  feed tuning or model revision. Begin with a quick assessment without added
+  noise, then complete the full frozen evaluation; the preliminary result does
+  not replace either split. Missing, nonfinite, or otherwise invalid results
+  are reported as explicit failures with coverage, never as zero or fabricated
+  metrics.
 - One supplied trajectory corpus produces one final equation and one parameter
   set. Fit/selection excitation views may support different candidate modules,
   but their union is fitted jointly and pruned as whole blocks. Source,

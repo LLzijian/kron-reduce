@@ -19,12 +19,16 @@ The [Gaussian information diagnosis](../reports/machine_local_gaussian_oracle_20
 passed technical and saved-array checks. Under its frozen generating distribution,
 the local 100 ms noisy conditional risk exceeds the original target; the same-posterior
 visible reset adds risk. This one-use authority and saved audit are consumed.
-The next [train-only statistical initializer plan](machine_local_statistical_initializer_plan_20261112_zh.md)
-separates train-fitted prior/noise estimation from subsequent unknown-dynamics learning.
-It retains the original absolute targets and failures, with T0 closed. A new exact
-protocol, implementation review and budget precede further scientific execution. Future
-real fits and tests follow the [TASK3 split standard](../protocols/kiki_official_train_test_v1_zh.md):
-346 train / 107 val / 76 test, reusing its frozen test roster.
+The user's 2026-11-13 update prioritizes quick clean predictions. The next
+[clean learning round](machine_local_clean_learning_plan_20261113_zh.md) trains
+twenty machine-local port/time-scale parameters through a differentiable 100 ms
+history solver. The [protocol](../protocols/machine_local_clean_learning_v1_zh.md)
+freezes one 240-update fit and evaluates truth, initial and final parameters on
+all train/val/test roles, even when RMSE fails its accuracy target. Numerical
+failures are reported explicitly; accuracy gates govern promotion, not whether
+to report held-out predictions. The [statistical noise plan](machine_local_statistical_initializer_plan_20261112_zh.md)
+is deferred. Existing noise results and consumed scopes remain unchanged.
+Future real fits use TASK3's exact frozen train 346 / val 107 / test 76 cohorts.
 
 [Machine-local S0](../reports/machine_local_s0_20261112_zh.md) passed all 112
 frozen checks. The [S1-base comparison](../reports/machine_local_s1_20261112_zh.md)

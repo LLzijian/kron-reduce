@@ -1,6 +1,6 @@
 {
   "schema": "kron_reduce.research_policy.v1",
-  "effective_date": "2026-11-12",
+  "effective_date": "2026-11-13",
   "authority": "Explicit user: future kiki official train for fitting and test for evaluation, comparable with TASK3; autonomous gated diagnosis and repair",
   "primary_real_dataset": "kiki_ieee39_v1",
   "synthetic_datasets": [
@@ -2589,6 +2589,192 @@
         "new_scientific_calls": 0,
         "status": "consumed"
       }
+    },
+    "machine_local_clean_learning_v1_20261113": {
+      "authorization": "machine_local_clean_learning_v1_20261113",
+      "experiment": "machine_local_clean_learning_v1",
+      "workflow": "machine_local_clean_learning_v1",
+      "stage": "learning",
+      "module": "kron_reduce.workflows.machine_local_clean_learning",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "data_policy": "analytic_synthetic_only",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "real_data_reads": 0,
+      "fit_attempts": 1,
+      "optimizer_updates": 240,
+      "status": "active",
+      "authority": "explicit_user_autonomous_diagnosis_repair_with_exact_Astra_Ultra_review",
+      "plan_path": "configs/proposals/machine_local_clean_learning_v1.json",
+      "plan_sha256": "57833254be5fb6135c6f45713705a66359309586f0da994d1ef3caca8d16074a",
+      "protocol_path": "docs/protocols/machine_local_clean_learning_v1_zh.md",
+      "protocol_sha256": "a334a5f9b45954e112ab69d1283c879f7962285fc8fd81c685275d2eb704aa56",
+      "review_path": "docs/research/machine_local_clean_learning_review_20261113.json",
+      "review_sha256": "ac893dc27e51508cba57b3994d202a0f8237e8346ea47d32d98d37716bb73f6f",
+      "implementation_bindings": {
+        "configs/experiments/machine_local_clean_learning_v1.toml": "a6c95c02d26d2f640cbe3e330b781a454448359d0cfca4668c2fde21836a149d",
+        "configs/project_manifest.json": "13e222038f5907413cc93aab1ecaf9f9622cf0fa224be6e7faffd8a2c90b0bca",
+        "configs/workflows/machine_local_clean_learning_v1.json": "5f3274cd44f98ec4a17a2af76503746af15bf1fda9e1d233f6f0d0ee4afd5173",
+        "docs/protocols/machine_local_clean_learning_v1_zh.md": "a334a5f9b45954e112ab69d1283c879f7962285fc8fd81c685275d2eb704aa56",
+        "docs/research/machine_local_clean_learning_plan_20261113_zh.md": "7e9c6506f7dcae05e37fe9dfc096b54115126b23111e2033efe780b04d6cb798",
+        "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+        "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+        "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+        "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+        "project_harness/policy.py": "61d266ca3709dc9a0326947cac03a5d31979ac941845a966e7ab2c4b6ee8006c",
+        "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+        "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+        "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+        "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+        "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+        "src/kron_reduce/evaluation/machine_local_initializer_diagnosis.py": "69ded6c1506a8a19af0cdbd0ce65a4a040ce6243a25ef0f1593f9135e49e4065",
+        "src/kron_reduce/evaluation/machine_local_observer.py": "5b2ef386839ccf4709d44fbc43c8e2b961623ab81674dab9da6b0b913d5eeae9",
+        "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+        "src/kron_reduce/evaluation/scoped_audit_journal.py": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+        "src/kron_reduce/evaluation/state_port_training.py": "18047aeccb3848cc855a6bddbd2e7c4b11f4acdb5b1b70872e32c03e34bfc738",
+        "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+        "src/kron_reduce/models/conditional_encoder.py": "ee7d7721f10a085235b34877d9b25291a25bdb358ea5ff2fdf332b9554e0ca14",
+        "src/kron_reduce/models/differentiable_history.py": "3c144c9acbdf9129f7802dc69caa16ec7fb8ed61fdcc064fcc285e2baf2a0a89",
+        "src/kron_reduce/models/discrete_history_initializer.py": "e2417c579cb8a6fccfe46dcf5857a811e22d8035184f6e0393959e43c8919d21",
+        "src/kron_reduce/models/learned_latent.py": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+        "src/kron_reduce/models/machine_local.py": "79789ee60cb375d7bbe2041266638ffc2a141a8fba0f7fa14772a7fc57e5a656",
+        "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+        "src/kron_reduce/models/state_port.py": "32ec27d9eb142abd5e5e10ebe9db814286abcdddbedbc2a2247a5a3ffd9efe8b",
+        "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+        "src/kron_reduce/workflows/constant_c_synthetic.py": "cba3e3376a52cdb49a453151f30faf60cd8edf50ae1e4cec60b63eaef96cb863",
+        "src/kron_reduce/workflows/machine_local_clean_learning.py": "6d2f7226d9c7c8661bbde4083086345432ddae315041ad6a036a54b65b4dd5c7",
+        "tests/test_clean_learning_workflow.py": "17a8a01e403ee0d7084e5b2fb13b3aed886fab246199c8005145f259f9234457",
+        "tests/test_differentiable_history.py": "0fa50f15142f443e7fa2c55ff29645cceb8359d9a430c668e1fe8ba005761f6c"
+      },
+      "operation_limits": {
+        "npz_decodes": 0,
+        "checkpoint_loads": 0,
+        "svd": 300,
+        "rollouts": 600,
+        "expm": 3,
+        "matrix_products": 400000,
+        "fits": 1,
+        "linear_solves": 0,
+        "gradients": 241,
+        "optimizer_updates": 240,
+        "numpy_rhs": 9,
+        "torch_rhs": 0,
+        "cholesky": 0,
+        "qr": 300,
+        "triangular_solves": 300
+      },
+      "scope_limits": {
+        "truth": {
+          "expm": 3,
+          "matrix_products": 900
+        },
+        "gradient": {
+          "qr": 9,
+          "svd": 9,
+          "triangular_solves": 9,
+          "rollouts": 18,
+          "gradients": 1,
+          "matrix_products": 8000
+        },
+        "fit": {
+          "qr": 240,
+          "svd": 240,
+          "triangular_solves": 240,
+          "rollouts": 480,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "fits": 1,
+          "matrix_products": 220000
+        },
+        "truth_train": {
+          "qr": 2,
+          "svd": 2,
+          "triangular_solves": 2,
+          "rollouts": 4,
+          "matrix_products": 4000,
+          "numpy_rhs": 1
+        },
+        "truth_val": {
+          "qr": 2,
+          "svd": 2,
+          "triangular_solves": 2,
+          "rollouts": 4,
+          "matrix_products": 4000,
+          "numpy_rhs": 1
+        },
+        "truth_test": {
+          "qr": 2,
+          "svd": 2,
+          "triangular_solves": 2,
+          "rollouts": 4,
+          "matrix_products": 4000,
+          "numpy_rhs": 1
+        },
+        "initial_train": {
+          "qr": 2,
+          "svd": 2,
+          "triangular_solves": 2,
+          "rollouts": 4,
+          "matrix_products": 4000,
+          "numpy_rhs": 1
+        },
+        "initial_val": {
+          "qr": 2,
+          "svd": 2,
+          "triangular_solves": 2,
+          "rollouts": 4,
+          "matrix_products": 4000,
+          "numpy_rhs": 1
+        },
+        "initial_test": {
+          "qr": 2,
+          "svd": 2,
+          "triangular_solves": 2,
+          "rollouts": 4,
+          "matrix_products": 4000,
+          "numpy_rhs": 1
+        },
+        "fitted_train": {
+          "qr": 2,
+          "svd": 2,
+          "triangular_solves": 2,
+          "rollouts": 4,
+          "matrix_products": 4000,
+          "numpy_rhs": 1
+        },
+        "fitted_val": {
+          "qr": 2,
+          "svd": 2,
+          "triangular_solves": 2,
+          "rollouts": 4,
+          "matrix_products": 4000,
+          "numpy_rhs": 1
+        },
+        "fitted_test": {
+          "qr": 2,
+          "svd": 2,
+          "triangular_solves": 2,
+          "rollouts": 4,
+          "matrix_products": 4000,
+          "numpy_rhs": 1
+        }
+      },
+      "postrun_saved_arithmetic_audit": {
+        "npz_decode_limit_per_file": 1,
+        "same_run_json_and_artifact_hash_checks": true,
+        "model_calls": 0,
+        "rhs_calls": 0,
+        "autograd_calls": 0,
+        "expm_calls": 0,
+        "svd_calls": 0,
+        "ls_calls": 0,
+        "linear_solves": 0,
+        "cholesky_calls": 0,
+        "qr_calls": 0,
+        "triangular_solves": 0
+      },
+      "model_promotion_allowed": false,
+      "deployment_predictions_allowed": false
     }
   },
   "saved_evidence_audits": {
@@ -2694,5 +2880,16 @@
     "kiki_energy_cap_transfer_v1": "736aa91bfaa14869afe3140518109cd6a384654bfe68702085d48bcce4eab708",
     "kiki_state_port_train_v1": "8db4d1a4ab0435947bef6927e19d9645ba0f086724d7657f0c0751374c50a917"
   },
-  "official_test_evaluations": {}
+  "official_test_evaluations": {},
+  "round_evaluation_defaults": {
+    "authority": "explicit_user_20261113",
+    "priority": "clean_initial_results",
+    "added_noise_in_initial_rounds": false,
+    "freeze_before_evaluation": true,
+    "evaluate_train_val_test_each_round": true,
+    "rmse_pass_required_before_val_or_test": false,
+    "test_used_for_fitting_or_selection": false,
+    "numerical_failures": "attempt_other_roles_and_report_failures_without_fabricated_metrics",
+    "historical_consumed_scopes": "unchanged"
+  }
 }

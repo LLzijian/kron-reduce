@@ -1,0 +1,14 @@
+task_type = "machine_local_clean_learning"
+data_policy = "analytic_synthetic_only"
+dataset = "synthetic_benchmark_registry_v1"
+authorization = "machine_local_clean_learning_v1_20261113"
+workflow = "machine_local_clean_learning_v1"
+stage = "learning"
+execution_mode = "bounded_synthetic_cli_only"
+protocol = "docs/protocols/machine_local_clean_learning_v1_zh.md"
+plan = "configs/proposals/machine_local_clean_learning_v1.json"
+real_data_reads = 0
+fit_attempts = 1
+optimizer_updates = 240
+max_executions = 1
+retry_allowed = false
