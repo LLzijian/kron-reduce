@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Nonlinear history S0](machine_local_nonlinear_history_20261113_zh.md) | Six clean sine-system cases; nonlinear recovery and gradients passed; complete train/val/test trajectory and stability scores |
 | [Clean differentiable learning](machine_local_clean_learning_20261113_zh.md) | One 240-step clean fit; all three models evaluated on train/val/test; matched-linear learning and saved-array checks passed |
 | [Gaussian information diagnosis](machine_local_gaussian_oracle_20261112_zh.md) | Known-distribution local risk exceeds the original target; reset adds risk; numerical and saved-array audits passed, KEEP_BASELINE / STOP_T0 |
 | [Joint initial-state observer](machine_local_joint_observer_20261112_zh.md) | Clean state recovery passed; 1% noise failed; rank-27 rejection and saved-array audit passed, KEEP_BASELINE / STOP_T0 |

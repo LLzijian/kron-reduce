@@ -1,0 +1,130 @@
+{
+  "schema": "kron_reduce.machine_local_nonlinear_history_result_review.v1",
+  "reviewer": "Astra Ultra",
+  "review_date": "2026-11-13",
+  "approved": true,
+  "review_completed": true,
+  "result_evidence_accepted": true,
+  "scientific_pass": true,
+  "decision": "ACCEPT_CLEAN_NONLINEAR_INTERFACE_EVIDENCE_WITH_AUDIT_SCHEMA_RECONCILIATION",
+  "promotion_decision": "KEEP_BASELINE",
+  "t0_allowed": false,
+  "run_id": "machine_local_nonlinear_history_v1-s0-20261112T173943562172Z-e37ecc21-2e0fd549",
+  "run_path": "results/machine_local_nonlinear_history_v1-s0-20261112T173943562172Z-e37ecc21-2e0fd549",
+  "source_commit": "e37ecc21908360a40c1e763857b9272a20a6d989",
+  "plan_path": "configs/proposals/machine_local_nonlinear_history_v1.json",
+  "plan_sha256": "a2099e0c0a8aeb53c58f1cad9e0818da75afd7fd866f6dd5899f629a9c955a3b",
+  "protocol_path": "docs/protocols/machine_local_nonlinear_history_v1_zh.md",
+  "protocol_sha256": "4d6e7aad28803e7dbcc5a6cd1b1db6a73d8ee8d5eff211f17db0b7f1fc53c869",
+  "artifact_manifest_sha256": "2b7789e5965115b97415292b0e92ba4e29d7673bcab2f691e5bf2144f559f0d5",
+  "summary_sha256": "dc91e7a9814ce298d2b48771a79016ef2ab232069d6f6087af833e3abf9f9bc6",
+  "gates": {
+    "truth_pass": true,
+    "tangent_pass": true,
+    "gradient_pass": true,
+    "numerical_pass": true,
+    "recovery_pass": true,
+    "stability_pass": true,
+    "evaluation_complete": true
+  },
+  "fit_attempts": 0,
+  "optimizer_updates": 0,
+  "real_data_reads": 0,
+  "selected_accuracy": {
+    "known": {
+      "train": {"nrmse_3s_all": 3.620119212232069e-11, "nrmse_8s_all": 3.0187129462283144e-11},
+      "val": {"nrmse_3s_all": 1.163868166773788e-10, "nrmse_8s_all": 1.040061986229805e-10},
+      "test": {"nrmse_3s_all": 2.8309990870617196e-10, "nrmse_8s_all": 2.683032867338072e-10}
+    },
+    "perturbed": {
+      "train": {"nrmse_3s_all": 0.021298640152781486, "nrmse_8s_all": 0.022233365962410056},
+      "val": {"nrmse_3s_all": 0.03312144162922416, "nrmse_8s_all": 0.06376796002267754},
+      "test": {"nrmse_3s_all": 0.1622426535602228, "nrmse_8s_all": 0.19675374133409287}
+    }
+  },
+  "stability_each_model_and_role": {
+    "models": ["known", "perturbed"],
+    "roles": ["train", "val", "test"],
+    "forecast_horizon_s": 8,
+    "allocated": 2,
+    "true_stable": 1,
+    "true_unstable": 1,
+    "tp": 1,
+    "tn": 1,
+    "fp": 0,
+    "fn": 0,
+    "accuracy": 1.0,
+    "balanced_accuracy": 1.0,
+    "coverage": 1.0,
+    "unresolved": 0,
+    "uncovered": 0,
+    "numerical_failures": 0
+  },
+  "tangent_autograd_max_difference": 2.220446049250313e-16,
+  "operations": {
+    "rollouts": 119,
+    "numpy_rhs": 468924,
+    "torch_rhs": 266560,
+    "tangent_rhs": 10880,
+    "qr": 126,
+    "svd": 126,
+    "triangular_solves": 126,
+    "matrix_products": 126,
+    "gradients": 2
+  },
+  "successful_scopes": 9,
+  "all_issued_allocations_returned": true,
+  "exact_operation_totals_match_frozen_plan": true,
+  "saved_arithmetic_audit": {
+    "path": "reports/generated/machine_local_nonlinear_history_20261113/saved-audit.json",
+    "sha256": "e7cf8aa05e9e8966a0d949c804a076972628558c0ab072e52d42b61c0afbab90",
+    "script_sha256": "3a5409e719ca7d07e95f457ef124b87c3426e2ac5acd38cf4bc60e2fdf784029",
+    "original_status": "FAIL",
+    "original_artifact_preserved": true,
+    "npz_files_decoded_once": 10,
+    "passed_checks": 123,
+    "failed_compound_stability_checks": 6,
+    "independently_recomputed": "Train-only scales; saved GN histories/sensitivities to design/rhs; QR reconstruction, orthogonality, triangular equations and iterate updates; initial/reset continuity; trajectory metrics and COI; saved tangent and finite-difference arithmetic; five-point LOS classification summaries and coverage; operation journals and limits.",
+    "reported_only": [
+      "Saved singular spectra, with rank and condition checked arithmetically from those spectra.",
+      "Saved energy-identity errors, checked for finite values and the registered threshold."
+    ],
+    "not_reexecuted": ["Nonlinear propagation", "RHS/energy evaluation", "Autograd", "Factorizations or solves"]
+  },
+  "audit_reconciliation": {
+    "path": "reports/generated/machine_local_nonlinear_history_20261113/schema-reconciliation.json",
+    "sha256": "04f3cd9c455cccd31000b4d264f71241a955ea2a5d714aa734e2d4de2d8b159c",
+    "script_sha256": "94b826b10be72f970a380abf8c94f2a9d968507211ffa8c4c18b893b754ca0ca",
+    "status": "PASS_WITH_AUDIT_SCHEMA_CORRECTION",
+    "accepted": true,
+    "common_fields_identical_per_row": 33,
+    "rows": 6,
+    "extra_audit_fields": ["history_eligible", "already_los_within_observation", "false_settled", "stable_unsettled"],
+    "new_npz_decodes": 0,
+    "new_scientific_calls": 0,
+    "accepted_scope": "Independent confusion matrices, accuracy, coverage and numerical-qualification totals agree with the runtime summaries. The audit requested four fields absent from the runtime schema; that comparison error is sufficient to fail each compound check.",
+    "not_closed": "The compound check did not save events_ok separately. Exact per-event trigger/time and auxiliary-field equality are not independently closed; reconciliation does not infer them from aggregate agreement."
+  },
+  "findings_supported": [
+    "Three differentiable Gauss-Newton updates using same-stage RK4 tangents recover hidden initial conditions and nonlinear trajectories for the six frozen clean sine-system cases when dynamics are known.",
+    "The registered tangent/JVP and two-block, two-step-size finite-difference checks support the end-to-end gradient implementation at the tested states and parameters.",
+    "Both parameter groups classify all two cases per role correctly, while perturbed dynamics retain substantial trajectory error. Classification accuracy does not substitute for trajectory accuracy."
+  ],
+  "claim_boundary": "Six fixed clean synthetic cases, with one stable and one unstable event per role, validate the nonlinear history interface. There was no nonlinear parameter fit, real-data evaluation, noise study, general identification proof or stability certificate.",
+  "next_action": {
+    "route": "PREPARE_TASK3_NONLINEAR_PILOT",
+    "requirements": [
+      "Add a frozen-roster reader for TASK3 train 346, val 107 and test 76; preserve the historical source-train-only reader and consumed scopes.",
+      "Preserve the 100 ms/11-frame causal input, physical units and COI transformations; keep future availability and official labels in scoring only.",
+      "Freeze a sourced real visible backbone and one bounded g/tau training schedule, then review the exact new implementation, data-read scope and budget.",
+      "Attempt every val/test event after the fixed training endpoint, retaining numerical failures and unsettled predictions; report trajectory errors and stability confusion/coverage together."
+    ],
+    "new_noise_or_prior_study": false,
+    "additional_scientific_execution_approved_by_this_result_review": false
+  },
+  "review_operations": {
+    "npz_decodes": 0,
+    "scientific_calls": 0,
+    "inputs": "Saved JSON, bound source, audit script and byte hashes."
+  }
+}

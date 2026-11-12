@@ -2804,7 +2804,7 @@
       "real_data_reads": 0,
       "fit_attempts": 0,
       "optimizer_updates": 0,
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_user_autonomous_diagnosis_repair_with_exact_Astra_Ultra_review",
       "plan_path": "configs/proposals/machine_local_nonlinear_history_v1.json",
       "plan_sha256": "a2099e0c0a8aeb53c58f1cad9e0818da75afd7fd866f6dd5899f629a9c955a3b",
@@ -3025,7 +3025,26 @@
         "triangular_solves": 0
       },
       "model_promotion_allowed": false,
-      "deployment_predictions_allowed": false
+      "deployment_predictions_allowed": false,
+      "consumed_at": "2026-11-12T17:56:53.842853+00:00",
+      "run_id": "machine_local_nonlinear_history_v1-s0-20261112T173943562172Z-e37ecc21-2e0fd549",
+      "source_commit": "e37ecc21908360a40c1e763857b9272a20a6d989",
+      "scientific_verdict": "NONLINEAR_HISTORY_S0_PASS",
+      "promotion_decision": "KEEP_BASELINE",
+      "result_receipt_path": "docs/reports/machine_local_nonlinear_history_20261113_evidence.json",
+      "result_receipt_sha256": "f127517e41384b42179fbb38b0dcb16b48a5d64c928806cdd3eeb8bc3e72ccdb",
+      "saved_arithmetic_audit_result": {
+        "path": "reports/generated/machine_local_nonlinear_history_20261113/saved-audit.json",
+        "sha256": "e7cf8aa05e9e8966a0d949c804a076972628558c0ab072e52d42b61c0afbab90",
+        "script_sha256": "3a5409e719ca7d07e95f457ef124b87c3426e2ac5acd38cf4bc60e2fdf784029",
+        "npz_decodes": 10,
+        "new_scientific_calls": 0,
+        "status": "consumed",
+        "reconciliation_path": "reports/generated/machine_local_nonlinear_history_20261113/schema-reconciliation.json",
+        "reconciliation_sha256": "04f3cd9c455cccd31000b4d264f71241a955ea2a5d714aa734e2d4de2d8b159c",
+        "reconciled_status": "PASS_WITH_AUDIT_SCHEMA_CORRECTION",
+        "not_closed": "The original compound check did not save events_ok separately. Exact per-event trigger/time and auxiliary-field equality are not independently certified by this correction."
+      }
     }
   },
   "saved_evidence_audits": {
