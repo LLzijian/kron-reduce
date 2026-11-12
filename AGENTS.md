@@ -37,10 +37,17 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   Synthetic known-truth checks support structure and stability verification.
   Canonical replay requires `--historical-reproduction` and matching frozen
   config and workflow hashes.
-- Develop on registered internal `train` and `val` within source `train`.
-  Fit, normalize, calibrate and select without `test`. Fresh confirmation
-  requires independent registered kiki data, frozen choices and the explicit
-  test gate. Retrospective access requires a separate bounded authorization.
+- New real-data fits use the official kiki `train` population; evaluate on
+  official `test`, preserving source split membership. Do not create the old
+  internal train/val split for new experiments. Use source `val` for selection
+  only when separately declared; the default uses frozen choices without it.
+  Fit, normalize, calibrate and select without `test`; freeze the model before
+  its registered test run. Match TASK3's 100 ms inputs and scoring for benchmark
+  comparisons. Its final 76-event test roster is a separate comparison population,
+  not the official 105-event allocation. See the
+  [split standard](docs/protocols/kiki_official_train_test_v1_zh.md).
+  Existing test exposure remains disclosed; independent-confirmation claims
+  require independent data. Consumed historical protocols retain their splits.
 - Follow the named causal input contract and its forecast origin. Main-model
   features exclude `Pe`, voltage, labels, event time, valid length, masks,
   fault metadata and future summaries. Fit one model per supplied corpus.

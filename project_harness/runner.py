@@ -31,6 +31,8 @@ def run_experiment(
     experiment = manifest["experiments"].get(experiment_name)
     if experiment is None:
         raise KeyError(f"unregistered experiment: {experiment_name}")
+    if experiment.get("execution_mode") == "bounded_kiki_official_cli_only":
+        raise RuntimeError("BOUNDED_KIKI_OFFICIAL_CLI_ONLY: use the registered train/test CLI with its data-read budget")
     if experiment.get("execution_mode") == "bounded_synthetic_cli_only":
         raise RuntimeError(
             "BOUNDED_SYNTHETIC_CLI_ONLY: use the registered dedicated synthetic CLI"

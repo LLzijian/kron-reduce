@@ -1,0 +1,134 @@
+{
+  "schema": "kron_reduce.machine_local_initializer_diagnosis.v1",
+  "protocol_path": "docs/protocols/machine_local_initializer_diagnosis_v1_zh.md",
+  "protocol_sha256": "2c385e63a090b4ba04ba5edaab315f7ad75711d6847d1e4d51fbfcde187b6d3b",
+  "implementation_bindings": {
+    "configs/experiments/machine_local_initializer_diagnosis_v1.toml": "62e4b09591ea23d98014a7ca961defb1e5b633aec50f002d1e5dbe79090085f4",
+    "configs/project_manifest.json": "c958e57adda8421a2558ca9cc0f43dd7e5c4c94ae72237ffc323f976ed756e40",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "dad8be01225c05464c94d64d6ff4c175be417c20a7f41c3c2f3bead07b6e5666",
+    "configs/workflows/machine_local_initializer_diagnosis_v1.json": "f17881060eb4bc0dd8e041909d16e69d79edcd10c7d0fda9c8448650828787f4",
+    "docs/protocols/kiki_official_train_test_v1_zh.md": "63ebd65126c07e51dba69c4c0d38350775e0672fdab91036bf3b8b5878a9bc8c",
+    "docs/protocols/machine_local_initializer_diagnosis_v1_zh.md": "2c385e63a090b4ba04ba5edaab315f7ad75711d6847d1e4d51fbfcde187b6d3b",
+    "docs/research/machine_local_initializer_diagnosis_plan_20261112_zh.md": "4463055da199d484b41d429537b13219bae16323d510fb02bc605b3adcc157f4",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+    "project_harness/policy.py": "e1f5df48760373185883a9d3ad947e1a97bc7159e2e1a68f6f14600225b24f19",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/evaluation/machine_local_initializer_diagnosis.py": "69ded6c1506a8a19af0cdbd0ce65a4a040ce6243a25ef0f1593f9135e49e4065",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/scoped_audit_journal.py": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+    "src/kron_reduce/evaluation/state_port_training.py": "18047aeccb3848cc855a6bddbd2e7c4b11f4acdb5b1b70872e32c03e34bfc738",
+    "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+    "src/kron_reduce/models/conditional_encoder.py": "ee7d7721f10a085235b34877d9b25291a25bdb358ea5ff2fdf332b9554e0ca14",
+    "src/kron_reduce/models/learned_latent.py": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+    "src/kron_reduce/models/machine_local.py": "79789ee60cb375d7bbe2041266638ffc2a141a8fba0f7fa14772a7fc57e5a656",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/models/state_port.py": "32ec27d9eb142abd5e5e10ebe9db814286abcdddbedbc2a2247a5a3ffd9efe8b",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/constant_c_synthetic.py": "cba3e3376a52cdb49a453151f30faf60cd8edf50ae1e4cec60b63eaef96cb863",
+    "src/kron_reduce/workflows/machine_local_initializer_diagnosis.py": "81cf6659b9dc9e0655366e56c94d85f411648e461ddfc849b1aba546df8c7954",
+    "tests/test_conditional_encoder.py": "5b783fa969ac9a50da4321a437ed872c1a5cb04009a0ba58ea44586a9c2d3b37",
+    "tests/test_initializer_diagnosis_workflow.py": "956cc98756638c20d843b58d602eb82daa304991915dea3466bd79af3f63edcc",
+    "tests/test_research_policy.py": "31d91ef6fda891498de17c3e8c93ef9a879a58d30bc9e227c8ba01b4d3b47636"
+  },
+  "saved_sources": {
+    "truth": {
+      "path": "results/machine_local_s1_base_v1-s1_base-20261112T081105156529Z-71e9677a-db4918d7/local_truth.npz",
+      "sha256": "bcc605d08938b987fd634acc369f2158431b12c84af20a474b54ee7cad269726"
+    },
+    "fitted": {
+      "path": "results/machine_local_s1_base_v1-s1_base-20261112T081105156529Z-71e9677a-db4918d7/local_clean_L10.npz",
+      "sha256": "8d36c97c4b2f979d9b1437c9f8ebcfcfb54bfb9bcdbad51932adbc684db84f84"
+    },
+    "observability": {
+      "path": "results/machine_local_s1_base_v1-s1_base-20261112T081105156529Z-71e9677a-db4918d7/observability.npz",
+      "sha256": "d978d9e5ef9325bf524b802f446a414545f5874b73641a36cdc336565eca6a73"
+    }
+  },
+  "source_artifact_manifest_sha256": "3144757fe9023a63edb94b413b3e5f12b94d9f7f51f66770216b5d3215811cfa",
+  "stages": {
+    "diagnosis": {
+      "scope": {
+        "authorization": "machine_local_initializer_diagnosis_v1_20261112",
+        "experiment": "machine_local_initializer_diagnosis_v1",
+        "workflow": "machine_local_initializer_diagnosis_v1",
+        "stage": "diagnosis",
+        "module": "kron_reduce.workflows.machine_local_initializer_diagnosis",
+        "dataset": "synthetic_benchmark_registry_v1",
+        "data_policy": "analytic_synthetic_only",
+        "max_executions": 1,
+        "retry_allowed": false,
+        "real_data_reads": 0,
+        "fit_attempts": 2,
+        "optimizer_updates": 0
+      },
+      "operation_limits": {
+        "npz_decodes": 3,
+        "checkpoint_loads": 1,
+        "fits": 2,
+        "linear_solves": 2,
+        "svd": 2,
+        "rollouts": 18,
+        "matrix_products": 30000,
+        "optimizer_updates": 0,
+        "gradients": 0,
+        "numpy_rhs": 0,
+        "torch_rhs": 0,
+        "expm": 0
+      },
+      "scope_limits": {
+        "sources": {
+          "npz_decodes": 3,
+          "checkpoint_loads": 1
+        },
+        "information": {
+          "svd": 2,
+          "matrix_products": 20
+        },
+        "oracle": {
+          "rollouts": 2,
+          "matrix_products": 4000
+        },
+        "truth_dynamics": {
+          "fits": 1,
+          "linear_solves": 1,
+          "rollouts": 8,
+          "matrix_products": 10000
+        },
+        "fitted_dynamics": {
+          "fits": 1,
+          "linear_solves": 1,
+          "rollouts": 8,
+          "matrix_products": 10000
+        }
+      }
+    }
+  },
+  "static_expected_operations": {
+    "npz_decodes": 3,
+    "checkpoint_loads": 1,
+    "fits": 2,
+    "linear_solves": 2,
+    "svd": 2,
+    "rollouts": 18,
+    "matrix_products": 19210
+  },
+  "failure_policy": "abort_preserve_do_not_retry",
+  "postrun_saved_arithmetic_audit": {
+    "npz_decode_limit_per_file": 1,
+    "same_run_json_and_artifact_hash_checks": true,
+    "model_calls": 0,
+    "rhs_calls": 0,
+    "autograd_calls": 0,
+    "expm_calls": 0,
+    "svd_calls": 0,
+    "ls_calls": 0,
+    "linear_solves": 0
+  },
+  "baseline_decision": "KEEP_BASELINE"
+}

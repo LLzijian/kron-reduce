@@ -6,6 +6,15 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The active [diagnosis and repair plan](machine_local_initializer_diagnosis_plan_20261112_zh.md)
+separates causal encoder generalization from dynamics error using two exact
+conditional fits and a true-state control. Its [new protocol](../protocols/machine_local_initializer_diagnosis_v1_zh.md)
+has its own source and operator budget; the consumed base study stays closed.
+The user has authorized diagnosis, correction and new synthetic confirmation
+before real-data advancement. Future real fits and tests now follow the
+[official kiki train/test standard](../protocols/kiki_official_train_test_v1_zh.md),
+with TASK3's separate final roster identified explicitly.
+
 [Machine-local S0](../reports/machine_local_s0_20261112_zh.md) passed all 112
 frozen checks. The [S1-base comparison](../reports/machine_local_s1_20261112_zh.md)
 completed all twelve fits and its saved arithmetic audit. Observation, physical
@@ -13,9 +22,9 @@ and numerical checks passed; all six required prediction pairs failed. Both
 one-use authorities and saved audits are consumed: REJECT / KEEP_BASELINE /
 STOP_T0. The [result review](machine_local_s1_result_review_20261112_zh.md)
 prioritizes preparation of a separate causal-initialization/generalization
-diagnostic. No downstream scientific run is currently opened.
+diagnostic; the new diagnostic registration above carries that next scope.
 
-The current [research plan v2](machine_local_structure_plan_v2_20261112_zh.md)
+The frozen [base research plan v2](machine_local_structure_plan_v2_20261112_zh.md)
 implements ten machine-local hidden states before learning physical modules.
 Its first comparison separates model order (G2/G10) from local port structure
 (G10/L10), with the unchanged A06 as the performance reference. Initialization,

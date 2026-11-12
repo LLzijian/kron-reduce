@@ -3,15 +3,22 @@
 Effective 2026-10-23: new real-data experiments use the registered kiki sources
 and retain ten generator nodes; spatial clustering is paused. Synthetic truth
 checks and explicitly requested historical replay retain their separate roles.
-Existing source test has prior exposure and cannot provide fresh confirmation.
+Effective 2026-11-12, new fits use official kiki train and frozen-model evaluation
+uses official test; do not create the historical internal train/val split.
+Source val is unused unless separately registered for selection. The
+[official split standard](protocols/kiki_official_train_test_v1_zh.md) aligns the
+100 ms input and scoring with TASK3 while keeping its separate final test roster
+distinct. Existing test exposure permits comparative reporting, not a renewed
+claim of fresh independent confirmation. The user has authorized this prospective
+change; exact run budgets and synthetic prerequisites still apply.
 The active rules are machine-checked by `configs/research_policy.json`.
 
-The explicitly approved `kiki_a04_development_20261023` exception permits one
+The historical `kiki_a04_development_20261023` exception permitted one
 registered pre-certification development evaluation inside original source
 train, following its frozen internal train/val, causal inputs, candidates and
 budget. The empirical input support audit is fitted on train only, is labelled
 uncertified, and does not filter the full comparison or risk denominator.
-Source val/test, deployment predictions and model promotion remain closed.
+That consumed authorization does not open new reads, deployment or promotion.
 See `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
 
 - Prediction begins at exact clearing (`t=0`).

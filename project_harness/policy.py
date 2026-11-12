@@ -1,10 +1,11 @@
 """Prospective research policy; historical evidence retains its original contract."""
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
-from .evidence import sha256_file
+from .evidence import _safe_relative, sha256_file
 
 
 def load_policy(root: Path) -> dict:
@@ -41,10 +42,40 @@ def validate_run_policy(
     contracts = json.loads((root / policy["input_contracts"]).read_text(encoding="utf-8"))
     if experiment.get("input_contract_id") not in contracts:
         raise RuntimeError("INPUT_CONTRACT: declare forecast origin and observation budget")
+    legacy = policy.get("legacy_real_experiments", {})
+    if name in legacy:
+        encoded = json.dumps(experiment, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+        if hashlib.sha256(encoded).hexdigest() != legacy[name]:
+            raise RuntimeError("LEGACY_EXPERIMENT_CHANGED: register a new official-split experiment")
+    elif policy.get("default_real_data_policy") == "kiki_official_train_test_v1":
+        population = experiment.get("test_population")
+        if population != "official_kiki_test" and not (
+                population == "task3_campaign2_final_test" and experiment.get("reads_test_performance") is True
+                and experiment.get("comparison_role") == "separate_task3_reference"):
+            raise RuntimeError("OFFICIAL_SPLIT_POLICY: TASK3's separate roster must be explicitly identified")
+        expected = {"data_policy": "kiki_official_train_test_v1", "training_split": "train",
+                    "internal_resplit": False,
+                    "execution_mode": "bounded_kiki_official_cli_only",
+                    "split_reference_sha256": policy["official_split_reference_sha256"]}
+        if any(type(experiment.get(k)) is not type(v) or experiment[k] != v for k, v in expected.items()):
+            raise RuntimeError("OFFICIAL_SPLIT_POLICY: new experiments must use the frozen official train/test contract")
+        if experiment.get("input_contract_id") != "measured_history_100ms_zoh_v1":
+            raise RuntimeError("TASK3_INPUT_CONTRACT: benchmark uses eleven real 10 ms observations")
     if experiment.get("reads_test_performance", False):
-        raise RuntimeError(
-            "TEST_EXPOSED: existing kiki test is not fresh; register independent kiki test evidence first"
-        )
+        auth = policy.get("official_test_evaluations", {}).get(experiment.get("test_authorization"), {})
+        if (name in legacy or auth.get("status") != "active" or auth.get("experiment") != name
+                or type(auth.get("fit_attempts")) is not int or auth["fit_attempts"] != 0
+                or auth.get("test_population") != experiment.get("test_population")
+                or auth.get("split_reference_sha256") != policy.get("official_split_reference_sha256")
+                or type(auth.get("max_executions")) is not int or auth["max_executions"] != 1
+                or auth.get("retry_allowed") is not False):
+            raise RuntimeError("TEST_EXPOSED: register the frozen comparative test scope before access")
+        binding = auth.get("frozen_model_manifest", {})
+        if not isinstance(binding, dict) or not isinstance(binding.get("path"), str):
+            raise RuntimeError("TEST_MODEL_FREEZE: frozen model manifest is missing")
+        path = _safe_relative(root, binding.get("path"))
+        if not path.is_file() or sha256_file(path) != binding.get("sha256"):
+            raise RuntimeError("TEST_MODEL_FREEZE: frozen model manifest is missing or changed")
 
 
 def audit_research_policy(root: Path, manifest: dict) -> list[dict]:

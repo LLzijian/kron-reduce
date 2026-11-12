@@ -18,6 +18,12 @@ The research policy records active and consumed authorizations. See the
 [research index](docs/research/README.md) for the follow-up scope, protocols
 and saved results.
 
+New real-data work uses official kiki train for fitting and official test for
+frozen-model evaluation under the [TASK3-aligned standard](docs/protocols/kiki_official_train_test_v1_zh.md).
+TASK3's separate final test roster is reported separately. The active
+[initializer diagnosis](docs/research/machine_local_initializer_diagnosis_plan_20261112_zh.md)
+precedes correction, new synthetic confirmation and real-data execution.
+
 The current [algorithm design](docs/research/machine_local_structure_plan_v2_20261112_zh.md)
 implements one hidden state per machine, with separate checks for prediction
 accuracy and structure identifiability. The [synthetic protocol](docs/protocols/machine_local_synthetic_v1_zh.md)
