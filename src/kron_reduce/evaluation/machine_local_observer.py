@@ -59,9 +59,9 @@ def audit_conditional_sources(inputs, cases, budget):
     return checks
 
 
-def forecast(model, observed, power, history_scale, step, budget):
+def forecast(model, observed, power, history_scale, step, budget, estimator=estimate_history):
     q, v, eq = observed[:, :, :10], observed[:, :, 10:], np.zeros((len(observed), 10))
-    result = estimate_history(model, q, v, power, eq, history_scale, max_step=step, spend=budget.spend)
+    result = estimator(model, q, v, power, eq, history_scale, max_step=step, spend=budget.spend)
     if result["resolved"]:
         with torch.no_grad():
             result["forecast"] = model.rollout(result["origin"], power, eq, 800,
@@ -69,10 +69,11 @@ def forecast(model, observed, power, history_scale, step, budget):
     return result
 
 
-def evaluate(name, model, paths, scale, history_scale, noise, directory, budget, gates):
+def evaluate(name, model, paths, scale, history_scale, noise, directory, budget, gates,
+             estimator=estimate_history):
     observed, power = paths[:, :11, :20]+noise, paths[:, 0, 30:]
-    fine = forecast(model, observed, power, history_scale, .0025, budget)
-    refined = forecast(model, observed, power, history_scale, .00125, budget)
+    fine = forecast(model, observed, power, history_scale, .0025, budget, estimator)
+    refined = forecast(model, observed, power, history_scale, .00125, budget, estimator)
     arrays = {"observed": observed, "power": power, "scale": scale, "history_scale": history_scale}
     for prefix, result in (("fine", fine), ("refined", refined)):
         arrays.update({prefix+"__"+key: val for key, val in result.items() if isinstance(val, np.ndarray)})
@@ -91,6 +92,12 @@ def evaluate(name, model, paths, scale, history_scale, noise, directory, budget,
                    numerical_pass=refinement <= gates["step_difference"] and coi <= 1e-10,
                    hidden_clean_pass=all(r[key] <= gates["clean_hidden_rmse"] for r in score.values()
                        for key in ("hidden_start_rmse", "hidden_origin_rmse")))
+        row["initial_visible_metrics"] = {
+            role: {label+"_"+channel+"_rmse": float(np.sqrt(np.mean(
+                (values[ix, 0, sl]-paths[ix, 0, sl])**2)))
+                for label, values in (("estimated", fine["history"]), ("observed", observed))
+                for channel, sl in (("q", slice(0, 10)), ("v", slice(10, 20)))}
+            for role, ix in (("train", slice(0, 32)), ("val", slice(32, 48)), ("test", slice(48, 64)))}
         threshold = gates["noisy_nrmse"] if np.any(noise) else gates["clean_nrmse"]
         row["prediction_pass"] = all(r[key] <= threshold for r in score.values()
             for key in ("main_nrmse", "nrmse_3s_all"))
@@ -171,13 +178,13 @@ def validate(root, directory, budget, plan):
             "claim_boundary": "Fixed-dynamics observer checks; new seeds test state recovery in the same linear families. Known parameters are oracle controls, not learned-model confirmation or real-data results."}
 
 
-def execute(*, root, result_dir, stage, plan):
+def execute(*, root, result_dir, stage, plan, validator=validate):
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
     start = time.perf_counter()
     budget = Budget(result_dir/"operations.jsonl", plan["stages"][stage]["operation_limits"], plan["stages"][stage]["scope_limits"])
     try:
-        summary = validate(root, result_dir, budget, plan)
+        summary = validator(root, result_dir, budget, plan)
         summary.update(process_status="PASS", promotion_decision="KEEP_BASELINE", real_data_reads=0,
             operations=dict(budget.counts), operations_returned=dict(budget.returned), scopes=budget.scopes,
             source_commit=git_head(root), wall_seconds=time.perf_counter()-start, process_peak_memory=peak_memory(),

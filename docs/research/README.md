@@ -10,10 +10,12 @@ The [machine-local initializer diagnosis](../reports/machine_local_initializer_d
 passed its numerical and saved-evidence checks. Its route is
 `INITIALIZER_LIMITATION_PRIORITY`: the exact conditional encoder still fails
 the val target under true dynamics. Its authority and saved audit are consumed.
-The [observer correction](machine_local_observer_plan_20261112_zh.md) replaces
-the free encoder with causal discrete-history state recovery. Its
-[protocol](../protocols/machine_local_observer_v1_zh.md) separates fixed-dynamics
-checks from later parameter learning and uses new synthetic samples. Future
+The [discrete-history observer](../reports/machine_local_observer_20261112_zh.md)
+recovered clean hidden states, but failed the 1% noise gate. Its run and saved
+arithmetic audit are consumed. The next [joint initial-state correction](machine_local_joint_observer_plan_20261112_zh.md)
+estimates the first visible state along with the hidden state from the same
+eleven observations. Its [protocol](../protocols/machine_local_joint_observer_v1_zh.md)
+uses paired train/val diagnostics and new frozen synthetic samples. Future
 real fits and tests follow the [TASK3 split standard](../protocols/kiki_official_train_test_v1_zh.md):
 346 train / 107 val / 76 test, reusing its frozen test roster.
 
@@ -71,7 +73,7 @@ Prepare the targeted initialization correction and new synthetic confirmation
 under a separately reviewed, registered scope before executing either. B0 remains an independent initializer candidate,
 as originally recommended by the A1 result review; the user's 2026-11-12 request
 changes the prospective priority. Potential, input and time-objective changes
-remain separate. Real train work requires the S1-base gate and its own exact
+remain separate. Real train work requires new learned-model synthetic confirmation and its own exact
 registration. A1 retuning, source val/test access and model promotion are outside
 this synthetic scope. Keep the [A1 protocol](../protocols/kiki_state_port_train_v1_zh.md),
 its implementation review and all completed evidence frozen.

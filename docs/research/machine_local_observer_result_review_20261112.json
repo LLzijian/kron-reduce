@@ -1,0 +1,238 @@
+{
+  "schema": "kron_reduce.machine_local_observer_result_review.v1",
+  "reviewer": "Astra Ultra",
+  "review_date": "2026-11-12",
+  "approved": true,
+  "review_completed": true,
+  "result_evidence_accepted": true,
+  "scientific_pass": false,
+  "decision": "ACCEPT_EVIDENCE_REJECT_NOISY_PREDICTION",
+  "promotion_decision": "KEEP_BASELINE",
+  "next_route": "OBSERVER_REPAIR_REQUIRED",
+  "learned_model_confirmed": false,
+  "t0_allowed": false,
+  "run_id": "machine_local_observer_v1-fixed-20261112T095639821073Z-9d055fc1-374b3b37",
+  "run_path": "results/machine_local_observer_v1-fixed-20261112T095639821073Z-9d055fc1-374b3b37",
+  "source_commit": "9d055fc12c4eb41c55eca576f19179f714aff3ec",
+  "plan_path": "configs/proposals/machine_local_observer_v1.json",
+  "plan_sha256": "b5168fe73364b913cf91f9eb84cad44194841891b4966866eac1723beee3ef26",
+  "protocol_path": "docs/protocols/machine_local_observer_v1_zh.md",
+  "protocol_sha256": "60fcc1243a533f90413d6c83bd8e43daa2688e66b32877a95aeea5ece4806bbb",
+  "artifact_manifest_sha256": "73c35ef600e451ff67257b1844a9fc082251fdb6e1ec40e61e48ba5e1c4dc330",
+  "summary_sha256": "80ad47248f743cf94679db40713063244070aca885dab02c0d46e635287cd70a",
+  "saved_arithmetic_audit": {
+    "path": "reports/generated/machine_local_observer_20261112/saved-audit.json",
+    "sha256": "c4b9e999de01b0faf0ad13c721d2b91c8b79af3ddc623906d3e2d4a138554f7e",
+    "script_sha256": "cb697d49d226587b952abe2de8a1ed9e8c34e221b70e8e30fd5eff2a899e46bf",
+    "status": "PASS",
+    "npz_files_decoded_once": 10,
+    "scope": "Saved SVD factors, state estimates, historical reconstruction, visible reset, full-path finite and COI checks, train scales, all role metrics, gates, immutable hashes and budget journal; no propagation, factorization or solver invocation.",
+    "source_gram_boundary": "The registered S2 source scope rebuilt both prior conditional GF/Gz/B operands with maximum discrepancy 3.0357660829594124e-18; the saved audit verified its bound JSON and source hashes without decoding those prior arrays again."
+  },
+  "gates": {
+    "numerical_pass": true,
+    "clean_recovery_pass": true,
+    "noise_prediction_pass": false,
+    "equal_rate_negative_pass": true
+  },
+  "operations": {
+    "npz_decodes": 4,
+    "matrix_products": 24473,
+    "checkpoint_loads": 1,
+    "expm": 6,
+    "rollouts": 25,
+    "svd": 13
+  },
+  "operations_returned": {
+    "npz_decodes": 4,
+    "matrix_products": 24473,
+    "checkpoint_loads": 1,
+    "expm": 6,
+    "rollouts": 25,
+    "svd": 13
+  },
+  "successful_scopes": 10,
+  "all_issued_allocations_returned": true,
+  "key_results": {
+    "old_truth": {
+      "condition_number": 29.607002227594673,
+      "metrics": {
+        "train": {
+          "main_nrmse": 1.3050077521701442E-09,
+          "nrmse_3s_all": 1.5439263297394605E-09,
+          "hidden_start_rmse": 4.99537829963505E-09,
+          "hidden_origin_rmse": 2.884503943586237E-09
+        },
+        "val": {
+          "main_nrmse": 8.677342412838873E-10,
+          "nrmse_3s_all": 1.0271297157450352E-09,
+          "hidden_start_rmse": 3.342564759577065E-09,
+          "hidden_origin_rmse": 1.932160528414459E-09
+        },
+        "test": {
+          "main_nrmse": 1.003704510041113E-09,
+          "nrmse_3s_all": 1.1867465228839533E-09,
+          "hidden_start_rmse": 3.8448198211949E-09,
+          "hidden_origin_rmse": 2.2278794440775475E-09
+        }
+      },
+      "prediction_pass": true,
+      "hidden_clean_pass": true
+    },
+    "old_fitted": {
+      "condition_number": 30.96544865586455,
+      "metrics": {
+        "train": {
+          "main_nrmse": 0.005451787164794678,
+          "nrmse_3s_all": 0.007048918446478966,
+          "hidden_start_rmse": 0.007393078618219763,
+          "hidden_origin_rmse": 0.005662971282321754
+        },
+        "val": {
+          "main_nrmse": 0.00500965750070978,
+          "nrmse_3s_all": 0.006465251484206615,
+          "hidden_start_rmse": 0.0055211061922964206,
+          "hidden_origin_rmse": 0.004609186536552855
+        },
+        "test": {
+          "main_nrmse": 0.004726682759823245,
+          "nrmse_3s_all": 0.006098421401437697,
+          "hidden_start_rmse": 0.006815375425975219,
+          "hidden_origin_rmse": 0.004956951874694698
+        }
+      },
+      "prediction_pass": false,
+      "hidden_clean_pass": false
+    },
+    "local_clean": {
+      "condition_number": 24.542043039105632,
+      "metrics": {
+        "train": {
+          "main_nrmse": 1.0151236280947069E-09,
+          "nrmse_3s_all": 1.2001440633660957E-09,
+          "hidden_start_rmse": 3.889500967047218E-09,
+          "hidden_origin_rmse": 2.2478804884758335E-09
+        },
+        "val": {
+          "main_nrmse": 9.070950200745271E-10,
+          "nrmse_3s_all": 1.0730948001959464E-09,
+          "hidden_start_rmse": 3.4903939682320016E-09,
+          "hidden_origin_rmse": 2.0145909216322157E-09
+        },
+        "test": {
+          "main_nrmse": 1.0983697899199067E-09,
+          "nrmse_3s_all": 1.2984070375075277E-09,
+          "hidden_start_rmse": 4.194458654160061E-09,
+          "hidden_origin_rmse": 2.421914523310844E-09
+        }
+      },
+      "prediction_pass": true,
+      "hidden_clean_pass": true
+    },
+    "local_noise01": {
+      "condition_number": 24.542043039105632,
+      "metrics": {
+        "train": {
+          "main_nrmse": 0.05410566227726492,
+          "nrmse_3s_all": 0.06213527147884596,
+          "hidden_start_rmse": 0.16155538551896054,
+          "hidden_origin_rmse": 0.0948472317707432
+        },
+        "val": {
+          "main_nrmse": 0.04616940137062313,
+          "nrmse_3s_all": 0.05275393548666646,
+          "hidden_start_rmse": 0.14220623457849474,
+          "hidden_origin_rmse": 0.08175778612166165
+        },
+        "test": {
+          "main_nrmse": 0.045086509391029705,
+          "nrmse_3s_all": 0.05180449332499834,
+          "hidden_start_rmse": 0.13935182297714035,
+          "hidden_origin_rmse": 0.07883954824397214
+        }
+      },
+      "prediction_pass": false,
+      "hidden_clean_pass": false
+    },
+    "nonlocal_clean": {
+      "condition_number": 778.9171210771028,
+      "metrics": {
+        "train": {
+          "main_nrmse": 2.1622738939254547E-11,
+          "nrmse_3s_all": 2.097552470705675E-11,
+          "hidden_start_rmse": 2.0028358419051913E-08,
+          "hidden_origin_rmse": 3.0094949764787967E-09
+        },
+        "val": {
+          "main_nrmse": 3.1848827323168906E-11,
+          "nrmse_3s_all": 3.090008926580165E-11,
+          "hidden_start_rmse": 2.9680384192095633E-08,
+          "hidden_origin_rmse": 4.344054105667055E-09
+        },
+        "test": {
+          "main_nrmse": 2.5258030561025346E-11,
+          "nrmse_3s_all": 2.4571966196633947E-11,
+          "hidden_start_rmse": 2.5166532394662028E-08,
+          "hidden_origin_rmse": 3.834147467208207E-09
+        }
+      },
+      "prediction_pass": true,
+      "hidden_clean_pass": true
+    },
+    "nonlocal_noise01": {
+      "condition_number": 778.9171210771028,
+      "metrics": {
+        "train": {
+          "main_nrmse": 0.028723657652243384,
+          "nrmse_3s_all": 0.030651926953835274,
+          "hidden_start_rmse": 5.440038485472999,
+          "hidden_origin_rmse": 0.7382669386782562
+        },
+        "val": {
+          "main_nrmse": 0.028912311177078858,
+          "nrmse_3s_all": 0.031515735535655606,
+          "hidden_start_rmse": 5.47055097231639,
+          "hidden_origin_rmse": 0.7422696263026489
+        },
+        "test": {
+          "main_nrmse": 0.03040526175547909,
+          "nrmse_3s_all": 0.03319392228713208,
+          "hidden_start_rmse": 2.936576136450131,
+          "hidden_origin_rmse": 0.39948902081920606
+        }
+      },
+      "prediction_pass": false,
+      "hidden_clean_pass": false
+    }
+  },
+  "findings_supported": [
+    "Three true-dynamics clean cases pass state-recovery and future-prediction gates, including both newly frozen synthetic populations.",
+    "Both true-dynamics noisy cases fail the frozen main and three-second prediction targets across train, val and test despite passing numerical checks.",
+    "Full numerical rank and condition-number acceptance do not establish noise-robust state recovery.",
+    "The original fitted dynamics with the new clean observer improves substantially but still misses the clean target; unknown dynamics learning remains unfinished.",
+    "The equal-rate rank-nine control rejects state and future output as required."
+  ],
+  "causes_not_identified": [
+    "The causal share of treating the noisy first visible frame as exact compared with short-window noise amplification.",
+    "Whether freeing the initial visible COI coordinates will meet the frozen noise target.",
+    "Noise-robust learned-model performance or readiness for real-data training."
+  ],
+  "next_action": {
+    "direction": "Single-change joint initial-state inference: release the eighteen visible COI-coordinate equality constraints while retaining the same eleven-frame weighted history objective, fixed dynamics, endpoint reset and prediction gates.",
+    "plan_path": "docs/research/machine_local_joint_observer_plan_20261112_zh.md",
+    "protocol_path": "docs/protocols/machine_local_joint_observer_v1_zh.md",
+    "independent_synthetic_seeds": [
+      2026111221,
+      2026111222
+    ],
+    "user_authorization_already_received": true,
+    "new_scope_and_exact_implementation_review_required": true,
+    "consumed_scope_remains_closed": true
+  },
+  "review_operations": {
+    "npz_decodes": 0,
+    "scientific_calls": 0,
+    "inputs": "Saved JSON, static bound source and audit script, byte hashes."
+  },
+  "claim_boundary": "Accepted completed S2 evidence with rejected noisy prediction. Clean fixed-dynamics recovery succeeds; no model promotion or T0 progression."
+}

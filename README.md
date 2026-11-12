@@ -27,8 +27,8 @@ New real-data work uses the frozen TASK3-compatible train, val and test lists
 under the [benchmark standard](docs/protocols/kiki_official_train_test_v1_zh.md).
 The exact source-qualified IDs and list hashes are in the
 [split reference](configs/proposals/kiki_task3_split_reference_v1.json). The active
-[initializer diagnosis](docs/research/machine_local_initializer_diagnosis_plan_20261112_zh.md)
-precedes correction, new synthetic confirmation and real-data execution.
+[joint initial-state study](docs/research/machine_local_joint_observer_plan_20261112_zh.md)
+tests a noise correction before learned-model confirmation and real-data execution.
 
 The current [algorithm design](docs/research/machine_local_structure_plan_v2_20261112_zh.md)
 implements one hidden state per machine, with separate checks for prediction

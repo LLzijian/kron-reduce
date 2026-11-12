@@ -1,0 +1,73 @@
+{
+  "schema": "machine_local_stage_result_receipt_v1",
+  "stage": "fixed",
+  "run_id": "machine_local_observer_v1-fixed-20261112T095639821073Z-9d055fc1-374b3b37",
+  "authorization": "machine_local_observer_v1_20261112",
+  "authorization_status": "consumed",
+  "source_commit": "9d055fc12c4eb41c55eca576f19179f714aff3ec",
+  "source_ci": {
+    "status": "success",
+    "run_id": 43195689693,
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/43195689693"
+  },
+  "process_status": "PASS",
+  "scientific_pass": false,
+  "scientific_verdict": "NOISE_GATE_FAILED",
+  "promotion_decision": "KEEP_BASELINE",
+  "t0_allowed": false,
+  "artifact_manifest_sha256": "73c35ef600e451ff67257b1844a9fc082251fdb6e1ec40e61e48ba5e1c4dc330",
+  "artifacts": {
+    "conditional_source_audit.json": "82efe6ea63c413d4cd8604afc7073b98d5aa9ed6b928327f06503d82cd4e20d5",
+    "frozen_inputs.json": "94687af9ce5aeb34c5e15d9da6a6be1d0daf1ef454d2efb2d6f9cbcebdacd737",
+    "local_clean.json": "9136ec079b534e09649d0c17da640f7a76d66fe5ebc8b62f8108cb266ac4e73e",
+    "local_clean.npz": "4abe7b0d804c76cf3bd674ae5e1beb4882d3c4f88fbc36fea3d666408ae968ad",
+    "local_inputs.npz": "5ce15448f879173fd4948e4a2408df9f24db43dc3453760b6426c6eb6929e70d",
+    "local_noise01.json": "406a6728a0b87719e388f00e69217855cc2f4df05b739f414238166e5ce3a178",
+    "local_noise01.npz": "12be960fdfdb0f0a0467598853eb5116b2e8093d0e59da295bbe499b88d85ba3",
+    "nonlocal_clean.json": "036ba482ac471ffcda8cfa78270c65c4b92a235da6ef645ebf16c7526c67887c",
+    "nonlocal_clean.npz": "0e89ff4634fa5bc399cbaa5bae8ee6ad3f55059b49dc7099b22d81d0290c7d44",
+    "nonlocal_inputs.npz": "aea21145e06000faf0317d2fdc614b1fc2e5ac04e74839919db5249c4aabe136",
+    "nonlocal_noise01.json": "87ce2bd085758f5f454d42e4c09b6b43c99e9c2ed2311813383425802e9bc9f0",
+    "nonlocal_noise01.npz": "630464d0716de4eedaa81f06ab76d52f171dbd077ead1f850ecd3cc9b06f3037",
+    "old_fitted.json": "f7a80e400cf215b2fb0d1c052679b5cb01e795b0c9bce79748f85827ae780244",
+    "old_fitted.npz": "fd426687b554bc49414f053fbab93efd01cef4a90022943bfbaba2cae1bef823",
+    "old_inputs.npz": "6bbd5f07932fe38b55fd1484afceacae9eb6b0fc1d216c3b8e2f9dc07d4ebe79",
+    "old_truth.json": "2167069ec85f45fe5aced596b0fc70645f8b7672b83ce07c31490547a9c6a44e",
+    "old_truth.npz": "9e1e6c7fef2ad49b0d393e2308d57f77109391b4a4f135ed4507695f5859e383",
+    "operations.jsonl": "184aa0bdef1cdfe8aa258472cabf58bce8d1ed4cbc94e041000db82e5f971d73",
+    "rank_control.json": "7a8ca63b234eb0ccaecf1c3956b38045f819a58db883fb4e4a97cf4687c8eb85",
+    "rank_control.npz": "11a07fc90f7da49027f1efce95ffe50646faa127abd81d8f6819710c206718b2",
+    "stage_evidence.json": "cbf7832ca1194e15e4bc6922aeec8564ab37a40e1afbe3acd0983532f7fbe9ec",
+    "summary.json": "80ad47248f743cf94679db40713063244070aca885dab02c0d46e635287cd70a"
+  },
+  "scientific_review_path": "docs/research/machine_local_observer_result_review_20261112.json",
+  "scientific_review_sha256": "57e96c66b175454228ea18869567bf3ee38c671404a0c6331987c00ea38ac8db",
+  "report_path": "docs/reports/machine_local_observer_20261112_zh.md",
+  "report_sha256": "811b7a7443825110b3a4cdac1e3b43ed04a9e39b305b979f92b041b216375107",
+  "saved_audit": {
+    "path": "reports/generated/machine_local_observer_20261112/saved-audit.json",
+    "sha256": "c4b9e999de01b0faf0ad13c721d2b91c8b79af3ddc623906d3e2d4a138554f7e",
+    "script_sha256": "cb697d49d226587b952abe2de8a1ed9e8c34e221b70e8e30fd5eff2a899e46bf",
+    "npz_decodes": 10,
+    "new_scientific_calls": 0,
+    "status": "PASS"
+  },
+  "gates": {
+    "scientific_pass": false,
+    "numerical_pass": true,
+    "clean_recovery_pass": true,
+    "noise_prediction_pass": false,
+    "next_route": "OBSERVER_REPAIR_REQUIRED",
+    "learned_model_confirmed": false,
+    "t0_allowed": false
+  },
+  "operations": {
+    "npz_decodes": 4,
+    "matrix_products": 24473,
+    "checkpoint_loads": 1,
+    "expm": 6,
+    "rollouts": 25,
+    "svd": 13
+  },
+  "next_step": "JOINT_INITIAL_STATE_OBSERVER_VALIDATION"
+}
