@@ -1,0 +1,63 @@
+{
+  "schema": "machine_local_stage_result_receipt_v1",
+  "stage": "fixed",
+  "run_id": "machine_local_gaussian_oracle_v1-fixed-20261112T105208760887Z-4ef00ac3-3d2be473",
+  "authorization": "machine_local_gaussian_oracle_v1_20261112",
+  "authorization_status": "consumed",
+  "source_commit": "4ef00ac34070a431a8dd00eb12373d7e59de68d3",
+  "source_ci": {
+    "status": "success",
+    "run_id": 43203727718,
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/43203727718"
+  },
+  "process_status": "PASS",
+  "scientific_pass": true,
+  "scientific_pass_meaning": "technical_diagnostic_validity_only",
+  "scientific_verdict": "INFORMATION_TARGET_NOT_FEASIBLE_UNDER_REGISTERED_GENERATING_DISTRIBUTION",
+  "information_target_feasible": false,
+  "reset_val_target_feasible": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "t0_allowed": false,
+  "artifact_manifest_sha256": "2045dd15754e4866cb2af41b06a307971ed5704b1f66ccf6de0eed3ad77f02f6",
+  "artifacts": {
+    "frozen_inputs.json": "51e5ae9de64cbd056b66a8295da4cc9f524899b4d8a7a4773f3efb884b878bc3",
+    "local.json": "7df55ad270eb72f718caf182d7468a1f658c42c660071ef5621bcf3bc07cf92a",
+    "local_inputs.npz": "fe56c9ac5730e76cd880a7d8a396a950f03f56cec5ce145b53000e56180324d9",
+    "local_posterior.npz": "ec05d1a24656fa83d1d760740cb8ba1f042fbf9e1604c09dc34700e825d3140d",
+    "nonlocal.json": "7a2e54df80c6a5d18fc99b1409c7967c5d5fa9c704032bcdf05b22d99e59a215",
+    "nonlocal_inputs.npz": "72307579c131d2702b9c7878a09ca303b3e1225930d3a9132d9efe046b28752f",
+    "nonlocal_posterior.npz": "166e3b930f603744f24686a356a0d75e1beac3ade6c6236a46cb642bc2c0bc8f",
+    "operations.jsonl": "04ecd277a048519d7ea720033ee2c990e3412f5c2326b5b86edecdd1368782ef",
+    "stage_evidence.json": "408027fbb74b2a283337116d128a04f6e879bea3ca31168f0cb35a0364098c24",
+    "summary.json": "d7394c79e1c0c91f9a461375f4e31b1e933bf9682d0ce8b9368bf442e5d58120"
+  },
+  "scientific_review_path": "docs/research/machine_local_gaussian_oracle_result_review_20261112.json",
+  "scientific_review_sha256": "ea39e81dd01c10c1905e7fd506d49f56b01e2229d7a2bc4fd40326ac207cceaa",
+  "report_path": "docs/reports/machine_local_gaussian_oracle_20261112_zh.md",
+  "report_sha256": "bc04c5e42b56ebca9b7a0426bc13528e659d9169f5b863cc54817dbe5aad5294",
+  "saved_audit": {
+    "path": "reports/generated/machine_local_gaussian_oracle_20261112/saved-audit.json",
+    "sha256": "94d3506c4f11b980ed35ca626d5c37868d3ef4abef6eece9cd012f81bc4e19c7",
+    "script_sha256": "06d7da6cf49ff7ada17e732160c7308e8f1ec13f73fa0e03d51867d990daf1b1",
+    "npz_decodes": 4,
+    "new_scientific_calls": 0,
+    "status": "PASS"
+  },
+  "gates": {
+    "scientific_pass": true,
+    "information_target_feasible": false,
+    "reset_val_target_feasible": false,
+    "next_route": "INFORMATION_CONTRACT_REVIEW_REQUIRED",
+    "learned_model_confirmed": false,
+    "t0_allowed": false
+  },
+  "operations": {
+    "npz_decodes": 2,
+    "matrix_products": 9805,
+    "expm": 2,
+    "rollouts": 2,
+    "cholesky": 6,
+    "linear_solves": 8
+  },
+  "next_step": "INFORMATION_CONTRACT_REVIEW_REQUIRED"
+}

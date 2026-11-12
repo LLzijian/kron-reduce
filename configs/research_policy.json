@@ -2480,7 +2480,7 @@
       "real_data_reads": 0,
       "fit_attempts": 0,
       "optimizer_updates": 0,
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_user_autonomous_diagnosis_repair_with_exact_Astra_Ultra_review",
       "plan_path": "configs/proposals/machine_local_gaussian_oracle_v1.json",
       "plan_sha256": "b7c0a0861ef7926154eefedb2a55b1cd7063b41dcff5a2da36687385e45f7177",
@@ -2573,7 +2573,22 @@
         "cholesky_calls": 0
       },
       "model_promotion_allowed": false,
-      "deployment_predictions_allowed": false
+      "deployment_predictions_allowed": false,
+      "consumed_at": "2026-11-12T11:03:05.630434+00:00",
+      "run_id": "machine_local_gaussian_oracle_v1-fixed-20261112T105208760887Z-4ef00ac3-3d2be473",
+      "source_commit": "4ef00ac34070a431a8dd00eb12373d7e59de68d3",
+      "scientific_verdict": "INFORMATION_TARGET_NOT_FEASIBLE_UNDER_REGISTERED_GENERATING_DISTRIBUTION",
+      "promotion_decision": "KEEP_BASELINE",
+      "result_receipt_path": "docs/reports/machine_local_gaussian_oracle_20261112_evidence.json",
+      "result_receipt_sha256": "798677f11e84116326ffeeffb5f156cc0d237dff5829fed8f679c2059f953a89",
+      "saved_arithmetic_audit_result": {
+        "path": "reports/generated/machine_local_gaussian_oracle_20261112/saved-audit.json",
+        "sha256": "94d3506c4f11b980ed35ca626d5c37868d3ef4abef6eece9cd012f81bc4e19c7",
+        "script_sha256": "06d7da6cf49ff7ada17e732160c7308e8f1ec13f73fa0e03d51867d990daf1b1",
+        "npz_decodes": 4,
+        "new_scientific_calls": 0,
+        "status": "consumed"
+      }
     }
   },
   "saved_evidence_audits": {
