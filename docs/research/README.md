@@ -13,6 +13,10 @@ Its first comparison separates model order (G2/G10) from local port structure
 history propagation and future rollout use each candidate's own causal model.
 The [design review](machine_local_structure_review_20261112_zh.md) covers this
 preparation scope; execution requires a separately frozen protocol and budget.
+The [full-proposal assessment](machine_local_full_proposal_assessment_20261112_zh.md)
+now reviews the latest linked conversation and its complete attachment. It
+supports the direction and specifies corrections to dimension-dependent encoder
+regularization, deletion order, trainable parameters and execution details.
 The [2026-11-10 plan](research_plan_20261110_zh.md) remains the historical,
 hash-bound design for the completed A1 work below.
 
