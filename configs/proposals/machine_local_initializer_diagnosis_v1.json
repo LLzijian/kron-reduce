@@ -5,7 +5,7 @@
   "implementation_bindings": {
     "configs/experiments/machine_local_initializer_diagnosis_v1.toml": "62e4b09591ea23d98014a7ca961defb1e5b633aec50f002d1e5dbe79090085f4",
     "configs/project_manifest.json": "c958e57adda8421a2558ca9cc0f43dd7e5c4c94ae72237ffc323f976ed756e40",
-    "configs/proposals/kiki_task3_split_reference_v1.json": "dad8be01225c05464c94d64d6ff4c175be417c20a7f41c3c2f3bead07b6e5666",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
     "configs/workflows/machine_local_initializer_diagnosis_v1.json": "f17881060eb4bc0dd8e041909d16e69d79edcd10c7d0fda9c8448650828787f4",
     "docs/protocols/kiki_official_train_test_v1_zh.md": "63ebd65126c07e51dba69c4c0d38350775e0672fdab91036bf3b8b5878a9bc8c",
     "docs/protocols/machine_local_initializer_diagnosis_v1_zh.md": "2c385e63a090b4ba04ba5edaab315f7ad75711d6847d1e4d51fbfcde187b6d3b",
