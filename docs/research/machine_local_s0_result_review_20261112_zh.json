@@ -1,0 +1,72 @@
+{
+  "schema": "kron_reduce.machine_local_s0_result_review.v1",
+  "reviewer": "Astra Ultra",
+  "review_date": "2026-11-12",
+  "approved": true,
+  "decision": "S0_PASS",
+  "next_stage_decision": "ACCEPT_FOR_REGISTERED_S1_BASE",
+  "promotion_decision": "KEEP_BASELINE",
+  "run_id": "machine_local_s0_v1-s0-20261112T075755515521Z-19dfdd52-2a338480",
+  "run_path": "results/machine_local_s0_v1-s0-20261112T075755515521Z-19dfdd52-2a338480",
+  "source_commit": "19dfdd525e60eb542b129678a7b963bf865c6985",
+  "plan_path": "configs/proposals/machine_local_synthetic_v1.json",
+  "plan_sha256": "274fb24b52598fd74a6a95abd7ddd0176930807a674a1dff66d9ff97891e3645",
+  "protocol_path": "docs/protocols/machine_local_synthetic_v1_zh.md",
+  "protocol_sha256": "16d934ffc717d03c4f033ae59b3ad2fa7e18ed118a9fa3f98d194a3c2bc1746e",
+  "artifact_manifest_sha256": "0d211de1de5e621f275607c08dd21d75cde16c7f9d1d07bd3a261f1feeaa4ac5",
+  "summary_sha256": "9db59e20fdb81a6425e9b49d948e341890bf07192038d2dffac8080878fd3bff",
+  "saved_arithmetic_audit": {
+    "path": "reports/generated/machine_local_synthetic_20261112/s0-saved-audit.json",
+    "sha256": "b2f622fdf4069306330dae3f354e1eaf2243136dc48e9bc9d8340d4613d4379b",
+    "status": "PASS",
+    "review_script_sha256": "6e1b043e7260985c7635d3cdbfb52a233a017f71c550e1ce970537d20cb80e1f",
+    "npz_files_decoded_once": 5,
+    "check_count": 112,
+    "saved_arithmetic_checks": 97,
+    "reported_only_checks": 15,
+    "failed_check_ids": [],
+    "reported_only_categories": {
+      "trainable_parameter_names": 6,
+      "buffer_gradient_flags": 6,
+      "future_keyword_rejection": 2,
+      "regularizer_gradient": 1
+    },
+    "reported_only_basis": "Bound-source review and successful formal execution; method labels take precedence over copied recomputed booleans. These checks were not independently numerically recomputed."
+  },
+  "binding_checks": {
+    "implementation_bindings_matched": 28,
+    "artifact_hashes_matched": true,
+    "frozen_check_roster_matched": true,
+    "operation_counts_and_returned_scope_matched": true
+  },
+  "operations": {
+    "numpy_rhs": 24,
+    "torch_rhs": 20806,
+    "rollouts": 174,
+    "matrix_products": 6090,
+    "gradients": 10,
+    "checkpoint_loads": 2,
+    "fits": 0,
+    "optimizer_updates": 0,
+    "expm": 0,
+    "svd": 0,
+    "least_squares": 0,
+    "real_data_reads": 0
+  },
+  "review_operations": {
+    "npz_decodes": 0,
+    "scientific_calls": 0,
+    "inputs": "Saved JSON, bound source and byte-hash verification."
+  },
+  "next_stage": {
+    "authorization": "machine_local_s1_base_v1_20261112",
+    "workflow": "machine_local_synthetic_v1",
+    "stage": "s1_base",
+    "prerequisite_s0_scientific_and_saved_evidence_review_passed": true,
+    "fit_attempts": 12,
+    "optimizer_updates": 2880,
+    "retry_allowed": false,
+    "required_gate_failure_action": "Retain all planned independent slots and stop T0."
+  },
+  "claim_boundary": "Finite implementation correctness for base local/global diagonal memory. No learned-accuracy, physical-identification, stability-certificate, real-data-access or promotion claim."
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "machine_local_stage_result_receipt_v1",
+  "stage": "s0",
+  "authorization": "machine_local_s0_v1_20261112",
+  "authorization_status": "consumed",
+  "run_id": "machine_local_s0_v1-s0-20261112T075755515521Z-19dfdd52-2a338480",
+  "source_commit": "19dfdd525e60eb542b129678a7b963bf865c6985",
+  "source_ci": {
+    "status": "success",
+    "run_id": 43178761036,
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/43178761036"
+  },
+  "process_status": "PASS",
+  "scientific_verdict": "ACCEPT",
+  "scientific_pass": true,
+  "promotion_decision": "KEEP_BASELINE",
+  "artifact_manifest_sha256": "0d211de1de5e621f275607c08dd21d75cde16c7f9d1d07bd3a261f1feeaa4ac5",
+  "artifacts": {
+    "linear_checkpoint.npz": "e34ca92e24ed3e6b890770a236ae95cdf7d4a597128243290710a61f460e0dc1",
+    "linear_s0_inputs.npz": "d90a816120a0a58eaa31a11b3f7273bb54af1073b84d9ce8023a4dc622ec2189",
+    "operations.jsonl": "1d50b2799eee8f7f2a0c0d1d0468e6ea950912a17c8d21805d44354839f78e21",
+    "s0_arrays.npz": "5c9c7e28c00a119fc1213e0cd374c3729d9ddba450f9148754abce2838b31f02",
+    "s0_checks.json": "d87b0e053144b2c40faf5b5fb7bed491d8d6c2816b041fc370c86568d4e8592a",
+    "sine_checkpoint.npz": "e34ca92e24ed3e6b890770a236ae95cdf7d4a597128243290710a61f460e0dc1",
+    "sine_s0_inputs.npz": "4591ab7a10206be65476d89f7e579cc92c9d28a16c41a4d6a3efce35e935368e",
+    "stage_evidence.json": "b45b0654f23aa9134feb907b454704e8a2fc73b8c0c2203d2715ddcdc4e02b45",
+    "summary.json": "9db59e20fdb81a6425e9b49d948e341890bf07192038d2dffac8080878fd3bff"
+  },
+  "scientific_review_path": "docs/research/machine_local_s0_result_review_20261112_zh.json",
+  "scientific_review_sha256": "0c543b72bb5270cc14e4ed3dd257aea42eb4285b2ec6867081f8971363c1d139",
+  "report_path": "docs/reports/machine_local_s0_20261112_zh.md",
+  "report_sha256": "f36366405132aeb1a1cece66c3fb46d620d544581442bf8e3cc2d3f2345af047",
+  "saved_audit": {
+    "path": "reports/generated/machine_local_synthetic_20261112/s0-saved-audit.json",
+    "sha256": "b2f622fdf4069306330dae3f354e1eaf2243136dc48e9bc9d8340d4613d4379b",
+    "script_sha256": "6e1b043e7260985c7635d3cdbfb52a233a017f71c550e1ce970537d20cb80e1f",
+    "checks": 112,
+    "array_recomputed_checks": 97,
+    "reported_only_checks": 15,
+    "mismatches": 0,
+    "npz_decodes": 5,
+    "new_scientific_calls": 0
+  },
+  "operations": {
+    "numpy_rhs": 24,
+    "torch_rhs": 20806,
+    "rollouts": 174,
+    "matrix_products": 6090,
+    "gradients": 10,
+    "checkpoint_loads": 2
+  },
+  "operations_returned": {
+    "numpy_rhs": 24,
+    "torch_rhs": 20806,
+    "rollouts": 174,
+    "matrix_products": 6090,
+    "gradients": 10,
+    "checkpoint_loads": 2
+  },
+  "real_data_reads": 0,
+  "fit_attempts": 0,
+  "optimizer_updates": 0,
+  "next_step": "RUN_REGISTERED_S1_BASE"
+}

@@ -6,6 +6,10 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+[Machine-local S0](../reports/machine_local_s0_20261112_zh.md) passed all 112
+frozen checks and its saved-evidence review. Its one-use authority is consumed;
+the separately registered S1-base comparison is the next executable scope.
+
 The current [research plan v2](machine_local_structure_plan_v2_20261112_zh.md)
 implements ten machine-local hidden states before learning physical modules.
 Its first comparison separates model order (G2/G10) from local port structure
