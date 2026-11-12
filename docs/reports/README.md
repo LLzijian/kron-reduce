@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Machine-local initializer diagnosis](machine_local_initializer_diagnosis_20261112_zh.md) | Valid saved diagnosis; route `INITIALIZER_LIMITATION_PRIORITY`; one-use authority consumed; KEEP_BASELINE |
 | [Machine-local S1-base comparison](machine_local_s1_20261112_zh.md) | Twelve 240-update synthetic fits; physical/numerical/observation checks passed, all six required prediction pairs failed; REJECT / KEEP_BASELINE / STOP_T0 |
 | [Machine-local S0 correctness](machine_local_s0_20261112_zh.md) | 112 frozen checks passed; 97 saved-array checks and 15 runtime receipts reviewed; zero fits or real-data reads; KEEP_BASELINE |
 | [State-dependent port train comparison](kiki_state_port_train_20261111_zh.md) | Six fixed 40-update fits on 258 eligible train events; weighted trajectory gains over A06 and matched constant ports, one added rule miss per seed; 76 saved-evidence checks passed, REJECT / KEEP_BASELINE |

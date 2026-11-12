@@ -37,17 +37,16 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   Synthetic known-truth checks support structure and stability verification.
   Canonical replay requires `--historical-reproduction` and matching frozen
   config and workflow hashes.
-- New real-data fits use the official kiki `train` population; evaluate on
-  official `test`, preserving source split membership. Do not create the old
-  internal train/val split for new experiments. Use source `val` for selection
-  only when separately declared; the default uses frozen choices without it.
-  Fit, normalize, calibrate and select without `test`; freeze the model before
-  its registered test run. Match TASK3's 100 ms inputs and scoring for benchmark
-  comparisons. Its final 76-event test roster is a separate comparison population,
-  not the official 105-event allocation. See the
-  [split standard](docs/protocols/kiki_official_train_test_v1_zh.md).
-  Existing test exposure remains disclosed; independent-confirmation claims
-  require independent data. Consumed historical protocols retain their splits.
+- New kiki comparisons use the frozen TASK3 cohorts: `train=346`
+  for fitting, `val=107` for predeclared selection and `test=76` for final
+  evaluation. Use the exact source-qualified IDs, not counts alone. Do not create another
+  internal train/val split. Freeze the model before test evaluation and match
+  TASK3's 100 ms inputs and scoring. See the
+  [split standard](docs/protocols/kiki_official_train_test_v1_zh.md) and frozen
+  [source-qualified roster](configs/proposals/kiki_task3_split_reference_v1.json).
+  Report this previously exposed test roster as a fixed comparison benchmark.
+  Independent confirmation requires independent data. Consumed historical
+  protocols retain their original splits.
 - Follow the named causal input contract and its forecast origin. Main-model
   features exclude `Pe`, voltage, labels, event time, valid length, masks,
   fault metadata and future summaries. Fit one model per supplied corpus.

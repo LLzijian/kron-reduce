@@ -2,12 +2,17 @@
 
 Physics-structured IEEE39 post-fault dynamics with reproducible experiments.
 
-From 2026-10-23 all new real-data training and evaluation use `kiki_ieee39_v1`:
-591 registered events, originally train 369 / val 117 / test 105. Development
-uses registered internal train/val groups inside the original source train.
-Existing test exposure prevents fresh confirmatory claims; a new independent
-kiki holdout must be registered before confirmation. The original canonical
-dataset is retained for explicit historical reproduction.
+New KIKI comparisons use TASK3's frozen roles: `train=346` for fitting,
+`val=107` for predeclared selection, and `test=76` for final evaluation. The
+76-event test roster contains 43 expansion and 33 additional holdout events;
+it is not derived by screening the official 105-event test allocation. The
+original source split allocated train 369 / val 117 / test 105; after the
+100 ms length screen those source roles contain 346 / 107 / 99 events. These
+source counts describe provenance, while the TASK3 76-event list is the current
+main test population. Do not create another internal train/val split. The test
+roster has prior exposure and supports comparative reporting on the fixed
+benchmark. Independent confirmation uses a separately registered population.
+Historical experiments retain their original roles and scopes.
 
 Spatial clustering is paused: retain ten generator nodes while learning and
 pruning the dynamical/latent modules. Synthetic ground-truth checks continue.
@@ -18,9 +23,10 @@ The research policy records active and consumed authorizations. See the
 [research index](docs/research/README.md) for the follow-up scope, protocols
 and saved results.
 
-New real-data work uses official kiki train for fitting and official test for
-frozen-model evaluation under the [TASK3-aligned standard](docs/protocols/kiki_official_train_test_v1_zh.md).
-TASK3's separate final test roster is reported separately. The active
+New real-data work uses the frozen TASK3-compatible train, val and test lists
+under the [benchmark standard](docs/protocols/kiki_official_train_test_v1_zh.md).
+The exact source-qualified IDs and list hashes are in the
+[split reference](configs/proposals/kiki_task3_split_reference_v1.json). The active
 [initializer diagnosis](docs/research/machine_local_initializer_diagnosis_plan_20261112_zh.md)
 precedes correction, new synthetic confirmation and real-data execution.
 

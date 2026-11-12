@@ -1,0 +1,81 @@
+{
+  "schema": "kron_reduce.machine_local_initializer_diagnosis_result_review.v1",
+  "reviewer": "Astra Ultra",
+  "review_date": "2026-11-12",
+  "approved": true,
+  "review_completed": true,
+  "result_evidence_accepted": true,
+  "scientific_pass": true,
+  "decision": "ACCEPT_DIAGNOSIS_INITIALIZER_LIMITATION_PRIORITY",
+  "route": "INITIALIZER_LIMITATION_PRIORITY",
+  "promotion_decision": "KEEP_BASELINE",
+  "t0_allowed": false,
+  "run_id": "machine_local_initializer_diagnosis_v1-diagnosis-20261112T092125479994Z-7ec2f5a9-44e18720",
+  "run_path": "results/machine_local_initializer_diagnosis_v1-diagnosis-20261112T092125479994Z-7ec2f5a9-44e18720",
+  "source_commit": "7ec2f5a917467a230e4c3bfc0da102bca1bc0f0f",
+  "plan_path": "configs/proposals/machine_local_initializer_diagnosis_v1.json",
+  "plan_sha256": "0721a4d87c453430bb091a4f11f1d0ab4bfba16f72f4ec8aead18dce26fa48b6",
+  "protocol_path": "docs/protocols/machine_local_initializer_diagnosis_v1_zh.md",
+  "protocol_sha256": "2c385e63a090b4ba04ba5edaab315f7ad75711d6847d1e4d51fbfcde187b6d3b",
+  "artifact_manifest_sha256": "7f5d3f1563cc9c79e4876083a56781349536efae91825eb33ec581a4a79a1e65",
+  "summary_sha256": "fbc010aaa9f1bf661e0050d575f3d7f1e4d8cb4438e49e3ec26427346992573c",
+  "saved_arithmetic_audit": {
+    "path": "reports/generated/machine_local_initializer_diagnosis_20261112/saved-audit.json",
+    "sha256": "6cc06d6ef333ada82b0f1c4090aa90dd0919910cbb36d0a6d85271978adc627f",
+    "script_sha256": "b98734134737c65a4a612c46fb67fb4c3ef78c8bc8b24f2c9c6ed7ede2df3cf1",
+    "status": "PASS",
+    "npz_files_decoded_once": 5,
+    "scope": "Saved-array arithmetic, saved Gram matrices to K/KKT/objective, metrics and registered route; no new propagation, SVD or solve.",
+    "limitation": "The consumed audit did not independently rebuild feature_gram, response_gram or rhs from the saved raw train operands. That bounded arithmetic check is included in the new observer source scope; the original audit will not be rerun."
+  },
+  "operations": {
+    "npz_decodes": 3,
+    "checkpoint_loads": 1,
+    "svd": 2,
+    "matrix_products": 19210,
+    "rollouts": 18,
+    "fits": 2,
+    "linear_solves": 2,
+    "gradients": 0,
+    "optimizer_updates": 0,
+    "real_data_reads": 0
+  },
+  "successful_scopes": 5,
+  "all_issued_allocations_returned": true,
+  "key_results": {
+    "truth_dynamics_train_3s_nrmse": 0.002836517858872904,
+    "truth_dynamics_val_3s_nrmse": 0.1617546635434933,
+    "truth_dynamics_test_3s_nrmse": 0.12812974022737283,
+    "fitted_dynamics_train_3s_nrmse": 0.00442209441003239,
+    "fitted_dynamics_val_3s_nrmse": 0.1619769963307418,
+    "fitted_dynamics_test_3s_nrmse": 0.12783447278065208,
+    "train_feature_rank": 32,
+    "feature_dimension": 80,
+    "three_frame_hidden_rank": 10,
+    "eleven_frame_hidden_rank": 10,
+    "three_to_eleven_per_frame_minimum_singular_value_ratio": 1.0434133225990148,
+    "val_feature_energy_outside_train_span_fraction": 0.0003192036227123401
+  },
+  "findings_supported": [
+    "Both fixed-dynamics conditional encoder problems reached their unique regularized quadratic optimum to the registered numerical tolerance.",
+    "True dynamics with true hidden state predicts accurately, but true dynamics with the fitted conditional encoder still fails the clean val gate.",
+    "The registered evidence supports prioritizing initializer repair; further unconstrained encoder optimization alone is insufficient under the frozen features, penalty and train events.",
+    "Three- and eleven-frame hidden-state observation operators both have rank ten; missing rank from the three selected frames is not established.",
+    "The train feature matrix has rank 32 of 80, while the observed val energy outside its span is small; its causal share in the prediction error remains unmeasured."
+  ],
+  "causes_not_identified": [
+    "A unique causal split among finite feature coverage, encoder regularization and the unconstrained mapping parameterization.",
+    "An absence of dynamics error, or success of learning dynamics with the repaired initializer.",
+    "Failure of mathematical observability or a requirement for additional hidden coordinates."
+  ],
+  "next_action": {
+    "direction": "Validate a fixed-dynamics discrete-history state solver using the existing eleven causal observations, followed by new registered parameter-training work only after its gates pass.",
+    "plan_path": "docs/research/machine_local_observer_plan_20261112_zh.md",
+    "protocol_path": "docs/protocols/machine_local_observer_v1_zh.md",
+    "new_scope_and_exact_implementation_review_required": true,
+    "user_authorization_already_received": true,
+    "consumed_scope_remains_closed": true
+  },
+  "review_operations": {"npz_decodes": 0, "scientific_calls": 0},
+  "claim_boundary": "Acceptance of the completed diagnostic result and its registered causal priority; no model promotion, no learned-model confirmation and no direct T0 progression."
+}

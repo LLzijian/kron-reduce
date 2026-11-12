@@ -49,10 +49,8 @@ def validate_run_policy(
             raise RuntimeError("LEGACY_EXPERIMENT_CHANGED: register a new official-split experiment")
     elif policy.get("default_real_data_policy") == "kiki_official_train_test_v1":
         population = experiment.get("test_population")
-        if population != "official_kiki_test" and not (
-                population == "task3_campaign2_final_test" and experiment.get("reads_test_performance") is True
-                and experiment.get("comparison_role") == "separate_task3_reference"):
-            raise RuntimeError("OFFICIAL_SPLIT_POLICY: TASK3's separate roster must be explicitly identified")
+        if population != "task3_campaign2_final_test":
+            raise RuntimeError("OFFICIAL_SPLIT_POLICY: reuse TASK3's frozen 76-event test roster")
         expected = {"data_policy": "kiki_official_train_test_v1", "training_split": "train",
                     "internal_resplit": False,
                     "execution_mode": "bounded_kiki_official_cli_only",

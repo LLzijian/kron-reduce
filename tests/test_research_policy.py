@@ -22,7 +22,7 @@ def candidate(**updates):
     return {"dataset": "kiki_ieee39_v1", "spatial_node_count": 10,
             "spatial_clustering": False, "input_contract_id": "measured_history_100ms_zoh_v1",
             "data_policy": "kiki_official_train_test_v1", "training_split": "train",
-            "test_population": "official_kiki_test", "internal_resplit": False,
+            "test_population": "task3_campaign2_final_test", "internal_resplit": False,
             "execution_mode": "bounded_kiki_official_cli_only",
             "split_reference_sha256": POLICY["official_split_reference_sha256"],
             "reads_test_performance": False, **updates}
@@ -54,7 +54,7 @@ def test_forbidden_prospective_runs_fail_closed(policy_root, updates, reason):
         validate_run_policy(policy_root, "next", candidate(**updates))
 
 
-def _test_experiment(policy_root, *, authorization="test-once", population="official_kiki_test"):
+def _test_experiment(policy_root, *, authorization="test-once", population="task3_campaign2_final_test"):
     manifest = policy_root / "models/frozen-model-manifest.json"
     manifest.parent.mkdir(parents=True, exist_ok=True)
     manifest.write_text('{"model":"frozen"}\n', encoding="utf-8")
@@ -79,18 +79,17 @@ def test_official_test_allows_active_one_use_scope_with_frozen_model(policy_root
     validate_run_policy(policy_root, "next", experiment)
 
 
-def test_task3_comparison_population_requires_and_accepts_explicit_separate_role(policy_root):
+def test_task3_is_the_primary_population_and_official_105_is_rejected(policy_root):
     experiment, _ = _test_experiment(
         policy_root, authorization="task3-once", population="task3_campaign2_final_test",
     )
-    experiment["comparison_role"] = "separate_task3_reference"
     validate_run_policy(policy_root, "next", experiment)
 
-    missing_role, _ = _test_experiment(
-        policy_root, authorization="task3-no-role", population="task3_campaign2_final_test",
+    wrong_population, _ = _test_experiment(
+        policy_root, authorization="different-roster", population="official_kiki_test",
     )
     with pytest.raises(RuntimeError, match="OFFICIAL_SPLIT_POLICY"):
-        validate_run_policy(policy_root, "next", missing_role)
+        validate_run_policy(policy_root, "next", wrong_population)
 
 
 @pytest.mark.parametrize("field,value", [

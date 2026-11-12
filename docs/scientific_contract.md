@@ -3,14 +3,17 @@
 Effective 2026-10-23: new real-data experiments use the registered kiki sources
 and retain ten generator nodes; spatial clustering is paused. Synthetic truth
 checks and explicitly requested historical replay retain their separate roles.
-Effective 2026-11-12, new fits use official kiki train and frozen-model evaluation
-uses official test; do not create the historical internal train/val split.
-Source val is unused unless separately registered for selection. The
-[official split standard](protocols/kiki_official_train_test_v1_zh.md) aligns the
-100 ms input and scoring with TASK3 while keeping its separate final test roster
-distinct. Existing test exposure permits comparative reporting, not a renewed
-claim of fresh independent confirmation. The user has authorized this prospective
-change; exact run budgets and synthetic prerequisites still apply.
+Effective 2026-11-12, new KIKI comparisons use the frozen TASK3-compatible
+cohorts: `train=346` for fitting, `val=107` for predeclared selection, and
+`test=76` for final evaluation. The test list is TASK3 Campaign 2's 43 expansion
+events plus 33 extra holdout events. It is not the official source `test` list
+screened from 105 allocated / 99 length-qualified events; those counts remain
+provenance facts only. Do not create another internal train/val split. The
+[benchmark standard](protocols/kiki_official_train_test_v1_zh.md) defines the
+source-qualified lists, 100 ms input and TASK3 scoring. The fixed test list has
+prior exposure and supports comparative reporting; independent-confirmation
+claims require a separately registered population. The user has authorized this
+prospective change; exact run budgets and synthetic prerequisites still apply.
 The active rules are machine-checked by `configs/research_policy.json`.
 
 The historical `kiki_a04_development_20261023` exception permitted one
@@ -44,7 +47,7 @@ See `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
   additionally report an integration-free clearing-state margin under fixed
   post-clear input and topology, without changing the trajectory labels or
   training route.
-- Test IDs may not enter fitting, normalization, checkpoint selection,
+- `test` IDs may not enter fitting, normalization, checkpoint selection,
   calibration, or gate construction.
 - One supplied trajectory corpus produces one final equation and one parameter
   set. Fit/selection excitation views may support different candidate modules,
@@ -59,4 +62,4 @@ See `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
   uncertainty. Never turn failed predictions or empty populations into zeros.
 - M0 and static M2A are single weak-form constrained solves. Multi-horizon
   rollout optimisation is an optional support-preserving candidate and may
-  replace that solve only after a predeclared validation improvement gate.
+  replace that solve only after a predeclared val improvement gate.

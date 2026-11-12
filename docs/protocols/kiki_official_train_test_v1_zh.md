@@ -1,20 +1,20 @@
-# kiki 官方 train/test 与 TASK3 对照规范
+# kiki / TASK3 train-val-test 对照规范
 
-生效日期：2026-11-12。依据用户本轮要求，后续真实数据实验使用 kiki 官方 train 训练、官方 test 测试，并采用 TASK3 的输入和评价口径。此次指令替代此前新实验默认在 source train 内再次划分 train/val 的要求；历史协议、模型与结果保持原来的样本范围。
+生效日期：2026-11-12。后续 KIKI 对比实验使用 TASK3 的固定名单：`train=346` 拟合，`val=107` 供预先声明的模型或阈值选择，`test=76` 作冻结后的最终评价。所有名单按来源限定 ID 冻结在[机器可读引用](../../configs/proposals/kiki_task3_split_reference_v1.json)。新实验不在 train 内再次拆分。历史协议、模型与结果保持原来的样本范围。
 
 ## 数据人群
 
-来源是 `kiki/private_data/ieee39_postfault` 和 `kiki/private_data/ieee39_expansion` 的原始 `splits.json`。源文件路径、完整 SHA-256、带来源前缀的 ID 与长度资格名单冻结在[名单引用](../../configs/proposals/kiki_task3_split_reference_v1.json)。
+`train` 与 `val` 取自 `kiki/private_data/ieee39_postfault` 和 `kiki/private_data/ieee39_expansion` 的原始 `splits.json`；其中源字段 `validation` 在本文统一称为 `val`。按 TASK3 的 100 ms 长度条件保留合格事件。`test` 使用 TASK3 Campaign 2 最终冻结名单。源文件路径、完整 SHA-256、来源限定 ID 与长度资格名单见[机器可读引用](../../configs/proposals/kiki_task3_split_reference_v1.json)。
 
-| 角色 | 官方分配 | 索引显示超过 100 ms | 用途 |
+| 角色 | 当前冻结名单数 | 来源 | 用途 |
 | --- | ---: | ---: | --- |
-| train | 369 | 346 | 全部合格 train 共同拟合一个模型；尺度、正则设定与校准只使用 train |
-| val | 117 | 107 | 默认不使用；需要选择时单独登记官方 val，不能拿 test 选择 |
-| test | 105 | 99 | 模型与评分规则冻结后统一评价 |
+| train | 346 | 原始 source train 中合格的事件 | 拟合一个模型；归一化尺度只由 train 估计 |
+| val | 107 | 原始 source val 中合格的事件 | 按预先声明的规则选择模型与阈值 |
+| test | 76 | TASK3 Campaign 2 最终冻结名单 | 模型、预处理、阈值、代码和名单冻结后评价 |
 
-资格数由索引元数据得到；正式执行仍须检查实际时间、数组完整性并报告覆盖。不能依据某方法的误差或稳定性结果删样本，也不把方法数值失败记为零误差。输入不合格、模型拒绝、数值失败分别报告，保留官方分配总数。
+原始 KIKI 官方拆分分配数为 train 369、val 117、test 105；索引按 100 ms 条件筛得 346、107、99。这些数字用于描述来源，不改变当前主测试名单。当前 `test=76` 来自 TASK3 Campaign 2 的独立冻结名单：86 个分配事件中 76 个满足同一历史长度条件，包含 expansion 43 个和额外 holdout 33 个。不能将这 76 个说成官方 105 个事件筛选后的结果。名单成员和 SHA-256 见机器可读引用。
 
-TASK3 Campaign 2 最终 test 分配 86 例、评价 76 例，其中 expansion 43、额外 holdout 33；它与上述官方 test 不是同一人群。当前默认主表采用官方 train/test，TASK3 最终名单只能另列有明确人群名称的对照表。旧 200 ms 冻结迁移的 75 例又是另一名单。完整差别见[元数据核对](../research/kiki_task3_split_inventory_20261112_zh.md)。
+旧 200 ms 冻结迁移名单 75 个事件是另一份历史比较名单，不与当前 `test=76` 合并。正式运行检查实际观测时间和数组完整性并报告名单覆盖。不能依据预测误差或稳定性结果删样本，也不把数值失败记作零误差；保留分配数、可用数、模型拒绝和数值失败各自的计数。完整来源差异见[元数据核对](../research/kiki_task3_split_inventory_20261112_zh.md)。
 
 ## 与 TASK3 一致的输入和报告
 
@@ -26,10 +26,10 @@ TASK3 Campaign 2 最终 test 分配 86 例、评价 76 例，其中 expansion 43
 
 ## 执行与冻结
 
-用户已授权沿该标准自主推进。每个新实验仍登记具体训练和测试预算；新测试在模型参数、预处理、阈值、源码和测试名单全部冻结后运行，不能根据 test 结果重新选择该次模型。一次性测试范围记录 `fit_attempts=0`，模型冻结清单及 SHA-256，不能复用已消费的测试授权。
+用户已授权沿该标准自主推进。每个新实验登记具体拟合、val 选择和 test 评价预算。val 的选择规则先行冻结；test 在模型参数、预处理、阈值、源码和测试名单全部冻结后评价，test 结果不返回选择流程。分阶段授权分别记录拟合与 test 读取次数、冻结清单和 SHA-256，不复用已消费的测试授权。
 
-新真实实验登记 `data_policy=kiki_official_train_test_v1`、`training_split=train`、`internal_resplit=false` 和 `execution_mode=bounded_kiki_official_cli_only`。专用运行器在按范围读取数据前核对名单与授权；通用 runner 先拒绝该模式，避免泛化数据校验扩大读取范围。旧实验声明的内容摘要保留在 policy 中，变更旧名义不能绕过新要求。
+新真实实验登记 `data_policy=kiki_official_train_test_v1`、`training_split=train`、`val_use=official_val_for_preregistered_selection`、`test_population=task3_campaign2_final_test`、`internal_resplit=false`，并绑定 `configs/proposals/kiki_task3_split_reference_v1.json` 的 SHA-256。运行器在读取数据前核对来源限定名单、样本数、阶段批准与预算。历史实验的注册内容与样本范围保持不变。
 
-当前官方 test 与 TASK3 最终名单已有历史暴露，因此新结果属于同固定基准的比较评价；数据人群不变有利于可重复比较，但不能重新声称它们是未见过的独立确认。这个事实不取消用户对今后标准 train/test 实验的授权。需要独立确认的科学主张时，另用独立样本。
+TASK3 `test=76` 已有历史暴露。新结果用于同一固定名单上的比较评价，不作为未见数据的独立确认。用户已授权按该名单开展后续对比；需要独立确认时，另行登记独立样本。
 
 真实实验的前置条件仍是对应算法修正通过新冻结合成验证；本规范的生效本身不触发真实数据读取。

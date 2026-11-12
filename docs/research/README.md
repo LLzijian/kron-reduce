@@ -6,14 +6,16 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
-The active [diagnosis and repair plan](machine_local_initializer_diagnosis_plan_20261112_zh.md)
-separates causal encoder generalization from dynamics error using two exact
-conditional fits and a true-state control. Its [new protocol](../protocols/machine_local_initializer_diagnosis_v1_zh.md)
-has its own source and operator budget; the consumed base study stays closed.
-The user has authorized diagnosis, correction and new synthetic confirmation
-before real-data advancement. Future real fits and tests now follow the
-[official kiki train/test standard](../protocols/kiki_official_train_test_v1_zh.md),
-with TASK3's separate final roster identified explicitly.
+The [machine-local initializer diagnosis](../reports/machine_local_initializer_diagnosis_20261112_zh.md)
+passed its numerical and saved-evidence checks. Its route is
+`INITIALIZER_LIMITATION_PRIORITY`: the exact conditional encoder still fails
+the val target under true dynamics. Its authority and saved audit are consumed.
+The [observer correction](machine_local_observer_plan_20261112_zh.md) replaces
+the free encoder with causal discrete-history state recovery. Its
+[protocol](../protocols/machine_local_observer_v1_zh.md) separates fixed-dynamics
+checks from later parameter learning and uses new synthetic samples. Future
+real fits and tests follow the [TASK3 split standard](../protocols/kiki_official_train_test_v1_zh.md):
+346 train / 107 val / 76 test, reusing its frozen test roster.
 
 [Machine-local S0](../reports/machine_local_s0_20261112_zh.md) passed all 112
 frozen checks. The [S1-base comparison](../reports/machine_local_s1_20261112_zh.md)
@@ -21,8 +23,8 @@ completed all twelve fits and its saved arithmetic audit. Observation, physical
 and numerical checks passed; all six required prediction pairs failed. Both
 one-use authorities and saved audits are consumed: REJECT / KEEP_BASELINE /
 STOP_T0. The [result review](machine_local_s1_result_review_20261112_zh.md)
-prioritizes preparation of a separate causal-initialization/generalization
-diagnostic; the new diagnostic registration above carries that next scope.
+prioritized the now-completed initializer diagnosis; its approved review and
+saved arithmetic audit are linked above.
 
 The frozen [base research plan v2](machine_local_structure_plan_v2_20261112_zh.md)
 implements ten machine-local hidden states before learning physical modules.
@@ -63,10 +65,10 @@ MSE over both references, but added one train rule miss in every seed. The
 complete evidence and confirms `REJECT / KEEP_BASELINE`. Authority
 `kiki_state_port_train_v1_20261111` and its one-use saved audit are consumed.
 
-The active preparation scope is a separate diagnosis of machine-local causal
-initialization and generalization, using the completed synthetic evidence.
-The frozen v2 design and protocol remain the original execution contracts;
-they are not rewritten around the observed errors. B0 remains an independent initializer candidate,
+The current preparation scope follows the completed diagnosis route `INITIALIZER_LIMITATION_PRIORITY`.
+The frozen v2 design and protocol remain the original execution contracts.
+Prepare the targeted initialization correction and new synthetic confirmation
+under a separately reviewed, registered scope before executing either. B0 remains an independent initializer candidate,
 as originally recommended by the A1 result review; the user's 2026-11-12 request
 changes the prospective priority. Potential, input and time-objective changes
 remain separate. Real train work requires the S1-base gate and its own exact

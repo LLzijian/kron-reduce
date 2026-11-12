@@ -1,0 +1,560 @@
+{
+  "schema": "machine_local_stage_result_receipt_v1",
+  "stage": "diagnosis",
+  "authorization": "machine_local_initializer_diagnosis_v1_20261112",
+  "authorization_status": "consumed",
+  "run_id": "machine_local_initializer_diagnosis_v1-diagnosis-20261112T092125479994Z-7ec2f5a9-44e18720",
+  "source_commit": "7ec2f5a917467a230e4c3bfc0da102bca1bc0f0f",
+  "source_ci": {
+    "status": "success",
+    "run_id": 43190496983,
+    "url": "https://github.com/LLzijian/kron-reduce/actions/runs/43190496983"
+  },
+  "process_status": "PASS",
+  "scientific_verdict": "DIAGNOSTIC_VALID",
+  "scientific_pass": true,
+  "diagnostic_route": "INITIALIZER_LIMITATION_PRIORITY",
+  "promotion_decision": "KEEP_BASELINE",
+  "artifact_manifest_sha256": "7f5d3f1563cc9c79e4876083a56781349536efae91825eb33ec581a4a79a1e65",
+  "artifacts": {
+    "diagnostic_inputs.npz": "205b3ac38f40bb3d26ce1dea106d6eac7143e233468de7be238ffdd1ed7cb54e",
+    "fitted_dynamics.json": "46cde49bd04ed90eb55a46b893f05305962e530b5c6ec7446c41033280366373",
+    "fitted_dynamics.npz": "cc9a4c32e2a7e3716dbe4931fc3dd88900affd4bc7c719c8d3f7bf3fd030d78b",
+    "information.json": "5e3f44d7f256e8a718c919866217ac5f781f1ae3d1398ca2d0613315e3cd0a94",
+    "information.npz": "a0f90e61c8a5dc4775985ea66a1054768de8313c076ebf371663fddca3cf8f97",
+    "operations.jsonl": "022b37015497f049a90ab325de4b517518f928a265d99b7cbf7da8aa8440c190",
+    "oracle.npz": "73796a39a6c1f8ce598c68c6c219337975bd2fdad416f9dc99b18704a3bfedee",
+    "stage_evidence.json": "dcf767e846568550c1c6a960dffc3f21a6786c11f67d13034837517d74462c97",
+    "summary.json": "fbc010aaa9f1bf661e0050d575f3d7f1e4d8cb4438e49e3ec26427346992573c",
+    "truth_dynamics.json": "44f49793898b34318a8df8f8f6e3c202025a93500ebe299d3442e86b21094ac2",
+    "truth_dynamics.npz": "32bdfcf168eb35f9fc8548b37c5eeeadf9dd2e3a2b2b174553835292221e4652"
+  },
+  "scientific_review_path": "docs/research/machine_local_initializer_diagnosis_result_review_20261112.json",
+  "scientific_review_sha256": "f60106f0ace86dab2b55b079dfd534940702002cab66b11d30c690069b5f58de",
+  "report_path": "docs/reports/machine_local_initializer_diagnosis_20261112_zh.md",
+  "report_sha256": "047bf5e05051aa4d078ffe27967f17a2189c90b65ff2afed986b6f897f647d27",
+  "saved_audit": {
+    "path": "reports/generated/machine_local_initializer_diagnosis_20261112/saved-audit.json",
+    "sha256": "6cc06d6ef333ada82b0f1c4090aa90dd0919910cbb36d0a6d85271978adc627f",
+    "script_sha256": "b98734134737c65a4a612c46fb67fb4c3ef78c8bc8b24f2c9c6ed7ede2df3cf1",
+    "npz_decode_count": 5,
+    "each_npz_decoded_once": true,
+    "npz_ledger": [
+      {
+        "path": "diagnostic_inputs.npz",
+        "sha256": "205b3ac38f40bb3d26ce1dea106d6eac7143e233468de7be238ffdd1ed7cb54e",
+        "decode_count": 1,
+        "keys": [
+          "feature_scale",
+          "mass",
+          "original_encoder",
+          "original_forecast",
+          "original_history",
+          "paths",
+          "raw_features",
+          "target_scale"
+        ],
+        "arrays": {
+          "feature_scale": [
+            80
+          ],
+          "mass": [
+            10
+          ],
+          "original_encoder": [
+            10,
+            80
+          ],
+          "original_forecast": [
+            64,
+            801,
+            30
+          ],
+          "original_history": [
+            64,
+            11,
+            30
+          ],
+          "paths": [
+            64,
+            811,
+            40
+          ],
+          "raw_features": [
+            64,
+            80
+          ],
+          "target_scale": [
+            20
+          ]
+        }
+      },
+      {
+        "path": "fitted_dynamics.npz",
+        "sha256": "cc9a4c32e2a7e3716dbe4931fc3dd88900affd4bc7c719c8d3f7bf3fd030d78b",
+        "decode_count": 1,
+        "keys": [
+          "direct_training_forecast",
+          "encoder",
+          "feature_gram",
+          "forecast",
+          "forecast_response",
+          "history",
+          "history_response",
+          "old_encoder",
+          "old_training_forecast",
+          "refined_forecast",
+          "refined_history",
+          "response_gram",
+          "rhs",
+          "stationarity_residual",
+          "system",
+          "time_weights",
+          "train_target",
+          "training_forecast",
+          "training_history",
+          "training_response",
+          "zero_forecast",
+          "zero_history",
+          "zero_training_forecast"
+        ],
+        "arrays": {
+          "direct_training_forecast": [
+            64,
+            301,
+            30
+          ],
+          "encoder": [
+            10,
+            80
+          ],
+          "feature_gram": [
+            80,
+            80
+          ],
+          "forecast": [
+            64,
+            801,
+            30
+          ],
+          "forecast_response": [
+            801,
+            30,
+            10
+          ],
+          "history": [
+            64,
+            11,
+            30
+          ],
+          "history_response": [
+            11,
+            30,
+            10
+          ],
+          "old_encoder": [
+            10,
+            80
+          ],
+          "old_training_forecast": [
+            64,
+            301,
+            30
+          ],
+          "refined_forecast": [
+            64,
+            801,
+            30
+          ],
+          "refined_history": [
+            64,
+            11,
+            30
+          ],
+          "response_gram": [
+            10,
+            10
+          ],
+          "rhs": [
+            10,
+            80
+          ],
+          "stationarity_residual": [
+            800
+          ],
+          "system": [
+            800,
+            800
+          ],
+          "time_weights": [
+            300
+          ],
+          "train_target": [
+            32,
+            300,
+            20
+          ],
+          "training_forecast": [
+            64,
+            301,
+            30
+          ],
+          "training_history": [
+            64,
+            11,
+            30
+          ],
+          "training_response": [
+            301,
+            30,
+            10
+          ],
+          "zero_forecast": [
+            64,
+            801,
+            30
+          ],
+          "zero_history": [
+            64,
+            11,
+            30
+          ],
+          "zero_training_forecast": [
+            64,
+            301,
+            30
+          ]
+        }
+      },
+      {
+        "path": "information.npz",
+        "sha256": "a0f90e61c8a5dc4775985ea66a1054768de8313c076ebf371663fddca3cf8f97",
+        "decode_count": 1,
+        "keys": [
+          "directions",
+          "eleven_frame_design",
+          "eleven_frame_singular",
+          "features",
+          "outside_train_span",
+          "projection",
+          "singular",
+          "three_frame_design",
+          "three_frame_directions",
+          "three_frame_singular"
+        ],
+        "arrays": {
+          "directions": [
+            32,
+            80
+          ],
+          "eleven_frame_design": [
+            220,
+            10
+          ],
+          "eleven_frame_singular": [
+            10
+          ],
+          "features": [
+            64,
+            80
+          ],
+          "outside_train_span": [
+            64
+          ],
+          "projection": [
+            64,
+            80
+          ],
+          "singular": [
+            32
+          ],
+          "three_frame_design": [
+            60,
+            10
+          ],
+          "three_frame_directions": [
+            10,
+            10
+          ],
+          "three_frame_singular": [
+            10
+          ]
+        }
+      },
+      {
+        "path": "oracle.npz",
+        "sha256": "73796a39a6c1f8ce598c68c6c219337975bd2fdad416f9dc99b18704a3bfedee",
+        "decode_count": 1,
+        "keys": [
+          "forecast",
+          "refined_forecast"
+        ],
+        "arrays": {
+          "forecast": [
+            64,
+            801,
+            30
+          ],
+          "refined_forecast": [
+            64,
+            801,
+            30
+          ]
+        }
+      },
+      {
+        "path": "truth_dynamics.npz",
+        "sha256": "32bdfcf168eb35f9fc8548b37c5eeeadf9dd2e3a2b2b174553835292221e4652",
+        "decode_count": 1,
+        "keys": [
+          "direct_training_forecast",
+          "encoder",
+          "feature_gram",
+          "forecast",
+          "forecast_response",
+          "history",
+          "history_response",
+          "old_encoder",
+          "old_training_forecast",
+          "refined_forecast",
+          "refined_history",
+          "response_gram",
+          "rhs",
+          "stationarity_residual",
+          "system",
+          "time_weights",
+          "train_target",
+          "training_forecast",
+          "training_history",
+          "training_response",
+          "zero_forecast",
+          "zero_history",
+          "zero_training_forecast"
+        ],
+        "arrays": {
+          "direct_training_forecast": [
+            64,
+            301,
+            30
+          ],
+          "encoder": [
+            10,
+            80
+          ],
+          "feature_gram": [
+            80,
+            80
+          ],
+          "forecast": [
+            64,
+            801,
+            30
+          ],
+          "forecast_response": [
+            801,
+            30,
+            10
+          ],
+          "history": [
+            64,
+            11,
+            30
+          ],
+          "history_response": [
+            11,
+            30,
+            10
+          ],
+          "old_encoder": [
+            10,
+            80
+          ],
+          "old_training_forecast": [
+            64,
+            301,
+            30
+          ],
+          "refined_forecast": [
+            64,
+            801,
+            30
+          ],
+          "refined_history": [
+            64,
+            11,
+            30
+          ],
+          "response_gram": [
+            10,
+            10
+          ],
+          "rhs": [
+            10,
+            80
+          ],
+          "stationarity_residual": [
+            800
+          ],
+          "system": [
+            800,
+            800
+          ],
+          "time_weights": [
+            300
+          ],
+          "train_target": [
+            32,
+            300,
+            20
+          ],
+          "training_forecast": [
+            64,
+            301,
+            30
+          ],
+          "training_history": [
+            64,
+            11,
+            30
+          ],
+          "training_response": [
+            301,
+            30,
+            10
+          ],
+          "zero_forecast": [
+            64,
+            801,
+            30
+          ],
+          "zero_history": [
+            64,
+            11,
+            30
+          ],
+          "zero_training_forecast": [
+            64,
+            301,
+            30
+          ]
+        }
+      }
+    ],
+    "operations_audit": {
+      "totals": {
+        "npz_decodes": 3,
+        "checkpoint_loads": 1,
+        "svd": 2,
+        "matrix_products": 19210,
+        "rollouts": 18,
+        "fits": 2,
+        "linear_solves": 2
+      },
+      "scope_names": [
+        "sources",
+        "information",
+        "oracle",
+        "truth_dynamics",
+        "fitted_dynamics"
+      ],
+      "all_scopes_returned": true
+    },
+    "train_only_scale_audit": {
+      "target_scale": "PASS",
+      "feature_scale": "PASS",
+      "normalization": "PASS"
+    },
+    "information_audit": {
+      "feature_rank": 32,
+      "feature_rank_threshold": 2.009212105239256e-11,
+      "val_outside_train_span_energy_ratio": 0.0003192036227123401,
+      "val_zero_features": false,
+      "coverage_gap": true,
+      "three_frame_rank": 10,
+      "eleven_frame_rank": 10,
+      "three_frame_rank_loss": false,
+      "per_frame_minimum_singular_ratio": 1.0434133225990148,
+      "three_frame_weakening": false
+    },
+    "oracle_audit": {
+      "pass": true,
+      "refinement_error": 2.1034196678908313e-10,
+      "coi_error": 4.3576253716537394e-15
+    },
+    "conditional_audit": {
+      "truth_dynamics": {
+        "kkt_bound": 1.0376945741989173e-25,
+        "symmetry": 3.257254973608198e-17,
+        "old_objective": 0.0006089244211488682,
+        "conditional_objective": 4.897325222035484e-05,
+        "objective_nonincrease": true,
+        "affine_error": 3.469446951953614e-15,
+        "refinement_error": 1.008271069234945e-09,
+        "coi_error": 4.3576253716537394e-15,
+        "metrics_reconciled": true
+      },
+      "fitted_dynamics": {
+        "kkt_bound": 1.3006418657406929e-25,
+        "symmetry": 3.6832235390878474e-17,
+        "old_objective": 0.000574320323432279,
+        "conditional_objective": 5.211639723749962e-05,
+        "objective_nonincrease": true,
+        "affine_error": 2.275957200481571e-15,
+        "refinement_error": 1.467716904963315e-09,
+        "coi_error": 4.3576253716537394e-15,
+        "metrics_reconciled": true
+      }
+    },
+    "diagnostic_flags": {
+      "truth_dynamics": {
+        "train": {
+          "clean_target_pass": false,
+          "improves_original_nmse_5pct": true
+        },
+        "val": {
+          "clean_target_pass": false,
+          "improves_original_nmse_5pct": true
+        }
+      },
+      "fitted_dynamics": {
+        "train": {
+          "clean_target_pass": false,
+          "improves_original_nmse_5pct": true
+        },
+        "val": {
+          "clean_target_pass": false,
+          "improves_original_nmse_5pct": true
+        }
+      }
+    },
+    "dynamics_gap": false,
+    "scientific_calls": 0,
+    "real_data_reads": 0,
+    "algebraic_audit_boundary": "Saved Grams were checked against the saved Kronecker system, residual, and objective. The audit did not independently reconstruct Gz, GF, or B from per-event response arrays. Any such reconstruction must be added to the next registered repair scope; the consumed audit is not rerun."
+  },
+  "operations": {
+    "npz_decodes": 3,
+    "checkpoint_loads": 1,
+    "svd": 2,
+    "matrix_products": 19210,
+    "rollouts": 18,
+    "fits": 2,
+    "linear_solves": 2
+  },
+  "operations_returned": {
+    "npz_decodes": 3,
+    "checkpoint_loads": 1,
+    "svd": 2,
+    "matrix_products": 19210,
+    "rollouts": 18,
+    "fits": 2,
+    "linear_solves": 2
+  },
+  "real_data_reads": 0,
+  "fit_attempts": 2,
+  "optimizer_updates": 0,
+  "next_step": "PREPARE_TARGETED_INITIALIZATION_CORRECTION_AND_SYNTHETIC_CONFIRMATION",
+  "next_step_summary": "真值动力学条件解仍未通过 val clean-target 门，后续优先准备因果初始化修正及新的合成确认。",
+  "default_real_data_standard": "official_kiki_train_test",
+  "task3_final_roster": "separate_reference_only_76_events"
+}

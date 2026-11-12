@@ -11,7 +11,7 @@
   "historical_registry": "configs/historical_registry_20261023.json",
   "input_contracts": "configs/input_contracts.json",
   "existing_kiki_test": "prior_exposure_detected_not_fresh",
-  "prospective_test": "official_comparative_test_after_model_freeze_and_registered_budget",
+  "prospective_test": "task3_frozen_comparative_test_after_model_freeze_and_registered_budget",
   "automatic_scientific_threshold_changes": false,
   "automatic_training_until_pass": false,
   "engineering_repair_requires_new_run": true,
@@ -2055,7 +2055,7 @@
       "real_data_reads": 0,
       "fit_attempts": 2,
       "optimizer_updates": 0,
-      "status": "active",
+      "status": "consumed",
       "approved_date": "2026-11-12",
       "authority": "explicit_user_autonomous_diagnosis_repair_with_exact_Astra_Ultra_review",
       "approval_text": "按后续诊断设计继续自主推进，把初始化泛化问题和动力学误差分开验证，定位原因后修正，先通过合成验证再按门禁推进，改完自动提交。",
@@ -2151,6 +2151,158 @@
         "linear_solves": 0
       },
       "model_promotion_allowed": false,
+      "deployment_predictions_allowed": false,
+      "consumed_at": "2026-11-12T09:40:09.962825+00:00",
+      "run_id": "machine_local_initializer_diagnosis_v1-diagnosis-20261112T092125479994Z-7ec2f5a9-44e18720",
+      "source_commit": "7ec2f5a917467a230e4c3bfc0da102bca1bc0f0f",
+      "scientific_verdict": "DIAGNOSTIC_VALID",
+      "diagnostic_route": "INITIALIZER_LIMITATION_PRIORITY",
+      "promotion_decision": "KEEP_BASELINE",
+      "result_receipt_path": "docs/reports/machine_local_initializer_diagnosis_20261112_evidence.json",
+      "result_receipt_sha256": "14d5f31366bdf1a4d15658430419a8d56a2fcfdec98edd0a8cce97ea8e6aefbf",
+      "saved_arithmetic_audit_result": {
+        "status": "consumed",
+        "path": "reports/generated/machine_local_initializer_diagnosis_20261112/saved-audit.json",
+        "sha256": "6cc06d6ef333ada82b0f1c4090aa90dd0919910cbb36d0a6d85271978adc627f",
+        "script_sha256": "b98734134737c65a4a612c46fb67fb4c3ef78c8bc8b24f2c9c6ed7ede2df3cf1",
+        "npz_decodes": 5,
+        "mismatches": 0,
+        "scientific_calls": 0,
+        "route": "INITIALIZER_LIMITATION_PRIORITY",
+        "operations_scopes_returned": true,
+        "algebraic_audit_boundary": "Saved Grams reconciled to saved KKT system; Gz/GF/B not independently reconstructed."
+      }
+    },
+    "machine_local_observer_v1_20261112": {
+      "authorization": "machine_local_observer_v1_20261112",
+      "experiment": "machine_local_observer_v1",
+      "workflow": "machine_local_observer_v1",
+      "stage": "fixed",
+      "module": "kron_reduce.workflows.machine_local_observer",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "data_policy": "analytic_synthetic_only",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "real_data_reads": 0,
+      "fit_attempts": 0,
+      "optimizer_updates": 0,
+      "status": "active",
+      "authority": "explicit_user_autonomous_diagnosis_repair_with_exact_Astra_Ultra_review",
+      "plan_path": "configs/proposals/machine_local_observer_v1.json",
+      "plan_sha256": "b5168fe73364b913cf91f9eb84cad44194841891b4966866eac1723beee3ef26",
+      "protocol_path": "docs/protocols/machine_local_observer_v1_zh.md",
+      "protocol_sha256": "60fcc1243a533f90413d6c83bd8e43daa2688e66b32877a95aeea5ece4806bbb",
+      "review_path": "docs/research/machine_local_observer_review_20261112.json",
+      "review_sha256": "ea26e636d7650ad71d23287b4acf11403bdb3e21c11db94d33809784ae130f0e",
+      "implementation_bindings": {
+        "configs/experiments/machine_local_observer_v1.toml": "34ad5929e8156ca2b82d3ecd6bd2355df7621c54e5378c30c284f5ec8c8deeeb",
+        "configs/project_manifest.json": "4ad9b41f7c811072e5410956be6eb23921780b5cb8840e8edc229b01218d09ca",
+        "configs/workflows/machine_local_observer_v1.json": "7ab9a16bd303ece60712ddca099b1dcdd8a38cbdd4a1f230cbf9fd7661b99cdc",
+        "docs/protocols/machine_local_observer_v1_zh.md": "60fcc1243a533f90413d6c83bd8e43daa2688e66b32877a95aeea5ece4806bbb",
+        "docs/research/machine_local_observer_plan_20261112_zh.md": "4d1cd00a385b79a355ba1bba640955cf04c63b7dbdd2b95e11141e7a805a8b7f",
+        "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+        "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+        "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+        "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+        "project_harness/policy.py": "61d266ca3709dc9a0326947cac03a5d31979ac941845a966e7ab2c4b6ee8006c",
+        "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+        "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+        "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+        "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+        "src/kron_reduce/evaluation/machine_local_initializer_diagnosis.py": "69ded6c1506a8a19af0cdbd0ce65a4a040ce6243a25ef0f1593f9135e49e4065",
+        "src/kron_reduce/evaluation/machine_local_observer.py": "be552e6a3a2c00927caffe8d67062d74639fe1d2c3526dd4d443491761d9abb1",
+        "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+        "src/kron_reduce/evaluation/scoped_audit_journal.py": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+        "src/kron_reduce/evaluation/state_port_training.py": "18047aeccb3848cc855a6bddbd2e7c4b11f4acdb5b1b70872e32c03e34bfc738",
+        "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+        "src/kron_reduce/models/conditional_encoder.py": "ee7d7721f10a085235b34877d9b25291a25bdb358ea5ff2fdf332b9554e0ca14",
+        "src/kron_reduce/models/discrete_history_initializer.py": "e2417c579cb8a6fccfe46dcf5857a811e22d8035184f6e0393959e43c8919d21",
+        "src/kron_reduce/models/learned_latent.py": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+        "src/kron_reduce/models/machine_local.py": "79789ee60cb375d7bbe2041266638ffc2a141a8fba0f7fa14772a7fc57e5a656",
+        "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+        "src/kron_reduce/models/state_port.py": "32ec27d9eb142abd5e5e10ebe9db814286abcdddbedbc2a2247a5a3ffd9efe8b",
+        "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+        "src/kron_reduce/workflows/constant_c_synthetic.py": "cba3e3376a52cdb49a453151f30faf60cd8edf50ae1e4cec60b63eaef96cb863",
+        "src/kron_reduce/workflows/machine_local_observer.py": "c9e6ca54d1b9cf85ced94f135870403a3e292403b35e27e4e2e53f2bc0749cb5",
+        "tests/test_discrete_history_initializer.py": "a4deb140b1869f14584fae305b66ee8918bca0a7f34c21f6e845139cafec973b",
+        "tests/test_observer_workflow.py": "b9894f7c255ae6d9ad105e10d15b7e8bbea888fb9ff22a8baa8dca1749735f56"
+      },
+      "operation_limits": {
+        "npz_decodes": 4,
+        "checkpoint_loads": 1,
+        "svd": 13,
+        "rollouts": 25,
+        "expm": 6,
+        "matrix_products": 30000,
+        "fits": 0,
+        "linear_solves": 0,
+        "gradients": 0,
+        "optimizer_updates": 0,
+        "numpy_rhs": 0,
+        "torch_rhs": 0
+      },
+      "scope_limits": {
+        "sources": {
+          "npz_decodes": 4,
+          "checkpoint_loads": 1,
+          "matrix_products": 8
+        },
+        "truth_local": {
+          "expm": 3,
+          "matrix_products": 900
+        },
+        "truth_nonlocal": {
+          "expm": 3,
+          "matrix_products": 900
+        },
+        "old_truth": {
+          "svd": 2,
+          "rollouts": 4,
+          "matrix_products": 4000
+        },
+        "old_fitted": {
+          "svd": 2,
+          "rollouts": 4,
+          "matrix_products": 4000
+        },
+        "local_clean": {
+          "svd": 2,
+          "rollouts": 4,
+          "matrix_products": 4000
+        },
+        "local_noise01": {
+          "svd": 2,
+          "rollouts": 4,
+          "matrix_products": 4000
+        },
+        "nonlocal_clean": {
+          "svd": 2,
+          "rollouts": 4,
+          "matrix_products": 4000
+        },
+        "nonlocal_noise01": {
+          "svd": 2,
+          "rollouts": 4,
+          "matrix_products": 4000
+        },
+        "rank_control": {
+          "svd": 1,
+          "rollouts": 1,
+          "matrix_products": 100
+        }
+      },
+      "postrun_saved_arithmetic_audit": {
+        "npz_decode_limit_per_file": 1,
+        "same_run_json_and_artifact_hash_checks": true,
+        "model_calls": 0,
+        "rhs_calls": 0,
+        "autograd_calls": 0,
+        "expm_calls": 0,
+        "svd_calls": 0,
+        "ls_calls": 0,
+        "linear_solves": 0
+      },
+      "model_promotion_allowed": false,
       "deployment_predictions_allowed": false
     }
   },
@@ -2226,13 +2378,19 @@
   "official_split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
   "official_train_test_defaults": {
     "training_population": "official_train",
-    "test_population": "official_kiki_test",
+    "test_population": "task3_campaign2_final_test",
     "internal_resplit": false,
-    "val_use": "unused_unless_separately_registered",
+    "val_use": "official_val_for_preregistered_selection",
     "input_contract_id": "measured_history_100ms_zoh_v1",
-    "task3_comparison": "separate_named_population_not_official_test",
+    "task3_comparison": "primary_exact_frozen_roster",
     "test_role": "comparative_not_fresh_independent_confirmation",
-    "fit_normalize_select_on_test": false
+    "fit_normalize_select_on_test": false,
+    "expected_eligible_counts": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    },
+    "user_confirmation": "2026-11-12: 完全复用 TASK3 train 346 / val 107 / test 76"
   },
   "legacy_real_experiments": {
     "paper_kiki_a04_short_history": "7993c8053f8abe3899a5423ed196e028fef6348948be6f3f191ac6ae60b67790",
