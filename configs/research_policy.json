@@ -1799,7 +1799,7 @@
       "real_data_reads": 0,
       "fit_attempts": 12,
       "optimizer_updates": 2880,
-      "status": "active",
+      "status": "consumed",
       "approved_date": "2026-11-12",
       "authority": "explicit_user_autonomous_stage_request_with_exact_Astra_Ultra_review",
       "approval_text": "采纳这些修正，更新研究方案和执行协议，开始实现逐机隐状态模型，先完成 S0 和合成验证，再按门禁自主推进后续实验，改完自动提交。",
@@ -2023,7 +2023,24 @@
         "ls_calls": 0
       },
       "model_promotion_allowed": false,
-      "deployment_predictions_allowed": false
+      "deployment_predictions_allowed": false,
+      "consumed_at": "2026-11-12T08:20:36.010785+00:00",
+      "run_id": "machine_local_s1_base_v1-s1_base-20261112T081105156529Z-71e9677a-db4918d7",
+      "source_commit": "71e9677a24c21cc78095a2623fb554e65511f92a",
+      "scientific_verdict": "REJECT",
+      "promotion_decision": "KEEP_BASELINE",
+      "next_step": "STOP_T0",
+      "result_receipt_path": "docs/reports/machine_local_s1_20261112_evidence.json",
+      "result_receipt_sha256": "35bdec545768213cbc4636cb2f03a7f634362c64f8f92f76f5ee0ee8324ca468",
+      "saved_arithmetic_audit_result": {
+        "status": "consumed",
+        "path": "reports/generated/machine_local_synthetic_20261112/s1-saved-audit.json",
+        "sha256": "90aea877fa2b436b84158c7f85593aed70c5636bd6644ea9838899aa84f3bf23",
+        "npz_decodes": 39,
+        "metric_values_recomputed": 1236,
+        "observability_cases": 7,
+        "mismatches": 0
+      }
     }
   },
   "saved_evidence_audits": {

@@ -7,8 +7,13 @@ budget, entry point and stopping gates.
 ## Current research scope
 
 [Machine-local S0](../reports/machine_local_s0_20261112_zh.md) passed all 112
-frozen checks and its saved-evidence review. Its one-use authority is consumed;
-the separately registered S1-base comparison is the next executable scope.
+frozen checks. The [S1-base comparison](../reports/machine_local_s1_20261112_zh.md)
+completed all twelve fits and its saved arithmetic audit. Observation, physical
+and numerical checks passed; all six required prediction pairs failed. Both
+one-use authorities and saved audits are consumed: REJECT / KEEP_BASELINE /
+STOP_T0. The [result review](machine_local_s1_result_review_20261112_zh.md)
+prioritizes preparation of a separate causal-initialization/generalization
+diagnostic. No downstream scientific run is currently opened.
 
 The current [research plan v2](machine_local_structure_plan_v2_20261112_zh.md)
 implements ten machine-local hidden states before learning physical modules.
@@ -49,10 +54,10 @@ MSE over both references, but added one train rule miss in every seed. The
 complete evidence and confirms `REJECT / KEEP_BASELINE`. Authority
 `kiki_state_port_train_v1_20261111` and its one-use saved audit are consumed.
 
-The active scope is the machine-local design's synthetic correctness
-and identifiability study: reciprocal ports, complete causal gradients,
-discrete observation sensitivity, and known-truth controls that can reject an
-unsupported local structure. B0 remains an independent initializer candidate,
+The active preparation scope is a separate diagnosis of machine-local causal
+initialization and generalization, using the completed synthetic evidence.
+The frozen v2 design and protocol remain the original execution contracts;
+they are not rewritten around the observed errors. B0 remains an independent initializer candidate,
 as originally recommended by the A1 result review; the user's 2026-11-12 request
 changes the prospective priority. Potential, input and time-objective changes
 remain separate. Real train work requires the S1-base gate and its own exact

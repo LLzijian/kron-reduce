@@ -1,0 +1,86 @@
+{
+  "schema": "kron_reduce.machine_local_s1_result_review.v1",
+  "reviewer": "Astra Ultra",
+  "review_date": "2026-11-12",
+  "review_completed": true,
+  "result_evidence_accepted": true,
+  "scientific_pass": false,
+  "decision": "REJECT",
+  "promotion_decision": "KEEP_BASELINE",
+  "next_stage_decision": "STOP_T0",
+  "run_id": "machine_local_s1_base_v1-s1_base-20261112T081105156529Z-71e9677a-db4918d7",
+  "run_path": "results/machine_local_s1_base_v1-s1_base-20261112T081105156529Z-71e9677a-db4918d7",
+  "source_commit": "71e9677a24c21cc78095a2623fb554e65511f92a",
+  "plan_sha256": "274fb24b52598fd74a6a95abd7ddd0176930807a674a1dff66d9ff97891e3645",
+  "protocol_sha256": "16d934ffc717d03c4f033ae59b3ad2fa7e18ed118a9fa3f98d194a3c2bc1746e",
+  "artifact_manifest_sha256": "3144757fe9023a63edb94b413b3e5f12b94d9f7f51f66770216b5d3215811cfa",
+  "summary_sha256": "ab85e544232e6bf90c10529aa84458dee2e8ccaafaf894e04603607ff49fb7ff",
+  "saved_arithmetic_audit": {
+    "path": "reports/generated/machine_local_synthetic_20261112/s1-saved-audit.json",
+    "sha256": "90aea877fa2b436b84158c7f85593aed70c5636bd6644ea9838899aa84f3bf23",
+    "status": "PASS",
+    "review_script_sha256": "4ece506cf2ef86b72c6cb3729b7da10b00403517dbeb079ede54581c9c8f3356",
+    "npz_files_decoded_once": 39,
+    "metric_values_recomputed": 1236,
+    "spectrum_basis": "Saved spectrum and saved directions; no independent SVD, LS or propagation."
+  },
+  "binding_checks": {
+    "implementation_bindings_matched": 28,
+    "artifact_hashes_matched": 68,
+    "successful_scopes": 27
+  },
+  "gates": {
+    "diagnostics_pass": true,
+    "prediction_pass": false,
+    "refinement_pass": true,
+    "physics_pass": true,
+    "required_prediction_pairs": 6,
+    "passed_prediction_pairs": 0,
+    "clean_nrmse_threshold": 0.001,
+    "noisy_nrmse_threshold": 0.02
+  },
+  "operations": {
+    "fits": 12,
+    "optimizer_updates": 2880,
+    "gradients": 2880,
+    "rollouts": 5808,
+    "matrix_products": 2526550,
+    "expm": 14,
+    "svd": 12,
+    "least_squares": 6,
+    "numpy_rhs": 36,
+    "torch_rhs": 0,
+    "checkpoint_loads": 0,
+    "real_data_reads": 0
+  },
+  "findings_supported": [
+    "All twelve fits completed 240 updates, and every required prediction pair failed both frozen test gates.",
+    "G10/L10 fit train better than G2, while G2 has lower val/test 3s NRMSE in all four fixed truth/noise conditions.",
+    "Clean cases also fail; observation noise is not a sufficient explanation.",
+    "Physics and numerical refinement pass; the recorded clipping threshold was never reached.",
+    "Local clean L10 has a large train-to-test gap in both hidden-origin error and visible future prediction.",
+    "Known-model discrete observability distinguishes equal/zero-port rank loss, near/weak conditioning and sampling aliasing."
+  ],
+  "causes_not_identified": [
+    "The respective causal contributions of encoder generalization, fixed regularization, finite event coverage and joint optimization.",
+    "The feature-matrix rank and conditioning of the actual three-frame encoder inputs.",
+    "Unique physical parameter identification or a true latent order of two.",
+    "Mathematical non-identifiability inferred from finite 240-update optimization failure."
+  ],
+  "next_preparation": {
+    "status": "DESIGN_ONLY_NO_NEW_EXECUTION",
+    "case": "local_clean_L10",
+    "direction": "Separate causal encoder generalization from dynamics mismatch using fixed-dynamics conditional quadratic encoder problems and a truth-state diagnostic.",
+    "proposed_conditional_encoder_solves": 2,
+    "new_scope_and_exact_budget_review_required": true,
+    "preserve_frozen_run_and_thresholds": true,
+    "independent_confirmation_requires_new_frozen_synthetic_samples": true,
+    "t0_allowed": false
+  },
+  "review_operations": {
+    "npz_decodes": 0,
+    "scientific_calls": 0,
+    "inputs": "Saved JSON, training logs, bound source and byte-hash verification."
+  },
+  "claim_boundary": "Accepted evidence of a completed but prediction-rejected synthetic base-model study; no real-data access, function discovery, model promotion or new experiment execution."
+}

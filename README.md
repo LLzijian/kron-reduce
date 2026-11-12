@@ -23,6 +23,10 @@ implements one hidden state per machine, with separate checks for prediction
 accuracy and structure identifiability. The [synthetic protocol](docs/protocols/machine_local_synthetic_v1_zh.md)
 defines S0 and twelve S1-base fits under separate gates and budgets. A06 remains
 the reference; later physical modules and real-data comparisons have their own gates.
+[S0 passed](docs/reports/machine_local_s0_20261112_zh.md); the twelve-fit
+[S1-base result](docs/reports/machine_local_s1_20261112_zh.md) failed its prediction
+gate. The current scope is initialization/generalization diagnosis preparation;
+T0 is stopped and both synthetic execution authorities are consumed.
 
 ## Scientific scope
 
