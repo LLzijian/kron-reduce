@@ -48,9 +48,15 @@ jobs:
           tests/test_gaussian_state_posterior.py tests/test_gaussian_oracle_risks.py
           tests/test_gaussian_oracle_workflow.py
           src/kron_reduce/models/differentiable_history.py
+          src/kron_reduce/models/nonlinear_history.py
+          src/kron_reduce/evaluation/trajectory_stability.py
+          src/kron_reduce/evaluation/machine_local_nonlinear_history.py
+          src/kron_reduce/workflows/machine_local_nonlinear_history.py
           src/kron_reduce/evaluation/machine_local_clean_learning.py
           src/kron_reduce/workflows/machine_local_clean_learning.py
           tests/test_differentiable_history.py tests/test_clean_learning_workflow.py
+          tests/test_nonlinear_history.py tests/test_trajectory_stability.py
+          tests/test_machine_local_nonlinear_history_workflow.py
           src/kron_reduce/models/state_port.py src/kron_reduce/evaluation/state_port_correctness.py
           src/kron_reduce/workflows/state_port_synthetic.py
           tests/test_state_port.py tests/test_state_port_workflow.py
@@ -119,6 +125,8 @@ jobs:
           tests/test_gaussian_state_posterior.py tests/test_gaussian_oracle_risks.py
           tests/test_gaussian_oracle_workflow.py
           tests/test_differentiable_history.py tests/test_clean_learning_workflow.py
+          tests/test_nonlinear_history.py tests/test_trajectory_stability.py
+          tests/test_machine_local_nonlinear_history_workflow.py
           tests/test_state_port.py tests/test_state_port_workflow.py
           tests/test_state_port_saved_audit.py
           tests/test_state_port_training.py tests/test_state_port_train_audit.py

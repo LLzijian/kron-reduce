@@ -30,6 +30,10 @@ The [result review](machine_local_clean_learning_result_review_20261113_zh.md)
 sets the next scope: verify the required clean nonlinear history interface and
 its gradients, then prepare the TASK3 real-data pilot. The current linear
 response solver is not an exact initializer for the sine backbone.
+The [clean nonlinear history protocol](../protocols/machine_local_nonlinear_history_v1_zh.md)
+registers six fixed cases and two parameter controls to check that interface,
+its gradients and complete train/val/test trajectory and stability reporting.
+This is a no-fit S0 stage; real TASK3 execution requires its separate pilot registration.
 The [statistical noise plan](machine_local_statistical_initializer_plan_20261112_zh.md)
 is deferred. Existing noise results and consumed scopes remain unchanged.
 Future real fits use TASK3's exact frozen train 346 / val 107 / test 76 cohorts;

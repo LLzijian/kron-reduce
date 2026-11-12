@@ -54,6 +54,17 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   full frozen evaluation. Missing, nonfinite or otherwise invalid metrics are
   explicit failures with their coverage reported; never replace them with zero
   or an invented value.
+- When reporting trajectory-derived stability, apply the frozen TASK3 label
+  thresholds and time window to predicted trajectories. Keep real TASK3 truth
+  labels frozen; do not relabel them. Treat instability as positive and report
+  accuracy, TP/TN/FP/FN, unstable recall, missed-instability rate and stable
+  false-alarm rate for each split. On synthetic known-truth data, derive both
+  labels from trajectories. Report unresolved/uncovered cases and numerical
+  failures separately; unresolved is not stable. If any case is unresolved,
+  uncovered, or numerically failed, full-cohort accuracy is `null`; also report
+  classifiable accuracy and coverage. Any zero metric denominator is `null`.
+  `test` results are reporting-only and cannot select thresholds or revise the
+  model.
 - Follow the named causal input contract and its forecast origin. Main-model
   features exclude `Pe`, voltage, labels, event time, valid length, masks,
   fault metadata and future summaries. Fit one model per supplied corpus.

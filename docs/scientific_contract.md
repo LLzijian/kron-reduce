@@ -57,6 +57,18 @@ See `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
   not replace either split. Missing, nonfinite, or otherwise invalid results
   are reported as explicit failures with coverage, never as zero or fabricated
   metrics.
+- For real TASK3 stability, retain the frozen official truth labels and counts;
+  derive predicted labels from the frozen LOS rule and report their agreement
+  with the official labels without relabeling them. For synthetic known-truth
+  data, derive both labels from the truth and predicted trajectories using the
+  frozen thresholds and time window. Treat instability as positive and report
+  accuracy, TP/TN/FP/FN, unstable recall, missed-instability rate, and stable
+  false-alarm rate separately for `train`, `val`, and `test`. An unresolved
+  prediction is not stable: report unresolved/uncovered cases and numerical
+  failures separately. If any case is unresolved, uncovered, or numerically
+  failed, full-cohort accuracy is `null`; also report accuracy among
+  classifiable cases and coverage. Any zero metric denominator is `null`.
+  `test` stability results do not tune thresholds or revise the model.
 - One supplied trajectory corpus produces one final equation and one parameter
   set. Fit/selection excitation views may support different candidate modules,
   but their union is fitted jointly and pruned as whole blocks. Source,
