@@ -18,10 +18,11 @@ The research policy records active and consumed authorizations. See the
 [research index](docs/research/README.md) for the follow-up scope, protocols
 and saved results.
 
-The current [algorithm design](docs/research/machine_local_structure_plan_20261112_zh.md)
-prepares one hidden state per machine and learnable physical modules, with
-separate checks for prediction accuracy and structure identifiability. A06
-remains the reference; the new design does not authorize an experiment.
+The current [algorithm design](docs/research/machine_local_structure_plan_v2_20261112_zh.md)
+implements one hidden state per machine, with separate checks for prediction
+accuracy and structure identifiability. The [synthetic protocol](docs/protocols/machine_local_synthetic_v1_zh.md)
+defines S0 and twelve S1-base fits under separate gates and budgets. A06 remains
+the reference; later physical modules and real-data comparisons have their own gates.
 
 ## Scientific scope
 

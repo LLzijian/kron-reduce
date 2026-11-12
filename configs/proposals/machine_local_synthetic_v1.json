@@ -1,0 +1,515 @@
+{
+  "schema": "kron_reduce.machine_local_synthetic.v1",
+  "protocol_path": "docs/protocols/machine_local_synthetic_v1_zh.md",
+  "protocol_sha256": "16d934ffc717d03c4f033ae59b3ad2fa7e18ed118a9fa3f98d194a3c2bc1746e",
+  "implementation_bindings": {
+    "configs/experiments/machine_local_s0_v1.toml": "a7eb006f67f2b73fdb29701b4efcbd0244bb4233760831d345c6f09d12304dc7",
+    "configs/experiments/machine_local_s1_base_v1.toml": "4bb0521bc215f3443e34623071043064e2d5ee33677453e53a3029c6beb38ec9",
+    "configs/project_manifest.json": "1b11793b973eac4b8e6cd17280ec2b27b442b844e520c0af20341019a910e16b",
+    "configs/workflows/machine_local_synthetic_v1.json": "638e682d692c9436305dcd1825c7e008db25bd865ecf526509d71816a8f863f7",
+    "docs/protocols/machine_local_synthetic_v1_zh.md": "16d934ffc717d03c4f033ae59b3ad2fa7e18ed118a9fa3f98d194a3c2bc1746e",
+    "docs/research/machine_local_structure_plan_v2_20261112_zh.md": "d3ffbc8bcf3ea8b5d2ee59f48695a88930d6cf1336249a8870b7cff0a7701e32",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+    "project_harness/policy.py": "ff1e45110707e6241a5d280e1812d299cb58e2a7d58257e426072f401dfcb150",
+    "project_harness/runner.py": "3d46eebcd8590648c3f47ed490aa8381b397432bc2cfb4559f60dd47c76537d0",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/scoped_audit_journal.py": "cb6537d5f68380c2187b48b8db2fb9ce4fff5faff0045d9a88a9001529fb7a6a",
+    "src/kron_reduce/evaluation/state_port_training.py": "18047aeccb3848cc855a6bddbd2e7c4b11f4acdb5b1b70872e32c03e34bfc738",
+    "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+    "src/kron_reduce/models/learned_latent.py": "4749dee61eb31a7b3fe9ba36d9736eec35124238c25e81aef40c8f71262106b1",
+    "src/kron_reduce/models/machine_local.py": "79789ee60cb375d7bbe2041266638ffc2a141a8fba0f7fa14772a7fc57e5a656",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/models/state_port.py": "32ec27d9eb142abd5e5e10ebe9db814286abcdddbedbc2a2247a5a3ffd9efe8b",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/constant_c_synthetic.py": "cba3e3376a52cdb49a453151f30faf60cd8edf50ae1e4cec60b63eaef96cb863",
+    "src/kron_reduce/workflows/machine_local_synthetic.py": "d3b1fb53e82b7b420d87375136493e0ce97b99a0e841ccf771bd8b707092ccbe",
+    "tests/test_machine_local.py": "4b3dc320bf41c95c216944ed0abc11daf0de22c55230987bb7a37a6ddcc9b25d",
+    "tests/test_machine_local_workflow.py": "f8eacdd568ad5dc70bd7a776a064aec6216b4e6f4c7bcc48ff7db5e823dd1d3c"
+  },
+  "stages": {
+    "s0": {
+      "scope": {
+        "authorization": "machine_local_s0_v1_20261112",
+        "experiment": "machine_local_s0_v1",
+        "workflow": "machine_local_synthetic_v1",
+        "stage": "s0",
+        "module": "kron_reduce.workflows.machine_local_synthetic",
+        "dataset": "synthetic_benchmark_registry_v1",
+        "data_policy": "analytic_synthetic_only",
+        "max_executions": 1,
+        "retry_allowed": false,
+        "real_data_reads": 0,
+        "fit_attempts": 0,
+        "optimizer_updates": 0
+      },
+      "operation_limits": {
+        "numpy_rhs": 100,
+        "torch_rhs": 30000,
+        "rollouts": 200,
+        "matrix_products": 50000,
+        "gradients": 10,
+        "fits": 0,
+        "optimizer_updates": 0,
+        "expm": 0,
+        "svd": 0,
+        "least_squares": 0,
+        "checkpoint_loads": 2
+      },
+      "scope_limits": {
+        "correctness": {
+          "numpy_rhs": 100,
+          "torch_rhs": 30000,
+          "rollouts": 200,
+          "matrix_products": 50000,
+          "gradients": 10,
+          "fits": 0,
+          "optimizer_updates": 0,
+          "expm": 0,
+          "svd": 0,
+          "least_squares": 0,
+          "checkpoint_loads": 2
+        }
+      }
+    },
+    "s1_base": {
+      "scope": {
+        "authorization": "machine_local_s1_base_v1_20261112",
+        "experiment": "machine_local_s1_base_v1",
+        "workflow": "machine_local_synthetic_v1",
+        "stage": "s1_base",
+        "module": "kron_reduce.workflows.machine_local_synthetic",
+        "dataset": "synthetic_benchmark_registry_v1",
+        "data_policy": "analytic_synthetic_only",
+        "max_executions": 1,
+        "retry_allowed": false,
+        "real_data_reads": 0,
+        "fit_attempts": 12,
+        "optimizer_updates": 2880
+      },
+      "operation_limits": {
+        "numpy_rhs": 48,
+        "torch_rhs": 0,
+        "rollouts": 6000,
+        "matrix_products": 3000000,
+        "gradients": 2880,
+        "fits": 12,
+        "optimizer_updates": 2880,
+        "expm": 14,
+        "svd": 12,
+        "least_squares": 6,
+        "checkpoint_loads": 0
+      },
+      "scope_limits": {
+        "observability": {
+          "expm": 8,
+          "svd": 12,
+          "least_squares": 6,
+          "matrix_products": 128
+        },
+        "truth_local": {
+          "expm": 3,
+          "matrix_products": 812
+        },
+        "truth_nonlocal": {
+          "expm": 3,
+          "matrix_products": 812
+        },
+        "fit_local_clean_G2": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_local_clean_G2": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_local_clean_G10": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_local_clean_G10": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_local_clean_L10": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_local_clean_L10": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_local_noise01_G2": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_local_noise01_G2": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_local_noise01_G10": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_local_noise01_G10": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_local_noise01_L10": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_local_noise01_L10": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_nonlocal_clean_G2": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_nonlocal_clean_G2": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_nonlocal_clean_G10": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_nonlocal_clean_G10": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_nonlocal_clean_L10": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_nonlocal_clean_L10": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_nonlocal_noise01_G2": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_nonlocal_noise01_G2": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_nonlocal_noise01_G10": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_nonlocal_noise01_G10": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        },
+        "fit_nonlocal_noise01_L10": {
+          "fits": 1,
+          "gradients": 240,
+          "optimizer_updates": 240,
+          "rollouts": 480,
+          "matrix_products": 220000
+        },
+        "score_nonlocal_noise01_L10": {
+          "rollouts": 4,
+          "numpy_rhs": 3,
+          "matrix_products": 10000
+        }
+      }
+    }
+  },
+  "s0_check_ids": [
+    "linear_G10_energy",
+    "linear_G10_projection",
+    "linear_G10_balanced_port",
+    "linear_G10_trainable_set",
+    "linear_G10_frozen_buffers",
+    "linear_G10_rhs",
+    "linear_G10_coi",
+    "linear_G10_implementations",
+    "linear_G10_refinement",
+    "linear_G10_path_coi",
+    "linear_L10_energy",
+    "linear_L10_projection",
+    "linear_L10_balanced_port",
+    "linear_L10_trainable_set",
+    "linear_L10_frozen_buffers",
+    "linear_L10_rhs",
+    "linear_L10_coi",
+    "linear_L10_implementations",
+    "linear_L10_refinement",
+    "linear_L10_path_coi",
+    "linear_G2_energy",
+    "linear_G2_projection",
+    "linear_G2_balanced_port",
+    "linear_G2_trainable_set",
+    "linear_G2_frozen_buffers",
+    "linear_G2_rhs",
+    "linear_G2_coi",
+    "linear_G2_implementations",
+    "linear_G2_refinement",
+    "linear_G2_path_coi",
+    "linear_common_start",
+    "linear_common_history",
+    "linear_common_future",
+    "linear_visible_reset",
+    "linear_hidden_continuity",
+    "linear_checkpoint",
+    "linear_detach_negative_control",
+    "linear_future_input_rejected",
+    "linear_reciprocity_negative_control",
+    "sine_G10_energy",
+    "sine_G10_projection",
+    "sine_G10_balanced_port",
+    "sine_G10_trainable_set",
+    "sine_G10_frozen_buffers",
+    "sine_G10_rhs",
+    "sine_G10_coi",
+    "sine_G10_implementations",
+    "sine_G10_refinement",
+    "sine_G10_path_coi",
+    "sine_L10_energy",
+    "sine_L10_projection",
+    "sine_L10_balanced_port",
+    "sine_L10_trainable_set",
+    "sine_L10_frozen_buffers",
+    "sine_L10_rhs",
+    "sine_L10_coi",
+    "sine_L10_implementations",
+    "sine_L10_refinement",
+    "sine_L10_path_coi",
+    "sine_G2_energy",
+    "sine_G2_projection",
+    "sine_G2_balanced_port",
+    "sine_G2_trainable_set",
+    "sine_G2_frozen_buffers",
+    "sine_G2_rhs",
+    "sine_G2_coi",
+    "sine_G2_implementations",
+    "sine_G2_refinement",
+    "sine_G2_path_coi",
+    "sine_common_start",
+    "sine_common_history",
+    "sine_common_future",
+    "sine_visible_reset",
+    "sine_hidden_continuity",
+    "sine_checkpoint",
+    "sine_detach_negative_control",
+    "sine_future_input_rejected",
+    "sine_reciprocity_negative_control",
+    "fixed_regularizer_padding",
+    "fixed_regularizer_gradient",
+    "linear_fast_gradient_match",
+    "linear_complete3s_fast_match",
+    "linear_fastTrue_direction0_1e-05",
+    "linear_fastTrue_direction0_1e-06",
+    "linear_fastTrue_direction1_1e-05",
+    "linear_fastTrue_direction1_1e-06",
+    "linear_fastTrue_direction2_1e-05",
+    "linear_fastTrue_direction2_1e-06",
+    "linear_fastFalse_direction0_1e-05",
+    "linear_fastFalse_direction0_1e-06",
+    "linear_fastFalse_direction1_1e-05",
+    "linear_fastFalse_direction1_1e-06",
+    "linear_fastFalse_direction2_1e-05",
+    "linear_fastFalse_direction2_1e-06",
+    "linear_G2_direction0_1e-05",
+    "linear_G2_direction0_1e-06",
+    "linear_G2_direction1_1e-05",
+    "linear_G2_direction1_1e-06",
+    "linear_G2_direction2_1e-05",
+    "linear_G2_direction2_1e-06",
+    "linear_G10_direction0_1e-05",
+    "linear_G10_direction0_1e-06",
+    "linear_G10_direction1_1e-05",
+    "linear_G10_direction1_1e-06",
+    "linear_G10_direction2_1e-05",
+    "linear_G10_direction2_1e-06",
+    "sine_fastFalse_direction0_1e-05",
+    "sine_fastFalse_direction0_1e-06",
+    "sine_fastFalse_direction1_1e-05",
+    "sine_fastFalse_direction1_1e-06",
+    "sine_fastFalse_direction2_1e-05",
+    "sine_fastFalse_direction2_1e-06"
+  ],
+  "s0_seed": 20261112,
+  "observation_cases": [
+    "local",
+    "equal",
+    "near",
+    "weak",
+    "zero",
+    "nonlocal",
+    "alias_boundary"
+  ],
+  "learning_slots": [
+    {
+      "case": "local",
+      "noise": 0.0,
+      "model": "G2",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "local",
+      "noise": 0.0,
+      "model": "G10",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "local",
+      "noise": 0.0,
+      "model": "L10",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "local",
+      "noise": 0.01,
+      "model": "G2",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "local",
+      "noise": 0.01,
+      "model": "G10",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "local",
+      "noise": 0.01,
+      "model": "L10",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "nonlocal",
+      "noise": 0.0,
+      "model": "G2",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "nonlocal",
+      "noise": 0.0,
+      "model": "G10",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "nonlocal",
+      "noise": 0.0,
+      "model": "L10",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "nonlocal",
+      "noise": 0.01,
+      "model": "G2",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "nonlocal",
+      "noise": 0.01,
+      "model": "G10",
+      "seed": 324,
+      "updates": 240
+    },
+    {
+      "case": "nonlocal",
+      "noise": 0.01,
+      "model": "L10",
+      "seed": 324,
+      "updates": 240
+    }
+  ],
+  "truth_seeds": {
+    "local": 2026111201,
+    "nonlocal": 2026111202
+  },
+  "noise_seed_offset": 100,
+  "roles": {
+    "train": [
+      0,
+      32
+    ],
+    "val": [
+      32,
+      48
+    ],
+    "test": [
+      48,
+      64
+    ]
+  },
+  "learning_gates": {
+    "clean_nrmse": 0.001,
+    "noisy_nrmse": 0.02,
+    "step_difference": 1e-05
+  },
+  "postrun_saved_arithmetic_audit": {
+    "npz_decode_limit_per_file": 1,
+    "same_run_json_and_artifact_hash_checks": true,
+    "model_calls": 0,
+    "rhs_calls": 0,
+    "autograd_calls": 0,
+    "expm_calls": 0,
+    "svd_calls": 0,
+    "ls_calls": 0
+  },
+  "baseline_decision": "KEEP_BASELINE"
+}

@@ -6,13 +6,18 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
-The current [research plan](machine_local_structure_plan_20261112_zh.md)
-prepares ten machine-local hidden states and learnable physical modules.
+The current [research plan v2](machine_local_structure_plan_v2_20261112_zh.md)
+implements ten machine-local hidden states before learning physical modules.
 Its first comparison separates model order (G2/G10) from local port structure
 (G10/L10), with the unchanged A06 as the performance reference. Initialization,
 history propagation and future rollout use each candidate's own causal model.
-The [design review](machine_local_structure_review_20261112_zh.md) covers this
-preparation scope; execution requires a separately frozen protocol and budget.
+The [synthetic protocol](../protocols/machine_local_synthetic_v1_zh.md) defines
+S0 correctness followed by S1-base: seven observation controls and twelve fixed
+fits. The user's 2026-11-12 instruction authorizes this staged implementation
+and autonomous advancement through scientific gates. Each stage still requires
+its new registered budget and exact implementation review; failed gates stop
+downstream work. The [original design review](machine_local_structure_review_20261112_zh.md)
+remains bound to its earlier preparation document.
 The [full-proposal assessment](machine_local_full_proposal_assessment_20261112_zh.md)
 now reviews the latest linked conversation and its complete attachment. It
 supports the direction and specifies corrections to dimension-dependent encoder
@@ -40,14 +45,15 @@ MSE over both references, but added one train rule miss in every seed. The
 complete evidence and confirms `REJECT / KEEP_BASELINE`. Authority
 `kiki_state_port_train_v1_20261111` and its one-use saved audit are consumed.
 
-The next preparation scope is the machine-local design's synthetic correctness
-and identifiability protocol: reciprocal ports, complete causal gradients,
+The active scope is the machine-local design's synthetic correctness
+and identifiability study: reciprocal ports, complete causal gradients,
 discrete observation sensitivity, and known-truth controls that can reject an
 unsupported local structure. B0 remains an independent initializer candidate,
 as originally recommended by the A1 result review; the user's 2026-11-12 request
 changes the prospective priority. Potential, input and time-objective changes
-remain separate. No new train run, A1 retuning, val/test access or model promotion
-follows from this plan. Keep the [A1 protocol](../protocols/kiki_state_port_train_v1_zh.md),
+remain separate. Real train work requires the S1-base gate and its own exact
+registration. A1 retuning, source val/test access and model promotion are outside
+this synthetic scope. Keep the [A1 protocol](../protocols/kiki_state_port_train_v1_zh.md),
 its implementation review and all completed evidence frozen.
 
 ## Precursor evidence

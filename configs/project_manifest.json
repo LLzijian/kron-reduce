@@ -33,7 +33,7 @@
       ]
     },
     "kiki_energy_dynamics_v1": {
-      "status": "machine_local_structure_preparation",
+      "status": "machine_local_synthetic_implementation",
       "dataset": "kiki_ieee39_v1",
       "spatial_node_count": 10,
       "spatial_clustering": "paused",
@@ -42,7 +42,7 @@
       "synthetic_correctness_checks_retained": true,
       "fresh_test": "requires_new_independent_kiki_registration",
       "historical_program": "ieee39_modular_energy_paper_v1",
-      "current_research_plan": "docs/research/machine_local_structure_plan_20261112_zh.md",
+      "current_research_plan": "docs/research/machine_local_structure_plan_v2_20261112_zh.md",
       "current_priority": "machine_local_hidden_states_and_module_identification",
       "current_prerequisite_experiment": "kiki_state_port_train_v1",
       "independent_followup_candidates": [
@@ -50,11 +50,11 @@
         "A2_conservative_potential",
         "C_fixed_time_weights"
       ],
-      "current_research_stage": "machine_local_synthetic_protocol_preparation",
+      "current_research_stage": "machine_local_s0_implementation_review",
       "prerequisite_scientific_verdict": "REJECT",
       "prerequisite_process_status": "PASS",
       "current_result_receipt": "docs/reports/kiki_state_port_train_20261111_evidence.json",
-      "current_design_review": "docs/research/machine_local_structure_review_20261112_zh.md"
+      "current_design_review": "docs/research/machine_local_synthetic_implementation_review_20261112.json"
     }
   },
   "datasets": {
@@ -2073,6 +2073,36 @@
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false,
       "required_gate": "train_mechanism"
+    },
+    "machine_local_s0_v1": {
+      "status": "gated",
+      "execution_mode": "bounded_synthetic_cli_only",
+      "module": "kron_reduce.workflows.machine_local_synthetic",
+      "workflow": "machine_local_synthetic_v1",
+      "config": "machine_local_s0_v1.toml",
+      "stage": "s0",
+      "required_gate": "s0",
+      "data_policy": "analytic_synthetic_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "dataset": "synthetic_benchmark_registry_v1",
+      "model_promotion_allowed": false,
+      "deployment_predictions_allowed": false
+    },
+    "machine_local_s1_base_v1": {
+      "status": "gated",
+      "execution_mode": "bounded_synthetic_cli_only",
+      "module": "kron_reduce.workflows.machine_local_synthetic",
+      "workflow": "machine_local_synthetic_v1",
+      "config": "machine_local_s1_base_v1.toml",
+      "stage": "s1_base",
+      "required_gate": "s1_base",
+      "data_policy": "analytic_synthetic_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "dataset": "synthetic_benchmark_registry_v1",
+      "model_promotion_allowed": false,
+      "deployment_predictions_allowed": false
     }
   },
   "active_policy": "configs/research_policy.json",

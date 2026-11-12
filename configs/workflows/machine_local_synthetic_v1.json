@@ -1,0 +1,100 @@
+{
+  "workflow": "machine_local_synthetic_v1",
+  "experiment": "machine_local_s0_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "s0",
+    "s1_base"
+  ],
+  "transitions": {
+    "scaffold": "s0",
+    "s0": "s1_base"
+  },
+  "terminal_stages": [
+    "s1_base"
+  ],
+  "approval_required": [
+    "s0",
+    "s1_base"
+  ],
+  "stage_evidence_contracts": {
+    "s0": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "data_policy",
+        "promotion_decision",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary",
+        "scientific_pass"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "status": [
+          "PASS"
+        ],
+        "process_status": [
+          "PASS"
+        ],
+        "data_policy": [
+          "analytic_synthetic_only"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "scientific_pass": [
+          true
+        ]
+      }
+    },
+    "s1_base": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "data_policy",
+        "promotion_decision",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary",
+        "scientific_pass"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "status": [
+          "PASS"
+        ],
+        "process_status": [
+          "PASS"
+        ],
+        "data_policy": [
+          "analytic_synthetic_only"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "scientific_pass": [
+          true,
+          false
+        ]
+      }
+    }
+  },
+  "scientific_target": "verify_machine_local_diagonal_memory_correctness_and_synthetic_identifiability",
+  "locked_claims": [
+    "real_data_accuracy",
+    "physical_module_identification",
+    "stability_certificate",
+    "model_promotion"
+  ]
+}
