@@ -1,0 +1,123 @@
+{
+  "schema": "kron_reduce.machine_local_clean_learning_result_review.v1",
+  "reviewer": "Astra Ultra",
+  "review_date": "2026-11-13",
+  "approved": true,
+  "review_completed": true,
+  "result_evidence_accepted": true,
+  "scientific_pass": true,
+  "decision": "ACCEPT_MATCHED_CLEAN_LINEAR_LEARNING_EVIDENCE",
+  "promotion_decision": "KEEP_BASELINE",
+  "t0_allowed": false,
+  "run_id": "machine_local_clean_learning_v1-learning-20261112T165600378046Z-df53e09a-8db663f0",
+  "run_path": "results/machine_local_clean_learning_v1-learning-20261112T165600378046Z-df53e09a-8db663f0",
+  "source_commit": "df53e09aae896bdde622e05452c777217cc988de",
+  "plan_path": "configs/proposals/machine_local_clean_learning_v1.json",
+  "plan_sha256": "57833254be5fb6135c6f45713705a66359309586f0da994d1ef3caca8d16074a",
+  "protocol_path": "docs/protocols/machine_local_clean_learning_v1_zh.md",
+  "protocol_sha256": "a334a5f9b45954e112ab69d1283c879f7962285fc8fd81c685275d2eb704aa56",
+  "artifact_manifest_sha256": "9f554d6c657812999b4efaf18450aa1bcfa1fcd0a488107d79bea710d2972e13",
+  "summary_sha256": "e10d8069f1b499f7d18883ccd301accb91e9cc441afcbfaca396b0002bdc529a",
+  "gates": {
+    "numerical_pass": true,
+    "gradient_pass": true,
+    "truth_control_pass": true,
+    "accuracy_pass": true,
+    "evaluation_complete": true
+  },
+  "training": {
+    "status": "COMPLETED",
+    "updates_attempted": 240,
+    "selection_rule": "fixed_final_update"
+  },
+  "selected_accuracy": {
+    "train": {
+      "main_nrmse": 6.579798473084352E-08,
+      "nrmse_3s_all": 8.563601717574146E-08,
+      "nrmse_8s_all": 1.0815445589290087E-07,
+      "initial_nrmse_3s_all": 0.0243659747619026
+    },
+    "val": {
+      "main_nrmse": 6.947139968417972E-08,
+      "nrmse_3s_all": 9.126977226010741E-08,
+      "nrmse_8s_all": 1.1703833898074062E-07,
+      "initial_nrmse_3s_all": 0.028915435223447968
+    },
+    "test": {
+      "main_nrmse": 6.970264257525939E-08,
+      "nrmse_3s_all": 9.156044761871834E-08,
+      "nrmse_8s_all": 1.1990348024942304E-07,
+      "initial_nrmse_3s_all": 0.03224444022431354
+    }
+  },
+  "parameter_relative_error": {
+    "g": 2.2337904127977226E-06,
+    "tau": 7.225136412488669E-07
+  },
+  "operations": {
+    "expm": 3,
+    "matrix_products": 252299,
+    "rollouts": 534,
+    "qr": 267,
+    "svd": 267,
+    "triangular_solves": 267,
+    "gradients": 241,
+    "fits": 1,
+    "optimizer_updates": 240,
+    "numpy_rhs": 9
+  },
+  "operations_returned": {
+    "expm": 3,
+    "matrix_products": 252299,
+    "rollouts": 534,
+    "qr": 267,
+    "svd": 267,
+    "triangular_solves": 267,
+    "gradients": 241,
+    "fits": 1,
+    "optimizer_updates": 240,
+    "numpy_rhs": 9
+  },
+  "successful_scopes": 12,
+  "all_issued_allocations_returned": true,
+  "saved_arithmetic_audit": {
+    "path": "reports/generated/machine_local_clean_learning_20261113/saved-audit.json",
+    "sha256": "541b1ca41b2026bd3b399f290074dfb4cf1eb2dddf1990b948ced9bd06b50285",
+    "script_sha256": "7a4376d5d00593e94ac573776662fb37942f5bd5fe0f466456549f1f7a551b39",
+    "status": "PASS",
+    "npz_files_decoded_once": 13,
+    "independently_recomputed": "Train scales; QR orthogonality/reconstruction and triangular equation; causal history/reset arithmetic; all role metrics, finite states and COI; saved finite-difference loss arithmetic; parameter metrics; training and operation journals.",
+    "reported_only": [
+      "Saved singular values, with rank/condition recomputed from those values.",
+      "Saved energy-identity errors, checked for finite values and threshold."
+    ],
+    "not_reexecuted": [
+      "Model propagation",
+      "RHS/energy evaluation",
+      "Autograd",
+      "Matrix factorizations or solves"
+    ]
+  },
+  "findings_supported": [
+    "One pre-frozen new-seed clean local linear corpus supports successful causal hidden initialization and end-to-end learning of twenty port/time-scale parameters with the visible backbone known.",
+    "All three frozen parameter models completed train/val/test evaluation; candidate success comes from the fixed final 240th update without held-out selection.",
+    "The fitted model predicts all roles accurately and recovers the registered generating parameters in this matched fixture."
+  ],
+  "claim_boundary": "One matched local linear known-backbone synthetic experiment, not arbitrary-structure identification, noisy robustness, nonlinear validation, or real-data confirmation.",
+  "next_action": {
+    "direction": "Prepare the necessary clean nonlinear history-interface validation, then TASK3 real-data pilot preparation.",
+    "requirements": [
+      "Keep 100 ms/11-frame causal inputs and complete val/test reporting in each round.",
+      "Verify a model-consistent nonlinear history solve and its end-to-end gradients; the current linear superposition response is not an exact sine-backbone initializer.",
+      "Retain TASK3 train/val/test identities and separately register any real-data pilot."
+    ],
+    "new_noise_or_prior_study": false,
+    "new_protocol_and_exact_implementation_review_required": true,
+    "additional_scientific_execution_approved_by_this_result_review": false
+  },
+  "review_operations": {
+    "npz_decodes": 0,
+    "scientific_calls": 0,
+    "inputs": "Saved JSON, source, audit script and byte hashes."
+  }
+}

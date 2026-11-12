@@ -2603,7 +2603,7 @@
       "real_data_reads": 0,
       "fit_attempts": 1,
       "optimizer_updates": 240,
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_user_autonomous_diagnosis_repair_with_exact_Astra_Ultra_review",
       "plan_path": "configs/proposals/machine_local_clean_learning_v1.json",
       "plan_sha256": "57833254be5fb6135c6f45713705a66359309586f0da994d1ef3caca8d16074a",
@@ -2774,7 +2774,22 @@
         "triangular_solves": 0
       },
       "model_promotion_allowed": false,
-      "deployment_predictions_allowed": false
+      "deployment_predictions_allowed": false,
+      "consumed_at": "2026-11-12T17:09:59.726715+00:00",
+      "run_id": "machine_local_clean_learning_v1-learning-20261112T165600378046Z-df53e09a-8db663f0",
+      "source_commit": "df53e09aae896bdde622e05452c777217cc988de",
+      "scientific_verdict": "CLEAN_MATCHED_LINEAR_LEARNING_PASS",
+      "promotion_decision": "KEEP_BASELINE",
+      "result_receipt_path": "docs/reports/machine_local_clean_learning_20261113_evidence.json",
+      "result_receipt_sha256": "c9b46303d965efbf9398231e84e38ff0cf189848fa8a8b6bc644eaa6d5c30be2",
+      "saved_arithmetic_audit_result": {
+        "path": "reports/generated/machine_local_clean_learning_20261113/saved-audit.json",
+        "sha256": "541b1ca41b2026bd3b399f290074dfb4cf1eb2dddf1990b948ced9bd06b50285",
+        "script_sha256": "7a4376d5d00593e94ac573776662fb37942f5bd5fe0f466456549f1f7a551b39",
+        "npz_decodes": 13,
+        "new_scientific_calls": 0,
+        "status": "consumed"
+      }
     }
   },
   "saved_evidence_audits": {
