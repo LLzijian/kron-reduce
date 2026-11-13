@@ -3321,7 +3321,7 @@
       "real_data_reads": 0,
       "fit_attempts": 1,
       "optimizer_updates": 0,
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_user_continue_latest_conversation_plan_with_exact_Astra_Ultra_review",
       "plan_path": "configs/proposals/machine_local_stiffness_calibration_v1.json",
       "plan_sha256": "97fc3615689e8d478ede524bd5d142ff711a801736102c5f299f8e5f46c64fba",
@@ -3450,7 +3450,11 @@
         "optimizer_objective_calls": 80,
         "profile_objective_calls": 9,
         "reference_objective_calls": 1
-      }
+      },
+      "run_id": "machine_local_stiffness_calibration_v1-calibration-20261113T160423643093Z-659cc6ca-79ec7efe",
+      "result_manifest_sha256": "122111ad26b772b9d26883e20cbc2aa1c5f7b90cad24913bba5a4623c1ae6107",
+      "result_receipt_path": "docs/reports/machine_local_stiffness_calibration_20261114_evidence.json",
+      "result_receipt_sha256": "b38ff7509c5cf8528bf311a086adb4ce8e512a03a323cd039b2ee661e9e13263"
     }
   },
   "saved_evidence_audits": {

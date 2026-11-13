@@ -1,0 +1,55 @@
+{
+  "schema": "machine_local_stiffness_calibration.evidence.v1",
+  "status": "COMPLETE_JSON_VERIFIED",
+  "run_id": "machine_local_stiffness_calibration_v1-calibration-20261113T160423643093Z-659cc6ca-79ec7efe",
+  "artifact_manifest_sha256": "122111ad26b772b9d26883e20cbc2aa1c5f7b90cad24913bba5a4623c1ae6107",
+  "source_commit": "659cc6ca9a318fb38637afaff7246aa236941b89",
+  "population": {
+    "train": 32,
+    "val": 16,
+    "test": 16
+  },
+  "groups": [
+    "mismatch",
+    "known",
+    "fitted"
+  ],
+  "scientific_pass": true,
+  "operations": {
+    "rollouts": 458,
+    "numpy_rhs": 5001728,
+    "fits": 1,
+    "optimizer_objective_calls": 11,
+    "tangent_rhs": 27360,
+    "torch_rhs": 598080,
+    "qr": 3168,
+    "svd": 3168,
+    "matrix_products": 3168,
+    "triangular_solves": 3168,
+    "profile_objective_calls": 9,
+    "reference_objective_calls": 1
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "torch": "2.13.0+cpu"
+  },
+  "result_review": {
+    "path": "docs/research/machine_local_stiffness_calibration_result_review_20261114.json",
+    "sha256": "6d1da3ca340afe456b1bd61945a25cbbd2f064d0f710e6732b30fb525bb88d0f"
+  },
+  "json_consistency": {
+    "path": "reports/generated/machine_local_stiffness_calibration_20261114/json-consistency.json",
+    "sha256": "a85101867e42b65b0a147e31300827813afc95499a49a9eb236c266a9f2e805e",
+    "artifact_count": 31,
+    "role_count": 9,
+    "archive_decodes": 0,
+    "new_model_calls": 0
+  },
+  "promotion_decision": "KEEP_BASELINE",
+  "next_preparation": {
+    "path": "docs/research/machine_local_r20_r21_preparation_20261114_zh.md",
+    "sha256": "b45ddf67be3cc14f694dc38eb9ae99c568cea8e1d4fee1d8af72c6855c3f6456"
+  }
+}

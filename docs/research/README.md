@@ -24,10 +24,12 @@ is now finished: matched dynamics recover the hidden state, while fixed stiffnes
 mismatch is partly absorbed by the initializer and changes future errors in both
 directions. All four groups complete train/val/test with full stability coverage;
 saved-array recomputation has zero discrepancies. Its scientific and saved-audit
-authorities are consumed. The [shared stiffness calibration protocol](../protocols/machine_local_stiffness_calibration_v1_zh.md)
-uses one bounded scalar fit on a new complete synthetic population. It compares
-parameter recovery, hidden-state recovery and trajectory prediction before
-another real-data round or function discovery.
+authorities are consumed. The [shared stiffness calibration](../reports/machine_local_stiffness_calibration_20261114_zh.md)
+recovered the known scalar after 11 full train objectives. The fitted model
+passed hidden-state recovery and trajectory checks on all 64 synthetic events.
+The [next real-data comparison](machine_local_r20_r21_preparation_20261114_zh.md)
+prepares matched-start, matched-budget fits of the 20- and 21-parameter models.
+The harmonic function-selection controls follow a separate synthetic protocol.
 
 The [machine-local initializer diagnosis](../reports/machine_local_initializer_diagnosis_20261112_zh.md)
 passed its numerical and saved-evidence checks. Its route is
