@@ -1251,7 +1251,7 @@
       "result_receipt_sha256": "c20b011dc5c060dd7325d01e6d3921a0aad0ad213b60d2ce8b0ee46a37a53676"
     },
     "kiki_machine_local_r20_r21_fit_v1_20261114": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_r20_r21_fit_v1",
       "fit_attempts": 2,
       "max_executions": 1,
@@ -1274,7 +1274,9 @@
         "triangular_solves": 182088,
         "matrix_products": 182088,
         "checkpoint_loads": 1
-      }
+      },
+      "run_id": "kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632",
+      "result_manifest_sha256": "e3536ac99e4369b9fe4f0733b0f059e5577746f987f92fe2fb31829583b95f01"
     }
   },
   "archived_development_results": {
@@ -3653,6 +3655,34 @@
       "result_manifest_sha256": "4e7b46a018e2470814885aa43c179bc7f05a4251acbc12a2d74c3899fb39c93b",
       "result_receipt_path": "docs/reports/kiki_machine_local_full_20261113_evidence.json",
       "result_receipt_sha256": "c20b011dc5c060dd7325d01e6d3921a0aad0ad213b60d2ce8b0ee46a37a53676"
+    },
+    "kiki_machine_local_r20_r21_test_v1_20261114": {
+      "status": "active",
+      "experiment": "kiki_machine_local_r20_r21_test_v1",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "authority": "explicit_user_full_test_of_both_frozen_paired_models",
+      "frozen_model_manifest": {
+        "path": "results/kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632/freeze.json",
+        "sha256": "8fa1125c8c8b2e0fd2eb2fd99f234389bbe23b89a555ed7912d4e80c90bfdb58"
+      },
+      "plan_path": "configs/proposals/kiki_machine_local_r20_r21_test_v1.json",
+      "plan_sha256": "3faa3aaa0972c5722908a48f03c5cf709fca7f037231f3e2b8b2c579a164dfe8",
+      "review_path": "docs/research/kiki_machine_local_r20_r21_test_review_20261114.json",
+      "review_sha256": "270dce0d9d25a6a2fbc1b41536432be3ffcceaf5bc9fba2291d672866246df78",
+      "operation_limits": {
+        "rollouts": 1620,
+        "torch_rhs": 6531840,
+        "tangent_rhs": 233280,
+        "qr": 1824,
+        "svd": 1824,
+        "triangular_solves": 1824,
+        "matrix_products": 1824,
+        "checkpoint_loads": 2
+      }
     }
   },
   "round_evaluation_defaults": {

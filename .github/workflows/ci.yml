@@ -29,6 +29,7 @@ jobs:
           python -m ruff check project_harness scripts/register_kiki_dataset.py
           src/kron_reduce/data/task3_full.py src/kron_reduce/evaluation/kiki_machine_local_full.py
           src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py src/kron_reduce/workflows/kiki_machine_local_r20_r21.py
+          scripts/audit_kiki_machine_local_r20_r21_saved.py
           tests/test_machine_local_trainable_stiffness.py tests/test_kiki_machine_local_r20_r21.py
           src/kron_reduce/workflows/kiki_machine_local_full.py scripts/audit_kiki_machine_local_full_saved.py
           src/kron_reduce/evaluation/machine_local_hidden_oracle.py
