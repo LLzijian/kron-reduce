@@ -8,6 +8,7 @@ import json
 import math
 import subprocess
 import sys
+from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -456,14 +457,16 @@ def main_run(root, plan_path, output_path):
         cls21 = {row["id"]: row for row in loaded[f"r21_{role}"][2]}
         if cls20.keys() != cls21.keys() or sorted(cls20) != rosters[role]:
             raise RuntimeError(f"paired {role} classifications do not cover the frozen roster")
+        state20, state21 = (
+            {event: (row["predicted_label"] or "unresolved") if row["qualified"] else "numerical_failure"
+             for event, row in group.items()}
+            for group in (cls20, cls21)
+        )
         changes = [{"id": event, "truth": cls20[event]["truth_label"],
-                    "r20": cls20[event]["predicted_label"], "r21": cls21[event]["predicted_label"]}
-                   for event in rosters[role] if cls20[event]["predicted_label"] != cls21[event]["predicted_label"]]
+                    "r20": state20[event], "r21": state21[event]}
+                   for event in rosters[role] if state20[event] != state21[event]]
         classification_changes[role] = {"changed_count": len(changes), "rows": changes,
-            "transition_counts": {f"{a or 'unresolved'}_to_{b or 'unresolved'}": sum(
-                x["r20"] == a and x["r21"] == b for x in changes)
-                for a, b in (("stable", "unstable"), ("unstable", "stable"),
-                             ("stable", None), ("unstable", None), (None, "stable"), (None, "unstable"))}}
+            "transition_counts": dict(Counter(f"{row['r20']}_to_{row['r21']}" for row in changes))}
     paired_terminal = {}
     for role in ROLES:
         paired_terminal[role] = {}
@@ -492,13 +495,15 @@ def main_run(root, plan_path, output_path):
     for group in GROUPS:
         for role in ROLES:
             stage = "test" if role == "test" else "fit"
-            if summaries[stage].get("records", {}).get(group, {}).get(role) != {
-                key: loaded[f"{group}_{role}"][0][key]
-                for key in ("summary", "unstable_prefix", "stability", "task3_six_term_score")
-            }:
+            key = f"{group}_{role}"
+            expected = {field: loaded[key][0][field]
+                        for field in ("summary", "unstable_prefix", "stability", "task3_six_term_score")}
+            mismatches = compare(safe(summaries[stage]["records"][group][role]), safe(expected), f"{key}.summary")
+            if mismatches:
                 output["status"] = "MISMATCH"
-                rows[[r["key"] for r in rows].index(f"{group}_{role}")]["mismatch_count"] += 1
-                rows[[r["key"] for r in rows].index(f"{group}_{role}")]["mismatches"].append("summary.records")
+                row = next(r for r in rows if r["key"] == key)
+                row["mismatch_count"] += len(mismatches)
+                row["mismatches"].extend(mismatches[:100])
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     with Path(output_path).open("x", encoding="utf-8") as stream:
         json.dump(safe(output), stream, indent=2, allow_nan=False)
@@ -512,6 +517,8 @@ def main():
     args = parser.parse_args()
     result = main_run(project_root(), args.plan, args.output)
     print(json.dumps({"status": result["status"], "mismatches": sum(r["mismatch_count"] for r in result["roles"])}, indent=2))
+    if result["status"] != "PASS":
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

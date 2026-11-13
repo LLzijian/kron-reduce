@@ -47,6 +47,9 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   Report this previously exposed test roster as a fixed comparison benchmark.
   Independent confirmation requires independent data. Consumed historical
   protocols retain their original splits.
+- For iterative fits, register the update cap, full-val checkpoint cadence,
+  stopping and checkpoint-selection rules before fitting. Retain the train
+  loss and val curves and report the actual and selected update counts.
 - For each newly authorized training round, freeze its model and evaluation
   contract, then evaluate the complete frozen `train=346`, `val=107`, and
   `test=76` rosters from the first assessment. Do not use two-case or other

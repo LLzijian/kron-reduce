@@ -1,0 +1,140 @@
+{
+  "schema": "kiki_machine_local_r20_r21.saved_audit_exact_review.v1",
+  "review_date": "2026-11-14",
+  "reviewer": "Astra Ultra",
+  "approved": true,
+  "decision": "APPROVED_ONE_ARITHMETIC_AUDIT_OF_SIX_SAVED_FORECAST_ARCHIVES",
+  "plan_path": "configs/proposals/kiki_machine_local_r20_r21_saved_audit_v1.json",
+  "plan_sha256": "7a45788f43f4f4f8702dc02ce5f6c272ec9bd8c6d84c8ece3f1c79eb82aba5ea",
+  "implementation_bindings": {
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9"
+  },
+  "scope": {
+    "authorization": "kiki_machine_local_r20_r21_saved_audit_v1_20261114",
+    "max_executions": 1,
+    "retry_allowed": false,
+    "fit_run_id": "kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632",
+    "test_run_id": "kiki_machine_local_r20_r21_test_v1-test-20261113T183739926132Z-78c6722c-5ed5449a",
+    "report_path": "reports/generated/kiki_machine_local_r20_r21_20261114/saved-audit.json",
+    "cohorts": {
+      "test": 76,
+      "train": 346,
+      "val": 107
+    },
+    "groups": [
+      "r20",
+      "r21"
+    ],
+    "max_npz_decodes": 6,
+    "decodes_per_bound_forecast_archive": 1,
+    "npz_members": [
+      "ids",
+      "fine",
+      "refined",
+      "truth",
+      "lengths",
+      "mass",
+      "equilibrium",
+      "labels"
+    ],
+    "allow_pickle": false,
+    "run_files": {
+      "r20_train": {
+        "npz_path": "r20/train_predictions.npz",
+        "npz_sha256": "3a49fa8359d3af8c780a957e4864f548174ce88f40611eecd16a7f288c4dc076",
+        "json_path": "r20/train.json",
+        "json_sha256": "74fc37951b426d7c368c4b3eb04eca216b7625a83e2861c7930bca88f5074677"
+      },
+      "r20_val": {
+        "npz_path": "r20/val_predictions.npz",
+        "npz_sha256": "dcaec1917894719cde90b5cbe99c6902b07f64c28b3a378fa46c974b81642aef",
+        "json_path": "r20/val.json",
+        "json_sha256": "0bf56e1d53ff4071815e015bd7644787c1f1f15db8c0a25e208df864623b7ac4"
+      },
+      "r20_test": {
+        "npz_path": "r20/test_predictions.npz",
+        "npz_sha256": "c3b5379c7e62f6f20368581f00d16a4fad0f312d6c6494eb3cbbb3e8ea9e19e3",
+        "json_path": "r20/test.json",
+        "json_sha256": "d5413ab4f4384db1fb96e7346f11619112f0b3161b07d331de261f1de9c7d40a"
+      },
+      "r21_train": {
+        "npz_path": "r21/train_predictions.npz",
+        "npz_sha256": "e3668a44d36333727205ce99590888ec04d7097c6c6b84720f023d0d2443f03d",
+        "json_path": "r21/train.json",
+        "json_sha256": "6b9bbff403fc3f56767d66eef7e093ee6fa9c6bc6986ba05de4631b47eeeb3c8"
+      },
+      "r21_val": {
+        "npz_path": "r21/val_predictions.npz",
+        "npz_sha256": "745a55a57b3e8bed7d02d488b34480b712f1cb3dbfd3acbd90b718f940c6fdfa",
+        "json_path": "r21/val.json",
+        "json_sha256": "6a949d79bd1d70eee2aa48a09cbb1178ae0aa03c610c0dc9b298d57d183438bf"
+      },
+      "r21_test": {
+        "npz_path": "r21/test_predictions.npz",
+        "npz_sha256": "c58a4f27fb9dd682d7b0ac4526e93b0d68d0c412f7c4bf6f9c9ab83f7f6ad754",
+        "json_path": "r21/test.json",
+        "json_sha256": "4f614c0c8eb4ebd5b7516cca9fb12a14a2d26055196b0f5d4b23824dc3c5fb47"
+      }
+    },
+    "raw_source_payload_reads": 0,
+    "checkpoint_decodes": 0,
+    "model_calls": 0,
+    "rhs_calls": 0,
+    "integrations": 0,
+    "fits": 0,
+    "optimizer_updates": 0,
+    "gradients": 0,
+    "matrix_factorizations": 0
+  },
+  "verification": {
+    "local_implementation_bindings": 5,
+    "external_task3_source_bindings": 60,
+    "forecast_archives_hashed_without_decoding": 6,
+    "score_json_files_hashed": 6,
+    "exact_file_and_manifest_mismatches": [],
+    "fit_artifact_manifest_sha256": "e3536ac99e4369b9fe4f0733b0f059e5577746f987f92fe2fb31829583b95f01",
+    "test_artifact_manifest_sha256": "6f204939fb9ff940bc21049ee92246a96132abe45c06963812da0a43d613c124",
+    "fit_summary_sha256": "21ffae7e59d73142452dc26b71942b37ed9ac21855b9598ebefdf5da7ffa997c",
+    "test_summary_sha256": "4d1bdc7fc3ff1ddad1e569c18dcf3229b4284182d936303012027a3b90d74035",
+    "preprocessing_sha256": "0abd0dc64017687c8e6dbec858af0b41ed4d5dae71921edccb20868a2c678faa",
+    "source_qualified_rosters_and_labels_match_fit_contract": true,
+    "task3_root_matches_bound_source_contract": true,
+    "fit_process_status": "PASS",
+    "test_process_status": "PASS",
+    "output_path_did_not_exist_during_review": true
+  },
+  "accepted_findings": [
+    "The plan binds exactly the six new R20/R21 train, val and test prediction archives and their corresponding score JSON files to both immutable run manifests.",
+    "The script checks one-use authority and exact plan/review/source hashes, reserves its immutable receipt before decoding, and rejects a pre-existing report output.",
+    "The fixed three-role/two-group loop invokes one allow_pickle=False decode for each archive; there is no retry path, model call, source-cache read or checkpoint load.",
+    "Saved IDs, labels, lengths, dimensions, finite truth/static values and positive masses are checked against frozen source-qualified rosters; paired truth and static arrays must match exactly.",
+    "The script recomputes TASK3 metrics from saved fine/refined predictions using the hash-bound scoring implementation, then checks saved role records and summary JSON with relative and absolute tolerance 1e-12.",
+    "Official truth labels remain frozen; predicted stability, numerical qualification, full/cohort and classifiable accuracy conventions, zero denominators and coverage are reconstructed from the saved trajectories.",
+    "Terminal 1 s/3 s targets are recomputed using saved train scales and mass-COI-projected saved truth, with exactly the original numerical qualification and true-length masks.",
+    "Per-horizon physical RMSE pooling uses genuine point counts; R21-minus-R20 event differences retain complete versus finite paired denominators, missing IDs and unqualified IDs.",
+    "Matched classification transitions explicitly distinguish stable, unstable, unresolved and numerical_failure; unqualified predictions are not reported as effective stable/unstable transitions.",
+    "Any recomputation mismatch is retained in the report and produces MISMATCH/nonzero exit rather than silent success or fabricated metric values."
+  ],
+  "boundaries": [
+    "This approval covers one exact arithmetic-only saved-evidence audit. It does not authorize new predictions, re-fitting, checkpoint inspection, data-source reads or changes to the frozen models.",
+    "The audit independently recomputes from saved arrays using the same frozen TASK3 scoring implementation; it is not a second independent implementation of TASK3 scoring or an independent dataset confirmation.",
+    "Reviewer verification used metadata and byte hashes only. No prediction archive or checkpoint was decoded and no audit, test, model or scientific operator was executed during this review.",
+    "A PASS audit establishes consistency of saved evidence with the frozen scoring contract, not convergence, stability certification or model promotion.",
+    "Test remains reporting-only on its historically exposed fixed benchmark; KEEP_BASELINE remains in force and scientific result interpretation follows the arithmetic audit."
+  ],
+  "reviewer_activity": {
+    "metadata_json_reads": true,
+    "byte_hash_checks": true,
+    "npz_decodes": 0,
+    "checkpoint_decodes": 0,
+    "model_calls": 0,
+    "rhs_calls": 0,
+    "tests_run": 0,
+    "policy_edits": 0,
+    "loop_approvals_or_transitions": 0
+  }
+}
