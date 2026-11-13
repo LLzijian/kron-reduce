@@ -1,0 +1,121 @@
+{
+  "schema": "kiki_machine_local_full.exact_review.v1",
+  "review_date": "2026-11-13",
+  "reviewer": "Astra Ultra",
+  "approved": true,
+  "decision": "APPROVED_ONE_FROZEN_ZERO_FIT_FULL_TEST_EVALUATION",
+  "plan_path": "configs/proposals/kiki_machine_local_full_test_v1.json",
+  "plan_sha256": "7137084af62fc18705305e3ef6331fe93a6188c982da111c21194e3bd59059b9",
+  "protocol_path": "docs/protocols/kiki_machine_local_full_v1_zh.md",
+  "protocol_sha256": "faf54e8d44170f51da5cdc0fd9e3acc9a8c23676700b5d229d3c4e78920335af",
+  "implementation_bindings": {
+    "src/kron_reduce/evaluation/kiki_machine_local_full.py": "c936422d67889a94f72f14c44b03205828ae09402311c0eee41e8a467f23d004",
+    "src/kron_reduce/workflows/kiki_machine_local_full.py": "f64d5caacada7284f6bcbcbfeff0c70b68a4df3cbf14f520d65d3e7e2171e581",
+    "src/kron_reduce/data/task3_full.py": "6dd2cf419d22085c9d48c5d9c9f3f7533491d47dc8915e9545a9b2c4bd723ab2",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+    "src/kron_reduce/data/audit_access_ledger.py": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+    "src/kron_reduce/evaluation/state_port_training.py": "18047aeccb3848cc855a6bddbd2e7c4b11f4acdb5b1b70872e32c03e34bfc738",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/models/nonlinear_history.py": "05fec5b56e3c1c7ed6ffad295894c1243c408861c3bd114a353883a756db9e84",
+    "src/kron_reduce/models/differentiable_history.py": "3c144c9acbdf9129f7802dc69caa16ec7fb8ed61fdcc064fcc285e2baf2a0a89",
+    "src/kron_reduce/models/machine_local.py": "79789ee60cb375d7bbe2041266638ffc2a141a8fba0f7fa14772a7fc57e5a656",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "project_harness/policy.py": "4da0b715c6c0c374627b32f4738ad13cbd3115551c392e4b112f5aa3771e3d13",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "docs/protocols/kiki_machine_local_full_v1_zh.md": "faf54e8d44170f51da5cdc0fd9e3acc9a8c23676700b5d229d3c4e78920335af",
+    "docs/research/kiki_machine_local_full_plan_20261113_zh.md": "c0e3eca08c311e4c806204f0d4eb265cdc87c2bd3af2f801cc45430ebc76e008",
+    "tests/test_task3_full.py": "d0464312f8b2c1b5bc359a8761f12cf38f09c276478d26044b79305de30ad2da",
+    "tests/test_kiki_machine_local_full.py": "9d9d9956a869a110be448ca64cb851ceae77e36ecabe6e3f462920b9ddf1fcfd",
+    "configs/project_manifest.json": "4c789ba5b84bd0a2aaa0d284f427ed93d8fa78acfe6f955fca5225be85faf505",
+    "configs/workflows/kiki_machine_local_full_v1.json": "07812392419c3c02cae459dfbea242e5582f312d921debf18cc33fd749698c68",
+    "configs/experiments/kiki_machine_local_full_test_v1.toml": "ac757bf5cd798dbce3a8c81eb637107bfff8e19e9d838edf8f80bbe5d537ad02"
+  },
+  "verified_bound_file_hash_mismatches": [],
+  "frozen_model_manifest": {
+    "path": "results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/freeze.json",
+    "sha256": "db06a5fed9ec80f9047d7f6ee4d8499e1cdaa506aab316fb0d12372c023ac81f"
+  },
+  "fit_evidence": {
+    "run_id": "kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e",
+    "source_commit": "de0958b60b5a7535b38be612d1433d21cc1f21cf",
+    "fit_plan_sha256": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "summary_sha256": "9f86e3a769eae87fbfdbff6e8061a87fc8b2a2fd5e938fdd4723deb5861cefd9",
+    "training_status": "COMPLETED",
+    "completed_updates": 40,
+    "train_allocated": 346,
+    "val_allocated": 107,
+    "checkpoint_sha256": "ec059244ffd2a66914150a8363b7e7b655f4988ba83dbb42562c6514a707f8dc",
+    "preprocessing_sha256": "0abd0dc64017687c8e6dbec858af0b41ed4d5dae71921edccb20868a2c678faa"
+  },
+  "exact_scope": {
+    "stage": "test",
+    "allowed_payload_roles": [
+      "test"
+    ],
+    "test_count": 76,
+    "max_executions": 1,
+    "retry_allowed": false,
+    "fit_attempts": 0,
+    "optimizer_updates": 0,
+    "evaluation_batch_size": 16,
+    "added_noise": 0,
+    "operation_limits": {
+      "rollouts": 810,
+      "torch_rhs": 3265920,
+      "tangent_rhs": 116640,
+      "qr": 912,
+      "svd": 912,
+      "triangular_solves": 912,
+      "matrix_products": 912,
+      "checkpoint_loads": 2
+    },
+    "source_static_member_decodes": 4,
+    "test_event_member_decodes": 152,
+    "test_event_decodes": 76,
+    "checkpoint_loads": 2
+  },
+  "accepted_findings": [
+    "The trained model and preprocessing were frozen before val/test reporting. The saved JSON records a completed fixed forty-update fit and full 346 train/107 val allocations.",
+    "The model checkpoint and preprocessing byte hashes match the frozen manifest; the manifest hash exactly matches the test plan and active zero-fit test authority.",
+    "The evaluator, model, nonlinear history solver, data adapter and all external TASK3 scoring code hashes are unchanged from the approved fit plan.",
+    "The only shared implementation binding changes are the research-policy audit-only correction and registry update; the fit configuration is replaced by the test configuration.",
+    "The audit_only correction permits consumed registrations only in metadata audit. All execution call sites retain the default active-only policy, and the workflow additionally requires an active one-use test authority.",
+    "The exact source-qualified test roster, source cache identities and preprocessing rules are unchanged; the stage-scoped reader permits only the frozen 76 test events.",
+    "Both prediction step sizes, fixed batch/event isolation budget, TASK3 metrics, official truth labels, unresolved handling, saved truth and full-cohort failure accounting are retained.",
+    "No fitting, model selection, threshold revision or further scientific search is approved by this test stage."
+  ],
+  "engineering_evidence": {
+    "coordinator_report": "30 policy/reader/evaluator tests passed after applying the audit-only policy correction.",
+    "reviewer_independently_ran_tests": false,
+    "reviewer_checks": [
+      "all current local and external byte bindings",
+      "fit versus test calculation-code identity",
+      "freeze/checkpoint/preprocessing hashes",
+      "full train and val allocation JSON",
+      "active zero-fit test registration",
+      "execution-policy callers"
+    ]
+  },
+  "boundaries": [
+    "The exposed 76-event test roster is a fixed comparison benchmark, not independent unseen-data confirmation.",
+    "All 76 test outcomes must be retained, including unresolved and numerical failures; test results are reporting-only.",
+    "This approval does not promote the model, certify stability, reopen the consumed fit or authorize another fit.",
+    "A separately registered saved-output arithmetic audit and result review follow execution."
+  ],
+  "reviewer_activity": {
+    "real_payload_array_decodes": 0,
+    "scientific_model_calls": 0,
+    "scientific_rhs_calls": 0,
+    "scientific_fits": 0,
+    "byte_hash_checks": true
+  }
+}

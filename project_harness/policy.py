@@ -15,6 +15,7 @@ def load_policy(root: Path) -> dict:
 
 def validate_run_policy(
     root: Path, name: str, experiment: dict, *, historical_reproduction: bool = False,
+    audit_only: bool = False,
 ) -> None:
     policy = load_policy(root)
     if not policy:
@@ -61,7 +62,8 @@ def validate_run_policy(
             raise RuntimeError("TASK3_INPUT_CONTRACT: benchmark uses eleven real 10 ms observations")
     if experiment.get("reads_test_performance", False):
         auth = policy.get("official_test_evaluations", {}).get(experiment.get("test_authorization"), {})
-        if (name in legacy or auth.get("status") != "active" or auth.get("experiment") != name
+        statuses = {"active", "consumed"} if audit_only is True else {"active"}
+        if (name in legacy or auth.get("status") not in statuses or auth.get("experiment") != name
                 or type(auth.get("fit_attempts")) is not int or auth["fit_attempts"] != 0
                 or auth.get("test_population") != experiment.get("test_population")
                 or auth.get("split_reference_sha256") != policy.get("official_split_reference_sha256")
@@ -103,6 +105,7 @@ def audit_research_policy(root: Path, manifest: dict) -> list[dict]:
             validate_run_policy(
                 root, name, experiment,
                 historical_reproduction=experiment.get("execution_mode") == "historical_reproduction_only",
+                audit_only=True,
             )
         except (RuntimeError, OSError, KeyError, ValueError) as error:
             messages.append(f"{name}: {error}")

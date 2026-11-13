@@ -1221,7 +1221,7 @@
       }
     },
     "kiki_machine_local_full_fit_v1_20261113": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_full_fit_v1",
       "fit_attempts": 1,
       "max_executions": 1,
@@ -1244,7 +1244,9 @@
         "triangular_solves": 46956,
         "matrix_products": 46956,
         "checkpoint_loads": 1
-      }
+      },
+      "run_id": "kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e",
+      "result_manifest_sha256": "c7de480a6682eba211adaad9fc095e033bc7748d9467112c9582f971a19b3d95"
     }
   },
   "archived_development_results": {
@@ -3176,7 +3178,36 @@
     "kiki_energy_cap_transfer_v1": "736aa91bfaa14869afe3140518109cd6a384654bfe68702085d48bcce4eab708",
     "kiki_state_port_train_v1": "8db4d1a4ab0435947bef6927e19d9645ba0f086724d7657f0c0751374c50a917"
   },
-  "official_test_evaluations": {},
+  "official_test_evaluations": {
+    "kiki_machine_local_full_test_v1_20261113": {
+      "status": "active",
+      "experiment": "kiki_machine_local_full_test_v1",
+      "fit_attempts": 0,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "frozen_model_manifest": {
+        "path": "results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/freeze.json",
+        "sha256": "db06a5fed9ec80f9047d7f6ee4d8499e1cdaa506aab316fb0d12372c023ac81f"
+      },
+      "authority": "explicit_user_full_dataset_every_round_autonomous_test",
+      "plan_path": "configs/proposals/kiki_machine_local_full_test_v1.json",
+      "plan_sha256": "7137084af62fc18705305e3ef6331fe93a6188c982da111c21194e3bd59059b9",
+      "review_path": "docs/research/kiki_machine_local_full_test_v1_review.json",
+      "review_sha256": "9d72d88d253aca2572b6a68026f485b71b327ef0355b5cfeb7efe21ab98b76ca",
+      "operation_limits": {
+        "rollouts": 810,
+        "torch_rhs": 3265920,
+        "tangent_rhs": 116640,
+        "qr": 912,
+        "svd": 912,
+        "triangular_solves": 912,
+        "matrix_products": 912,
+        "checkpoint_loads": 2
+      }
+    }
+  },
   "round_evaluation_defaults": {
     "authority": "explicit_user_20261113",
     "priority": "clean_initial_results",
