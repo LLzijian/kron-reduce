@@ -1,0 +1,504 @@
+{
+  "schema": "kiki_machine_local_full.result_review.v1",
+  "review_date": "2026-11-13",
+  "reviewer": "Astra Ultra",
+  "accepted": true,
+  "verdict": "COMPLETED_FULL_EVALUATION",
+  "promotion_decision": "KEEP_BASELINE",
+  "prediction_quality_acceptance": false,
+  "fit_run_id": "kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e",
+  "test_run_id": "kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0",
+  "fit_artifact_manifest": {
+    "path": "results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/artifact_hashes.json",
+    "sha256": "c7de480a6682eba211adaad9fc095e033bc7748d9467112c9582f971a19b3d95"
+  },
+  "test_artifact_manifest": {
+    "path": "results/kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0/artifact_hashes.json",
+    "sha256": "4e7b46a018e2470814885aa43c179bc7f05a4251acbc12a2d74c3899fb39c93b"
+  },
+  "fit_summary": {
+    "path": "results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/summary.json",
+    "sha256": "9f86e3a769eae87fbfdbff6e8061a87fc8b2a2fd5e938fdd4723deb5861cefd9"
+  },
+  "test_summary": {
+    "path": "results/kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0/summary.json",
+    "sha256": "ef6fa62044dd1edecdb9fd4756f39e7ef01497d4695460f97084c06610949ec6"
+  },
+  "model_freeze": {
+    "path": "results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/freeze.json",
+    "sha256": "db06a5fed9ec80f9047d7f6ee4d8499e1cdaa506aab316fb0d12372c023ac81f"
+  },
+  "saved_audit": {
+    "path": "reports/generated/kiki_machine_local_full_20261113/saved-audit.json",
+    "sha256": "7a24ccd02795a08aff3d889dab3da8c6b923d15fb73dd2443cc3de979094950e"
+  },
+  "saved_audit_script": {
+    "path": "scripts/audit_kiki_machine_local_full_saved.py",
+    "sha256": "e5799bbd4fad261d74f638b140c4e63a5ebcc04a2101797f1847fec67f2b5f8a"
+  },
+  "execution_reviews": [
+    {
+      "path": "docs/research/kiki_machine_local_full_fit_v1_review.json",
+      "sha256": "fb29e68525a47d5490d35490bd7e3b000d7090736802956a1ab88702c1952b60"
+    },
+    {
+      "path": "docs/research/kiki_machine_local_full_test_v1_review.json",
+      "sha256": "9d72d88d253aca2572b6a68026f485b71b327ef0355b5cfeb7efe21ab98b76ca"
+    },
+    {
+      "path": "docs/research/kiki_machine_local_full_saved_audit_v1_review.json",
+      "sha256": "17820e64ea3264c723ee367f0c28ab41b09bafb41c9a7772084d477fc82c8167"
+    }
+  ],
+  "human_review": {
+    "path": "docs/research/kiki_machine_local_full_result_review_20261113_zh.md",
+    "sha256": "95d15116d021f3d73f1270d698af777849a120cf658b2fc79f0e6050e006292a"
+  },
+  "accepted_scope": {
+    "fit_attempts": 1,
+    "completed_optimizer_updates": 40,
+    "parameter_count": 20,
+    "real_cohort_sizes": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    },
+    "frozen_single_model_across_sources": true,
+    "test_used_for_tuning": false,
+    "evaluation_model_calls_retried": false,
+    "batch_isolation_calls_used": 0,
+    "numerical_failures": 0,
+    "uncovered_events": 0,
+    "saved_npz_files_decoded_by_audit": 3,
+    "audit_decodes_per_file": 1,
+    "audit_mismatches": 0,
+    "model_promoted": false
+  },
+  "roles": {
+    "train": {
+      "allocated": 346,
+      "task3_trajectory_summary": {
+        "1": {
+          "n_events": 315,
+          "qualified": 315,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 0.4285649370522357,
+          "pooled": 0.6614584177355372,
+          "cvar10": 1.4927927027125856,
+          "worst": 4.643786126577414,
+          "common_frequency_rmse_rad_s": 1.2977323986370914,
+          "end_window_normalized_rmse_event_mean": 0.4285649370522357
+        },
+        "2": {
+          "n_events": 311,
+          "qualified": 311,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 0.42536053489001574,
+          "pooled": 0.838555879387495,
+          "cvar10": 1.728361130895991,
+          "worst": 6.333178659349419,
+          "common_frequency_rmse_rad_s": 0.9879721209519172,
+          "end_window_normalized_rmse_event_mean": 0.42237854300273836
+        },
+        "5": {
+          "n_events": 311,
+          "qualified": 311,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 0.35325837667810894,
+          "pooled": 0.8218506311365745,
+          "cvar10": 1.5576448102951732,
+          "worst": 7.480695846436438,
+          "common_frequency_rmse_rad_s": 0.7801661041714796,
+          "end_window_normalized_rmse_event_mean": 0.29512916802309874
+        },
+        "8": {
+          "n_events": 311,
+          "qualified": 311,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 0.3294235816155797,
+          "pooled": 0.8038496847706094,
+          "cvar10": 1.4762231176785863,
+          "worst": 7.695612123639358,
+          "common_frequency_rmse_rad_s": 0.62454480607589,
+          "end_window_normalized_rmse_event_mean": 0.2697142832867982
+        }
+      },
+      "unstable_actual_available_target_summary": {
+        "n_events": 35,
+        "qualified": 35,
+        "unresolved": 0,
+        "valid": true,
+        "mean": 0.7398605850021187,
+        "pooled": 2.0992953599592457,
+        "cvar10": 2.8070489280920263,
+        "worst": 5.6013567326467895,
+        "common_frequency_rmse_rad_s": 3.232102400261001,
+        "end_window_normalized_rmse_event_mean": 0.8021017299437113
+      },
+      "stability": {
+        "tp": 29,
+        "fn": 0,
+        "fp": 3,
+        "tn": 304,
+        "eligible_unstable": 35,
+        "eligible_stable": 311,
+        "eligible": 346,
+        "unstable_unresolved": 6,
+        "stable_unresolved": 4,
+        "numerical_unresolved": 10,
+        "fsr": null,
+        "fur": null,
+        "fsr_lower": 0.0,
+        "fsr_upper": 0.17142857142857143,
+        "fur_lower": 0.00964630225080386,
+        "fur_upper": 0.022508038585209004,
+        "accuracy": null,
+        "balanced_accuracy": null,
+        "recall": null,
+        "precision": null,
+        "f1": null,
+        "allocated": 346,
+        "resolved": 336,
+        "uncovered": 0,
+        "unresolved": 10,
+        "coverage": 0.9710982658959537,
+        "correct_fraction_lower_bound": 0.9624277456647399,
+        "accuracy_on_resolved": 0.9910714285714286,
+        "numerical_failures": 0,
+        "unsettled_predictions": 10,
+        "weighting": "event_equal",
+        "forecast_horizon_s": 8.0,
+        "positive_class": "unstable",
+        "recall_on_resolved": 1.0,
+        "miss_rate_on_resolved": 0.0,
+        "false_alarm_rate_on_resolved": 0.009771986970684038
+      },
+      "source": {
+        "path": "results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/train.json",
+        "sha256": "0a0f69c4450b6346a6f9671396cbfa6e9e8d4fce0b4ddda4db25aa1c35b81b9e"
+      }
+    },
+    "val": {
+      "allocated": 107,
+      "task3_trajectory_summary": {
+        "1": {
+          "n_events": 96,
+          "qualified": 96,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 0.4513826886092602,
+          "pooled": 0.6604897651312949,
+          "cvar10": 1.5439538350440347,
+          "worst": 3.5276791421627247,
+          "common_frequency_rmse_rad_s": 1.3194882702524846,
+          "end_window_normalized_rmse_event_mean": 0.45138268860926023
+        },
+        "2": {
+          "n_events": 95,
+          "qualified": 95,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 0.4253591891305526,
+          "pooled": 0.6584671733881803,
+          "cvar10": 1.5400041853238051,
+          "worst": 3.111011654628445,
+          "common_frequency_rmse_rad_s": 0.9939931428914706,
+          "end_window_normalized_rmse_event_mean": 0.4195458277033748
+        },
+        "5": {
+          "n_events": 95,
+          "qualified": 95,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 0.3783774323064236,
+          "pooled": 0.8350818052652949,
+          "cvar10": 1.6816026308560699,
+          "worst": 6.486273370985718,
+          "common_frequency_rmse_rad_s": 0.7851379559765211,
+          "end_window_normalized_rmse_event_mean": 0.33412411381281026
+        },
+        "8": {
+          "n_events": 95,
+          "qualified": 95,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 0.3614616105708566,
+          "pooled": 0.8753316321632099,
+          "cvar10": 1.6698825769409127,
+          "worst": 7.121387385647045,
+          "common_frequency_rmse_rad_s": 0.6278206994976129,
+          "end_window_normalized_rmse_event_mean": 0.3130451095017949
+        }
+      },
+      "unstable_actual_available_target_summary": {
+        "n_events": 12,
+        "qualified": 12,
+        "unresolved": 0,
+        "valid": true,
+        "mean": 0.5993206185342714,
+        "pooled": 1.7653392420300313,
+        "cvar10": 2.0766394387314007,
+        "worst": 3.5276791421627247,
+        "common_frequency_rmse_rad_s": 2.9512836181249704,
+        "end_window_normalized_rmse_event_mean": 0.5993206185342714
+      },
+      "stability": {
+        "tp": 11,
+        "fn": 0,
+        "fp": 2,
+        "tn": 92,
+        "eligible_unstable": 12,
+        "eligible_stable": 95,
+        "eligible": 107,
+        "unstable_unresolved": 1,
+        "stable_unresolved": 1,
+        "numerical_unresolved": 2,
+        "fsr": null,
+        "fur": null,
+        "fsr_lower": 0.0,
+        "fsr_upper": 0.08333333333333333,
+        "fur_lower": 0.021052631578947368,
+        "fur_upper": 0.031578947368421054,
+        "accuracy": null,
+        "balanced_accuracy": null,
+        "recall": null,
+        "precision": null,
+        "f1": null,
+        "allocated": 107,
+        "resolved": 105,
+        "uncovered": 0,
+        "unresolved": 2,
+        "coverage": 0.9813084112149533,
+        "correct_fraction_lower_bound": 0.9626168224299065,
+        "accuracy_on_resolved": 0.9809523809523809,
+        "numerical_failures": 0,
+        "unsettled_predictions": 2,
+        "weighting": "event_equal",
+        "forecast_horizon_s": 8.0,
+        "positive_class": "unstable",
+        "recall_on_resolved": 1.0,
+        "miss_rate_on_resolved": 0.0,
+        "false_alarm_rate_on_resolved": 0.02127659574468085
+      },
+      "source": {
+        "path": "results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/val.json",
+        "sha256": "53c4df0b5946c969a87a9f643a2b199e2c493b766616030971cc6aa60dc51ac7"
+      }
+    },
+    "test": {
+      "allocated": 76,
+      "task3_trajectory_summary": {
+        "1": {
+          "n_events": 67,
+          "qualified": 67,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 0.8159167162844901,
+          "pooled": 1.1140612506534664,
+          "cvar10": 2.299936789567263,
+          "worst": 3.0055003615957006,
+          "common_frequency_rmse_rad_s": 0.8331151995543943,
+          "end_window_normalized_rmse_event_mean": 0.8159167162844899
+        },
+        "2": {
+          "n_events": 67,
+          "qualified": 67,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 1.5098688893642467,
+          "pooled": 2.495181895674223,
+          "cvar10": 5.539687438045183,
+          "worst": 6.80369234070904,
+          "common_frequency_rmse_rad_s": 0.6502765490965557,
+          "end_window_normalized_rmse_event_mean": 1.9139990741865882
+        },
+        "5": {
+          "n_events": 67,
+          "qualified": 67,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 3.8546062263284555,
+          "pooled": 7.329282225593454,
+          "cvar10": 15.446446287698592,
+          "worst": 16.637162811631583,
+          "common_frequency_rmse_rad_s": 0.5589587293937196,
+          "end_window_normalized_rmse_event_mean": 5.589929321668304
+        },
+        "8": {
+          "n_events": 67,
+          "qualified": 67,
+          "unresolved": 0,
+          "valid": true,
+          "mean": 5.014669847823587,
+          "pooled": 9.870304048552041,
+          "cvar10": 22.85938805404649,
+          "worst": 25.947949407627384,
+          "common_frequency_rmse_rad_s": 0.4492209787240785,
+          "end_window_normalized_rmse_event_mean": 6.702893755098203
+        }
+      },
+      "unstable_actual_available_target_summary": {
+        "n_events": 9,
+        "qualified": 9,
+        "unresolved": 0,
+        "valid": true,
+        "mean": 0.5975607969005813,
+        "pooled": 0.9800840638222607,
+        "cvar10": 1.5097182192504899,
+        "worst": 1.5097182192504899,
+        "common_frequency_rmse_rad_s": 1.7935077269350035,
+        "end_window_normalized_rmse_event_mean": 0.5975607969005812
+      },
+      "stability": {
+        "tp": 7,
+        "fn": 0,
+        "fp": 17,
+        "tn": 49,
+        "eligible_unstable": 9,
+        "eligible_stable": 67,
+        "eligible": 76,
+        "unstable_unresolved": 2,
+        "stable_unresolved": 1,
+        "numerical_unresolved": 3,
+        "fsr": null,
+        "fur": null,
+        "fsr_lower": 0.0,
+        "fsr_upper": 0.2222222222222222,
+        "fur_lower": 0.2537313432835821,
+        "fur_upper": 0.26865671641791045,
+        "accuracy": null,
+        "balanced_accuracy": null,
+        "recall": null,
+        "precision": null,
+        "f1": null,
+        "allocated": 76,
+        "resolved": 73,
+        "uncovered": 0,
+        "unresolved": 3,
+        "coverage": 0.9605263157894737,
+        "correct_fraction_lower_bound": 0.7368421052631579,
+        "accuracy_on_resolved": 0.7671232876712328,
+        "numerical_failures": 0,
+        "unsettled_predictions": 3,
+        "weighting": "event_equal",
+        "forecast_horizon_s": 8.0,
+        "positive_class": "unstable",
+        "recall_on_resolved": 1.0,
+        "miss_rate_on_resolved": 0.0,
+        "false_alarm_rate_on_resolved": 0.25757575757575757
+      },
+      "source": {
+        "path": "results/kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0/test.json",
+        "sha256": "46f9033e5db31c32b257e3e2e01d201df3d3eb547d5ab312cb43e573f209e757"
+      }
+    }
+  },
+  "train_only_completed_diagnosis": {
+    "method": "train-only descriptive arithmetic; no selection or tuning",
+    "count": 346,
+    "missing_history_count": 0,
+    "missing_prefix_count": 0,
+    "invalid_join_count": 0,
+    "summaries": {
+      "history_nrmse": {
+        "median": 0.01672644202375243,
+        "p90": 0.033713879062068304,
+        "max": 0.08051189310170231
+      },
+      "hidden_start_energy": {
+        "median": 57.67019489196019,
+        "p90": 618.1608154796114,
+        "max": 5908.442744578538
+      },
+      "hidden_origin_energy": {
+        "median": 44.19157031343323,
+        "p90": 500.36450267336977,
+        "max": 4953.115025944411
+      },
+      "prefix_task3_rmse": {
+        "median": 0.21859578656604528,
+        "p90": 0.5603352234869768,
+        "max": 7.695612123639358
+      }
+    },
+    "log1p_pearson_history_nrmse_vs_prefix_task3_rmse": 0.019790761351836567,
+    "history_residual_top_quartile": {
+      "count": 87,
+      "prefix_task3_rmse_mean": 0.28580373721150254
+    },
+    "remaining_history_residuals": {
+      "count": 259,
+      "prefix_task3_rmse_mean": 0.3995402672591457
+    },
+    "quartile_rule": "highest ceil(25% of matched count), ranked by history_nrmse then event ID"
+  },
+  "findings": [
+    "The bounded forty-update fit and all 529 real-event evaluations completed. Fixed-horizon scores retain genuine per-horizon coverage; all unstable events also receive actual-available-target scores.",
+    "All role numerical evaluations returned, and the saved-trajectory arithmetic audit reproduced every compared metric and classification with zero mismatches.",
+    "Train, val and test contain respectively 10, 2 and 3 unsettled predictions. Full-cohort accuracies are therefore null; resolved-subset accuracies are not substitutes for them.",
+    "The fixed test benchmark has TP=7, TN=49, FP=17, FN=0, with 3 unresolved and 73 resolved cases. Seven detected unstable cases do not establish full recall of all nine unstable cases.",
+    "The test complete-eight-second event-mean normalized RMSE is 5.014669847823587 over 67 genuinely covered events. This is a reporting-only outcome and provides no approval to promote or retune the model.",
+    "The train-only history/future log1p correlation is 0.019790761351836567. The fixed highest-residual quarter has lower mean future error than the remaining cases; the saved observations do not establish a monotonic residual-driven failure pattern.",
+    "Saved hidden energy has no real hidden-state truth reference. Correlation and event-varying genuine target windows cannot identify whether initialization or the fixed visible dynamics causes the observed prediction errors.",
+    "The completed next step is the authorized saved train diagnosis. The proposed controlled known-truth mechanism study remains preparation only."
+  ],
+  "interpretation_limits": [
+    "Window-rule stability classification is not a stability certificate.",
+    "The historically exposed 76-event test roster is a fixed comparison benchmark, not independent confirmation.",
+    "No same-roster A06 forward baseline was newly evaluated, so no matched baseline improvement claim is made.",
+    "The saved audit uses the same frozen scoring code; it replays arithmetic from saved truth/predictions rather than providing an independently implemented scoring algorithm.",
+    "Initialization residual and hidden energy are summarized from the run JSON, not independently rebuilt from hidden-state arrays.",
+    "The training trace final recorded loss belongs to the parameters before update 40; it is not relabeled as an update-40 terminal objective."
+  ],
+  "next_stage": {
+    "status": "PREPARATION_ONLY",
+    "plan": {
+      "path": "docs/research/machine_local_hidden_oracle_plan_20261113_zh.md",
+      "sha256": "5cc45496729b8fb47e91863ff3be82918dcba75c83be47f2efb09e1ca72bd475"
+    },
+    "question": "Separate hidden-initial-state estimation from a fixed visible-dynamics mismatch using known truth.",
+    "synthetic_events": 64,
+    "role_sizes": {
+      "train": 32,
+      "val": 16,
+      "test": 16
+    },
+    "controls": [
+      "matched-GN",
+      "matched-oracle",
+      "mismatch-GN",
+      "mismatch-oracle"
+    ],
+    "mismatch": "All visible sine-network stiffness coefficients multiplied by 1.10; every other physical parameter unchanged.",
+    "oracle": "True hidden state at the 100 ms prediction origin; common observed visible reset.",
+    "fit_attempts": 0,
+    "added_noise": 0,
+    "real_data_reads": 0,
+    "scientific_execution_started": false,
+    "required_before_execution": [
+      "new finite protocol and machine plan",
+      "exact implementation and engineering checks",
+      "scientific review",
+      "new one-use registration"
+    ]
+  },
+  "authority_disposition": {
+    "close_as_consumed": [
+      "kiki_machine_local_full_fit_v1_20261113",
+      "kiki_machine_local_full_test_v1_20261113",
+      "kiki_machine_local_full_saved_audit_v1_20261113"
+    ],
+    "new_scientific_authority_granted_by_result_review": false
+  },
+  "reviewer_activity": {
+    "read_only_json_and_source": true,
+    "saved_array_decodes": 0,
+    "model_calls": 0,
+    "rhs_calls": 0,
+    "fits": 0
+  }
+}

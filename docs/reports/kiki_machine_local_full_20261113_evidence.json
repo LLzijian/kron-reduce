@@ -1,0 +1,112 @@
+{
+  "schema": "kiki_machine_local_full.evidence.v1",
+  "status": "COMPLETE_AND_RECOMPUTED",
+  "cohorts": {
+    "train": 346,
+    "val": 107,
+    "test": 76
+  },
+  "promotion_decision": "KEEP_BASELINE",
+  "runs": {
+    "fit": {
+      "run_id": "kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e",
+      "artifact_manifest_sha256": "c7de480a6682eba211adaad9fc095e033bc7748d9467112c9582f971a19b3d95",
+      "source_commit": "de0958b60b5a7535b38be612d1433d21cc1f21cf",
+      "operations": {
+        "checkpoint_loads": 1,
+        "fits": 1,
+        "rollouts": 1490,
+        "tangent_rhs": 99360,
+        "torch_rhs": 1822080,
+        "qr": 44238,
+        "svd": 44238,
+        "matrix_products": 44238,
+        "triangular_solves": 44238,
+        "gradients": 240,
+        "optimizer_updates": 40
+      }
+    },
+    "test": {
+      "run_id": "kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0",
+      "artifact_manifest_sha256": "4e7b46a018e2470814885aa43c179bc7f05a4251acbc12a2d74c3899fb39c93b",
+      "source_commit": "b4a70deeb5e5566a5639ed12e5e698a2a2df1acd",
+      "operations": {
+        "checkpoint_loads": 2,
+        "rollouts": 50,
+        "tangent_rhs": 7200,
+        "torch_rhs": 201600,
+        "qr": 456,
+        "svd": 456,
+        "matrix_products": 456,
+        "triangular_solves": 456
+      }
+    }
+  },
+  "saved_audit": {
+    "path": "reports/generated/kiki_machine_local_full_20261113/saved-audit.json",
+    "sha256": "7a24ccd02795a08aff3d889dab3da8c6b923d15fb73dd2443cc3de979094950e",
+    "npz_decodes": 3,
+    "mismatches": 0
+  },
+  "input_contract": "measured_history_100ms_zoh_v1",
+  "training_updates": 40,
+  "train_only_diagnosis": {
+    "method": "train-only descriptive arithmetic; no selection or tuning",
+    "count": 346,
+    "missing_history_count": 0,
+    "missing_prefix_count": 0,
+    "invalid_join_count": 0,
+    "summaries": {
+      "history_nrmse": {
+        "median": 0.01672644202375243,
+        "p90": 0.033713879062068304,
+        "max": 0.08051189310170231
+      },
+      "hidden_start_energy": {
+        "median": 57.67019489196019,
+        "p90": 618.1608154796114,
+        "max": 5908.442744578538
+      },
+      "hidden_origin_energy": {
+        "median": 44.19157031343323,
+        "p90": 500.36450267336977,
+        "max": 4953.115025944411
+      },
+      "prefix_task3_rmse": {
+        "median": 0.21859578656604528,
+        "p90": 0.5603352234869768,
+        "max": 7.695612123639358
+      }
+    },
+    "log1p_pearson_history_nrmse_vs_prefix_task3_rmse": 0.019790761351836567,
+    "history_residual_top_quartile": {
+      "count": 87,
+      "prefix_task3_rmse_mean": 0.28580373721150254
+    },
+    "remaining_history_residuals": {
+      "count": 259,
+      "prefix_task3_rmse_mean": 0.3995402672591457
+    },
+    "quartile_rule": "highest ceil(25% of matched count), ranked by history_nrmse then event ID"
+  },
+  "independent_test": false,
+  "numerical_failures": 0,
+  "full_cohort_stability_accuracy": null,
+  "result_review": {
+    "human": {
+      "path": "docs/research/kiki_machine_local_full_result_review_20261113_zh.md",
+      "sha256": "95d15116d021f3d73f1270d698af777849a120cf658b2fc79f0e6050e006292a"
+    },
+    "machine": {
+      "path": "docs/research/kiki_machine_local_full_result_review_20261113.json",
+      "sha256": "49a260738ca6a24a541d793cc1c780e01b47295b22465ccdfe12f955372f15c2"
+    }
+  },
+  "next_step_plan": {
+    "path": "docs/research/machine_local_hidden_oracle_plan_20261113_zh.md",
+    "sha256": "5cc45496729b8fb47e91863ff3be82918dcba75c83be47f2efb09e1ca72bd475",
+    "status": "PREPARATION_ONLY",
+    "registered": false,
+    "scientific_execution_started": false
+  }
+}

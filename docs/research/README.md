@@ -13,6 +13,12 @@ one forty-update fit on all 346 train events, followed by all 107 val and 76 tes
 events. Each update covers the complete train roster through gradient accumulation.
 The test stage binds the saved model and preprocessing after fitting closes.
 All roles report trajectory errors and stability judgments regardless of RMSE.
+The [completed full-cohort report](../reports/kiki_machine_local_full_20261113_zh.md)
+now contains all 529 predictions and their stability scores. Saved-array
+recomputation found zero discrepancies. Fit, test and saved-audit authorities
+are consumed. Train-only diagnosis found that the observed-history residual
+does not establish the cause of the future error. The next preparation separates
+initialization from dynamics with synthetic true-hidden-state controls.
 
 The [machine-local initializer diagnosis](../reports/machine_local_initializer_diagnosis_20261112_zh.md)
 passed its numerical and saved-evidence checks. Its route is

@@ -1246,7 +1246,9 @@
         "checkpoint_loads": 1
       },
       "run_id": "kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e",
-      "result_manifest_sha256": "c7de480a6682eba211adaad9fc095e033bc7748d9467112c9582f971a19b3d95"
+      "result_manifest_sha256": "c7de480a6682eba211adaad9fc095e033bc7748d9467112c9582f971a19b3d95",
+      "result_receipt_path": "docs/reports/kiki_machine_local_full_20261113_evidence.json",
+      "result_receipt_sha256": "b2dd3630612a59dd0926cb8577a58204bc06bc8a4a9e16fad1d1983ec587e42f"
     }
   },
   "archived_development_results": {
@@ -3142,7 +3144,7 @@
       "result_receipt_sha256": "4fd2dc1eae7ee735264c6f2bf9611319ac386ea6e6946df367ec731cd579ca42"
     },
     "kiki_machine_local_full_saved_audit_v1_20261113": {
-      "status": "active",
+      "status": "consumed",
       "max_executions": 1,
       "retry_allowed": false,
       "plan_path": "configs/proposals/kiki_machine_local_full_saved_audit_v1.json",
@@ -3151,7 +3153,13 @@
       "review_sha256": "17820e64ea3264c723ee367f0c28ab41b09bafb41c9a7772084d477fc82c8167",
       "max_npz_decodes": 3,
       "new_model_calls": 0,
-      "authority": "autonomous_full_dataset_result_verification_and_train_only_diagnosis"
+      "authority": "autonomous_full_dataset_result_verification_and_train_only_diagnosis",
+      "result": {
+        "path": "reports/generated/kiki_machine_local_full_20261113/saved-audit.json",
+        "sha256": "7a24ccd02795a08aff3d889dab3da8c6b923d15fb73dd2443cc3de979094950e"
+      },
+      "npz_decodes": 3,
+      "mismatches": 0
     }
   },
   "default_real_data_policy": "kiki_official_train_test_v1",
@@ -3219,7 +3227,9 @@
         "checkpoint_loads": 2
       },
       "run_id": "kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0",
-      "result_manifest_sha256": "4e7b46a018e2470814885aa43c179bc7f05a4251acbc12a2d74c3899fb39c93b"
+      "result_manifest_sha256": "4e7b46a018e2470814885aa43c179bc7f05a4251acbc12a2d74c3899fb39c93b",
+      "result_receipt_path": "docs/reports/kiki_machine_local_full_20261113_evidence.json",
+      "result_receipt_sha256": "b2dd3630612a59dd0926cb8577a58204bc06bc8a4a9e16fad1d1983ec587e42f"
     }
   },
   "round_evaluation_defaults": {
