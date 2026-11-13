@@ -6,6 +6,15 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [paired R20/R21 report](../reports/kiki_machine_local_r20_r21_20261114_zh.md)
+covers both models on all 346 train, 107 val and 76 test events. Both selected
+update 80 by the registered full-val rule and reached the update cap while the
+val objective was still improving. On the fixed test roster, R21 had lower
+eight-second trajectory error and lower stability accuracy among classifiable
+cases than R20. The [scientific review](kiki_machine_local_r20_r21_result_review_20261114.json)
+records `KEEP_BASELINE`. The saved-array check found zero discrepancies. Fit,
+test and saved-audit authorities are consumed.
+
 The user's full-dataset instruction now governs the first evaluation of every
 real-data round. The [full TASK3 L10 plan](kiki_machine_local_full_plan_20261113_zh.md)
 and [execution protocol](../protocols/kiki_machine_local_full_v1_zh.md) specify
@@ -27,8 +36,8 @@ saved-array recomputation has zero discrepancies. Its scientific and saved-audit
 authorities are consumed. The [shared stiffness calibration](../reports/machine_local_stiffness_calibration_20261114_zh.md)
 recovered the known scalar after 11 full train objectives. The fitted model
 passed hidden-state recovery and trajectory checks on all 64 synthetic events.
-The [next real-data comparison](machine_local_r20_r21_preparation_20261114_zh.md)
-prepares matched-start, matched-budget fits of the 20- and 21-parameter models.
+The [paired design](machine_local_r20_r21_preparation_20261114_zh.md)
+established a matched start and budget for the 20- and 21-parameter models.
 The harmonic function-selection controls follow a separate synthetic protocol.
 
 The [machine-local initializer diagnosis](../reports/machine_local_initializer_diagnosis_20261112_zh.md)

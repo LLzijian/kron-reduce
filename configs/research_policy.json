@@ -1276,7 +1276,9 @@
         "checkpoint_loads": 1
       },
       "run_id": "kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632",
-      "result_manifest_sha256": "e3536ac99e4369b9fe4f0733b0f059e5577746f987f92fe2fb31829583b95f01"
+      "result_manifest_sha256": "e3536ac99e4369b9fe4f0733b0f059e5577746f987f92fe2fb31829583b95f01",
+      "result_receipt_path": "docs/reports/kiki_machine_local_r20_r21_20261114_evidence.json",
+      "result_receipt_sha256": "b057d90de38cb83ff91ea42215859b3b911957324855f5266877244568262dd8"
     }
   },
   "archived_development_results": {
@@ -3570,7 +3572,7 @@
       "mismatches": 0
     },
     "kiki_machine_local_r20_r21_saved_audit_v1_20261114": {
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_user_paired_full_roster_evidence_and_exact_Astra_saved_audit_review",
       "max_executions": 1,
       "retry_allowed": false,
@@ -3579,7 +3581,14 @@
       "plan_path": "configs/proposals/kiki_machine_local_r20_r21_saved_audit_v1.json",
       "plan_sha256": "7a45788f43f4f4f8702dc02ce5f6c272ec9bd8c6d84c8ece3f1c79eb82aba5ea",
       "review_path": "docs/research/kiki_machine_local_r20_r21_saved_audit_review_20261114.json",
-      "review_sha256": "1dffb57b86de8fe5d717135a047331065f41db97d8aa5c656d11154cae79ae30"
+      "review_sha256": "1dffb57b86de8fe5d717135a047331065f41db97d8aa5c656d11154cae79ae30",
+      "consumed_at": "2026-11-13T18:45:13.747966+00:00",
+      "result_path": "reports/generated/kiki_machine_local_r20_r21_20261114/saved-audit.json",
+      "result_sha256": "4473f208ab41b635e449f9165f1b3bc2c25cdd141744d1dada4a7a33c12e040c",
+      "npz_decodes": 6,
+      "mismatches": 0,
+      "result_receipt_path": "docs/reports/kiki_machine_local_r20_r21_20261114_evidence.json",
+      "result_receipt_sha256": "b057d90de38cb83ff91ea42215859b3b911957324855f5266877244568262dd8"
     },
     "machine_local_hidden_oracle_saved_audit_v1_20261113": {
       "status": "consumed",
@@ -3669,7 +3678,7 @@
       "result_receipt_sha256": "c20b011dc5c060dd7325d01e6d3921a0aad0ad213b60d2ce8b0ee46a37a53676"
     },
     "kiki_machine_local_r20_r21_test_v1_20261114": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_r20_r21_test_v1",
       "fit_attempts": 0,
       "max_executions": 1,
@@ -3694,7 +3703,11 @@
         "triangular_solves": 1824,
         "matrix_products": 1824,
         "checkpoint_loads": 2
-      }
+      },
+      "run_id": "kiki_machine_local_r20_r21_test_v1-test-20261113T183739926132Z-78c6722c-5ed5449a",
+      "result_manifest_sha256": "6f204939fb9ff940bc21049ee92246a96132abe45c06963812da0a43d613c124",
+      "result_receipt_path": "docs/reports/kiki_machine_local_r20_r21_20261114_evidence.json",
+      "result_receipt_sha256": "b057d90de38cb83ff91ea42215859b3b911957324855f5266877244568262dd8"
     }
   },
   "round_evaluation_defaults": {

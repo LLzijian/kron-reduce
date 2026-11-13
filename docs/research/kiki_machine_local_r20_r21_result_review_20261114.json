@@ -1,0 +1,397 @@
+{
+  "schema": "kiki_machine_local_r20_r21.result_review.v1",
+  "review_date": "2026-11-14",
+  "reviewer": "Astra Ultra",
+  "decision": "COMPLETE_PAIRED_EVIDENCE_WITH_OBJECTIVE_AND_STABILITY_TRADEOFFS",
+  "experiment_completed": true,
+  "promotion_decision": "KEEP_BASELINE",
+  "saved_evidence_verified": true,
+  "evidence": {
+    "saved_audit": {
+      "path": "reports/generated/kiki_machine_local_r20_r21_20261114/saved-audit.json",
+      "sha256": "4473f208ab41b635e449f9165f1b3bc2c25cdd141744d1dada4a7a33c12e040c"
+    },
+    "selection_check": {
+      "path": "reports/generated/kiki_machine_local_r20_r21_20261114/selection-check.json",
+      "sha256": "a48706c97f89c68b873ac46bb4c9c6fd405fce3fbc48acbb4c3d902b8c177e3f"
+    },
+    "selection": {
+      "path": "results/kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632/selection.json",
+      "sha256": "4f3ca80afd579a11336db3c67651803320239c517d31802663bc82661f1e0c87"
+    },
+    "runs": {
+      "fit": {
+        "run_id": "kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632",
+        "source_commit": "5aae2e7b821a158df7ead4f295baae0d347c70c2",
+        "stage_evidence": {
+          "path": "results/kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632/stage_evidence.json",
+          "sha256": "a7b010ec9e803205a61e7b2e11c3672400b5fee70813f24bea52a0ea844004f9"
+        },
+        "artifact_manifest": {
+          "path": "results/kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632/artifact_hashes.json",
+          "sha256": "e3536ac99e4369b9fe4f0733b0f059e5577746f987f92fe2fb31829583b95f01"
+        },
+        "summary": {
+          "path": "results/kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632/summary.json",
+          "sha256": "21ffae7e59d73142452dc26b71942b37ed9ac21855b9598ebefdf5da7ffa997c"
+        }
+      },
+      "test": {
+        "run_id": "kiki_machine_local_r20_r21_test_v1-test-20261113T183739926132Z-78c6722c-5ed5449a",
+        "source_commit": "78c6722c9714261b401971affaedcecad04dd008",
+        "stage_evidence": {
+          "path": "results/kiki_machine_local_r20_r21_test_v1-test-20261113T183739926132Z-78c6722c-5ed5449a/stage_evidence.json",
+          "sha256": "33e6a4a45737d561a13f721a00409f3034fbfbac77c384cb10101dacc8f8855d"
+        },
+        "artifact_manifest": {
+          "path": "results/kiki_machine_local_r20_r21_test_v1-test-20261113T183739926132Z-78c6722c-5ed5449a/artifact_hashes.json",
+          "sha256": "6f204939fb9ff940bc21049ee92246a96132abe45c06963812da0a43d613c124"
+        },
+        "summary": {
+          "path": "results/kiki_machine_local_r20_r21_test_v1-test-20261113T183739926132Z-78c6722c-5ed5449a/summary.json",
+          "sha256": "4d1bdc7fc3ff1ddad1e569c18dcf3229b4284182d936303012027a3b90d74035"
+        }
+      }
+    }
+  },
+  "audit": {
+    "status": "PASS",
+    "mismatches": 0,
+    "prediction_archives_decoded_by_registered_audit": 6,
+    "cohorts": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    }
+  },
+  "fitting": {
+    "stop_reason": "update_cap",
+    "curves": {
+      "r20": {
+        "training_trace": {
+          "path": "results/kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632/r20/training.jsonl",
+          "sha256": "0be3c7904f052bbf378b1e9377f8f6d7523b95b050c476edb1f3d2591519d136"
+        },
+        "completed_updates": 80,
+        "selected_update": 80,
+        "train_update70_pre_5ms": 0.5413405704466964,
+        "train_update80_pre_5ms": 0.47448664028007675,
+        "val_update70_post_5ms": 0.3072325232299116,
+        "val_update80_post_5ms": 0.24804995239591057
+      },
+      "r21": {
+        "training_trace": {
+          "path": "results/kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632/r21/training.jsonl",
+          "sha256": "63809c3cbc28ba621f27e3be5745c50cc31f96fa99807260fb9f0bb2308e23d4"
+        },
+        "completed_updates": 80,
+        "selected_update": 80,
+        "train_update70_pre_5ms": 0.41171806990755316,
+        "train_update80_pre_5ms": 0.36544025474179376,
+        "val_update70_post_5ms": 0.2661144918456506,
+        "val_update80_post_5ms": 0.23867027930597462
+      }
+    },
+    "r21_gamma": 0.7645182583753294,
+    "r21_lambda": -0.26850937113126394,
+    "r21_at_bound": false,
+    "interpretation_zh": "双方都完成并选中第80次更新，70至80步的train日志目标和完整val目标继续下降。本轮达到预算上限，未触发提前停止；不据此声称收敛或找到最优参数。γ是与g/τ联合拟合后的有效刚度比例，不是已验证恢复的真实物理参数。"
+  },
+  "metric_contract": {
+    "selection": "完整val107，固定train尺度，1 s/3 s事件等权归一化MSE，5 ms积分，每事件使用真实可用点",
+    "terminal": "各split完整名单，同一train尺度与1 s/3 s目标，2.5/1.25 ms积分；与更新前train日志分开报告",
+    "task3": "固定TASK3比较尺度下的1/2/5/8 s归一化RMSE；各时窗使用真值完整覆盖该时窗的事件，失稳样本实际可用时段另列",
+    "stability": "固定八秒规则、原TASK3真值标签；未决不是稳定，数值失败与未决分列；任一未决使完整准确率为null"
+  },
+  "results": {
+    "train": {
+      "allocated": 346,
+      "terminal_train_scale_nmse_1s_3s_2p5ms": {
+        "r20": 0.4651844328776073,
+        "r21": 0.35935066041083363,
+        "r21_minus_r20": -0.10583377246677367,
+        "relative_change": -0.2275092737134201,
+        "complete_pair_count": 346
+      },
+      "task3": {
+        "horizons_seconds": [
+          1,
+          2,
+          5,
+          8
+        ],
+        "eligible_counts": [
+          315,
+          311,
+          311,
+          311
+        ],
+        "r20_event_mean_nrmse": [
+          0.37817394401191157,
+          0.37274834987117983,
+          0.3153386808838011,
+          0.29699662270381316
+        ],
+        "r21_event_mean_nrmse": [
+          0.4060758863590457,
+          0.3898495367994828,
+          0.33265117834904295,
+          0.3169192992899675
+        ],
+        "r20_pooled_nrmse": [
+          0.5564637809732507,
+          0.7181483478897608,
+          0.727868394292391,
+          0.720621546398896
+        ],
+        "r21_pooled_nrmse": [
+          0.5104613205189462,
+          0.6015873271418674,
+          0.6366539900199536,
+          0.644050896411331
+        ]
+      },
+      "stability": {
+        "r20": {
+          "allocated": 346,
+          "tp": 28,
+          "tn": 306,
+          "fp": 4,
+          "fn": 0,
+          "unstable_unresolved": 7,
+          "stable_unresolved": 1,
+          "unresolved": 8,
+          "uncovered": 0,
+          "numerical_failures": 0,
+          "resolved": 338,
+          "coverage": 0.976878612716763,
+          "full_cohort_accuracy": null,
+          "accuracy_on_resolved": 0.9881656804733728,
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.012903225806451613
+        },
+        "r21": {
+          "allocated": 346,
+          "tp": 27,
+          "tn": 308,
+          "fp": 1,
+          "fn": 1,
+          "unstable_unresolved": 7,
+          "stable_unresolved": 2,
+          "unresolved": 9,
+          "uncovered": 0,
+          "numerical_failures": 0,
+          "resolved": 337,
+          "coverage": 0.9739884393063584,
+          "full_cohort_accuracy": null,
+          "accuracy_on_resolved": 0.9940652818991098,
+          "recall_on_resolved": 0.9642857142857143,
+          "miss_rate_on_resolved": 0.03571428571428571,
+          "false_alarm_rate_on_resolved": 0.003236245954692557
+        }
+      }
+    },
+    "val": {
+      "allocated": 107,
+      "terminal_train_scale_nmse_1s_3s_2p5ms": {
+        "r20": 0.24804997637129653,
+        "r21": 0.23867030562088284,
+        "r21_minus_r20": -0.009379670750413682,
+        "relative_change": -0.03781363291231932,
+        "complete_pair_count": 107
+      },
+      "task3": {
+        "horizons_seconds": [
+          1,
+          2,
+          5,
+          8
+        ],
+        "eligible_counts": [
+          96,
+          95,
+          95,
+          95
+        ],
+        "r20_event_mean_nrmse": [
+          0.39016964058519665,
+          0.3488374379862846,
+          0.26621747609384416,
+          0.24372645200986776
+        ],
+        "r21_event_mean_nrmse": [
+          0.43748467942557934,
+          0.40385417660921363,
+          0.31443381083569116,
+          0.2908940004986151
+        ],
+        "r20_pooled_nrmse": [
+          0.539224025420827,
+          0.4570865318257859,
+          0.33397495250972653,
+          0.29752986429595374
+        ],
+        "r21_pooled_nrmse": [
+          0.5332140628492869,
+          0.49367890938990594,
+          0.3749236382498728,
+          0.34114292551388464
+        ]
+      },
+      "stability": {
+        "r20": {
+          "allocated": 107,
+          "tp": 11,
+          "tn": 95,
+          "fp": 0,
+          "fn": 0,
+          "unstable_unresolved": 1,
+          "stable_unresolved": 0,
+          "unresolved": 1,
+          "uncovered": 0,
+          "numerical_failures": 0,
+          "resolved": 106,
+          "coverage": 0.9906542056074766,
+          "full_cohort_accuracy": null,
+          "accuracy_on_resolved": 1.0,
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.0
+        },
+        "r21": {
+          "allocated": 107,
+          "tp": 8,
+          "tn": 95,
+          "fp": 0,
+          "fn": 0,
+          "unstable_unresolved": 4,
+          "stable_unresolved": 0,
+          "unresolved": 4,
+          "uncovered": 0,
+          "numerical_failures": 0,
+          "resolved": 103,
+          "coverage": 0.9626168224299065,
+          "full_cohort_accuracy": null,
+          "accuracy_on_resolved": 1.0,
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.0
+        }
+      }
+    },
+    "test": {
+      "allocated": 76,
+      "terminal_train_scale_nmse_1s_3s_2p5ms": {
+        "r20": 5.253387520734584,
+        "r21": 4.40212738081567,
+        "r21_minus_r20": -0.8512601399189146,
+        "relative_change": -0.16204023338447382,
+        "complete_pair_count": 76
+      },
+      "task3": {
+        "horizons_seconds": [
+          1,
+          2,
+          5,
+          8
+        ],
+        "eligible_counts": [
+          67,
+          67,
+          67,
+          67
+        ],
+        "r20_event_mean_nrmse": [
+          0.7802166470165326,
+          1.3530304769987391,
+          2.7311815947757023,
+          3.1025200914348443
+        ],
+        "r21_event_mean_nrmse": [
+          0.8335507477167153,
+          1.3197201972217767,
+          2.5324901323176108,
+          2.795579109127373
+        ],
+        "r20_pooled_nrmse": [
+          1.086190860495874,
+          2.2888509961420325,
+          5.3096705255966485,
+          6.214581781650552
+        ],
+        "r21_pooled_nrmse": [
+          1.1234399363000063,
+          2.093439978291617,
+          4.586117198384129,
+          5.175713123198382
+        ]
+      },
+      "stability": {
+        "r20": {
+          "allocated": 76,
+          "tp": 7,
+          "tn": 51,
+          "fp": 15,
+          "fn": 0,
+          "unstable_unresolved": 2,
+          "stable_unresolved": 1,
+          "unresolved": 3,
+          "uncovered": 0,
+          "numerical_failures": 0,
+          "resolved": 73,
+          "coverage": 0.9605263157894737,
+          "full_cohort_accuracy": null,
+          "accuracy_on_resolved": 0.7945205479452054,
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.22727272727272727
+        },
+        "r21": {
+          "allocated": 76,
+          "tp": 5,
+          "tn": 50,
+          "fp": 17,
+          "fn": 0,
+          "unstable_unresolved": 4,
+          "stable_unresolved": 0,
+          "unresolved": 4,
+          "uncovered": 0,
+          "numerical_failures": 0,
+          "resolved": 72,
+          "coverage": 0.9473684210526315,
+          "full_cohort_accuracy": null,
+          "accuracy_on_resolved": 0.7638888888888888,
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.2537313432835821
+        }
+      }
+    }
+  },
+  "findings_zh": [
+    "共享刚度扩展在本轮固定拟合目标上形成改善：2.5 ms正式评价的完整train346目标由0.465184降至0.359351，完整val107由0.248050降至0.238670，分别减少22.75%和3.78%。该结论限定于所声明的1 s/3 s、train尺度、事件等权归一化MSE。",
+    "TASK3 val事件平均归一化RMSE在1/2/5/8秒均增大；其中八秒95例由0.243726至0.290894，pooled由0.297530至0.341143。1 s/3 s完整val目标与八秒95例TASK3评分的尺度、统计方式和样本范围不同，不能将一个目标的下降替代另一个指标的结论。",
+    "train的TASK3 pooled误差在四个时窗均减小，而事件平均误差均增大，说明不同统计量的变化方向不同。此结果支持明确区分误差总量与逐事件平均，不支持笼统宣称轨迹全面改善。",
+    "val稳定性TP由11降至8，新增3个真实失稳样本变为未决，未决总数由1增至4；双方可判定准确率均为100%，对应覆盖106/107与103/107，完整准确率均为null。不能将可判定准确率写成全名单100%，也不能把未决失稳样本从召回解释中省略。",
+    "train稳定性FP由4降至1，FN由0增至1，未决由8增至9；这组结果同时记录误报减少和漏判、未决变化，不据单项改善认定稳定性总体提升。",
+    "test仅报告固定比较基准：完整76例1 s/3 s目标由5.253388降至4.402127；八秒67例TASK3事件平均由3.102520降至2.795579、pooled由6.214582降至5.175713，同时1秒事件平均增大。稳定性TP由7降至5、FP由15增至17、未决由3增至4；这些结果不用于后续参数或方案选择。",
+    "六个模型/split组合均无数值失败、无未覆盖；它们均有八秒未决样本，因此六项完整稳定性准确率均为null。未决与轨迹数值失败是不同结果。"
+  ],
+  "acceptance_zh": "共同起点、完整train/val选择过程、双方完整train/val/test预测及保存证据算术核对均已完成。接受本轮证据记录；当前证据不建立统一的TASK3轨迹与稳定性改进，保留默认基线。",
+  "boundaries_zh": [
+    "val用于预登记选择，其结果不是独立确认；test为历史暴露的固定比较基准。",
+    "不声称非线性优化收敛、真实隐藏状态或刚度恢复、稳定性认证、全面性能提升或模型晋升。",
+    "本审核不登记新候选、追加训练或按test结果修订模型；KEEP_BASELINE持续有效。",
+    "审核人仅读取JSON/JSONL元数据与文件哈希，未解码NPZ/PT、调用模型或执行新的科学计算。"
+  ],
+  "reviewer_activity": {
+    "new_training": 0,
+    "npz_decodes": 0,
+    "checkpoint_decodes": 0,
+    "new_candidates": 0,
+    "rhs_calls": 0,
+    "model_calls": 0,
+    "metadata_only": true
+  }
+}
