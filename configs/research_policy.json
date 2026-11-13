@@ -1249,6 +1249,32 @@
       "result_manifest_sha256": "c7de480a6682eba211adaad9fc095e033bc7748d9467112c9582f971a19b3d95",
       "result_receipt_path": "docs/reports/kiki_machine_local_full_20261113_evidence.json",
       "result_receipt_sha256": "c20b011dc5c060dd7325d01e6d3921a0aad0ad213b60d2ce8b0ee46a37a53676"
+    },
+    "kiki_machine_local_r20_r21_fit_v1_20261114": {
+      "status": "active",
+      "experiment": "kiki_machine_local_r20_r21_fit_v1",
+      "fit_attempts": 2,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "explicit_user_paired_full_roster_val_training_length_selection",
+      "plan_path": "configs/proposals/kiki_machine_local_r20_r21_fit_v1.json",
+      "plan_sha256": "cd50c4aec87d0f97739fec030afd107a144aa78cedfc32ae942107f12bc6c40d",
+      "review_path": "docs/research/kiki_machine_local_r20_r21_fit_review_20261114.json",
+      "review_sha256": "7baa5bbc9b39c69b8c35549a6e5b179f38415dd9d70759660faa969213bf5ebd",
+      "operation_limits": {
+        "fits": 2,
+        "optimizer_updates": 160,
+        "gradients": 960,
+        "val_checks": 16,
+        "rollouts": 14600,
+        "torch_rhs": 41566720,
+        "tangent_rhs": 1626240,
+        "qr": 182088,
+        "svd": 182088,
+        "triangular_solves": 182088,
+        "matrix_products": 182088,
+        "checkpoint_loads": 1
+      }
     }
   },
   "archived_development_results": {

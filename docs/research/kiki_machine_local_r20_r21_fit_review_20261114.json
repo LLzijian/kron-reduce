@@ -1,0 +1,166 @@
+{
+  "schema": "kiki_machine_local_r20_r21.exact_review.v1",
+  "review_date": "2026-11-14",
+  "reviewer": "Astra Ultra",
+  "approved": true,
+  "decision": "APPROVED_ONE_PAIRED_FIT_WITH_FULL_VAL_SELECTION_AND_FULL_TRAIN_VAL_EVALUATION",
+  "plan_path": "configs/proposals/kiki_machine_local_r20_r21_fit_v1.json",
+  "plan_sha256": "cd50c4aec87d0f97739fec030afd107a144aa78cedfc32ae942107f12bc6c40d",
+  "protocol_path": "docs/protocols/kiki_machine_local_r20_r21_v1_zh.md",
+  "protocol_sha256": "f8bbfc824132adfc94302399a12742e2b694af54da9686c8f616020f033f141c",
+  "implementation_bindings": {
+    "configs/experiments/kiki_machine_local_full_fit_v1.toml": "be2bcd14182dc7f621f7c54619a18124345a1c8745504bd77959e2b3b3ea62f9",
+    "configs/experiments/kiki_machine_local_r20_r21_fit_v1.toml": "a04d8bb3d96c72217c53dcb1847db7995c4afa70733d4415de6b638f71dbba0c",
+    "configs/project_manifest.json": "90736e1440eb2243da43731d37e190fb4f69a2f15c5c2a9ae7e643bea1d1590e",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/workflows/kiki_machine_local_full_v1.json": "07812392419c3c02cae459dfbea242e5582f312d921debf18cc33fd749698c68",
+    "configs/workflows/kiki_machine_local_r20_r21_v1.json": "2a3b9f5239600d1d6a1298721650b41b611f08e2485e8b27c0d3712fb04827b7",
+    "docs/protocols/kiki_machine_local_full_v1_zh.md": "faf54e8d44170f51da5cdc0fd9e3acc9a8c23676700b5d229d3c4e78920335af",
+    "docs/protocols/kiki_machine_local_r20_r21_v1_zh.md": "f8bbfc824132adfc94302399a12742e2b694af54da9686c8f616020f033f141c",
+    "docs/research/kiki_machine_local_full_plan_20261113_zh.md": "c0e3eca08c311e4c806204f0d4eb265cdc87c2bd3af2f801cc45430ebc76e008",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/policy.py": "9f345a87711223af452cff4cfa74eecb0d815fa164b47485144002b07fc58071",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/audit_access_ledger.py": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+    "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/data/task3_full.py": "6dd2cf419d22085c9d48c5d9c9f3f7533491d47dc8915e9545a9b2c4bd723ab2",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/evaluation/kiki_machine_local_full.py": "fe3513893ebb1b37aeb0fe9e298535871db46133e6aac83792be47b378929fe7",
+    "src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py": "9b80002862b7c1c9cf454dd480023b9012b613c66e7a067e2cf9568cf99137de",
+    "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/state_port_training.py": "18047aeccb3848cc855a6bddbd2e7c4b11f4acdb5b1b70872e32c03e34bfc738",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/models/differentiable_history.py": "3c144c9acbdf9129f7802dc69caa16ec7fb8ed61fdcc064fcc285e2baf2a0a89",
+    "src/kron_reduce/models/machine_local.py": "572b3af1be788a83ac02ba506bad1451b379f5eaace5f2cae3c40e84fe84aaa0",
+    "src/kron_reduce/models/machine_local_forecast.py": "ab9a935ceade4bca378216c59de1c05f983d4766c29e784d6ef5596c7ff17c6d",
+    "src/kron_reduce/models/nonlinear_history.py": "660585ec135d6388ad0d16c573f669176ffc6e395f60f723fa7d1bb490a3c84e",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/kiki_machine_local_full.py": "f64d5caacada7284f6bcbcbfeff0c70b68a4df3cbf14f520d65d3e7e2171e581",
+    "src/kron_reduce/workflows/kiki_machine_local_r20_r21.py": "cb91e953381620d7e4bd2ba860555329a59337675c3116f674587b660e9464f1",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "tests/test_kiki_machine_local_full.py": "9d9d9956a869a110be448ca64cb851ceae77e36ecabe6e3f462920b9ddf1fcfd",
+    "tests/test_kiki_machine_local_r20_r21.py": "c1be0c5ac511166b35dec012bfdf97d26a341286a16998cb838fd622c5d26b90",
+    "tests/test_machine_local_trainable_stiffness.py": "820a19c88e2e8a56130531753fc0ba3a58b4e008277e1acf8eff72555e0a0ee8",
+    "tests/test_task3_full.py": "d0464312f8b2c1b5bc359a8761f12cf38f09c276478d26044b79305de30ad2da"
+  },
+  "verified_bound_file_hash_mismatches": [],
+  "verified_local_binding_count": 38,
+  "verified_external_source_binding_count": 60,
+  "exact_scope": {
+    "stage": "fit",
+    "allowed_payload_roles": [
+      "train",
+      "val"
+    ],
+    "train_count": 346,
+    "val_count": 107,
+    "source_contract": {
+      "path": "configs/proposals/kiki_machine_local_full_fit_v1.json",
+      "sha256": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed"
+    },
+    "common_backbone": {
+      "path": "results/paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996/checkpoint-240-324/model.npz",
+      "sha256": "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8"
+    },
+    "fit_attempts": 2,
+    "max_updates_per_group": 80,
+    "train_batch": 64,
+    "val_monitor_batch": 64,
+    "val_monitor_step_seconds": 0.005,
+    "val_checkpoints": [
+      10,
+      20,
+      30,
+      40,
+      50,
+      60,
+      70,
+      80
+    ],
+    "val_checks_total_maximum": 16,
+    "joint_patience": 3,
+    "meaningful_improvement": "J < anchor - 1e-4 * max(abs(anchor), 1e-12); first valid observation initializes anchor; invalid active checks reset common patience",
+    "endpoint_selection": "Separate earliest strict minimum among complete finite full-val checkpoints; last complete training state only if no valid candidate exists",
+    "operation_limits": {
+      "fits": 2,
+      "optimizer_updates": 160,
+      "gradients": 960,
+      "val_checks": 16,
+      "rollouts": 14600,
+      "torch_rhs": 41566720,
+      "tangent_rhs": 1626240,
+      "qr": 182088,
+      "svd": 182088,
+      "triangular_solves": 182088,
+      "matrix_products": 182088,
+      "checkpoint_loads": 1
+    },
+    "test_payload_reads": 0,
+    "test_followup": "Mandatory separately registered zero-fit paired test stage after both selected models and common preprocessing have been frozen and verified"
+  },
+  "source_access_review": {
+    "static_permitted_members": [
+      "mass",
+      "delta_star",
+      "pm_star",
+      "omega_s"
+    ],
+    "static_member_decodes": 4,
+    "development_file_reads": 2,
+    "development_event_decodes": 453,
+    "development_member_decodes": 906,
+    "event_members": [
+      "x",
+      "p0"
+    ],
+    "backbone_checkpoint_loads": 1,
+    "train_and_val_reused_in_memory_for_both_groups": true,
+    "val_barrier": "Both initial checkpoints, train-fitted scales, rosters and fixed selection contract are bound before the one val read; initial fitting_closed and selection_closed remain false",
+    "final_freeze": "Both selected effective-stiffness checkpoints and the common preprocessing are bound and verified before final train/val scoring; test rejects the initial monitoring freeze"
+  },
+  "accepted_findings": [
+    "The revised protocol implements the user-authorized use of train curves and full val for training length; val never enters gradients, history normalization or target normalization.",
+    "R20 and R21 are independently constructed from the same SHA-bound A06 backbone and exact array equality is checked before data-driven training; R21 starts at lambda zero.",
+    "The single Torch effective_stiffness property feeds the RHS, same-stage tangent, linear path and closure export. R21 lambda remains in the complete three-GN/history-reset/future gradient path.",
+    "Both groups use continuous fresh Adam state, six full-train weighted gradient batches per committed update, common clipping norm and fixed projection of finite lambda to log(0.5)..log(2).",
+    "Full val monitoring uses the same masked 1 s/3 s event-equal target definition at 5 ms, 107-event weights and immutable train scales. Failed batches yield null full objectives and do not select checkpoints.",
+    "Separate strict-minimum checkpoint selection and common meaningful-improvement patience are correctly distinguished; exact ties retain the earliest checkpoint; an invalid active check resets patience.",
+    "A numerical training failure rolls back the incomplete update, retains a prior valid best checkpoint when available, and permits the other group to continue under the original schedule. Actual and selected update counts are preserved.",
+    "Final scoring executes both complete train and val cohorts at 2.5/1.25 ms regardless of RMSE, with one-time per-step individual isolation only after a batch exception and within the declared budget.",
+    "Frozen checkpoint export folds the effective stiffness into a fixed model, preserves the explicit three-GN/history-scale contract, and uses a restricted weights-only loader in the separately registered test path.",
+    "Terminal 1 s/3 s objectives use existing prediction arrays and fixed train scales; they are explicitly step-specific and retain null values when the implementation numerical qualification is not met.",
+    "The operation limits cover two 80-update fits, sixteen complete val checks and worst-case full train/val isolation. All 38 local bindings and all 60 inherited external scorer source bindings matched during review.",
+    "Optimization evidence is explicitly scoped to fixed Adam configuration, per-update loss/gradient/projection traces and full parameter snapshots at validation checks; no saved Adam-moment or resume contract is claimed."
+  ],
+  "engineering_evidence": {
+    "coordinator_report": "69 core tests and 2 validation-selection tests passed; stiffness full-chain directional gradient relative error reported as 3.87e-7",
+    "reviewer_independently_ran_tests": false,
+    "inspected_tests": [
+      "test_machine_local_trainable_stiffness.py",
+      "test_kiki_machine_local_r20_r21.py",
+      "test_kiki_machine_local_full.py"
+    ]
+  },
+  "boundaries": [
+    "This review approves the exact fit plan only. It is a scientific source review and does not perform an operator approval, loop transition or scientific execution.",
+    "The final full test=76 evaluation is mandatory reporting under a separately registered zero-fit stage bound to both final selected checkpoints; no test payload is authorized by this fit review.",
+    "Val is a selection population in this round. The historically exposed test roster is a fixed comparison benchmark, not independent confirmation.",
+    "Early stopping is not proof of convergence. Boundary hits, numerical failures, invalid metrics, lost equal training exposure and fallback endpoints must remain explicit.",
+    "A separately registered arithmetic audit of new saved outputs must verify full trajectory/stability metrics, paired differences, failure lists and coverage before final scientific conclusions.",
+    "KEEP_BASELINE remains in force. This review grants no promotion, deployment change, extra training, harmonic search, renewed consumed scope or post-test model revision."
+  ],
+  "reviewer_activity": {
+    "scientific_model_calls": 0,
+    "scientific_rhs_calls": 0,
+    "scientific_fits": 0,
+    "real_payload_array_decodes": 0,
+    "checkpoint_payload_decodes": 0,
+    "byte_hash_checks": true,
+    "loop_approvals_or_transitions": 0
+  }
+}

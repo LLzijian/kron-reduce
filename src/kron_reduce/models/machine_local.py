@@ -6,6 +6,7 @@ deployed initializer or the historical nonlinear trainer.
 from __future__ import annotations
 
 import math
+from copy import deepcopy
 
 import numpy as np
 import torch
@@ -22,7 +23,7 @@ from kron_reduce.models.nonlinear_latent import (
 class DiagonalMemoryModel(torch.nn.Module):
     """One decay rate per hidden coordinate; ten local slots for ten machines."""
 
-    def __init__(self, backbone, *, port_kind, port, tau, encoder, feature_scale):
+    def __init__(self, backbone, *, port_kind, port, tau, encoder, feature_scale, train_stiffness=False):
         super().__init__()
         if not isinstance(backbone, NonlinearPassiveClosure):
             raise TypeError("backbone must be a NonlinearPassiveClosure")
@@ -52,6 +53,8 @@ class DiagonalMemoryModel(torch.nn.Module):
         fraction = (np.log(tau) - np.log(.02)) / np.log(5./.02)
         self.rate_parameter = torch.nn.Parameter(tensor(np.log(fraction / (1-fraction))))
         self.encoder = torch.nn.Parameter(tensor(encoder))
+        self.register_parameter("log_stiffness_factor",
+                                torch.nn.Parameter(tensor(0.)) if train_stiffness else None)
         for name, value in {
             "mass": backbone.mass, "stiffness": backbone.edge_stiffness,
             "damping": backbone.damping, "feature_scale": feature_scale,
@@ -59,6 +62,20 @@ class DiagonalMemoryModel(torch.nn.Module):
             "power_projection": np.eye(n)-np.outer(backbone.mass, np.ones(n))/backbone.mass.sum(),
         }.items():
             self.register_buffer(name, tensor(value))
+
+    @property
+    def effective_stiffness(self):
+        if self.log_stiffness_factor is None:
+            return self.stiffness
+        return self.stiffness * self.log_stiffness_factor.exp()
+
+    def freeze_effective_stiffness(self):
+        """Export the active dynamics in the fixed-stiffness model format."""
+        frozen = deepcopy(self)
+        with torch.no_grad():
+            frozen.stiffness.copy_(self.effective_stiffness)
+        frozen.log_stiffness_factor = None
+        return frozen.requires_grad_(False).eval()
 
     @property
     def tau(self):
@@ -77,7 +94,7 @@ class DiagonalMemoryModel(torch.nn.Module):
     def closure(self):
         array = lambda value: value.detach().cpu().numpy()
         return NonlinearPassiveClosure(
-            array(self.mass), array(self.stiffness), array(self.damping), array(self.coupling),
+            array(self.mass), array(self.effective_stiffness), array(self.damping), array(self.coupling),
             np.zeros((self.latent_dimension, self.latent_dimension)),
             np.diag(1/array(self.tau)), self.backbone_kind,
         )
@@ -102,7 +119,7 @@ class DiagonalMemoryModel(torch.nn.Module):
         edge, reference = q @ self.incidence, equilibrium @ self.incidence
         force = edge if self.backbone_kind == "linear" else torch.sin(edge+reference)-torch.sin(reference)
         coupling = self.coupling
-        f = power - (force*self.stiffness) @ self.incidence.T - v @ self.damping.T - z @ coupling.T
+        f = power - (force*self.effective_stiffness) @ self.incidence.T - v @ self.damping.T - z @ coupling.T
         return torch.cat((v, (f @ self.power_projection.T)/self.mass,
                           v @ coupling-z/self.tau), dim=-1)
 
@@ -113,7 +130,7 @@ class DiagonalMemoryModel(torch.nn.Module):
         p, c = self.power_projection, self.coupling
         inv_mass = 1/self.mass[:, None]
         a[:n, n:2*n] = torch.eye(n, dtype=torch.float64)
-        a[n:2*n, :n] = -inv_mass*(p @ (self.incidence*self.stiffness) @ self.incidence.T)
+        a[n:2*n, :n] = -inv_mass*(p @ (self.incidence*self.effective_stiffness) @ self.incidence.T)
         a[n:2*n, n:2*n] = -inv_mass*(p @ self.damping)
         a[n:2*n, 2*n:2*n+r] = -inv_mass*c
         a[n:2*n, 2*n+r:] = inv_mass*p

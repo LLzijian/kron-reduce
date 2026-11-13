@@ -60,6 +60,8 @@ class FrozenMachineLocalForecaster(torch.nn.Module):
 
     def save_checkpoint(self, path) -> None:
         """Write a new weights-only checkpoint."""
+        if self.model.log_stiffness_factor is not None:
+            raise ValueError("fold the effective stiffness into the model before export")
         with Path(path).open("xb") as stream:
             torch.save(self.state_dict(), stream)
 

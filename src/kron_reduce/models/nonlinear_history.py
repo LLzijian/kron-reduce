@@ -11,7 +11,7 @@ def tangent_rhs(model, state, tangent, power, equilibrium, *, spend):
     n = model.n_nodes
     sq, sv, sz = tangent[:, :n], tangent[:, n:2*n], tangent[:, 2*n:]
     edge = (state[:, :n]+equilibrium) @ model.incidence
-    stiffness = model.stiffness * (torch.cos(edge) if model.backbone_kind == "sine" else 1.)
+    stiffness = model.effective_stiffness * (torch.cos(edge) if model.backbone_kind == "sine" else 1.)
     coupling = model.coupling
     force = (model.incidence @ (stiffness[..., None]*(model.incidence.T @ sq))
              + model.damping @ sv + coupling @ sz)
