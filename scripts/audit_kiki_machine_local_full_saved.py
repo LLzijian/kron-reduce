@@ -13,6 +13,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
+
 from project_harness.manifest import project_root
 
 AUTHORITY = "kiki_machine_local_full_saved_audit_v1_20261113"
@@ -90,8 +91,8 @@ def expected_rosters(reference):
         f"{'ieee39_expansion' if event_id.startswith('expansion_') else 'ieee39_holdout_supplement'}/{event_id}"
         for event_id in reference["task3_campaign2_final"]["eligible_ids"]
     ]
-    for role in result:
-        result[role] = sorted(result[role])
+    for role, ids in result.items():
+        result[role] = sorted(ids)
     if {role: len(ids) for role, ids in result.items()} != {"train": 346, "val": 107, "test": 76}:
         raise ValueError("frozen reference does not define the complete 346/107/76 rosters")
     return result
@@ -249,7 +250,69 @@ def audit_role(root: Path, run_dir: Path, role: str, plan: dict, roster: list[st
     return {"role": role, "event_count": len(events), "truth_sha256": truth_hash,
             "saved_npz_sha256": plan["run_files"][role]["npz_sha256"],
             "recomputed_selection_score": safe(recomputed["selection_score"]),
+            "train_diagnosis": train_diagnosis(saved) if role == "train" else None,
             "mismatch_count": len(mismatches), "mismatches": mismatches[:200]}
+
+
+def train_diagnosis(saved: dict) -> dict:
+    """Describe train-only history residual and future prefix-error association."""
+    initialization = [row for row in saved.get("initialization", []) if row.get("step") == 0.0025]
+    prefix = [row for row in saved.get("records", []) if row.get("horizon") == "prefix"]
+
+    def unique_by_id(rows, name):
+        mapping = {row["id"] if "id" in row else row["event_id"]: row for row in rows}
+        if len(mapping) != len(rows):
+            raise ValueError(f"duplicate {name} rows in saved train result")
+        return mapping
+
+    init_by_id, prefix_by_id = unique_by_id(initialization, "fine-step initialization"), unique_by_id(prefix, "prefix score")
+    values = {name: [] for name in ("history_nrmse", "hidden_start_energy", "hidden_origin_energy", "prefix_task3_rmse")}
+    invalid, missing_history, missing_prefix = 0, 0, 0
+    matched_ids = []
+    for event_id in sorted(init_by_id.keys() | prefix_by_id.keys()):
+        if event_id not in init_by_id:
+            missing_history += 1
+            continue
+        if event_id not in prefix_by_id:
+            missing_prefix += 1
+            continue
+        init, score = init_by_id[event_id], prefix_by_id[event_id]
+        row = (init.get("history_nrmse"), init.get("hidden_start_energy"),
+               init.get("hidden_origin_energy"), score.get("rmse"))
+        if any(not isinstance(value, (int, float)) or not math.isfinite(float(value)) or value < 0 for value in row):
+            invalid += 1
+            continue
+        matched_ids.append(event_id)
+        for name, value in zip(values, row, strict=True):
+            values[name].append(float(value))
+
+    summaries = {
+        name: {"median": float(np.median(array)), "p90": float(np.percentile(array, 90)), "max": float(np.max(array))}
+        for name, rows in values.items() if (array := np.asarray(rows, dtype=float)).size
+    }
+    history = np.asarray(values["history_nrmse"], dtype=float)
+    future = np.asarray(values["prefix_task3_rmse"], dtype=float)
+    correlation = None
+    if len(history) >= 2 and np.std(np.log1p(history)) > 0 and np.std(np.log1p(future)) > 0:
+        correlation = float(np.corrcoef(np.log1p(history), np.log1p(future))[0, 1])
+    top_count = math.ceil(len(matched_ids) * 0.25)
+    ranked = sorted(range(len(matched_ids)), key=lambda i: (history[i], matched_ids[i]))
+    top = ranked[-top_count:] if top_count else []
+    remaining = ranked[:-top_count] if top_count else []
+    return {
+        "method": "train-only descriptive arithmetic; no selection or tuning",
+        "count": len(matched_ids), "missing_history_count": missing_history,
+        "missing_prefix_count": missing_prefix, "invalid_join_count": invalid,
+        "summaries": summaries,
+        "log1p_pearson_history_nrmse_vs_prefix_task3_rmse": correlation,
+        "history_residual_top_quartile": {
+            "count": len(top), "prefix_task3_rmse_mean": float(np.mean(future[top])) if top else None,
+        },
+        "remaining_history_residuals": {
+            "count": len(remaining), "prefix_task3_rmse_mean": float(np.mean(future[remaining])) if remaining else None,
+        },
+        "quartile_rule": "highest ceil(25% of matched count), ranked by history_nrmse then event ID",
+    }
 
 
 def run(root: Path, fit_arg: Path, test_arg: Path, output_arg: Path):
@@ -268,6 +331,7 @@ def run(root: Path, fit_arg: Path, test_arg: Path, output_arg: Path):
     sys.path.insert(0, str(task3_root / "src"))
     from task3.c2.evaluation import evaluate as task3_eval
     from task3.protocol import classify as task3_classify
+
     from kron_reduce.evaluation.trajectory_stability import summarize
 
     results = []
@@ -277,6 +341,7 @@ def run(root: Path, fit_arg: Path, test_arg: Path, output_arg: Path):
     report = {"authorization": AUTHORITY, "status": "PASS" if all(not row["mismatch_count"] for row in results) else "MISMATCH",
               "fit_run_id": plan["fit_run_id"], "test_run_id": plan["test_run_id"],
               "roster_counts": {key: len(ids) for key, ids in rosters.items()}, "roles": results,
+              "train_diagnosis": next(row["train_diagnosis"] for row in results if row["role"] == "train"),
               "audit_scope": "saved-array arithmetic only; no model, RHS, integration, fit, decomposition, or autodiff calls",
               "completed_at_utc": datetime.now(UTC).isoformat()}
     output.parent.mkdir(parents=True, exist_ok=True)

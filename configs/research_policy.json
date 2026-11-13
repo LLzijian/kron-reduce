@@ -3140,6 +3140,18 @@
       "mismatches": 0,
       "result_receipt_path": "docs/reports/state_port_synthetic_20261111_evidence.json",
       "result_receipt_sha256": "4fd2dc1eae7ee735264c6f2bf9611319ac386ea6e6946df367ec731cd579ca42"
+    },
+    "kiki_machine_local_full_saved_audit_v1_20261113": {
+      "status": "active",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "plan_path": "configs/proposals/kiki_machine_local_full_saved_audit_v1.json",
+      "plan_sha256": "569f0dd403a542de052a35621541c9fc8ce2649ad47a7ad282ffcc0470cc5c4a",
+      "review_path": "docs/research/kiki_machine_local_full_saved_audit_v1_review.json",
+      "review_sha256": "17820e64ea3264c723ee367f0c28ab41b09bafb41c9a7772084d477fc82c8167",
+      "max_npz_decodes": 3,
+      "new_model_calls": 0,
+      "authority": "autonomous_full_dataset_result_verification_and_train_only_diagnosis"
     }
   },
   "default_real_data_policy": "kiki_official_train_test_v1",
@@ -3180,7 +3192,7 @@
   },
   "official_test_evaluations": {
     "kiki_machine_local_full_test_v1_20261113": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_full_test_v1",
       "fit_attempts": 0,
       "test_population": "task3_campaign2_final_test",
@@ -3205,7 +3217,9 @@
         "triangular_solves": 912,
         "matrix_products": 912,
         "checkpoint_loads": 2
-      }
+      },
+      "run_id": "kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0",
+      "result_manifest_sha256": "4e7b46a018e2470814885aa43c179bc7f05a4251acbc12a2d74c3899fb39c93b"
     }
   },
   "round_evaluation_defaults": {

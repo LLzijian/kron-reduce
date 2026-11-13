@@ -1,0 +1,74 @@
+{
+  "schema": "kiki_machine_local_full_saved_audit.exact_review.v1",
+  "review_date": "2026-11-13",
+  "reviewer": "Astra Ultra",
+  "approved": true,
+  "decision": "APPROVED_ONE_SAVED_ARITHMETIC_AUDIT_WITH_TRAIN_ONLY_DESCRIPTIVE_DIAGNOSIS",
+  "plan_path": "configs/proposals/kiki_machine_local_full_saved_audit_v1.json",
+  "plan_sha256": "569f0dd403a542de052a35621541c9fc8ce2649ad47a7ad282ffcc0470cc5c4a",
+  "implementation_bindings": {
+    "scripts/audit_kiki_machine_local_full_saved.py": "e5799bbd4fad261d74f638b140c4e63a5ebcc04a2101797f1847fec67f2b5f8a",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea"
+  },
+  "fit_run_id": "kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e",
+  "test_run_id": "kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0",
+  "verified_bound_file_hash_mismatches": [],
+  "exact_scope": {
+    "max_executions": 1,
+    "retry_allowed": false,
+    "npz_files": 3,
+    "decodes_per_npz_file": 1,
+    "roles": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    },
+    "permitted_arrays": [
+      "ids",
+      "fine",
+      "refined",
+      "truth",
+      "lengths",
+      "mass",
+      "equilibrium",
+      "labels"
+    ],
+    "original_source_payload_reads": 0,
+    "checkpoint_loads": 0,
+    "model_calls": 0,
+    "rhs_calls": 0,
+    "rollouts": 0,
+    "fit_attempts": 0,
+    "optimizer_updates": 0,
+    "matrix_decompositions": 0,
+    "autodiff_calls": 0,
+    "additional_statistics": "One train-only descriptive join of saved fine-step history residual/hidden energies with saved event available-target future RMSE; fixed highest ceil(25%) residual group and log1p Pearson correlation."
+  },
+  "accepted_findings": [
+    "All three saved NPZ and role JSON byte hashes match the exact immutable run-file bindings, without decoding arrays during review.",
+    "All local script and external TASK3 scoring-code hashes match the plan. The scorer is the same frozen implementation used for the original reports.",
+    "One atomic reservation in the common Git directory consumes the audit authority before array decoding; no retry or repeated role evaluation is available in this script.",
+    "The reader decodes each registered archive once, disallows pickle and extra members, and checks complete source-qualified roster order, shapes, lengths and saved truth finiteness.",
+    "Truth labels are checked against the original frozen fit-plan source rosters as well as the saved per-event classifications; no relabeling occurs.",
+    "Trajectory metrics, numerical qualification, every event classification, confusion matrices, unresolved coverage and role summaries are recomputed from saved truth and fine/refined predictions, then compared with the original JSON.",
+    "Train descriptive statistics use saved train JSON alone; val and test are excluded from the diagnosis. Missing/invalid joins and deterministic quartile tie handling are explicit.",
+    "The additional statistics contain arithmetic, percentiles, sorting and correlation only; they do not fit a model, solve dynamics, call gradients, perform matrix decomposition or reread original source payloads."
+  ],
+  "interpretation_boundaries": [
+    "This is a separate replay of arithmetic on saved trajectories using the same frozen scoring implementation, not an independently implemented scoring algorithm.",
+    "Saved initialization energy and history residual values are summarized as recorded; the audit cannot independently reconstruct them from visible-only prediction arrays.",
+    "Association of history residual with future error does not identify a causal source of error. Available-target durations differ between events and can confound such an association.",
+    "No causal attribution, parameter or threshold tuning, model promotion, new real fit, or test-driven selection is authorized.",
+    "A subsequent known-truth discriminating experiment needs its own finite design, exact implementation review and scientific registration."
+  ],
+  "reviewer_activity": {
+    "saved_npz_array_decodes": 0,
+    "original_source_payload_array_decodes": 0,
+    "scientific_model_calls": 0,
+    "scientific_rhs_calls": 0,
+    "byte_hash_checks": true,
+    "independently_ran_tests": false
+  }
+}
