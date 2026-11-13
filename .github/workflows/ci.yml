@@ -31,6 +31,9 @@ jobs:
           src/kron_reduce/workflows/kiki_machine_local_full.py scripts/audit_kiki_machine_local_full_saved.py
           src/kron_reduce/evaluation/machine_local_hidden_oracle.py
           src/kron_reduce/workflows/machine_local_hidden_oracle.py
+          src/kron_reduce/models/machine_local_forecast.py src/kron_reduce/evaluation/machine_local_stiffness_calibration.py
+          src/kron_reduce/workflows/machine_local_stiffness_calibration.py
+          tests/test_machine_local_forecast.py tests/test_machine_local_stiffness_calibration.py
           tests/test_task3_full.py tests/test_kiki_machine_local_full.py tests/test_kiki_machine_local_full_saved.py
           tests/test_machine_local_hidden_oracle.py tests/test_policy_consumed_audit.py
           scripts/audit_machine_local_hidden_oracle_saved.py tests/test_machine_local_hidden_oracle_saved_audit.py
@@ -125,6 +128,7 @@ jobs:
         # Source-file checksum verification requires the private local dataset.
         run: >-
           python -m pytest -q -k "not test_data_checksums"
+          tests/test_machine_local_forecast.py tests/test_machine_local_stiffness_calibration.py
           tests/test_machine_local_hidden_oracle_saved_audit.py
           tests/test_task3_full.py tests/test_kiki_machine_local_full.py tests/test_kiki_machine_local_full_saved.py
           tests/test_machine_local_hidden_oracle.py tests/test_policy_consumed_audit.py

@@ -24,8 +24,10 @@ is now finished: matched dynamics recover the hidden state, while fixed stiffnes
 mismatch is partly absorbed by the initializer and changes future errors in both
 directions. All four groups complete train/val/test with full stability coverage;
 saved-array recomputation has zero discrepancies. Its scientific and saved-audit
-authorities are consumed. The next [preparation](machine_local_stiffness_correction_preparation_20261113_zh.md)
-isolates one positive global stiffness factor before another real-data round.
+authorities are consumed. The [shared stiffness calibration protocol](../protocols/machine_local_stiffness_calibration_v1_zh.md)
+uses one bounded scalar fit on a new complete synthetic population. It compares
+parameter recovery, hidden-state recovery and trajectory prediction before
+another real-data round or function discovery.
 
 The [machine-local initializer diagnosis](../reports/machine_local_initializer_diagnosis_20261112_zh.md)
 passed its numerical and saved-evidence checks. Its route is

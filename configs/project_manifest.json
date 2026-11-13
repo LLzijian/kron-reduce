@@ -2242,6 +2242,21 @@
       "reads_test_performance": true,
       "test_authorization": "kiki_machine_local_full_test_v1_20261113"
     },
+    "machine_local_stiffness_calibration_v1": {
+      "status": "gated",
+      "execution_mode": "bounded_synthetic_cli_only",
+      "module": "kron_reduce.workflows.machine_local_stiffness_calibration",
+      "workflow": "machine_local_stiffness_calibration_v1",
+      "config": "machine_local_stiffness_calibration_v1.toml",
+      "stage": "calibration",
+      "required_gate": "calibration",
+      "data_policy": "analytic_synthetic_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "dataset": "synthetic_benchmark_registry_v1",
+      "model_promotion_allowed": false,
+      "deployment_predictions_allowed": false
+    },
     "machine_local_hidden_oracle_v1": {
       "status": "gated",
       "execution_mode": "bounded_synthetic_cli_only",
