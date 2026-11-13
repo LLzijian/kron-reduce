@@ -1,0 +1,53 @@
+{
+  "schema": "machine_local_hidden_oracle.evidence.v1",
+  "status": "COMPLETE_AND_RECOMPUTED",
+  "run_id": "machine_local_hidden_oracle_v1-diagnosis-20261113T072927736746Z-55c75e3e-2ade71a8",
+  "source_commit": "55c75e3e0947c896e8b57ba766b04ce0cf01bb3c",
+  "artifact_manifest_sha256": "b095129ef5c141935bd405bf8c61c3660fbce4cf9d795f23f48db1b1b70c7cae",
+  "scientific_pass": true,
+  "truth_pass": true,
+  "numerical_pass": true,
+  "matched_recovery_pass": true,
+  "evaluation_complete": true,
+  "population": {
+    "unique_events": 64,
+    "train": 32,
+    "val": 16,
+    "test": 16,
+    "groups": [
+      "matched_gn",
+      "matched_oracle",
+      "mismatch_gn",
+      "mismatch_oracle"
+    ]
+  },
+  "operations": {
+    "rollouts": 224,
+    "numpy_rhs": 5001728,
+    "tangent_rhs": 11520,
+    "torch_rhs": 629760,
+    "qr": 768,
+    "svd": 768,
+    "matrix_products": 768,
+    "triangular_solves": 768
+  },
+  "wall_seconds": 288.16491509997286,
+  "saved_audit": {
+    "path": "reports/generated/machine_local_hidden_oracle_20261113/saved-audit.json",
+    "sha256": "c0a3f6a5d3d26517eab8b5c9821808162498a0d4ac9d070c0bc5500ca7236d26",
+    "npz_decodes": 13,
+    "mismatches": 0
+  },
+  "result_review": {
+    "path": "docs/research/machine_local_hidden_oracle_result_review_20261113.json",
+    "sha256": "dd91068e9d42e47ded0e6ec248e861275839dd875116f5275abfccd79184134b"
+  },
+  "promotion_decision": "KEEP_BASELINE",
+  "real_data_reads": 0,
+  "fit_attempts": 0,
+  "next_preparation": {
+    "path": "docs/research/machine_local_stiffness_correction_preparation_20261113_zh.md",
+    "status": "PREPARATION_ONLY"
+  },
+  "claim_boundary": "Complete 64-case sine L10 known-truth comparison of matched/10% stiffness mismatch and causal/true hidden origin. No fitting, noise, real-data reads or real-system causal attribution."
+}

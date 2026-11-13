@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Hidden-state versus dynamics diagnosis](machine_local_hidden_oracle_20261113_zh.md) | Complete 64-case synthetic population, four matched/mismatched dynamics and hidden-origin controls; recovery and saved-array verification passed |
 | [Full TASK3 L10 round](kiki_machine_local_full_20261113_zh.md) | Full train 346 / val 107 / test 76, one 40-update fit, complete trajectory and stability scores, saved-result recomputation and train-only diagnosis |
 | [Nonlinear history S0](machine_local_nonlinear_history_20261113_zh.md) | Six clean sine-system cases; nonlinear recovery and gradients passed; complete train/val/test trajectory and stability scores |
 | [Clean differentiable learning](machine_local_clean_learning_20261113_zh.md) | One 240-step clean fit; all three models evaluated on train/val/test; matched-linear learning and saved-array checks passed |

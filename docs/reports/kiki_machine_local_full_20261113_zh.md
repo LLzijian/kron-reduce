@@ -53,7 +53,7 @@ test 的可判定准确率为 76.7%，稳定误报率为 25.8%，完整名单准
 
 对历史残差与实际可用未来轨迹的TASK3归一化RMSE分别作log1p变换后，Pearson相关系数为0.01979。历史残差最高的87例未来RMSE事件平均为0.2858，其余259例为0.3995。两种RMSE使用不同尺度和时窗，样本可用时长也不同。这一描述统计支持进一步分开检验初始化与动力学误差，不能把相关性直接解释为因果归属。
 
-后续准备采用已知真值的完整合成样本组，对比匹配骨架与固定刚度失配，并分别使用历史估计隐藏状态和真值隐藏末态。真值隐藏末态对照用于隔离动力学误差，历史估计对照用于检验初始化对失配的响应。该比较的准确实现与预算另行登记。当前已完成的后续工作为完整train保存结果诊断。
+完整 train 保存结果诊断之后，已按独立协议完成 [64 例已知真值对照](machine_local_hidden_oracle_20261113_zh.md)：匹配骨架与固定刚度失配分别配合历史估计隐藏状态和真值隐藏末态，四组全部完成 train/val/test。匹配条件下恢复通过，失配下隐藏初态会吸收部分动力学误差；该补偿对未来误差的影响随时长和事件变化。保存数组复算差异为零。
 
 ## 证据
 
@@ -61,4 +61,4 @@ test 的可判定准确率为 76.7%，稳定误报率为 25.8%，完整名单准
 - [test运行](../../results/kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0/summary.json)，逐事件结果及预测在同目录。
 - [保存结果重算](../../reports/generated/kiki_machine_local_full_20261113/saved-audit.json)通过，3份预测档案各解码一次。
 - [证据回执](kiki_machine_local_full_20261113_evidence.json)记录完整运行身份、源码、清单哈希、实际计算次数与诊断。
-- [Astra 结果审查](../research/kiki_machine_local_full_result_review_20261113_zh.md)及[机读审查](../research/kiki_machine_local_full_result_review_20261113.json)确认本轮完成且保持基线；[后续已知真值判别计划](../research/machine_local_hidden_oracle_plan_20261113_zh.md)仍为准备状态，尚未注册或执行。
+- [Astra 结果审查](../research/kiki_machine_local_full_result_review_20261113_zh.md)及[机读审查](../research/kiki_machine_local_full_result_review_20261113.json)确认本轮完成且保持基线；[后续已知真值判别计划](../research/machine_local_hidden_oracle_plan_20261113_zh.md)已经落实为上述独立合成对照。

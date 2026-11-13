@@ -19,6 +19,13 @@ recomputation found zero discrepancies. Fit, test and saved-audit authorities
 are consumed. Train-only diagnosis found that the observed-history residual
 does not establish the cause of the future error. The next preparation separates
 initialization from dynamics with synthetic true-hidden-state controls.
+That [complete 64-case comparison](../reports/machine_local_hidden_oracle_20261113_zh.md)
+is now finished: matched dynamics recover the hidden state, while fixed stiffness
+mismatch is partly absorbed by the initializer and changes future errors in both
+directions. All four groups complete train/val/test with full stability coverage;
+saved-array recomputation has zero discrepancies. Its scientific and saved-audit
+authorities are consumed. The next [preparation](machine_local_stiffness_correction_preparation_20261113_zh.md)
+isolates one positive global stiffness factor before another real-data round.
 
 The [machine-local initializer diagnosis](../reports/machine_local_initializer_diagnosis_20261112_zh.md)
 passed its numerical and saved-evidence checks. Its route is
