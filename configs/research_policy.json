@@ -1229,9 +1229,9 @@
       "authority": "explicit_user_full_dataset_autonomous_research_20261113",
       "approval_text": "先使用完整的数据集给出测试结果，以后都要这样，然后推进下一步",
       "plan_path": "configs/proposals/kiki_machine_local_full_fit_v1.json",
-      "plan_sha256": "101aa528653b292f9688070aa579cb8383f03cecf81f6f5a6319520145425e6a",
+      "plan_sha256": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
       "review_path": "docs/research/kiki_machine_local_full_fit_v1_review.json",
-      "review_sha256": "76bacad8b99b975eb05889ffff5e95ddd78ae4b9657a8a2c8b890da582b38cfc",
+      "review_sha256": "fb29e68525a47d5490d35490bd7e3b000d7090736802956a1ab88702c1952b60",
       "operation_limits": {
         "fits": 1,
         "optimizer_updates": 40,

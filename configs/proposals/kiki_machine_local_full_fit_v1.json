@@ -4698,9 +4698,9 @@
     "docs/research/kiki_machine_local_full_plan_20261113_zh.md": "c0e3eca08c311e4c806204f0d4eb265cdc87c2bd3af2f801cc45430ebc76e008",
     "tests/test_task3_full.py": "d0464312f8b2c1b5bc359a8761f12cf38f09c276478d26044b79305de30ad2da",
     "tests/test_kiki_machine_local_full.py": "9d9d9956a869a110be448ca64cb851ceae77e36ecabe6e3f462920b9ddf1fcfd",
-    "configs/project_manifest.json": "07ce69c4fb792eaa35a27588d88bfc8e1cf446d6b4a35776841f398946705c77",
-    "configs/workflows/kiki_machine_local_full_v1.json": "7f9789ad4da1dc3ed117695101961cddfb46aeb08fad0d3fddd02b7d6c3085cf",
-    "configs/experiments/kiki_machine_local_full_fit_v1.toml": "8b0d88357b61be9d2c8a62740d479c63fcc29db40aff325c3836b22cda208d93"
+    "configs/project_manifest.json": "98a4a613d74101044e11d8d27402caafb24675de5090c2239699d390c4d4b39c",
+    "configs/workflows/kiki_machine_local_full_v1.json": "07812392419c3c02cae459dfbea242e5582f312d921debf18cc33fd749698c68",
+    "configs/experiments/kiki_machine_local_full_fit_v1.toml": "be2bcd14182dc7f621f7c54619a18124345a1c8745504bd77959e2b3b3ea62f9"
   },
   "operation_limits": {
     "fit": {
