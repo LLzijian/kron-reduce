@@ -74,6 +74,22 @@ def validate_run_policy(
         if not isinstance(binding, dict) or not isinstance(binding.get("path"), str):
             raise RuntimeError("TEST_MODEL_FREEZE: frozen model manifest is missing")
         path = _safe_relative(root, binding.get("path"))
+        if audit_only is True and auth["status"] == "consumed" and not path.exists():
+            if not isinstance(auth.get("result_receipt_path"), str):
+                raise RuntimeError("TEST_MODEL_FREEZE: consumed metadata receipt is missing")
+            receipt_path = _safe_relative(root, auth["result_receipt_path"])
+            if not receipt_path.is_file() or sha256_file(receipt_path) != auth.get("result_receipt_sha256"):
+                raise RuntimeError("TEST_MODEL_FREEZE: consumed metadata receipt is missing or changed")
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            saved = receipt.get("frozen_model_manifest", {}) if isinstance(receipt, dict) else {}
+            if not isinstance(saved, dict):
+                raise RuntimeError("TEST_MODEL_FREEZE: consumed metadata receipt is invalid")
+            content = saved.get("content_utf8")
+            if (saved.get("path") != binding["path"] or saved.get("sha256") != binding.get("sha256")
+                    or not isinstance(content, str)
+                    or hashlib.sha256(content.encode("utf-8")).hexdigest() != binding.get("sha256")):
+                raise RuntimeError("TEST_MODEL_FREEZE: consumed metadata receipt does not match the frozen manifest")
+            return
         if not path.is_file() or sha256_file(path) != binding.get("sha256"):
             raise RuntimeError("TEST_MODEL_FREEZE: frozen model manifest is missing or changed")
 

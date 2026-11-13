@@ -108,5 +108,10 @@
     "status": "PREPARATION_ONLY",
     "registered": false,
     "scientific_execution_started": false
+  },
+  "frozen_model_manifest": {
+    "path": "results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/freeze.json",
+    "sha256": "db06a5fed9ec80f9047d7f6ee4d8499e1cdaa506aab316fb0d12372c023ac81f",
+    "content_utf8": "{\r\n  \"checkpoint_path\": \"results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/model.npz\",\r\n  \"preprocessing_path\": \"results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/preprocessing.json\",\r\n  \"checkpoint_sha256\": \"ec059244ffd2a66914150a8363b7e7b655f4988ba83dbb42562c6514a707f8dc\",\r\n  \"preprocessing_sha256\": \"0abd0dc64017687c8e6dbec858af0b41ed4d5dae71921edccb20868a2c678faa\",\r\n  \"source_commit\": \"de0958b60b5a7535b38be612d1433d21cc1f21cf\",\r\n  \"plan_sha256\": \"349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed\",\r\n  \"training\": {\r\n    \"status\": \"COMPLETED\",\r\n    \"completed_updates\": 40,\r\n    \"message\": null,\r\n    \"selection\": \"fixed_endpoint_or_last_completed_update_on_numerical_failure\"\r\n  },\r\n  \"fitting_closed\": true,\r\n  \"selection_closed\": true\r\n}"
   }
 }

@@ -33,7 +33,7 @@
       ]
     },
     "kiki_energy_dynamics_v1": {
-      "status": "nonlinear_history_s0_complete",
+      "status": "full_task3_evaluation_complete",
       "dataset": "kiki_ieee39_v1",
       "spatial_node_count": 10,
       "spatial_clustering": "paused",
@@ -42,25 +42,25 @@
       "synthetic_correctness_checks_retained": true,
       "fresh_test": "requires_new_independent_kiki_registration",
       "historical_program": "ieee39_modular_energy_paper_v1",
-      "current_research_plan": "docs/research/machine_local_nonlinear_history_plan_20261113_zh.md",
-      "current_priority": "clean_predictions_and_complete_stability_scores",
-      "current_prerequisite_experiment": "machine_local_nonlinear_history_v1",
+      "current_research_plan": "docs/research/machine_local_hidden_oracle_plan_20261113_zh.md",
+      "current_priority": "separate_initialization_and_dynamics_errors",
+      "current_prerequisite_experiment": "kiki_machine_local_full_fit_v1",
       "independent_followup_candidates": [
         "B_joint_initializer_training",
         "A2_conservative_potential",
         "C_fixed_time_weights"
       ],
-      "current_research_stage": "task3_nonlinear_pilot_preparation",
-      "prerequisite_scientific_verdict": "NONLINEAR_HISTORY_S0_PASS",
+      "current_research_stage": "hidden_oracle_synthetic_diagnosis",
+      "prerequisite_scientific_verdict": "COMPLETED_FULL_EVALUATION_KEEP_BASELINE",
       "prerequisite_process_status": "PASS",
-      "current_result_receipt": "docs/reports/machine_local_nonlinear_history_20261113_evidence.json",
-      "current_design_review": "docs/research/machine_local_nonlinear_history_review_20261113.json",
-      "current_result_review": "docs/research/machine_local_nonlinear_history_result_review_20261113.json",
+      "current_result_receipt": "docs/reports/kiki_machine_local_full_20261113_evidence.json",
+      "current_design_review": "docs/research/kiki_machine_local_full_fit_v1_review.json",
+      "current_result_review": "docs/research/kiki_machine_local_full_result_review_20261113.json",
       "prospective_data_standard": "docs/protocols/kiki_official_train_test_v1_zh.md",
-      "current_diagnostic_route": "NONLINEAR_HISTORY_S0_PASSED",
-      "current_result_report": "docs/reports/machine_local_nonlinear_history_20261113_zh.md",
-      "current_saved_audit": "reports/generated/machine_local_nonlinear_history_20261113/saved-audit.json",
-      "current_next_step": "register_task3_nonlinear_pilot_with_exact_346_107_76_cohorts",
+      "current_diagnostic_route": "TRAIN_SAVED_DIAGNOSIS_COMPLETE",
+      "current_result_report": "docs/reports/kiki_machine_local_full_20261113_zh.md",
+      "current_saved_audit": "reports/generated/kiki_machine_local_full_20261113/saved-audit.json",
+      "current_next_step": "execute_full_64_case_matched_mismatch_hidden_oracle_comparison",
       "default_real_data_standard": "task3_train346_val107_test76",
       "task3_final_roster": "primary_76_event_benchmark"
     }
@@ -2240,6 +2240,21 @@
       "reads_validation_performance": false,
       "reads_test_performance": true,
       "test_authorization": "kiki_machine_local_full_test_v1_20261113"
+    },
+    "machine_local_hidden_oracle_v1": {
+      "status": "gated",
+      "execution_mode": "bounded_synthetic_cli_only",
+      "module": "kron_reduce.workflows.machine_local_hidden_oracle",
+      "workflow": "machine_local_hidden_oracle_v1",
+      "config": "machine_local_hidden_oracle_v1.toml",
+      "stage": "diagnosis",
+      "required_gate": "diagnosis",
+      "data_policy": "analytic_synthetic_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "dataset": "synthetic_benchmark_registry_v1",
+      "model_promotion_allowed": false,
+      "deployment_predictions_allowed": false
     }
   },
   "active_policy": "configs/research_policy.json",

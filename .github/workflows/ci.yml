@@ -27,6 +27,12 @@ jobs:
       - name: Lint the harness and audited workflows
         run: >-
           python -m ruff check project_harness scripts/register_kiki_dataset.py
+          src/kron_reduce/data/task3_full.py src/kron_reduce/evaluation/kiki_machine_local_full.py
+          src/kron_reduce/workflows/kiki_machine_local_full.py scripts/audit_kiki_machine_local_full_saved.py
+          src/kron_reduce/evaluation/machine_local_hidden_oracle.py
+          src/kron_reduce/workflows/machine_local_hidden_oracle.py
+          tests/test_task3_full.py tests/test_kiki_machine_local_full.py tests/test_kiki_machine_local_full_saved.py
+          tests/test_machine_local_hidden_oracle.py tests/test_policy_consumed_audit.py
           src/kron_reduce/models/conditional_encoder.py
           src/kron_reduce/evaluation/machine_local_initializer_diagnosis.py
           src/kron_reduce/workflows/machine_local_initializer_diagnosis.py
@@ -118,6 +124,8 @@ jobs:
         # Source-file checksum verification requires the private local dataset.
         run: >-
           python -m pytest -q -k "not test_data_checksums"
+          tests/test_task3_full.py tests/test_kiki_machine_local_full.py tests/test_kiki_machine_local_full_saved.py
+          tests/test_machine_local_hidden_oracle.py tests/test_policy_consumed_audit.py
           tests/test_conditional_encoder.py tests/test_initializer_diagnosis_workflow.py
           tests/test_machine_local.py tests/test_machine_local_workflow.py
           tests/test_discrete_history_initializer.py tests/test_observer_workflow.py

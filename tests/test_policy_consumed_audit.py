@@ -78,3 +78,33 @@ def test_consumed_audit_still_checks_frozen_model_hash(registered):
     (root / "frozen.json").write_text('{"checkpoint":"changed"}', encoding="utf-8")
     findings = audit_research_policy(root, manifest)
     assert len(findings) == 1 and "TEST_MODEL_FREEZE" in findings[0]["message"]
+
+
+@pytest.mark.parametrize("damage", [None, "receipt", "content", "path", "active", "existing_changed"])
+def test_consumed_missing_local_artifact_uses_exact_committed_metadata(registered, damage):
+    root, policy, manifest = registered
+    auth = policy["official_test_evaluations"]["one-use"]
+    frozen = root / "frozen.json"
+    snapshot = {**auth["frozen_model_manifest"], "content_utf8": frozen.read_bytes().decode("utf-8")}
+    if damage == "content":
+        snapshot["content_utf8"] = "changed"
+    if damage == "path":
+        snapshot["path"] = "other.json"
+    receipt = root / "receipt.json"
+    receipt.write_text(json.dumps({"frozen_model_manifest": snapshot}), encoding="utf-8")
+    auth.update(result_receipt_path="receipt.json", result_receipt_sha256=sha256_file(receipt))
+    frozen.unlink()
+    if damage == "receipt":
+        receipt.write_text("{}", encoding="utf-8")
+    if damage == "active":
+        auth["status"] = "active"
+    if damage == "existing_changed":
+        frozen.write_text("changed", encoding="utf-8")
+    (root / "configs/research_policy.json").write_text(json.dumps(policy), encoding="utf-8")
+    findings = audit_research_policy(root, manifest)
+    if damage is None:
+        assert findings == []
+    else:
+        assert len(findings) == 1 and "TEST_MODEL_FREEZE" in findings[0]["message"]
+    with pytest.raises(RuntimeError, match="TEST_EXPOSED|TEST_MODEL_FREEZE"):
+        validate_run_policy(root, "next", manifest["experiments"]["next"])
