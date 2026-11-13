@@ -50,11 +50,14 @@ See `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
 - `test` IDs may not enter fitting, normalization, checkpoint selection,
   calibration, or gate construction.
 - In each newly authorized round, freeze the model and evaluation contract,
-  then finish the registered `val` and `test` evaluations regardless of whether
-  RMSE passes its promotion gate. `test` results are reporting-only and never
-  feed tuning or model revision. Begin with a quick assessment without added
-  noise, then complete the full frozen evaluation; the preliminary result does
-  not replace either split. Missing, nonfinite, or otherwise invalid results
+  then evaluate the complete frozen `train=346`, `val=107`, and `test=76`
+  rosters from the first assessment. Do not use two-case or other subset pilots
+  unless the user specifically asks for one. Produce complete trajectory and
+  stability results for all three splits regardless of whether RMSE passes its
+  promotion gate. `test` results are reporting-only and never feed tuning or
+  model revision. A quick assessment without added noise still covers all three
+  complete rosters; it does not replace the full frozen evaluation. Missing,
+  nonfinite, or otherwise invalid results
   are reported as explicit failures with coverage, never as zero or fabricated
   metrics.
 - For real TASK3 stability, retain the frozen official truth labels and counts;

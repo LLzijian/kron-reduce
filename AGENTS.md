@@ -48,10 +48,13 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   Independent confirmation requires independent data. Consumed historical
   protocols retain their original splits.
 - For each newly authorized training round, freeze its model and evaluation
-  contract, then complete the registered `val` and `test` evaluations whether
-  or not RMSE meets the promotion gate. Never use `test` to tune or revise the
-  model. Start with a quick assessment without added noise, then finish the
-  full frozen evaluation. Missing, nonfinite or otherwise invalid metrics are
+  contract, then evaluate the complete frozen `train=346`, `val=107`, and
+  `test=76` rosters from the first assessment. Do not use two-case or other
+  subset pilots unless the user specifically asks for one. Produce complete
+  trajectory and stability results for all three splits whether or not RMSE
+  meets the promotion gate. Never use `test` to tune or revise the model. A
+  quick assessment without added noise must still cover the complete rosters;
+  then finish the full frozen evaluation. Missing, nonfinite or otherwise invalid metrics are
   explicit failures with their coverage reported; never replace them with zero
   or an invented value.
 - When reporting trajectory-derived stability, apply the frozen TASK3 label

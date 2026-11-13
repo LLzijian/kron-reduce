@@ -6,6 +6,14 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The user's full-dataset instruction now governs the first evaluation of every
+real-data round. The [full TASK3 L10 plan](kiki_machine_local_full_plan_20261113_zh.md)
+and [execution protocol](../protocols/kiki_machine_local_full_v1_zh.md) specify
+one forty-update fit on all 346 train events, followed by all 107 val and 76 test
+events. Each update covers the complete train roster through gradient accumulation.
+The test stage binds the saved model and preprocessing after fitting closes.
+All roles report trajectory errors and stability judgments regardless of RMSE.
+
 The [machine-local initializer diagnosis](../reports/machine_local_initializer_diagnosis_20261112_zh.md)
 passed its numerical and saved-evidence checks. Its route is
 `INITIALIZER_LIMITATION_PRIORITY`: the exact conditional encoder still fails
@@ -36,8 +44,9 @@ gradients and numerical gates passed; both controls received all train/val/test
 trajectory and stability scores. The [report](../reports/machine_local_nonlinear_history_20261113_zh.md)
 and [result review](machine_local_nonlinear_history_result_review_20261113_zh.md)
 retain the saved-audit schema failure and its JSON-only reconciliation. No arrays
-were reread for that correction. Next prepare the exact TASK3 roster reader and
-a separately registered nonlinear pilot; this no-fit S0 does not establish training convergence.
+were reread for that correction. The next registered comparison uses the full
+TASK3 cohorts as specified above. This no-fit S0 establishes the nonlinear
+interface and gradients; real training convergence is evaluated in the new round.
 The [statistical noise plan](machine_local_statistical_initializer_plan_20261112_zh.md)
 is deferred. Existing noise results and consumed scopes remain unchanged.
 Future real fits use TASK3's exact frozen train 346 / val 107 / test 76 cohorts;

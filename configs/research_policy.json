@@ -1219,6 +1219,32 @@
         "checks": 76,
         "mismatches": 0
       }
+    },
+    "kiki_machine_local_full_fit_v1_20261113": {
+      "status": "active",
+      "experiment": "kiki_machine_local_full_fit_v1",
+      "fit_attempts": 1,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "explicit_user_full_dataset_autonomous_research_20261113",
+      "approval_text": "先使用完整的数据集给出测试结果，以后都要这样，然后推进下一步",
+      "plan_path": "configs/proposals/kiki_machine_local_full_fit_v1.json",
+      "plan_sha256": "101aa528653b292f9688070aa579cb8383f03cecf81f6f5a6319520145425e6a",
+      "review_path": "docs/research/kiki_machine_local_full_fit_v1_review.json",
+      "review_sha256": "76bacad8b99b975eb05889ffff5e95ddd78ae4b9657a8a2c8b890da582b38cfc",
+      "operation_limits": {
+        "fits": 1,
+        "optimizer_updates": 40,
+        "gradients": 240,
+        "rollouts": 6020,
+        "torch_rhs": 20087040,
+        "tangent_rhs": 751680,
+        "qr": 46956,
+        "svd": 46956,
+        "triangular_solves": 46956,
+        "matrix_products": 46956,
+        "checkpoint_loads": 1
+      }
     }
   },
   "archived_development_results": {
@@ -3190,6 +3216,8 @@
       "undefined_class_denominator": null,
       "incomplete_overall_accuracy": null,
       "test_used_for_tuning": false
-    }
+    },
+    "full_roster_from_first_evaluation": true,
+    "subset_pilots_require_explicit_user_request": true
   }
 }

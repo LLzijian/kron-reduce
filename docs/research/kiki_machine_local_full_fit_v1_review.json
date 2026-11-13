@@ -1,0 +1,134 @@
+{
+  "schema": "kiki_machine_local_full.exact_review.v1",
+  "review_date": "2026-11-13",
+  "reviewer": "Astra Ultra",
+  "approved": true,
+  "decision": "APPROVED_ONE_FIT_AND_FULL_TRAIN_VAL_EVALUATION",
+  "plan_path": "configs/proposals/kiki_machine_local_full_fit_v1.json",
+  "plan_sha256": "101aa528653b292f9688070aa579cb8383f03cecf81f6f5a6319520145425e6a",
+  "protocol_path": "docs/protocols/kiki_machine_local_full_v1_zh.md",
+  "protocol_sha256": "faf54e8d44170f51da5cdc0fd9e3acc9a8c23676700b5d229d3c4e78920335af",
+  "implementation_bindings": {
+    "src/kron_reduce/evaluation/kiki_machine_local_full.py": "c936422d67889a94f72f14c44b03205828ae09402311c0eee41e8a467f23d004",
+    "src/kron_reduce/workflows/kiki_machine_local_full.py": "f64d5caacada7284f6bcbcbfeff0c70b68a4df3cbf14f520d65d3e7e2171e581",
+    "src/kron_reduce/data/task3_full.py": "6dd2cf419d22085c9d48c5d9c9f3f7533491d47dc8915e9545a9b2c4bd723ab2",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+    "src/kron_reduce/data/audit_access_ledger.py": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+    "src/kron_reduce/evaluation/state_port_training.py": "18047aeccb3848cc855a6bddbd2e7c4b11f4acdb5b1b70872e32c03e34bfc738",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/models/nonlinear_history.py": "05fec5b56e3c1c7ed6ffad295894c1243c408861c3bd114a353883a756db9e84",
+    "src/kron_reduce/models/differentiable_history.py": "3c144c9acbdf9129f7802dc69caa16ec7fb8ed61fdcc064fcc285e2baf2a0a89",
+    "src/kron_reduce/models/machine_local.py": "79789ee60cb375d7bbe2041266638ffc2a141a8fba0f7fa14772a7fc57e5a656",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "project_harness/policy.py": "61d266ca3709dc9a0326947cac03a5d31979ac941845a966e7ab2c4b6ee8006c",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "docs/protocols/kiki_machine_local_full_v1_zh.md": "faf54e8d44170f51da5cdc0fd9e3acc9a8c23676700b5d229d3c4e78920335af",
+    "docs/research/kiki_machine_local_full_plan_20261113_zh.md": "c0e3eca08c311e4c806204f0d4eb265cdc87c2bd3af2f801cc45430ebc76e008",
+    "tests/test_task3_full.py": "d0464312f8b2c1b5bc359a8761f12cf38f09c276478d26044b79305de30ad2da",
+    "tests/test_kiki_machine_local_full.py": "9d9d9956a869a110be448ca64cb851ceae77e36ecabe6e3f462920b9ddf1fcfd",
+    "configs/project_manifest.json": "07ce69c4fb792eaa35a27588d88bfc8e1cf446d6b4a35776841f398946705c77",
+    "configs/workflows/kiki_machine_local_full_v1.json": "7f9789ad4da1dc3ed117695101961cddfb46aeb08fad0d3fddd02b7d6c3085cf",
+    "configs/experiments/kiki_machine_local_full_fit_v1.toml": "8b0d88357b61be9d2c8a62740d479c63fcc29db40aff325c3836b22cda208d93"
+  },
+  "verified_bound_file_hash_mismatches": [],
+  "exact_scope": {
+    "stage": "fit",
+    "allowed_payload_roles": [
+      "train",
+      "val"
+    ],
+    "train_count": 346,
+    "val_count": 107,
+    "fit_attempts": 1,
+    "optimizer_updates": 40,
+    "train_batch_size": 64,
+    "evaluation_batch_size": 16,
+    "added_noise": 0,
+    "backbone": {
+      "path": "results/paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996/checkpoint-240-324/model.npz",
+      "sha256": "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8"
+    },
+    "operation_limits": {
+      "fits": 1,
+      "optimizer_updates": 40,
+      "gradients": 240,
+      "rollouts": 6020,
+      "torch_rhs": 20087040,
+      "tangent_rhs": 751680,
+      "qr": 46956,
+      "svd": 46956,
+      "triangular_solves": 46956,
+      "matrix_products": 46956,
+      "checkpoint_loads": 1
+    },
+    "test_payload_reads_in_this_stage": 0,
+    "test_followup": "Separate zero-fit registration must bind this run freeze before all 76 test cases are read and evaluated."
+  },
+  "source_access_review": {
+    "metadata_only_preparation": true,
+    "reader_stage_roles": [
+      "train",
+      "val"
+    ],
+    "static_permitted_members": [
+      "mass",
+      "delta_star",
+      "pm_star",
+      "omega_s"
+    ],
+    "static_member_decodes": 4,
+    "development_file_reads": 2,
+    "development_member_decodes": 906,
+    "members_per_event": [
+      "x",
+      "p0"
+    ],
+    "development_event_decodes": 453,
+    "backbone_checkpoint_loads": 1,
+    "source_identity": "Exact source-qualified rosters, sealed file SHA-256, one cohort consumption, and allowed members enforced by the bound reader; no raw provider fallback."
+  },
+  "accepted_findings": [
+    "The accepted clean linear learning result and nonlinear history S0 support this bounded first real L10 fit; nonlinear training convergence is assessed here, not assumed.",
+    "One frozen A06 seed324 visible backbone; ten positive local port amplitudes and ten bounded time constants; no source-dependent model routing or feature leakage.",
+    "Full train objective is event-equal, with genuine target counts and 1 s/3 s windows; deterministic microbatches accumulate one shared-parameter gradient before each Adam update.",
+    "Three Gauss-Newton updates, QR, same-stage sensitivity, final history replay and future rollout retain parameter gradients; fixed endpoint and failure endpoint rules are explicit.",
+    "Numerical fit failure preserves failed parameters, restores the last completed update and proceeds to complete train and val reporting. Known nonfinite RK4 ValueError is translated without swallowing unrelated ValueError.",
+    "Evaluation uses the frozen TASK3 scoring implementation, complete 8 s predictions at two steps, and prebudgeted one-time per-step event isolation after batch exceptions.",
+    "Stability retains official truth labels, additionally requires equal fine/refined stable/unstable/unresolved labels, and reports null full-cohort accuracy on unresolved or failed cases plus resolved-class metrics.",
+    "Saved prediction files include true raw trajectories, exact lengths, IDs, labels, mass and equilibrium, supporting a separate arithmetic-only saved-evidence audit without rereading source payloads.",
+    "All local implementation bindings and external scorer code bindings matched their current byte hashes during this source-only review."
+  ],
+  "engineering_evidence": {
+    "coordinator_report": "33 reader, evaluator and policy tests passed in the selected .venv Python 3.12 environment.",
+    "reviewer_independently_ran_tests": false,
+    "inspected_regressions": [
+      "actual target lengths and equal cohort weights",
+      "microbatch loss gradient equality",
+      "failed batch event isolation and invalid metrics",
+      "narrow numerical exception translation",
+      "separate test reader and freeze checks"
+    ]
+  },
+  "boundaries": [
+    "This review approves the exact fit-stage plan only; test is mandatory reporting after its separate frozen zero-fit registration.",
+    "No claim of nonlinear convergence, independent test confirmation, stability certification, model promotion or completed G2/G10/L10 T0 search follows from this approval.",
+    "The old consumed scopes stay closed. No real payload arrays or scientific operators were read or called during this review.",
+    "A separately registered saved-output arithmetic audit and result review remain required after execution."
+  ],
+  "reviewer_activity": {
+    "scientific_model_calls": 0,
+    "real_payload_array_decodes": 0,
+    "byte_hash_checks": true,
+    "scientific_rhs_calls": 0,
+    "scientific_fits": 0
+  }
+}
