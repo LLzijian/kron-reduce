@@ -1,0 +1,31 @@
+{
+  "schema": "machine_local_hidden_oracle_saved_audit.v1",
+  "authorization": "machine_local_hidden_oracle_saved_audit_v1_20261113",
+  "run_id": "machine_local_hidden_oracle_v1-diagnosis-20261113T072927736746Z-55c75e3e-2ade71a8",
+  "run_dir": "results/machine_local_hidden_oracle_v1-diagnosis-20261113T072927736746Z-55c75e3e-2ade71a8",
+  "artifact_manifest_sha256": "b095129ef5c141935bd405bf8c61c3660fbce4cf9d795f23f48db1b1b70c7cae",
+  "output_path": "reports/generated/machine_local_hidden_oracle_20261113/saved-audit.json",
+  "npz_decode_limit": 13,
+  "implementation_bindings": {
+    "scripts/audit_machine_local_hidden_oracle_saved.py": "f479beb700832b5afb54ba94f20700e9f29a81c1ff2f600c3526fa75992108a8",
+    "tests/test_machine_local_hidden_oracle_saved_audit.py": "0df13dcc60efc346ead028b23f57b72e0f436a55ac03e983366214b2df769200",
+    "src/kron_reduce/evaluation/machine_local_hidden_oracle.py": "a6eb890ca2789d34f4f0631fd40a7d4f3dcc4e4fad168147da6ba851db4c10c0",
+    "src/kron_reduce/evaluation/machine_local_nonlinear_history.py": "27703d43085657b25f7c9ac386914b81fb62da7bbac6cdc196943c66503b1ee7",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea"
+  },
+  "scope": {
+    "real_data_reads": 0,
+    "fits": 0,
+    "model_calls": 0,
+    "rhs_calls": 0,
+    "rollouts": 0,
+    "decompositions": 0,
+    "gradients": 0,
+    "checkpoint_decodes": 0,
+    "npz_per_file": 1
+  },
+  "failure_policy": "one_execution_no_retry_preserve_mismatches",
+  "claim_boundary": "Saved-array recomputation using the same frozen scoring implementation; no independent model-parameter reconstruction."
+}

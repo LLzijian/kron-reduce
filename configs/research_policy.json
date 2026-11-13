@@ -3089,7 +3089,7 @@
       "real_data_reads": 0,
       "fit_attempts": 0,
       "optimizer_updates": 0,
-      "status": "active",
+      "status": "consumed",
       "plan_path": "configs/proposals/machine_local_hidden_oracle_v1.json",
       "plan_sha256": "f3ba92c0adfc2c73e06f5485a65f414244cdaf23b8edb1883fc945f2461f4b2c",
       "protocol_path": "docs/protocols/machine_local_hidden_oracle_v1_zh.md",
@@ -3302,7 +3302,9 @@
       },
       "authority": "explicit_user_autonomous_continue_after_complete_full_dataset_evaluation",
       "model_promotion_allowed": false,
-      "real_followup_automatically_authorized": false
+      "real_followup_automatically_authorized": false,
+      "run_id": "machine_local_hidden_oracle_v1-diagnosis-20261113T072927736746Z-55c75e3e-2ade71a8",
+      "result_manifest_sha256": "b095129ef5c141935bd405bf8c61c3660fbce4cf9d795f23f48db1b1b70c7cae"
     }
   },
   "saved_evidence_audits": {
@@ -3388,6 +3390,20 @@
       },
       "npz_decodes": 3,
       "mismatches": 0
+    },
+    "machine_local_hidden_oracle_saved_audit_v1_20261113": {
+      "status": "active",
+      "authority": "explicit_user_autonomous_followup_and_complete_evidence",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "max_npz_decodes": 13,
+      "new_model_calls": 0,
+      "plan_path": "configs/proposals/machine_local_hidden_oracle_saved_audit_v1.json",
+      "plan_sha256": "7834f155802fd4f75ec45076609169ed1325c09abff340632fd21150dc3428c7",
+      "review_path": "docs/research/machine_local_hidden_oracle_saved_audit_review_20261113.json",
+      "review_sha256": "0b01ae76cbded377f70716b9f7c4d5dc28f5655f175e888369d0e7843708a21a",
+      "run_id": "machine_local_hidden_oracle_v1-diagnosis-20261113T072927736746Z-55c75e3e-2ade71a8",
+      "result_path": "reports/generated/machine_local_hidden_oracle_20261113/saved-audit.json"
     }
   },
   "default_real_data_policy": "kiki_official_train_test_v1",

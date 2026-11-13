@@ -1,0 +1,64 @@
+{
+  "schema": "machine_local_hidden_oracle_saved_audit.exact_review.v1",
+  "review_date": "2026-11-13",
+  "reviewer": "Astra Ultra",
+  "approved": true,
+  "decision": "APPROVED_ONE_SAVED_ARITHMETIC_AUDIT",
+  "plan_path": "configs/proposals/machine_local_hidden_oracle_saved_audit_v1.json",
+  "plan_sha256": "7834f155802fd4f75ec45076609169ed1325c09abff340632fd21150dc3428c7",
+  "implementation_bindings": {
+    "scripts/audit_machine_local_hidden_oracle_saved.py": "f479beb700832b5afb54ba94f20700e9f29a81c1ff2f600c3526fa75992108a8",
+    "tests/test_machine_local_hidden_oracle_saved_audit.py": "0df13dcc60efc346ead028b23f57b72e0f436a55ac03e983366214b2df769200",
+    "src/kron_reduce/evaluation/machine_local_hidden_oracle.py": "a6eb890ca2789d34f4f0631fd40a7d4f3dcc4e4fad168147da6ba851db4c10c0",
+    "src/kron_reduce/evaluation/machine_local_nonlinear_history.py": "27703d43085657b25f7c9ac386914b81fb62da7bbac6cdc196943c66503b1ee7",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea"
+  },
+  "run_id": "machine_local_hidden_oracle_v1-diagnosis-20261113T072927736746Z-55c75e3e-2ade71a8",
+  "artifact_manifest_sha256": "b095129ef5c141935bd405bf8c61c3660fbce4cf9d795f23f48db1b1b70c7cae",
+  "verified_bound_file_hash_mismatches": [],
+  "exact_scope": {
+    "max_executions": 1,
+    "retry_allowed": false,
+    "npz_decode_limit": 13,
+    "decodes_per_file": 1,
+    "decoded_files": "inputs.npz and twelve group/role prediction archives; only inputs.npz if the recorded truth gate failed",
+    "parameter_archives": "byte hashes only, no decoding",
+    "real_data_reads": 0,
+    "model_calls": 0,
+    "rhs_calls": 0,
+    "rollouts": 0,
+    "fit_attempts": 0,
+    "optimizer_updates": 0,
+    "matrix_decompositions": 0,
+    "autodiff_calls": 0
+  },
+  "accepted_findings": [
+    "The exact plan, seven implementation bindings and immutable run artifact manifest match their reviewed bytes.",
+    "Active policy and exact approval bindings precede an atomic one-use common-Git reservation; a failed audit cannot retry.",
+    "Every run artifact is byte-hash checked before allowed archives are decoded once without pickle, with exact member sets and shapes.",
+    "Frozen event IDs, train32/val16/test16 roles, train-only target/history scales and both truth-step classifications and truth gates are recomputed from saved arrays.",
+    "All twelve role summaries, event metrics, numerical qualification, matched recovery, stability counts and signed three-second paired differences are recomputed with the frozen scorer and compared with saved JSON.",
+    "Successful GN paths verify observed visible resets, history initial hidden state against the final GN iterate, forecast hidden origin against the history terminal state, zero initial iterate, saved increment addition and saved singular-value rank/condition thresholds.",
+    "Oracle origins are compared against the frozen complete true origin for finite predictions; failed NaN predictions remain explicit failures.",
+    "Role failure traces are copied only after exact cross-checking with summary traces and remain descriptive records, rather than independently reconstructed exception histories.",
+    "The fixed truth-failure branch decodes only the saved input archive and demands no candidate archives."
+  ],
+  "interpretation_boundaries": [
+    "This is saved-array arithmetic replay using the same frozen scoring implementation, not a separately implemented numerical solver or independent scoring algorithm.",
+    "Parameter archives are hash-bound but not decoded or independently reconstructed; no new proof of their parameter values is claimed.",
+    "The numeric comparator uses relative and absolute tolerances of 1e-12; no claim of bitwise scalar-metric equality follows from zero mismatches.",
+    "No real-system causal attribution, new model training, threshold selection, model promotion or scientific execution follows from this audit approval."
+  ],
+  "engineering_evidence": {
+    "coordinator_report": "Two artificial arithmetic tests and ruff passed. Reviewer did not rerun tests or open scientific arrays."
+  },
+  "reviewer_activity": {
+    "saved_array_decodes": 0,
+    "real_array_decodes": 0,
+    "scientific_model_calls": 0,
+    "scientific_rhs_calls": 0,
+    "source_and_byte_hash_checks_only": true
+  }
+}

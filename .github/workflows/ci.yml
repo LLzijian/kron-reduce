@@ -33,6 +33,7 @@ jobs:
           src/kron_reduce/workflows/machine_local_hidden_oracle.py
           tests/test_task3_full.py tests/test_kiki_machine_local_full.py tests/test_kiki_machine_local_full_saved.py
           tests/test_machine_local_hidden_oracle.py tests/test_policy_consumed_audit.py
+          scripts/audit_machine_local_hidden_oracle_saved.py tests/test_machine_local_hidden_oracle_saved_audit.py
           src/kron_reduce/models/conditional_encoder.py
           src/kron_reduce/evaluation/machine_local_initializer_diagnosis.py
           src/kron_reduce/workflows/machine_local_initializer_diagnosis.py
@@ -124,6 +125,7 @@ jobs:
         # Source-file checksum verification requires the private local dataset.
         run: >-
           python -m pytest -q -k "not test_data_checksums"
+          tests/test_machine_local_hidden_oracle_saved_audit.py
           tests/test_task3_full.py tests/test_kiki_machine_local_full.py tests/test_kiki_machine_local_full_saved.py
           tests/test_machine_local_hidden_oracle.py tests/test_policy_consumed_audit.py
           tests/test_conditional_encoder.py tests/test_initializer_diagnosis_workflow.py
