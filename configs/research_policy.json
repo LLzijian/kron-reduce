@@ -1376,6 +1376,42 @@
     }
   },
   "bounded_synthetic_evaluations": {
+    "machine_local_equation_v1_20261114": {
+      "status": "active",
+      "authorization": "machine_local_equation_v1_20261114",
+      "experiment": "machine_local_equation_v1",
+      "workflow": "machine_local_equation_v1",
+      "stage": "synthetic",
+      "module": "kron_reduce.workflows.machine_local_equation",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "data_policy": "analytic_synthetic_only",
+      "authority": "explicit_user_autonomous_joint_equation_research_with_cuda_inference",
+      "real_data_reads": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "fit_attempts": 15,
+      "optimizer_updates": 2160,
+      "plan_path": "configs/proposals/machine_local_equation_v1.json",
+      "plan_sha256": "b4ef5b17a9f564d07b506808477921bc15a3f87c889b2a42240b1b5143050a4f",
+      "review_path": "docs/research/machine_local_equation_review_20261114.json",
+      "review_sha256": "3bf3257115cebe8010b26d76be5a490be102a0406f55679b82d5f98203d6784f",
+      "operation_limits": {
+        "fits": 15,
+        "optimizer_updates": 2160,
+        "gradients": 2160,
+        "val_checks": 108,
+        "rollouts": 17640,
+        "torch_rhs": 27941781,
+        "tangent_rhs": 1451520,
+        "numpy_rhs": 233280,
+        "qr": 113184,
+        "svd": 113184,
+        "triangular_solves": 113184,
+        "matrix_products": 113184,
+        "function_checks": 21,
+        "curvature_spectra": 13608
+      }
+    },
     "constant_c_100ms_synthetic_v1_20261109": {
       "authorization": "constant_c_100ms_synthetic_v1_20261109",
       "experiment": "constant_c_100ms_synthetic_v1",

@@ -38,7 +38,10 @@ recovered the known scalar after 11 full train objectives. The fitted model
 passed hidden-state recovery and trajectory checks on all 64 synthetic events.
 The [paired design](machine_local_r20_r21_preparation_20261114_zh.md)
 established a matched start and budget for the 20- and 21-parameter models.
-The harmonic function-selection controls follow a separate synthetic protocol.
+The next [joint-equation plan](machine_local_joint_equation_plan_20261114_zh.md)
+extends synthetic checks to 74 original-equation coefficients and separate
+harmonic-potential and modulated-damping controls. It starts with causal-history
+training at 0.5 s and 1 s; execution requires a separate reviewed protocol.
 
 The [machine-local initializer diagnosis](../reports/machine_local_initializer_diagnosis_20261112_zh.md)
 passed its numerical and saved-evidence checks. Its route is

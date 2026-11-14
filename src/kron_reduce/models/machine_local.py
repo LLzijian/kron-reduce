@@ -69,6 +69,10 @@ class DiagonalMemoryModel(torch.nn.Module):
             return self.stiffness
         return self.stiffness * self.log_stiffness_factor.exp()
 
+    @property
+    def effective_damping(self):
+        return self.damping
+
     def freeze_effective_stiffness(self):
         """Export the active dynamics in the fixed-stiffness model format."""
         frozen = deepcopy(self)
@@ -94,7 +98,7 @@ class DiagonalMemoryModel(torch.nn.Module):
     def closure(self):
         array = lambda value: value.detach().cpu().numpy()
         return NonlinearPassiveClosure(
-            array(self.mass), array(self.effective_stiffness), array(self.damping), array(self.coupling),
+            array(self.mass), array(self.effective_stiffness), array(self.effective_damping), array(self.coupling),
             np.zeros((self.latent_dimension, self.latent_dimension)),
             np.diag(1/array(self.tau)), self.backbone_kind,
         )
@@ -119,7 +123,7 @@ class DiagonalMemoryModel(torch.nn.Module):
     def _rhs(self, power, equilibrium, *, tangent=False):
         """Prepare time-invariant terms once, within the current autograd graph."""
         n = self.n_nodes
-        incidence, mass, projection, damping = self.incidence, self.mass, self.power_projection, self.damping
+        incidence, mass, projection, damping = self.incidence, self.mass, self.power_projection, self.effective_damping
         coupling, tau, stiffness = self.coupling, self.tau, self.effective_stiffness
         sine = self.backbone_kind == "sine"
         reference = equilibrium @ incidence if sine else None
@@ -176,7 +180,7 @@ class DiagonalMemoryModel(torch.nn.Module):
         inv_mass = 1/self.mass[:, None]
         a[:n, n:2*n] = torch.eye(n, dtype=a.dtype, device=a.device)
         a[n:2*n, :n] = -inv_mass*(p @ (self.incidence*self.effective_stiffness) @ self.incidence.T)
-        a[n:2*n, n:2*n] = -inv_mass*(p @ self.damping)
+        a[n:2*n, n:2*n] = -inv_mass*(p @ self.effective_damping)
         a[n:2*n, 2*n:2*n+r] = -inv_mass*c
         a[n:2*n, 2*n+r:] = inv_mass*p
         a[2*n:2*n+r, n:2*n] = c.T

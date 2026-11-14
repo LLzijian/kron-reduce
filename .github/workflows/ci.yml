@@ -28,6 +28,9 @@ jobs:
         run: >-
           python -m ruff check project_harness scripts/register_kiki_dataset.py
           src/kron_reduce/data/task3_full.py src/kron_reduce/evaluation/kiki_machine_local_full.py
+          src/kron_reduce/evaluation/machine_local_equation.py src/kron_reduce/evaluation/machine_local_equation_cases.py
+          src/kron_reduce/evaluation/machine_local_equation_fit.py src/kron_reduce/models/machine_local_equation.py
+          src/kron_reduce/workflows/machine_local_equation.py tests/test_machine_local_equation.py
           src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py src/kron_reduce/workflows/kiki_machine_local_r20_r21.py
           scripts/audit_kiki_machine_local_r20_r21_saved.py
           tests/test_machine_local_trainable_stiffness.py tests/test_kiki_machine_local_r20_r21.py
@@ -131,6 +134,7 @@ jobs:
         # Source-file checksum verification requires the private local dataset.
         run: >-
           python -m pytest -q -k "not test_data_checksums"
+          tests/test_machine_local_equation.py
           tests/test_machine_local_trainable_stiffness.py tests/test_kiki_machine_local_r20_r21.py
           tests/test_machine_local_forecast.py tests/test_machine_local_stiffness_calibration.py
           tests/test_machine_local_hidden_oracle_saved_audit.py
