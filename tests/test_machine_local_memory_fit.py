@@ -219,11 +219,12 @@ def test_prospective_fit_handles_one_interval_and_identifies_informative_event()
 
 
 def test_both_support_freeze_load_round_trip(tmp_path):
+    import torch
+
     from kron_reduce.evaluation.kiki_machine_local_memory import load_model
     from kron_reduce.evaluation.machine_local_equation_fit import freeze
     from kron_reduce.models.machine_local_equation import JointMachineLocalModel
     from kron_reduce.models.nonlinear_latent import NonlinearPassiveClosure, complete_incidence
-    import torch
 
     n = 10
     incidence = complete_incidence(n)

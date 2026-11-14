@@ -80,7 +80,7 @@ def authorize(root, stage):
 
 
 def run(*, root, experiment, stage, result_dir, run_id):
-    name, entry, plan, authorization = authorize(root, stage)
+    _, entry, plan, authorization = authorize(root, stage)
     if experiment != entry or result_dir != root/"results"/run_id or any(result_dir.iterdir()):
         raise RuntimeError("TASK3 momentum dispatch identity differs")
     common = Path(subprocess.check_output(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],

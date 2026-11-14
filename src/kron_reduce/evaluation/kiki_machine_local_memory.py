@@ -13,7 +13,12 @@ import torch
 from kron_reduce.data.durable_audit_ledger import AppendOnlyAuditJournal
 from kron_reduce.data.task3_full import Task3FullReader
 from kron_reduce.evaluation.constant_c_observability import write_json
-from kron_reduce.evaluation.kiki_machine_local_full import evaluate, inputs, make_model, predict_checked
+from kron_reduce.evaluation.kiki_machine_local_full import (
+    evaluate,
+    inputs,
+    make_model,
+    predict_checked,
+)
 from kron_reduce.evaluation.kiki_machine_local_r20_r21 import bind, monitor, read_json, verified
 from kron_reduce.evaluation.machine_local_equation_fit import choose_support, freeze
 from kron_reduce.evaluation.machine_local_memory_fit import momentum_fit
@@ -154,7 +159,7 @@ def execute(root, directory, plan, stage):
             model.to("cuda").requires_grad_(False).eval()
             records[name] = {}
 
-            def predict(batch, step):
+            def predict(batch, step, model=model):
                 return predict_checked(model, *inputs(batch, scales["history"]), 800,
                                        max_step=step, spend=budget.spend)
 

@@ -1,0 +1,191 @@
+{
+  "schema": "kiki_machine_local_memory_test_review_v1",
+  "reviewer": "Astra independent scientific review",
+  "review_completed": "2026-11-14",
+  "approved": true,
+  "plan_path": "configs/proposals/kiki_machine_local_memory_test_v1.json",
+  "plan_sha256": "3ea4b9af70e1ed0d6b97362a149ab4afdbd802cd66ef35dbdf01c5c1aef19a77",
+  "implementation_bindings": {
+    "configs/experiments/kiki_machine_local_memory_test_v1.toml": "1e0ec5f9db8733fc7e1073e8e2c930f6c4dfdee12e7fb76eff41c0bea37897d9",
+    "configs/project_manifest.json": "dde66e650e89ef5b47cf58b7ead32239f337cf6baa00022a01e41da89d66e698",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/workflows/kiki_machine_local_memory_v1.json": "07505ed70942da0a5a2bb157099edac14c380a3ba29d06c1eaf30ce613c9c19a",
+    "docs/protocols/kiki_machine_local_memory_v1_zh.md": "a9ca7ba7f0c908e90860e98d73f30f383f55cbc198fc63ff0ff4d6fe7db292cd",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/policy.py": "9f345a87711223af452cff4cfa74eecb0d815fa164b47485144002b07fc58071",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/data/task3_full.py": "6dd2cf419d22085c9d48c5d9c9f3f7533491d47dc8915e9545a9b2c4bd723ab2",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/evaluation/kiki_machine_local_full.py": "479513971f932204177eef75ecaa025c98f07a976b402c7ebc10149eedbfa7fa",
+    "src/kron_reduce/evaluation/kiki_machine_local_memory.py": "c376bc34af61c2435bc4786fe99f9e4327bf07281050534200b87ffd3b300087",
+    "src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py": "29976376a8e290ef29c339e057b698aa43d1af31673bf22072f8760a79758026",
+    "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+    "src/kron_reduce/evaluation/machine_local_equation_fit.py": "f58b4316d68797c8a359a60d71b3db27f5471bbdde96e38a910d1034f8875c32",
+    "src/kron_reduce/evaluation/machine_local_memory_fit.py": "cb66e019046df9ef405afbf045d228a2e275411a1b13499171d7ff29f795a696",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/state_port_training.py": "87493cd714c5229cba8895113f1d63f83ae69e762dc4bc9c445b964fb32db962",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+    "src/kron_reduce/models/differentiable_history.py": "409b0afe87daaa39ff046674e769d354c7fa55126d497027829d6a709e2ce3c0",
+    "src/kron_reduce/models/machine_local.py": "3f79959b41a1ee99c96fad3de2307ecbe4f5d2e3d466bca25786bf0e6501fc6b",
+    "src/kron_reduce/models/machine_local_equation.py": "9ee107a6d9d847ade753ea9cbf0f3622fa2c7e3d7a3d03f386d091931016e811",
+    "src/kron_reduce/models/nonlinear_history.py": "f8ce5dd063219c9460fbc67c7b6b3620520153c56258ee6d6be98f7f89d49087",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/kiki_machine_local_memory.py": "33931ddd0582e59be72ac6071d579d8b85146b06ccac04e3a4b1363aab27d53d",
+    "src/kron_reduce/workflows/machine_local_equation.py": "1fc52cd7636f757acef005b8690e93d67d593aa884c0bf146b56153fa265adb0"
+  },
+  "frozen_model_manifest": {
+    "path": "results/kiki_machine_local_memory_fit_v1-fit-20261114T130732576418Z-d49040be-6b1c9970/freeze.json",
+    "sha256": "5258b9c74daa73e952defb5a23dc86e8fde5b2fe30f6fb939192b5d416735a38"
+  },
+  "scope": {
+    "stage": "test",
+    "dataset": "kiki_ieee39_v1",
+    "frozen_source_qualified_test_events": 76,
+    "models": [
+      "a",
+      "b"
+    ],
+    "input_contract": "measured_history_100ms_zoh_v1",
+    "forecast_horizon_s": 8.0,
+    "integration_steps_s": [
+      0.0025,
+      0.00125
+    ],
+    "eval_batch": 16,
+    "fits": 0,
+    "test_reads": "One complete frozen test roster; no train or val payload rereads.",
+    "selection": "Closed before test; no test tuning, checkpoint replacement, threshold selection or rerun.",
+    "promotion": "KEEP_BASELINE; reporting-only fixed comparison benchmark."
+  },
+  "budget": {
+    "operation_limits": {
+      "rollouts": 1620,
+      "torch_rhs": 6531840,
+      "tangent_rhs": 233280,
+      "checkpoint_loads": 2,
+      "qr": 1824,
+      "svd": 1824,
+      "triangular_solves": 1824,
+      "matrix_products": 1824
+    },
+    "bounded_failure_isolation": "At most one single-event isolation per event and model after a failed batch, at both frozen integration steps.",
+    "derivation": "2 models * (5 complete-roster batches + at most 76 isolated calls) * 10 rollouts = 1620. RHS budget 162 * 40320; tangent RHS 162 * 1440. Exactly two frozen checkpoint loads."
+  },
+  "fit_evidence": {
+    "run_id": "kiki_machine_local_memory_fit_v1-fit-20261114T130732576418Z-d49040be-6b1c9970",
+    "artifact_manifest_sha256": "b12cdc6ff7d7de4deb0eeea25f691a9b67fa3d8c8dbfdba3b14d71f41eb1bf4e",
+    "summary_sha256": "cb608b9a9d055309b2fe7545761bb003131685a05681576175cf9438fc21e832",
+    "scalar_audit_path": "scratch/one_off/machine_local_memory_20261114/task3_fit_scalar_audit.json",
+    "scalar_audit_sha256": "81cd016646a03c48f79e41f52bc3e681c398e49e9902e70342257f568076bf39",
+    "scalar_audit_status": "PASS",
+    "scalar_audit_checks": 213897,
+    "verified_artifact_hashes": 35,
+    "fit_review": {
+      "chosen_support": "neither",
+      "all_candidates_failed_selection": false,
+      "A_B_identical_equation": true,
+      "candidates": {
+        "neither": {
+          "completed_iterations": 17,
+          "selected_iteration": 0,
+          "selected_val_nmse": 43.56676772369589,
+          "converged": false,
+          "failure": "rank deficient nuisance momentum block",
+          "stop_reason": "numerical_failure",
+          "zero_information_ids": [
+            "ieee39_expansion/expansion_0106",
+            "ieee39_postfault/pilot_0207",
+            "ieee39_postfault/pilot_0254"
+          ]
+        },
+        "harmonic": {
+          "completed_iterations": 17,
+          "selected_iteration": 0,
+          "selected_val_nmse": 43.56676772369589,
+          "converged": false,
+          "failure": "rank deficient nuisance momentum block",
+          "stop_reason": "numerical_failure",
+          "zero_information_ids": [
+            "ieee39_expansion/expansion_0106",
+            "ieee39_postfault/pilot_0207",
+            "ieee39_postfault/pilot_0254"
+          ]
+        },
+        "damping": {
+          "completed_iterations": 17,
+          "selected_iteration": 0,
+          "selected_val_nmse": 43.56676772369589,
+          "converged": false,
+          "failure": "rank deficient nuisance momentum block",
+          "stop_reason": "numerical_failure",
+          "zero_information_ids": [
+            "ieee39_expansion/expansion_0106",
+            "ieee39_postfault/pilot_0207",
+            "ieee39_postfault/pilot_0254"
+          ]
+        },
+        "both": {
+          "completed_iterations": 17,
+          "selected_iteration": 0,
+          "selected_val_nmse": 43.56676772369589,
+          "converged": false,
+          "failure": "rank deficient nuisance momentum block",
+          "stop_reason": "numerical_failure",
+          "zero_information_ids": [
+            "ieee39_expansion/expansion_0106",
+            "ieee39_postfault/pilot_0207",
+            "ieee39_postfault/pilot_0254"
+          ]
+        }
+      }
+    },
+    "operations": {
+      "checkpoint_loads": 1,
+      "fits": 4,
+      "momentum_objectives": 138,
+      "momentum_qr": 45966,
+      "momentum_nuisance_svd": 45966,
+      "momentum_linear_solves": 134,
+      "momentum_design_spectrum": 134,
+      "momentum_nuisance_solves": 45962,
+      "val_checks": 12,
+      "rollouts": 776,
+      "tangent_rhs": 94720,
+      "torch_rhs": 2419200,
+      "qr": 7576,
+      "svd": 7576,
+      "matrix_products": 6720,
+      "triangular_solves": 6720
+    }
+  },
+  "acceptance": {
+    "all_plan_and_freeze_hashes_verified": true,
+    "all_implementation_bindings_verified": true,
+    "source_qualified_train_val_records_preserved": true,
+    "earliest_finite_complete_val_checkpoint_verified": true,
+    "support_rule_and_A_B_alias_verified": true,
+    "scalar_metric_and_stability_summary_consistency_verified": true,
+    "recorded_fit_failures_retained": true,
+    "runtime_authority_and_budget_guards_reviewed": true,
+    "strict_joint_checkpoint_loading_reviewed": true,
+    "gpu_causal_observer_and_step_comparison_unchanged": true,
+    "complete_test_required_despite_failed_fit": true,
+    "invalid_metrics_remain_null_and_unresolved_separate": true,
+    "formatting_only_delta": "Import formatting, early binding of per-model predictor default in synchronous loop, and unused-name discard; no model, observer or scoring change."
+  },
+  "limitations": [
+    "All four real fits stopped after 17 accepted updates with rank deficient nuisance momentum block; this approval does not claim successful real parameter recovery.",
+    "All candidates selected valid iteration 0 with full-val normalized MSE 43.56676772369589; B selected neither and frozen A/B checkpoint hashes are identical. Their duplicate evaluation is a protocol comparison, not independent evidence.",
+    "Train and val full-cohort stability accuracy are null because 61/346 and 22/107 predictions remain unresolved. Complete test must preserve the same failure accounting.",
+    "This is the previously exposed TASK3 fixed comparison benchmark. Independent confirmation requires independent data.",
+    "Independent review used saved JSON, source code and byte hashes only; zero model calls and zero raw payload or checkpoint decodes. Scalar audit does not reconstruct trajectories or reclassify their samples."
+  ]
+}

@@ -34,6 +34,7 @@ jobs:
           src/kron_reduce/workflows/machine_local_memory.py src/kron_reduce/evaluation/machine_local_memory_diagnosis.py
           src/kron_reduce/evaluation/machine_local_memory_calibration.py src/kron_reduce/evaluation/machine_local_memory_fit.py
           tests/test_machine_local_memory_diagnosis.py tests/test_machine_local_memory_fit.py
+          src/kron_reduce/evaluation/kiki_machine_local_memory.py src/kron_reduce/workflows/kiki_machine_local_memory.py
           src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py src/kron_reduce/workflows/kiki_machine_local_r20_r21.py
           scripts/audit_kiki_machine_local_r20_r21_saved.py
           tests/test_machine_local_trainable_stiffness.py tests/test_kiki_machine_local_r20_r21.py
