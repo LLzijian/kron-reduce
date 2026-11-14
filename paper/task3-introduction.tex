@@ -1,0 +1,63 @@
+\section{Introduction}
+
+Following a severe fault, synchronous generators may undergo large relative
+rotor swings and lose synchronism~\cite{hatziargyriou2021stability}. The
+post-clearing trajectories reveal which machines separate, how rapidly the
+separation develops, and whether their relative motion settles. Data-driven
+methods have used early disturbance records both to classify transient
+stability and to forecast rotor-angle trajectories~\cite{yu2018adaptive,ye2024rotor}.
+Forecasting with a reduced dynamical equation also requires estimating its
+unobserved initial state from that short record.
+
+Kron reduction provides a principled way to eliminate algebraic network buses
+and retain effective couplings among generator nodes~\cite{dorfler2013kron}.
+When eliminated variables carry dynamics, their past evolution can continue to
+influence the retained variables. This effect has been demonstrated for power
+networks using Mori--Zwanzig reduction~\cite{pagnier2025kron}. A reduced equation
+can represent such effects through decaying memory states, but their values at
+the forecast origin are typically unavailable. Prior work has incorporated
+swing equations into learning power-system dynamics~\cite{misyris2020pinn},
+estimated latent states from finite histories in nonlinear system
+identification~\cite{beintema2023subspace}, and jointly calibrated parameters
+and internal initial conditions in port-Hamiltonian systems~\cite{gunther2024calibration}.
+For a short post-clearing record, a specific difficulty remains. Changing the
+initial memory state can compensate for an error in the modeled restoring
+forces over the observed interval. This makes it difficult to tell from the
+history fit which dynamics will govern the subsequent swing.
+
+We investigate this ambiguity using a physics-structured reduced model that
+retains the rotor angle and speed of each generator in center-of-inertia
+coordinates. The model combines sinusoidal coupling and damping with one
+decaying memory state per machine, coupled reciprocally to rotor speed. A
+differentiable Gauss--Newton estimator uses the candidate equation to infer
+the hidden states from each disturbance's first 100~ms after clearing. At the
+forecast origin, the visible state is set to the last observed angle and speed,
+and the estimated memory state is carried forward by the same equation. The
+mechanical-power deviation is held at its last observed value, and the model
+then generates the subsequent trajectory without further observations.
+
+% Evidence: ../docs/reports/machine_local_hidden_oracle_20261113_zh.md
+% and ../docs/reports/machine_local_stiffness_calibration_20261114_zh.md.
+In synthetic ten-generator experiments with known states and coefficients, we
+vary the stiffness of the restoring forces and independently vary whether the
+forecast starts from the inferred or the true hidden state. Under matched
+dynamics, the estimator recovers the hidden state from the noiseless 100~ms
+record. Under stiffness mismatch, it can reproduce the observed history closely
+with a substantially different hidden state. Fitting a shared stiffness
+coefficient restores both the coefficient and the hidden-state estimates in
+the tested synthetic model family. These controls isolate a mechanism by which
+a close history fit can mask an error in the reduced dynamics.
+
+% Evidence: ../docs/protocols/kiki_official_train_test_v1_zh.md
+% and ../docs/reports/kiki_machine_local_r20_r21_20261114_zh.md.
+We compare a fixed edge-stiffness profile with a learned scalar rescaling of
+the same profile on the IEEE 39-bus benchmark simulated in
+ANDES~\cite{cui2021andes}. We fit on 346 \texttt{train} events and select
+checkpoints on 107 \texttt{val} events. The previously used
+76-event TASK3 \texttt{test} cohort serves as a fixed comparison benchmark.
+The trainable-stiffness model reduces the eight-second event-average normalized
+root-mean-square error across the 67 \texttt{test} events with full scoring
+windows. On the full \texttt{test} cohort, the stability rule applied to its
+forecasts produces more false alarms and more unresolved cases.
+The comparison shows why both rotor-trajectory fidelity and agreement with
+stability labels matter when evaluating reduced post-clearing dynamics.
