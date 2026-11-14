@@ -6,6 +6,12 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [topology and memory plan](machine_local_topology_memory_plan_20261115_zh.md)
+introduces event-conditioned edge stiffness and reciprocal machine-local memory.
+The [S0 protocol](../protocols/machine_local_topology_v1_zh.md) tests four known-
+coefficient combinations and the 100 ms initialization before shared-parameter
+learning and function selection.
+
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
 all three known-truth train rosters. The subsequent

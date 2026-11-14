@@ -35,6 +35,9 @@ jobs:
           src/kron_reduce/evaluation/machine_local_memory_calibration.py src/kron_reduce/evaluation/machine_local_memory_fit.py
           tests/test_machine_local_memory_diagnosis.py tests/test_machine_local_memory_fit.py
           src/kron_reduce/evaluation/kiki_machine_local_memory.py src/kron_reduce/workflows/kiki_machine_local_memory.py
+          src/kron_reduce/models/machine_local_topology.py src/kron_reduce/workflows/machine_local_topology.py
+          src/kron_reduce/evaluation/machine_local_topology.py src/kron_reduce/evaluation/machine_local_topology_truth.py
+          tests/test_machine_local_topology.py
           src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py src/kron_reduce/workflows/kiki_machine_local_r20_r21.py
           scripts/audit_kiki_machine_local_r20_r21_saved.py
           tests/test_machine_local_trainable_stiffness.py tests/test_kiki_machine_local_r20_r21.py
@@ -140,6 +143,7 @@ jobs:
           python -m pytest -q -k "not test_data_checksums"
           tests/test_machine_local_equation.py
           tests/test_machine_local_memory_diagnosis.py tests/test_machine_local_memory_fit.py
+          tests/test_machine_local_topology.py
           tests/test_machine_local_trainable_stiffness.py tests/test_kiki_machine_local_r20_r21.py
           tests/test_machine_local_forecast.py tests/test_machine_local_stiffness_calibration.py
           tests/test_machine_local_hidden_oracle_saved_audit.py
