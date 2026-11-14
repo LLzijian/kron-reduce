@@ -2272,6 +2272,18 @@
       "model_promotion_allowed": false,
       "deployment_predictions_allowed": false
     },
+    "machine_local_memory_diagnosis_v1": {
+      "module": "kron_reduce.workflows.machine_local_memory",
+      "workflow": "machine_local_memory_diagnosis_v1",
+      "stage": "diagnosis",
+      "config": "machine_local_memory_diagnosis_v1.toml",
+      "status": "gated",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "data_policy": "analytic_synthetic_only",
+      "execution_mode": "bounded_synthetic_cli_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false
+    },
     "machine_local_equation_v1": {
       "module": "kron_reduce.workflows.machine_local_equation",
       "workflow": "machine_local_equation_v1",

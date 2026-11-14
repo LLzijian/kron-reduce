@@ -1,0 +1,109 @@
+{
+  "schema": "kron_reduce.machine_local_memory_diagnosis.v1",
+  "authorization": "machine_local_memory_diagnosis_v1_20261114",
+  "stage": "diagnosis",
+  "dataset": "synthetic_benchmark_registry_v1",
+  "source_run_id": "machine_local_equation_v1-synthetic-20261114T112046562581Z-2cf72ad4-b66d43aa",
+  "source_manifest_sha256": "48666d2fdc4fc3e67e35a4e679743faafb57646b1f66d14074e4c5fd57cc3c7b",
+  "source_receipt": "docs/reports/machine_local_equation_20261114_evidence.json",
+  "source_receipt_sha256": "b12d0752416bde086f582f9a703a98d6be88fdde796c81bc6e6dbb47dad00e82",
+  "source_authorization": "machine_local_equation_v1_20261114",
+  "source_authorization_status": "consumed",
+  "sources": {
+    "null": {
+      "support": "neither",
+      "files": {
+        "null/freeze.json": "bcd619e5abf0da4793c7bf081f70eeffc90510ba4082c0e1896abf2a527ea4f7",
+        "null/selection.json": "47b933dded61f1fd6d6dee500b9c7d2e08b9a2004f10dbfd0b22c74836adaacc",
+        "null/neither/frozen.npz": "cb0d8e0d682a2cdfffa95de6b2a35af432366e0d9768c9bbd583994eb70a4001",
+        "null/neither/train.json": "1d87682e51fb5289788341aaeda137e560a45d6a3447f86418281b3a84c763df"
+      }
+    },
+    "harmonic": {
+      "support": "harmonic",
+      "files": {
+        "harmonic/freeze.json": "ef49d4e8922c229c92cc90a674affc8aee65f1588034733b07fda6cc7f4f194e",
+        "harmonic/selection.json": "0c7c8632449481731572ab1cdfef68a214e05374e7967c510cb62205a325a43d",
+        "harmonic/harmonic/frozen.npz": "1a83fab0ef7009d643bb1aee36d2eb8db1e851f870f662f5dff92e5c6125645e",
+        "harmonic/harmonic/train.json": "8479e807334f5412a55b76e46eeb6aa90a25bfce7b9148b90ee0e884f10ce51d"
+      }
+    },
+    "damping": {
+      "support": "damping",
+      "files": {
+        "damping/freeze.json": "b6f9f06ac9ff5d9b96dbd4ba7b559bfd2024d1e36eb26e4daced167e50637474",
+        "damping/selection.json": "d6109c0910c7873152656661bffd69e569164d344cddc939a7142f1393befd29",
+        "damping/damping/frozen.npz": "8653d24706a8d324216cb537afcb565d5bb935c2234dd1768a30b79b255a475f",
+        "damping/damping/train.json": "07b868e42166712248c6f44beaeeb1a03171e1beb17d15bcf5f6b0351ca90b78"
+      }
+    }
+  },
+  "cohort": {
+    "split": "train",
+    "per_population": 16,
+    "populations": [
+      "null",
+      "harmonic",
+      "damping"
+    ]
+  },
+  "scoring": {
+    "device": "cuda",
+    "frames": 300,
+    "steps_s": [
+      0.0025,
+      0.00125
+    ],
+    "batch_fallback": "one per-event retry only after batch numerical failure"
+  },
+  "operation_limits": {
+    "checkpoint_decodes": 3,
+    "numpy_rhs": 233280,
+    "rollouts": 2040,
+    "torch_rhs": 3329280,
+    "tangent_rhs": 293760,
+    "qr": 2304,
+    "svd": 2304,
+    "triangular_solves": 2304,
+    "matrix_products": 2304
+  },
+  "implementation_bindings": {
+    "configs/experiments/machine_local_equation_v1.toml": "14fceaf23e4d1f3cd46b3e75a0f7e4de320313300fe9d2c8e93b60949cd5154b",
+    "configs/experiments/machine_local_memory_diagnosis_v1.toml": "74e93679168787a1544bd2c80786829fbbb6a517f5b8bfc3acf33433d766be51",
+    "configs/project_manifest.json": "f5360fc289f299969d0eb1b27786c9263f6df639cb967bf93e6b4bfe27ed1eff",
+    "configs/workflows/machine_local_equation_v1.json": "c0d509c4ca1d4142ba581e8245a024216983589ecac1d18bf9a871b5e0fe45d3",
+    "configs/workflows/machine_local_memory_diagnosis_v1.json": "e67794abb6724e847808a40fc8d04d28d5810bc1cfeaf6d110d3360d9fc9d7d6",
+    "docs/protocols/machine_local_equation_v1_zh.md": "f2b5a71bd026d93c8f199b85655f604a5c181c442907ce7c4e5e8012b06eb22b",
+    "docs/protocols/machine_local_memory_diagnosis_v1_zh.md": "034b8dab6415c459335d1383f6a24b0387d9cf5f4720f1b26299cd7e0c8de3e8",
+    "docs/reports/machine_local_equation_20261114_evidence.json": "b12d0752416bde086f582f9a703a98d6be88fdde796c81bc6e6dbb47dad00e82",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+    "project_harness/policy.py": "9f345a87711223af452cff4cfa74eecb0d815fa164b47485144002b07fc58071",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/evaluation/kiki_machine_local_full.py": "479513971f932204177eef75ecaa025c98f07a976b402c7ebc10149eedbfa7fa",
+    "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+    "src/kron_reduce/evaluation/machine_local_equation_cases.py": "ed82135aac2ae0164e96560d4246c89bbe657d072212108c2dda732114364858",
+    "src/kron_reduce/evaluation/machine_local_equation_fit.py": "f58b4316d68797c8a359a60d71b3db27f5471bbdde96e38a910d1034f8875c32",
+    "src/kron_reduce/evaluation/machine_local_equation.py": "03afb11716aa9a57ee56013bf037dd84cfa256bca9705a0dca363a80d5effa1e",
+    "src/kron_reduce/evaluation/machine_local_hidden_oracle.py": "a6eb890ca2789d34f4f0631fd40a7d4f3dcc4e4fad168147da6ba851db4c10c0",
+    "src/kron_reduce/evaluation/machine_local_memory_diagnosis.py": "61b3d3aa4edde86090d03d55455136190752c2fe5ea3d27209380b5f87cbc294",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/models/differentiable_history.py": "409b0afe87daaa39ff046674e769d354c7fa55126d497027829d6a709e2ce3c0",
+    "src/kron_reduce/models/machine_local_equation.py": "9ee107a6d9d847ade753ea9cbf0f3622fa2c7e3d7a3d03f386d091931016e811",
+    "src/kron_reduce/models/machine_local.py": "3f79959b41a1ee99c96fad3de2307ecbe4f5d2e3d466bca25786bf0e6501fc6b",
+    "src/kron_reduce/models/nonlinear_history.py": "f8ce5dd063219c9460fbc67c7b6b3620520153c56258ee6d6be98f7f89d49087",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "src/kron_reduce/workflows/machine_local_equation.py": "1fc52cd7636f757acef005b8690e93d67d593aa884c0bf146b56153fa265adb0",
+    "src/kron_reduce/workflows/machine_local_memory.py": "b9dcf6e6ba24894a63a2705a19d7b2ae17ca00488b79672bafa4741ee798ad8c",
+    "tests/test_machine_local_equation.py": "8cede0d535edd0779a388e9cbd593aa29fe6101b7cf2439813e846a4cc75abeb",
+    "tests/test_machine_local_memory_diagnosis.py": "8b671e2362c74d975c239c062226cff2622412f275b946937c5047b44a6b067a"
+  }
+}

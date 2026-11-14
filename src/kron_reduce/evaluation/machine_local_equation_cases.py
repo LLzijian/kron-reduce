@@ -52,7 +52,7 @@ def _numpy_truth_rollout(initial, power, equilibrium, *, step, stiffness, dampin
     return output
 
 
-def make_population(name, budget):
+def make_population(name, budget, *, train_only=False):
     """Build one of three known-truth equation families on a shared 32-case design.
 
     The event assignment is fixed: seeded permutation positions 0:16 are train,
@@ -114,6 +114,12 @@ def make_population(name, budget):
     true_tau = np.geomspace(.05, 2., r)
     harmonic_strength = .6 if name == "harmonic" else 0.
     damping_strength = 1. if name == "damping" else 0.
+    split_indices = {"train": order[:16], "val": order[16:24], "test": order[24:]}
+    # Select before integration so a train-only diagnosis generates no held-out trajectories.
+    chosen = order[:16] if train_only else np.arange(len(initial))
+    if train_only:
+        split_indices = {"train": np.arange(len(chosen))}
+    initial, power, equilibrium = initial[chosen], power[chosen], equilibrium[chosen]
     paths = {}
     for label, step in (("fine", .00125), ("refined", .000625)):
         paths[label] = _numpy_truth_rollout(
@@ -126,7 +132,7 @@ def make_population(name, budget):
         raise FloatingPointError("nonfinite known-truth synthetic trajectory")
 
     # Train-only scales use 0.5 s and 1 s windows beginning at the 100 ms origin.
-    train_indices = order[:16]
+    train_indices = split_indices["train"]
     visible = paths["refined"][:, :, :2*n]
     target_scale = np.maximum(
         np.sqrt(np.mean(visible[train_indices, 11:111]**2, axis=(0, 1))), 1e-5
@@ -135,14 +141,13 @@ def make_population(name, budget):
         np.sqrt(np.mean(visible[train_indices, :11]**2, axis=(0, 1))), 1e-5
     )
     roles, role_paths = {}, {}
-    for role, indices in (("train", order[:16]), ("val", order[16:24]),
-                          ("test", order[24:])):
+    for role, indices in split_indices.items():
         role_paths[role] = {key: value[indices] for key, value in paths.items()}
         roles[role] = [
-            {"id": f"{name}-{int(index):02d}",
+            {"id": f"{name}-{int(chosen[index]):02d}",
              "x": paths["refined"][index, :, :2*n],
              "p0": power[index], "equilibrium": equilibrium[index],
-             "truth_index": int(index)}
+             "truth_index": int(chosen[index])}
             for index in indices
         ]
     return {

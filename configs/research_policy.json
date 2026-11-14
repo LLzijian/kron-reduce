@@ -3527,6 +3527,31 @@
       "result_manifest_sha256": "122111ad26b772b9d26883e20cbc2aa1c5f7b90cad24913bba5a4623c1ae6107",
       "result_receipt_path": "docs/reports/machine_local_stiffness_calibration_20261114_evidence.json",
       "result_receipt_sha256": "b38ff7509c5cf8528bf311a086adb4ce8e512a03a323cd039b2ee661e9e13263"
+    },
+    "machine_local_memory_diagnosis_v1_20261114": {
+      "status": "active",
+      "experiment": "machine_local_memory_diagnosis_v1",
+      "workflow": "machine_local_memory_diagnosis_v1",
+      "stage": "diagnosis",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "real_data_reads": 0,
+      "operation_limits": {
+        "checkpoint_decodes": 3,
+        "numpy_rhs": 233280,
+        "rollouts": 2040,
+        "torch_rhs": 3329280,
+        "tangent_rhs": 293760,
+        "qr": 2304,
+        "svd": 2304,
+        "triangular_solves": 2304,
+        "matrix_products": 2304
+      },
+      "plan_path": "configs/proposals/machine_local_memory_diagnosis_v1.json",
+      "plan_sha256": "2c32e457453966fabb5df417061c68737128c06f94d4d02473783a0e155e83f8",
+      "review_path": "docs/research/machine_local_memory_diagnosis_review_20261114.json",
+      "review_sha256": "bc81f60836fd2ea57c8a97d792c5d4a187c64aefe51251cc5dab96088cc8535a",
+      "authority": "explicit_user_autonomous_memory_diagnosis"
     }
   },
   "saved_evidence_audits": {
