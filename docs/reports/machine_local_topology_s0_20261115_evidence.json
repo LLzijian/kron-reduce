@@ -1,0 +1,124 @@
+{
+  "schema": "machine_local_topology_s0.evidence.v1",
+  "original": {
+    "run_id": "machine_local_topology_v1-s0-20261114T184726142935Z-365ae0c0-7b846990",
+    "files": {
+      "operations.jsonl": "3b8d51c1a1279bcff06435b533515b1b2d64ed33e42e9bc54dfb8ae0eca88154",
+      "RUN_FAILED.json": "5ce248bde121e1e1ea83e6176f1986f031eead06353c4d1c988dc9e6d9362440",
+      "T0M0-causal.npz": "4df000123dcb36502e8d1c51570ebfb7ae70c7c95e74f87d4fb8b84d5d1c8d3b",
+      "T0M0-oracle.npz": "431b0100bbbf6f9b160c922cc0d7abece691dd5f64e00c3d88f239893f61f5e0",
+      "T0M0-truth.npz": "a4cc4169805c4c965502b020cb72d8adcad3de8e119d255f63f9422a5c4baf15",
+      "T0M0.json": "9defa53bf0b40d1db4865040f49d532496f04347f84a1fcf11903fe9c5e90725",
+      "T0M1-causal.npz": "4a7c580a1a1ea8aefa9b3c64c90c20c3cdf0f1c1e80b0baec12cf33ac15f92ba",
+      "T0M1-oracle.npz": "2de0baeaa0eb1ddb1da752274c0addfe453d598476ba7bf8df0f0805430cee75",
+      "T0M1-truth.npz": "fc6756ec15baa955bdcef12f76a9a67ef67512444cf32c0db9cc4a941f9ee1d4",
+      "T0M1.json": "074c2ff7bf968c4a4c0e118d8378d9767275aab61061de43d7877fc0b63d3e03",
+      "T1M0-causal.npz": "7c7f4e935a1db9fc90f6d6b8d823520785037e8091ae762520bd9147d9d6b58f",
+      "T1M0-oracle.npz": "7708a57a9e3a31c618faf5287a139461e4c4a6ae7377ad8663468651798bfaa0",
+      "T1M0-truth.npz": "bef60f68028e17ec1b558454bbe10ed8be25d231b18d08a94e0e9139a31bf864",
+      "T1M0.json": "0a5d40e179ddd0d99049e772952e97429eed99792e07e7b7249246ff7dbbbc50",
+      "T1M1-causal.npz": "2f1ebf07ce58ff8857be9aa111844db818cba04c0b69c4f7cf4f8321131053c9",
+      "T1M1-oracle.npz": "2aea8a33935dff104720a6fd28dec81e406363a5bf79389b4e495bef5259850d",
+      "T1M1-T0M0.npz": "215905a0ecd64065f6998c9c451f4a09175b28836c83400cea7bb6a059a6b3eb",
+      "T1M1-T0M1.npz": "8654fc9d6478a58daa94a17c44ec6f84c10c1eb76de250e2af53c6733b7f4722",
+      "T1M1-T1M0.npz": "79e6ccf95e7430af35e5adafa722d62aa3f52bf8d48147cdf520b79c9dfb4760",
+      "T1M1-truth.npz": "91c1a72f801a9711f15cd7d76c78368dfe57eea110cb29159ece78c29da8ef48",
+      "T1M1.json": "ea5acb676f75c8a60bb28d2ad59fcc386938cc7fab13be3d455c34c80d16debd"
+    },
+    "process_status": "FAILED_RESULT_SERIALIZATION",
+    "source_commit": "365ae0c0"
+  },
+  "closeout": {
+    "run_id": "machine_local_topology_closeout_v1-closeout-20261114T185149479694Z-e942ba8c-da75d03d",
+    "source_commit": "e942ba8ca8a3628ef957f28f68362dcc111a990d",
+    "artifact_manifest_sha256": "5572f0e6c256831152bf0c1eaa2653cc948d9f5b5d844b1633f34103d3614f49",
+    "artifacts": {
+      "operations.jsonl": "6cc3fa6b1e67978dec8d98b2ad5dc218f84dd5aac3facec56bb0260b46b4af73",
+      "source.json": "3aa3b101e6508f7fdec30a501b3415b97dd544b59b1128459f74e2388efa7384",
+      "stage_evidence.json": "1c09f6e64261a5bba7c77e364d8e8a6840575f475e58f9b160a0a721991d9b81",
+      "summary.json": "4053dd3ace05c6705017f144f9adcef62e7db2c6f485f8b65fcecd5879042e80"
+    },
+    "operation_counts": {
+      "rollouts": 2,
+      "tangent_rhs": 640,
+      "torch_rhs": 640,
+      "svd": 4
+    },
+    "runtime": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "torch": "2.13.0+cu130",
+      "cuda": "13.0",
+      "gpu": "NVIDIA GeForce RTX 4060 Ti",
+      "numpy": "2.5.2",
+      "scipy": "1.18.0"
+    }
+  },
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "negative_controls": {
+    "T1M0": {
+      "rank": 0,
+      "columns": 9,
+      "singular": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "pass": true
+    },
+    "T0M1": {
+      "rank": 9,
+      "columns": 10,
+      "singular": [
+        0.07059138997211699,
+        0.06863358267124874,
+        0.06699590897252261,
+        0.06560011419662981,
+        0.06439759663136704,
+        0.06335297470335458,
+        0.06243383022045573,
+        0.06161189303698079,
+        0.06086307080585846,
+        1.477933005464273e-17
+      ],
+      "pass": true
+    }
+  },
+  "positive_review": {
+    "path": "docs/research/machine_local_topology_closeout_review_20261115.json",
+    "sha256": "cfa93d8a201d84331231461af635f705e6c2c87ffa52bac81ccf57cc6ed15bf9"
+  },
+  "positive_gates": {
+    "T0M0": {
+      "physical": true,
+      "oracle": true,
+      "observability": true,
+      "causal": true
+    },
+    "T1M0": {
+      "physical": true,
+      "oracle": true,
+      "observability": true,
+      "causal": true
+    },
+    "T0M1": {
+      "physical": true,
+      "oracle": true,
+      "observability": true,
+      "causal": true
+    },
+    "T1M1": {
+      "physical": true,
+      "oracle": true,
+      "observability": true,
+      "causal": true
+    }
+  }
+}

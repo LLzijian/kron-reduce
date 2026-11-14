@@ -3666,7 +3666,9 @@
       "run_id": "machine_local_topology_v1-s0-20261114T184726142935Z-365ae0c0-7b846990",
       "process_status": "FAILED_RESULT_SERIALIZATION",
       "failed_record_sha256": "5ce248bde121e1e1ea83e6176f1986f031eead06353c4d1c988dc9e6d9362440",
-      "scientific_pass": false
+      "scientific_pass": false,
+      "result_receipt_path": "docs/reports/machine_local_topology_s0_20261115_evidence.json",
+      "result_receipt_sha256": "bf91a3b151fd57e2a58be0bc260b9a78d26bd7e5e82f626cbdeab57de5ac1922"
     },
     "machine_local_topology_closeout_v1_20261115": {
       "experiment": "machine_local_topology_closeout_v1",
@@ -3683,12 +3685,18 @@
         "tangent_rhs": 640,
         "svd": 4
       },
-      "status": "active",
+      "status": "consumed",
       "plan_path": "configs/proposals/machine_local_topology_closeout_v1.json",
       "plan_sha256": "f56e8c8e2fb7ed3af63809aafcf6e9f92355180125f7d5058fcbeb8ded0590b4",
       "review_path": "docs/research/machine_local_topology_closeout_review_20261115.json",
       "review_sha256": "cfa93d8a201d84331231461af635f705e6c2c87ffa52bac81ccf57cc6ed15bf9",
-      "authority": "negative_control_record_recovery_only"
+      "authority": "negative_control_record_recovery_only",
+      "run_id": "machine_local_topology_closeout_v1-closeout-20261114T185149479694Z-e942ba8c-da75d03d",
+      "engineering_pass": true,
+      "scientific_pass": false,
+      "result_manifest_sha256": "5572f0e6c256831152bf0c1eaa2653cc948d9f5b5d844b1633f34103d3614f49",
+      "result_receipt_path": "docs/reports/machine_local_topology_s0_20261115_evidence.json",
+      "result_receipt_sha256": "bf91a3b151fd57e2a58be0bc260b9a78d26bd7e5e82f626cbdeab57de5ac1922"
     }
   },
   "saved_evidence_audits": {

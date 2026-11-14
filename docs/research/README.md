@@ -10,7 +10,9 @@ The [topology and memory plan](machine_local_topology_memory_plan_20261115_zh.md
 introduces event-conditioned edge stiffness and reciprocal machine-local memory.
 The [S0 protocol](../protocols/machine_local_topology_v1_zh.md) tests four known-
 coefficient combinations and the 100 ms initialization before shared-parameter
-learning and function selection.
+learning and function selection. The [S0 evidence](../reports/machine_local_topology_s0_20261115_zh.md)
+passes the engineering checks for clean synthetic histories. Shared-coefficient
+learning is the next registered comparison to prepare.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across

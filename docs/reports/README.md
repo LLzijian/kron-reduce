@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Event-conditioned coupling and memory S0](machine_local_topology_s0_20261115_zh.md) | Four known-coefficient synthetic cohorts, complete GPU scoring, limited rank-control recovery |
 | [TASK3 machine-local momentum calibration](kiki_machine_local_memory_20261114_zh.md) | Four candidate fits, frozen A/B scoring on train 346 / val 107 / test 76, retained baseline |
 | [Machine-local memory calibration](machine_local_memory_calibration_20261114_zh.md) | Fixed-support train momentum calibration, complete synthetic train/val/test, all four recovery gates passed |
 | [Machine-local memory coefficient substitutions](machine_local_memory_diagnosis_20261114_zh.md) | Four controls on each complete synthetic train cohort, GPU prediction and exact frozen-model replay |
