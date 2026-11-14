@@ -60,7 +60,9 @@ def time_integral(values):
 class MomentumProblem:
     """Shared bounded coefficients with event-specific nuisance moments eliminated by QR."""
 
-    def __init__(self, model, events, target_scale):
+    def __init__(self, model, events, target_scale, *, start_frame=0):
+        if start_frame not in (0, 10):
+            raise ValueError("momentum fit uses the record start or the TASK3 forecast origin")
         n = model.n_nodes
         mass, edges, basis, projection, anchor = (getattr(model, key).detach().cpu().numpy() for key in
             ("mass", "incidence", "damping_basis", "power_projection", "stiffness"))
@@ -72,6 +74,7 @@ class MomentumProblem:
         self.scale = 1/(mass*scale[n:])
         self.wp = projection*self.scale[:, None]
         self.events = []
+        self.zero_information_ids = []
         self.k_count = edges.shape[1]
         self.d_count = basis.shape[1]
         self.linear_count = edges.shape[1]+basis.shape[1]+n+int(self.harmonic)+int(self.modulated)
@@ -83,6 +86,7 @@ class MomentumProblem:
             x = np.asarray(event["x"], dtype=float)[:811]
             if (x.ndim != 2 or x.shape[1] != 2*n or len(x) < 12 or not np.isfinite(x).all()):
                 raise ValueError("momentum fit needs finite observed 100 Hz train records")
+            x = x[start_frame:]
             q, v = x[:, :n], x[:, n:]
             power = np.asarray(event["p0"], dtype=float)
             equilibrium = np.asarray(event["equilibrium"], dtype=float)
@@ -92,6 +96,10 @@ class MomentumProblem:
                 raise ValueError("momentum fit requires balanced power and mass-COI observations")
             times = DT*np.arange(len(x))
             keep = np.unique(np.r_[np.arange(5, len(x), 5), len(x)-1])
+            if len(keep) == 1:
+                # At one elapsed time the free initial port force spans the whole COI force space.
+                self.zero_information_ids.append(event["id"])
+                continue
             nodes = interpolate_angles(q, v)
             ref = equilibrium@edges
             edge = nodes@edges
@@ -188,9 +196,9 @@ def set_physical(model, log_tau, linear):
             parameter.fill_(float(value))
 
 
-def momentum_fit(model, events, target_scale, budget, *, max_calls, monitor):
+def momentum_fit(model, events, target_scale, budget, *, max_calls, monitor, start_frame=0):
     """Use train-only momentum to propose checkpoints and val causal score to select one."""
-    problem = MomentumProblem(model, events, target_scale)
+    problem = MomentumProblem(model, events, target_scale, start_frame=start_frame)
     budget.spend("fits")
     bounds = [(np.log(.02001), np.log(4.999))]*model.n_nodes
     initial = np.log(model.tau.detach().cpu().numpy())
@@ -253,4 +261,5 @@ def momentum_fit(model, events, target_scale, budget, *, max_calls, monitor):
         set_physical(model, *best[2][:2])
     return {"completed_iterations": iterations, "selected_iteration": best[1] if best else None,
             "selected_val_nmse": best[0] if best else None, "converged": converged, "failure": failure,
-            "stop_reason": reason, "train_trace": trace, "val_trace": checks}
+            "stop_reason": reason, "train_trace": trace, "val_trace": checks,
+            "zero_information_ids": problem.zero_information_ids}

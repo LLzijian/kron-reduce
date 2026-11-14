@@ -1279,6 +1279,36 @@
       "result_manifest_sha256": "e3536ac99e4369b9fe4f0733b0f059e5577746f987f92fe2fb31829583b95f01",
       "result_receipt_path": "docs/reports/kiki_machine_local_r20_r21_20261114_evidence.json",
       "result_receipt_sha256": "b057d90de38cb83ff91ea42215859b3b911957324855f5266877244568262dd8"
+    },
+    "kiki_machine_local_memory_fit_v1_20261114": {
+      "status": "active",
+      "experiment": "kiki_machine_local_memory_fit_v1",
+      "fit_attempts": 4,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "explicit_operator_complete_task3_after_fixed_support_synthetic_gate",
+      "plan_path": "configs/proposals/kiki_machine_local_memory_fit_v1.json",
+      "plan_sha256": "da834c721b246b6679b704706bb25eef10af0858d3d7f676fe1a8bd57fc4dc52",
+      "review_path": "docs/research/kiki_machine_local_memory_fit_review_20261114.json",
+      "review_sha256": "08f0d05a53157aedad65c602c84228f4f208032eb30bbc10b63cd12889098a41",
+      "operation_limits": {
+        "rollouts": 11320,
+        "torch_rhs": 39782400,
+        "tangent_rhs": 1468800,
+        "checkpoint_loads": 1,
+        "qr": 26280,
+        "svd": 26280,
+        "triangular_solves": 26280,
+        "matrix_products": 26280,
+        "fits": 4,
+        "val_checks": 48,
+        "momentum_objectives": 600,
+        "momentum_design_spectrum": 600,
+        "momentum_linear_solves": 600,
+        "momentum_qr": 207600,
+        "momentum_nuisance_svd": 207600,
+        "momentum_nuisance_solves": 207600
+      }
     }
   },
   "archived_development_results": {
@@ -3559,7 +3589,7 @@
       "result_receipt_sha256": "9a05574b29857fe0df77f0734aeb2fd9a3a7036e7f5eb5e1b1affefd7875de0b"
     },
     "machine_local_memory_calibration_v1_20261114": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "machine_local_memory_calibration_v1",
       "workflow": "machine_local_memory_calibration_v1",
       "stage": "calibration",
@@ -3591,7 +3621,14 @@
         "function_checks": 11,
         "curvature_spectra": 7128
       },
-      "authority": "explicit_user_autonomous_memory_calibration"
+      "authority": "explicit_user_autonomous_memory_calibration",
+      "scientific_pass": true,
+      "run_id": "machine_local_memory_calibration_v1-calibration-20261114T125033660720Z-9b1cb1bc-9e0e3c25",
+      "result_manifest_sha256": "f980fa0556e6d3d32ffe07eea2afb414d5e8cc3611a89c0899167f3361703a91",
+      "result_receipt_path": "docs/reports/machine_local_memory_calibration_20261114_evidence.json",
+      "result_receipt_sha256": "838cd3bc572be6a9e72a6689eb2aab3507952aa9b1ec8aba1cee1396922e18b4",
+      "result_review_path": "docs/research/machine_local_memory_calibration_result_review_20261114.json",
+      "result_review_sha256": "f8910a40bff2b7c5c57687c173dac2d559f1fbbab1a74f7cb40222541592a634"
     }
   },
   "saved_evidence_audits": {

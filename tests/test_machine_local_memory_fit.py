@@ -145,8 +145,10 @@ def test_momentum_fit_stops_cleanly_at_objective_call_cap(monkeypatch):
             self.counts[name] = self.counts.get(name, 0) + amount
 
     class FakeProblem:
-        def __init__(self, *_):
+        def __init__(self, *_, start_frame):
             self.calls = 0
+            self.zero_information_ids = []
+            assert start_frame == 0
 
         def solve(self, x, budget):
             self.calls += 1
@@ -164,3 +166,85 @@ def test_momentum_fit_stops_cleanly_at_objective_call_cap(monkeypatch):
     assert result["selected_val_nmse"] == pytest.approx(0.25)
     assert result["val_trace"][0]["val_event_nmse"] == [0.25]
     assert budget.counts["momentum_objectives"] == 1
+
+
+def test_prospective_fit_handles_one_interval_and_identifies_informative_event():
+    from kron_reduce.models.machine_local_equation import JointMachineLocalModel
+    from kron_reduce.models.nonlinear_latent import NonlinearPassiveClosure, complete_incidence
+
+    n = 10
+    incidence = complete_incidence(n)
+    stiffness = np.linspace(0.2, 0.5, incidence.shape[1])
+    edge_damping = np.full(incidence.shape[1], 0.03)
+    backbone = NonlinearPassiveClosure(
+        np.linspace(1.0, 2.0, n), stiffness, (incidence * edge_damping) @ incidence.T,
+        np.zeros((n, 0)), np.zeros((0, 0)), np.zeros((0, 0)), "sine",
+    )
+    model = JointMachineLocalModel(
+        backbone, port=np.linspace(0.2, 0.4, n), tau=np.linspace(0.1, 0.5, n),
+    )
+    mass = model.mass.numpy()
+
+    def event(event_id, length):
+        time = np.arange(length) * module.DT
+        phase = np.linspace(-0.8, 1.2, n)
+        q = 0.025 * np.sin(1.7 * time[:, None] + phase)
+        v = 0.025 * 1.7 * np.cos(1.7 * time[:, None] + phase)
+        q -= ((q @ mass) / mass.sum())[:, None]
+        v -= ((v @ mass) / mass.sum())[:, None]
+        power = np.linspace(-0.02, 0.02, n)
+        power -= power.mean()
+        return {"id": event_id, "x": np.c_[q, v], "p0": power, "equilibrium": np.zeros(n)}
+
+    short = event("short-12", 12)  # 11 history frames plus one forecast interval.
+    longer = event("long-17", 17)
+    problem = module.MomentumProblem(model, [short, longer], np.ones(20), start_frame=10)
+    assert problem.zero_information_ids == ["short-12"]
+    assert len(problem.events) == 1
+    retained = problem.events[0]
+    np.testing.assert_array_equal(retained.keep, [5, 6])
+    assert retained.times.shape == (7,)
+    assert retained.times[0] == 0.0 and retained.times[-1] == pytest.approx(0.06)
+    assert retained.q_nodes.shape == (6, 8, 10)
+    _, _, energy, _ = module.memory_terms(
+        retained.q_nodes, retained.times, model.tau.detach().numpy(),
+    )
+    nuisance = (energy[retained.keep, None, :] * problem.wp).reshape(-1, n)
+    assert np.linalg.matrix_rank(nuisance) == 10
+
+    invalid_short = dict(short, p0=short["p0"].copy())
+    invalid_short["p0"][0] += 1e-4
+    with pytest.raises(ValueError, match="balanced power"):
+        module.MomentumProblem(model, [invalid_short, longer], np.ones(20), start_frame=10)
+
+
+def test_both_support_freeze_load_round_trip(tmp_path):
+    from kron_reduce.evaluation.kiki_machine_local_memory import load_model
+    from kron_reduce.evaluation.machine_local_equation_fit import freeze
+    from kron_reduce.models.machine_local_equation import JointMachineLocalModel
+    from kron_reduce.models.nonlinear_latent import NonlinearPassiveClosure, complete_incidence
+    import torch
+
+    n = 10
+    incidence = complete_incidence(n)
+    stiffness = np.linspace(0.2, 0.5, incidence.shape[1])
+    edge_damping = np.full(incidence.shape[1], 0.03)
+    backbone = NonlinearPassiveClosure(
+        np.linspace(1.0, 2.0, n), stiffness, (incidence * edge_damping) @ incidence.T,
+        np.zeros((n, 0)), np.zeros((0, 0)), np.zeros((0, 0)), "sine",
+    )
+    model = JointMachineLocalModel(
+        backbone, port=np.linspace(0.2, 0.4, n), tau=np.linspace(0.1, 0.5, n),
+        harmonic=True, modulated_damping=True,
+    )
+    with torch.no_grad():
+        model.edge_log_factor.copy_(torch.linspace(-0.1, 0.1, model.edge_log_factor.numel()))
+        model.damping_log_factor.copy_(torch.linspace(0.1, -0.1, model.damping_log_factor.numel()))
+        model.harmonic_strength.fill_(0.37)
+        model.modulated_damping_strength.fill_(0.62)
+    freeze(model, tmp_path)
+    restored = load_model(tmp_path / "frozen.npz", "both")
+    assert restored.training is False
+    assert all(parameter.requires_grad is False for parameter in restored.parameters())
+    for key, value in model.state_dict().items():
+        torch.testing.assert_close(restored.state_dict()[key], value, rtol=0, atol=0)

@@ -1,0 +1,600 @@
+{
+  "schema": "kron_reduce.machine_local_memory_calibration_result_review.v1",
+  "status": "completed",
+  "review_date": "2026-11-14",
+  "reviewer": "independent_scientific_design_agent",
+  "review_task": "/root/memory_design",
+  "approved": true,
+  "review_completed": true,
+  "result_evidence_accepted": true,
+  "scientific_pass": true,
+  "decision": "ACCEPT_FIXED_SUPPORT_COEFFICIENT_RECOVERY_PREPARE_REGISTERED_TASK3_COMPARISON",
+  "promotion_decision": "KEEP_BASELINE",
+  "run_id": "machine_local_memory_calibration_v1-calibration-20261114T125033660720Z-9b1cb1bc-9e0e3c25",
+  "run_path": "results/machine_local_memory_calibration_v1-calibration-20261114T125033660720Z-9b1cb1bc-9e0e3c25",
+  "source_commit": "9b1cb1bcdf3326e38fa3049f7e87c1d85565eacf",
+  "artifact_manifest_sha256": "f980fa0556e6d3d32ffe07eea2afb414d5e8cc3611a89c0899167f3361703a91",
+  "summary_sha256": "719838fb98ef95e9ca6631baccf75f439b0ba5d8676480e73b0bb73be75dfb56",
+  "stage_evidence_sha256": "48cddf38e93c6b57ca9669c088852c1fe32622609994d98fa5ede5eab63222ab",
+  "plan_path": "configs/proposals/machine_local_memory_calibration_v1.json",
+  "plan_sha256": "46b0647a2bb794ffd7d35658718d9344ab640cf8e83147d45f3ffce965bbb3a6",
+  "execution_review_path": "docs/research/machine_local_memory_calibration_review_20261114.json",
+  "execution_review_sha256": "d0fc0130681711875e5a8258809ac601b36751b2114045c9e2beb3b01a34f713",
+  "population_reviews": {
+    "null": {
+      "scientific_pass": true,
+      "models": {
+        "known": {
+          "function_relative_errors": {
+            "potential_force": 0.0,
+            "visible_damping_force": 0.0,
+            "memory_kernel": 0.0
+          },
+          "parameter_relative_errors": {
+            "stiffness": 0.0,
+            "damping_matrix": 0.0,
+            "coupling": 0.0,
+            "tau": 0.0
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 1.2531338671372766e-10,
+              "pooled_nrmse_8s": 1.093892684237684e-10,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 1.6705338233985668e-10,
+              "pooled_nrmse_8s": 2.0815370932366356e-10,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          }
+        },
+        "selected_before": {
+          "function_relative_errors": {
+            "potential_force": 0.002611012552453051,
+            "visible_damping_force": 0.003791643529625267,
+            "memory_kernel": 0.07118308851757159
+          },
+          "parameter_relative_errors": {
+            "stiffness": 0.008125105939237575,
+            "damping_matrix": 0.004599489355069939,
+            "coupling": 0.06643061355535818,
+            "tau": 0.007045847828634066
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 0.0005743615493348155,
+              "pooled_nrmse_8s": 0.0009889502571224635,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 0.001959873198707462,
+              "pooled_nrmse_8s": 0.00832941881872512,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          }
+        },
+        "selected_calibrated": {
+          "function_relative_errors": {
+            "potential_force": 1.960160673830756e-06,
+            "visible_damping_force": 5.5492391879173055e-06,
+            "memory_kernel": 0.00042883878001435423
+          },
+          "parameter_relative_errors": {
+            "stiffness": 3.4581482252663134e-06,
+            "damping_matrix": 6.512872811759686e-06,
+            "coupling": 0.0008402694066146196,
+            "tau": 0.00016107799773643308
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 2.589386939122193e-05,
+              "pooled_nrmse_8s": 2.2766855816395702e-05,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 3.343921865105916e-05,
+              "pooled_nrmse_8s": 3.462468675552708e-05,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          },
+          "fit": {
+            "completed_iterations": 100,
+            "selected_iteration": 100,
+            "selected_val_nmse": 6.469224351074897e-10,
+            "converged": false,
+            "failure": null,
+            "stop_reason": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+            "objective_calls": 109,
+            "full_val_checks": 11,
+            "first_train_momentum_mse": 1.2794681901917886e-09,
+            "last_train_momentum_mse": 1.4324161167255274e-13
+          },
+          "physical_amplitudes": {
+            "harmonic_coefficient": 0.0,
+            "modulated_damping_coefficient": 0.0
+          }
+        },
+        "a_before": {
+          "function_relative_errors": {
+            "potential_force": 0.007547621055148167,
+            "visible_damping_force": 0.008440605539499869,
+            "memory_kernel": 0.11699324507378478
+          },
+          "parameter_relative_errors": {
+            "stiffness": 0.022424246572177488,
+            "damping_matrix": 0.010892349840191896,
+            "coupling": 0.08835261456821435,
+            "tau": 0.04015068959630135
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 0.001802480038628537,
+              "pooled_nrmse_8s": 0.0027354302359063054,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 0.006233374336950069,
+              "pooled_nrmse_8s": 0.02384830335857496,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          }
+        },
+        "a_calibrated": {
+          "function_relative_errors": {
+            "potential_force": 6.223252818914773e-07,
+            "visible_damping_force": 2.9481943984279616e-07,
+            "memory_kernel": 0.0002136978412006582
+          },
+          "parameter_relative_errors": {
+            "stiffness": 1.1217331238040083e-06,
+            "damping_matrix": 6.064773545321442e-07,
+            "coupling": 0.0003645604700132274,
+            "tau": 6.875839906586032e-05
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 7.97273194463498e-06,
+              "pooled_nrmse_8s": 6.973459941792321e-06,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 9.631313494359263e-06,
+              "pooled_nrmse_8s": 8.744209890653954e-06,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          },
+          "fit": {
+            "completed_iterations": 100,
+            "selected_iteration": 100,
+            "selected_val_nmse": 5.404113536591361e-11,
+            "converged": false,
+            "failure": null,
+            "stop_reason": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+            "objective_calls": 108,
+            "full_val_checks": 11,
+            "first_train_momentum_mse": 2.7159966713918893e-07,
+            "last_train_momentum_mse": 1.9863289651526477e-14
+          },
+          "physical_amplitudes": {
+            "harmonic_coefficient": 0.0,
+            "modulated_damping_coefficient": 0.0
+          }
+        }
+      }
+    },
+    "harmonic": {
+      "scientific_pass": true,
+      "models": {
+        "known": {
+          "function_relative_errors": {
+            "potential_force": 0.0,
+            "visible_damping_force": 0.0,
+            "memory_kernel": 0.0
+          },
+          "parameter_relative_errors": {
+            "stiffness": 0.0,
+            "damping_matrix": 0.0,
+            "coupling": 0.0,
+            "tau": 0.0
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 2.619001969666845e-10,
+              "pooled_nrmse_8s": 2.1338681946845645e-10,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 1.958908436446596e-10,
+              "pooled_nrmse_8s": 3.34454067699894e-10,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          }
+        },
+        "selected_before": {
+          "function_relative_errors": {
+            "potential_force": 0.011306090095419687,
+            "visible_damping_force": 0.006268205026279873,
+            "memory_kernel": 0.12009597236661408
+          },
+          "parameter_relative_errors": {
+            "stiffness": 0.0297834626842177,
+            "damping_matrix": 0.009158581209894769,
+            "coupling": 0.10495653962080304,
+            "tau": 0.032823085765556384
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 0.0013765971102382602,
+              "pooled_nrmse_8s": 0.0016296180871166537,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 0.002925006081783887,
+              "pooled_nrmse_8s": 0.0061245852389053956,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          }
+        },
+        "selected_calibrated": {
+          "function_relative_errors": {
+            "potential_force": 3.1794100364355215e-06,
+            "visible_damping_force": 8.333308780215205e-07,
+            "memory_kernel": 0.0020516262716574808
+          },
+          "parameter_relative_errors": {
+            "stiffness": 9.757969397823625e-06,
+            "damping_matrix": 1.8912041440381476e-06,
+            "coupling": 0.0041212465952200844,
+            "tau": 0.000646177844163828
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 9.66938090798979e-05,
+              "pooled_nrmse_8s": 7.305419250365754e-05,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 0.0001231339236772341,
+              "pooled_nrmse_8s": 0.0001597149768972462,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          },
+          "fit": {
+            "completed_iterations": 100,
+            "selected_iteration": 100,
+            "selected_val_nmse": 9.215730159901488e-09,
+            "converged": false,
+            "failure": null,
+            "stop_reason": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+            "objective_calls": 112,
+            "full_val_checks": 11,
+            "first_train_momentum_mse": 1.1144767171802556e-07,
+            "last_train_momentum_mse": 7.199222174420387e-13
+          },
+          "physical_amplitudes": {
+            "harmonic_coefficient": 0.5999991279507818,
+            "modulated_damping_coefficient": 0.0
+          }
+        }
+      }
+    },
+    "damping": {
+      "scientific_pass": true,
+      "models": {
+        "known": {
+          "function_relative_errors": {
+            "potential_force": 0.0,
+            "visible_damping_force": 0.0,
+            "memory_kernel": 0.0
+          },
+          "parameter_relative_errors": {
+            "stiffness": 0.0,
+            "damping_matrix": 0.0,
+            "coupling": 0.0,
+            "tau": 0.0
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 3.908020972548951e-09,
+              "pooled_nrmse_8s": 3.5625854068644667e-09,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 5.245933601988386e-09,
+              "pooled_nrmse_8s": 4.947088919493034e-09,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          }
+        },
+        "selected_before": {
+          "function_relative_errors": {
+            "potential_force": 0.08294611777467276,
+            "visible_damping_force": 0.027466050185517104,
+            "memory_kernel": 0.5522871966927878
+          },
+          "parameter_relative_errors": {
+            "stiffness": 0.22043895303359265,
+            "damping_matrix": 0.09755408505508026,
+            "coupling": 0.3908814979750404,
+            "tau": 0.45686833480814876
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 0.018014445224576025,
+              "pooled_nrmse_8s": 0.02859778367133045,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 0.09821892212550866,
+              "pooled_nrmse_8s": 0.0859761372827691,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          }
+        },
+        "selected_calibrated": {
+          "function_relative_errors": {
+            "potential_force": 7.111757935333056e-06,
+            "visible_damping_force": 2.766312354782644e-06,
+            "memory_kernel": 0.0038247564714728225
+          },
+          "parameter_relative_errors": {
+            "stiffness": 1.0534300444518439e-05,
+            "damping_matrix": 1.1415683000604477e-05,
+            "coupling": 0.007753332071089793,
+            "tau": 0.0011194709985975814
+          },
+          "train_val": {
+            "train": {
+              "pooled_nrmse_3s": 0.00024190058769468556,
+              "pooled_nrmse_8s": 0.00021576418092043525,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 4,
+                "tn": 12,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            },
+            "val": {
+              "pooled_nrmse_3s": 0.0002885075088064286,
+              "pooled_nrmse_8s": 0.00026456238263661237,
+              "stability": {
+                "accuracy": 1.0,
+                "tp": 2,
+                "tn": 6,
+                "fp": 0,
+                "fn": 0,
+                "coverage": 1.0
+              }
+            }
+          },
+          "fit": {
+            "completed_iterations": 100,
+            "selected_iteration": 100,
+            "selected_val_nmse": 4.9870548407607076e-08,
+            "converged": false,
+            "failure": null,
+            "stop_reason": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+            "objective_calls": 113,
+            "full_val_checks": 11,
+            "first_train_momentum_mse": 9.42755289495572e-05,
+            "last_train_momentum_mse": 4.7736436448093915e-12
+          },
+          "physical_amplitudes": {
+            "harmonic_coefficient": 0.0,
+            "modulated_damping_coefficient": 8.000016038259027
+          }
+        }
+      }
+    }
+  },
+  "findings_supported": [
+    "All four corrected equations pass the original train/val 3-second and 8-second trajectory limits, visible-function limits, 5 percent kernel recovery threshold, support/amplitude conditions and valid-fit requirements. The null original A is retained as a separate successful refinement.",
+    "All eleven frozen equations have complete train 16/val 8/test 8 reports; all 352 model-event records are numerically qualified. Known-parameter controls and physical conditions pass.",
+    "The corrected active amplitudes are harmonic a=0.5999991279507818 against 0.6 and physical damping b=8.000016038259027 against 8. Absent amplitudes remain exactly zero.",
+    "Memory-kernel errors are 0.00042883878001435423 for null selected, 0.0002136978412006582 for null A, 0.0020516262716574808 for harmonic and 0.0038247564714728225 for damping.",
+    "The observed-train momentum method recovers the declared synthetic coefficients while retaining the causal three-GN prediction initializer. This supports the proposed coefficient-compensation correction."
+  ],
+  "optimization_interpretation": "Each fit used 100 accepted iterations and selected iteration 100. SciPy reports converged=false because the registered iteration cap was reached; the independent frozen recovery criteria passed. This result is not a convergence proof.",
+  "scope_boundary": "Fixed-support recovery within the already exposed known-truth populations, with active amplitudes jointly refitted. This does not repeat function-family discovery, demonstrate independent-population confirmation or identify true real-system coefficients.",
+  "real_gate": {
+    "synthetic_prerequisite_satisfied": true,
+    "real_execution_approved_by_this_review": false,
+    "next_scope": "Register the exact prospective TASK3 common-anchor A/B support comparison, post-origin power contract, compact nuisance-rank handling and complete train 346/val 107/test 76 scoring. The user-authorized continuation still requires its bounded plan and exact implementation review.",
+    "test_rule": "Read synthetic test records for coverage and report consistency only; no test metric enters acceptance or next-stage design."
+  },
+  "operations": {
+    "numpy_rhs": 233280,
+    "checkpoint_decodes": 4,
+    "fits": 4,
+    "momentum_objectives": 442,
+    "momentum_qr": 7072,
+    "momentum_nuisance_svd": 7072,
+    "momentum_linear_solves": 442,
+    "momentum_design_spectrum": 442,
+    "momentum_nuisance_solves": 7072,
+    "val_checks": 44,
+    "rollouts": 550,
+    "tangent_rhs": 58080,
+    "torch_rhs": 1450251,
+    "qr": 3168,
+    "svd": 3168,
+    "matrix_products": 3168,
+    "triangular_solves": 3168,
+    "function_checks": 11,
+    "curvature_spectra": 7128
+  },
+  "elapsed_seconds": 355.6267346999957,
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "cuda": "13.0",
+    "score_device": "NVIDIA GeForce RTX 4060 Ti",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "torch": "2.13.0+cu130"
+  },
+  "independent_saved_evidence_audit": {
+    "status": "PASS",
+    "checks": 296550,
+    "artifact_hashes": 97,
+    "journal_rows": 294517,
+    "formal_models": 11,
+    "model_event_rows": 352,
+    "full_val_checkpoints": 44,
+    "checks_performed": [
+      "Recomputed budget totals from every append-only operation journal record.",
+      "Verified every immutable artifact byte hash and each model-freeze digest.",
+      "Recomputed per-role pooled and event-mean trajectory summaries from saved per-event scalar scores.",
+      "Recomputed confusion counts and accuracy from saved event classifications.",
+      "Verified all numerical/known/physical/recovery thresholds and all four selected checkpoints against complete-val scalar records.",
+      "Checked final stiffness, port-squared and time constants against the selected saved physical coefficient vectors."
+    ],
+    "model_calls": 0,
+    "fits": 0,
+    "npz_decodes": 0,
+    "checkpoint_decodes": 0,
+    "test_used_for_acceptance": false
+  }
+}

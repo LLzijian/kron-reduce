@@ -6,14 +6,15 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
-The [joint-equation synthetic report](../reports/machine_local_equation_20261114_zh.md)
-covers 74 shared coefficients and two candidate function families. Full val
-selected the correct support on all three fixed known-truth populations.
-The memory-kernel error exceeded 5% in each population, and the damping
-population failed the long-horizon trajectory gate. The synthetic authority
-is consumed and TASK3 fitting remains gated. The next preparation compares
-fixed-support coefficient substitutions on the complete synthetic train rosters.
-[Independent result review](machine_local_equation_result_review_20261114.json).
+The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
+showed compensation between the fitted visible and memory coefficients across
+all three known-truth train rosters. The subsequent
+[momentum calibration](../reports/machine_local_memory_calibration_20261114_zh.md)
+passed all fixed-support recovery gates.
+[Independent result review](machine_local_memory_calibration_result_review_20261114.json).
+The [TASK3 momentum protocol](../protocols/kiki_machine_local_memory_v1_zh.md)
+defines the full-roster real-data comparison. Complete val selects the
+coefficients and function terms before the separate frozen test stage.
 
 The [paired R20/R21 report](../reports/kiki_machine_local_r20_r21_20261114_zh.md)
 covers both models on all 346 train, 107 val and 76 test events. Both selected
