@@ -1,8 +1,11 @@
 import math
+from importlib.metadata import version
 
+import pytest
 import torch
 
 from kron_reduce.evaluation import kiki_machine_local_r20_r21 as paired
+from kron_reduce.workflows import kiki_machine_local_r20_r21 as workflow
 
 
 class _FakeModel(torch.nn.Module):
@@ -85,3 +88,46 @@ def test_null_checkpoint_does_not_advance_joint_patience(tmp_path, monkeypatch):
     assert [row["joint_patience_count"] for row in selection["checkpoints"]] == [0, 0, 1, 2]
     assert result["r20"]["selected_update"] == 10
     assert result["r21"]["selected_update"] == 10
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable")
+def test_cuda_authorization_uses_the_registered_experiment_and_approval(tmp_path, monkeypatch):
+    import json
+
+    name, authorization = "paired_cuda_fit_fixture", "paired_cuda_fit_fixture_approval"
+    entry = {"module": workflow.MODULE, "workflow": "paired_cuda_fixture", "stage": "fit",
+             "development_authorization_id": authorization}
+    plan = {"stage": "fit", "device": "cuda:0", "protocol_path": "protocol.md",
+            "protocol_sha256": "fixture", "operation_limits": {"fit": {}},
+            "settings": {"updates": 80, "train_batch": 64, "eval_batch": 16,
+                         "val_interval": 10, "val_patience": 3},
+            "implementation_bindings": {}, "backbone": {},
+            "source_contract": {"path": "source.json", "sha256": "fixture"}}
+    auth = {"status": "active", "max_executions": 1, "retry_allowed": False, "experiment": name,
+            "fit_attempts": 2, "plan_path": "plan.json", "plan_sha256": "fixture",
+            "review_path": "review.json", "review_sha256": "fixture", "operation_limits": {}}
+    for filename, data in (("plan.json", plan), ("source.json", {"sources": {}, "backbone": {},
+                            "task3_root": "fixture", "external_code": {}}),
+                           ("review.json", {"approved": True, "plan_sha256": "fixture",
+                                            "implementation_bindings": {}})):
+        (tmp_path / filename).write_text(json.dumps(data), encoding="utf-8")
+    (tmp_path / "requirements").mkdir()
+    pins = [f"{package}=={version(package).split('+')[0]}"
+            for package in ("numpy", "scipy", "torch", "filelock", "h5py")]
+    (tmp_path / "requirements/constraints-py312.txt").write_text("\n".join(pins), encoding="utf-8")
+    monkeypatch.setattr(workflow, "assert_clean", lambda *_: None)
+    monkeypatch.setattr(workflow, "verify_bound_file", lambda *_: None)
+    monkeypatch.setattr(workflow, "validate_run_policy", lambda *_: None)
+    monkeypatch.setattr(workflow, "load_manifest", lambda _: {"experiments": {name: entry}})
+    monkeypatch.setattr(workflow, "load_policy", lambda _: {"development_evaluations": {authorization: auth}})
+    monkeypatch.setattr(workflow, "load_state", lambda _, workflow_name: workflow_name)
+    monkeypatch.setattr(workflow, "approval_recorded", lambda state, stage: (state, stage) == (entry["workflow"], "fit"))
+    monkeypatch.setenv("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+
+    actual_name, actual_entry, actual_plan, actual_authorization = workflow.authorize(tmp_path, "fit", name)
+    assert (actual_name, actual_entry, actual_authorization) == (name, entry, authorization)
+    assert actual_plan["device"] == "cuda:0"
+    assert actual_plan["sources"]["allowed_roles"] == ["train", "val"]
+    auth["status"] = "consumed"
+    with pytest.raises(RuntimeError, match="scope not active"):
+        workflow.authorize(tmp_path, "fit", name)

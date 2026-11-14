@@ -94,7 +94,7 @@ def fit_pair(models, train, val, scales, budget, directory, settings):
                 rows[group] = result
                 state = snapshot(models[group])
                 np.savez_compressed(directory/group/f'val-checkpoint-{update:02d}.npz',
-                                    **{k: v.numpy() for k, v in state.items()})
+                                    **{k: v.cpu().numpy() for k, v in state.items()})
                 value = result['nmse']
                 if value is None:
                     continue
@@ -193,6 +193,11 @@ def score(model, events, scales, budget, directory, role, settings):
 def execute(root, directory, plan, stage):
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
+    device = torch.device(plan.get('device', 'cpu'))
+    if device.type == 'cuda':
+        if not torch.cuda.is_available():
+            raise RuntimeError('registered CUDA device is unavailable')
+        device = torch.device('cuda', torch.cuda.current_device() if device.index is None else device.index)
     sys.dont_write_bytecode = True
     sys.path.insert(0, str(Path(plan['task3_root'])/'src'))
     settings = plan['settings']
@@ -225,6 +230,8 @@ def execute(root, directory, plan, stage):
                 'target_points': [min(300, len(e['x'])-11) for e in val]})
             if not all(np.allclose(e['mass'], models['r20'].mass.numpy(), rtol=0, atol=1e-12) for e in train+val):
                 raise ValueError('backbone and data mass differ')
+            for model in models.values():
+                model.to(device)
             training = fit_pair(models, train, val, scales, budget, directory, settings)
             freeze_pair(root, directory, 'freeze', models, scales, plan, training)
             models = {group: model.freeze_effective_stiffness() for group, model in models.items()}
@@ -241,14 +248,16 @@ def execute(root, directory, plan, stage):
                 forecaster = FrozenMachineLocalForecaster.load_checkpoint(path)
                 if forecaster.max_step != .0025 or not np.array_equal(forecaster.history_scale.numpy(), scales['history']):
                     raise RuntimeError('checkpoint forecast settings differ from common freeze')
-                models[group] = forecaster.model.requires_grad_(False)
+                models[group] = forecaster.model.to(device).requires_grad_(False)
                 (directory/group).mkdir()
             roles = {'test': reader.load('test', freeze_path=freeze_path)}
         records = {group: {role: score(model, events, scales, budget, directory/group, role, settings)
                            for role, events in roles.items()} for group, model in models.items()}
         summary = {'process_status': 'PASS', 'source_commit': git_head(root), 'training': training,
             'records': records, 'operations': dict(budget.counts), 'wall_seconds': time.perf_counter()-started,
-            'runtime': {'python': sys.version, 'executable': sys.executable,
+            'runtime': {'python': sys.version, 'executable': sys.executable, 'device': str(device),
+                        'cuda_build': torch.version.cuda,
+                        'gpu': torch.cuda.get_device_name(device) if device.type == 'cuda' else None,
                         **{name: version(name) for name in ('torch', 'numpy', 'scipy', 'filelock', 'h5py')}},
             'promotion_decision': 'KEEP_BASELINE', 'scientific_pass': False,
             'claim_boundary': 'Full TASK3 paired R20/R21 with common initialization and frozen validation selection.'}

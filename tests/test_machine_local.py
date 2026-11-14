@@ -181,7 +181,7 @@ def test_invalid_shapes_dtype_and_non_coi_rollout_are_rejected():
     state, power, equilibrium = _state_and_inputs()
     with pytest.raises(ValueError, match="dimensions differ"):
         model.rhs(torch.tensor(state[:-1]), torch.tensor(power), torch.tensor(equilibrium))
-    with pytest.raises(ValueError, match="CPU float64"):
+    with pytest.raises(ValueError, match="float64"):
         model.rhs(torch.tensor(state, dtype=torch.float32), torch.tensor(power), torch.tensor(equilibrium))
 
     initial = torch.tensor(state[None, :])

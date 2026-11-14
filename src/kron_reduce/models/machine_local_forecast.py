@@ -36,7 +36,7 @@ class FrozenMachineLocalForecaster(torch.nn.Module):
         if max_step not in (0.005, 0.0025, 0.00125):
             raise ValueError("max_step must use a registered nonlinear-history RK4 step")
         self.model = model
-        self.register_buffer("history_scale", torch.tensor(scale, dtype=torch.float64))
+        self.register_buffer("history_scale", model._tensor(scale).clone())
         self.max_step = float(max_step)
 
     def get_extra_state(self):
@@ -63,7 +63,11 @@ class FrozenMachineLocalForecaster(torch.nn.Module):
         if self.model.log_stiffness_factor is not None:
             raise ValueError("fold the effective stiffness into the model before export")
         with Path(path).open("xb") as stream:
-            torch.save(self.state_dict(), stream)
+            state = self.state_dict()
+            for key, value in state.items():
+                if isinstance(value, torch.Tensor):
+                    state[key] = value.cpu()
+            torch.save(state, stream)
 
     @classmethod
     def load_checkpoint(cls, path):
@@ -130,10 +134,10 @@ class FrozenMachineLocalForecaster(torch.nn.Module):
         with torch.no_grad():
             return predict_from_history(
                 self.model,
-                torch.as_tensor(np.stack([item.delta for item in histories]), dtype=torch.float64),
-                torch.as_tensor(np.stack([item.omega for item in histories]), dtype=torch.float64),
-                torch.as_tensor(np.stack([item.constant_power for item in histories]), dtype=torch.float64),
-                torch.as_tensor(equilibria, dtype=torch.float64),
+                np.stack([item.delta for item in histories]),
+                np.stack([item.omega for item in histories]),
+                np.stack([item.constant_power for item in histories]),
+                equilibria,
                 self.history_scale,
                 count,
                 max_step=self.max_step,

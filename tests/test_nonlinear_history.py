@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 import torch
 
+from kron_reduce.evaluation.state_port_training import loss
 from kron_reduce.models.differentiable_history import UnresolvedHistoryError
 from kron_reduce.models.machine_local import DiagonalMemoryModel
 from kron_reduce.models.nonlinear_history import (
@@ -16,7 +17,8 @@ def _project(value, mass):
     return value - (value @ mass)[:, None] / mass.sum()
 
 
-def _model(*, backbone="sine", port=(0.3, 0.4, 0.5), tau=(0.08, 0.2, 0.7)):
+def _model(*, backbone="sine", port=(0.3, 0.4, 0.5), tau=(0.08, 0.2, 0.7),
+           train_stiffness=False):
     mass = np.array([1.0, 1.2, 0.8], dtype=np.float64)
     closure = NonlinearPassiveClosure(
         mass=mass,
@@ -34,6 +36,7 @@ def _model(*, backbone="sine", port=(0.3, 0.4, 0.5), tau=(0.08, 0.2, 0.7)):
         tau=np.asarray(tau, dtype=np.float64),
         encoder=np.zeros((3, 24), dtype=np.float64),
         feature_scale=np.ones(24, dtype=np.float64),
+        train_stiffness=train_stiffness,
     )
 
 
@@ -178,3 +181,73 @@ def test_rank_deficient_history_is_rejected():
     with pytest.raises(UnresolvedHistoryError, match="rank/conditioning failed"):
         predict_from_history(model, q, v, power, equilibrium, torch.ones(6, dtype=torch.float64), 2,
                              max_step=0.005, spend=_spend)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable")
+def test_cuda_history_prediction_and_gradients_match_cpu():
+    cpu = _model(train_stiffness=True)
+    histories = [_problem(cpu, hidden=hidden) for hidden in ((.08, -.05, .03), (.03, .07, -.02))]
+    q, v, power, equilibrium, initial = (torch.cat(rows).detach() for rows in zip(*histories, strict=True))
+    scale = torch.tensor([0.4, 0.5, 0.6, 0.8, 0.9, 1.0], dtype=torch.float64)
+    target = _model(port=(0.36, 0.34, 0.57), tau=(0.11, 0.16, 0.9))
+    target_path = target.rollout(initial, power, equilibrium, 4,
+                                 max_step=0.005, linear_fast=False)[:, 1:, :6].detach()
+
+    cpu_spend, cuda_spend = [], []
+    cpu_result = predict_from_history(cpu, q, v, power, equilibrium, scale, 4,
+                                      max_step=0.005,
+                                      spend=lambda *item: cpu_spend.append(item))
+    gpu = _model(train_stiffness=True).to("cuda")
+    gpu_result = predict_from_history(gpu, q, v, power, equilibrium, scale, 4,
+                                      max_step=0.005,
+                                      spend=lambda *item: cuda_spend.append(item))
+    for key in ("hidden_start", "history", "forecast", "iterates", "iteration_residuals",
+                "gn_hidden_start"):
+        torch.testing.assert_close(gpu_result[key].cpu(), cpu_result[key], rtol=2e-7, atol=2e-9)
+    assert all(value.device.type == "cuda" for value in gpu_result.values())
+    assert sorted(cpu_spend) == sorted(cuda_spend)
+    with pytest.raises(ValueError):
+        predict_from_history(gpu, q, v, power, equilibrium, scale, -1,
+                             max_step=0.005, spend=_spend)
+
+    def gradients(model, device):
+        result = predict_from_history(model, q, v, power, equilibrium, scale, 4,
+                                      max_step=0.005, spend=_spend)
+        truth = torch.cat((torch.cat((q[:, -1:], v[:, -1:]), dim=-1), target_path), dim=1)
+        value = loss(result["forecast"], truth.to(device), [.5, .5], scale.numpy(), [4, 2])
+        params = (model.port_parameter, model.rate_parameter, model.log_stiffness_factor)
+        return torch.autograd.grad(value, params)
+
+    cpu_grad = gradients(cpu, "cpu")
+    gpu_grad = gradients(gpu, "cuda")
+    for actual, expected in zip(gpu_grad, cpu_grad, strict=True):
+        assert torch.isfinite(actual).all()
+        torch.testing.assert_close(actual.cpu(), expected, rtol=2e-5, atol=2e-8)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable")
+@pytest.mark.parametrize("max_step", [0.0025, 0.00125])
+def test_cuda_public_forecaster_predict_and_checkpoint_round_trip(tmp_path, max_step):
+    from kron_reduce.data.history_contract import CausalStateHistory
+    from kron_reduce.models.machine_local_forecast import FrozenMachineLocalForecaster
+
+    model = _model()
+    q, v, power, equilibrium, _ = _problem(model)
+    history = CausalStateHistory(-np.arange(10, -1, -1)*0.01, q[0].detach().numpy(), v[0].detach().numpy(),
+                                 power[0].numpy())
+    forecaster = FrozenMachineLocalForecaster(model.to("cuda"), np.ones(6), max_step=max_step)
+    spent = {}
+
+    def spend(key, amount=1):
+        spent[key] = spent.get(key, 0) + amount
+
+    # A non-multiple of ten exercises the final eager frames after CUDA replay.
+    gpu = forecaster.predict_batch([history], equilibrium.numpy(), 103, spend=spend)
+    assert all(value.device.type == "cuda" for value in gpu.values())
+    assert spent["torch_rhs"] == 4*round(.01/max_step)*(3*10+10+103)
+    path = tmp_path / "cuda-forecaster.pt"
+    forecaster.save_checkpoint(path)
+    restored = FrozenMachineLocalForecaster.load_checkpoint(path)
+    cpu = restored.predict_batch([history], equilibrium.numpy(), 103)
+    for key in ("hidden_start", "history", "forecast", "iterates", "gn_hidden_start"):
+        torch.testing.assert_close(gpu[key].cpu(), cpu[key], rtol=2e-7, atol=2e-9)

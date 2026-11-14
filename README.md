@@ -96,6 +96,43 @@ GitHub Actions checks policy and synthetic fixtures on pushes and pull requests.
 Install with `pip install -e '.[dev]' -c requirements/constraints-py312.txt` on
 Python 3.12; the constraint file records tested core versions.
 
+### CUDA for machine-local forecasts
+
+On Windows with a compatible NVIDIA driver, install the pinned CUDA build in
+a separate Python 3.12 environment. See the [official PyTorch CUDA 13.0 wheel index](https://download.pytorch.org/whl/cu130/torch/).
+
+```powershell
+py -3.12 -m venv scratch/.venv-cu130
+./scratch/.venv-cu130/Scripts/python.exe -m pip install torch==2.13.0 --index-url https://download.pytorch.org/whl/cu130
+./scratch/.venv-cu130/Scripts/python.exe -m pip install -e '.[dev]' -c requirements/constraints-py312.txt
+$env:CUBLAS_WORKSPACE_CONFIG = ':4096:8'
+./scratch/.venv-cu130/Scripts/python.exe -m pytest tests/test_nonlinear_history.py -k cuda
+```
+
+Move a loaded `FrozenMachineLocalForecaster` to CUDA with `.to('cuda')`.
+`predict_batch` returns tensors on the model device, and `predict` returns a
+NumPy array. Checkpoints saved on CUDA load on CPU. For a new registered
+paired experiment, bind `"device": "cuda:0"` in the exact fit or test plan and
+pass the registered ID through `--experiment` to its workflow entry point.
+With no `device` in the plan, the entry point uses CPU.
+
+The CUDA forecast groups ten 10 ms output frames in a replayable GPU graph.
+RHS and hidden-state solve budgets still count stages and events, respectively.
+The CPU and CUDA paths both use float64, projected RK4 and three Gauss–Newton
+updates. The rank check and the final trajectory check run outside the graph.
+
+On an i5-13400F and RTX 4060 Ti, the median of five warmed runs on a synthetic
+64-event batch was as follows. Training includes a 3 s rollout at 5 ms,
+backpropagation and one Adam update. Forecasting includes the initializer and
+an 8 s rollout at 2.5 ms. The benchmark measures model work with inputs already
+on the selected device. Dataset reads, operation logs and scoring are outside
+the timing window.
+
+| Workload | CPU before optimization | CPU after optimization | CUDA after optimization |
+|---|---:|---:|---:|
+| Training batch | 8.03 s | 4.66 s | 9.52 s |
+| Frozen forecast batch | 9.42 s | 5.74 s | 2.11 s |
+
 ## Artifact locations
 
 - Immutable numerical evidence: `results/<run-id>/`

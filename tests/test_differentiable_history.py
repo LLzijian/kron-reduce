@@ -74,7 +74,7 @@ def test_solve_hidden_rejects_invalid_matrices(case):
     elif case == "rhs_inf":
         rhs[0, 0] = torch.inf
 
-    with pytest.raises(ValueError, match="finite CPU float64 observation matrices required"):
+    with pytest.raises(ValueError, match="finite float64 observation matrices"):
         solve_hidden(design, rhs, spend=lambda *_: None)
 
 

@@ -13,12 +13,13 @@ DT = 0.01
 HORIZONS = (1.0, 3.0)
 
 
-def _float64_cpu(value, name):
+def _float64_tensor(value, name, *, device="cpu"):
     if isinstance(value, torch.Tensor):
-        if value.dtype != torch.float64 or value.device.type != "cpu":
-            raise ValueError(f"{name} must be CPU float64")
+        if value.dtype != torch.float64 or value.device != torch.device(device):
+            location = "CPU" if torch.device(device).type == "cpu" else str(device)
+            raise ValueError(f"{name} must be {location} float64")
         return value
-    return torch.tensor(value, dtype=torch.float64)
+    return torch.as_tensor(value, dtype=torch.float64, device=device)
 
 
 def _call_rhs(field, state, power, equilibrium, calls, location):
@@ -41,9 +42,9 @@ def rollout(model: StatePortClosure, initial, power, equilibrium, counts, *, max
     """Roll out shared initial states, skipping each sample after its last target."""
     if not isinstance(model, StatePortClosure):
         raise TypeError("rollout requires a StatePortClosure")
-    initial = _float64_cpu(initial, "initial")
-    power = _float64_cpu(power, "power")
-    equilibrium = _float64_cpu(equilibrium, "equilibrium")
+    initial = _float64_tensor(initial, "initial")
+    power = _float64_tensor(power, "power")
+    equilibrium = _float64_tensor(equilibrium, "equilibrium")
     counts = np.asarray(counts)
     n, r = model.n_nodes, model.latent_dimension
     if (initial.ndim != 2 or initial.shape[1] != 2 * n + r or not len(initial)
@@ -101,10 +102,11 @@ def loss(path, target, weights, scale, counts, *, return_events=False):
     """Equal-weight 1 s/3 s event losses, with no score after each true prefix."""
     if type(return_events) is not bool:
         raise TypeError("return_events must be a bool")
-    path = _float64_cpu(path, "path")
-    target = _float64_cpu(target, "target")
-    weights = _float64_cpu(weights, "weights")
-    scale = _float64_cpu(scale, "scale")
+    device = path.device if isinstance(path, torch.Tensor) else torch.device("cpu")
+    path = _float64_tensor(path, "path", device=device)
+    target = _float64_tensor(target, "target", device=device)
+    weights = _float64_tensor(weights, "weights", device=device)
+    scale = _float64_tensor(scale, "scale", device=device)
     counts = np.asarray(counts)
     if (path.ndim != 3 or target.ndim != 3 or path.shape[0] < 1
             or path.shape[:2] != target.shape[:2]
@@ -121,9 +123,9 @@ def loss(path, target, weights, scale, counts, *, return_events=False):
         raise ValueError("path, target, weights, scale, and counts are not aligned finite inputs")
     visible = path[:, :, : target.shape[2]]
     normalized = ((visible[:, 1:] - target[:, 1:]) / scale).square().mean(dim=2)
-    time_index = torch.arange(1, target.shape[1], dtype=torch.int64)
-    count_tensor = torch.as_tensor(counts, dtype=torch.int64)
-    event_loss = torch.zeros(path.shape[0], dtype=torch.float64)
+    time_index = torch.arange(1, target.shape[1], dtype=torch.int64, device=device)
+    count_tensor = torch.as_tensor(counts, dtype=torch.int64, device=device)
+    event_loss = path.new_zeros(path.shape[0])
     for horizon_s in HORIZONS:
         horizon_count = round(horizon_s / DT)
         lengths = torch.clamp(count_tensor, max=horizon_count)

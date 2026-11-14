@@ -99,13 +99,12 @@ class DiagonalMemoryModel(torch.nn.Module):
             np.diag(1/array(self.tau)), self.backbone_kind,
         )
 
-    @staticmethod
-    def _tensor(value):
+    def _tensor(self, value):
         if isinstance(value, torch.Tensor):
-            if value.dtype != torch.float64 or value.device.type != "cpu":
-                raise ValueError("research model requires CPU float64")
-            return value
-        return torch.tensor(value, dtype=torch.float64)
+            if value.dtype != torch.float64:
+                raise ValueError("research model requires float64")
+            return value.to(self.mass.device)
+        return torch.as_tensor(value, dtype=torch.float64, device=self.mass.device)
 
     def rhs(self, state, power, equilibrium):
         state, power, equilibrium = map(self._tensor, (state, power, equilibrium))
@@ -115,33 +114,79 @@ class DiagonalMemoryModel(torch.nn.Module):
             raise ValueError("state, power and equilibrium dimensions differ")
         if not all(torch.isfinite(v).all() for v in (state, power, equilibrium)):
             raise ValueError("model inputs must be finite")
-        q, v, z = state[..., :n], state[..., n:2*n], state[..., 2*n:]
-        edge, reference = q @ self.incidence, equilibrium @ self.incidence
-        force = edge if self.backbone_kind == "linear" else torch.sin(edge+reference)-torch.sin(reference)
-        coupling = self.coupling
-        f = power - (force*self.effective_stiffness) @ self.incidence.T - v @ self.damping.T - z @ coupling.T
-        return torch.cat((v, (f @ self.power_projection.T)/self.mass,
-                          v @ coupling-z/self.tau), dim=-1)
+        return self._rhs(power, equilibrium)(state)
+
+    def _rhs(self, power, equilibrium, *, tangent=False):
+        """Prepare time-invariant terms once, within the current autograd graph."""
+        n = self.n_nodes
+        incidence, mass, projection, damping = self.incidence, self.mass, self.power_projection, self.damping
+        coupling, tau, stiffness = self.coupling, self.tau, self.effective_stiffness
+        sine = self.backbone_kind == "sine"
+        reference = equilibrium @ incidence if sine else None
+        reference_force = torch.sin(reference) if sine else None
+        # Fuse the fixed linear terms into one small state matrix on CUDA.
+        if mass.is_cuda:
+            visible_linear = -(projection @ torch.cat((damping, coupling), dim=1))/mass[:, None]
+            hidden_linear = torch.cat((coupling.T, -torch.diag(tau.reciprocal())), dim=1)
+            linear = torch.cat((visible_linear, hidden_linear), dim=0)
+            edge_force = -(projection @ incidence)/mass[:, None]
+            edge_force = (edge_force * stiffness).T
+            applied = (power @ projection.T)/mass
+
+            def cuda_field(state, sensitivity=None):
+                q, vz = state[..., :n], state[..., n:]
+                angle = q @ incidence
+                force = torch.sin(angle + reference) - reference_force if sine else angle
+                linear_value = vz @ linear.T
+                acceleration = linear_value[..., :n] + applied + force @ edge_force
+                derivative = torch.cat((vz[..., :n], acceleration, linear_value[..., n:]), dim=-1)
+                if not tangent:
+                    return derivative
+                sq, svz = sensitivity[:, :n], sensitivity[:, n:]
+                slope = torch.cos(angle + reference)[..., None] if sine else 1.
+                linear_response = linear @ svz
+                edge_response = edge_force.T @ (slope*(incidence.T @ sq))
+                return derivative, torch.cat((svz[:, :n], linear_response[:, :n]+edge_response,
+                                              linear_response[:, n:]), dim=1)
+
+            return cuda_field
+
+        def field(state, sensitivity=None):
+            q, v, z = state[..., :n], state[..., n:2*n], state[..., 2*n:]
+            edge = q @ incidence
+            angle = edge + reference if sine else edge
+            force = torch.sin(angle)-reference_force if sine else edge
+            f = power - (force*stiffness) @ incidence.T - v @ damping.T - z @ coupling.T
+            derivative = torch.cat((v, (f @ projection.T)/mass, v @ coupling-z/tau), dim=-1)
+            if not tangent:
+                return derivative
+            sq, sv, sz = sensitivity[:, :n], sensitivity[:, n:2*n], sensitivity[:, 2*n:]
+            slope = stiffness * torch.cos(angle) if sine else stiffness
+            force_sensitivity = incidence @ (slope[..., None]*(incidence.T @ sq)) + damping @ sv + coupling @ sz
+            return derivative, torch.cat((sv, -(projection @ force_sensitivity)/mass[None, :, None],
+                                          coupling.T @ sv-sz/tau[None, :, None]), dim=1)
+
+        return field
 
     def _linear_transition(self, max_step, spend):
         n, r = self.n_nodes, self.latent_dimension
         size = 3*n+r
-        a = torch.zeros((size, size), dtype=torch.float64)
+        a = self.mass.new_zeros((size, size))
         p, c = self.power_projection, self.coupling
         inv_mass = 1/self.mass[:, None]
-        a[:n, n:2*n] = torch.eye(n, dtype=torch.float64)
+        a[:n, n:2*n] = torch.eye(n, dtype=a.dtype, device=a.device)
         a[n:2*n, :n] = -inv_mass*(p @ (self.incidence*self.effective_stiffness) @ self.incidence.T)
         a[n:2*n, n:2*n] = -inv_mass*(p @ self.damping)
         a[n:2*n, 2*n:2*n+r] = -inv_mass*c
         a[n:2*n, 2*n+r:] = inv_mass*p
         a[2*n:2*n+r, n:2*n] = c.T
         a[2*n:2*n+r, 2*n:2*n+r] = -torch.diag(1/self.tau)
-        projection = torch.eye(size, dtype=torch.float64)
+        identity = torch.eye(size, dtype=a.dtype, device=a.device)
+        projection = identity.clone()
         projection[:n, :n] = p.T
         projection[n:2*n, n:2*n] = p.T
         substeps = round(.01/max_step)
         h = .01/substeps
-        identity = torch.eye(size, dtype=torch.float64)
         ah = a*h
         spend("matrix_products", 3)
         a2 = ah @ ah
@@ -154,6 +199,17 @@ class DiagonalMemoryModel(torch.nn.Module):
             spend("matrix_products", 1)
             output_step = output_step @ step
         return output_step
+
+    def _rk4_step(self, state, field, h, mass_sum):
+        a = field(state)
+        b = field(state+h*a/2)
+        c = field(state+h*b/2)
+        d = field(state+h*c)
+        state = state+h*(a+2*b+2*c+d)/6
+        n = self.n_nodes
+        q, v = state[:, :n], state[:, n:2*n]
+        return torch.cat((q-(q@self.mass)[:, None]/mass_sum,
+                          v-(v@self.mass)[:, None]/mass_sum, state[:, 2*n:]), dim=1)
 
     def rollout(self, initial, power, equilibrium, count, *, max_step=.005,
                 linear_fast=True, spend=None):
@@ -175,7 +231,7 @@ class DiagonalMemoryModel(torch.nn.Module):
         spend("rollouts", 1)
         if self.backbone_kind == "linear" and linear_fast:
             f = self._linear_transition(max_step, spend)
-            powers = torch.eye(f.shape[0], dtype=torch.float64)[None]
+            powers = torch.eye(f.shape[0], dtype=f.dtype, device=f.device)[None]
             block = f
             while len(powers) < count+1:
                 spend("matrix_products", len(powers))
@@ -187,25 +243,54 @@ class DiagonalMemoryModel(torch.nn.Module):
             spend("matrix_products", count+1)
             result = torch.einsum("tij,bj->bti", powers[:count+1], state)[..., :2*n+r]
         else:
-            state, outputs = initial, [initial]
+            field = self._rhs(power, equilibrium)
+            mass_sum = self.mass.sum()
             substeps = round(.01/max_step)
             h = .01/substeps
-            for _ in range(count):
+
+            def frame(state):
                 for _ in range(substeps):
-                    spend("torch_rhs", 4)
-                    a = self.rhs(state, power, equilibrium)
-                    b = self.rhs(state+h*a/2, power, equilibrium)
-                    c = self.rhs(state+h*b/2, power, equilibrium)
-                    d = self.rhs(state+h*c, power, equilibrium)
-                    state = state+h*(a+2*b+2*c+d)/6
-                    q, v = state[:, :n], state[:, n:2*n]
-                    state = torch.cat((q-(q@self.mass)[:, None]/self.mass.sum(),
-                                       v-(v@self.mass)[:, None]/self.mass.sum(), state[:, 2*n:]), dim=1)
-                outputs.append(state)
-            result = torch.stack(outputs, dim=1)
+                    state = self._rk4_step(state, field, h, mass_sum)
+                return state
+
+            if initial.is_cuda and not torch.is_grad_enabled() and count >= 100:
+                result = self._cuda_rollout(initial, count, frame, spend, 4*substeps)
+            else:
+                state, outputs = initial, [initial]
+                for _ in range(count):
+                    spend("torch_rhs", 4*substeps)
+                    state = frame(state)
+                    outputs.append(state)
+                result = torch.stack(outputs, dim=1)
         if not torch.isfinite(result).all() or torch.max(torch.abs(result)) > 1e12:
             raise FloatingPointError("nonfinite or divergent hidden-memory rollout")
         return result
+
+    @staticmethod
+    def _cuda_rollout(initial, count, frame, spend, calls_per_frame):
+        # A short graph amortizes launches without capturing a full 8 s trajectory.
+        block = 10
+        graph = torch.cuda.CUDAGraph()
+        state = initial.clone()
+        output = initial.new_empty((len(initial), count+1, initial.shape[1]))
+        output[:, 0] = initial
+        stream = torch.cuda.Stream(device=initial.device)
+        with torch.cuda.device(initial.device), torch.cuda.graph(graph, stream=stream):
+            next_state, states = state, []
+            for _ in range(block):
+                next_state = frame(next_state)
+                states.append(next_state)
+            frames = torch.stack(states, dim=1)
+        for start in range(1, count-block+2, block):
+            spend("torch_rhs", calls_per_frame*block)
+            graph.replay()
+            output[:, start:start+block] = frames
+            state.copy_(frames[:, -1])
+        for index in range(count-count % block+1, count+1):
+            spend("torch_rhs", calls_per_frame)
+            state = frame(state)
+            output[:, index] = state
+        return output
 
     def causal_rollout(self, history_q, history_v, power, equilibrium, features, count,
                        *, max_step=.005, linear_fast=True, spend=None, return_history=False):
@@ -235,4 +320,4 @@ class DiagonalMemoryModel(torch.nn.Module):
         with torch.no_grad():
             return self.causal_rollout(history.delta[None], history.omega[None],
                                       history.constant_power[None], np.asarray(equilibrium)[None],
-                                      features[None], count, max_step=max_step)[0].numpy()
+                                      features[None], count, max_step=max_step)[0].cpu().numpy()

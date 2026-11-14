@@ -109,7 +109,7 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                 completed += 1
             except NUMERICAL_ERRORS as error:
                 np.savez_compressed(directory/'failed_parameters.npz',
-                                    **{k: v.numpy() for k, v in snapshot(model).items()})
+                                    **{k: v.cpu().numpy() for k, v in snapshot(model).items()})
                 write_json(directory/'training_failure.json', {'update_attempt': update+1,
                     'completed_updates': completed, 'batch_offset': offset,
                     'error_type': type(error).__name__, 'message': str(error)})
@@ -150,27 +150,31 @@ def evaluate(model, events, scale, budget, directory, role, settings, *, predict
         with torch.no_grad():
             result = (predict_checked(model, *inputs(batch, scale), 800, max_step=step, spend=budget.spend)
                       if predictor is None else predictor(batch, step))
-        forecast = result['forecast'].numpy()
+        fields = ('forecast', 'hidden_start', 'history', 'gn_singular')
+        if predictor is not None:
+            fields += ('iteration_residuals', 'gn_hidden_start', 'iterates')
+        result = {field: result[field].cpu().numpy() for field in fields}
+        forecast = result['forecast']
         predictions[step][offset:offset+len(batch)] = forecast[:, :, :20]
         for i, event in enumerate(batch):
             diagnostics.append({'id': event['id'], 'step': step,
-                'hidden_start_energy': float(np.sum(result['hidden_start'][i].numpy()**2)/2),
-                'hidden_origin_energy': float(np.sum(result['history'][i, -1, 20:].numpy()**2)/2),
-                'history_nrmse': float(np.sqrt(np.mean(((result['history'][i, :, :20].numpy()-event['x'][:11])/scale)**2))),
+                'hidden_start_energy': float(np.sum(result['hidden_start'][i]**2)/2),
+                'hidden_origin_energy': float(np.sum(result['history'][i, -1, 20:]**2)/2),
+                'history_nrmse': float(np.sqrt(np.mean(((result['history'][i, :, :20]-event['x'][:11])/scale)**2))),
                 'singular_min': float(result['gn_singular'][:, i, -1].min())})
             if predictor is not None:
-                singular = result['gn_singular'][:, i].numpy()
-                residual = result['iteration_residuals'][:, i].numpy()
-                final = (result['history'][i, 1:, :20].numpy()-event['x'][1:11])/scale
+                singular = result['gn_singular'][:, i]
+                residual = result['iteration_residuals'][:, i]
+                final = (result['history'][i, 1:, :20]-event['x'][1:11])/scale
                 diagnostics[-1].update(
                     gn_residual_rms=np.r_[np.sqrt(np.mean(residual**2, axis=1)),
                                           np.sqrt(np.mean(final**2))].tolist(),
-                    gn_increment_norm=np.linalg.norm(result['gn_hidden_start'][:, i].numpy(), axis=1).tolist(),
-                    gn_hidden_norm=np.linalg.norm(result['iterates'][:, i].numpy(), axis=1).tolist(),
+                    gn_increment_norm=np.linalg.norm(result['gn_hidden_start'][:, i], axis=1).tolist(),
+                    gn_hidden_norm=np.linalg.norm(result['iterates'][:, i], axis=1).tolist(),
                     gn_singular_values=singular.tolist(),
                     gn_rank=np.count_nonzero(singular > 64*np.finfo(np.float64).eps*200*singular[:, :1], axis=1).tolist(),
                     gn_condition=(singular[:, 0]/singular[:, -1]).tolist(),
-                    visible_reset=(event['x'][10]-result['history'][i, -1, :20].numpy()).tolist())
+                    visible_reset=(event['x'][10]-result['history'][i, -1, :20]).tolist())
 
     for offset in range(0, len(events), settings['eval_batch']):
         batch = events[offset:offset+settings['eval_batch']]
