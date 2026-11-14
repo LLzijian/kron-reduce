@@ -12,9 +12,12 @@ all three known-truth train rosters. The subsequent
 [momentum calibration](../reports/machine_local_memory_calibration_20261114_zh.md)
 passed all fixed-support recovery gates.
 [Independent result review](machine_local_memory_calibration_result_review_20261114.json).
-The [TASK3 momentum protocol](../protocols/kiki_machine_local_memory_v1_zh.md)
-defines the full-roster real-data comparison. Complete val selects the
-coefficients and function terms before the separate frozen test stage.
+The [TASK3 momentum comparison](../reports/kiki_machine_local_memory_20261114_zh.md)
+completed the full train, val and test rosters. All four fits stopped at a
+rank-deficient nuisance block. The selected models share the same equation,
+with all ten port amplitudes at the coefficient floor and degraded trajectory
+and stability scores. The result is `KEEP_BASELINE`.
+[Independent result review](kiki_machine_local_memory_result_review_20261114.json).
 
 The [paired R20/R21 report](../reports/kiki_machine_local_r20_r21_20261114_zh.md)
 covers both models on all 346 train, 107 val and 76 test events. Both selected
