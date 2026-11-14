@@ -1,6 +1,7 @@
 """Registered one-use run for the topology and memory engineering gate on synthetic truth."""
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import subprocess
@@ -16,73 +17,79 @@ from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy
 from project_harness.runner import _run_experiment
 
-NAME = "machine_local_topology_v1"
-AUTH = NAME+"_20261115"
-STAGE = "s0"
 MODULE = "kron_reduce.workflows.machine_local_topology"
-PLAN = f"configs/proposals/{NAME}.json"
-REVIEW = "docs/research/machine_local_topology_review_20261115.json"
+STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topology_closeout_v1"}
 
 
-def authorize(root):
+def authorize(root, stage):
     assert_clean(root)
-    entry = load_manifest(root)["experiments"][NAME]
-    expected = {"module": MODULE, "workflow": NAME, "stage": STAGE, "dataset": "synthetic_benchmark_registry_v1",
+    name = STUDIES[stage]
+    auth_id = name+"_20261115"
+    entry = load_manifest(root)["experiments"][name]
+    expected = {"module": MODULE, "workflow": name, "stage": stage, "dataset": "synthetic_benchmark_registry_v1",
                 "execution_mode": "bounded_synthetic_cli_only", "data_policy": "analytic_synthetic_only"}
     if (sys.version_info[:2] != (3, 12) or any(entry.get(k) != v for k, v in expected.items())
-            or not approval_recorded(load_state(root, NAME), STAGE)):
+            or not approval_recorded(load_state(root, name), stage)):
         raise RuntimeError("synthetic runtime, registration or explicit loop approval differs")
-    auth = load_policy(root)["bounded_synthetic_evaluations"][AUTH]
-    scope = {"status": "active", "experiment": NAME, "workflow": NAME, "stage": STAGE,
+    policy = load_policy(root)["bounded_synthetic_evaluations"]
+    auth = policy[auth_id]
+    plan_path, review_path = auth["plan_path"], auth["review_path"]
+    scope = {"status": "active", "experiment": name, "workflow": name, "stage": stage,
              "real_data_reads": 0, "max_executions": 1, "retry_allowed": False,
-             "fit_attempts": 0, "plan_path": PLAN, "review_path": REVIEW}
+             "fit_attempts": 0}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active topology and memory scope differs")
-    verify_bound_file(root, PLAN, auth["plan_sha256"])
-    verify_bound_file(root, REVIEW, auth["review_sha256"])
-    plan, review = (json.loads((root/path).read_text(encoding="utf-8")) for path in (PLAN, REVIEW))
+    verify_bound_file(root, plan_path, auth["plan_sha256"])
+    verify_bound_file(root, review_path, auth["review_sha256"])
+    plan, review = (json.loads((root/path).read_text(encoding="utf-8")) for path in (plan_path, review_path))
     bindings = plan["implementation_bindings"]
-    if (plan["authorization"] != AUTH or plan["dataset"] != expected["dataset"]
-            or review.get("approved") is not True or review.get("plan_path") != PLAN
+    if (plan["authorization"] != auth_id or plan["dataset"] != expected["dataset"] or plan["stage"] != stage
+            or review.get("approved") is not True or review.get("plan_path") != plan_path
             or review.get("plan_sha256") != auth["plan_sha256"] or review.get("implementation_bindings") != bindings
             or auth["operation_limits"] != plan["operation_limits"]):
         raise RuntimeError("exact reviewed topology and memory plan required")
     for path, digest in bindings.items():
         verify_bound_file(root, path, digest)
+    if stage == "closeout":
+        previous = policy[STUDIES["s0"]+"_20261115"]
+        if (previous["status"] != "consumed" or previous["run_id"] != plan["source"]["run_id"]
+                or previous["failed_record_sha256"] != plan["source"]["files"]["RUN_FAILED.json"]):
+            raise RuntimeError("closeout requires the exact consumed serialization failure")
     pins = dict(line.strip().split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line.strip() and not line.startswith("#"))
     for package in ("numpy", "torch", "scipy"):
         expected_version = pins[package] + ("+cu130" if package == "torch" else "")
         if version(package) != expected_version:
             raise RuntimeError(f"unregistered runtime package: {package}")
-    return entry, plan
+    return entry, plan, auth
 
 
 def run(*, root, experiment, stage, result_dir, run_id):
-    entry, plan = authorize(root)
-    if experiment != entry or stage != STAGE or result_dir.parent != root/"results" or result_dir.name != run_id or any(result_dir.iterdir()):
+    entry, plan, auth = authorize(root, stage)
+    if experiment != entry or result_dir.parent != root/"results" or result_dir.name != run_id or any(result_dir.iterdir()):
         raise RuntimeError("topology and memory result directory or stage differs")
     _cuda_preflight()
     common = Path(subprocess.run(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"], cwd=root,
         capture_output=True, text=True, check=True).stdout.strip()).resolve(strict=True)
-    marker = common/"machine_local_topology_budgets"/(AUTH+".json")
+    marker = common/"machine_local_topology_budgets"/(plan["authorization"]+".json")
     marker.parent.mkdir(exist_ok=True)
     commit = git_head(root)
     with marker.open("x", encoding="utf-8") as stream:
-        json.dump({"run_id": run_id, "source_commit": commit, "plan_sha256": sha256_file(root/PLAN),
+        json.dump({"run_id": run_id, "source_commit": commit, "plan_sha256": auth["plan_sha256"],
                    "retry_allowed": False}, stream)
     import torch
 
     from kron_reduce.evaluation.constant_c_observability import write_json
     from kron_reduce.evaluation.machine_local_synthetic import Budget
-    from kron_reduce.evaluation.machine_local_topology import execute
+    from kron_reduce.evaluation.machine_local_topology import closeout, execute
 
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
     started = time.perf_counter()
     budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
     try:
-        summary = execute(root, result_dir, plan, budget)
+        kernel = closeout if stage == "closeout" else execute
+        summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()
     evidence = {"status": "PASS", "process_status": "PASS", "source_commit": commit,
@@ -103,11 +110,15 @@ def run(*, root, experiment, stage, result_dir, run_id):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stage", choices=STUDIES, default="s0")
+    stage = parser.parse_args().stage
     root = project_root()
-    with workflow_lock(root, NAME):
-        entry, _ = authorize(root)
+    name = STUDIES[stage]
+    with workflow_lock(root, name):
+        entry, _, _ = authorize(root, stage)
         _cuda_preflight()
-        print(_run_experiment(root, NAME, STAGE, experiment=entry))
+        print(_run_experiment(root, name, stage, experiment=entry))
 
 
 def _cuda_preflight():

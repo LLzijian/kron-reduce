@@ -2397,6 +2397,18 @@
       "execution_mode": "bounded_synthetic_cli_only",
       "reads_validation_performance": false,
       "reads_test_performance": false
+    },
+    "machine_local_topology_closeout_v1": {
+      "module": "kron_reduce.workflows.machine_local_topology",
+      "workflow": "machine_local_topology_closeout_v1",
+      "stage": "closeout",
+      "config": "machine_local_topology_closeout_v1.toml",
+      "status": "gated",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "data_policy": "analytic_synthetic_only",
+      "execution_mode": "bounded_synthetic_cli_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false
     }
   },
   "active_policy": "configs/research_policy.json",

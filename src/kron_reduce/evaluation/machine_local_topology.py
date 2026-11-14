@@ -1,6 +1,8 @@
 """Paired synthetic checks of event-conditioned coupling and passive memory."""
 from __future__ import annotations
 
+import json
+
 import numpy as np
 import torch
 
@@ -19,6 +21,7 @@ from kron_reduce.models.machine_local_topology import (
 )
 from kron_reduce.models.nonlinear_history import history_with_tangent
 from kron_reduce.models.nonlinear_latent import NonlinearPassiveClosure
+from project_harness.evidence import sha256_file
 
 SUPPORTS = ("T0M0", "T1M0", "T0M1", "T1M1")
 FORECAST_COUNT = 800
@@ -166,7 +169,7 @@ def null_checks(params, cases, budget):
         equilibrium = model._tensor(probe[-1][None, :])
         scale = model.mass.new_ones(20)
         (joint, _, _), = initial_spectrum(model, start, zero, equilibrium, scale, budget.spend)
-        rank = sum(value > 64*np.finfo(float).eps*200*joint[0] for value in joint)
+        rank = int(np.count_nonzero(np.asarray(joint) > 64*np.finfo(float).eps*200*joint[0]))
         outputs[support] = {"rank": rank, "columns": model.latent_dimension, "singular": joint,
                             "pass": rank == (0 if support == "T1M0" else 9)}
     return outputs
@@ -232,3 +235,18 @@ def execute(root, directory, plan, budget):
     passed = all(all(row["gates"].values()) for row in records.values()) and all(row["pass"] for row in negative.values())
     return {"engineering_pass": passed, "scientific_pass": False, "populations": records, "negative_controls": negative,
             "claim_boundary": "Analytic known-coefficient clean histories and paired supports; no shared-coefficient training."}
+
+
+def closeout(root, directory, plan, budget):
+    source = plan["source"]
+    data = root/"results"/source["run_id"]
+    for relative, digest in source["files"].items():
+        if sha256_file(data/relative) != digest:
+            raise RuntimeError(f"original S0 artifact differs: {relative}")
+    records = {name: json.loads((data/f"{name}.json").read_text(encoding="utf-8")) for name in SUPPORTS}
+    negatives = null_checks(parameters(), initial_cases(), budget)
+    write_json(directory/"source.json", source)
+    return {"engineering_pass": all(all(row["gates"].values()) for row in records.values())
+            and all(row["pass"] for row in negatives.values()), "scientific_pass": False,
+            "populations": records, "negative_controls": negatives, "source": source["run_id"],
+            "claim_boundary": "Verified saved S0 positive records and isolated negative spectra; no shared-coefficient fitting."}
