@@ -38,11 +38,12 @@ def test_public_predict_matches_registered_gauss_newton_and_resets_visible_origi
     equilibrium = np.array([.06, -.025, -.01])
     history = CausalStateHistory(-np.arange(10, -1, -1)*.01, q, v, power)
     actual = forecaster.predict(history, equilibrium, 3)
-    expected = predict_from_history(
-        forecaster.model, torch.tensor(q[None]), torch.tensor(v[None]),
-        torch.tensor(power[None]), torch.tensor(equilibrium[None]), forecaster.history_scale,
-        3, max_step=.005, spend=lambda *_: None,
-    )["forecast"][0].detach().numpy()
+    with torch.no_grad():
+        expected = predict_from_history(
+            forecaster.model, torch.tensor(q[None]), torch.tensor(v[None]),
+            torch.tensor(power[None]), torch.tensor(equilibrium[None]), forecaster.history_scale,
+            3, max_step=.005, spend=lambda *_: None,
+        )["forecast"][0].numpy()
     np.testing.assert_allclose(actual, expected, rtol=0, atol=1e-15)
     np.testing.assert_array_equal(actual[0, :6], np.r_[q[-1], v[-1]])
 
