@@ -3,8 +3,17 @@ import pytest
 import torch
 
 from kron_reduce.evaluation.machine_local_topology import energy_residual, make_model
-from kron_reduce.evaluation.machine_local_topology_truth import parameters
-from kron_reduce.models.machine_local_topology import _ball
+from kron_reduce.evaluation.machine_local_topology_truth import (
+    initial_cases,
+    parameters,
+    truth_rollout,
+)
+from kron_reduce.models.machine_local_topology import (
+    TopologyMemoryModel,
+    _ball,
+    predict_from_topology_history,
+)
+from kron_reduce.models.nonlinear_latent import NonlinearPassiveClosure
 
 
 @pytest.mark.parametrize("support", ["T0M0", "T1M0", "T0M1", "T1M1"])
@@ -39,3 +48,41 @@ def test_initialization_ball_preserves_interior_and_bounds_exterior():
     torch.testing.assert_close(result, x.new_tensor([[.3, .4], [.6, .8], [0., 0.]]))
     result.sum().backward()
     assert torch.isfinite(x.grad).all()
+
+
+def test_shared_coefficient_gradient_through_causal_forecast():
+    mass, k, d, g, tau, eq = params = parameters()
+    cases = initial_cases()
+    q, v, p, a, z = (cases[key][:1] for key in ("q", "v", "power", "a", "z"))
+    def no_spend(*_):
+        pass
+
+    truth = truth_rollout(params, q, v, p, a, z, count=12, max_step=.0025, spend=no_spend)
+    empty = np.zeros((0, 0))
+    backbone = NonlinearPassiveClosure(mass, k, d, np.zeros((10, 0)), empty, empty)
+    model = TopologyMemoryModel(backbone, topology=True, port=g*.98, tau=tau*1.02, train_scales=True)
+    with torch.no_grad():
+        model.log_stiffness_factor.fill_(.005)
+        model.log_damping_factor.fill_(-.005)
+
+    def loss():
+        predicted = predict_from_topology_history(model, truth[:, :11, :10], truth[:, :11, 10:20], p,
+                                                  eq[None], np.ones(20), 2, max_step=.005, spend=no_spend)
+        error = predicted["forecast"][:, 1:, :20]-model._tensor(truth[:, 11:, :20])
+        return error.square().mean()
+
+    variables = tuple(model.parameters())
+    directions = tuple(torch.linspace(.7, 1., x.numel(), dtype=x.dtype).reshape(x.shape) for x in variables)
+    gradients = torch.autograd.grad(loss(), variables)
+    initial = [x.detach().clone() for x in variables]
+    epsilon = 2e-6
+    with torch.no_grad():
+        for x, y, delta in zip(variables, initial, directions, strict=True):
+            x.copy_(y+epsilon*delta)
+        plus = float(loss())
+        for x, y, delta in zip(variables, initial, directions, strict=True):
+            x.copy_(y-epsilon*delta)
+        minus = float(loss())
+    analytic = float(sum((d*g).sum() for d, g in zip(directions, gradients, strict=True)))
+    assert all(torch.isfinite(grad).all() and torch.linalg.norm(grad) > 0 for grad in gradients)
+    assert analytic == pytest.approx((plus-minus)/(2*epsilon), rel=2e-3, abs=1e-10)

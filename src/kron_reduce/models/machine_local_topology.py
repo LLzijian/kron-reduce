@@ -12,12 +12,12 @@ from kron_reduce.models.nonlinear_history import history_with_tangent
 class TopologyMemoryModel(DiagonalMemoryModel):
     """State ordering q, v, memory, and zero-sum coupling coordinates."""
 
-    def __init__(self, backbone, *, topology, port, tau):
+    def __init__(self, backbone, *, topology, port, tau, train_scales=False):
         n = backbone.n_nodes
         has_memory = port is not None
         super().__init__(backbone, port_kind="local", port=port if has_memory else np.ones(n),
                          tau=tau if has_memory else np.ones(n), encoder=np.zeros((n, 8*n)),
-                         feature_scale=np.ones(8*n))
+                         feature_scale=np.ones(8*n), train_stiffness=train_scales)
         if backbone.backbone != "sine" or (tau is None) != (not has_memory):
             raise ValueError("sine backbone and paired memory coefficients required")
         del self.encoder
@@ -27,6 +27,8 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         self.memory_dimension = n if has_memory else 0
         self.topology_dimension = n-1 if topology else 0
         self.latent_dimension = self.memory_dimension+self.topology_dimension
+        self.register_parameter("log_damping_factor",
+                                torch.nn.Parameter(self.mass.new_zeros(())) if train_scales else None)
         self.register_buffer("edge_basis", self.incidence.abs().T @ self.basis[:, :self.topology_dimension])
 
     @property
@@ -41,14 +43,24 @@ class TopologyMemoryModel(DiagonalMemoryModel):
             return super().tau
         return self.mass[:0]
 
+    @property
+    def effective_damping(self):
+        if self.log_damping_factor is None:
+            return self.damping
+        return self.damping*self.log_damping_factor.exp()
+
     def node_correction(self, state):
         return state[..., 2*self.n_nodes+self.memory_dimension:] @ self.basis[:, :self.topology_dimension].T
 
     def edge_stiffness(self, state):
-        return self.stiffness*torch.exp(state[..., 2*self.n_nodes+self.memory_dimension:] @ self.edge_basis.T)
+        return self.effective_stiffness*torch.exp(
+            state[..., 2*self.n_nodes+self.memory_dimension:] @ self.edge_basis.T)
 
     def closure(self):
         raise ValueError("topology-conditioned states require the explicit model")
+
+    def freeze_effective_stiffness(self):
+        raise ValueError("freeze both topology model scales and retain the explicit state representation")
 
     def storage(self, state, equilibrium):
         n, r = self.n_nodes, self.memory_dimension
@@ -66,7 +78,7 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         edge_acceleration = -(inv_mass_projection @ edge)
         coupling = self.coupling
         tau = self.tau
-        visible_linear = -(inv_mass_projection @ torch.cat((self.damping, coupling), dim=1))
+        visible_linear = -(inv_mass_projection @ torch.cat((self.effective_damping, coupling), dim=1))
         memory_linear = torch.cat((coupling.T, -torch.diag(tau.reciprocal())), dim=1)
         applied = power @ inv_mass_projection.T
 
