@@ -3529,7 +3529,7 @@
       "result_receipt_sha256": "b38ff7509c5cf8528bf311a086adb4ce8e512a03a323cd039b2ee661e9e13263"
     },
     "machine_local_memory_diagnosis_v1_20261114": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "machine_local_memory_diagnosis_v1",
       "workflow": "machine_local_memory_diagnosis_v1",
       "stage": "diagnosis",
@@ -3551,7 +3551,47 @@
       "plan_sha256": "2c32e457453966fabb5df417061c68737128c06f94d4d02473783a0e155e83f8",
       "review_path": "docs/research/machine_local_memory_diagnosis_review_20261114.json",
       "review_sha256": "bc81f60836fd2ea57c8a97d792c5d4a187c64aefe51251cc5dab96088cc8535a",
-      "authority": "explicit_user_autonomous_memory_diagnosis"
+      "authority": "explicit_user_autonomous_memory_diagnosis",
+      "run_id": "machine_local_memory_diagnosis_v1-diagnosis-20261114T123705106338Z-bd856994-79d63e8e",
+      "result_manifest_sha256": "01ddf536f2095860484969090dff7816eca18eafee02259a04019cb5f3eff6e0",
+      "scientific_pass": true,
+      "result_receipt_path": "docs/reports/machine_local_memory_diagnosis_20261114_evidence.json",
+      "result_receipt_sha256": "9a05574b29857fe0df77f0734aeb2fd9a3a7036e7f5eb5e1b1affefd7875de0b"
+    },
+    "machine_local_memory_calibration_v1_20261114": {
+      "status": "active",
+      "experiment": "machine_local_memory_calibration_v1",
+      "workflow": "machine_local_memory_calibration_v1",
+      "stage": "calibration",
+      "real_data_reads": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "plan_path": "configs/proposals/machine_local_memory_calibration_v1.json",
+      "plan_sha256": "46b0647a2bb794ffd7d35658718d9344ab640cf8e83147d45f3ffce965bbb3a6",
+      "review_path": "docs/research/machine_local_memory_calibration_review_20261114.json",
+      "review_sha256": "d0fc0130681711875e5a8258809ac601b36751b2114045c9e2beb3b01a34f713",
+      "operation_limits": {
+        "checkpoint_decodes": 4,
+        "fits": 4,
+        "momentum_objectives": 600,
+        "momentum_qr": 9600,
+        "momentum_nuisance_svd": 9600,
+        "momentum_nuisance_solves": 9600,
+        "momentum_linear_solves": 600,
+        "momentum_design_spectrum": 600,
+        "numpy_rhs": 233280,
+        "val_checks": 48,
+        "rollouts": 4090,
+        "torch_rhs": 15653771,
+        "tangent_rhs": 565920,
+        "qr": 5376,
+        "svd": 5376,
+        "triangular_solves": 5376,
+        "matrix_products": 5376,
+        "function_checks": 11,
+        "curvature_spectra": 7128
+      },
+      "authority": "explicit_user_autonomous_memory_calibration"
     }
   },
   "saved_evidence_audits": {

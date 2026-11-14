@@ -1,0 +1,302 @@
+{
+  "schema": "kron_reduce.machine_local_memory_diagnosis_result_review.v1",
+  "review_date": "2026-11-14",
+  "reviewer": "independent_scientific_design_agent",
+  "review_task": "/root/memory_design",
+  "approved": true,
+  "review_completed": true,
+  "result_evidence_accepted": true,
+  "process_pass": true,
+  "diagnostic_validity_pass": true,
+  "decision": "ACCEPT_COEFFICIENT_COMPENSATION_DIAGNOSIS_PREPARE_TRAIN_ONLY_MOMENTUM_CORRECTION",
+  "promotion_decision": "KEEP_BASELINE",
+  "run_id": "machine_local_memory_diagnosis_v1-diagnosis-20261114T123705106338Z-bd856994-79d63e8e",
+  "run_path": "results/machine_local_memory_diagnosis_v1-diagnosis-20261114T123705106338Z-bd856994-79d63e8e",
+  "source_commit": "bd856994aabb8812ab3178691cb93708aac64ea3",
+  "artifact_manifest_sha256": "01ddf536f2095860484969090dff7816eca18eafee02259a04019cb5f3eff6e0",
+  "summary_sha256": "d2dcc10f80d77761fe7678ca7e323a4c94b71025b003a19dd824a8b62edd2a71",
+  "stage_evidence_sha256": "57e2d31a7d10d4088987e903d4744655b303778f2de1eb72da68ed89bcb67332",
+  "plan_path": "configs/proposals/machine_local_memory_diagnosis_v1.json",
+  "plan_sha256": "2c32e457453966fabb5df417061c68737128c06f94d4d02473783a0e155e83f8",
+  "execution_review_path": "docs/research/machine_local_memory_diagnosis_review_20261114.json",
+  "execution_review_sha256": "bc81f60836fd2ea57c8a97d792c5d4a187c64aefe51251cc5dab96088cc8535a",
+  "source_run_id": "machine_local_equation_v1-synthetic-20261114T112046562581Z-2cf72ad4-b66d43aa",
+  "quantitative_definitions": {
+    "trajectory": "Event-equal pooled channel-normalized RMSE over all twenty visible q/v channels, excluding the 100 ms forecast origin, on the stated 0.5/1/3 s future windows. Original complete-train channel scales; coarse 2.5 ms prediction numerically qualified against 1.25 ms.",
+    "population": "Three synthetic populations, each complete train 16; four paired frozen-coefficient controls per population.",
+    "kernel": "Relative Frobenius norm on the fixed 32-delay grid 0.01 to 3 s; memory-truth substitutions force this diagnostic to zero by construction.",
+    "amplitudes": "Raw first optional coordinate is physical harmonic a; raw second optional coordinate is physical damping b divided by 8."
+  },
+  "population_reviews": {
+    "null": {
+      "selected_support": "neither",
+      "selected_raw_optional_amplitudes": [
+        0.0,
+        0.0
+      ],
+      "selected_replay": {
+        "pairs": 32,
+        "max_abs_nmse_difference": 0.0,
+        "pass": true
+      },
+      "controls": {
+        "selected": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 9.009934464297919E-05,
+            "1": 0.00016014373277853887,
+            "3": 0.0005743615493348155
+          },
+          "memory_kernel_relative_error": 0.07118308851757159,
+          "max_history_nrmse": 6.227522198577748E-06,
+          "max_hidden_origin_rmse": 0.039385387696840565,
+          "max_hidden_origin_energy": 0.2357626251632385,
+          "failures": 0
+        },
+        "memory_truth": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.0005116900022758446,
+            "1": 0.0009945678539540828,
+            "3": 0.0026890649045429593
+          },
+          "memory_kernel_relative_error": 0.0,
+          "max_history_nrmse": 3.246006071844306E-05,
+          "max_hidden_origin_rmse": 0.04519093365541882,
+          "max_hidden_origin_energy": 0.2794126855336104,
+          "failures": 0
+        },
+        "visible_truth": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.0004939941175563875,
+            "1": 0.0009964207926359944,
+            "3": 0.002728653482493968
+          },
+          "memory_kernel_relative_error": 0.07118308851757159,
+          "max_history_nrmse": 3.026370263651914E-05,
+          "max_hidden_origin_rmse": 0.05053980712800876,
+          "max_hidden_origin_energy": 0.18020515235771178,
+          "failures": 0
+        },
+        "both_truth": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 2.521461755593543E-11,
+            "1": 5.1479092681434845E-11,
+            "3": 1.2531338671372766E-10
+          },
+          "memory_kernel_relative_error": 0.0,
+          "max_history_nrmse": 5.364740110319544E-12,
+          "max_hidden_origin_rmse": 2.723919290101118E-09,
+          "max_hidden_origin_energy": 0.19726459633879323,
+          "failures": 0
+        }
+      }
+    },
+    "harmonic": {
+      "selected_support": "harmonic",
+      "selected_raw_optional_amplitudes": [
+        0.5832199529599588,
+        0.0
+      ],
+      "selected_replay": {
+        "pairs": 32,
+        "max_abs_nmse_difference": 0.0,
+        "pass": true
+      },
+      "controls": {
+        "selected": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.00023503147106551856,
+            "1": 0.00035393137255995997,
+            "3": 0.0013765971102382602
+          },
+          "memory_kernel_relative_error": 0.12009597236661408,
+          "max_history_nrmse": 1.6308564222165517E-05,
+          "max_hidden_origin_rmse": 0.08159341937354625,
+          "max_hidden_origin_energy": 0.2898045342718356,
+          "failures": 0
+        },
+        "memory_truth": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.0010158241604908392,
+            "1": 0.0019503139937605122,
+            "3": 0.005577874438528891
+          },
+          "memory_kernel_relative_error": 0.0,
+          "max_history_nrmse": 4.8670580255628804E-05,
+          "max_hidden_origin_rmse": 0.09262288900795622,
+          "max_hidden_origin_energy": 0.29360252563953965,
+          "failures": 0
+        },
+        "visible_truth": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.0010827764178041469,
+            "1": 0.00237236558361608,
+            "3": 0.006884553564397784
+          },
+          "memory_kernel_relative_error": 0.12009597236661408,
+          "max_history_nrmse": 3.693870258774211E-05,
+          "max_hidden_origin_rmse": 0.09625059806229364,
+          "max_hidden_origin_energy": 0.19735226687941418,
+          "failures": 0
+        },
+        "both_truth": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.000712967247359001,
+            "1": 0.0016872428122090375,
+            "3": 0.004907435957490292
+          },
+          "memory_kernel_relative_error": 0.0,
+          "max_history_nrmse": 1.5365435806342934E-05,
+          "max_hidden_origin_rmse": 0.027314636894943685,
+          "max_hidden_origin_energy": 0.18941866710349506,
+          "failures": 0
+        }
+      }
+    },
+    "damping": {
+      "selected_support": "damping",
+      "selected_raw_optional_amplitudes": [
+        0.0,
+        0.9325929510364023
+      ],
+      "selected_replay": {
+        "pairs": 32,
+        "max_abs_nmse_difference": 0.0,
+        "pass": true
+      },
+      "controls": {
+        "selected": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.003264588889705648,
+            "1": 0.005533302604611328,
+            "3": 0.018014445224576025
+          },
+          "memory_kernel_relative_error": 0.5522871966927878,
+          "max_history_nrmse": 0.0007774772597889854,
+          "max_hidden_origin_rmse": 0.8527488014230733,
+          "max_hidden_origin_energy": 2.694631020116615,
+          "failures": 0
+        },
+        "memory_truth": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.007270972936724625,
+            "1": 0.01404124669763297,
+            "3": 0.03570930614039566
+          },
+          "memory_kernel_relative_error": 0.0,
+          "max_history_nrmse": 0.0007183349224772365,
+          "max_hidden_origin_rmse": 0.6834099316290694,
+          "max_hidden_origin_energy": 3.4675049723107794,
+          "failures": 0
+        },
+        "visible_truth": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.00965535706788181,
+            "1": 0.015143240872219028,
+            "3": 0.033913940761017045
+          },
+          "memory_kernel_relative_error": 0.5522871966927878,
+          "max_history_nrmse": 0.001142276512338609,
+          "max_hidden_origin_rmse": 1.6896360655991833,
+          "max_hidden_origin_energy": 16.041726756014423,
+          "failures": 0
+        },
+        "both_truth": {
+          "allocated": 16,
+          "qualified": 16,
+          "pooled_nrmse": {
+            "0.5": 0.013371154640000622,
+            "1": 0.024983727657851937,
+            "3": 0.05932560554019842
+          },
+          "memory_kernel_relative_error": 0.0,
+          "max_history_nrmse": 0.0009456334407440412,
+          "max_hidden_origin_rmse": 1.209974146813074,
+          "max_hidden_origin_energy": 8.459563019853714,
+          "failures": 0
+        }
+      }
+    }
+  },
+  "findings_supported": [
+    "All twelve controls qualify every assigned train event. All three selected-model replays match the saved 1 s and 3 s per-event normalized MSE exactly, for 96 replay pairs.",
+    "Substituting either true memory coefficients or true visible coefficients separately increases the complete-train 3 s error in every population. The original learned blocks jointly compensate for parameter errors under causal history initialization.",
+    "For the null population, substituting both true blocks reduces 3 s pooled normalized RMSE to 1.2531338671372766e-10 and maximum hidden-origin RMSE to 2.723919290101118e-9. This paired control supports joint coefficient correction.",
+    "The harmonic and damping both-truth controls retain their selected optional amplitudes. Their nonzero trajectory errors therefore do not test a fully true equation and do not challenge the existing known-parameter initializer controls.",
+    "The damping selected equation has train 3 s normalized RMSE 0.018014445224576025 and kernel error 0.5522871966927878. Both truth-block substitutions with the retained damping amplitude produce train 3 s normalized RMSE 0.05932560554019842, supporting joint fitting of the active damping amplitude with the base coefficients."
+  ],
+  "inference_boundary": "The substitutions demonstrate compensation in these learned equations. They do not prove structural non-identifiability or that more rollout updates alone would recover the coefficients. No val or test scores were used for this diagnosis.",
+  "proposed_correction": {
+    "method": "Observed-train integral momentum identification with analytic hidden-memory elimination, bounded shared physical coefficients, and nonlinear time-constant optimization.",
+    "inputs": "Observed train q/v trajectories, constant causal power, equilibrium and registered mass/graph priors; integrate real available samples and keep each complete event.",
+    "fixed_support": "Retain each previously selected family support; absent amplitudes remain exact zero. Fit the active amplitude jointly with k,d,g and tau from train observations.",
+    "nuisance": "Event-specific initial memory moments are eliminated inside the train equations and never exported. All val and test predictions still estimate hidden state from the same eleven measured frames and original three-GN predictor.",
+    "derivative_free_targets": "Integrate momentum; exact endpoint expressions handle linear and state-modulated damping. Fixed Hermite/gauss quadrature handles sine force and measured-angle memory convolution.",
+    "optimization": "Freeze call and accepted-update caps, numerical inner-solve validity, full-val checkpoint cadence, stopping and earliest-minimum selection before execution. Truth coefficients or kernel/function errors do not enter fitting, stopping or checkpoint choice.",
+    "synthetic_comparison": "Four refinements: null A and three selected equations, with four unchanged starts and three known-parameter controls. Formal complete train 16/val 8/test 8 causal trajectory and stability reports; retain original 3 s/8 s trajectory, function, kernel, support/amplitude and physical gates.",
+    "claim": "Fixed-support coefficient recovery. A future real-data candidate family is selected through its preregistered full-val rule, never from synthetic truth family identities.",
+    "execution_approved": false
+  },
+  "real_gate": {
+    "open": false,
+    "reason": "This diagnostic validates the mechanism comparison. The original 5 percent memory-recovery and other synthetic recovery gates remain prerequisites for the corrected method.",
+    "next_scope": "After exact correction review, registered execution and accepted synthetic recovery, register the complete TASK3 comparison with train 346/val 107/test 76 and a frozen causal evaluation contract."
+  },
+  "execution": {
+    "operation_counts": {
+      "numpy_rhs": 233280,
+      "checkpoint_decodes": 3,
+      "rollouts": 120,
+      "tangent_rhs": 17280,
+      "torch_rhs": 195840,
+      "qr": 1152,
+      "svd": 1152,
+      "matrix_products": 1152,
+      "triangular_solves": 1152
+    },
+    "elapsed_seconds": 100.95400470000459,
+    "runtime": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "cuda": "13.0",
+      "score_device": "NVIDIA GeForce RTX 4060 Ti",
+      "numpy": "2.5.2",
+      "scipy": "1.18.0",
+      "torch": "2.13.0+cu130"
+    },
+    "control_event_comparisons": 192,
+    "numerical_failures": 0,
+    "uncovered": 0
+  },
+  "saved_evidence_review": {
+    "artifact_hash_checks": 18,
+    "summary_event_rows_checked": 192,
+    "replay_pairs_checked": 96,
+    "operation_budget_checked": true,
+    "model_calls": 0,
+    "fits": 0,
+    "npz_decodes": 0,
+    "checkpoint_decodes": 0,
+    "scope": "Saved JSON arithmetic/identity/gate checks and immutable artifact byte hashes, with no scientific re-execution."
+  }
+}

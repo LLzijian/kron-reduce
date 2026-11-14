@@ -18,7 +18,7 @@ from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy
 from project_harness.runner import _run_experiment
 
-STUDIES = {"diagnosis": "machine_local_memory_diagnosis_v1"}
+STUDIES = {"diagnosis": "machine_local_memory_diagnosis_v1", "calibration": "machine_local_memory_calibration_v1"}
 MODULE = "kron_reduce.workflows.machine_local_memory"
 DATA_POLICY = "analytic_synthetic_only"
 
@@ -48,6 +48,13 @@ def registration(root, stage):
         raise RuntimeError("require independent review of the exact implementation and budget")
     for path, digest in plan["implementation_bindings"].items():
         verify_bound_file(root, path, digest)
+    if stage == "calibration":
+        previous = load_policy(root)["bounded_synthetic_evaluations"][STUDIES["diagnosis"]+"_20261114"]
+        required = plan["diagnosis"]
+        if (previous["status"] != "consumed" or previous["scientific_pass"] is not True
+                or previous["run_id"] != required["run_id"]
+                or previous["result_manifest_sha256"] != required["artifact_manifest_sha256"]):
+            raise RuntimeError("valid completed coefficient-substitution diagnosis required")
     pins = dict(line.split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line and not line.startswith("#"))
     if sys.version_info[:2] != (3, 12) or any(version(p) != pins[p]+("+cu130" if p == "torch" else "")

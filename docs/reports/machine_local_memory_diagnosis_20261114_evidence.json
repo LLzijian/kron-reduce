@@ -1,0 +1,50 @@
+{
+  "schema": "machine_local_memory_diagnosis.evidence.v1",
+  "status": "SAVED_JSON_SUMMARIZED",
+  "run_id": "machine_local_memory_diagnosis_v1-diagnosis-20261114T123705106338Z-bd856994-79d63e8e",
+  "source_commit": "bd856994aabb8812ab3178691cb93708aac64ea3",
+  "result_artifact_manifest_sha256": "01ddf536f2095860484969090dff7816eca18eafee02259a04019cb5f3eff6e0",
+  "result_artifact_count": 18,
+  "operation_counts": {
+    "checkpoint_decodes": 3,
+    "matrix_products": 1152,
+    "numpy_rhs": 233280,
+    "qr": 1152,
+    "rollouts": 120,
+    "svd": 1152,
+    "tangent_rhs": 17280,
+    "torch_rhs": 195840,
+    "triangular_solves": 1152
+  },
+  "input_sha256": {
+    ".project_state/machine_local_memory_diagnosis_v1_state.json": "21866118ce83160e2fafb48fd7b3f6acc52c818b26a420bd5bc5c0618f7f87f3",
+    "artifact_hashes.json": "01ddf536f2095860484969090dff7816eca18eafee02259a04019cb5f3eff6e0",
+    "damping-both_truth.npz": "453092d77c5b9e5af4ac09847083ab072b679d888ddef4db039bcfe09b43c9c6",
+    "damping-memory_truth.npz": "f0d92ce999c339567eec6b3dd163df5a2f57b0d05ab974920923483358c9703a",
+    "damping-selected.npz": "bec79cd343ba79878330ea9ea9d21e55c5b18ecc7098844e2ce478ac4f41883c",
+    "damping-visible_truth.npz": "cc58d5ed6e9300540113281802ca1daa2fbd8809573c49267979f2f81141f1d7",
+    "damping.json": "7eddb2eef5bbe9ba4f79a54069c7c06a23de7ac720ddeb482a5ee4a0b1d96140",
+    "harmonic-both_truth.npz": "9f73b06a60f73cb42b8888aa78a2adcdb6fe12c17f63f6a4d56afcf1ab1be055",
+    "harmonic-memory_truth.npz": "540611f73eb5ae1791a5005bf3f57ca790cb921297ec1f8ae7845bb06d204f2b",
+    "harmonic-selected.npz": "3493d5f0bb5f9fa06c9b3e158fe0b170cec7c6b789e2409a133a5e20cb6cc39e",
+    "harmonic-visible_truth.npz": "d671bb43faa3214d068339d2ca857f1ac21521a0f450560031622aff68ad75b1",
+    "harmonic.json": "fa108d8d6e467bba7ce9b88f1df3c2758a8dd0b387058d31f0bb6547f52dc0c7",
+    "null-both_truth.npz": "0366736bf2be6edb9cc6d924d9b116da60800df4199d19ae3d2a21f7b4fad994",
+    "null-memory_truth.npz": "3888f9fb97718a5e40bd1076ed1bce4ee136c578d8821afbd5b6227af11570da",
+    "null-selected.npz": "5e75861c038683ad12d9a8f66f4f006fcc37ebb72b2e12ae802a324cfc576d98",
+    "null-visible_truth.npz": "27ada45e167e9dbef86718aed66a2c9de70b0abe30ae28e2cb344c53709b388d",
+    "null.json": "9f2c47f2d732c63cfb036e6cdc00fd2950dd8dd16421456fb7ea3f4cd92aa188",
+    "operations.jsonl": "1a967c7dd631333bf65fb6a4b7c075178328b2005cbdcc407a795d05cbfa2234",
+    "stage_evidence.json": "57e2d31a7d10d4088987e903d4744655b303778f2de1eb72da68ed89bcb67332",
+    "summary.json": "d2dcc10f80d77761fe7678ca7e323a4c94b71025b003a19dd824a8b62edd2a71"
+  },
+  "workflow_state_sha256": "21866118ce83160e2fafb48fd7b3f6acc52c818b26a420bd5bc5c0618f7f87f3",
+  "scientific_pass": true,
+  "optional_result_review": {
+    "path": "docs/research/machine_local_memory_diagnosis_result_review_20261114.json",
+    "sha256": "5daa569a279371ff2728edea2bb699d670e88c53ca1975033210fc9abbf4d25a",
+    "decision": "ACCEPT_COEFFICIENT_COMPENSATION_DIAGNOSIS_PREPARE_TRAIN_ONLY_MOMENTUM_CORRECTION",
+    "approved": true
+  },
+  "rendered_at_utc": "2026-11-14T12:41:43.661365+00:00"
+}

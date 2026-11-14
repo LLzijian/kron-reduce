@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Machine-local memory coefficient substitutions](machine_local_memory_diagnosis_20261114_zh.md) | Four controls on each complete synthetic train cohort, GPU prediction and exact frozen-model replay |
 | [Joint equation and function selection](machine_local_equation_20261114_zh.md) | Three known-truth populations, full train/val/test for six equations each, CUDA inference, correct support, memory-kernel recovery gate failed |
 | [Paired R20/R21 stiffness comparison](kiki_machine_local_r20_r21_20261114_zh.md) | Common start, complete train 346 / val 107 / test 76 per model, full-val checkpoint selection, trajectory and stability scores, saved-array verification |
 | [Shared stiffness calibration](machine_local_stiffness_calibration_20261114_zh.md) | Complete 64-case synthetic population, one bounded fit and all three frozen controls; parameter, hidden-state and trajectory recovery |
