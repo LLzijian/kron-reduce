@@ -6,6 +6,15 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [joint-equation synthetic report](../reports/machine_local_equation_20261114_zh.md)
+covers 74 shared coefficients and two candidate function families. Full val
+selected the correct support on all three fixed known-truth populations.
+The memory-kernel error exceeded 5% in each population, and the damping
+population failed the long-horizon trajectory gate. The synthetic authority
+is consumed and TASK3 fitting remains gated. The next preparation compares
+fixed-support coefficient substitutions on the complete synthetic train rosters.
+[Independent result review](machine_local_equation_result_review_20261114.json).
+
 The [paired R20/R21 report](../reports/kiki_machine_local_r20_r21_20261114_zh.md)
 covers both models on all 346 train, 107 val and 76 test events. Both selected
 update 80 by the registered full-val rule and reached the update cap while the
@@ -38,10 +47,10 @@ recovered the known scalar after 11 full train objectives. The fitted model
 passed hidden-state recovery and trajectory checks on all 64 synthetic events.
 The [paired design](machine_local_r20_r21_preparation_20261114_zh.md)
 established a matched start and budget for the 20- and 21-parameter models.
-The next [joint-equation plan](machine_local_joint_equation_plan_20261114_zh.md)
+The [joint-equation plan](machine_local_joint_equation_plan_20261114_zh.md)
 extends synthetic checks to 74 original-equation coefficients and separate
-harmonic-potential and modulated-damping controls. It starts with causal-history
-training at 0.5 s and 1 s; execution requires a separate reviewed protocol.
+harmonic-potential and modulated-damping controls. The [first protocol](../protocols/machine_local_equation_v1_zh.md)
+used causal-history training at 0.5 s and 1 s with formal CUDA inference.
 
 The [machine-local initializer diagnosis](../reports/machine_local_initializer_diagnosis_20261112_zh.md)
 passed its numerical and saved-evidence checks. Its route is

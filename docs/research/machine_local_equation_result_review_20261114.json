@@ -1,0 +1,721 @@
+{
+  "schema": "kron_reduce.machine_local_equation_result_review.v1",
+  "review_date": "2026-11-14",
+  "reviewer": "independent_scientific_design_agent",
+  "review_task": "/root/eq_design",
+  "approved": true,
+  "review_completed": true,
+  "result_evidence_accepted": true,
+  "process_pass": true,
+  "scientific_pass": false,
+  "decision": "ACCEPT_SUPPORT_SELECTION_EVIDENCE_KEEP_REAL_GATE_CLOSED",
+  "promotion_decision": "KEEP_BASELINE",
+  "run_id": "machine_local_equation_v1-synthetic-20261114T112046562581Z-2cf72ad4-b66d43aa",
+  "run_path": "results/machine_local_equation_v1-synthetic-20261114T112046562581Z-2cf72ad4-b66d43aa",
+  "source_commit": "2cf72ad4c6e99732375ebeee3c8f022c90ca4b90",
+  "plan_path": "configs/proposals/machine_local_equation_v1.json",
+  "plan_sha256": "b4ef5b17a9f564d07b506808477921bc15a3f87c889b2a42240b1b5143050a4f",
+  "protocol_path": "docs/protocols/machine_local_equation_v1_zh.md",
+  "protocol_sha256": "f2b5a71bd026d93c8f199b85655f604a5c181c442907ce7c4e5e8012b06eb22b",
+  "artifact_manifest_sha256": "48666d2fdc4fc3e67e35a4e679743faafb57646b1f66d14074e4c5fd57cc3c7b",
+  "summary_sha256": "3b1d1c166cfd58627a78bee5d4f8b122d599a3ee32824898b8500faf436ef860",
+  "stage_evidence_sha256": "98cbf6e7e805a2b3ad335a123712f03b9845547c4a9d3f67ad2980a35bf1f11e",
+  "quantitative_definitions": {
+    "trajectory": "Pooled channel-normalized RMSE of 20 visible q/v channels from the 100 ms origin, excluding the origin, over the stated 1/3/8 s future window. Fixed per-population train RMS scales; formal coarse path h=2.5 ms, qualified against h=1.25 ms.",
+    "selection_objective": "Event-equal mean of 0.5 s and 1 s normalized MSE, h=5 ms, complete val=8; this is not RMSE or the formal 3 s/8 s score.",
+    "function_errors": "Relative Frobenius/RMS norm error on the preregistered complete val truth-state grid; memory kernel uses the fixed 32 delays from 0.01 to 3 seconds.",
+    "amplitudes": "a is the second-harmonic physical coefficient; b=8*raw_b is the physical state-modulated damping coefficient."
+  },
+  "findings_supported": [
+    "All three predeclared populations select the correct function-family support. Absent families are exactly zero and both present amplitudes satisfy the registered 10% relative-error condition.",
+    "The independent NumPy truth, matched-parameter causal GN controls and physical/numerical checks pass. The observed recovery failures occur after successful implementation controls.",
+    "Null and harmonic selected models pass their train/val trajectory and visible-function gates. Their memory kernels do not meet the registered 5% recovery threshold.",
+    "The damping population identifies the added damping family, while conservative-force, memory-kernel and some trajectory gates remain unsatisfied.",
+    "All selected train/val trajectories produce correct frozen-rule stability decisions with complete coverage. These classifications do not replace the failed dynamics gates."
+  ],
+  "population_reviews": {
+    "null": {
+      "scientific_pass": false,
+      "registered_gates": {
+        "initial_function_gap": true,
+        "known_control_train_val": true,
+        "selected_training_valid": true,
+        "selected_trajectory_train_val": true,
+        "selected_function_recovery_val": false,
+        "selected_support_and_amplitude": true,
+        "physical_checks": true,
+        "original_equation_recovery_on_null": false
+      },
+      "selected_b": "neither",
+      "selected_physical_amplitudes": {
+        "a": 0.0,
+        "b": 0.0
+      },
+      "true_physical_amplitudes": {
+        "a": 0.0,
+        "b": 0.0
+      },
+      "selected_function_relative_errors": {
+        "potential_force": 0.002611012552453051,
+        "visible_damping_force": 0.003791643529625267,
+        "memory_kernel": 0.07118308851757159
+      },
+      "individual_function_gates": {
+        "potential_force": true,
+        "visible_damping_force": true,
+        "memory_kernel": false
+      },
+      "selected_parameter_relative_errors": {
+        "stiffness": 0.008125105939237575,
+        "damping_matrix": 0.004599489355069939,
+        "coupling": 0.06643061355535818,
+        "tau": 0.007045847828634066
+      },
+      "selected_train_val": {
+        "train": {
+          "allocated": 16,
+          "pooled_nrmse_1s": 0.00016014373277853887,
+          "pooled_nrmse_3s": 0.0005743615493348155,
+          "pooled_nrmse_8s": 0.0009889502571224635,
+          "trajectory_3s_pass": true,
+          "trajectory_8s_pass": true,
+          "stability": {
+            "tp": 4,
+            "fn": 0,
+            "fp": 0,
+            "tn": 12,
+            "eligible_unstable": 4,
+            "eligible_stable": 12,
+            "eligible": 16,
+            "unstable_unresolved": 0,
+            "stable_unresolved": 0,
+            "numerical_unresolved": 0,
+            "fsr": 0.0,
+            "fur": 0.0,
+            "fsr_lower": 0.0,
+            "fsr_upper": 0.0,
+            "fur_lower": 0.0,
+            "fur_upper": 0.0,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": 1.0,
+            "precision": 1.0,
+            "f1": 1.0,
+            "allocated": 16,
+            "resolved": 16,
+            "uncovered": 0,
+            "unresolved": 0,
+            "coverage": 1.0,
+            "correct_fraction_lower_bound": 1.0,
+            "accuracy_on_resolved": 1.0,
+            "numerical_failures": 0,
+            "unsettled_predictions": 0,
+            "weighting": "event_equal",
+            "forecast_horizon_s": 8.0,
+            "positive_class": "unstable",
+            "recall_on_resolved": 1.0,
+            "miss_rate_on_resolved": 0.0,
+            "false_alarm_rate_on_resolved": 0.0
+          }
+        },
+        "val": {
+          "allocated": 8,
+          "pooled_nrmse_1s": 0.0006749336315907365,
+          "pooled_nrmse_3s": 0.001959873198707462,
+          "pooled_nrmse_8s": 0.00832941881872512,
+          "trajectory_3s_pass": true,
+          "trajectory_8s_pass": true,
+          "stability": {
+            "tp": 2,
+            "fn": 0,
+            "fp": 0,
+            "tn": 6,
+            "eligible_unstable": 2,
+            "eligible_stable": 6,
+            "eligible": 8,
+            "unstable_unresolved": 0,
+            "stable_unresolved": 0,
+            "numerical_unresolved": 0,
+            "fsr": 0.0,
+            "fur": 0.0,
+            "fsr_lower": 0.0,
+            "fsr_upper": 0.0,
+            "fur_lower": 0.0,
+            "fur_upper": 0.0,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": 1.0,
+            "precision": 1.0,
+            "f1": 1.0,
+            "allocated": 8,
+            "resolved": 8,
+            "uncovered": 0,
+            "unresolved": 0,
+            "coverage": 1.0,
+            "correct_fraction_lower_bound": 1.0,
+            "accuracy_on_resolved": 1.0,
+            "numerical_failures": 0,
+            "unsettled_predictions": 0,
+            "weighting": "event_equal",
+            "forecast_horizon_s": 8.0,
+            "positive_class": "unstable",
+            "recall_on_resolved": 1.0,
+            "miss_rate_on_resolved": 0.0,
+            "false_alarm_rate_on_resolved": 0.0
+          }
+        }
+      },
+      "fits": {
+        "a": {
+          "actual_updates": 240,
+          "selected_update": 240,
+          "selected_val_nmse_0p5s_1s_5ms": 2.550187762182757E-06,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 2.550187762182757E-06,
+          "previous_val_nmse": 3.0700390633329083E-06,
+          "last_train_nmse_before_update": 1.4905985196193276E-07
+        },
+        "both": {
+          "actual_updates": 240,
+          "selected_update": 240,
+          "selected_val_nmse_0p5s_1s_5ms": 3.4229549222204944E-06,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 3.4229549222204944E-06,
+          "previous_val_nmse": 3.878393119726245E-06,
+          "last_train_nmse_before_update": 1.9490608979656277E-07
+        },
+        "harmonic": {
+          "actual_updates": 80,
+          "selected_update": 80,
+          "selected_val_nmse_0p5s_1s_5ms": 3.3666275005077393E-07,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 3.3666275005077393E-07,
+          "previous_val_nmse": 5.897372515794013E-07,
+          "last_train_nmse_before_update": 1.9318641619883474E-08
+        },
+        "damping": {
+          "actual_updates": 80,
+          "selected_update": 80,
+          "selected_val_nmse_0p5s_1s_5ms": 8.177868055002782E-07,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 8.177868055002782E-07,
+          "previous_val_nmse": 1.1585641180991618E-06,
+          "last_train_nmse_before_update": 4.923791326558421E-08
+        },
+        "neither": {
+          "actual_updates": 80,
+          "selected_update": 80,
+          "selected_val_nmse_0p5s_1s_5ms": 2.758956507630661E-07,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 2.758956507630661E-07,
+          "previous_val_nmse": 4.801707187727299E-07,
+          "last_train_nmse_before_update": 1.7635390422761076E-08
+        }
+      },
+      "null_a_recovery_gate_applicable": true,
+      "interpretation": "The selected equation correctly deletes both added families and passes train/val trajectory, conservative-force and damping-force gates. The 7.118308851757159% memory-kernel error exceeds the fixed 5% threshold. A also passes trajectory and visible-function gates, but its 11.699324507378478% memory-kernel error prevents original-equation recovery acceptance.",
+      "a_function_relative_errors": {
+        "potential_force": 0.007547621055148167,
+        "visible_damping_force": 0.008440605539499869,
+        "memory_kernel": 0.11699324507378478
+      },
+      "a_train_val_nrmse": {
+        "train_3s": 0.001802480038628537,
+        "train_8s": 0.0027354302359063054,
+        "val_3s": 0.006233374336950069,
+        "val_8s": 0.02384830335857496
+      }
+    },
+    "harmonic": {
+      "scientific_pass": false,
+      "registered_gates": {
+        "initial_function_gap": true,
+        "known_control_train_val": true,
+        "selected_training_valid": true,
+        "selected_trajectory_train_val": true,
+        "selected_function_recovery_val": false,
+        "selected_support_and_amplitude": true,
+        "physical_checks": true,
+        "original_equation_recovery_on_null": true
+      },
+      "selected_b": "harmonic",
+      "selected_physical_amplitudes": {
+        "a": 0.5832199529599588,
+        "b": 0.0
+      },
+      "true_physical_amplitudes": {
+        "a": 0.6,
+        "b": 0.0
+      },
+      "selected_function_relative_errors": {
+        "potential_force": 0.011306090095419687,
+        "visible_damping_force": 0.006268205026279873,
+        "memory_kernel": 0.12009597236661408
+      },
+      "individual_function_gates": {
+        "potential_force": true,
+        "visible_damping_force": true,
+        "memory_kernel": false
+      },
+      "selected_parameter_relative_errors": {
+        "stiffness": 0.0297834626842177,
+        "damping_matrix": 0.009158581209894769,
+        "coupling": 0.10495653962080304,
+        "tau": 0.032823085765556384
+      },
+      "selected_train_val": {
+        "train": {
+          "allocated": 16,
+          "pooled_nrmse_1s": 0.00035393137255995997,
+          "pooled_nrmse_3s": 0.0013765971102382602,
+          "pooled_nrmse_8s": 0.0016296180871166537,
+          "trajectory_3s_pass": true,
+          "trajectory_8s_pass": true,
+          "stability": {
+            "tp": 4,
+            "fn": 0,
+            "fp": 0,
+            "tn": 12,
+            "eligible_unstable": 4,
+            "eligible_stable": 12,
+            "eligible": 16,
+            "unstable_unresolved": 0,
+            "stable_unresolved": 0,
+            "numerical_unresolved": 0,
+            "fsr": 0.0,
+            "fur": 0.0,
+            "fsr_lower": 0.0,
+            "fsr_upper": 0.0,
+            "fur_lower": 0.0,
+            "fur_upper": 0.0,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": 1.0,
+            "precision": 1.0,
+            "f1": 1.0,
+            "allocated": 16,
+            "resolved": 16,
+            "uncovered": 0,
+            "unresolved": 0,
+            "coverage": 1.0,
+            "correct_fraction_lower_bound": 1.0,
+            "accuracy_on_resolved": 1.0,
+            "numerical_failures": 0,
+            "unsettled_predictions": 0,
+            "weighting": "event_equal",
+            "forecast_horizon_s": 8.0,
+            "positive_class": "unstable",
+            "recall_on_resolved": 1.0,
+            "miss_rate_on_resolved": 0.0,
+            "false_alarm_rate_on_resolved": 0.0
+          }
+        },
+        "val": {
+          "allocated": 8,
+          "pooled_nrmse_1s": 0.0009875185324163312,
+          "pooled_nrmse_3s": 0.002925006081783887,
+          "pooled_nrmse_8s": 0.0061245852389053956,
+          "trajectory_3s_pass": true,
+          "trajectory_8s_pass": true,
+          "stability": {
+            "tp": 2,
+            "fn": 0,
+            "fp": 0,
+            "tn": 6,
+            "eligible_unstable": 2,
+            "eligible_stable": 6,
+            "eligible": 8,
+            "unstable_unresolved": 0,
+            "stable_unresolved": 0,
+            "numerical_unresolved": 0,
+            "fsr": 0.0,
+            "fur": 0.0,
+            "fsr_lower": 0.0,
+            "fsr_upper": 0.0,
+            "fur_lower": 0.0,
+            "fur_upper": 0.0,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": 1.0,
+            "precision": 1.0,
+            "f1": 1.0,
+            "allocated": 8,
+            "resolved": 8,
+            "uncovered": 0,
+            "unresolved": 0,
+            "coverage": 1.0,
+            "correct_fraction_lower_bound": 1.0,
+            "accuracy_on_resolved": 1.0,
+            "numerical_failures": 0,
+            "unsettled_predictions": 0,
+            "weighting": "event_equal",
+            "forecast_horizon_s": 8.0,
+            "positive_class": "unstable",
+            "recall_on_resolved": 1.0,
+            "miss_rate_on_resolved": 0.0,
+            "false_alarm_rate_on_resolved": 0.0
+          }
+        }
+      },
+      "fits": {
+        "a": {
+          "actual_updates": 100,
+          "selected_update": 40,
+          "selected_val_nmse_0p5s_1s_5ms": 0.0016626443631281701,
+          "stop_reason": "val_plateau",
+          "failure": null,
+          "last_val_nmse": 0.0019338210712901373,
+          "previous_val_nmse": 0.002477829652887725,
+          "last_train_nmse_before_update": 9.195249073752328E-05
+        },
+        "both": {
+          "actual_updates": 240,
+          "selected_update": 240,
+          "selected_val_nmse_0p5s_1s_5ms": 5.458104815751731E-05,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 5.458104815751731E-05,
+          "previous_val_nmse": 5.774834380084482E-05,
+          "last_train_nmse_before_update": 8.814281361346769E-06
+        },
+        "harmonic": {
+          "actual_updates": 80,
+          "selected_update": 80,
+          "selected_val_nmse_0p5s_1s_5ms": 5.924419526645509E-07,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 5.924419526645509E-07,
+          "previous_val_nmse": 2.189311828903863E-06,
+          "last_train_nmse_before_update": 9.409565972693584E-08
+        },
+        "damping": {
+          "actual_updates": 80,
+          "selected_update": 80,
+          "selected_val_nmse_0p5s_1s_5ms": 0.0008080673625839574,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 0.0008080673625839574,
+          "previous_val_nmse": 0.0010409024987281467,
+          "last_train_nmse_before_update": 6.14842495876997E-05
+        },
+        "neither": {
+          "actual_updates": 80,
+          "selected_update": 80,
+          "selected_val_nmse_0p5s_1s_5ms": 0.0007805207015184955,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 0.0007805207015184955,
+          "previous_val_nmse": 0.0010274252581343143,
+          "last_train_nmse_before_update": 6.160070148227336E-05
+        }
+      },
+      "null_a_recovery_gate_applicable": false,
+      "interpretation": "The selected harmonic coefficient is 0.5832199529599588 against truth 0.6, with the damping family exactly zero. Train/val trajectories and both visible-force gates pass. The 12.009597236661408% memory-kernel error exceeds 5%; correct family selection does not establish complete coefficient/function recovery."
+    },
+    "damping": {
+      "scientific_pass": false,
+      "registered_gates": {
+        "initial_function_gap": true,
+        "known_control_train_val": true,
+        "selected_training_valid": true,
+        "selected_trajectory_train_val": false,
+        "selected_function_recovery_val": false,
+        "selected_support_and_amplitude": true,
+        "physical_checks": true,
+        "original_equation_recovery_on_null": true
+      },
+      "selected_b": "damping",
+      "selected_physical_amplitudes": {
+        "a": 0.0,
+        "b": 7.460743608291218
+      },
+      "true_physical_amplitudes": {
+        "a": 0.0,
+        "b": 8.0
+      },
+      "selected_function_relative_errors": {
+        "potential_force": 0.08294611777467276,
+        "visible_damping_force": 0.027466050185517104,
+        "memory_kernel": 0.5522871966927878
+      },
+      "individual_function_gates": {
+        "potential_force": false,
+        "visible_damping_force": true,
+        "memory_kernel": false
+      },
+      "selected_parameter_relative_errors": {
+        "stiffness": 0.22043895303359265,
+        "damping_matrix": 0.09755408505508026,
+        "coupling": 0.3908814979750404,
+        "tau": 0.45686833480814876
+      },
+      "selected_train_val": {
+        "train": {
+          "allocated": 16,
+          "pooled_nrmse_1s": 0.005533302604611328,
+          "pooled_nrmse_3s": 0.018014445224576025,
+          "pooled_nrmse_8s": 0.02859778367133045,
+          "trajectory_3s_pass": false,
+          "trajectory_8s_pass": true,
+          "stability": {
+            "tp": 4,
+            "fn": 0,
+            "fp": 0,
+            "tn": 12,
+            "eligible_unstable": 4,
+            "eligible_stable": 12,
+            "eligible": 16,
+            "unstable_unresolved": 0,
+            "stable_unresolved": 0,
+            "numerical_unresolved": 0,
+            "fsr": 0.0,
+            "fur": 0.0,
+            "fsr_lower": 0.0,
+            "fsr_upper": 0.0,
+            "fur_lower": 0.0,
+            "fur_upper": 0.0,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": 1.0,
+            "precision": 1.0,
+            "f1": 1.0,
+            "allocated": 16,
+            "resolved": 16,
+            "uncovered": 0,
+            "unresolved": 0,
+            "coverage": 1.0,
+            "correct_fraction_lower_bound": 1.0,
+            "accuracy_on_resolved": 1.0,
+            "numerical_failures": 0,
+            "unsettled_predictions": 0,
+            "weighting": "event_equal",
+            "forecast_horizon_s": 8.0,
+            "positive_class": "unstable",
+            "recall_on_resolved": 1.0,
+            "miss_rate_on_resolved": 0.0,
+            "false_alarm_rate_on_resolved": 0.0
+          }
+        },
+        "val": {
+          "allocated": 8,
+          "pooled_nrmse_1s": 0.049556419804362054,
+          "pooled_nrmse_3s": 0.09821892212550866,
+          "pooled_nrmse_8s": 0.0859761372827691,
+          "trajectory_3s_pass": false,
+          "trajectory_8s_pass": false,
+          "stability": {
+            "tp": 2,
+            "fn": 0,
+            "fp": 0,
+            "tn": 6,
+            "eligible_unstable": 2,
+            "eligible_stable": 6,
+            "eligible": 8,
+            "unstable_unresolved": 0,
+            "stable_unresolved": 0,
+            "numerical_unresolved": 0,
+            "fsr": 0.0,
+            "fur": 0.0,
+            "fsr_lower": 0.0,
+            "fsr_upper": 0.0,
+            "fur_lower": 0.0,
+            "fur_upper": 0.0,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": 1.0,
+            "precision": 1.0,
+            "f1": 1.0,
+            "allocated": 8,
+            "resolved": 8,
+            "uncovered": 0,
+            "unresolved": 0,
+            "coverage": 1.0,
+            "correct_fraction_lower_bound": 1.0,
+            "accuracy_on_resolved": 1.0,
+            "numerical_failures": 0,
+            "unsettled_predictions": 0,
+            "weighting": "event_equal",
+            "forecast_horizon_s": 8.0,
+            "positive_class": "unstable",
+            "recall_on_resolved": 1.0,
+            "miss_rate_on_resolved": 0.0,
+            "false_alarm_rate_on_resolved": 0.0
+          }
+        }
+      },
+      "fits": {
+        "a": {
+          "actual_updates": 80,
+          "selected_update": 20,
+          "selected_val_nmse_0p5s_1s_5ms": 0.1611683893824077,
+          "stop_reason": "val_plateau",
+          "failure": null,
+          "last_val_nmse": 0.2914558684060818,
+          "previous_val_nmse": 0.2598346908667907,
+          "last_train_nmse_before_update": 0.004504874004337946
+        },
+        "both": {
+          "actual_updates": 240,
+          "selected_update": 240,
+          "selected_val_nmse_0p5s_1s_5ms": 0.06461586837503336,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 0.06461586837503336,
+          "previous_val_nmse": 0.06609676457332456,
+          "last_train_nmse_before_update": 0.0005772862265646676
+        },
+        "harmonic": {
+          "actual_updates": 80,
+          "selected_update": 60,
+          "selected_val_nmse_0p5s_1s_5ms": 0.25079958499873756,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 0.2525453283659945,
+          "previous_val_nmse": 0.25079958499873756,
+          "last_train_nmse_before_update": 0.001628925079638469
+        },
+        "damping": {
+          "actual_updates": 80,
+          "selected_update": 80,
+          "selected_val_nmse_0p5s_1s_5ms": 0.0016879607122875942,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 0.0016879607122875942,
+          "previous_val_nmse": 0.0031752955845240406,
+          "last_train_nmse_before_update": 2.122822415083998E-05
+        },
+        "neither": {
+          "actual_updates": 80,
+          "selected_update": 60,
+          "selected_val_nmse_0p5s_1s_5ms": 0.25059737018919576,
+          "stop_reason": "update_cap",
+          "failure": null,
+          "last_val_nmse": 0.25238184576962075,
+          "previous_val_nmse": 0.25059737018919576,
+          "last_train_nmse_before_update": 0.0016286965320617829
+        }
+      },
+      "null_a_recovery_gate_applicable": false,
+      "interpretation": "The selected physical damping coefficient is 7.460743608291219 against truth 8, with the harmonic family exactly zero. The damping-force error of 2.7466050185517104% passes, while conservative force 8.294611777467276% and memory kernel 55.22871966927878% fail. Train 3s and val 3s/8s trajectory errors also exceed their thresholds; train 8s passes."
+    }
+  },
+  "known_control_train_val_summary": {
+    "all_registered_controls_pass": true,
+    "maximum_3s_pooled_nrmse": 5.245933601988386E-09,
+    "maximum_history_normalized_error": 2.151174716042987E-09,
+    "maximum_hidden_start_rmse": 1.5276286109560694E-07,
+    "maximum_hidden_origin_rmse": 8.748468411808343E-08,
+    "maximum_history_condition": 49.51721274194782
+  },
+  "physical_checks_all_18_frozen_equations": {
+    "pass": true,
+    "maximum_energy_balance_relative_error": 8.006846714250347E-16,
+    "minimum_total_dissipation": 0.0055115662834094095,
+    "minimum_equilibrium_coi_curvature": 0.7897275371006767
+  },
+  "training_and_evaluation": {
+    "fit_count": 15,
+    "actual_optimizer_updates": 1860,
+    "registered_update_cap": 2160,
+    "full_val_checks": 93,
+    "score_records": 54,
+    "unique_declared_cases": 96,
+    "model_event_pairs": 576,
+    "resolved_model_event_pairs": 576,
+    "numerical_failures": 0,
+    "unresolved": 0,
+    "uncovered": 0,
+    "operation_counts": {
+      "numpy_rhs": 233280,
+      "fits": 15,
+      "rollouts": 10305,
+      "tangent_rhs": 546480,
+      "torch_rhs": 4364661,
+      "qr": 94968,
+      "svd": 94968,
+      "matrix_products": 94968,
+      "triangular_solves": 94968,
+      "gradients": 1860,
+      "optimizer_updates": 1860,
+      "val_checks": 93,
+      "function_checks": 21,
+      "curvature_spectra": 13608
+    },
+    "elapsed_seconds": 1868.9461872000247,
+    "runtime": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "torch_cuda": "13.0",
+      "cuda_device": "NVIDIA GeForce RTX 4060 Ti",
+      "fit_device": "cpu",
+      "score_device": "cuda",
+      "torch": "2.13.0+cu130",
+      "numpy": "2.5.2",
+      "scipy": "1.18.0"
+    },
+    "test_role": "Full test records were checked for reporting completeness only. Test scores did not enter scientific acceptance, diagnosis or next-step selection."
+  },
+  "train_val_diagnosis": {
+    "observed": "Memory-function error remains above threshold in every selected model despite correct support. The damping case also combines an accurate added damping force with inaccurate conservative force, memory kernel and recovered hidden state.",
+    "damping_val_selected_objective_error_concentration": {
+      "ids": [
+        "damping-27",
+        "damping-08"
+      ],
+      "truth_class": "unstable",
+      "fraction_of_equal_event_0p5s_1s_val_squared_error": 0.9887087661743253,
+      "meaning": "Saved per-event normalized-MSE contributions, not a sample deletion or a change of scoring denominator."
+    },
+    "damping_selected_val_max_hidden_origin_rmse": 3.472368849579159,
+    "damping_known_val_max_hidden_origin_rmse": 8.748468411808343E-08,
+    "damping_selected_val_max_history_condition": 62.5903179585656,
+    "coefficient_hidden_compensation": "The joint parameter and hidden-state discrepancies support checking compensation between visible coefficients and memory parameters. This is a diagnostic inference, not a proof of structural non-identifiability.",
+    "optimization_endpoint": "The selected refits use update 80 and still improve full-val loss from update 60 in all three populations. This establishes an active downward trend at the cap; it does not establish that extra updates alone would satisfy recovery gates."
+  },
+  "next_research_diagnostic": {
+    "priority": "A separately registered fixed-support coefficient-substitution diagnostic on the complete declared train populations, before further structure expansion or real-data fitting.",
+    "design": "Keep the selected family support, the current three-GN initializer, numerical contract and all train events. Compare the frozen selected model with diagnostic controls restoring truth (g,tau), restoring truth (k,d), and restoring both base-coefficient blocks. Score the same causal forecasts over 0.5/1 s and 3 s to distinguish coefficient compensation from short-window insensitivity. Known-truth substitutions are oracle diagnostics and cannot be presented as deployable fitting.",
+    "restrictions": [
+      "No change to the current run or thresholds.",
+      "No test-driven design, threshold or model choice.",
+      "No automatic continuation of consumed optimizer states.",
+      "Require a separate proposal, exact call budget and scientific implementation review before any new model call."
+    ],
+    "execution_approved": false
+  },
+  "real_gate": {
+    "open": false,
+    "reason": "All three selected memory kernels fail the 5% gate; null A recovery and damping trajectory/conservative-force gates also fail.",
+    "task3_reads_approved": false,
+    "new_real_fits_approved": false,
+    "next_real_scope": "After a separately registered synthetic method satisfies the required gates, register a new exact A/B TASK3 comparison with train=346, val=107, test=76 and the A06-derived common anchor. This review grants no real-data execution.",
+    "model_promotion_allowed": false,
+    "deployment_changes_allowed": false
+  },
+  "saved_json_and_hash_audit": {
+    "path": "reports/generated/machine_local_equation_20261114/saved-check.json",
+    "sha256": "dbb0ad4470ccd9878c1c614d69e94b24f447c6d2d5c18ac58f908e1a0193520d",
+    "status": "PASS",
+    "checks": 1543861,
+    "discrepancies": 0,
+    "artifact_count": 279,
+    "scope": "Saved JSON/JSONL scalar and identity checks plus artifact byte hashes. No NPZ/PT decoding or trajectory/model re-execution."
+  },
+  "review_operations": {
+    "model_calls": 0,
+    "fits": 0,
+    "npz_decodes": 0,
+    "checkpoint_decodes": 0,
+    "independent_review_checks": [
+      "Reconciled summary and immutable manifest identities.",
+      "Read all selected and known train/val role JSON and reconstructed selected val means from saved event objectives.",
+      "Checked each failed or passed gate against its numerical threshold and isolated not-applicable positive-population A gates.",
+      "Checked saved training/checkpoint-selection metadata and complete role counts.",
+      "Read the coordinator saved JSON/hash audit without re-running scientific operators."
+    ]
+  }
+}
