@@ -1,0 +1,63 @@
+{
+  "verified": true,
+  "status": "PASS",
+  "run_id": "kiki_machine_local_topology_momentum_damping_test_v1-test-20261115T104620540787Z-c909dba9-6d32e340",
+  "artifact_count": 11,
+  "roles": [
+    "train",
+    "val",
+    "test"
+  ],
+  "scores": {
+    "train": {
+      "tp": 28,
+      "tn": 305,
+      "fp": 5,
+      "fn": 3,
+      "allocated": 346,
+      "resolved": 341,
+      "unresolved": 5,
+      "numerical_failures": 0,
+      "accuracy": null,
+      "classifiable_accuracy": 0.9765395894428153,
+      "correct": 333
+    },
+    "val": {
+      "tp": 11,
+      "tn": 94,
+      "fp": 1,
+      "fn": 1,
+      "allocated": 107,
+      "resolved": 107,
+      "unresolved": 0,
+      "numerical_failures": 0,
+      "accuracy": 0.9813084112149533,
+      "classifiable_accuracy": 0.9813084112149533,
+      "correct": 105
+    },
+    "test": {
+      "tp": 4,
+      "tn": 67,
+      "fp": 0,
+      "fn": 3,
+      "allocated": 76,
+      "resolved": 74,
+      "unresolved": 2,
+      "numerical_failures": 0,
+      "accuracy": null,
+      "classifiable_accuracy": 0.9594594594594594,
+      "correct": 71
+    }
+  },
+  "val_guard": false,
+  "test_goal_met": false,
+  "train_guard": false,
+  "train_witnesses": {
+    "allocated": 35,
+    "truth_triggered": 35,
+    "predicted": {
+      "0.0025": 10,
+      "0.00125": 10
+    }
+  }
+}

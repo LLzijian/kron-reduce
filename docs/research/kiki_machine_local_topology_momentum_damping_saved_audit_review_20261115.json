@@ -1,0 +1,29 @@
+{
+  "schema": "kiki_machine_local_topology_momentum_damping_saved_audit_review.v1",
+  "approved": true,
+  "reviewer": "Astra Ultra",
+  "plan_path": "configs/proposals/kiki_machine_local_topology_momentum_damping_saved_audit_v1.json",
+  "plan_sha256": "7e53e3d7447b230f7a01ebce126f81366be48ff7fc0d84d1999bad4f709b1719",
+  "implementation_bindings": {
+    "scratch/one_off/kiki_machine_local_topology_momentum_damping_20261115/audit_predictions.py": "afe595c225ea0bba3ad7984411441b91114677b91603e8ded8ce858a3d842b1b",
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/proposals/kiki_machine_local_topology_momentum_damping_test_v1.json": "13cac9886f646bca31af9db7e09c8512615643a4b30c470bd1be10a0500ea294",
+    "docs/reports/kiki_machine_local_topology_momentum_damping_20261115_evidence.json": "5a291c49a09f9d67fa9f984f157cdfe91452db990b1bbed4a37b179c9a78d2e3",
+    "configs/proposals/kiki_machine_local_topology_momentum_damping_v1_freeze.json": "9e392c9ebb55c7f635513b74db17b5d3b424493d8eb022849b0b3c9f9da87275"
+  },
+  "reviewed_checks": [
+    "已核对精确计划哈希、全部10项本地实现绑定及60项外部评分代码绑定，均与审核字节一致。",
+    "已核对关闭的momentum_damping运行授权、精确结果凭据、完整11项结果文件清单及全部字节哈希；保存评分JSON的ID和标签覆盖来源限定的固定train346、val107、test76名单。",
+    "审计恰好绑定momentum_damping目录中的三份保存预测。单次入口先校验计划、审核、来源、评分代码、冻结尺度及终端运行记录，再消耗共享Git单次标记；最多解码三次，不允许重试。",
+    "各划分调用一次原load_saved，并直接沿用score_saved。只从保存预测复算冻结TASK3轨迹评分、双步长数值与稳定性结果及原train尺度的1s/3s归一化均方误差。",
+    "入口没有模型构造、检查点解码、来源缓存读取、动力学右端、积分、拟合或优化器调用；冻结JSON清单与原目标尺度只用于核对和评分。",
+    "三个划分均独立复算并报告差异。test目标只作结果记录，不参与候选参数、阈值或后续机制选择；审核一致不改变已经失败的train或val门。",
+    "本次审核只读JSON和代码并计算文件字节哈希，没有解码预测NPZ或执行科学计算。"
+  ],
+  "claim_boundary": "批准一次保存预测算术审核；不授权新模型调用、真实缓存读取、参数更新或模型晋升。"
+}
