@@ -3999,6 +3999,25 @@
       "result_sha256": "c0a3f6a5d3d26517eab8b5c9821808162498a0d4ac9d070c0bc5500ca7236d26",
       "result_receipt_path": "docs/reports/machine_local_hidden_oracle_20261113_evidence.json",
       "result_receipt_sha256": "a8684384658f6227e1db3002df0bf6c0e47fd6e6e1df6aedc020c0e30143f604"
+    },
+    "kiki_machine_local_topology_saved_audit_v1_20261115": {
+      "status": "consumed",
+      "authority": "operator_complete_evidence_goal_audit",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "max_npz_decodes": 6,
+      "new_model_calls": 0,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_saved_audit_v1.json",
+      "plan_sha256": "f9d742d6b09b4105d9ad663a4fd18837ad5a4fa8502ff3d7ac58b97c0df1d2ba",
+      "review_path": "docs/research/kiki_machine_local_topology_saved_audit_review_20261115.json",
+      "review_sha256": "2152a93068c0729391eb57e68e241b914b85ed85966d28dc455574c6f0d601e0",
+      "consumed_at": "2026-11-15T06:01:46.514594+00:00",
+      "result_path": "reports/generated/kiki_machine_local_topology_20261115/saved-audit.json",
+      "result_sha256": "88bb4d9ae94b8fedbe8003aea39b86e7aaa2ec5f328e00d6671f436d1f9f23f6",
+      "npz_decodes": 6,
+      "mismatches": 0,
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_saved_audit_20261115_evidence.json",
+      "result_receipt_sha256": "c1004118c1836f159ca1c5f3f52350ffa0c43215b8c3e6b3efe0abd4e8f64f4b"
     }
   },
   "default_real_data_policy": "kiki_official_train_test_v1",
@@ -4138,7 +4157,7 @@
       "result_review_sha256": "343ab3e41cb3e1d2132b4d59f16290f46480ac70db0eae139e2c73c10350a576"
     },
     "kiki_machine_local_topology_test_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_test_v1",
       "fit_attempts": 0,
       "max_executions": 1,
@@ -4163,7 +4182,14 @@
       "frozen_model_manifest": {
         "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/freeze.json",
         "sha256": "e2b09861637b126cb072ea7b06dbf0809adf0d6567fb1636ec70824c0e8e87ff"
-      }
+      },
+      "run_id": "kiki_machine_local_topology_test_v1-test-20261115T055817136229Z-9e5782ad-0ffc5eb1",
+      "result_manifest_sha256": "d38973bb44c9c09ad377d11e71c212708892cd7f86cf548177baf01ff6a57e01",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_test_20261115_evidence.json",
+      "result_receipt_sha256": "cb743d0404f3f6a34b7f175a16981e8e954079604b2f355288e728f75d25e260",
+      "result_review_path": "docs/research/kiki_machine_local_topology_test_result_review_20261115.json",
+      "result_review_sha256": "21e197564876909e726cda8fc1e95cebad33618954b4652915c3479309aa8f7a",
+      "scientific_pass": false
     }
   },
   "round_evaluation_defaults": {

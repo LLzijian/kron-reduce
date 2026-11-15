@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [TASK3 topology and memory pair](kiki_machine_local_topology_20261115_zh.md) | Two frozen models on complete train/val/test, all 67 stable test cases classified correctly, zero test instability detections, independently recomputed |
 | [Independent excitation check](machine_local_topology_transfer_20261115_zh.md) | Four frozen models across four clean synthetic systems, new stable and unstable trajectories, all matched gates passed |
 | [Long-horizon coupling and memory refinement](machine_local_topology_refinement_20261115_zh.md) | Two fixed-support fits with complete synthetic train/val/test GPU scores and passed recovery gates |
 | [Coupling and memory origin diagnosis](machine_local_topology_diagnosis_20261115_zh.md) | Twelve frozen shared-coefficient and origin-state comparisons on synthetic train/val |

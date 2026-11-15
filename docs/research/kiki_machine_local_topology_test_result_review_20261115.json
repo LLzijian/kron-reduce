@@ -1,0 +1,45 @@
+{
+  "verified": true,
+  "status": "PASS",
+  "stage": "test",
+  "run_id": "kiki_machine_local_topology_test_v1-test-20261115T055817136229Z-9e5782ad-0ffc5eb1",
+  "artifact_count": 8,
+  "roles": [
+    "test"
+  ],
+  "scores": {
+    "T0M1": {
+      "test": {
+        "tp": 0,
+        "tn": 67,
+        "fp": 0,
+        "fn": 4,
+        "allocated": 76,
+        "resolved": 71,
+        "unresolved": 5,
+        "numerical_failures": 0,
+        "accuracy": null,
+        "classifiable_accuracy": 0.9436619718309859,
+        "correct": 67
+      }
+    },
+    "T1M1": {
+      "test": {
+        "tp": 0,
+        "tn": 67,
+        "fp": 0,
+        "fn": 5,
+        "allocated": 76,
+        "resolved": 72,
+        "unresolved": 4,
+        "numerical_failures": 0,
+        "accuracy": null,
+        "classifiable_accuracy": 0.9305555555555556,
+        "correct": 67
+      }
+    },
+    "goal_met": false
+  },
+  "goal_met": false,
+  "test_resolution_goal_met": false
+}

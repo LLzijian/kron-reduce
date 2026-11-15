@@ -22,9 +22,14 @@ both fixed supports on the original clean synthetic rosters. The [independent
 excitation check](../reports/machine_local_topology_transfer_20261115_zh.md) passes
 all matched gates on fresh stable and unstable events. All 16 combinations
 classify the designed excitations correctly. Closed-loop errors distinguish the
-frozen equations on the memory truth systems. The next scope is real-unit
-interface verification for a registered TASK3 comparison of fixed supports.
-The current objective is full-cohort test stability accuracy above 90%.
+frozen equations on the memory truth systems. The [full TASK3 comparison](../reports/kiki_machine_local_topology_20261115_zh.md)
+completed train 346, val 107 and test 76 for both frozen equations. Both models
+classified 67 stable test events correctly and detected zero of nine unstable
+events. The six saved forecasts were independently rescored. The objective
+remains full-cohort test stability accuracy above 90%. On val, each model detected
+8 of 12 unstable events, with three classified stable and one unresolved.
+The next scope is a matched training-objective comparison that preserves the
+observed loss-of-synchronism condition, developed using train and val evidence.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across

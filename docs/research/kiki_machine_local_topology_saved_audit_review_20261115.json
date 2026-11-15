@@ -1,0 +1,72 @@
+{
+  "schema": "kron_reduce.kiki_machine_local_topology_saved_audit_review.v1",
+  "review_date": "2026-11-15",
+  "reviewer": "Astra independent scientific and engineering review",
+  "review_task": "/root/real_design",
+  "approved": true,
+  "review_completed": true,
+  "decision": "APPROVE_EXACT_SIX_ARCHIVE_SAVED_ARITHMETIC_AUDIT",
+  "plan_path": "configs/proposals/kiki_machine_local_topology_saved_audit_v1.json",
+  "plan_sha256": "f9d742d6b09b4105d9ad663a4fd18837ad5a4fa8502ff3d7ac58b97c0df1d2ba",
+  "implementation_bindings": {
+    "scratch/one_off/kiki_machine_local_topology_20261115/audit_predictions.py": "94c5b74abddce19cfd5bd5756631a4dce6bf781f4a45610e5ba307c81e1549eb",
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/proposals/kiki_machine_local_topology_fit_v1.json": "efaca5373f285e7abe45244b4b22d18addda2c2a5585be1565abe9d854b0ac7e",
+    "configs/proposals/kiki_machine_local_topology_test_v1.json": "226ba70cef9bf817194e2399f7fd5b9eb116bf662d0c18cae6c6cc54a20c60af",
+    "docs/reports/kiki_machine_local_topology_fit_20261115_evidence.json": "3c140e4f4d1e3ae2dcf28a7acac9bcfb44628f5050037c96ce4f0012e4339cfa",
+    "docs/reports/kiki_machine_local_topology_test_20261115_evidence.json": "cb743d0404f3f6a34b7f175a16981e8e954079604b2f355288e728f75d25e260"
+  },
+  "scope": {
+    "supports": [
+      "T0M1",
+      "T1M1"
+    ],
+    "roles": [
+      "train",
+      "val",
+      "test"
+    ],
+    "counts": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    },
+    "max_executions": 1,
+    "retry_allowed": false,
+    "max_npz_decodes": 6,
+    "new_raw_source_reads": 0,
+    "new_model_calls": 0,
+    "fitting": 0,
+    "optimizer_updates": 0,
+    "test_tuning": false
+  },
+  "verification": {
+    "plan_and_all_local_external_hashes_verified": true,
+    "consumed_fit_and_test_receipts_verified": true,
+    "exact_six_role_group_paths_verified": true,
+    "archive_hash_bindings_matched_to_immutable_manifests": true,
+    "saved_scalar_json_hashes_verified": true,
+    "source_qualified_rosters_and_truth_labels_verified": true,
+    "frozen_pair_and_train_preprocessing_verified": true,
+    "npz_files_opened_by_reviewer": 0,
+    "npz_decodes_by_reviewer": 0,
+    "model_calls_by_reviewer": 0
+  },
+  "rationale": [
+    "The plan binds exactly six saved prediction archives and their six JSON reports from the consumed fit/test runs. Each path is confined to its immutable run directory and its hash is matched to the hashed artifact manifest. This review checked archive identity through manifest entries and existence, without opening any NPZ archive.",
+    "Before decoding, the auditor verifies exact authorization, plan/review, implementation and official scoring hashes; source-qualified 346/107/76 rosters; frozen labels; consumed run receipts; and the exact fit freeze used by test. It atomically reserves a one-use Git marker before the first archive load.",
+    "The fixed role/group loop calls the pinned load_saved helper once for each of six archives, with allow_pickle=False and explicit arrays, shapes, IDs, labels, lengths and metadata checks. It reads saved forecasts and saved truth only, never the raw KIKI provider/cache or model checkpoints.",
+    "The pinned pure scoring functions recompute TASK3 trajectory metrics, dual-step numerical qualification, frozen trajectory-derived predicted labels, confusion counts, full/classifiable accuracy, coverage and train-scale 1s/3s NMSE. Real truth labels remain frozen. Invalid or missing metrics remain null; unresolved predictions are not stable.",
+    "The audit compares recomputed fields with saved reports at the helper numerical tolerance and checks paired models share identical saved truth/static arrays. It may add physical-unit RMSE summaries from existing errors, with no rollout, RHS, fitting, gradient, optimizer, threshold change or checkpoint selection.",
+    "The output path is new and outside results. Its success means saved arithmetic agrees with the pinned scorer. The 76-resolved/69-correct goal is reported from frozen outcomes and cannot initiate tuning. Reusing the official scorer verifies recomputation consistency, not an independently implemented scientific oracle."
+  ],
+  "limitations": [
+    "Approval concerns the exact bounded audit implementation and metadata bindings. Numerical recomputation will be performed by the authorized execution; this reviewer did not open raw or prediction arrays and did not execute the auditor."
+  ]
+}
