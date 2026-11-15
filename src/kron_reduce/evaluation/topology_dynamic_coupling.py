@@ -5,10 +5,19 @@ import numpy as np
 import torch
 
 from kron_reduce.evaluation.constant_c_observability import write_json
-from kron_reduce.evaluation.machine_local_topology import energy_residual, make_model, scoring, simulate
+from kron_reduce.evaluation.machine_local_topology import (
+    energy_residual,
+    make_model,
+    scoring,
+    simulate,
+)
 from kron_reduce.evaluation.machine_local_topology_margin import matched_margins
 from kron_reduce.evaluation.machine_local_topology_truth import parameters, truth_rollout
-from kron_reduce.evaluation.topology_angle_damping_synthetic import _source_population, _stable_supported, _truth_classes
+from kron_reduce.evaluation.topology_angle_damping_synthetic import (
+    _source_population,
+    _stable_supported,
+    _truth_classes,
+)
 from kron_reduce.models.machine_local_topology import predict_from_topology_history
 
 

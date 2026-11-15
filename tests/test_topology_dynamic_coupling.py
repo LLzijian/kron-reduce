@@ -52,7 +52,7 @@ def test_dynamic_log_stiffness_is_bounded_by_declared_limit(dynamic_model):
     model = dynamic_model
     limit = 0.31
     model.set_dynamic_coupling(0.2, stiffness=1.7, limit=limit)
-    params, _q, _v, _z, _power, _eq, initial, _p, _e = _initial_inputs(model)
+    _params, _q, _v, _z, _power, _eq, initial, _p, _e = _initial_inputs(model)
     shifts = []
     for value in (-1e6, 0.0, 1e6):
         state = initial.clone()
@@ -147,7 +147,7 @@ def test_dynamic_coupling_short_rollout_matches_independent_numpy_truth(dynamic_
     model = dynamic_model
     dynamic = (0.12, 1.9, 0.26)
     model.set_dynamic_coupling(dynamic[0], stiffness=dynamic[1], limit=dynamic[2])
-    params, q, v, z, power, equilibrium, initial, power_tensor, equilibrium_tensor = _initial_inputs(model)
+    params, q, v, z, power, _equilibrium, initial, power_tensor, equilibrium_tensor = _initial_inputs(model)
     predicted = model.rollout(initial, power_tensor, equilibrium_tensor, 3, max_step=0.00125)
 
     def no_spend(*_args):

@@ -227,9 +227,9 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.topology_angle_damping_synthetic import (
         execute_spatial,
     )
+    from kron_reduce.evaluation.topology_dynamic_coupling import execute as dynamic_coupling
     from kron_reduce.evaluation.topology_momentum_synthetic import execute as momentum
     from kron_reduce.evaluation.topology_restoring_synthetic import execute as restoring_shape
-    from kron_reduce.evaluation.topology_dynamic_coupling import execute as dynamic_coupling
 
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
