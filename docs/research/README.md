@@ -18,9 +18,13 @@ models. The [origin-state diagnosis](../reports/machine_local_topology_diagnosis
 finds that the combined model's eight-second val error is more sensitive to the
 coupling correction than to the memory state. Subsequent [long-horizon refinement](../reports/machine_local_topology_refinement_20261115_zh.md)
 passes the trajectory, effective-stiffness and memory-kernel recovery gates for
-both fixed supports on the original clean synthetic rosters. The next scope is
-a frozen-model comparison on new synthetic events with both stable and unstable
-trajectories, followed by registered function selection. Real evaluation remains gated.
+both fixed supports on the original clean synthetic rosters. The [independent
+excitation check](../reports/machine_local_topology_transfer_20261115_zh.md) passes
+all matched gates on fresh stable and unstable events. All 16 combinations
+classify the designed excitations correctly. Closed-loop errors distinguish the
+frozen equations on the memory truth systems. The next scope is real-unit
+interface verification for a registered TASK3 comparison of fixed supports.
+The current objective is full-cohort test stability accuracy above 90%.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across

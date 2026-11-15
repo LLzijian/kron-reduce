@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Independent excitation check](machine_local_topology_transfer_20261115_zh.md) | Four frozen models across four clean synthetic systems, new stable and unstable trajectories, all matched gates passed |
 | [Long-horizon coupling and memory refinement](machine_local_topology_refinement_20261115_zh.md) | Two fixed-support fits with complete synthetic train/val/test GPU scores and passed recovery gates |
 | [Coupling and memory origin diagnosis](machine_local_topology_diagnosis_20261115_zh.md) | Twelve frozen shared-coefficient and origin-state comparisons on synthetic train/val |
 | [Event-conditioned coupling and memory learning](machine_local_topology_learning_20261115_zh.md) | Four fixed-support fits, complete synthetic train/val/test GPU scores, memory recovery gates |
