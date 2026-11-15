@@ -103,6 +103,13 @@ The [paired restoring-force check](../reports/machine_local_topology_restoring_s
 recovered signed coefficients on the spatial damping model while preserving
 the equilibrium and linearized stiffness. The positive and negative known
 systems passed the complete causal trajectory checks.
+The [full TASK3 restoring-force comparison](../reports/kiki_machine_local_topology_restoring_shape_20261115_zh.md)
+passed both train and val trajectory guards. Val classified 104/107 with
+nine detected unstable events. Test classified 70 correctly with two
+unresolved. All 529 saved predictions passed independent scoring. The
+spatial damping anchor retains the stronger val stability and six-term score.
+The [momentum plan](machine_local_topology_momentum_plan_20261115_zh.md#按摆动方向调节阻尼)
+defines the next train mechanism check.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
