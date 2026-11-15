@@ -28,8 +28,11 @@ classified 67 stable test events correctly and detected zero of nine unstable
 events. The six saved forecasts were independently rescored. The objective
 remains full-cohort test stability accuracy above 90%. On val, each model detected
 8 of 12 unstable events, with three classified stable and one unresolved.
-The next scope is a matched training-objective comparison that preserves the
-observed loss-of-synchronism condition, developed using train and val evidence.
+The next scope isolates the memory initialization radius on the same frozen
+T0M1 equation. An analytic fixture confirmed that doubling the radius while
+quadrupling the prior weight preserves the quadratic coefficient and leaves the
+solution identical when the smaller bound is inactive. A loss-of-synchronism
+training objective remains a separate candidate.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
