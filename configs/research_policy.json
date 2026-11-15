@@ -4623,12 +4623,20 @@
         "matrix_products": 12240,
         "triangular_solves": 12240
       },
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_spatial_coupling_progression",
       "plan_path": "configs/proposals/machine_local_topology_spatial_coupling_v1.json",
       "plan_sha256": "187f900d864d45478cef7b8361e130ac38d716e9930040c2ec791ca3f1aa9a4d",
       "review_path": "docs/research/machine_local_topology_spatial_coupling_v1_review_20261116.json",
-      "review_sha256": "75aef5dfc5a5f21bd80ceb8a535bc3651edda5e8d8bb3e7dea761f49206c62ff"
+      "review_sha256": "75aef5dfc5a5f21bd80ceb8a535bc3651edda5e8d8bb3e7dea761f49206c62ff",
+      "run_id": "machine_local_topology_spatial_coupling_v1-spatial_coupling-20261115T173629211473Z-436eae58-85b0b0f0",
+      "result_manifest_sha256": "eda89b0951313d996d19207843cc1bde17f96317cdcd771b746b7d11fc80db90",
+      "result_receipt_path": "docs/reports/machine_local_topology_spatial_coupling_20261116_evidence.json",
+      "result_receipt_sha256": "7e72f1db6181ba2466161546b9b355544be17c2455e1694f549c0f49c06f7d03",
+      "result_review_path": "docs/research/machine_local_topology_spatial_coupling_result_review_20261116.json",
+      "result_review_sha256": "6c59439d780965bdeeff0aa5b6c6b71c1d59a5bc40c239d414dc955ef20e9e63",
+      "engineering_pass": true,
+      "scientific_pass": false
     }
   },
   "saved_evidence_audits": {

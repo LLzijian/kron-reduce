@@ -1,0 +1,169 @@
+{
+  "verified": true,
+  "run_id": "machine_local_topology_spatial_coupling_v1-spatial_coupling-20261115T173629211473Z-436eae58-85b0b0f0",
+  "summary_sha256": "ba4894f2924ce22ec529d3dd1f416a20a14a63412eeaf88759852cc617c44230",
+  "artifact_manifest_sha256": "eda89b0951313d996d19207843cc1bde17f96317cdcd771b746b7d11fc80db90",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "plan_sha256": "187f900d864d45478cef7b8361e130ac38d716e9930040c2ec791ca3f1aa9a4d",
+  "artifact_count": 30,
+  "operation_log_sha256": "c900ae377085d5d98384b934674869ab7a89d944e701d91d2dfb2b5528311b02",
+  "checks": {
+    "artifact_bytes": true,
+    "complete_prediction_groups": 9,
+    "exact_48_case_roster_each_group": true,
+    "truth_groups": 3,
+    "train_only_grid_selection": true,
+    "all_30_candidate_losses_finite": true,
+    "selected_losses_match_full_train_scores": true,
+    "saved_event_group_arithmetic": true,
+    "registered_gates_recomputed_from_saved_json": true,
+    "saved_geometry_thresholds": true,
+    "initial_coupling_zero_and_origin_continuity": true,
+    "zero_sum_and_common_invariants": true,
+    "operation_ledger_and_no_fallback_counts": true,
+    "real_data_reads": 0,
+    "review_array_decodes": 0
+  },
+  "populations": {
+    "null": {
+      "selected": {
+        "dynamic": 0.0,
+        "spatial": 0.0
+      },
+      "feasible_count": 27,
+      "feasible_8s_nrmse_max": 0.0012615867738088986,
+      "gates": {
+        "candidate_selection": true,
+        "feasible_trajectory": true,
+        "null_dynamic": true,
+        "zero_sum_and_common_invariants": true
+      },
+      "saved_truth_geometry_train_val": {
+        "train": {
+          "orthogonal_fraction": null,
+          "log_ratio_rms": 0.0
+        },
+        "val": {
+          "orthogonal_fraction": null,
+          "log_ratio_rms": 0.0
+        }
+      }
+    },
+    "common": {
+      "selected": {
+        "dynamic": 1.0,
+        "spatial": 2.0
+      },
+      "feasible_count": 27,
+      "feasible_8s_nrmse_max": 0.001328646695629226,
+      "grid_best_runner_ratio": 0.6433385003844355,
+      "matched_vs_baseline_mse_ratios": {
+        "train": 0.07523528937942943,
+        "val": 0.0804715000497025
+      },
+      "stable_val_8s_ratios": {
+        "spatial": 0.16266063449562093,
+        "baseline": 0.1597023700821721
+      },
+      "feasible_coordinate_error_max": 0.001743416029281103,
+      "gates": {
+        "candidate_selection": true,
+        "feasible_trajectory": true,
+        "grid_separation": true,
+        "mechanism_separation": true,
+        "stable_improvement": true,
+        "matched_witness": true,
+        "no_additional_false_alarm": true,
+        "coupling_recovery": true,
+        "edge_recovery": true,
+        "zero_sum_and_common_invariants": true,
+        "truth_excitation": true
+      },
+      "saved_truth_geometry_train_val": {
+        "train": {
+          "orthogonal_fraction": 3.1923974961192766e-32,
+          "log_ratio_rms": 0.22520408865974198
+        },
+        "val": {
+          "orthogonal_fraction": 3.5370981111571454e-32,
+          "log_ratio_rms": 0.21727699837899742
+        }
+      }
+    },
+    "spatial": {
+      "selected": {
+        "dynamic": 0.0,
+        "spatial": 1.0
+      },
+      "feasible_count": 27,
+      "feasible_8s_nrmse_max": 0.001264832482009491,
+      "grid_best_runner_ratio": 0.9922182361464853,
+      "matched_vs_baseline_mse_ratios": {
+        "train": 0.9155082675528541,
+        "val": 0.6932616508299131
+      },
+      "stable_val_8s_ratios": {
+        "dynamic": 1.0221822691141094,
+        "baseline": 1.0221822691141094
+      },
+      "feasible_coordinate_error_max": 0.0007157049089458096,
+      "gates": {
+        "candidate_selection": true,
+        "feasible_trajectory": true,
+        "grid_separation": false,
+        "mechanism_separation": false,
+        "stable_improvement": false,
+        "matched_witness": true,
+        "no_additional_false_alarm": true,
+        "coupling_recovery": true,
+        "edge_recovery": true,
+        "zero_sum_and_common_invariants": true,
+        "truth_excitation": true,
+        "orthogonal_force": true
+      },
+      "saved_truth_geometry_train_val": {
+        "train": {
+          "orthogonal_fraction": 0.10816150977298886,
+          "log_ratio_rms": 0.023935480536591364
+        },
+        "val": {
+          "orthogonal_fraction": 0.09660652243454707,
+          "log_ratio_rms": 0.02410523536411585
+        }
+      },
+      "matched_error_contributions": {
+        "train": {
+          "interior-": 0.07633295827442683,
+          "exterior-": 0.9236670417255728,
+          "delayed-": 3.373748889219743e-16
+        },
+        "val": {
+          "interior-": 0.09755326614965881,
+          "exterior-": 0.9024467338503406,
+          "delayed-": 6.316631080191654e-16
+        }
+      }
+    }
+  },
+  "operation_counts": {
+    "npz_decodes": 1,
+    "numpy_damping_roots": 6,
+    "numpy_rhs": 233280,
+    "fits": 6,
+    "train_candidate_evaluations": 30,
+    "rollouts": 336,
+    "tangent_rhs": 45600,
+    "torch_rhs": 544323,
+    "qr": 7920,
+    "svd": 7920,
+    "matrix_products": 7920,
+    "triangular_solves": 7920,
+    "gradients": 3
+  },
+  "notes": [
+    "工程门通过；空间真值的网格分离、模型损失分离和稳定组改善三门失败，保留原冻结结论。",
+    "正交比例和激励幅度按保存摘要复核门槛，未由轨迹重新计算；其余损失与分组统计由逐例 JSON 独立重算。",
+    "下一设计依据仅使用 train 和 val。半径外样本贡献了匹配空间模型 train 双时域误差的约92.37%，提示需要独立区分初始化误差与动力学可辨识性。"
+  ]
+}
