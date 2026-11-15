@@ -4,6 +4,7 @@ from kron_reduce.evaluation.kiki_machine_local_topology_radius import _validate_
 from kron_reduce.workflows.kiki_machine_local_topology_radius import (
     _execution_plan,
     _result_file,
+    angle_damping_freeze,
     momentum_damping_freeze,
     radius_freeze,
 )
@@ -38,6 +39,37 @@ def test_momentum_damping_freeze_retains_the_original_history_contract():
     assert freeze["checkpoint_sha256"] == checkpoint["sha256"]
     assert freeze["preprocessing_sha256"] == anchor["preprocessing_sha256"]
     assert freeze["settings"] == anchor["settings"] | {"damping_multiplier": factor, "matched_train_witnesses": True}
+
+
+def test_angle_damping_freeze_preserves_radius_prior_and_checkpoint():
+    anchor = anchor_record()
+    binding = {"path": "freeze.json", "sha256": "anchor-hash"}
+    checkpoint = {"path": "old-weights.npz", "sha256": "old-weight-hash"}
+    rho = 0.5
+    freeze = angle_damping_freeze(anchor, binding, checkpoint, rho)
+    assert freeze["anchor_fit_manifest"] == binding
+    assert freeze["checkpoint_path"] == checkpoint["path"]
+    assert freeze["checkpoint_sha256"] == checkpoint["sha256"]
+    assert freeze["preprocessing_path"] == anchor["preprocessing_path"]
+    assert freeze["preprocessing_sha256"] == anchor["preprocessing_sha256"]
+    assert freeze["memory_radius_multiplier"] == 1.
+    assert freeze["settings"] == anchor["settings"] | {
+        "angle_damping_rho": rho,
+        "matched_train_witnesses": True,
+    }
+    assert freeze["settings"]["prior_weight"] == 1e-6
+
+
+@pytest.mark.parametrize("rho", [-1e-12, 2. / 3. + 1e-12, float("nan")])
+def test_angle_damping_freeze_rejects_invalid_rho_before_anchor_dispatch(monkeypatch, rho):
+    import kron_reduce.workflows.kiki_machine_local_topology_radius as workflow
+
+    def should_not_dispatch(*_args, **_kwargs):
+        raise AssertionError("invalid rho must be rejected before anchor validation")
+
+    monkeypatch.setattr(workflow, "radius_freeze", should_not_dispatch)
+    with pytest.raises(ValueError, match="angle damping rho"):
+        angle_damping_freeze({}, {}, {}, rho)
 
 
 def test_radius_freeze_rejects_inexact_anchor():

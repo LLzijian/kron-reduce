@@ -114,6 +114,8 @@ def execute(root, directory, plan, stage):
             with torch.no_grad():
                 model.log_damping_factor.add_(math.log(factor))
             torch.testing.assert_close(model.effective_damping, factor*original_damping, rtol=1e-13, atol=1e-13)
+        if group_name == "angle_damping":
+            model.set_angle_damping(frozen["settings"]["angle_damping_rho"])
         roles = {"train": development.load("train"),
                  "val": development.load("val", freeze_path=freeze_path),
                  "test": held_out.load("test", freeze_path=freeze_path)}
@@ -190,6 +192,8 @@ def execute(root, directory, plan, stage):
             summary.update(train_guard=train_guard, train_witnesses=train_witnesses)
         if group_name == "momentum_damping":
             summary["damping_multiplier"] = frozen["settings"]["damping_multiplier"]
+        if group_name == "angle_damping":
+            summary["angle_damping_rho"] = frozen["settings"]["angle_damping_rho"]
         write_json(directory/"summary.json", summary)
         write_json(directory/"stage_evidence.json", evidence)
         return summary

@@ -1436,6 +1436,27 @@
       "result_review_sha256": "5bd1e3653be4f7f05713ceb7c205337b5a71fa304a38224446d27f58eecde900",
       "engineering_pass": true,
       "scientific_pass": false
+    },
+    "kiki_machine_local_topology_angle_damping_fit_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_angle_damping_fit_v1",
+      "authority": "operator_autonomous_full_train_angle_damping_fit",
+      "fit_attempts": 2,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "train_cases": 346,
+      "source_cache_open_limit": 2,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_angle_damping_fit_v1.json",
+      "plan_sha256": "85243f0d896262868e1412d03712e2c1b3061fedd49051e1e783cca52595525f",
+      "review_path": "docs/research/kiki_machine_local_topology_angle_damping_fit_v1_review_20261115.json",
+      "review_sha256": "80b31e26701b18f068127012ded5c98e886c9d304fd86ea85ef8f178b90ef61b",
+      "operation_limits": {
+        "checkpoint_loads": 2,
+        "svd": 346,
+        "fits": 2,
+        "weak_intervals": 107260,
+        "quad_check_intervals": 107260
+      }
     }
   },
   "archived_development_results": {
@@ -4269,12 +4290,20 @@
         "matrix_products": 3840,
         "triangular_solves": 3840
       },
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
       "plan_path": "configs/proposals/machine_local_topology_angle_damping_v1.json",
       "plan_sha256": "60a97c7c25b7b09c6250ac7ac531ce886816b0ca21c4a43b9aa4e8aeaaa9c12e",
       "review_path": "docs/research/machine_local_topology_angle_damping_v1_review_20261115.json",
-      "review_sha256": "488822f11b1435e025092de5e8ea3975b8e89b08e0bdb3f7c46f025af09bda5e"
+      "review_sha256": "488822f11b1435e025092de5e8ea3975b8e89b08e0bdb3f7c46f025af09bda5e",
+      "run_id": "machine_local_topology_angle_damping_v1-angle_damping-20261115T112513267447Z-ff9676a4-7b106d35",
+      "result_manifest_sha256": "cefde0afdd9827f9485912898db17254d8b8e9ad339375974885c993034deff3",
+      "result_receipt_path": "docs/reports/machine_local_topology_angle_damping_20261115_evidence.json",
+      "result_receipt_sha256": "8a5dfa48d96b0b4ea1f96424bc8b09e3e55df58ada97ec161401b27558bf6f05",
+      "result_review_path": "docs/research/machine_local_topology_angle_damping_result_review_20261115.json",
+      "result_review_sha256": "d6bcce0f023374f0596bda6ee78983227f215e284dd7ca5d306707a12be34856",
+      "engineering_pass": true,
+      "scientific_pass": true
     }
   },
   "saved_evidence_audits": {

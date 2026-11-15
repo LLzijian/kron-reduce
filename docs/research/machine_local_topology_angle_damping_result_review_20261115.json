@@ -1,0 +1,119 @@
+{
+  "verified": true,
+  "run_id": "machine_local_topology_angle_damping_v1-angle_damping-20261115T112513267447Z-ff9676a4-7b106d35",
+  "summary_sha256": "5c73ca8f9601cae6bd5087586e33dcf40103aeaf27e20e98c3f141374731e568",
+  "artifact_manifest_sha256": "cefde0afdd9827f9485912898db17254d8b8e9ad339375974885c993034deff3",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "artifact_count": 23,
+  "checks": {
+    "saved_archive_verifier_passed": true,
+    "exact_roster_per_four_predictions": {
+      "train": 24,
+      "val": 12,
+      "test": 12
+    },
+    "frozen_train_fit_recomputed": true,
+    "weak_sse_exact_arithmetic_recomputed": true,
+    "confusion_and_coverage_recomputed": true,
+    "matched_triggers_recomputed": true,
+    "engineering_and_scientific_gates_recomputed": true,
+    "operation_counts_within_registered_caps": true,
+    "test_reporting_only": true,
+    "npz_decodes_during_review": 0,
+    "new_scientific_runs": 0
+  },
+  "train_val_evidence": {
+    "rho-0": {
+      "fit": {
+        "constant": -3.410611819079035e-06,
+        "angle": 6.3594524162080525e-06
+      },
+      "coefficient_absolute_error": 6.3594524162080525e-06,
+      "feasible_train_val_count": 27,
+      "feasible_max_8s_nrmse": 0.0016346378287367576,
+      "max_train_val_quadrature_gap": 1.5365855289550812e-15,
+      "energy_error": 3.656099674822448e-16,
+      "recomputed_gates": {
+        "coefficient": true,
+        "feasible_trace": true,
+        "constant_null": true
+      }
+    },
+    "rho-0.5": {
+      "fit": {
+        "constant": -0.45742412291158785,
+        "angle": 0.5000029307393609
+      },
+      "coefficient_absolute_error": 2.930739360862411e-06,
+      "feasible_train_val_count": 27,
+      "feasible_max_8s_nrmse": 0.0013777434378329297,
+      "max_train_val_quadrature_gap": 1.74198763053246e-15,
+      "energy_error": 3.015135134255773e-16,
+      "stable_val_feasible_8s_nrmse": {
+        "constant": 0.013684739586145382,
+        "angle": 0.0006552318239381497
+      },
+      "stable_val_feasible_ratio": 0.047880474437490605,
+      "train_val_weak_angle_constant_ratio": {
+        "train": 6.997922901706066e-09,
+        "val": 7.80078949621402e-09
+      },
+      "train_val_weak_constant_floor_ratio": {
+        "train": 136696460.77311748,
+        "val": 122057450.20079435
+      },
+      "train_val_counts": {
+        "constant": {
+          "train": {
+            "matched_triggers": 6,
+            "fp": 0
+          },
+          "val": {
+            "matched_triggers": 3,
+            "fp": 0
+          }
+        },
+        "angle": {
+          "train": {
+            "matched_triggers": 6,
+            "fp": 0
+          },
+          "val": {
+            "matched_triggers": 3,
+            "fp": 0
+          }
+        }
+      },
+      "recomputed_gates": {
+        "coefficient": true,
+        "feasible_trace": true,
+        "weak_separation": true,
+        "stable_improvement": true,
+        "matched_witness": true,
+        "no_additional_false_alarm": true
+      }
+    }
+  },
+  "operation_counts": {
+    "npz_decodes": 1,
+    "weak_intervals": 29760,
+    "svd": 2016,
+    "quad_check_intervals": 29760,
+    "fits": 4,
+    "gradients": 2,
+    "torch_rhs": 165122,
+    "rollouts": 56,
+    "tangent_rhs": 9600,
+    "qr": 1920,
+    "matrix_products": 1920,
+    "triangular_solves": 1920,
+    "numpy_rhs": 77760
+  },
+  "notes": [
+    "All 23 immutable artifact byte digests and the exact source bindings pass the saved JSON verifier. All four prediction score files retain the same complete frozen 24/12/12 roster.",
+    "The angle law recovers both known truth coefficients and improves positive-truth train/val weak residuals and radius-feasible stable val trajectories over a separately train-fitted positive constant damping comparator.",
+    "The 0.01 forecast gate concerns radius-feasible cases with the retained radial initializer and nonzero prior. It does not establish exact hidden-state recovery or full-support trajectory accuracy.",
+    "This establishes matched synthetic discrimination and causal forecast support for the frozen mechanism. Real train fitting and evaluation require separate registration; no test metrics selected or revised this mechanism."
+  ]
+}

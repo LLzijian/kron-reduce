@@ -20,7 +20,8 @@ NAME = "kiki_machine_local_topology_momentum_v1"
 STAGE = "train_momentum"
 MODULE = "kron_reduce.workflows.kiki_topology_momentum"
 ORIGIN_TRANSFER = "kiki_machine_local_topology_origin_transfer_v1"
-CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer"}
+ANGLE_FIT = "kiki_machine_local_topology_angle_damping_fit_v1"
+CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer", ANGLE_FIT: "angle_damping_fit"}
 
 
 def authorize(root, name=NAME):
@@ -36,7 +37,7 @@ def authorize(root, name=NAME):
     validate_run_policy(root, name, entry)
     policy = load_policy(root)
     auth = policy["development_evaluations"][authority]
-    expected = {"status": "active", "experiment": name, "fit_attempts": 0, "max_executions": 1,
+    expected = {"status": "active", "experiment": name, "fit_attempts": 2 if name == ANGLE_FIT else 0, "max_executions": 1,
                 "retry_allowed": False, "train_cases": 346, "source_cache_open_limit": 2}
     if any(type(auth.get(k)) is not type(v) or auth[k] != v for k,v in expected.items()):
         raise RuntimeError("one-run train-only momentum authority differs")
@@ -50,7 +51,9 @@ def authorize(root, name=NAME):
         raise RuntimeError("exact train-only plan and review required")
     for path, digest in plan["implementation_bindings"].items():
         verify_bound_file(root, path, digest)
-    truth = policy["bounded_synthetic_evaluations"]["machine_local_topology_momentum_v1_20261115"]
+    synthetic = ("machine_local_topology_angle_damping_v1_20261115" if name == ANGLE_FIT
+                 else "machine_local_topology_momentum_v1_20261115")
+    truth = policy["bounded_synthetic_evaluations"][synthetic]
     if (truth["status"] != "consumed" or truth["scientific_pass"] is not True
             or plan["synthetic_receipt"] != {"path":truth["result_receipt_path"],"sha256":truth["result_receipt_sha256"]}):
         raise RuntimeError("known-truth momentum gate required")
@@ -124,9 +127,10 @@ def run(*, root, experiment, stage, result_dir, run_id):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--origin-transfer", action="store_true")
-    args = parser.parse_args()
-    name = ORIGIN_TRANSFER if args.origin_transfer else NAME
+    options = parser.add_mutually_exclusive_group()
+    options.add_argument("--origin-transfer", action="store_const", const=ORIGIN_TRANSFER, dest="study")
+    options.add_argument("--angle-damping-fit", action="store_const", const=ANGLE_FIT, dest="study")
+    name = parser.parse_args().study or NAME
     root = project_root()
     with workflow_lock(root,name):
         entry, _ = authorize(root, name)

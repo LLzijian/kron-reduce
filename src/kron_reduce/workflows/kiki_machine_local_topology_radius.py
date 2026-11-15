@@ -26,9 +26,13 @@ PRIOR_AUTHORIZATION = PRIOR_EXPERIMENT+"_20261115"
 MOMENTUM_WORKFLOW = "kiki_machine_local_topology_momentum_damping_v1"
 MOMENTUM_EXPERIMENT = "kiki_machine_local_topology_momentum_damping_test_v1"
 MOMENTUM_AUTHORIZATION = MOMENTUM_EXPERIMENT+"_20261115"
+ANGLE_WORKFLOW = "kiki_machine_local_topology_angle_damping_v1"
+ANGLE_EXPERIMENT = "kiki_machine_local_topology_angle_damping_test_v1"
+ANGLE_AUTHORIZATION = ANGLE_EXPERIMENT+"_20261115"
 COMPARISONS = {"R2": (WORKFLOW, EXPERIMENT, AUTHORIZATION),
                "no_prior": (PRIOR_WORKFLOW, PRIOR_EXPERIMENT, PRIOR_AUTHORIZATION),
-               "momentum_damping": (MOMENTUM_WORKFLOW, MOMENTUM_EXPERIMENT, MOMENTUM_AUTHORIZATION)}
+               "momentum_damping": (MOMENTUM_WORKFLOW, MOMENTUM_EXPERIMENT, MOMENTUM_AUTHORIZATION),
+               "angle_damping": (ANGLE_WORKFLOW, ANGLE_EXPERIMENT, ANGLE_AUTHORIZATION)}
 
 
 def _bound_json(root, binding):
@@ -71,6 +75,15 @@ def momentum_damping_freeze(anchor, binding, checkpoint, multiplier):
     frozen = radius_freeze(anchor, binding, checkpoint)
     frozen["memory_radius_multiplier"] = 1.
     frozen["settings"] = anchor["settings"] | {"damping_multiplier": multiplier, "matched_train_witnesses": True}
+    return frozen
+
+
+def angle_damping_freeze(anchor, binding, checkpoint, rho):
+    if not 0. <= rho <= 2./3.:
+        raise ValueError("angle damping rho must be between zero and two-thirds")
+    frozen = radius_freeze(anchor, binding, checkpoint)
+    frozen["memory_radius_multiplier"] = 1.
+    frozen["settings"] = anchor["settings"] | {"angle_damping_rho": rho, "matched_train_witnesses": True}
     return frozen
 
 
@@ -165,6 +178,23 @@ def authorize(root, *, comparison="R2"):
         def build(anchor, binding, checkpoint):
             return momentum_damping_freeze(anchor, binding, checkpoint, plan["damping_multiplier"])
 
+    if comparison == "angle_damping":
+        fit = policy["development_evaluations"]["kiki_machine_local_topology_angle_damping_fit_v1_20261115"]
+        if fit["status"] != "consumed" or fit["engineering_pass"] is not True:
+            raise RuntimeError("qualified complete train angle damping fit required")
+        receipt, review = ({"path": fit[f"result_{key}_path"], "sha256": fit[f"result_{key}_sha256"]}
+                           for key in ("receipt", "review"))
+        if plan["angle_fit_receipt"] != receipt or plan["angle_fit_review"] != review:
+            raise RuntimeError("angle damping fit binding differs")
+        matched = _bound_json(root, receipt)
+        rho = matched["train_fits"]["angle"]
+        if (matched["fit_supported"] is not True or matched["allocated"] != 346
+                or _bound_json(root, review)["selected_rho"] != rho or plan["angle_damping_rho"] != rho):
+            raise RuntimeError("frozen angle damping coefficient differs from full train fit")
+
+        def build(anchor, binding, checkpoint):
+            return angle_damping_freeze(anchor, binding, checkpoint, rho)
+
     _reference(root, policy, plan, build)
     source = _bound_json(root, plan["source_contract"])
     if plan["backbone"] != source["backbone"]:
@@ -208,6 +238,7 @@ def main():
     options = parser.add_mutually_exclusive_group()
     options.add_argument("--no-prior", action="store_const", const="no_prior", dest="comparison")
     options.add_argument("--momentum-damping", action="store_const", const="momentum_damping", dest="comparison")
+    options.add_argument("--angle-damping", action="store_const", const="angle_damping", dest="comparison")
     comparison = parser.parse_args().comparison or "R2"
     root = project_root()
     workflow, experiment, _ = COMPARISONS[comparison]

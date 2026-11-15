@@ -14,6 +14,11 @@ from kron_reduce.data.task3_full import Task3FullReader
 from kron_reduce.evaluation.constant_c_observability import write_json
 from kron_reduce.evaluation.kiki_machine_local_r20_r21 import verified
 from kron_reduce.evaluation.kiki_topology_bridge import load_snapshot, make_model
+from kron_reduce.evaluation.topology_angle_momentum import (
+    angle_momentum,
+    damping_sse,
+    fit_train_damping,
+)
 from kron_reduce.evaluation.topology_momentum import (
     direction_changes,
     inspect_momentum,
@@ -202,6 +207,29 @@ def _origin_contrast(directory, events, blocks, radius, budget):
             "statuses": dict(status), "memory_radius": radius, "groups": groups}
 
 
+def _angle_fit(directory, events, blocks, radius, budget):
+    rows = []
+    for event in events:
+        path = event["x"][:MAX_FRAME]
+        result = angle_momentum(path, event["p0"], event["equilibrium"], blocks, DT,
+                                budget.spend, check_quadrature=True)
+        rows.append({"id": event["id"], "role": "train", "label": event["label"],
+                     "fault_group": str(event["group"]), "intervals": len(path)-1, **result})
+    write_json(directory/"angle-fit-rows.json", rows)
+    budget.spend("fits", 2)
+    fit = fit_train_damping(rows)
+    gap = max(row["quadrature_gap"] for row in rows)
+    valid = fit is not None and gap <= 1e-10
+    groups = {"train": rows} | {label: [row for row in rows if row["label"] == label]
+                               for label in ("stable", "unstable")}
+    residuals = {name: damping_sse(group, fit) for name, group in groups.items()} if valid else None
+    return {"role": "train", "allocated": len(rows), "memory_radius": radius,
+            "engineering_pass": valid, "fit_supported": valid, "train_fits": fit if valid else None,
+            "scientific_pass": valid and all(row["angle"] < row["original"] for row in residuals.values()),
+            "quadrature_gap": gap, "full_rank": sum(row["rank"] == 10 for row in rows),
+            "retained_intervals": sum(row["intervals"] for row in rows), "residuals": residuals}
+
+
 def execute(root, directory, plan, budget):
     """Audit all official train cases using saved causal inputs; never forecasts."""
     root, directory = Path(root).resolve(), Path(directory)
@@ -210,7 +238,7 @@ def execute(root, directory, plan, budget):
         raise PermissionError("momentum audit is restricted to the official train role")
     roster = sources["rosters"]["train"]
     contrast = plan.get("contrast", "force_blocks")
-    if len(roster) != TRAIN_COUNT or contrast not in ("force_blocks", "origin_transfer"):
+    if len(roster) != TRAIN_COUNT or contrast not in ("force_blocks", "origin_transfer", "angle_damping_fit"):
         raise ValueError("plan must bind the complete train roster and a supported contrast")
     factors = [float(x) for x in plan.get("inertias", [])]
     if contrast == "force_blocks" and (len(set(factors)) != 4 or len(factors) != 4
@@ -251,6 +279,8 @@ def execute(root, directory, plan, budget):
 
         if contrast == "origin_transfer":
             return _origin_contrast(directory, events, blocks, radius, budget) | {"trajectory_lengths": lengths}
+        if contrast == "angle_damping_fit":
+            return _angle_fit(directory, events, blocks, radius, budget)
 
         history_paths = [event["x"][:11] for event in events]
         full_paths = [event["x"][:min(MAX_FRAME, len(event["x"]))] for event in events]
