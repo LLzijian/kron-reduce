@@ -80,8 +80,16 @@ kept the original equation fixed. Removing the history bound reduced subsequent
 observed-path momentum SSE by 41.92% on unstable train events and increased it
 by 33.54% on stable train events. The sampling and transfer gates failed, so
 this comparison supplies no basis to relax the bound globally.
-The next [known-truth comparison](machine_local_topology_momentum_plan_20261115_zh.md#下一项合成对照)
-prepares angle-dependent dissipative damping with the original memory bound.
+The [paired angle-damping check](../reports/machine_local_topology_angle_damping_20261115_zh.md)
+recovered the known coefficient and passed trajectory and stability gates.
+The [full TASK3 angle-damping comparison](../reports/kiki_machine_local_topology_angle_damping_20261115_zh.md)
+used the complete train estimate at the frozen upper bound. Val classified
+106/107 correctly with no stable false alarm and passed its trajectory gate.
+Three train false alarms account for 99.55% of the increase in the mean stable
+eight-second error. Test returned 69 correct judgments with three unresolved.
+The complete rosters have been independently rescored. The next planned
+[damping scale check](machine_local_topology_momentum_plan_20261115_zh.md#功角尺度诊断)
+tests one increased angle scale at common origins on complete train.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
