@@ -1531,7 +1531,7 @@
       "scientific_pass": false
     },
     "kiki_machine_local_topology_modal_damping_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_modal_damping_v1",
       "authority": "operator_autonomous_full_train_modal_damping_diagnostic",
       "fit_attempts": 0,
@@ -1556,7 +1556,15 @@
         "qr": 6920,
         "matrix_products": 6920,
         "triangular_solves": 6920
-      }
+      },
+      "run_id": "kiki_machine_local_topology_modal_damping_v1-train_momentum-20261115T124237995489Z-dfc29c8a-a2df2391",
+      "result_manifest_sha256": "e3f0521536add2dcfb0ad8eb08e0e3444280edcdcbbb9266a3cfb0ab30a01c2f",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_modal_damping_20261115_evidence.json",
+      "result_receipt_sha256": "087769f7a21f1d1114af8aa377c9c4bae46cca52ded26dd57c3edaf99a04690e",
+      "result_review_path": "docs/research/kiki_machine_local_topology_modal_damping_result_review_20261115.json",
+      "result_review_sha256": "f8482bfb16f305b44bd193adf245ee7e9938ed31592e492e138b535a86ed1e5c",
+      "engineering_pass": true,
+      "scientific_pass": false
     }
   },
   "archived_development_results": {

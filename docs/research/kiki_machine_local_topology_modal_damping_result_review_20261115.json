@@ -1,0 +1,71 @@
+{
+  "verified": true,
+  "run_id": "kiki_machine_local_topology_modal_damping_v1-train_momentum-20261115T124237995489Z-dfc29c8a-a2df2391",
+  "summary_sha256": "80095eeeb692c312b73c7df86e64267a8ec06f7535511fd2e2ce5923b4402e7e",
+  "artifact_manifest_sha256": "e3f0521536add2dcfb0ad8eb08e0e3444280edcdcbbb9266a3cfb0ab30a01c2f",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "checks": {
+    "saved_json_verifier": "scratch/one_off/kiki_machine_local_topology_modal_momentum_20261115/archive.py (without close)",
+    "artifact_count": 6,
+    "source_qualified_train_rows": 346,
+    "stable_rows": 311,
+    "unstable_rows": 35,
+    "all_rows_rank": 10,
+    "history_estimation_errors": 0,
+    "source_archive_opens": {
+      "static": 1,
+      "development": 1
+    },
+    "decoded_roles": [
+      "train"
+    ],
+    "operation_counts": {
+      "checkpoint_loads": 2,
+      "numpy_damping_roots": 1,
+      "reference_eigh": 1,
+      "rollouts": 154,
+      "tangent_rhs": 26400,
+      "torch_rhs": 31680,
+      "qr": 3460,
+      "svd": 3806,
+      "matrix_products": 3460,
+      "triangular_solves": 3460,
+      "weak_intervals": 98341,
+      "quad_check_intervals": 98341
+    },
+    "eta": 0.37139578607384655,
+    "relative_eigengap": 0.19676450740382065,
+    "maximum_quadrature_gap": 3.843453333374214e-14,
+    "independent_sse_identity_and_group_recomputation": true,
+    "candidate_to_anchor_sse_ratios": {
+      "train": {
+        "0.0025": 1.0000843439210003,
+        "0.00125": 1.0000843439490221,
+        "free": 1.0102793786076631
+      },
+      "stable": {
+        "0.0025": 1.0099925309367757,
+        "0.00125": 1.0099925309604676,
+        "free": 1.0136029899944161
+      },
+      "unstable": {
+        "0.0025": 0.9932805747437898,
+        "0.00125": 0.9932805747830455,
+        "free": 1.002397106457246
+      }
+    },
+    "failed_gates": [
+      "train/free",
+      "stable/0.0025",
+      "stable/0.00125",
+      "stable/free"
+    ]
+  },
+  "notes": [
+    "The fixed modal direction and amplitude are numerically qualified, but all three stable-group gates fail; the free-memory complete-train ratio also exceeds 1.01.",
+    "The two causal-start controls increase stable-group SSE by about 0.9993%; the free-memory control increases it by about 1.3603%. This fixed additional damping is rejected by the preregistered diagnostic.",
+    "No mode, amplitude, sign or threshold is reselected from this result. The result does not establish failure of every modal damping mechanism.",
+    "Independent verification used saved JSON and artifact byte hashes only, without trajectory decoding or scientific execution."
+  ]
+}

@@ -96,8 +96,9 @@ recovered both reference distributions and separated spatial allocation from
 the trace-matched control. The [full TASK3 spatial comparison](../reports/kiki_machine_local_topology_spatial_damping_20261115_zh.md)
 retained 106/107 correct on val with zero stable false alarms and a six-term
 score of 0.42674. Test returned 70 correct judgments and two unresolved, all
-independently rescored. The [fixed modal probe](../protocols/kiki_machine_local_topology_modal_damping_v1_zh.md)
-uses the spatial anchor and complete train at fixed causal starts.
+independently rescored. The [fixed modal probe](../reports/kiki_machine_local_topology_modal_damping_20261115_zh.md)
+qualified all train cases. Adding the fixed reference-stiffness mode increased
+stable residuals at both causal starts and under free-memory projection.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
