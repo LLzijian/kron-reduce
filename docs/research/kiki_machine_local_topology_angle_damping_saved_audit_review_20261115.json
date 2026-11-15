@@ -1,0 +1,44 @@
+{
+  "approved": true,
+  "plan_path": "configs/proposals/kiki_machine_local_topology_angle_damping_saved_audit_v1.json",
+  "plan_sha256": "1a401137227f8bed6fe385a59da0cf2360af1ee39cf39e9d0142ded9ce478a85",
+  "implementation_bindings": {
+    "scratch/one_off/kiki_machine_local_topology_angle_damping_20261115/audit_predictions.py": "a771be93fd76d5829f2f2a9f9de6fe0c1b62ef2ae62057b441b47978e2cce269",
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/proposals/kiki_machine_local_topology_angle_damping_test_v1.json": "a5772a2440509831268ec68b1d8f859aa7ef070566db5b5cf748fe2c2e07a095",
+    "docs/reports/kiki_machine_local_topology_angle_damping_20261115_evidence.json": "b1f7327a33612edc4fd75b90f6a1b1c2710ca144b5c63e1fb59bc888955cc973",
+    "configs/proposals/kiki_machine_local_topology_angle_damping_v1_freeze.json": "05017f11a8f96d1a0d925fef2bee344fd8ecaae3671a131caf0224cd8e822a26"
+  },
+  "scope": "One immutable saved-prediction arithmetic audit. Review performed byte hashing and saved JSON/static source inspection only; zero NPZ decoding, real cache reads or model/scientific execution.",
+  "checks": {
+    "local_binding_count": 10,
+    "external_scoring_binding_count": 60,
+    "immutable_run_artifact_count": 11,
+    "all_byte_digests_verified": true,
+    "source_test_authority_consumed": true,
+    "exact_cohort_counts": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    },
+    "exact_source_qualified_ids_and_labels_verified": true,
+    "authorized_saved_prediction_decodes": 3,
+    "new_model_calls": 0,
+    "raw_cache_reads": 0,
+    "checkpoint_loads": 0,
+    "single_use_reservation_before_decodes": true,
+    "inherited_score_saved_without_model_execution": true,
+    "output_separate_from_immutable_run": true
+  },
+  "notes": [
+    "The bound audit loads each of the three retained forecast NPZ files once and recomputes the frozen TASK3 trajectory, classification, coverage and terminal loss arithmetic. No training, initializer, RHS, forecast integration or checkpoint path is invoked.",
+    "The saved labels, input normalization, source-qualified rosters and original freeze are checked before spending the one-use audit marker. The audit cannot replace, tune or regenerate predictions.",
+    "The inherited score_saved implementation preserves unresolved and numerical-failure accounting and compares recomputed fields to the saved JSON. Mismatches remain explicit and prevent PASS.",
+    "Audit approval does not alter the existing train guard failure, val guard result or KEEP_BASELINE decision. Test results remain reporting-only and cannot select a follow-up mechanism."
+  ]
+}
