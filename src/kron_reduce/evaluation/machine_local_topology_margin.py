@@ -146,6 +146,11 @@ def compare(initial, reference, candidate, gates):
             and final["fp"] == 0 and final["tp"]+final["tn"] >= old["tp"]+old["tn"]}
 
 
+def save_equation(model, directory, name):
+    write_json(directory/f"{name}-equation.json", readout(model))
+    np.savez_compressed(directory/f"{name}-equation.npz", **{k: v.cpu().numpy() for k, v in snapshot(model).items()})
+
+
 def execute(root, directory, plan, budget):
     cases, params = transfer_cases(plan), parameters()
     mass, k, d, _, _, ref = params
@@ -203,8 +208,7 @@ def execute(root, directory, plan, budget):
         frozen[name] = model
     for name, model in frozen.items():
         model.requires_grad_(False).eval()
-        write_json(directory/f"{name}-equation.json", readout(model))
-        np.savez_compressed(directory/f"{name}-equation.npz", **{k: v.numpy() for k, v in snapshot(model).items()})
+        save_equation(model, directory, name)
     results = {}
     for name, model in frozen.items():
         paths, histories, failures = simulate(model, truth, a, p, eq, hscale, budget, oracle=False)

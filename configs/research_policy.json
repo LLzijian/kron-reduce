@@ -3901,12 +3901,47 @@
         "fits": 2,
         "optimizer_updates": 40
       },
-      "status": "active",
+      "status": "consumed",
       "plan_path": "configs/proposals/machine_local_topology_margin_v1.json",
       "plan_sha256": "5236590ab66a53d4dc0cddda9b75c10334c1741ce8dd5bf6d1cbd13bbb7d493f",
       "review_path": "docs/research/machine_local_topology_margin_review_20261115.json",
       "review_sha256": "37364604aa54438a3fdf109918001566f7e75198c615b7dffaf70aabc4c05418",
-      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal"
+      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
+      "run_id": "machine_local_topology_margin_v1-margin-20261115T071940112808Z-c35bab75-6439320d",
+      "process_status": "FAILED_RESULT_SERIALIZATION",
+      "failed_record_sha256": "0cb159eea78dca3d30cc47fcdf5f49a545d355a4818285fda86bc45867de4550",
+      "scientific_pass": false,
+      "result_receipt_path": "docs/research/machine_local_topology_margin_v1_serialization_failure_20261115.json",
+      "result_receipt_sha256": "a1f13225a7d9bc6d59deba5cb462feec54044b792ad1a459f522d66aed80dfeb"
+    },
+    "machine_local_topology_margin_v2_20261115": {
+      "experiment": "machine_local_topology_margin_v2",
+      "workflow": "machine_local_topology_margin_v2",
+      "stage": "margin_v2",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 2,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "numpy_rhs": 77760,
+        "rollouts": 1330,
+        "torch_rhs": 3211203,
+        "tangent_rhs": 196000,
+        "qr": 3840,
+        "svd": 3840,
+        "triangular_solves": 3840,
+        "matrix_products": 3840,
+        "gradients": 43,
+        "fits": 2,
+        "optimizer_updates": 40
+      },
+      "status": "active",
+      "plan_path": "configs/proposals/machine_local_topology_margin_v2.json",
+      "plan_sha256": "554e3495a29f5ed2bdaf251cc8121ba6fe335d203a1cc49de5c403136c6fb984",
+      "review_path": "docs/research/machine_local_topology_margin_v2_review_20261115.json",
+      "review_sha256": "2927450b4d38e0238b2257432c6138d378c722358fe7db4912b16f19c982d7b7",
+      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal_engineering_repair"
     }
   },
   "saved_evidence_audits": {

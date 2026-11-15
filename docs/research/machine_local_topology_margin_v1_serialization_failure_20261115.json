@@ -1,0 +1,39 @@
+{
+  "run_id": "machine_local_topology_margin_v1-margin-20261115T071940112808Z-c35bab75-6439320d",
+  "source_commit": "c35bab75ce57a6589df212dc063583edd8f18a3a",
+  "plan_sha256": "5236590ab66a53d4dc0cddda9b75c10334c1741ce8dd5bf6d1cbd13bbb7d493f",
+  "status": "FAILED_RESULT_SERIALIZATION",
+  "failed_record_sha256": "0cb159eea78dca3d30cc47fcdf5f49a545d355a4818285fda86bc45867de4550",
+  "failure_reason": "can't convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.",
+  "operation_counts": {
+    "numpy_rhs": 77760,
+    "fits": 2,
+    "rollouts": 280,
+    "tangent_rhs": 16000,
+    "torch_rhs": 115200,
+    "qr": 2400,
+    "svd": 2400,
+    "matrix_products": 2400,
+    "triangular_solves": 2400,
+    "gradients": 40,
+    "optimizer_updates": 40
+  },
+  "completed_updates": {
+    "trajectory": 20,
+    "margin": 20
+  },
+  "real_data_reads": 0,
+  "frozen_checkpoints_saved": 0,
+  "scored_models": 0,
+  "scientific_pass": false,
+  "artifact_bindings": {
+    "initial-equation.json": "730edbdd2c0ab1c2bbfd3260b786b8f721f86916c6e2841da5997ae252fce4f7",
+    "margin-fit.json": "3d523255bbe57b77633963c3ab470b636b9a6c7513d51f1b566c927ed88aaf5c",
+    "operations.jsonl": "2de27d0ad0e059e5668c617d1b125063a651b21d88a36de489b42bde2d9161ac",
+    "preprocessing.json": "17011c8c1b006d4b210bdaa2b7efd9274a35c66963d79cc59dca842be955477f",
+    "RUN_FAILED.json": "0cb159eea78dca3d30cc47fcdf5f49a545d355a4818285fda86bc45867de4550",
+    "trajectory-fit.json": "c2f85d980b4181ef081934484c1dc4ea7ac6741e89c79dd72a9a5418cec61489",
+    "truth-classes.json": "e145ecc921b2dcf51c645062fe3446dd878ef55ca20c65c1fd5e5949c9202d29",
+    "truth.npz": "56deffeb2bac497e6f9e282d2e8b7ec0159703e7d4b06ac0f440d9de844993bf"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "workflow": "machine_local_topology_margin_v2",
+  "experiment": "machine_local_topology_margin_v2",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "margin_v2"],
+  "transitions": {"scaffold": "margin_v2"},
+  "terminal_stages": ["margin_v2"],
+  "approval_required": ["margin_v2"],
+  "stage_evidence_contracts": {
+    "margin_v2": {
+      "required_fields": ["status", "process_status", "source_commit", "data_policy", "promotion_decision", "result_dir", "artifact_manifest", "claim_boundary", "scientific_pass"],
+      "non_empty_fields": ["source_commit", "claim_boundary"],
+      "allowed_values": {"status": ["PASS"], "process_status": ["PASS"], "data_policy": ["analytic_synthetic_only"], "promotion_decision": ["KEEP_BASELINE"], "scientific_pass": [true, false]}
+    }
+  }
+}

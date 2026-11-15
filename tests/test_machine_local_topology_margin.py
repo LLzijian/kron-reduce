@@ -1,7 +1,10 @@
 import numpy as np
 import pytest
+import torch
 
-from kron_reduce.evaluation.machine_local_topology_margin import fit_counts
+from kron_reduce.evaluation.machine_local_topology import make_model
+from kron_reduce.evaluation.machine_local_topology_margin import fit_counts, save_equation
+from kron_reduce.evaluation.machine_local_topology_truth import parameters
 
 
 def test_fit_counts_uses_exact_visible_future_support():
@@ -33,3 +36,13 @@ def test_fit_counts_uses_exact_visible_future_support():
 def test_fit_counts_rejects_invalid_or_unusable_rows(row):
     with pytest.raises(ValueError):
         fit_counts([row])
+
+
+def test_save_frozen_equation_from_evaluation_device(tmp_path):
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = make_model(parameters(), "T0M1", device, train_scales=True).requires_grad_(False)
+    save_equation(model, tmp_path, "frozen")
+    with np.load(tmp_path / "frozen-equation.npz", allow_pickle=False) as saved:
+        assert set(saved.files) == set(model.state_dict())
+        for key, value in model.state_dict().items():
+            np.testing.assert_array_equal(saved[key], value.cpu().numpy())
