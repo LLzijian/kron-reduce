@@ -1,5 +1,6 @@
 import numpy as np
 
+from kron_reduce.evaluation import topology_momentum as momentum
 from kron_reduce.evaluation.topology_momentum import memory_integrals, project_residual
 
 
@@ -64,3 +65,46 @@ def test_project_residual_is_orthogonal_for_full_rank_operator():
     assert result["rank"] == 2
     np.testing.assert_allclose(result["perpendicular"], rhs - operator @ result["state"], atol=1e-13, rtol=0)
     np.testing.assert_allclose(operator.T @ result["perpendicular"], 0., atol=1e-13, rtol=0)
+
+
+def test_origin_transfer_uses_history_only_fit_and_scores_future_without_refit(monkeypatch):
+    def controlled_system(path, power, equilibrium, blocks, step, *, memory_inertia=1.):
+        intervals = len(path) - 1
+        scale = np.sqrt(intervals)
+        operator = np.ones((intervals, 1), dtype=np.float64) / scale
+        rhs = np.full(intervals, 2., dtype=np.float64) / scale
+        if len(path) > 11:
+            rhs[10:] += path[-1, 1] / scale
+        return operator, rhs, {}
+
+    monkeypatch.setattr(momentum, "momentum_system", controlled_system)
+    path = np.zeros((13, 2), dtype=np.float64)
+    power = equilibrium = np.zeros(1, dtype=np.float64)
+    blocks = ()
+
+    def run(observed):
+        counts = {}
+
+        def spend(name, amount=1):
+            counts[name] = counts.get(name, 0) + amount
+
+        result = momentum.origin_transfer(observed, power, equilibrium, blocks, .001, spend, radius=1.)
+        return result, counts
+
+    result, counts = run(path)
+    changed_future = path.copy()
+    changed_future[-1, 1] = .5
+    changed, changed_counts = run(changed_future)
+
+    assert result["status"] == changed["status"] == "solved"
+    assert result["ranks"] == changed["ranks"] == [1, 1]
+    assert result["intervals"] == 2
+    np.testing.assert_allclose(result["history_start"], [[2.], [1.], [2.]], atol=1e-12, rtol=0)
+    np.testing.assert_allclose(changed["history_start"], result["history_start"], atol=1e-12, rtol=0)
+    np.testing.assert_allclose(result["sampling_difference"], 0., atol=1e-14, rtol=0)
+    np.testing.assert_allclose(result["future_sse"]["unconstrained"], 0., atol=1e-24, rtol=0)
+    np.testing.assert_allclose(result["future_sse"]["constrained"], 1., atol=1e-12, rtol=0)
+    np.testing.assert_allclose(changed["future_sse"]["unconstrained"], .25, atol=1e-12, rtol=0)
+    np.testing.assert_allclose(changed["future_sse"]["constrained"], 2.25, atol=1e-12, rtol=0)
+    expected_spend = {"weak_intervals": 10 + 5 + len(path) - 1, "svd": 2, "ball_solves": 1}
+    assert counts == changed_counts == expected_spend

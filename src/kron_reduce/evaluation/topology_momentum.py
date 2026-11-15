@@ -136,3 +136,50 @@ def direction_changes(records, groups):
                              "ratio": after/base if after is not None and base > 0 else None}
         result[name] = {"delta_multiplier": change, "by_group": scores}
     return result
+
+
+def origin_transfer(path, power, equilibrium, blocks, step, spend, *, radius):
+    """Score frozen history-only memory starts on subsequent observed intervals."""
+    history_intervals = 10
+    if not math.isfinite(radius) or radius <= 0:
+        raise ValueError("a positive finite history radius is required")
+    if len(path) <= history_intervals+1:
+        return {"status": "missing_future", "intervals": 0}
+    history = path[:history_intervals+1]
+    fits = []
+    for stride in (1, 2):
+        observed = history[::stride]
+        spend("weak_intervals", len(observed)-1)
+        operator, rhs, _ = momentum_system(observed, power, equilibrium, blocks, stride*step)
+        spend("svd")
+        fits.append((operator, rhs, project_residual(operator, rhs)))
+    operator, rhs, fine = fits[0]
+    coarse = fits[1][2]
+    ranks = [fit[2]["rank"] for fit in fits]
+    intervals = len(path)-1-history_intervals
+    result = {"ranks": ranks, "intervals": intervals}
+    if any(rank != operator.shape[1] for rank in ranks):
+        return result | {"status": "unresolved"}
+    svd = {"u": fine["u"], "s": fine["singular"], "vh": fine["vh"], "rank": fine["rank"],
+           "threshold": fine["threshold"]}
+    spend("ball_solves")
+    try:
+        ball = solve_energy_ball(operator, rhs, svd, radius, fine["state"])
+    except EnergyBallNumericalError as error:
+        return result | {"status": "numerical_failure", "reason": str(error)}
+    if ball["z"] is None:
+        return result | {"status": ball["status"]}
+    spend("weak_intervals", len(path)-1)
+    operator, rhs, _ = momentum_system(path, power, equilibrium, blocks, step)
+    # The full operator carries the free and driven memory across 100 ms. Only
+    # rows after that boundary enter the score, and neither start is refit.
+    cutoff = history_intervals*len(power)
+    starts = (fine["state"], ball["z"], coarse["state"])
+    residuals = rhs[cutoff:, None]-operator[cutoff:] @ np.column_stack(starts[:2])
+    future_sse = np.sum(residuals**2, axis=0)*(len(path)-1)/intervals
+    difference = np.linalg.norm(starts[0]-starts[2])/max(radius, np.linalg.norm(starts[0]))
+    if not np.isfinite(future_sse).all() or not np.isfinite(difference):
+        return result | {"status": "numerical_failure", "reason": "nonfinite origin contrast"}
+    return result | {"status": "solved", "history_start": [state.tolist() for state in starts],
+                     "constraint_active": ball["constraint_active"], "sampling_difference": float(difference),
+                     "future_sse": dict(zip(("unconstrained", "constrained"), future_sse.tolist(), strict=True))}

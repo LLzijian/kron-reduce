@@ -1,6 +1,7 @@
 """One-run observed-path momentum diagnosis on the official complete TASK3 train."""
 from __future__ import annotations
 
+import argparse
 import json
 import subprocess
 import sys
@@ -17,28 +18,32 @@ from project_harness.runner import _run_experiment
 
 NAME = "kiki_machine_local_topology_momentum_v1"
 STAGE = "train_momentum"
-AUTH = NAME+"_20261115"
 MODULE = "kron_reduce.workflows.kiki_topology_momentum"
+ORIGIN_TRANSFER = "kiki_machine_local_topology_origin_transfer_v1"
+CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer"}
 
 
-def authorize(root):
+def authorize(root, name=NAME):
     assert_clean(root)
-    entry = load_manifest(root)["experiments"][NAME]
-    scope = {"module": MODULE, "workflow": NAME, "stage": STAGE, "execution_mode": "bounded_kiki_official_cli_only",
-             "development_authorization_id": AUTH, "reads_validation_performance": False, "reads_test_performance": False}
+    contrast = CONTRASTS[name]
+    authority = name+"_20261115"
+    entry = load_manifest(root)["experiments"][name]
+    scope = {"module": MODULE, "workflow": name, "stage": STAGE, "execution_mode": "bounded_kiki_official_cli_only",
+             "development_authorization_id": authority, "reads_validation_performance": False, "reads_test_performance": False}
     if (sys.version_info[:2] != (3, 12) or any(entry.get(k) != v for k,v in scope.items())
-            or not approval_recorded(load_state(root, NAME), STAGE)):
+            or not approval_recorded(load_state(root, name), STAGE)):
         raise RuntimeError("registered train-only momentum stage and explicit loop approval required")
-    validate_run_policy(root, NAME, entry)
+    validate_run_policy(root, name, entry)
     policy = load_policy(root)
-    auth = policy["development_evaluations"][AUTH]
-    expected = {"status": "active", "experiment": NAME, "fit_attempts": 0, "max_executions": 1,
+    auth = policy["development_evaluations"][authority]
+    expected = {"status": "active", "experiment": name, "fit_attempts": 0, "max_executions": 1,
                 "retry_allowed": False, "train_cases": 346, "source_cache_open_limit": 2}
     if any(type(auth.get(k)) is not type(v) or auth[k] != v for k,v in expected.items()):
         raise RuntimeError("one-run train-only momentum authority differs")
     plan, review = (_bound_json(root, {"path": auth[f"{key}_path"], "sha256": auth[f"{key}_sha256"]})
                     for key in ("plan","review"))
     if (plan["stage"] != STAGE or plan["cohort_counts"] != {"train":346} or plan["source_cache_open_limit"] != 2
+            or plan.get("contrast", "force_blocks") != contrast
             or plan["operation_limits"] != auth["operation_limits"] or review.get("approved") is not True
             or review.get("plan_path") != auth["plan_path"] or review.get("plan_sha256") != auth["plan_sha256"]
             or review.get("implementation_bindings") != plan["implementation_bindings"]):
@@ -79,12 +84,13 @@ def authorize(root):
 
 
 def run(*, root, experiment, stage, result_dir, run_id):
-    entry, plan = authorize(root)
+    name = experiment["workflow"]
+    entry, plan = authorize(root, name)
     if (entry != experiment or stage != STAGE or result_dir != root/"results"/run_id or any(result_dir.iterdir())):
         raise RuntimeError("train momentum dispatch identity differs")
     common = Path(subprocess.check_output(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
                                           cwd=root, text=True).strip()).resolve(strict=True)
-    marker = common/"kiki_machine_local_topology_budgets"/(AUTH+".json")
+    marker = common/"kiki_machine_local_topology_budgets"/(name+"_20261115.json")
     marker.parent.mkdir(exist_ok=True)
     commit = git_head(root)
     with marker.open("x", encoding="utf-8") as stream:
@@ -117,10 +123,14 @@ def run(*, root, experiment, stage, result_dir, run_id):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--origin-transfer", action="store_true")
+    args = parser.parse_args()
+    name = ORIGIN_TRANSFER if args.origin_transfer else NAME
     root = project_root()
-    with workflow_lock(root,NAME):
-        entry, _ = authorize(root)
-        print(_run_experiment(root,NAME,STAGE,experiment=entry))
+    with workflow_lock(root,name):
+        entry, _ = authorize(root, name)
+        print(_run_experiment(root,name,STAGE,experiment=entry))
 
 
 if __name__ == "__main__":

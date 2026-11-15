@@ -1408,6 +1408,26 @@
       "result_review_sha256": "ed4c53d77d94454b4ef367c41a3c8063b58e50738180730ef8ae062257c2d0bf",
       "engineering_pass": true,
       "scientific_pass": true
+    },
+    "kiki_machine_local_topology_origin_transfer_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_origin_transfer_v1",
+      "authority": "operator_autonomous_full_train_origin_diagnostic",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "train_cases": 346,
+      "source_cache_open_limit": 2,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_origin_transfer_v1.json",
+      "plan_sha256": "0281effae36f64de396cfaa499a96c1a3ff56687b17ea2b06d18cfe863947d4d",
+      "review_path": "docs/research/kiki_machine_local_topology_origin_transfer_v1_review_20261115.json",
+      "review_sha256": "2730d28ebcda469b7b0585a965537afb0a1b89dba14c67f31fcf0568c6eb96a8",
+      "operation_limits": {
+        "checkpoint_loads": 2,
+        "svd": 692,
+        "ball_solves": 346,
+        "weak_intervals": 112450
+      }
     }
   },
   "archived_development_results": {

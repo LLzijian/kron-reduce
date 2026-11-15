@@ -14,7 +14,11 @@ from kron_reduce.data.task3_full import Task3FullReader
 from kron_reduce.evaluation.constant_c_observability import write_json
 from kron_reduce.evaluation.kiki_machine_local_r20_r21 import verified
 from kron_reduce.evaluation.kiki_topology_bridge import load_snapshot, make_model
-from kron_reduce.evaluation.topology_momentum import direction_changes, inspect_momentum
+from kron_reduce.evaluation.topology_momentum import (
+    direction_changes,
+    inspect_momentum,
+    origin_transfer,
+)
 from kron_reduce.evaluation.train_mechanism_audit import _row_margin, _window_result
 from kron_reduce.models.nonlinear_latent import LearnedNonlinearModel
 
@@ -173,6 +177,31 @@ def _verify_access_journal(path, expected):
         raise RuntimeError("access journal does not prove one complete train-only read")
 
 
+def _origin_contrast(directory, events, blocks, radius, budget):
+    rows = [{"id": event["id"], "label": event["label"], **origin_transfer(
+        event["x"][:MAX_FRAME], event["p0"], event["equilibrium"], blocks, DT, budget.spend, radius=radius,
+    )} for event in events]
+    write_json(directory/"origin-transfer.json", rows)
+    status = Counter(row["status"] for row in rows)
+    groups = {}
+    for name in ("train", "stable", "unstable"):
+        matching = rows if name == "train" else [row for row in rows if row["label"] == name]
+        solved = [row for row in matching if row["status"] == "solved"]
+        sse = {method: math.fsum(row["future_sse"][method] for row in solved)
+               for method in ("unconstrained", "constrained")}
+        ratio = (sse["unconstrained"]/sse["constrained"]
+                 if len(solved) == len(matching) and sse["constrained"] > 0. else None)
+        groups[name] = {"allocated": len(matching), "solved": len(solved),
+                        "sse": sse if len(solved) == len(matching) else None,
+                        "ratio": ratio, "active": sum(row["constraint_active"] for row in solved),
+                        "max_sampling_difference": max((row["sampling_difference"] for row in solved), default=None),
+                        "sampling_qualified": sum(row["sampling_difference"] <= .05 for row in solved)}
+    passed = (status == {"solved": len(rows)} and groups["train"]["sampling_qualified"] == len(rows)
+              and all(row["ratio"] is not None and row["ratio"] <= .8 for row in groups.values()))
+    return {"role": "train", "allocated": len(rows), "engineering_pass": True, "scientific_pass": passed,
+            "statuses": dict(status), "memory_radius": radius, "groups": groups}
+
+
 def execute(root, directory, plan, budget):
     """Audit all official train cases using saved causal inputs; never forecasts."""
     root, directory = Path(root).resolve(), Path(directory)
@@ -180,10 +209,12 @@ def execute(root, directory, plan, budget):
     if sources.get("allowed_roles") != ["train"]:
         raise PermissionError("momentum audit is restricted to the official train role")
     roster = sources["rosters"]["train"]
-    if len(roster) != TRAIN_COUNT or len(plan["inertias"]) != 4:
-        raise ValueError("plan must bind all 346 train rows and four inertia contrasts")
-    factors = [float(x) for x in plan["inertias"]]
-    if any(not math.isfinite(x) or x <= 0 or x == 1. for x in factors) or len(set(factors)) != 4:
+    contrast = plan.get("contrast", "force_blocks")
+    if len(roster) != TRAIN_COUNT or contrast not in ("force_blocks", "origin_transfer"):
+        raise ValueError("plan must bind the complete train roster and a supported contrast")
+    factors = [float(x) for x in plan.get("inertias", [])]
+    if contrast == "force_blocks" and (len(set(factors)) != 4 or len(factors) != 4
+            or any(not math.isfinite(x) or x <= 0 or x == 1. for x in factors)):
         raise ValueError("inertia contrasts must be four distinct positive non-unit factors")
     radius = float(plan["memory_radius"])
     if not math.isfinite(radius) or radius <= 0:
@@ -217,6 +248,9 @@ def execute(root, directory, plan, budget):
         _verify_access_journal(directory/"access.jsonl", expected)
         if not np.allclose(reader.static["mass"], blocks[0], rtol=0, atol=1e-12):
             raise RuntimeError("TASK3 train inertia differs from the frozen original T0M1 model")
+
+        if contrast == "origin_transfer":
+            return _origin_contrast(directory, events, blocks, radius, budget) | {"trajectory_lengths": lengths}
 
         history_paths = [event["x"][:11] for event in events]
         full_paths = [event["x"][:min(MAX_FRAME, len(event["x"]))] for event in events]

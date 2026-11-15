@@ -2742,6 +2742,27 @@
       "reads_validation_performance": true,
       "reads_test_performance": true,
       "test_authorization": "kiki_machine_local_topology_momentum_damping_test_v1_20261115"
+    },
+    "kiki_machine_local_topology_origin_transfer_v1": {
+      "module": "kron_reduce.workflows.kiki_topology_momentum",
+      "workflow": "kiki_machine_local_topology_origin_transfer_v1",
+      "stage": "train_momentum",
+      "config": "kiki_machine_local_topology_origin_transfer_v1.toml",
+      "status": "gated",
+      "dataset": "kiki_ieee39_v1",
+      "data_policy": "kiki_official_train_test_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "input_contract_id": "measured_history_100ms_zoh_v1",
+      "training_split": "train",
+      "internal_resplit": false,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "execution_mode": "bounded_kiki_official_cli_only",
+      "val_use": "none",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "development_authorization_id": "kiki_machine_local_topology_origin_transfer_v1_20261115"
     }
   },
   "active_policy": "configs/research_policy.json",
