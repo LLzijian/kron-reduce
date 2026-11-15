@@ -19,7 +19,8 @@ from project_harness.runner import _run_experiment
 
 MODULE = "kron_reduce.workflows.machine_local_topology"
 STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topology_closeout_v1",
-           "learning": "machine_local_topology_learning_v1", "diagnosis": "machine_local_topology_diagnosis_v1"}
+           "learning": "machine_local_topology_learning_v1", "diagnosis": "machine_local_topology_diagnosis_v1",
+           "refinement": "machine_local_topology_refinement_v1"}
 
 
 def authorize(root, stage):
@@ -37,7 +38,7 @@ def authorize(root, stage):
     plan_path, review_path = auth["plan_path"], auth["review_path"]
     scope = {"status": "active", "experiment": name, "workflow": name, "stage": stage,
              "real_data_reads": 0, "max_executions": 1, "retry_allowed": False,
-             "fit_attempts": 4 if stage == "learning" else 0}
+             "fit_attempts": {"learning": 4, "refinement": 2}.get(stage, 0)}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active topology and memory scope differs")
     verify_bound_file(root, plan_path, auth["plan_sha256"])
@@ -65,7 +66,7 @@ def authorize(root, stage):
                 or plan["settings"]["updates"]*scope["fit_attempts"] != plan["operation_limits"]["optimizer_updates"]):
             raise RuntimeError("learning requires the completed S0 engineering gate and exact update budget")
         verify_bound_file(root, previous["result_receipt_path"], previous["result_receipt_sha256"])
-    if stage == "diagnosis":
+    if stage in ("diagnosis", "refinement"):
         previous = policy[STUDIES["learning"]+"_20261115"]
         source = plan["source"]
         if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
@@ -74,6 +75,14 @@ def authorize(root, stage):
                 or previous["result_receipt_sha256"] != source["receipt_sha256"]):
             raise RuntimeError("diagnosis requires the exact frozen learning evidence")
         verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
+    if stage == "refinement":
+        previous = policy[STUDIES["diagnosis"]+"_20261115"]
+        if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
+                or previous["result_receipt_sha256"] != plan["diagnosis_receipt_sha256"]
+                or plan["operation_limits"]["fits"] != scope["fit_attempts"]
+                or plan["settings"]["updates"]*scope["fit_attempts"] != plan["operation_limits"]["optimizer_updates"]):
+            raise RuntimeError("refinement requires the completed factorial diagnosis and exact update budget")
+        verify_bound_file(root, previous["result_receipt_path"], previous["result_receipt_sha256"])
     pins = dict(line.strip().split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line.strip() and not line.startswith("#"))
     for package in ("numpy", "torch", "scipy"):
@@ -109,7 +118,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     started = time.perf_counter()
     budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
     try:
-        kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose}[stage]
+        kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose, "refinement": learn}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()

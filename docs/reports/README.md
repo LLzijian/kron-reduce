@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Coupling and memory origin diagnosis](machine_local_topology_diagnosis_20261115_zh.md) | Twelve frozen shared-coefficient and origin-state comparisons on synthetic train/val |
 | [Event-conditioned coupling and memory learning](machine_local_topology_learning_20261115_zh.md) | Four fixed-support fits, complete synthetic train/val/test GPU scores, memory recovery gates |
 | [Event-conditioned coupling and memory S0](machine_local_topology_s0_20261115_zh.md) | Four known-coefficient synthetic cohorts, complete GPU scoring, limited rank-control recovery |
 | [TASK3 machine-local momentum calibration](kiki_machine_local_memory_20261114_zh.md) | Four candidate fits, frozen A/B scoring on train 346 / val 107 / test 76, retained baseline |

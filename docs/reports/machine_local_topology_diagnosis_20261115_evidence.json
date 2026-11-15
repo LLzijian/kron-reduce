@@ -1,0 +1,555 @@
+{
+  "schema": "machine_local_topology_factor_diagnosis.v1",
+  "run_id": "machine_local_topology_diagnosis_v1-diagnosis-20261115T034928620344Z-998dc7af-b195dfd3",
+  "source_run_id": "machine_local_topology_learning_v1-learning-20261115T030004994879Z-ae296951-2f11ad18",
+  "source_manifest_sha256": "98fb7d5f2b89acbce6dd20527cd80598b8710150a202f3ea809e17c72f735e21",
+  "source_manifest_artifacts": 140,
+  "diagnosis_manifest_sha256": "8336c853e7ddd01b4c74d46afee9f159575064b96cb19ea3b389d3e30ac8d6e5",
+  "diagnosis_manifest_artifacts": 19,
+  "npz_decodes": 0,
+  "scope": "Saved scalar JSON and hashes only; train/val only.",
+  "supports": {
+    "T1M1": {
+      "memory_kernel_error": 0.1681284448537751,
+      "controls": {
+        "fitted_estimated": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.010575907031062337,
+              "nrmse_8s": 0.014624206309831555,
+              "mean_nmse_8s": 0.0002138674101925171
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.024018124250038318,
+              "nrmse_8s": 0.029479326717703553,
+              "mean_nmse_8s": 0.0008690307037291105
+            }
+          }
+        },
+        "fitted_truth_coupling": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.009182791880664919,
+              "nrmse_8s": 0.013204615510035855,
+              "mean_nmse_8s": 0.00017436187076787948
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.008081300732282191,
+              "nrmse_8s": 0.01228950074607979,
+              "mean_nmse_8s": 0.00015103182858789574
+            }
+          }
+        },
+        "fitted_truth_memory": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.01243613861119984,
+              "nrmse_8s": 0.015329001216895718,
+              "mean_nmse_8s": 0.00023497827830759046
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.02396318630154744,
+              "nrmse_8s": 0.029426842458117997,
+              "mean_nmse_8s": 0.000865939057054896
+            }
+          }
+        },
+        "fitted_truth_both": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.010858435610881203,
+              "nrmse_8s": 0.013725436630183531,
+              "mean_nmse_8s": 0.0001883876106891838
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.00966070297107587,
+              "nrmse_8s": 0.012799663708793721,
+              "mean_nmse_8s": 0.000163831391058211
+            }
+          }
+        },
+        "truth_estimated": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.010145145791143914,
+              "nrmse_8s": 0.009730326350036974,
+              "mean_nmse_8s": 9.467925087822388e-05
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.024579673515505513,
+              "nrmse_8s": 0.027561122087910714,
+              "mean_nmse_8s": 0.0007596154507447198
+            }
+          }
+        },
+        "truth_truth_coupling": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.005767517846698152,
+              "nrmse_8s": 0.004336440285407911,
+              "mean_nmse_8s": 1.8804714348908647e-05
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.004337125491947049,
+              "nrmse_8s": 0.0032574344088097994,
+              "mean_nmse_8s": 1.0610878927698046e-05
+            }
+          }
+        },
+        "truth_truth_memory": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.008895694998265202,
+              "nrmse_8s": 0.00911912522024765,
+              "mean_nmse_8s": 8.315844478255677e-05
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.023417959969219953,
+              "nrmse_8s": 0.02700968097130261,
+              "mean_nmse_8s": 0.0007295228661715463
+            }
+          }
+        },
+        "truth_truth_both": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 4.373260728405738e-12,
+              "nrmse_8s": 2.7052232967288342e-12,
+              "mean_nmse_8s": 7.318233085164422e-24
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 5.353040669111492e-12,
+              "nrmse_8s": 3.2977626550008955e-12,
+              "mean_nmse_8s": 1.0875238528718556e-23
+            }
+          }
+        }
+      },
+      "estimated_latent_diagnostics": {
+        "train": {
+          "coupling_error": {
+            "mean": 0.05254578264198112,
+            "max": 0.13891037386867675,
+            "n": 6
+          },
+          "history_nrmse": {
+            "mean": 4.3638093115927076e-07,
+            "max": 6.980765428904742e-07,
+            "n": 6
+          },
+          "edge_relative_error": {
+            "mean": 0.05688699417193721,
+            "max": 0.15121781237339094,
+            "n": 6
+          },
+          "memory_start_error": {
+            "mean": 0.046077109685963506,
+            "max": 0.05836076919275685,
+            "n": 6
+          },
+          "memory_origin_error": {
+            "mean": 0.026359685030506633,
+            "max": 0.038379891324648745,
+            "n": 6
+          },
+          "memory_start_energy": {
+            "mean": 0.09959763909005193,
+            "max": 0.106248004998262,
+            "n": 6
+          },
+          "memory_origin_energy": {
+            "mean": 0.04617844877484086,
+            "max": 0.0647227946086987,
+            "n": 6
+          }
+        },
+        "val": {
+          "coupling_error": {
+            "mean": 0.13100886961895442,
+            "max": 0.31821501806785535,
+            "n": 3
+          },
+          "history_nrmse": {
+            "mean": 4.8074655537906124e-05,
+            "max": 0.00014333060961418294,
+            "n": 3
+          },
+          "edge_relative_error": {
+            "mean": 0.14255782236986106,
+            "max": 0.346831978829367,
+            "n": 3
+          },
+          "memory_start_error": {
+            "mean": 0.043476680399212625,
+            "max": 0.05003211354758769,
+            "n": 3
+          },
+          "memory_origin_error": {
+            "mean": 0.020946743053261167,
+            "max": 0.026527564096944053,
+            "n": 3
+          },
+          "memory_start_energy": {
+            "mean": 0.09852165652763589,
+            "max": 0.10325091870855752,
+            "n": 3
+          },
+          "memory_origin_energy": {
+            "mean": 0.03947444184652833,
+            "max": 0.05028352325120885,
+            "n": 3
+          }
+        }
+      },
+      "directional_delta_mean_nmse_8s_vs_fitted_estimated": {
+        "fitted_estimated": {
+          "train": 0.0,
+          "val": 0.0
+        },
+        "fitted_truth_coupling": {
+          "train": -3.9505539424637616e-05,
+          "val": -0.0007179988751412148
+        },
+        "fitted_truth_memory": {
+          "train": 2.1110868115073363e-05,
+          "val": -3.0916466742144906e-06
+        },
+        "fitted_truth_both": {
+          "train": -2.5479799503333293e-05,
+          "val": -0.0007051993126708995
+        },
+        "truth_estimated": {
+          "train": -0.00011918815931429321,
+          "val": -0.00010941525298439067
+        },
+        "truth_truth_coupling": {
+          "train": -0.00019506269584360845,
+          "val": -0.0008584198248014124
+        },
+        "truth_truth_memory": {
+          "train": -0.00013070896540996033,
+          "val": -0.0001395078375575642
+        },
+        "truth_truth_both": {
+          "train": -0.0002138674101925171,
+          "val": -0.0008690307037291105
+        }
+      },
+      "coupling_memory_interaction_delta_mean_nmse_8s": {
+        "fitted": {
+          "train": -7.08512819376904e-06,
+          "val": 1.5891209144529793e-05
+        },
+        "truth": {
+          "train": -7.283908253241528e-06,
+          "val": 1.948170564547544e-05
+        }
+      }
+    },
+    "T0M1": {
+      "memory_kernel_error": 0.06900838366520236,
+      "controls": {
+        "fitted_estimated": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.0013854285187023245,
+              "nrmse_8s": 0.0018687050200485284,
+              "mean_nmse_8s": 3.4920584519545716e-06
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.002143252885414824,
+              "nrmse_8s": 0.002508944640141353,
+              "mean_nmse_8s": 6.294803207294024e-06
+            }
+          }
+        },
+        "fitted_truth_memory": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.0015761471493621739,
+              "nrmse_8s": 0.0019299554270053607,
+              "mean_nmse_8s": 3.7247279502274445e-06
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.0018814507117835208,
+              "nrmse_8s": 0.002290584317769329,
+              "mean_nmse_8s": 5.246776516810782e-06
+            }
+          }
+        },
+        "truth_estimated": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.0009206142939330128,
+              "nrmse_8s": 0.0006640623080667953,
+              "mean_nmse_8s": 4.409787489949993e-07
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 0.0013118956001961926,
+              "nrmse_8s": 0.0009692124835794294,
+              "mean_nmse_8s": 9.393728383262057e-07
+            }
+          }
+        },
+        "truth_truth_memory": {
+          "roles": {
+            "train": {
+              "allocated": 6,
+              "qualified": 6,
+              "accuracy": 1.0,
+              "nrmse_3s": 4.372004696113178e-12,
+              "nrmse_8s": 2.7024419696912193e-12,
+              "mean_nmse_8s": 7.303192599548557e-24
+            },
+            "val": {
+              "allocated": 3,
+              "qualified": 3,
+              "accuracy": 1.0,
+              "nrmse_3s": 5.352374779795969e-12,
+              "nrmse_8s": 3.296563437133001e-12,
+              "mean_nmse_8s": 1.0867330495042146e-23
+            }
+          }
+        }
+      },
+      "estimated_latent_diagnostics": {
+        "train": {
+          "coupling_error": {
+            "mean": 0.0,
+            "max": 0.0,
+            "n": 6
+          },
+          "history_nrmse": {
+            "mean": 1.0894981012990348e-05,
+            "max": 1.4877657080779115e-05,
+            "n": 6
+          },
+          "edge_relative_error": {
+            "mean": 0.00018936455991402923,
+            "max": 0.00018936455991402923,
+            "n": 6
+          },
+          "memory_start_error": {
+            "mean": 0.025324638818412026,
+            "max": 0.030341242496365037,
+            "n": 6
+          },
+          "memory_origin_error": {
+            "mean": 0.00939965065155401,
+            "max": 0.012571603499136856,
+            "n": 6
+          },
+          "memory_start_energy": {
+            "mean": 0.0930818865357849,
+            "max": 0.0953663034502619,
+            "n": 6
+          },
+          "memory_origin_energy": {
+            "mean": 0.0420091112412452,
+            "max": 0.06252830548582675,
+            "n": 6
+          }
+        },
+        "val": {
+          "coupling_error": {
+            "mean": 0.0,
+            "max": 0.0,
+            "n": 3
+          },
+          "history_nrmse": {
+            "mean": 1.5933605380105134e-05,
+            "max": 2.1067010633866295e-05,
+            "n": 3
+          },
+          "edge_relative_error": {
+            "mean": 0.00018936455991402923,
+            "max": 0.00018936455991402923,
+            "n": 3
+          },
+          "memory_start_error": {
+            "mean": 0.028052281738933687,
+            "max": 0.035302183860437125,
+            "n": 3
+          },
+          "memory_origin_error": {
+            "mean": 0.009263359750391888,
+            "max": 0.00972071640070737,
+            "n": 3
+          },
+          "memory_start_energy": {
+            "mean": 0.09259184303418005,
+            "max": 0.09545958837588073,
+            "n": 3
+          },
+          "memory_origin_energy": {
+            "mean": 0.03609289557706288,
+            "max": 0.04475532472158331,
+            "n": 3
+          }
+        }
+      },
+      "directional_delta_mean_nmse_8s_vs_fitted_estimated": {
+        "fitted_estimated": {
+          "train": 0.0,
+          "val": 0.0
+        },
+        "fitted_truth_memory": {
+          "train": 2.3266949827287294e-07,
+          "val": -1.0480266904832425e-06
+        },
+        "truth_estimated": {
+          "train": -3.051079702959572e-06,
+          "val": -5.355430368967819e-06
+        },
+        "truth_truth_memory": {
+          "train": -3.4920584519545716e-06,
+          "val": -6.294803207294024e-06
+        }
+      },
+      "coupling_memory_interaction_delta_mean_nmse_8s": {}
+    }
+  },
+  "source_s1_complete_roster_metrics": {
+    "T0M1": {
+      "train": {
+        "allocated": 6,
+        "qualified": 6,
+        "accuracy": 1.0,
+        "nrmse_3s": 0.001385428524870736,
+        "nrmse_8s": 0.0018687050178420655
+      },
+      "val": {
+        "allocated": 3,
+        "qualified": 3,
+        "accuracy": 1.0,
+        "nrmse_3s": 0.0021432529852761766,
+        "nrmse_8s": 0.002508944702772874
+      },
+      "test": {
+        "allocated": 3,
+        "qualified": 3,
+        "accuracy": 1.0,
+        "nrmse_3s": 0.0012686893166861633,
+        "nrmse_8s": 0.0014288343090785283
+      }
+    },
+    "T1M1": {
+      "train": {
+        "allocated": 6,
+        "qualified": 6,
+        "accuracy": 1.0,
+        "nrmse_3s": 0.010575908040561802,
+        "nrmse_8s": 0.014624207268150466
+      },
+      "val": {
+        "allocated": 3,
+        "qualified": 3,
+        "accuracy": 1.0,
+        "nrmse_3s": 0.024018124310605238,
+        "nrmse_8s": 0.029479326816634708
+      },
+      "test": {
+        "allocated": 3,
+        "qualified": 3,
+        "accuracy": 1.0,
+        "nrmse_3s": 0.008946403431221642,
+        "nrmse_8s": 0.011893473749672088
+      }
+    }
+  },
+  "interpretation": {
+    "direction": "Each delta is candidate 8s mean event NMSE minus fitted_estimated; negative means lower error.",
+    "interaction": "T1M1 fitted both-state replacement delta minus the sum of separate coupling and memory replacement deltas.",
+    "latent": "Stored fitted_estimated scalars: coupling/edge mismatch, causal history fit, and initial/origin memory state error and energy. These are descriptive estimates, not causal attribution.",
+    "qualification": "All 12 controls retain the same nine frozen train/val IDs; allocated, qualified counts and 8s accuracy are cross-checked against event records."
+  },
+  "source_commit": "998dc7aff6fba889b38f50644b0624b45ac6eadd",
+  "operation_counts": {
+    "numpy_rhs": 103680,
+    "rollouts": 38,
+    "tangent_rhs": 3200,
+    "torch_rhs": 464640,
+    "qr": 90,
+    "svd": 90,
+    "matrix_products": 90,
+    "triangular_solves": 90
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "elapsed_seconds": 42.29160160000902,
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "execution_review_sha256": "e57902abe477d5cdcce1f4552a0a197639fc50aba048418bae9d491e479a6e9a"
+}

@@ -1,6 +1,7 @@
 """Fit shared coefficients of four known-support topology and memory models."""
 from __future__ import annotations
 
+import json
 import math
 from copy import deepcopy
 
@@ -25,11 +26,12 @@ from kron_reduce.evaluation.machine_local_topology_truth import (
 )
 from kron_reduce.evaluation.trajectory_stability import classify
 from kron_reduce.models.machine_local_topology import predict_from_topology_history
+from project_harness.evidence import sha256_file
 
 
 def objective(model, batch, spend):
     q, v, power, eq, hscale, target, scale = batch
-    result = predict_from_topology_history(model, q, v, power, eq, hscale, 100, max_step=.005, spend=spend)
+    result = predict_from_topology_history(model, q, v, power, eq, hscale, target.shape[1], max_step=.005, spend=spend)
     errors = ((result["forecast"][:, 1:, :20]-target)/scale).square().mean(dim=2)
     if not torch.isfinite(errors).all():
         raise FloatingPointError("nonfinite causal trajectory loss")
@@ -43,17 +45,17 @@ def objective(model, batch, spend):
     return errors, limited
 
 
-def train_loss(errors):
-    return .5*(errors[:, :50].mean()+errors.mean())
+def horizon_loss(errors, short):
+    return errors.mean(dim=1) if short is None else .5*(errors[:, :short].mean(dim=1)+errors.mean(dim=1))
 
 
-def gradient_check(model, batch, budget):
+def gradient_check(model, batch, budget, short):
     params = dict(model.named_parameters())
     rows = {}
     try:
         errors, baseline = objective(model, batch, budget.spend)
         budget.spend("gradients")
-        gradients = torch.autograd.grad(train_loss(errors), tuple(params.values()))
+        gradients = torch.autograd.grad(horizon_loss(errors, short).mean(), tuple(params.values()))
         with torch.no_grad():
             for (name, parameter), gradient in zip(params.items(), gradients, strict=True):
                 value = parameter.clone()
@@ -66,7 +68,7 @@ def gradient_check(model, batch, budget):
                         for sign in (1, -1):
                             parameter.copy_(value+sign*step*direction)
                             errors, limited = objective(model, batch, budget.spend)
-                            scores.append(float(train_loss(errors)))
+                            scores.append(float(horizon_loss(errors, short).mean()))
                             projection.append(limited)
                         differences.append((scores[0]-scores[1])/(2*step))
                 finally:
@@ -89,7 +91,9 @@ def fit(model, batches, settings, budget, directory):
     trace, val_trace = [], []
     completed, failure = 0, None
     reason = "update_cap"
-    gradient = gradient_check(model, train, budget)
+    train_short = settings.get("train_short_frames", 50)
+    val_short = settings.get("val_short_frames")
+    gradient = gradient_check(model, train, budget, train_short)
     write_json(directory/"gradient.json", gradient)
 
     def check(update):
@@ -98,7 +102,7 @@ def fit(model, batches, settings, budget, directory):
         try:
             with torch.no_grad():
                 errors, limited = objective(model, val, budget.spend)
-                scores = errors.mean(dim=1)
+                scores = horizon_loss(errors, val_short)
             score = float(scores.mean())
             if best is None or score < best[0]:
                 best = (score, update, snapshot(model))
@@ -122,7 +126,7 @@ def fit(model, batches, settings, budget, directory):
         optimizer.zero_grad(set_to_none=True)
         try:
             errors, limited = objective(model, train, budget.spend)
-            loss = train_loss(errors)
+            loss = horizon_loss(errors, train_short).mean()
             budget.spend("gradients")
             loss.backward()
             if any(p.grad is None for p in model.parameters()):
@@ -167,6 +171,23 @@ def readout(model):
     }
 
 
+def selected_model(root, source, support, params, *, device):
+    path = (root/"results"/source["run_id"]/support/"selected-equation.json").resolve(strict=True)
+    if (not path.is_relative_to(root/"results")
+            or sha256_file(path) != source["equation_sha256"][support]):
+        raise RuntimeError("frozen S1 equation differs from the registered source")
+    state = json.loads(path.read_bytes())
+    mass, k, d, _, _, eq = params
+    g, tau = (np.asarray(state[key], dtype=float) for key in ("port_amplitude", "tau"))
+    if g.shape != mass.shape or tau.shape != mass.shape:
+        raise ValueError("invalid selected memory coefficients")
+    model = make_model((mass, k, d, g, tau, eq), support, device, train_scales=True)
+    with torch.no_grad():
+        model.log_stiffness_factor.fill_(math.log(state["stiffness_scale"]))
+        model.log_damping_factor.fill_(math.log(state["damping_scale"]))
+    return model
+
+
 def memory_kernel_error(model, g, tau):
     if not model.memory_dimension:
         return None
@@ -191,16 +212,24 @@ def execute(root, directory, plan, budget):
             or cases["ids"] != plan["ids"]):
         raise RuntimeError("synthetic roster differs from registration")
     settings = plan["settings"]
-    start = settings["start"]
-    anchor = mass, k, damping, np.full(10, start["port"]), np.geomspace(*start["tau_range"], 10), eq
+    source = plan.get("source")
+    if source is not None and sha256_file(root/"results"/source["run_id"]/"artifact_hashes.json") != source["manifest_sha256"]:
+        raise RuntimeError("S1 manifest identity differs")
+    count = settings.get("future_frames", 100)
+    supports = SUPPORTS if source is None else tuple(source["equation_sha256"])
     records = {}
-    for support in SUPPORTS:
+    for support in supports:
         output = directory/support
         output.mkdir()
-        model = make_model(anchor, support, "cpu", train_scales=True)
-        with torch.no_grad():
-            model.log_stiffness_factor.fill_(math.log(start["stiffness"]))
-            model.log_damping_factor.fill_(math.log(start["damping"]))
+        if source is None:
+            start = settings["start"]
+            anchor = mass, k, damping, np.full(10, start["port"]), np.geomspace(*start["tau_range"], 10), eq
+            model = make_model(anchor, support, "cpu", train_scales=True)
+            with torch.no_grad():
+                model.log_stiffness_factor.fill_(math.log(start["stiffness"]))
+                model.log_damping_factor.fill_(math.log(start["damping"]))
+        else:
+            model = selected_model(root, source, support, params, device="cpu")
         initial = deepcopy(model)
         a = cases["a"] if model.topology_dimension else np.zeros_like(cases["a"])
         z = cases["z"][:, :model.memory_dimension]
@@ -214,7 +243,7 @@ def execute(root, directory, plan, budget):
         for role in ("train", "val"):
             rows = roles == role
             batches.append(tuple(model._tensor(x) for x in (truth[rows, :11, :10], truth[rows, :11, 10:20],
-                power[rows], equilibrium[rows], hscale, truth[rows, 11:111, :20], scale)))
+                power[rows], equilibrium[rows], hscale, truth[rows, 11:11+count, :20], scale)))
         fit_record = fit(model, batches, settings, budget, output)
         frozen = {"initial": initial.requires_grad_(False).eval(), "selected": model.requires_grad_(False).eval()}
         for name, candidate in frozen.items():

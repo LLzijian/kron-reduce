@@ -1,10 +1,7 @@
 """Cross frozen shared coefficients with estimated and exact forecast states."""
 from __future__ import annotations
 
-import json
-import math
 from itertools import product
-from pathlib import Path
 
 import numpy as np
 import torch
@@ -12,7 +9,10 @@ import torch
 from kron_reduce.evaluation.constant_c_observability import write_json
 from kron_reduce.evaluation.machine_local_equation import STEPS
 from kron_reduce.evaluation.machine_local_topology import make_model, pack, scoring
-from kron_reduce.evaluation.machine_local_topology_learning import memory_kernel_error
+from kron_reduce.evaluation.machine_local_topology_learning import (
+    memory_kernel_error,
+    selected_model,
+)
 from kron_reduce.evaluation.machine_local_topology_truth import (
     initial_cases,
     parameters,
@@ -25,24 +25,6 @@ from project_harness.evidence import sha256_file
 SUPPORTS = ("T0M1", "T1M1")
 ROLES = ("train", "val")
 NUMERICAL_ERRORS = (FloatingPointError, torch.linalg.LinAlgError)
-
-
-def selected_model(root, source, support, params):
-    relative = Path(source["run_id"])/support/"selected-equation.json"
-    path = (root/"results"/relative).resolve(strict=True)
-    if (not path.is_relative_to(root/"results")
-            or sha256_file(path) != source["equation_sha256"][support]):
-        raise RuntimeError("frozen S1 equation differs from the registered source")
-    state = json.loads(path.read_bytes())
-    mass, k, d, _, _, eq = params
-    g, tau = (np.asarray(state[key], dtype=float) for key in ("port_amplitude", "tau"))
-    if g.shape != mass.shape or tau.shape != mass.shape:
-        raise ValueError("invalid selected memory coefficients")
-    model = make_model((mass, k, d, g, tau, eq), support, "cuda", train_scales=True)
-    with torch.no_grad():
-        model.log_stiffness_factor.fill_(math.log(state["stiffness_scale"]))
-        model.log_damping_factor.fill_(math.log(state["damping_scale"]))
-    return model.requires_grad_(False).eval()
 
 
 def crossed_origin(estimate, truth, *, exact_a, exact_z):
@@ -117,7 +99,7 @@ def execute(root, directory, plan, budget):
     equilibrium = np.broadcast_to(eq, power.shape).copy()
     records = {}
     for support in SUPPORTS:
-        model = selected_model(root, source, support, params)
+        model = selected_model(root, source, support, params, device="cuda").requires_grad_(False).eval()
         known = make_model(params, support, "cuda")
         factor = a if model.topology_dimension else np.zeros_like(a)
         truth = truth_rollout(params, q, v, power, factor, z, count=810, max_step=.000625, spend=budget.spend)
