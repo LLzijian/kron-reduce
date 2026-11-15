@@ -4110,12 +4110,46 @@
         "matrix_products": 10560,
         "secular_iterations": 122880
       },
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
       "plan_path": "configs/proposals/machine_local_topology_ball_history_v1.json",
       "plan_sha256": "0f38bbfa3c79058d3f213e1661d44ce5d0a5d3b288cddd6a962c8a9b8f5e07a5",
       "review_path": "docs/research/machine_local_topology_ball_history_v1_review_20261115.json",
-      "review_sha256": "5159cc9e470d46187f6799a5449e5afd6905e34ca1c470a160157e1c977c4654"
+      "review_sha256": "5159cc9e470d46187f6799a5449e5afd6905e34ca1c470a160157e1c977c4654",
+      "run_id": "machine_local_topology_ball_history_v1-ball_history-20261115T094142724906Z-01f6e4da-6510defd",
+      "result_manifest_sha256": "225f71f2fc850b8aaed7097c9efb59f5e7ab64a1a058d775f9adb1e3499c13ad",
+      "result_receipt_path": "docs/reports/machine_local_topology_ball_history_20261115_evidence.json",
+      "result_receipt_sha256": "a36a49b6457f183223424f1a860fc3814a8fb2962d1cd81d2f39fa1c53630445",
+      "result_review_path": "docs/research/machine_local_topology_ball_history_result_review_20261115.json",
+      "result_review_sha256": "5ac4a8a00bb54e11f2fb0e488a160f0c913c4708d8e77c2441f306c8e1a00a62",
+      "engineering_pass": true,
+      "scientific_pass": false
+    },
+    "machine_local_topology_ball_history_no_prior_v1_20261115": {
+      "experiment": "machine_local_topology_ball_history_no_prior_v1",
+      "workflow": "machine_local_topology_ball_history_no_prior_v1",
+      "stage": "ball_history_no_prior",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "npz_decodes": 1,
+        "rollouts": 686,
+        "torch_rhs": 2022720,
+        "tangent_rhs": 117600,
+        "qr": 960,
+        "svd": 960,
+        "triangular_solves": 960,
+        "matrix_products": 960
+      },
+      "status": "active",
+      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
+      "plan_path": "configs/proposals/machine_local_topology_ball_history_no_prior_v1.json",
+      "plan_sha256": "348e5a6a5d2355376eb65cdadd115bb7152cbb3c1b1b247bc83595a80b308d53",
+      "review_path": "docs/research/machine_local_topology_ball_history_no_prior_v1_review_20261115.json",
+      "review_sha256": "030f008d00d8722d92effcd98e30c59005c410018f6edff5ea624392d79d955a"
     }
   },
   "saved_evidence_audits": {

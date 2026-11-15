@@ -25,7 +25,8 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "delayed": "machine_local_topology_delayed_v1",
            "delayed_origin": "machine_local_topology_delayed_origin_v1",
            "delayed_damping": "machine_local_topology_delayed_damping_v1",
-           "ball_history": "machine_local_topology_ball_history_v1"}
+           "ball_history": "machine_local_topology_ball_history_v1",
+           "ball_history_no_prior": "machine_local_topology_ball_history_no_prior_v1"}
 
 
 def authorize(root, stage):
@@ -74,6 +75,18 @@ def authorize(root, stage):
                 or previous["result_receipt_sha256"] != source["receipt_sha256"]):
             raise RuntimeError("origin controls require the verified frozen delayed cohort")
         verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
+    if stage == "ball_history_no_prior":
+        previous = policy[STUDIES["ball_history"]+"_20261115"]
+        source = plan["source"]
+        if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
+                or previous["run_id"] != source["run_id"]
+                or previous["result_manifest_sha256"] != source["manifest_sha256"]
+                or previous["result_receipt_sha256"] != source["receipt_sha256"]):
+            raise RuntimeError("no-prior comparison requires the verified complete observer cohort")
+        verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
+        evidence = json.loads((root/previous["result_receipt_path"]).read_bytes())
+        if evidence["gates"]["clean_recovery"] is not True:
+            raise RuntimeError("the frozen no-prior candidate failed clean recovery")
     if stage == "delayed_damping":
         diagnosis = policy[STUDIES["delayed_origin"]+"_20261115"]
         if (diagnosis["status"] != "consumed" or diagnosis["engineering_pass"] is not True
@@ -154,6 +167,9 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.machine_local_synthetic import Budget
     from kron_reduce.evaluation.machine_local_topology import closeout, execute
     from kron_reduce.evaluation.machine_local_topology_ball_history import execute as ball_history
+    from kron_reduce.evaluation.machine_local_topology_ball_history_no_prior import (
+        execute as ball_history_no_prior,
+    )
     from kron_reduce.evaluation.machine_local_topology_delayed import execute as delayed
     from kron_reduce.evaluation.machine_local_topology_delayed_damping import (
         execute as delayed_damping,
@@ -174,7 +190,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
         kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose,
                   "refinement": learn, "transfer": transfer, "margin": margin, "margin_v2": margin,
                   "delayed": delayed, "delayed_origin": delayed_origin, "delayed_damping": delayed_damping,
-                  "ball_history": ball_history}[stage]
+                  "ball_history": ball_history, "ball_history_no_prior": ball_history_no_prior}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()

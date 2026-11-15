@@ -1,0 +1,50 @@
+{
+  "schema": "machine_local_topology_ball_history_result_review.v1",
+  "verified": true,
+  "reviewer": "Astra Ultra",
+  "run_id": "machine_local_topology_ball_history_v1-ball_history-20261115T094142724906Z-01f6e4da-6510defd",
+  "summary_sha256": "a0930d6cf98a6d43b7c2259dcbedf7fbd5582cb40e21b0a4471eacd03f02386c",
+  "artifact_manifest_sha256": "225f71f2fc850b8aaed7097c9efb59f5e7ab64a1a058d775f9adb1e3499c13ad",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "verifier": {
+    "path": "scratch/one_off/machine_local_topology_ball_history_20261115/archive.py",
+    "sha256": "06c5468bb211f854660747f71929da6993f59b90f246ec7e72be029ff245da14",
+    "mode": "verify_only",
+    "exit_code": 0,
+    "artifact_count": 18
+  },
+  "checks": [
+    "独立运行已审阅的只读归档核验器；严格核验18个工件的字节哈希、绑定实现、阶段推进身份与完整运行摘要。未执行close。",
+    "逐条操作日志累计与summary完全一致，均在冻结上限内；正式执行解码1个源NPZ，零拟合、零优化更新。",
+    "核验四个48例条件和一个24例错阻尼条件的来源限定ID、角色、真值标签、混淆计数、覆盖、未决及准确率。",
+    "仅由保存JSON独立重算train和val的工程与科学门；结果及门内数值与summary一致，test未参与验收或后续设计。",
+    "工程门通过：真值双步长资格、真值起报阳性对照、预测数值资格、实际历史目标单调性和估计迭代点观测秩10均通过。"
+  ],
+  "notes": [
+    "科学门不通过。27个train和val可行病例中，同先验精确组有4例8秒归一化RMSE超过1e-3，最大值0.0016346384815830689。",
+    "9个train和val球外真值病例的最终含先验目标均不高于径向裁剪，但其中4例估计范数为0.964至0.983，未满足预登记的全部触及单位球面条件；原门保持不变。",
+    "零先验辅助条件通过clean_recovery，train24例与val12例均判对且无未决。该结果支持单独研究先验与求解几何的贡献，不构成当前同先验候选通过。",
+    "仅错误阻尼的真值起报对照在train和val的匹配失步窗口均未复现，支持保留动力学与初始化的独立诊断。"
+  ],
+  "followup_review": {
+    "preparation_supported": true,
+    "execution_authorized": false,
+    "real_data_authorized": false,
+    "candidate": "独立登记零先验的精确球求解与零先验径向裁剪直接对照。",
+    "conditions": [
+      "使用新的预冻结合成支持和完整train、val、test名单，真值方程、方向、幅值、噪声条件、预算与门槛在执行前固定；test仅报告。",
+      "两组使用同一因果100ms历史、零先验、固定半径上限、观测尺度、五次更新及评分合同，以隔离求解几何；不得继续使用带先验径向裁剪充当零先验算法对照。",
+      "保留未增广观测矩阵的满秩和1e8条件数政策，记录秩不足及数值失败；以预声明的含噪支持检验零先验的敏感性，不能用干净恢复替代含噪证据。",
+      "先以train和val的完整数值覆盖、可行真值恢复、同目标比较及稳定性门判定；未来真实TASK3比较另行注册，并固定原T0M1权重及原记忆半径6.61055385191009，不把半径放宽与去先验混合。"
+    ]
+  },
+  "reviewer_execution": {
+    "saved_json_and_byte_hashes_only": true,
+    "npz_decodes": 0,
+    "real_data_reads": 0,
+    "trajectory_or_simulation_executions": 0,
+    "fits": 0
+  }
+}

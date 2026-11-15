@@ -54,7 +54,10 @@ reduced the short-horizon train objective by 18.85%. Val instability detection
 fell from 8/12 to 1/12, and the full test accuracy remained unresolved. All
 three rosters and saved-prediction checks are complete. The next candidate is the
 [ball-constrained history solve](machine_local_topology_ball_history_plan_20261115_zh.md)
-on the original T0M1 equation.
+on the original T0M1 equation. The [48-case synthetic comparison](../reports/machine_local_topology_ball_history_20261115_zh.md)
+recovered the feasible clean states with zero prior. The original-prior condition
+failed the trajectory and active-bound gates. The [matched no-prior protocol](../protocols/machine_local_topology_ball_history_no_prior_v1_zh.md)
+compares the exact and radial updates with the same frozen zero prior.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across

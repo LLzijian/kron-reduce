@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Ball-constrained history initialization](machine_local_topology_ball_history_20261115_zh.md) | Full synthetic train/val/test and a wrong-damping oracle, clean recovery with zero prior, original-prior gate failed |
 | [TASK3 damping calibration](kiki_machine_local_topology_damping_20261115_zh.md) | Full train/val/test, train objective decreased 18.85%, val instability detection declined and test accuracy remained unresolved |
 | [Causal damping profile](machine_local_topology_delayed_damping_20261115_zh.md) | Train-only scalar fit, recovered all matched train and val witnesses, passed synthetic gate |
 | [Delayed origin and coefficient controls](machine_local_topology_delayed_origin_20261115_zh.md) | Seven no-fit conditions on complete synthetic train/val/test, isolated damping as a sufficient correction at the true origin |
