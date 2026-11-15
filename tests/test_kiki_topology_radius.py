@@ -1,7 +1,11 @@
 import pytest
 
 from kron_reduce.evaluation.kiki_machine_local_topology_radius import _validate_result
-from kron_reduce.workflows.kiki_machine_local_topology_radius import _result_file, radius_freeze
+from kron_reduce.workflows.kiki_machine_local_topology_radius import (
+    _execution_plan,
+    _result_file,
+    radius_freeze,
+)
 from project_harness.evidence import sha256_file
 
 
@@ -40,6 +44,13 @@ def test_reference_file_uses_artifact_hash_without_git_tracking(tmp_path):
     result.write_text("[]", encoding="utf-8")
     with pytest.raises(RuntimeError, match="frozen result artifact differs"):
         _result_file(tmp_path, binding)
+
+
+def test_execution_plan_leaves_reader_roles_for_each_cohort():
+    resources = {"files": {"static": "asset"}, "rosters": {"train": [], "val": [], "test": []}}
+    source = {"task3_root": "task3", "sources": resources | {"allowed_roles": ["train", "val"]}}
+    plan = _execution_plan({"stage": "test"}, source)
+    assert plan == {"stage": "test", "task3_root": "task3", "sources": resources}
 
 
 def test_radius_counts_missing_initializer_with_full_failure_record():

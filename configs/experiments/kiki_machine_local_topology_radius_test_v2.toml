@@ -1,0 +1,4 @@
+task_type = "kiki_machine_local_topology_radius"
+dataset = "kiki_ieee39_v1"
+plan = "configs/proposals/kiki_machine_local_topology_radius_test_v2.json"
+stage = "test"

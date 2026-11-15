@@ -4192,7 +4192,7 @@
       "scientific_pass": false
     },
     "kiki_machine_local_topology_radius_test_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_radius_test_v1",
       "authority": "operator_fixed_weight_memory_radius_full_task3",
       "fit_attempts": 0,
@@ -4217,7 +4217,40 @@
       "plan_path": "configs/proposals/kiki_machine_local_topology_radius_test_v1.json",
       "plan_sha256": "88fec9dd5f1c452d3a30e018190c8462d787c26cff253188bfda6e4f5e9ca729",
       "review_path": "docs/research/kiki_machine_local_topology_radius_test_review_20261115.json",
-      "review_sha256": "0ea72af429cc19c986923f2faf06b48af659157ce3a0bfec2284e0f7b83288e1"
+      "review_sha256": "0ea72af429cc19c986923f2faf06b48af659157ce3a0bfec2284e0f7b83288e1",
+      "run_id": "kiki_machine_local_topology_radius_test_v1-test-20261115T063140059970Z-317b8387-e44d4f90",
+      "terminal_state": "failed_before_data_access",
+      "scientific_pass": false,
+      "result_receipt_path": "docs/research/kiki_machine_local_topology_radius_v1_predata_failure_20261115.json",
+      "result_receipt_sha256": "82924525f202c5a265d76496a325f14e694300443d1703b686e3ceb8069f1901"
+    },
+    "kiki_machine_local_topology_radius_test_v2_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_radius_test_v2",
+      "authority": "operator_fixed_weight_memory_radius_full_task3",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "frozen_model_manifest": {
+        "path": "configs/proposals/kiki_machine_local_topology_radius_v1_freeze.json",
+        "sha256": "fe1135c254239f0de33b4d4b547a6396afa6d4751c945d6ed2130d0e13bd6ef1"
+      },
+      "operation_limits": {
+        "rollouts": 7658,
+        "torch_rhs": 22580160,
+        "tangent_rhs": 1312800,
+        "qr": 10580,
+        "svd": 10580,
+        "triangular_solves": 10580,
+        "matrix_products": 10580,
+        "checkpoint_loads": 2
+      },
+      "plan_path": "configs/proposals/kiki_machine_local_topology_radius_test_v2.json",
+      "plan_sha256": "3d5504fea5b0ca591dc33b6f560a9e41333aa720ab6a50926d30856a3e40d50c",
+      "review_path": "docs/research/kiki_machine_local_topology_radius_test_v2_review_20261115.json",
+      "review_sha256": "14d9164c47211cdfc8bc5a122052306511af63fffdce700bcc5bbe1b074a4a02"
     }
   },
   "round_evaluation_defaults": {

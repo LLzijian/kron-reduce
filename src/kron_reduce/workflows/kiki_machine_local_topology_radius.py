@@ -15,8 +15,8 @@ from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy, validate_run_policy
 from project_harness.runner import _run_experiment
 
-WORKFLOW = "kiki_machine_local_topology_radius_v1"
-EXPERIMENT = "kiki_machine_local_topology_radius_test_v1"
+WORKFLOW = "kiki_machine_local_topology_radius_v2"
+EXPERIMENT = "kiki_machine_local_topology_radius_test_v2"
 AUTHORIZATION = EXPERIMENT + "_20261115"
 MODULE = "kron_reduce.workflows.kiki_machine_local_topology_radius"
 
@@ -86,6 +86,11 @@ def _reference(root, policy, plan):
         _result_file(root, {"path": freeze[f"{key}_path"], "sha256": freeze[f"{key}_sha256"]})
 
 
+def _execution_plan(plan, source):
+    sources = {key: source["sources"][key] for key in ("files", "rosters")}
+    return plan | {"sources": sources, "task3_root": source["task3_root"]}
+
+
 def authorize(root):
     assert_clean(root)
     entry = load_manifest(root)["experiments"][EXPERIMENT]
@@ -121,7 +126,7 @@ def authorize(root):
            for p in ("numpy", "scipy", "torch", "filelock", "h5py")):
         raise RuntimeError("registered Python 3.12 and Torch CUDA runtime required")
     _cuda_preflight()
-    return entry, plan | {"sources": source["sources"], "task3_root": source["task3_root"]}
+    return entry, _execution_plan(plan, source)
 
 
 def run(*, root, experiment, stage, result_dir, run_id):

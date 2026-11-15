@@ -1,0 +1,15 @@
+{
+  "authorization": "kiki_machine_local_topology_radius_test_v1_20261115",
+  "run_id": "kiki_machine_local_topology_radius_test_v1-test-20261115T063140059970Z-317b8387-e44d4f90",
+  "terminal_state": "failed_before_data_access",
+  "source_commit": "317b8387252ef2eefaf1cbc37c9ac6d557495ebe",
+  "plan_sha256": "88fec9dd5f1c452d3a30e018190c8462d787c26cff253188bfda6e4f5e9ca729",
+  "failure_path": "results/kiki_machine_local_topology_radius_test_v1-test-20261115T063140059970Z-317b8387-e44d4f90/RUN_FAILED.json",
+  "failure_sha256": "de867ff5f94fd0a444cf8540e83d047d9e7db626a1608edc73ebf74d29c8b6cd",
+  "budget_marker_sha256": "64307cd95ed454778335740265d3073f8be6e63bf2deacd44508b2ed3693dcc0",
+  "fit_attempts": 0,
+  "raw_cache_opens": 0,
+  "model_calls": 0,
+  "reason": "Legacy source contract supplied development allowed_roles before the two separately scoped readers could be constructed.",
+  "automatic_retry": false
+}
