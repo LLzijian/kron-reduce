@@ -1,0 +1,88 @@
+{
+  "verified": true,
+  "run_id": "kiki_machine_local_topology_angle_damping_fit_v1-train_momentum-20261115T113106930456Z-1a15ec96-f10407e4",
+  "summary_sha256": "42cd60ddb607819dde0ced332f027b9387d9b058c7565f42eaef55cc253bb060",
+  "artifact_manifest_sha256": "14f1a0a8907c786246735aa73942cdc8bf3edd06bce4c3e532a153ae84be61ee",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "selected_rho": 0.6666666666666666,
+  "checks": {
+    "artifact_digests_verified": 5,
+    "bound_sources_verified_at_run_commit": 47,
+    "complete_train_id_label_group_match": true,
+    "train_count": 346,
+    "stable_count": 311,
+    "unstable_count": 35,
+    "source_cache_open_counts": {
+      "static": 1,
+      "development": 1
+    },
+    "decoded_event_count": 346,
+    "val_test_trajectory_reads": 0,
+    "retained_intervals_match_saved_available_lengths": true,
+    "operation_counts_recomputed": true,
+    "fit_and_residual_sse_exact_arithmetic_match": true,
+    "predeclared_upper_bound_applied_without_reselection": true,
+    "full_rank_count": 346,
+    "quadrature_gap": 4.163336342344337e-17
+  },
+  "raw_unconstrained_coefficients": {
+    "constant": -0.6563232635283881,
+    "angle": 1.168517276508229
+  },
+  "frozen_train_coefficients": {
+    "constant": -0.6563232635283881,
+    "angle": 0.6666666666666666
+  },
+  "residuals": {
+    "train": {
+      "events": 346,
+      "original": 21752.09653505298,
+      "constant": 14727.021807152492,
+      "angle": 17041.585907959416
+    },
+    "stable": {
+      "events": 311,
+      "original": 12204.862441651114,
+      "constant": 9898.330420405742,
+      "angle": 11578.564570917535
+    },
+    "unstable": {
+      "events": 35,
+      "original": 9547.234093401867,
+      "constant": 4828.691386746749,
+      "angle": 5463.02133704188
+    }
+  },
+  "group_ratios": {
+    "train": {
+      "angle_to_original": 0.7834456729491481,
+      "constant_to_original": 0.6770391894602091,
+      "angle_improvement_fraction": 0.21655432705085187
+    },
+    "stable": {
+      "angle_to_original": 0.9486845612781154,
+      "constant_to_original": 0.8110153201420813,
+      "angle_improvement_fraction": 0.0513154387218846
+    },
+    "unstable": {
+      "angle_to_original": 0.5722098446101156,
+      "constant_to_original": 0.5057686173301101,
+      "angle_improvement_fraction": 0.4277901553898844
+    }
+  },
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "weak_intervals": 98341,
+    "svd": 346,
+    "quad_check_intervals": 98341,
+    "fits": 2
+  },
+  "notes": [
+    "All evidence was checked from immutable saved JSON and artifact byte digests. No raw caches or trajectory arrays were read, no NPZ was decoded, and no scientific execution was performed.",
+    "The selected rho is exactly the prospective upper bound 2/3. The unconstrained scalar optimum exceeds that bound; the range has not been expanded or selected from held-out results.",
+    "The angle candidate lowers observed-path residual SSE relative to the original model in all train, stable and unstable groups. The fitted constant damping has still lower SSE in each group; this diagnostic establishes eligibility for the registered angle intervention, not superiority over global damping.",
+    "The positive state-dependent damping law preserves its D0/3 floor. Unconstrained memory elimination serves coefficient fitting only and supplies no causal hidden-state initialization.",
+    "The complete frozen forecast round requires its own registration. This result contains train-only parameter evidence, and no test evidence selected the coefficient."
+  ]
+}

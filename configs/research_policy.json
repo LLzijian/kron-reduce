@@ -1438,7 +1438,7 @@
       "scientific_pass": false
     },
     "kiki_machine_local_topology_angle_damping_fit_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_angle_damping_fit_v1",
       "authority": "operator_autonomous_full_train_angle_damping_fit",
       "fit_attempts": 2,
@@ -1456,7 +1456,15 @@
         "fits": 2,
         "weak_intervals": 107260,
         "quad_check_intervals": 107260
-      }
+      },
+      "run_id": "kiki_machine_local_topology_angle_damping_fit_v1-train_momentum-20261115T113106930456Z-1a15ec96-f10407e4",
+      "result_manifest_sha256": "14f1a0a8907c786246735aa73942cdc8bf3edd06bce4c3e532a153ae84be61ee",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_angle_damping_fit_20261115_evidence.json",
+      "result_receipt_sha256": "d88fae66296ca200d111483add4b169ceda3ec9a9c892f368b4bfbc58153fe04",
+      "result_review_path": "docs/research/kiki_machine_local_topology_angle_damping_fit_result_review_20261115.json",
+      "result_review_sha256": "fceeea81841d9a41782da006243fb7d7b49229df192fbbfea1c929a9871fa905",
+      "engineering_pass": true,
+      "scientific_pass": true
     }
   },
   "archived_development_results": {
@@ -4885,6 +4893,34 @@
       "result_review_sha256": "3f1aa6191e1e0a3a6d111d1c08de3f463930cf2d096bd60d874ca11d2603d078",
       "scientific_pass": false,
       "val_guard": false
+    },
+    "kiki_machine_local_topology_angle_damping_test_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_angle_damping_test_v1",
+      "authority": "operator_frozen_angle_damping_full_task3",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "frozen_model_manifest": {
+        "path": "configs/proposals/kiki_machine_local_topology_angle_damping_v1_freeze.json",
+        "sha256": "05017f11a8f96d1a0d925fef2bee344fd8ecaae3671a131caf0224cd8e822a26"
+      },
+      "operation_limits": {
+        "rollouts": 7658,
+        "torch_rhs": 22580160,
+        "tangent_rhs": 1312800,
+        "qr": 10580,
+        "svd": 10580,
+        "triangular_solves": 10580,
+        "matrix_products": 10580,
+        "checkpoint_loads": 2
+      },
+      "plan_path": "configs/proposals/kiki_machine_local_topology_angle_damping_test_v1.json",
+      "plan_sha256": "a5772a2440509831268ec68b1d8f859aa7ef070566db5b5cf748fe2c2e07a095",
+      "review_path": "docs/research/kiki_machine_local_topology_angle_damping_test_v1_review_20261115.json",
+      "review_sha256": "d5f8871c04985df0a1ec471b4c71ac4a712b71f8fcb14b066ec892d834a629d7"
     }
   },
   "round_evaluation_defaults": {

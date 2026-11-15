@@ -1,0 +1,63 @@
+{
+  "run_id": "kiki_machine_local_topology_angle_damping_fit_v1-train_momentum-20261115T113106930456Z-1a15ec96-f10407e4",
+  "stage": "train_momentum",
+  "source_commit": "1a15ec96099b7b7a8fdf6345cd5340fcb8317bb9",
+  "plan_sha256": "85243f0d896262868e1412d03712e2c1b3061fedd49051e1e783cca52595525f",
+  "summary_sha256": "42cd60ddb607819dde0ced332f027b9387d9b058c7565f42eaef55cc253bb060",
+  "artifact_manifest_sha256": "14f1a0a8907c786246735aa73942cdc8bf3edd06bce4c3e532a153ae84be61ee",
+  "artifact_count": 5,
+  "operations_sha256": "a0e4f32e36833877d6d886cfc4ee9a78f980d2d8768dcacc7aa54fffdc8b31c7",
+  "access_sha256": "935a8bcfea38cc7458f5f8ea80194a44777ce0d3cd482287d5d85a15d6b48246",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "role": "train",
+  "allocated": 346,
+  "memory_radius": 6.61055385191009,
+  "fit_supported": true,
+  "train_fits": {
+    "constant": -0.6563232635283881,
+    "angle": 0.6666666666666666
+  },
+  "quadrature_gap": 4.163336342344337e-17,
+  "full_rank": 346,
+  "retained_intervals": 98341,
+  "residuals": {
+    "train": {
+      "events": 346,
+      "original": 21752.09653505298,
+      "constant": 14727.021807152492,
+      "angle": 17041.585907959416
+    },
+    "stable": {
+      "events": 311,
+      "original": 12204.862441651114,
+      "constant": 9898.330420405742,
+      "angle": 11578.564570917535
+    },
+    "unstable": {
+      "events": 35,
+      "original": 9547.234093401867,
+      "constant": 4828.691386746749,
+      "angle": 5463.02133704188
+    }
+  },
+  "status": "PASS",
+  "process_status": "PASS",
+  "data_policy": "kiki_official_train_test_v1",
+  "promotion_decision": "KEEP_BASELINE",
+  "claim_boundary": "Observed-path diagnosis over the complete official TASK3 train.",
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "weak_intervals": 98341,
+    "svd": 346,
+    "quad_check_intervals": 98341,
+    "fits": 2
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cpu",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "result_review_sha256": "fceeea81841d9a41782da006243fb7d7b49229df192fbbfea1c929a9871fa905"
+}
