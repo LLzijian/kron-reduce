@@ -1,0 +1,42 @@
+{
+  "approved": true,
+  "plan_path": "configs/proposals/kiki_machine_local_topology_spatial_damping_saved_audit_v1.json",
+  "plan_sha256": "c27c1e023a06c0b76705a583a4863042c492891db86bb216e09d1066fc48502d",
+  "implementation_bindings": {
+    "scratch/one_off/kiki_machine_local_topology_spatial_damping_20261115/audit_predictions.py": "c44596a4006f4514be93878c61f688bbd4e4bd968c7bdb3b9392f2fe6258782c",
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/proposals/kiki_machine_local_topology_spatial_damping_test_v1.json": "732c23d81053b84cd7cf8e9559a39b049de6a5b6b5637ed23b9e1772685af0c4",
+    "docs/reports/kiki_machine_local_topology_spatial_damping_20261115_evidence.json": "3116c727cd78a72c38044001350d25603dfb1da9d4e0a4ea91a157ed47c01aec",
+    "configs/proposals/kiki_machine_local_topology_spatial_damping_v1_freeze.json": "b4a6984acc0d18b00c729dc77d8c8941ce27252692d9856cd73c457ccbe8b5d4"
+  },
+  "checks": {
+    "artifact_manifest_sha256": "1a1b0c106daa10c8d402f7413a76474cba5ff8b99ee297f3dd255862d005f4d7",
+    "exact_saved_forecast_decodes": 3,
+    "roles": [
+      "train",
+      "val",
+      "test"
+    ],
+    "counts": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    },
+    "new_model_calls": 0,
+    "new_cache_reads": 0,
+    "source_rosters_and_labels_match": true,
+    "artifact_bytes_verified": true,
+    "inherited_score_saved_unchanged": true
+  },
+  "notes": [
+    "Approved one arithmetic audit of the three exact retained spatial-damping prediction files using the frozen TASK3 scoring contract.",
+    "The wrapper verifies every binding and spends a one-use marker before decoding. No fitting, model inference or original data-cache access is in scope.",
+    "Unresolved, uncovered and numerical failures remain explicit; full-cohort accuracy is null when coverage is incomplete. Test scoring is reporting-only.",
+    "This review inspected source and JSON metadata and hashed artifact bytes without decoding arrays or executing scientific work."
+  ]
+}
