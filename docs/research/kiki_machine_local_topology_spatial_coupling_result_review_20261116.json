@@ -1,0 +1,223 @@
+{
+  "verified": true,
+  "run_id": "kiki_machine_local_topology_spatial_coupling_v1-train_momentum-20261115T180156904594Z-e98bf08e-7dcd89a3",
+  "summary_sha256": "ec0bd9a7584bc792d63e16939ce26bf6152eb592039fb9a423a2d225b87a8c1a",
+  "artifact_manifest_sha256": "3e64df690b4d48b4d55199999090c50e8383fe430962c45248f68c908278a9de",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "plan_path": "configs/proposals/kiki_machine_local_topology_spatial_coupling_v1.json",
+  "plan_sha256": "d68a47790856093ce4deda7c2ad79a386e5d4d3a42e1b63d32e3bba57e03b000",
+  "artifact_count": 6,
+  "source_commit": "e98bf08e07b5892442fbc217289311d4a0dcd2f7",
+  "checks": {
+    "saved_json_verifier_no_close": true,
+    "all_artifact_byte_digests": true,
+    "all_implementation_bindings": true,
+    "exact_train_ids_and_labels": true,
+    "complete_346_rank10_and_numerical_qualification": true,
+    "all_18_group_sse_pairs_and_ratios_recomputed": true,
+    "all_registered_group_gates_recomputed": true,
+    "two_cache_opens_and_train_only_access": true,
+    "operation_ledger_and_exact_no_fallback_counts": true,
+    "no_history_estimation_errors": true,
+    "projected_direction_norm_not_increased": true,
+    "row_cross_terms_satisfy_cauchy_bound": true
+  },
+  "group_gates": {
+    "train": true,
+    "stable": true,
+    "unstable": false
+  },
+  "group_sizes": {
+    "train": 346,
+    "stable": 311,
+    "unstable": 35
+  },
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "numpy_damping_roots": 1,
+    "rollouts": 308,
+    "tangent_rhs": 52800,
+    "torch_rhs": 63360,
+    "qr": 6920,
+    "svd": 7266,
+    "matrix_products": 6920,
+    "triangular_solves": 6920,
+    "dynamic_intervals": 196682,
+    "dynamic_rhs": 2360184,
+    "weak_intervals": 94881,
+    "quad_check_intervals": 94881
+  },
+  "signed_direction_diagnostics": {
+    "train": {
+      "constant": {
+        "0.0025": {
+          "baseline_sse": 53317.055171478125,
+          "candidate_sse": 52388.81881890753,
+          "ratio": 0.9825902546645683,
+          "direction_sse": 137.45922001607514,
+          "residual_direction_inner_product": 532.847786293336,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.03874059638939435
+        },
+        "0.00125": {
+          "baseline_sse": 53317.05517411663,
+          "candidate_sse": 52388.818821599285,
+          "ratio": 0.9825902546664287,
+          "direction_sse": 137.45922001607514,
+          "residual_direction_inner_product": 532.8477862667096,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.03874059638360546
+        },
+        "free": {
+          "baseline_sse": 19568.539915785066,
+          "candidate_sse": 19301.413216921857,
+          "ratio": 0.9863491757682069,
+          "direction_sse": 99.54945739002102,
+          "residual_direction_inner_product": 183.33807812661507,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.017254724492906538
+        }
+      },
+      "spatial": {
+        "0.0025": {
+          "baseline_sse": 32602.106835495742,
+          "candidate_sse": 32029.12558802132,
+          "ratio": 0.982425023929724,
+          "direction_sse": 137.45922001607514,
+          "residual_direction_inner_product": 355.22023374524906,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.028156317247677625
+        },
+        "0.00125": {
+          "baseline_sse": 32602.106832764635,
+          "candidate_sse": 32029.12558491993,
+          "ratio": 0.982425023916894,
+          "direction_sse": 137.45922001607514,
+          "residual_direction_inner_product": 355.22023393039126,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.028156317279386674
+        },
+        "free": {
+          "baseline_sse": 15003.286305496764,
+          "candidate_sse": 14806.114800657126,
+          "ratio": 0.9868581122278923,
+          "direction_sse": 99.54945739002102,
+          "residual_direction_inner_product": 148.36048111482978,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.014737070867009108
+        }
+      }
+    },
+    "stable": {
+      "constant": {
+        "0.0025": {
+          "baseline_sse": 13987.418825164596,
+          "candidate_sse": 13589.360381148059,
+          "ratio": 0.9715416797772299,
+          "direction_sse": 66.3491662583622,
+          "residual_direction_inner_product": 232.2038051374493,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.05809859306348651
+        },
+        "0.00125": {
+          "baseline_sse": 13987.41880159242,
+          "candidate_sse": 13589.360356838974,
+          "ratio": 0.9715416796765871,
+          "direction_sse": 66.3491662583622,
+          "residual_direction_inner_product": 232.2038055059038,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.05809859334577511
+        },
+        "free": {
+          "baseline_sse": 10993.31086640816,
+          "candidate_sse": 10770.895052663369,
+          "ratio": 0.9797680774747836,
+          "direction_sse": 53.554471609890626,
+          "residual_direction_inner_product": 137.98514267734026,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.03234002908730857
+        }
+      },
+      "spatial": {
+        "0.0025": {
+          "baseline_sse": 13375.132330794728,
+          "candidate_sse": 12948.783835583203,
+          "ratio": 0.9681237923732608,
+          "direction_sse": 66.3491662583622,
+          "residual_direction_inner_product": 246.34883073494348,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.06838603955553174
+        },
+        "0.00125": {
+          "baseline_sse": 13375.132318869475,
+          "candidate_sse": 12948.783823078309,
+          "ratio": 0.9681237923015028,
+          "direction_sse": 66.3491662583622,
+          "residual_direction_inner_product": 246.34883102476397,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.06838603977741206
+        },
+        "free": {
+          "baseline_sse": 10553.38344524862,
+          "candidate_sse": 10285.475963239698,
+          "ratio": 0.9746140672895249,
+          "direction_sse": 53.554471609890626,
+          "residual_direction_inner_product": 160.73097680940646,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.04571005157761499
+        }
+      }
+    },
+    "unstable": {
+      "constant": {
+        "0.0025": {
+          "baseline_sse": 39329.636346313535,
+          "candidate_sse": 38799.45843775947,
+          "ratio": 0.9865196335942283,
+          "direction_sse": 71.11005375771293,
+          "residual_direction_inner_product": 300.64398115588847,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.03231871536957262
+        },
+        "0.00125": {
+          "baseline_sse": 39329.636372524204,
+          "candidate_sse": 38799.45846476031,
+          "ratio": 0.9865196336233031,
+          "direction_sse": 71.11005375771293,
+          "residual_direction_inner_product": 300.64398076080397,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.032318715263092455
+        },
+        "free": {
+          "baseline_sse": 8575.229049376905,
+          "candidate_sse": 8530.51816425849,
+          "ratio": 0.9947860418816844,
+          "direction_sse": 45.99498578013039,
+          "residual_direction_inner_product": 45.35293544927299,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.005215003276270035
+        }
+      },
+      "spatial": {
+        "0.0025": {
+          "baseline_sse": 19226.974504701015,
+          "candidate_sse": 19080.34175243812,
+          "ratio": 0.9923735919956078,
+          "direction_sse": 71.11005375771293,
+          "residual_direction_inner_product": 108.87140301030377,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.00866933293702309
+        },
+        "0.00125": {
+          "baseline_sse": 19226.97451389516,
+          "candidate_sse": 19080.341761841624,
+          "ratio": 0.9923735920101436,
+          "direction_sse": 71.11005375771293,
+          "residual_direction_inner_product": 108.87140290562274,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.008669332916206193
+        },
+        "free": {
+          "baseline_sse": 4449.902860248145,
+          "candidate_sse": 4520.6388374174285,
+          "ratio": 1.0158960722044479,
+          "direction_sse": 45.99498578013039,
+          "residual_direction_inner_product": -12.370495694576675,
+          "nonnegative_fixed_direction_max_fractional_gain": 0.0
+        }
+      }
+    }
+  },
+  "notes": [
+    "Review used saved JSON and byte hashes only; no trajectory decoding, raw-data access or model execution.",
+    "The complete train and stable groups pass, but the unstable group fails the preregistered ratio <=0.99 requirement across every damping/start control. The failed gate is retained.",
+    "For unstable spatial damping with free memory projection, the residual-direction inner product is negative. Every positive scalar multiplier of this fixed saved force increment increases SSE; this is adverse alignment, not merely excessive positive amplitude.",
+    "Even arbitrary nonnegative rescaling of the saved force direction can improve unstable spatial causal SSE by at most 0.866934%, and unstable constant-damping free SSE by at most 0.521501%; both remain below the registered 1% improvement.",
+    "These algebraic upper bounds concern a fixed saved impulse direction. Changing the nonlinear coupling rate changes the entire state path and is not equivalent to this scalar rescaling. No rate or new model was fitted or selected.",
+    "This result does not satisfy the registered route to complete TASK3 forecast evaluation. Any new mechanism requires separate registration; no test evidence entered this review."
+  ]
+}

@@ -1634,7 +1634,7 @@
       "scientific_pass": false
     },
     "kiki_machine_local_topology_spatial_coupling_v1_20261116": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_spatial_coupling_v1",
       "authority": "operator_autonomous_full_train_spatial_coupling_diagnostic",
       "fit_attempts": 0,
@@ -1660,7 +1660,15 @@
         "qr": 13840,
         "matrix_products": 13840,
         "triangular_solves": 13840
-      }
+      },
+      "run_id": "kiki_machine_local_topology_spatial_coupling_v1-train_momentum-20261115T180156904594Z-e98bf08e-7dcd89a3",
+      "result_manifest_sha256": "3e64df690b4d48b4d55199999090c50e8383fe430962c45248f68c908278a9de",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_spatial_coupling_20261116_evidence.json",
+      "result_receipt_sha256": "420bac524d218e0740d3803c7a21daa4dc5e58369e535c5fbc54d28587f72851",
+      "result_review_path": "docs/research/kiki_machine_local_topology_spatial_coupling_result_review_20261116.json",
+      "result_review_sha256": "2501dca30d3cab4a2058dd87d685ac5fc11d3e64dcc97f2981d4c09037450b47",
+      "engineering_pass": true,
+      "scientific_pass": false
     }
   },
   "archived_development_results": {
