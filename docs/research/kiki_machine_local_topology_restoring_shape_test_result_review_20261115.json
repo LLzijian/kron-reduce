@@ -1,0 +1,63 @@
+{
+  "verified": true,
+  "status": "PASS",
+  "run_id": "kiki_machine_local_topology_restoring_shape_test_v1-test-20261115T131333593545Z-67fea899-540b6188",
+  "artifact_count": 11,
+  "roles": [
+    "train",
+    "val",
+    "test"
+  ],
+  "scores": {
+    "train": {
+      "tp": 27,
+      "tn": 309,
+      "fp": 2,
+      "fn": 4,
+      "allocated": 346,
+      "resolved": 342,
+      "unresolved": 4,
+      "numerical_failures": 0,
+      "accuracy": null,
+      "classifiable_accuracy": 0.9824561403508771,
+      "correct": 336
+    },
+    "val": {
+      "tp": 9,
+      "tn": 95,
+      "fp": 0,
+      "fn": 3,
+      "allocated": 107,
+      "resolved": 107,
+      "unresolved": 0,
+      "numerical_failures": 0,
+      "accuracy": 0.9719626168224299,
+      "classifiable_accuracy": 0.9719626168224299,
+      "correct": 104
+    },
+    "test": {
+      "tp": 3,
+      "tn": 67,
+      "fp": 0,
+      "fn": 4,
+      "allocated": 76,
+      "resolved": 74,
+      "unresolved": 2,
+      "numerical_failures": 0,
+      "accuracy": null,
+      "classifiable_accuracy": 0.9459459459459459,
+      "correct": 70
+    }
+  },
+  "val_guard": true,
+  "test_goal_met": false,
+  "train_guard": true,
+  "train_witnesses": {
+    "allocated": 35,
+    "truth_triggered": 35,
+    "predicted": {
+      "0.0025": 7,
+      "0.00125": 7
+    }
+  }
+}

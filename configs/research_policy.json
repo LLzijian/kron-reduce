@@ -4793,6 +4793,18 @@
       "npz_decodes": 3,
       "result_receipt_path": "docs/reports/kiki_machine_local_topology_spatial_damping_saved_audit_20261115_evidence.json",
       "result_receipt_sha256": "6875499a4fc9d7fc6fd59a30ea966e80869a1517f75c86409e9356fdacf5292e"
+    },
+    "kiki_machine_local_topology_restoring_shape_saved_audit_v1_20261115": {
+      "status": "active",
+      "authority": "operator_complete_radius_goal_evidence_audit",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "max_npz_decodes": 3,
+      "new_model_calls": 0,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_restoring_shape_saved_audit_v1.json",
+      "plan_sha256": "a728254bca8ed96bf8aea78a4b34d285965376d00f99eab1c5cfbaef4747895d",
+      "review_path": "docs/research/kiki_machine_local_topology_restoring_shape_saved_audit_review_20261115.json",
+      "review_sha256": "a999dc793012c5e0e616a8b4b616d2784f0a2439ff9d2c9452e899a223c3fb1f"
     }
   },
   "default_real_data_policy": "kiki_official_train_test_v1",
@@ -5215,7 +5227,7 @@
       "val_guard": true
     },
     "kiki_machine_local_topology_restoring_shape_test_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_restoring_shape_test_v1",
       "authority": "operator_frozen_restoring_shape_full_task3",
       "fit_attempts": 0,
@@ -5240,7 +5252,15 @@
       "plan_path": "configs/proposals/kiki_machine_local_topology_restoring_shape_test_v1.json",
       "plan_sha256": "b71bccb37726a48db731bb39f0a4a345fd92be24530ae4a1ad7013d54d41084c",
       "review_path": "docs/research/kiki_machine_local_topology_restoring_shape_test_v1_review_20261115.json",
-      "review_sha256": "179edc22983a94f042f6f59cc0d8a8c20c26fdf3e9793def2c03da562b2b2f6f"
+      "review_sha256": "179edc22983a94f042f6f59cc0d8a8c20c26fdf3e9793def2c03da562b2b2f6f",
+      "run_id": "kiki_machine_local_topology_restoring_shape_test_v1-test-20261115T131333593545Z-67fea899-540b6188",
+      "result_manifest_sha256": "07373882467220f7daa088bfefdeb03f9b70d8813d428f44969f91186843a984",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_restoring_shape_20261115_evidence.json",
+      "result_receipt_sha256": "24af6e8bcdcf81dc084fe9adc6f503ccaf4b138817a8935b1c94ea629aa56a2b",
+      "result_review_path": "docs/research/kiki_machine_local_topology_restoring_shape_test_result_review_20261115.json",
+      "result_review_sha256": "f83cddb2c9a09d67b215d9da42a928ef7697977143a85c5f104310f2eac6a37a",
+      "scientific_pass": false,
+      "val_guard": true
     }
   },
   "round_evaluation_defaults": {

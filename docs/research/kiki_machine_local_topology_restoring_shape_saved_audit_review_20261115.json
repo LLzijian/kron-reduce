@@ -1,0 +1,40 @@
+{
+  "approved": true,
+  "plan_path": "configs/proposals/kiki_machine_local_topology_restoring_shape_saved_audit_v1.json",
+  "plan_sha256": "a728254bca8ed96bf8aea78a4b34d285965376d00f99eab1c5cfbaef4747895d",
+  "implementation_bindings": {
+    "scratch/one_off/kiki_machine_local_topology_restoring_shape_20261115/audit_predictions.py": "f43da0fb088084fece1cd49225e41bf5ea1d85db5f8635b2c1b8dac74465dba7",
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/proposals/kiki_machine_local_topology_restoring_shape_test_v1.json": "b71bccb37726a48db731bb39f0a4a345fd92be24530ae4a1ad7013d54d41084c",
+    "docs/reports/kiki_machine_local_topology_restoring_shape_20261115_evidence.json": "24af6e8bcdcf81dc084fe9adc6f503ccaf4b138817a8935b1c94ea629aa56a2b",
+    "configs/proposals/kiki_machine_local_topology_restoring_shape_v1_freeze.json": "dd687b26e3f48e64f46afa13ce42207f6911233420fce8ecadd375f502e7209d"
+  },
+  "checks": {
+    "artifact_manifest_sha256": "07373882467220f7daa088bfefdeb03f9b70d8813d428f44969f91186843a984",
+    "artifact_count": 11,
+    "cohort_counts": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    },
+    "total_cases": 529,
+    "exact_saved_npz_decodes": 3,
+    "new_model_calls": 0,
+    "original_data_cache_reads": 0,
+    "source_qualified_rosters_and_labels_verified": true,
+    "all_artifact_byte_hashes_verified": true,
+    "wrapper_matches_prior_reviewed_audit_except_group_identity": true,
+    "inherited_score_saved_binding_unchanged": true
+  },
+  "notes": [
+    "Approved one arithmetic audit of the exact three retained restoring-shape forecast archives using the frozen TASK3 scoring contract.",
+    "The wrapper validates all bindings and reserves its one-use execution before decoding. Only the retained forecasts are decoded; no original data cache, model, fit or future simulation is in scope.",
+    "The complete train, val and test rosters remain intact. Unresolved, uncovered and numerical failures remain explicit, with full-cohort accuracy null when incomplete. Test reporting cannot select or revise a model.",
+    "This review used source, metadata and byte hashes only; it did not decode trajectories or recompute scientific scores."
+  ]
+}
