@@ -1,0 +1,1018 @@
+{
+  "schema": "machine_local_topology_refinement.evidence.v1",
+  "run_id": "machine_local_topology_refinement_v1-refinement-20261115T035654984080Z-5ef99a7e-97131108",
+  "source_commit": "5ef99a7e6b4d82b7ab7920f2515e43577ca4e182",
+  "result_artifact_manifest_sha256": "97335d3819d7bcc2ddef229d42f22b03257f350a648f1d15fa15076a8bcddad8",
+  "result_artifact_count": 63,
+  "summary_sha256": "16755523d846c200ad5ddff4a72da429dede7b1f376f446f878efa5418823689",
+  "stage_evidence_sha256": "ac8d03a20d815c63372f63dfad86fff31c02b43ad01245d21d049a0470ae0904",
+  "source": {
+    "run_id": "machine_local_topology_learning_v1-learning-20261115T030004994879Z-ae296951-2f11ad18",
+    "receipt_sha256": "eff1f1bbd6b0c419b6db9bf89531fcbbf3b7f4d2c9d671c922cfad52c54a10ab",
+    "manifest_sha256": "98fb7d5f2b89acbce6dd20527cd80598b8710150a202f3ea809e17c72f735e21",
+    "equation_sha256": {
+      "T0M1": "5b36b238e7f982b287b4be0d827ed5bf2f24bfd60b58af558be03b76e4a45ef1",
+      "T1M1": "823e638f9e1f8b431835b8e6072576e8201cd6d608ddd1defe5e01678820cf05"
+    }
+  },
+  "diagnosis_receipt_sha256": "6b24a5ce4303449917b63d26ce21d8cada4879b28968f02fe73c038295dcbfe8",
+  "groups": {
+    "T0M1": {
+      "fit": {
+        "completed_updates": 180,
+        "selected_update": 180,
+        "selected_val_nmse": 2.3324511023950497e-08,
+        "reason": "update_cap",
+        "failure": null
+      },
+      "validations": [
+        [
+          0,
+          2.8044255354380183e-06
+        ],
+        [
+          10,
+          1.6672429796226108e-06
+        ],
+        [
+          20,
+          7.464550615726925e-07
+        ],
+        [
+          30,
+          1.9325008674008697e-07
+        ],
+        [
+          40,
+          8.12496981549039e-08
+        ],
+        [
+          50,
+          5.273414052525216e-08
+        ],
+        [
+          60,
+          4.219173239923789e-08
+        ],
+        [
+          70,
+          3.7117606826938416e-08
+        ],
+        [
+          80,
+          3.770113239588483e-08
+        ],
+        [
+          90,
+          3.7942172856645506e-08
+        ],
+        [
+          100,
+          3.4904621282908345e-08
+        ],
+        [
+          110,
+          3.242942005313611e-08
+        ],
+        [
+          120,
+          3.217923619334675e-08
+        ],
+        [
+          130,
+          3.097906352770945e-08
+        ],
+        [
+          140,
+          2.884412225091887e-08
+        ],
+        [
+          150,
+          2.765264690317222e-08
+        ],
+        [
+          160,
+          2.6084127737350275e-08
+        ],
+        [
+          170,
+          2.4685464335007795e-08
+        ],
+        [
+          180,
+          2.3324511023950497e-08
+        ]
+      ],
+      "gates": {
+        "valid_fit": true,
+        "physical": true,
+        "truth": true,
+        "trajectory": true,
+        "edge": true,
+        "scales": true,
+        "memory_kernel": true,
+        "memory_parameters": true
+      },
+      "initial": {
+        "roles": {
+          "train": {
+            "allocated": 6,
+            "qualified": 6,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 0,
+              "eligible_stable": 6,
+              "eligible": 6,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 6,
+              "resolved": 6,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 0.0004118522508663348,
+              "2": 0.0008668590600355763,
+              "3": 0.0013854285248708024,
+              "5": 0.0018002024642963636,
+              "8": 0.0018687050178421744
+            }
+          },
+          "val": {
+            "allocated": 3,
+            "qualified": 3,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 3,
+              "eligible_unstable": 0,
+              "eligible_stable": 3,
+              "eligible": 3,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 3,
+              "resolved": 3,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 0.0010076243285202743,
+              "2": 0.00164437300358379,
+              "3": 0.002143252985275749,
+              "5": 0.00255084115291148,
+              "8": 0.0025089447027726143
+            }
+          },
+          "test": {
+            "allocated": 3,
+            "qualified": 3,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 3,
+              "eligible_unstable": 0,
+              "eligible_stable": 3,
+              "eligible": 3,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 3,
+              "resolved": 3,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 0.0007213673482816097,
+              "2": 0.0010306514989412222,
+              "3": 0.0012686893166860532,
+              "5": 0.0014686359906726139,
+              "8": 0.0014288343090784377
+            }
+          }
+        },
+        "kernel": 0.06900838366520236,
+        "parameter_errors": {
+          "port_amplitude": 0.11444151702319894,
+          "tau": 0.03979648131682456
+        },
+        "scales": {
+          "stiffness_scale": 0.999810635440086,
+          "damping_scale": 0.9954549591116401,
+          "port_amplitude": [
+            0.4917889014921056,
+            0.5349319281711354,
+            0.5591810581200215,
+            0.5759591097976747,
+            0.5843835742377135,
+            0.5995288246946897,
+            0.6155946739807303,
+            0.6664877808787182,
+            0.696882678653354,
+            0.7161409615582641
+          ],
+          "tau": [
+            0.07278575369217773,
+            0.0927179111597631,
+            0.11346825490526305,
+            0.1489006389415096,
+            0.1878220203950246,
+            0.24298220530858416,
+            0.31590374956885625,
+            0.39445672169697177,
+            0.509248642862789,
+            0.6539809327869718
+          ]
+        },
+        "max_val_edge_error": 0.00018936455991402923,
+        "max_val_8s_nrmse": 0.00348863818898242,
+        "failures": []
+      },
+      "selected": {
+        "roles": {
+          "train": {
+            "allocated": 6,
+            "qualified": 6,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 0,
+              "eligible_stable": 6,
+              "eligible": 6,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 6,
+              "resolved": 6,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 6.71905772009963e-05,
+              "2": 0.00011565667942957108,
+              "3": 0.00014038052259220078,
+              "5": 0.00017195541250627385,
+              "8": 0.00017430191965882384
+            }
+          },
+          "val": {
+            "allocated": 3,
+            "qualified": 3,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 3,
+              "eligible_unstable": 0,
+              "eligible_stable": 3,
+              "eligible": 3,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 3,
+              "resolved": 3,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 0.00010280677795160665,
+              "2": 0.00016906118084279804,
+              "3": 0.0001899434597426864,
+              "5": 0.0002165401308019214,
+              "8": 0.0002137167957840485
+            }
+          },
+          "test": {
+            "allocated": 3,
+            "qualified": 3,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 3,
+              "eligible_unstable": 0,
+              "eligible_stable": 3,
+              "eligible": 3,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 3,
+              "resolved": 3,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 6.919678481284689e-05,
+              "2": 9.357175368933713e-05,
+              "3": 0.00010614001914096213,
+              "5": 0.0001244217749383213,
+              "8": 0.00012809877545143166
+            }
+          }
+        },
+        "kernel": 0.03881858802589646,
+        "parameter_errors": {
+          "port_amplitude": 0.08037550568024399,
+          "tau": 0.00470582060195146
+        },
+        "scales": {
+          "stiffness_scale": 0.9996272982447973,
+          "damping_scale": 0.9966137313109773,
+          "port_amplitude": [
+            0.48616897755610977,
+            0.507865363519075,
+            0.5298656944398517,
+            0.5570269160141001,
+            0.5829716977165388,
+            0.6090150527448259,
+            0.6364856181119962,
+            0.6649590943007228,
+            0.6936645238841995,
+            0.7229360837058113
+          ],
+          "tau": [
+            0.07012925781577245,
+            0.0899537451006837,
+            0.11540032413393544,
+            0.14647275854196123,
+            0.18844507813450892,
+            0.24169441983612566,
+            0.30932329890491195,
+            0.3956940176281825,
+            0.5074771101592378,
+            0.6491579397868752
+          ]
+        },
+        "max_val_edge_error": 0.0003727017552026535,
+        "max_val_8s_nrmse": 0.0002524088387130037,
+        "failures": []
+      },
+      "gradient_pass": true
+    },
+    "T1M1": {
+      "fit": {
+        "completed_updates": 180,
+        "selected_update": 160,
+        "selected_val_nmse": 1.9736553335193384e-09,
+        "reason": "update_cap",
+        "failure": null
+      },
+      "validations": [
+        [
+          0,
+          0.0003133482531601547
+        ],
+        [
+          10,
+          0.00029923364196365307
+        ],
+        [
+          20,
+          0.00012956311166921852
+        ],
+        [
+          30,
+          0.00021513151272350016
+        ],
+        [
+          40,
+          8.375102085767293e-05
+        ],
+        [
+          50,
+          2.7049833534837172e-05
+        ],
+        [
+          60,
+          7.644340965257264e-06
+        ],
+        [
+          70,
+          2.1265224173466616e-06
+        ],
+        [
+          80,
+          3.7012466457943873e-07
+        ],
+        [
+          90,
+          7.656114249309215e-08
+        ],
+        [
+          100,
+          4.132331689454974e-08
+        ],
+        [
+          110,
+          1.3837557039845516e-08
+        ],
+        [
+          120,
+          6.11034771826189e-09
+        ],
+        [
+          130,
+          3.699439010307986e-09
+        ],
+        [
+          140,
+          3.6495307096053058e-09
+        ],
+        [
+          150,
+          2.061631867485417e-09
+        ],
+        [
+          160,
+          1.9736553335193384e-09
+        ],
+        [
+          170,
+          2.379209747021962e-09
+        ],
+        [
+          180,
+          2.809610743253954e-09
+        ]
+      ],
+      "gates": {
+        "valid_fit": true,
+        "physical": true,
+        "truth": true,
+        "trajectory": true,
+        "edge": true,
+        "scales": true,
+        "memory_kernel": true,
+        "memory_parameters": true
+      },
+      "initial": {
+        "roles": {
+          "train": {
+            "allocated": 6,
+            "qualified": 6,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 0,
+              "eligible_stable": 6,
+              "eligible": 6,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 6,
+              "resolved": 6,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 0.002151780597958785,
+              "2": 0.006732061129850395,
+              "3": 0.010575908040580083,
+              "5": 0.013899174155272241,
+              "8": 0.014624207268175846
+            }
+          },
+          "val": {
+            "allocated": 3,
+            "qualified": 3,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 3,
+              "eligible_unstable": 0,
+              "eligible_stable": 3,
+              "eligible": 3,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 3,
+              "resolved": 3,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 0.007058762546123153,
+              "2": 0.017736847641055268,
+              "3": 0.02401812431068768,
+              "5": 0.029688794793391444,
+              "8": 0.0294793268167283
+            }
+          },
+          "test": {
+            "allocated": 3,
+            "qualified": 3,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 3,
+              "eligible_unstable": 0,
+              "eligible_stable": 3,
+              "eligible": 3,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 3,
+              "resolved": 3,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 0.002333361558525146,
+              "2": 0.006037367695537757,
+              "3": 0.008946403431196246,
+              "5": 0.011632874209848558,
+              "8": 0.011893473749649825
+            }
+          }
+        },
+        "kernel": 0.1681284448537751,
+        "parameter_errors": {
+          "port_amplitude": 0.1964642803468688,
+          "tau": 0.04183500311599542
+        },
+        "scales": {
+          "stiffness_scale": 1.004496811574977,
+          "damping_scale": 0.9993716162946125,
+          "port_amplitude": [
+            0.4930637531679355,
+            0.574302854566497,
+            0.6066429699773863,
+            0.6024701971163416,
+            0.5319329789871942,
+            0.5649696369797899,
+            0.6046109394269849,
+            0.629620536264944,
+            0.6106020839850759,
+            0.6808580524001159
+          ],
+          "tau": [
+            0.07031903665257894,
+            0.0903197450848774,
+            0.11258383540576913,
+            0.1487260020708863,
+            0.18564489676156298,
+            0.23798372470081847,
+            0.29631153106183306,
+            0.4071699485115124,
+            0.4880493464959039,
+            0.624312986446841
+          ]
+        },
+        "max_val_edge_error": 0.3468319935615207,
+        "max_val_8s_nrmse": 0.045053708532034234,
+        "failures": []
+      },
+      "selected": {
+        "roles": {
+          "train": {
+            "allocated": 6,
+            "qualified": 6,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 0,
+              "eligible_stable": 6,
+              "eligible": 6,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 6,
+              "resolved": 6,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 9.536925196040617e-06,
+              "2": 2.557011351672617e-05,
+              "3": 3.8272601786108056e-05,
+              "5": 6.306080579546598e-05,
+              "8": 7.710308707161055e-05
+            }
+          },
+          "val": {
+            "allocated": 3,
+            "qualified": 3,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 3,
+              "eligible_unstable": 0,
+              "eligible_stable": 3,
+              "eligible": 3,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 3,
+              "resolved": 3,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 1.5037831376554382e-05,
+              "2": 3.993289796285973e-05,
+              "3": 6.09938163540059e-05,
+              "5": 0.0001085053073840859,
+              "8": 0.00013321580573558774
+            }
+          },
+          "test": {
+            "allocated": 3,
+            "qualified": 3,
+            "stability": {
+              "tp": 0,
+              "fn": 0,
+              "fp": 0,
+              "tn": 3,
+              "eligible_unstable": 0,
+              "eligible_stable": 3,
+              "eligible": 3,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": null,
+              "fur": 0.0,
+              "fsr_lower": null,
+              "fsr_upper": null,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": null,
+              "recall": null,
+              "precision": null,
+              "f1": null,
+              "allocated": 3,
+              "resolved": 3,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable",
+              "recall_on_resolved": null,
+              "miss_rate_on_resolved": null,
+              "false_alarm_rate_on_resolved": 0.0
+            },
+            "pooled_nrmse": {
+              "1": 2.046851404606328e-05,
+              "2": 5.107019792064093e-05,
+              "3": 7.328793761376231e-05,
+              "5": 0.0001088280566571536,
+              "8": 0.00011966880369183865
+            }
+          }
+        },
+        "kernel": 0.04311067525267767,
+        "parameter_errors": {
+          "port_amplitude": 0.09537860092353001,
+          "tau": 0.001100981315020566
+        },
+        "scales": {
+          "stiffness_scale": 0.9995501982594102,
+          "damping_scale": 0.9962460447922159,
+          "port_amplitude": [
+            0.4929203704155885,
+            0.5113993888230434,
+            0.5331031122700416,
+            0.5572103100361462,
+            0.5828578910436074,
+            0.609528894284879,
+            0.6369601893712373,
+            0.6651094369862502,
+            0.6939123973187525,
+            0.723024192069975
+          ],
+          "tau": [
+            0.06998716872762185,
+            0.0896418470134335,
+            0.11483632526062611,
+            0.1470560364891776,
+            0.18840254765379139,
+            0.24127146748311815,
+            0.3090680799735917,
+            0.3958768608698255,
+            0.5071216175662083,
+            0.6492843621452367
+          ]
+        },
+        "max_val_edge_error": 0.0015758311281907078,
+        "max_val_8s_nrmse": 0.0001626136496977783,
+        "failures": []
+      },
+      "gradient_pass": true
+    }
+  },
+  "cohorts": {
+    "train": 6,
+    "val": 3,
+    "test": 3
+  },
+  "ids": [
+    "topology-00",
+    "topology-01",
+    "topology-02",
+    "topology-03",
+    "topology-04",
+    "topology-05",
+    "topology-06",
+    "topology-07",
+    "topology-08",
+    "topology-09",
+    "topology-10",
+    "topology-11"
+  ],
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "elapsed_seconds": 541.2197348999907,
+  "operation_counts": {
+    "numpy_rhs": 155520,
+    "fits": 2,
+    "rollouts": 3080,
+    "tangent_rhs": 182400,
+    "torch_rhs": 1409282,
+    "qr": 12870,
+    "svd": 12870,
+    "matrix_products": 12870,
+    "triangular_solves": 12870,
+    "gradients": 364,
+    "val_checks": 38,
+    "optimizer_updates": 360
+  },
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "promotion_decision": "KEEP_BASELINE",
+  "execution_review": {
+    "path": "docs/research/machine_local_topology_refinement_review_20261115.json",
+    "sha256": "0dbbad964b9c7b15d70b6519c7185e0cbd2bada094583e50e518aed9e6000886"
+  },
+  "result_review": {
+    "path": "docs/research/machine_local_topology_refinement_20261115_result_review.json",
+    "sha256": "18b8768831dff2e55cdebb3ee6fd41e8f630a50d475d244eafb634d9de00c887"
+  }
+}

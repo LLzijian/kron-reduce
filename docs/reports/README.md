@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Long-horizon coupling and memory refinement](machine_local_topology_refinement_20261115_zh.md) | Two fixed-support fits with complete synthetic train/val/test GPU scores and passed recovery gates |
 | [Coupling and memory origin diagnosis](machine_local_topology_diagnosis_20261115_zh.md) | Twelve frozen shared-coefficient and origin-state comparisons on synthetic train/val |
 | [Event-conditioned coupling and memory learning](machine_local_topology_learning_20261115_zh.md) | Four fixed-support fits, complete synthetic train/val/test GPU scores, memory recovery gates |
 | [Event-conditioned coupling and memory S0](machine_local_topology_s0_20261115_zh.md) | Four known-coefficient synthetic cohorts, complete GPU scoring, limited rank-control recovery |

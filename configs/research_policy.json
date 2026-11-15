@@ -3796,12 +3796,20 @@
         "triangular_solves": 13350,
         "matrix_products": 13350
       },
-      "status": "active",
+      "status": "consumed",
       "plan_path": "configs/proposals/machine_local_topology_refinement_v1.json",
       "plan_sha256": "8419eb05ad592ba0801cc75b9dfbf14f8d02b54d73672add652cf45c20a0bf3e",
       "review_path": "docs/research/machine_local_topology_refinement_review_20261115.json",
       "review_sha256": "0dbbad964b9c7b15d70b6519c7185e0cbd2bada094583e50e518aed9e6000886",
-      "authority": "explicit_operator_autonomous_topology_improvement"
+      "authority": "explicit_operator_autonomous_topology_improvement",
+      "run_id": "machine_local_topology_refinement_v1-refinement-20261115T035654984080Z-5ef99a7e-97131108",
+      "result_receipt_path": "docs/reports/machine_local_topology_refinement_20261115_evidence.json",
+      "result_receipt_sha256": "e34ef38f564a0990cd3d517e752487ceb21010f599db965dc41c6c9ca1f66107",
+      "result_manifest_sha256": "97335d3819d7bcc2ddef229d42f22b03257f350a648f1d15fa15076a8bcddad8",
+      "engineering_pass": true,
+      "scientific_pass": true,
+      "result_review_path": "docs/research/machine_local_topology_refinement_20261115_result_review.json",
+      "result_review_sha256": "18b8768831dff2e55cdebb3ee6fd41e8f630a50d475d244eafb634d9de00c887"
     }
   },
   "saved_evidence_audits": {

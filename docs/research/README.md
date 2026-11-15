@@ -13,12 +13,14 @@ coefficient combinations and the 100 ms initialization before shared-parameter
 learning and function selection. The [S0 evidence](../reports/machine_local_topology_s0_20261115_zh.md)
 passes the engineering checks for clean synthetic histories. The
 [shared-coefficient comparison](../reports/machine_local_topology_learning_20261115_zh.md)
-recovers both no-memory models and reduces trajectory error in the two memory
-models. The memory-kernel gate remains open, and the combined model exceeds its
-per-event trajectory and effective-stiffness limits. The next comparison should
-hold the selected shared coefficients fixed and cross true and inferred
-coupling corrections and memory states at the forecast origin on synthetic
-train and val. Structure selection and real evaluation remain gated.
+recovers both no-memory models and identifies recovery gaps in the two memory
+models. The [origin-state diagnosis](../reports/machine_local_topology_diagnosis_20261115_zh.md)
+finds that the combined model's eight-second val error is more sensitive to the
+coupling correction than to the memory state. Subsequent [long-horizon refinement](../reports/machine_local_topology_refinement_20261115_zh.md)
+passes the trajectory, effective-stiffness and memory-kernel recovery gates for
+both fixed supports on the original clean synthetic rosters. The next scope is
+a frozen-model comparison on new synthetic events with both stable and unstable
+trajectories, followed by registered function selection. Real evaluation remains gated.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
