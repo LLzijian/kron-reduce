@@ -4265,6 +4265,18 @@
       "result_receipt_path": "docs/reports/kiki_task3_train_witness_20261115_evidence.json",
       "result_receipt_sha256": "5e88e2c0b61bfb43dbaf2b99ad029d6bee33823c2d7c4d9320887b103b054af4",
       "npz_decodes": 2
+    },
+    "kiki_machine_local_topology_damping_saved_audit_v1_20261115": {
+      "status": "active",
+      "authority": "operator_full_task3_accuracy_goal_evidence",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "max_npz_decodes": 3,
+      "new_model_calls": 0,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_damping_saved_audit_v1.json",
+      "plan_sha256": "9cb96df6958cad3c6911555a4a5d97dd873f1dac6f2f97f67c2702c81a76af92",
+      "review_path": "docs/research/kiki_machine_local_topology_damping_saved_audit_v1_review_20261115.json",
+      "review_sha256": "de9284df973fdc9fa3b149d91f27585fef982a4754693788d3453c7f6ee77ab7"
     }
   },
   "default_real_data_policy": "kiki_official_train_test_v1",
@@ -4508,7 +4520,7 @@
       "val_guard": false
     },
     "kiki_machine_local_topology_damping_test_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_damping_test_v1",
       "authority": "operator_full_task3_autonomous_accuracy_goal",
       "fit_attempts": 0,
@@ -4533,7 +4545,14 @@
       "frozen_model_manifest": {
         "path": "results/kiki_machine_local_topology_damping_fit_v1-fit-20261115T090530382303Z-9389f3db-ddaaae58/freeze.json",
         "sha256": "abac944b0181e64d87d2ea1cca9e07a7da88afc8771c3b38306d0e65e12d67a2"
-      }
+      },
+      "run_id": "kiki_machine_local_topology_damping_test_v1-test-20261115T091230749822Z-546af593-d23ff98b",
+      "result_manifest_sha256": "a9c605c90573deaa85611cdda74b3d1b5938bdb2adeaa0510787bd46612ca508",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_damping_test_20261115_evidence.json",
+      "result_receipt_sha256": "41993a64952aedaac24a436f30c44228cce5fe7b3b707b4b508985f414a9088c",
+      "result_review_path": "docs/research/kiki_machine_local_topology_damping_test_result_review_20261115.json",
+      "result_review_sha256": "61667e9b62003056a7429bc9dbb120cd66a2e153748b88bef6f758baefa53ddd",
+      "scientific_pass": false
     }
   },
   "round_evaluation_defaults": {

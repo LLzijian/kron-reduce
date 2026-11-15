@@ -1,0 +1,25 @@
+{
+  "approved": true,
+  "plan_path": "configs/proposals/kiki_machine_local_topology_damping_saved_audit_v1.json",
+  "plan_sha256": "9cb96df6958cad3c6911555a4a5d97dd873f1dac6f2f97f67c2702c81a76af92",
+  "implementation_bindings": {
+    "scratch/one_off/kiki_machine_local_topology_damping_20261115/audit_saved.py": "2e6ba95d27650995a2cada511cc732e6f9f471b2bf092701bb0172a048638571",
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "docs/reports/kiki_machine_local_topology_damping_fit_20261115_evidence.json": "28d3aaf22e937a3b238e33b49dc0c24d0b0429ddd0e31b55f0e0507b7d6769b4",
+    "configs/proposals/kiki_machine_local_topology_damping_fit_v1.json": "1c9072ee45d12ad63ed8354b63f0a6b48579acbab396b2dcabecff7be95c069b",
+    "docs/reports/kiki_machine_local_topology_damping_test_20261115_evidence.json": "41993a64952aedaac24a436f30c44228cce5fe7b3b707b4b508985f414a9088c",
+    "configs/proposals/kiki_machine_local_topology_damping_test_v1.json": "b889c69aec85750282593ab4015e3274702b253f5f55af0dbbde1477e20814cb"
+  },
+  "checks": [
+    "The exact ten implementation bindings, sixty frozen external source digests, two run manifests and six saved score/forecast file digests match; the registered roles are exactly train, val and test.",
+    "The script derives its immutable plan from consumed fit/test receipts, verifies the frozen source-qualified rosters and labels, and requires identical original and candidate preprocessing before reservation.",
+    "The reused loader opens each of the three saved forecast archives exactly once, validates complete 346/107/76 identities, shapes and saved truth metadata, and performs no new model call or original cache read. The one-use reservation precedes all three decodes.",
+    "Recomputed trajectory scores, physical-unit errors, dual-step numerical qualification, frozen five-point stability classifications, full-cohort counts and 1 s/3 s terminal losses are compared with saved JSON at 1e-12 relative/absolute tolerance. Unresolved cases remain unresolved and full-cohort accuracy remains null.",
+    "Audit success denotes arithmetic agreement, including agreement with the archived test-goal Boolean; it does not promote the candidate or change failed scientific conclusions. Test results remain reporting-only.",
+    "This pre-execution review read source and static metadata and verified file hashes without decoding any NPZ or executing the audit, model or scientific computation."
+  ]
+}
