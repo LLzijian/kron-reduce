@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Spatial damping on paired synthetic truth](machine_local_topology_spatial_damping_20261115_zh.md) | Two known spatial distributions, trace-matched control and complete train/val/test causal evaluation |
 | [TASK3 train fixed-origin damping scale](kiki_machine_local_topology_angle_scale_20261115_zh.md) | Complete train, two causal starts and free projection, larger scale raises residuals in all three groups |
 | [TASK3 frozen angle damping](kiki_machine_local_topology_angle_damping_20261115_zh.md) | Full train/val/test, val 106/107 correct, test 69 correct with three unresolved, independently recomputed |
 | [Angle-dependent damping on paired synthetic truth](machine_local_topology_angle_damping_20261115_zh.md) | Two known damping laws, complete train/val/test, coefficient and causal forecast gates passed |

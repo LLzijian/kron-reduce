@@ -1,0 +1,50 @@
+{
+  "verified": true,
+  "run_id": "kiki_machine_local_topology_spatial_damping_fit_v1-train_momentum-20261115T122146153611Z-51a98572-eca53882",
+  "summary_sha256": "f0a79cf4b3f6fe2b38747791d56b199d311a893a0d0d683c8cfae0b3f825c13a",
+  "artifact_manifest_sha256": "f48b817d3d6b1a5814cfd3ca092c42139ef45a359ef16e5ada155c00db2b78a1",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "selected_mix": 1.0,
+  "checks": {
+    "saved_json_verifier": "scratch/one_off/kiki_machine_local_topology_spatial_damping_20261115/archive_fit.py (without close)",
+    "artifact_count": 5,
+    "source_qualified_train_ids_and_labels": true,
+    "train_events": 346,
+    "stable_events": 311,
+    "unstable_events": 35,
+    "cache_archive_opens": {
+      "static": 1,
+      "development": 1
+    },
+    "decoded_roles": [
+      "train"
+    ],
+    "full_rank_rows": 346,
+    "retained_intervals": 98341,
+    "operation_counts": {
+      "checkpoint_loads": 2,
+      "numpy_damping_roots": 1,
+      "weak_intervals": 98341,
+      "quad_check_intervals": 98341,
+      "svd": 346,
+      "fits": 1
+    },
+    "raw_mix": 1.1320519413314132,
+    "bounded_mix": 1.0,
+    "upper_boundary_kkt_gradient": -12.946067927274783,
+    "quadrature_gap": 3.843453333374214e-14,
+    "spatial_to_global_sse_ratio": {
+      "train": 0.9927277994334648,
+      "stable": 1.004013973656853,
+      "unstable": 0.968807391852761
+    },
+    "group_gate_recomputed": true
+  },
+  "notes": [
+    "Independent verification used saved JSON and artifact byte hashes only; no trajectory arrays or models were loaded.",
+    "The exact train optimum is clipped to the preregistered upper bound 1.0; no bound expansion or coefficient reselection occurred.",
+    "The complete train and unstable-group residuals improve, while the stable-group residual increases. The conjunctive scientific gate therefore fails.",
+    "The positive bounded coefficient is numerically supported for a separately registered complete forecast comparison. This result does not authorize model promotion or change the failed residual gate."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "run_id": "kiki_machine_local_topology_spatial_damping_fit_v1-train_momentum-20261115T122146153611Z-51a98572-eca53882",
+  "stage": "train_momentum",
+  "source_commit": "51a9857223e622ca94ff1168072df13f5cdd547d",
+  "plan_sha256": "f89ef15252c66003b3e6d2748e074e3c417889423f6cc49021af37681e7f7dfd",
+  "summary_sha256": "f0a79cf4b3f6fe2b38747791d56b199d311a893a0d0d683c8cfae0b3f825c13a",
+  "artifact_manifest_sha256": "f48b817d3d6b1a5814cfd3ca092c42139ef45a359ef16e5ada155c00db2b78a1",
+  "artifact_count": 5,
+  "operations_sha256": "dbf71be9db3c999a760901412acbebd8b0273743627027ddb22c166f19f2f664",
+  "access_sha256": "935a8bcfea38cc7458f5f8ea80194a44777ce0d3cd482287d5d85a15d6b48246",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "role": "train",
+  "allocated": 346,
+  "memory_radius": 6.61055385191009,
+  "fit_supported": true,
+  "train_fit": {
+    "raw": 1.1320519413314132,
+    "value": 1.0,
+    "curvature": 98.03769483997057,
+    "gradient": -12.946067927274783,
+    "boundary": "upper"
+  },
+  "quadrature_gap": 3.843453333374214e-14,
+  "full_rank": 346,
+  "retained_intervals": 98341,
+  "residuals": {
+    "train": {
+      "events": 346,
+      "global": 17041.585907959416,
+      "spatial": 16917.656077264895,
+      "trace": 17259.88590523392
+    },
+    "stable": {
+      "events": 311,
+      "global": 11578.564570917535,
+      "spatial": 11625.040624089368,
+      "trace": 11570.932408425826
+    },
+    "unstable": {
+      "events": 35,
+      "global": 5463.02133704188,
+      "spatial": 5292.615453175526,
+      "trace": 5688.953496808094
+    }
+  },
+  "status": "PASS",
+  "process_status": "PASS",
+  "data_policy": "kiki_official_train_test_v1",
+  "promotion_decision": "KEEP_BASELINE",
+  "claim_boundary": "Observed-path diagnosis over the complete official TASK3 train.",
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "numpy_damping_roots": 1,
+    "weak_intervals": 98341,
+    "quad_check_intervals": 98341,
+    "svd": 346,
+    "fits": 1
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cpu",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "result_review_sha256": "37b434ff2cb97188565ae4194a4bd68b7a4b6764ab97749a66156fed8d343084"
+}
