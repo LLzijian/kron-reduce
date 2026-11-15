@@ -55,13 +55,16 @@ def freeze_pair(root, directory, phase, models, plan, training):
     return path
 
 
-def selection_rank(result, threshold, update):
+def selection_rank(result, threshold, update, *, trajectory_first=False):
     stability = result["stability"]
     failures = stability["allocated"]-stability["resolved"]
     errors = stability["allocated"]-stability["tp"]-stability["tn"]
     score = result["task3_six_term_score"]
-    if score is None or not math.isfinite(score):
+    invalid_trajectory = trajectory_first and (stability["uncovered"] or stability["numerical_failures"])
+    if score is None or not math.isfinite(score) or invalid_trajectory:
         return (2, failures, errors, update)
+    if trajectory_first:
+        return (0, score, update)
     if score > threshold:
         return (1, score, failures, errors, update)
     return (0, failures, errors, score, update)
@@ -80,9 +83,12 @@ def score(model, events, scales, budget, directory, role, settings, *, save=True
 
 def fit_pair(models, train, val, scales, budget, directory, settings):
     bounds = (math.log(.5), math.log(2.))
+    trajectory_first = "spatial_rate_limit" in settings
     predictor = partial(predict, memory_radius=scales["memory_radius"], prior_weight=settings["prior_weight"])
     active = {support: train_updates(model, train, scales, budget, directory/support, settings,
-                                    stiffness_bounds=bounds, damping_bounds=bounds, predictor=predictor,
+                                    stiffness_bounds=bounds, damping_bounds=bounds,
+                                    spatial_rate_limit=settings.get("spatial_rate_limit")
+                                    if model.spatial_relaxation_rates is not None else None, predictor=predictor,
                                     learning_rate=settings["learning_rate"], gradient_clip=1.)
               for support, model in models.items()}
     best, latest, statuses, checks = {}, {}, {}, []
@@ -106,12 +112,14 @@ def fit_pair(models, train, val, scales, budget, directory, settings):
                 model = models[support]
                 budget.spend("val_checks")
                 result = score(model, val, scales, budget, directory/support, "val", settings, save=False)
-                rank = selection_rank(result, settings["val_trajectory_limit"], update)
+                rank = selection_rank(result, settings["val_trajectory_limit"], update, trajectory_first=trajectory_first)
                 previous = best.get(support)
                 if previous is None or rank < previous[0]:
                     best[support] = (rank, snapshot(model))
                     if previous is None or rank[0] != previous[0][0]:
                         improved = True
+                    elif trajectory_first and rank[0] == 0:
+                        improved |= rank[1] < previous[0][1]*(1.-settings["val_relative_tol"])
                     elif rank[0] == 0:
                         improved |= (rank[1:3] < previous[0][1:3]
                                      or rank[3] < previous[0][3]*(1.-settings["val_relative_tol"]))
@@ -140,6 +148,8 @@ def fit_pair(models, train, val, scales, budget, directory, settings):
                            "selected_update": rank[-1], "selected_rank": list(rank),
                            "status": statuses.get(support, {}).get("status", "COMPLETED"),
                            "message": statuses.get(support, {}).get("message")}
+        if models[support].spatial_relaxation_rates is not None:
+            groups[support]["selected_relaxation_rates"] = models[support].spatial_relaxation_rates.tolist()
     training = {"stop_reason": reason, "groups": groups, "val_checks": len(checks)}
     write_json(directory/"selection.json", training)
     return training
@@ -158,7 +168,23 @@ def execute(root, directory, plan, stage):
         reader = Task3FullReader(root, plan["sources"], journal)
         budget.spend("checkpoint_loads")
         backbone = LearnedNonlinearModel.load(verified(root, plan["backbone"])).closure
-        models = {support: make_model(backbone, support, train_scales=True, device="cuda") for support in SUPPORTS}
+        spatial_start = plan.get("paired_start")
+        if spatial_start is None:
+            models = {support: make_model(backbone, support, train_scales=True, device="cuda") for support in SUPPORTS}
+        else:
+            models = {group: make_model(backbone, "T0M1", train_scales=True, device="cuda")
+                      for group in ("fixed", "spatial")}
+            for model in models.values():
+                model.set_angle_damping(2./3., spatial_mix=1.)
+                if stage == "fit":
+                    budget.spend("checkpoint_loads")
+                    load_snapshot(model, verified(root, spatial_start["checkpoint"]))
+                    if not math.isclose(float(model.effective_stiffness.sum()), spatial_start["latent_stiffness"],
+                                        rel_tol=1e-13, abs_tol=1e-12):
+                        raise RuntimeError("initial restoring stiffness differs from the fixed coupling storage scale")
+                    model.requires_grad_(True).train()
+            models["spatial"].set_trainable_spatial_coupling(stiffness=spatial_start["latent_stiffness"],
+                                                          limit=math.log(2.)/math.sqrt(1.6))
         for support in models:
             (directory/support).mkdir()
         training = None
@@ -167,6 +193,12 @@ def execute(root, directory, plan, stage):
             if not np.allclose(reader.static["mass"], backbone.mass, rtol=0, atol=1e-12):
                 raise ValueError("equation and TASK3 mass differ")
             scales = scales_from_train(train, backbone.mass)
+            if spatial_start is not None:
+                frozen_scales = read_json(verified(root, spatial_start["preprocessing"]))
+                if set(frozen_scales) != set(scales) or any(not np.allclose(scales[key], frozen_scales[key],
+                        rtol=1e-13, atol=1e-14) for key in scales):
+                    raise RuntimeError("full train preprocessing differs from the common T0M1 anchor")
+                scales = frozen_scales
             write_json(directory/"preprocessing.json", {key: np.asarray(value).tolist() for key, value in scales.items()})
             write_json(directory/"preprocessing-roster.json", {"ids": [row["id"] for row in train],
                                                               "history_points": 11})
@@ -190,6 +222,9 @@ def execute(root, directory, plan, stage):
             for support, model in models.items():
                 budget.spend("checkpoint_loads")
                 load_snapshot(model, verified(root, checkpoints[support]))
+                rates = model.spatial_relaxation_rates
+                if rates is not None and (torch.any(rates < 0.) or torch.any(rates > settings["spatial_rate_limit"])):
+                    raise RuntimeError("frozen spatial relaxation rates exceed the signed range")
             roles = {"test": reader.load("test", freeze_path=freeze_path)}
 
         if not np.allclose(reader.static["mass"], backbone.mass, rtol=0, atol=1e-12):
@@ -201,6 +236,8 @@ def execute(root, directory, plan, stage):
                 result = score(model, events, scales, budget, directory/group, role, settings)
                 records[group][role] = {key: result[key] for key in
                                         ("summary", "unstable_prefix", "stability", "task3_six_term_score")}
+                if spatial_start is not None:
+                    records[group][role]["stable_complete"] = result["stable_complete"]
         summaries = [value["test"]["stability"] for value in records.values()] if stage == "test" else []
         pass_goal = any(s["allocated"] == s["resolved"] == 76 and s["accuracy"] is not None
                         and s["tp"]+s["tn"] >= 69 for s in summaries)

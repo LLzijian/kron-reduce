@@ -83,7 +83,11 @@ def energy_residual(model, state, power, equilibrium, spend):
             damping_force = damping_force-((v@root)*(mix*rho*local_s/(1.+local_s)))@root
     expected = (v*(power-damping_force)).sum(-1)-(z.square()/model.tau).sum(-1)
     if model.dynamic_coupling is not None:
-        expected = expected-model.dynamic_coupling[0]*gradient[:, 20+model.memory_dimension:].square().sum(-1)
+        h = gradient[:, 20+model.memory_dimension:]
+        mobility = (model._spatial_mobility_matrix() if model.spatial_relaxation_rates is not None
+                    else model.dynamic_coupling[0])
+        dissipation = h @ mobility if isinstance(mobility, torch.Tensor) else h*mobility
+        expected = expected-(h*dissipation).sum(-1)
     terms = gradient*derivative
     return float(((terms.sum(-1)-expected).abs()/terms.abs().sum(-1).clamp_min(1.)).max().detach())
 

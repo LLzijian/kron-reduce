@@ -1669,6 +1669,34 @@
       "result_review_sha256": "2501dca30d3cab4a2058dd87d685ac5fc11d3e64dcc97f2981d4c09037450b47",
       "engineering_pass": true,
       "scientific_pass": false
+    },
+    "kiki_machine_local_topology_spatial_relaxation_fit_v1_20261116": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_spatial_relaxation_fit_v1",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "operator_authorized_zero_sum_spatial_relaxation_full_task3_fit_and_test",
+      "plan_path": "configs/proposals/kiki_machine_local_topology_spatial_relaxation_fit_v1.json",
+      "plan_sha256": "9ed059664a42a99d21b6c4f8c987fc8cf69724f9f29891c2627867302137ab22",
+      "review_path": "docs/research/kiki_machine_local_topology_spatial_relaxation_fit_review_20261116.json",
+      "review_sha256": "32885e1b640ef1e9ba17af73b826cdd14f28777a7a78dc8d619bbe0974639ca9",
+      "operation_limits": {
+        "rollouts": 36372,
+        "torch_rhs": 103409280,
+        "tangent_rhs": 6062400,
+        "qr": 172640,
+        "svd": 172640,
+        "triangular_solves": 172640,
+        "matrix_products": 172640,
+        "fits": 2,
+        "optimizer_updates": 72,
+        "gradients": 216,
+        "val_checks": 14,
+        "checkpoint_loads": 3
+      },
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "fit_attempts": 2
     }
   },
   "archived_development_results": {

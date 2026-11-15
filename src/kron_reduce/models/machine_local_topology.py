@@ -46,6 +46,7 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         self.restoring_shape = 0.
         self.dynamic_coupling = None
         self.register_buffer("dynamic_edge_basis", None, persistent=False)
+        self.register_parameter("spatial_relaxation_rates", None)
         self.register_parameter("log_damping_factor",
                                 torch.nn.Parameter(self.mass.new_zeros(())) if train_scales else None)
         self.register_buffer("edge_basis", self.incidence.abs().T @ self.basis[:, :self.topology_dimension])
@@ -102,8 +103,19 @@ class TopologyMemoryModel(DiagonalMemoryModel):
                 or type(spatial) is not bool or (spatial and self.n_nodes < 3)):
             raise ValueError("dynamic coupling requires T0M1 and valid mobility, stiffness and log-scale limit")
         self.dynamic_coupling = (mobility, stiffness, limit)
+        self.spatial_relaxation_rates = None
         self.dynamic_edge_basis = self.incidence.abs().T @ self.basis[:, :self.n_nodes-1] if spatial else None
         self.latent_dimension = self.memory_dimension+(self.n_nodes-1 if spatial else 1)
+
+    def set_trainable_spatial_coupling(self, *, stiffness, limit):
+        """Learn nonnegative node relaxation rates for the zero-sum coupling state."""
+        self.set_dynamic_coupling(0., stiffness=stiffness, limit=limit, spatial=True)
+        self.spatial_relaxation_rates = torch.nn.Parameter(self.mass.new_zeros(self.n_nodes))
+
+    def _spatial_mobility_matrix(self):
+        basis = self.basis[:, :self.n_nodes-1]
+        rates = self.spatial_relaxation_rates.clamp_min(0.)
+        return basis.T @ (rates[:, None]*basis)/self.dynamic_coupling[1]
 
     def node_correction(self, state):
         if self.dynamic_coupling is not None:
@@ -156,6 +168,8 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         applied = power @ inv_mass_projection.T
         dynamic = self.dynamic_coupling
         spatial = self.dynamic_edge_basis
+        mobility_matrix = self._spatial_mobility_matrix() if self.spatial_relaxation_rates is not None else None
+        spatial_active = spatial is not None and (mobility_matrix is not None or dynamic[0] > 0.)
         alpha = self.restoring_shape
         if alpha:
             first_weight = 1.-2.*alpha*(2.*ref).cos()
@@ -185,11 +199,12 @@ class TopologyMemoryModel(DiagonalMemoryModel):
                 k = self.edge_stiffness(state)
             force = k*shifted_sine
             latent_rate = torch.zeros_like(a)
-            if spatial is not None and mobility:
+            if spatial_active:
                 edge_energy = k*_edge_potential(relative_angle, ref, alpha)
                 latent_force = edge_energy @ spatial
                 radial_dot = (xi*latent_force).sum(dim=-1, keepdim=True)/limit**2
-                latent_rate = -mobility*(stiffness*a+radial_scale*(latent_force-xi*radial_dot))
+                gradient = stiffness*a+radial_scale*(latent_force-xi*radial_dot)
+                latent_rate = -mobility*gradient if mobility_matrix is None else -(gradient @ mobility_matrix.T)
             elif dynamic is not None and spatial is None:
                 mobility, stiffness, limit = dynamic
                 saturated = (a/limit).tanh()
@@ -225,15 +240,17 @@ class TopologyMemoryModel(DiagonalMemoryModel):
                 log_response = self.edge_basis @ sa if dynamic is None else log_slope[..., None]*sa
             force_response = (k*slope)[..., None]*edge_response+force[..., None]*log_response
             latent_response = torch.zeros_like(sa)
-            if spatial is not None and mobility:
+            if spatial_active:
                 latent_force_response = spatial.T @ (edge_energy[..., None]*log_response+force[..., None]*edge_response)
                 dot_response = ((radial_response*latent_force[..., None]+xi[..., None]*latent_force_response)
                                 .sum(dim=1, keepdim=True)/limit**2)
                 scale_response = -radial_scale[..., None].square()*xi_dot
-                latent_response = -mobility*(stiffness*sa
+                gradient_response = (stiffness*sa
                     +radial_scale[..., None]*(latent_force_response-radial_response*radial_dot[..., None]
                                              -xi[..., None]*dot_response)
                     +scale_response*(latent_force-xi*radial_dot)[..., None])
+                latent_response = (-mobility*gradient_response if mobility_matrix is None
+                                   else -(mobility_matrix @ gradient_response))
             elif dynamic is not None and mobility:
                 potential_response = (force[..., None]*edge_response).sum(dim=1, keepdim=True)
                 log_curvature = -2.*saturated*log_slope/limit

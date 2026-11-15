@@ -29,6 +29,9 @@ The [complete TASK3 train diagnosis](../reports/kiki_machine_local_topology_spat
 finds lower overall residuals and closes at the unstable-group gate. Under
 spatial damping, the observed-path correction has negative alignment with the
 remaining unstable residual after free memory projection.
+The [paired spatial relaxation protocol](../protocols/kiki_machine_local_topology_spatial_relaxation_v1_zh.md)
+learns machine-specific nonnegative relaxation rates on the complete TASK3 train
+roster from a shared starting checkpoint, with frozen val and test scoring.
 
 The [topology and memory plan](machine_local_topology_memory_plan_20261115_zh.md)
 introduces event-conditioned edge stiffness and reciprocal machine-local memory.

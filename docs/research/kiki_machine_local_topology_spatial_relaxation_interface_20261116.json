@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "real_data_reads": 0,
+  "scope": "Constructed float64 engineering fixtures",
+  "interfaces_checked": [
+    "Equal per-machine rates reproduce scalar spatial relaxation",
+    "Zero rates recover the fixed-coupling prediction and shared parameter derivatives",
+    "The zero-rate boundary has a right-hand training derivative",
+    "Centered differences agree through history and future prediction",
+    "Nodewise relaxation satisfies the input and dissipation balance",
+    "The full training batch backpropagates all 32 parameters on CUDA"
+  ],
+  "synthetic_fixture_batch": 128,
+  "forecast_s": 3.0,
+  "full_horizon_backward_seconds": 12.77787009999156,
+  "cuda_peak_allocated_bytes": 3719919616,
+  "cuda_peak_reserved_bytes": 3854565376,
+  "torch": "2.13.0+cu130",
+  "gpu": "NVIDIA GeForce RTX 4060 Ti",
+  "operations": {
+    "rollouts": 7,
+    "tangent_rhs": 400,
+    "torch_rhs": 2880,
+    "qr": 640,
+    "svd": 640,
+    "matrix_products": 640,
+    "triangular_solves": 640
+  }
+}

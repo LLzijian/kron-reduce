@@ -8,6 +8,7 @@ import sys
 from importlib.metadata import version
 from pathlib import Path
 
+from kron_reduce.workflows.kiki_machine_local_topology_radius import _bound_json, _result_file
 from kron_reduce.workflows.machine_local_equation import _cuda_preflight
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import assert_clean, git_head, verify_bound_file
@@ -17,22 +18,59 @@ from project_harness.policy import load_policy, validate_run_policy
 from project_harness.runner import _run_experiment
 
 WORKFLOW = "kiki_machine_local_topology_v1"
+SPATIAL_WORKFLOW = "kiki_machine_local_topology_spatial_relaxation_v1"
 MODULE = "kron_reduce.workflows.kiki_machine_local_topology"
 CALIBRATION = "machine_local_topology_transfer_v1_20261115"
 
 
-def authorize(root, stage):
+def _spatial_prerequisites(root, plan, policy):
+    development = policy["development_evaluations"]
+    synthetic = policy["bounded_synthetic_evaluations"]["machine_local_topology_spatial_coupling_causal_v1_20261116"]
+    observed = development["kiki_machine_local_topology_spatial_coupling_v1_20261116"]
+    for row, key, passed in ((synthetic, "spatial_synthetic", True), (observed, "spatial_observed_path", False)):
+        receipt = {"path": row["result_receipt_path"], "sha256": row["result_receipt_sha256"]}
+        if (row["status"] != "consumed" or row["engineering_pass"] is not True
+                or row["scientific_pass"] is not passed or plan[key] != receipt):
+            raise RuntimeError("spatial learning requires the exact saved synthetic and observed-path comparisons")
+        verify_bound_file(root, receipt["path"], receipt["sha256"])
+    prior = development["kiki_machine_local_topology_fit_v1_20261115"]
+    receipt = _bound_json(root, {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]})
+    start = plan["paired_start"]
+    freeze_ref = {key: receipt["frozen_model_manifest"][key] for key in ("path", "sha256")}
+    if prior["status"] != "consumed" or start["freeze"] != freeze_ref:
+        raise RuntimeError("paired initialization requires the original frozen T0M1")
+    if plan["stage"] == "fit":
+        freeze = json.loads(_result_file(root, freeze_ref).read_bytes())
+        checkpoint_ref = {"path": freeze["checkpoint_path"], "sha256": freeze["checkpoint_sha256"]}
+        checkpoint = json.loads(_result_file(root, checkpoint_ref).read_bytes())
+        preprocessing = {"path": freeze["preprocessing_path"], "sha256": freeze["preprocessing_sha256"]}
+        if (start["checkpoint"] != checkpoint["T0M1"] or freeze["backbone"] != plan["backbone"]
+                or start["preprocessing"] != preprocessing
+                or freeze["training"]["groups"]["T0M1"]["selected_update"] != 12):
+            raise RuntimeError("both fits require the exact shared T0M1 anchor at update 12")
+        _result_file(root, checkpoint["T0M1"])
+        _result_file(root, preprocessing)
+    interface = _bound_json(root, plan["interface_check"])
+    if (interface["passed"] is not True or interface["real_data_reads"] != 0
+            or interface["synthetic_fixture_batch"] != plan["settings"]["train_batch"]):
+        raise RuntimeError("the differentiable spatial coupling fixture must pass before training")
+
+
+def authorize(root, stage, *, workflow=WORKFLOW):
     assert_clean(root)
-    name = f"kiki_machine_local_topology_{stage}_v1"
+    spatial = workflow == SPATIAL_WORKFLOW
+    series = "kiki_machine_local_topology_spatial_relaxation" if spatial else "kiki_machine_local_topology"
+    name = f"{series}_{stage}_v1"
     entry = load_manifest(root)["experiments"][name]
     if (sys.version_info[:2] != (3, 12) or stage not in ("fit", "test")
-            or entry["workflow"] != WORKFLOW or entry["stage"] != stage or entry["module"] != MODULE
+            or entry["workflow"] != workflow or entry["stage"] != stage or entry["module"] != MODULE
             or entry["execution_mode"] != "bounded_kiki_official_cli_only"
-            or not approval_recorded(load_state(root, WORKFLOW), stage)):
+            or not approval_recorded(load_state(root, workflow), stage)):
         raise RuntimeError("registered TASK3 topology stage and explicit stage approval required")
     validate_run_policy(root, name, entry)
     policy = load_policy(root)
-    authorization = name + "_20261115"
+    suffix = "_20261116" if spatial else "_20261115"
+    authorization = name + suffix
     category = "development_evaluations" if stage == "fit" else "official_test_evaluations"
     auth = policy[category][authorization]
     scope = {"status": "active", "experiment": name, "fit_attempts": 2 if stage == "fit" else 0,
@@ -50,6 +88,9 @@ def authorize(root, stage):
     for path, digest in plan["implementation_bindings"].items():
         verify_bound_file(root, path, digest)
 
+    if spatial:
+        _spatial_prerequisites(root, plan, policy)
+
     transfer = policy["bounded_synthetic_evaluations"][CALIBRATION]
     for key in ("run_id", "result_manifest_sha256", "result_receipt_sha256", "result_review_sha256"):
         if transfer[key] != plan["transfer"][key]:
@@ -65,13 +106,24 @@ def authorize(root, stage):
     if plan["backbone"] != source_plan["backbone"]:
         raise RuntimeError("starting backbone differs from the registered TASK3 source")
     if stage == "test":
-        fit_auth = policy["development_evaluations"]["kiki_machine_local_topology_fit_v1_20261115"]
+        fit_auth = policy["development_evaluations"][f"{series}_fit_v1{suffix}"]
         if fit_auth["status"] != "consumed" or plan["fit_plan_sha256"] != fit_auth["plan_sha256"]:
             raise RuntimeError("test requires the completed paired fit")
         verify_bound_file(root, fit_auth["plan_path"], fit_auth["plan_sha256"])
         fit_plan = json.loads((root / fit_auth["plan_path"]).read_text(encoding="utf-8"))
         if plan["settings"] != fit_plan["settings"]:
             raise RuntimeError("test settings differ from the frozen fit plan")
+        if spatial:
+            receipt = {"path": fit_auth["result_receipt_path"], "sha256": fit_auth["result_receipt_sha256"]}
+            saved = _bound_json(root, receipt)["frozen_model_manifest"]
+            review_ref = {"path": fit_auth["result_review_path"], "sha256": fit_auth["result_review_sha256"]}
+            fit_review = _bound_json(root, review_ref)
+            if (plan["paired_start"] != fit_plan["paired_start"]
+                    or any(value != fit_auth[key] for key, value in plan["fit_result"].items())
+                    or fit_review["verified"] is not True or fit_review["run_id"] != fit_auth["run_id"]
+                    or saved["path"] != plan["frozen_model_manifest"]["path"]
+                    or saved["sha256"] != plan["frozen_model_manifest"]["sha256"]):
+                raise RuntimeError("test requires the verified receipt and exact spatial fit freeze")
         if plan["frozen_model_manifest"] != auth["frozen_model_manifest"]:
             raise RuntimeError("test must use the frozen fit artifact")
         binding = auth["frozen_model_manifest"]
@@ -93,7 +145,7 @@ def authorize(root, stage):
 
 
 def run(*, root, experiment, stage, result_dir, run_id):
-    _, entry, plan, authorization = authorize(root, stage)
+    _, entry, plan, authorization = authorize(root, stage, workflow=experiment["workflow"])
     if experiment != entry or result_dir != root / "results" / run_id or any(result_dir.iterdir()):
         raise RuntimeError("TASK3 topology dispatch identity differs")
     common = Path(subprocess.check_output(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
@@ -115,10 +167,13 @@ def run(*, root, experiment, stage, result_dir, run_id):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--stage", choices=("fit", "test"), required=True)
-    stage = parser.parse_args().stage
+    parser.add_argument("--spatial-relaxation", action="store_true")
+    args = parser.parse_args()
+    stage = args.stage
+    workflow = SPATIAL_WORKFLOW if args.spatial_relaxation else WORKFLOW
     root = project_root()
-    with workflow_lock(root, WORKFLOW):
-        name, entry, _, _ = authorize(root, stage)
+    with workflow_lock(root, workflow):
+        name, entry, _, _ = authorize(root, stage, workflow=workflow)
         print(_run_experiment(root, name, stage, experiment=entry))
 
 

@@ -66,7 +66,7 @@ def batch_objective(model, batch, population, scales, budget, *, return_events=F
 
 
 def train_updates(model, events, scales, budget, directory, settings, *, stiffness_bounds=None,
-                  damping_bounds=None, predictor=None, learning_rate=.01, gradient_clip=10.):
+                  damping_bounds=None, spatial_rate_limit=None, predictor=None, learning_rate=.01, gradient_clip=10.):
     parameters = (model.port_parameter, model.rate_parameter)
     scalar = getattr(model, 'log_stiffness_factor', None)
     if (scalar is None) != (stiffness_bounds is None):
@@ -78,7 +78,15 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
         raise ValueError('trainable damping requires an explicit parameter range')
     if damping is not None:
         parameters += (damping,)
-    optimizer = torch.optim.Adam(parameters, lr=learning_rate, betas=(.9, .999), eps=1e-8,
+    rates = getattr(model, 'spatial_relaxation_rates', None)
+    if (rates is None) != (spatial_rate_limit is None):
+        raise ValueError('trainable spatial relaxation requires an explicit rate limit')
+    shared_parameters = parameters
+    groups = [{"params": shared_parameters}]
+    if rates is not None:
+        parameters += (rates,)
+        groups.append({"params": (rates,), "lr": settings['spatial_rate_learning_rate']})
+    optimizer = torch.optim.Adam(groups, lr=learning_rate, betas=(.9, .999), eps=1e-8,
         weight_decay=0., amsgrad=False, maximize=False, foreach=False, fused=False)
     completed, started = 0, time.perf_counter()
     status, message = 'COMPLETED', None
@@ -98,8 +106,9 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                     del value
                 if any(p.grad is None or not torch.isfinite(p.grad).all() for p in parameters):
                     raise FloatingPointError('nonfinite train gradient')
-                norm = torch.nn.utils.clip_grad_norm_(parameters, gradient_clip)
-                if not torch.isfinite(norm):
+                norm = torch.nn.utils.clip_grad_norm_(shared_parameters, gradient_clip)
+                spatial_norm = torch.nn.utils.clip_grad_norm_((rates,), gradient_clip) if rates is not None else None
+                if not torch.isfinite(norm) or (spatial_norm is not None and not torch.isfinite(spatial_norm)):
                     raise FloatingPointError('nonfinite gradient norm')
                 budget.spend('optimizer_updates')
                 optimizer.step()
@@ -115,6 +124,9 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                 if damping is not None:
                     with torch.no_grad():
                         damping.clamp_(*damping_bounds)
+                if rates is not None:
+                    with torch.no_grad():
+                        rates.clamp_(0., spatial_rate_limit)
                 completed += 1
             except NUMERICAL_ERRORS as error:
                 np.savez_compressed(directory/'failed_parameters.npz',
@@ -132,6 +144,9 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                 row.update(log_factor_before_projection=log_factor_before_projection,
                            log_factor=float(scalar.detach()),
                            projection_applied=log_factor_before_projection != float(scalar.detach()))
+            if rates is not None:
+                row['spatial_relaxation_rates'] = rates.detach().tolist()
+                row['spatial_gradient_norm'] = float(spatial_norm)
             stream.write(json.dumps(row, allow_nan=False)+'\n')
             stream.flush()
             print(f"{directory.name} update {completed}/{settings['updates']} train NMSE={objective:.6g}", flush=True)
