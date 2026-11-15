@@ -91,6 +91,13 @@ The complete rosters have been independently rescored. The [damping scale check]
 qualified all 346 train cases. At fixed causal origins and after free-origin
 projection, increasing the scale from 1 to 1.25 rad raised residuals in both
 stable and unstable train events. The change failed its registered gate.
+The [synthetic spatial damping check](../reports/machine_local_topology_spatial_damping_20261115_zh.md)
+recovered both reference distributions and separated spatial allocation from
+the trace-matched control. The [full TASK3 spatial comparison](../reports/kiki_machine_local_topology_spatial_damping_20261115_zh.md)
+retained 106/107 correct on val with zero stable false alarms and a six-term
+score of 0.42674. Test returned 70 correct judgments and two unresolved, all
+independently rescored. The [fixed modal probe](../protocols/kiki_machine_local_topology_modal_damping_v1_zh.md)
+uses the spatial anchor and complete train at fixed causal starts.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
