@@ -1,0 +1,122 @@
+{
+  "schema": "kiki_machine_local_topology_damping.v1",
+  "plan_path": "configs/proposals/kiki_machine_local_topology_damping_fit_v1.json",
+  "stage": "fit",
+  "device": "cuda",
+  "fit_attempts": 1,
+  "protocol_path": "docs/protocols/kiki_machine_local_topology_damping_v1_zh.md",
+  "source_contract": {
+    "path": "configs/proposals/kiki_machine_local_full_fit_v1.json",
+    "sha256": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed"
+  },
+  "backbone": {
+    "path": "results/paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996/checkpoint-240-324/model.npz",
+    "sha256": "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8"
+  },
+  "original_model_manifest": {
+    "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/freeze.json",
+    "sha256": "e2b09861637b126cb072ea7b06dbf0809adf0d6567fb1636ec70824c0e8e87ff"
+  },
+  "model_manifest": {
+    "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/freeze.json",
+    "sha256": "e2b09861637b126cb072ea7b06dbf0809adf0d6567fb1636ec70824c0e8e87ff"
+  },
+  "reference": {
+    "train": {
+      "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/T0M1/train.json",
+      "sha256": "e113024214f72a6347796de582108f7f482eaa7d64deda7e380e407a40914e92"
+    },
+    "val": {
+      "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/T0M1/val.json",
+      "sha256": "b195742a3b943fbf2742f8b5238fabebaae9b7d77085ea935e41cd22f7269d44"
+    }
+  },
+  "calibration": {
+    "run_id": "machine_local_topology_delayed_damping_v1-delayed_damping-20261115T083744695248Z-02325f0b-ec203ad9",
+    "result_manifest_sha256": "2ad5c53cc2a93e4ed872f58e9653c39898a15ce76fe7581799881a88cef873a0",
+    "result_receipt_sha256": "1d093c72cdc33d6c4552b4f31ff1616f13733dbb88cf45e1cb85f8d74461b7b1",
+    "result_review_sha256": "3316b180fa3ca5652f6d0e5d247483508ba50c703f3eeb531815ed7e4e3daa40"
+  },
+  "cohort_counts": {
+    "train": 346,
+    "val": 107
+  },
+  "source_cache_open_limit": 3,
+  "memory_radius": 6.61055385191009,
+  "settings": {
+    "train_batch": 64,
+    "eval_batch": 32,
+    "prior_weight": 1e-06,
+    "profile": {
+      "grid_points": 9,
+      "max_refinement_calls": 24,
+      "log_half_width": 0.6931471805599453
+    }
+  },
+  "operation_limits": {
+    "rollouts": 7938,
+    "torch_rhs": 19889280,
+    "tangent_rhs": 1202400,
+    "fits": 1,
+    "objective_calls": 33,
+    "qr": 66150,
+    "svd": 66150,
+    "triangular_solves": 66150,
+    "matrix_products": 66150,
+    "checkpoint_loads": 2
+  },
+  "implementation_bindings": {
+    "configs/experiments/kiki_machine_local_topology_damping_fit_v1.toml": "9f483c5c7748ffc328e32fd53ba3420a65f48bb6a14c3651a9ffe2edb2afa8f7",
+    "configs/experiments/kiki_machine_local_topology_fit_v1.toml": "7e309bdf2a2aaf3cc041e6b6b64fb73c4659a6836f069ef97dbd2331ee317b3d",
+    "configs/project_manifest.json": "fa981d1d80186f7077ab63b5b8914f32e131ea51d640685dbf48a434bd6b0643",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/workflows/kiki_machine_local_topology_damping_v1.json": "d6c159f055cff33ef646c823b1692793324f620f773a62457919db0a324f8328",
+    "configs/workflows/kiki_machine_local_topology_v1.json": "2a50f70c7ea0de04750c2faaa12e7ac99f6aaf3757447718623ba4b0249af3c3",
+    "docs/protocols/kiki_machine_local_topology_damping_v1_zh.md": "ded8cd92d015f2c6a49326ee7d02751c8c5f76c4092f8677f7b4f99178eb7d70",
+    "docs/protocols/kiki_machine_local_topology_v1_zh.md": "b9c7967b12e011c5b9c03f0fabdb85644612a93909b01deb176bc6f61f3e13b0",
+    "docs/reports/kiki_machine_local_topology_fit_20261115_evidence.json": "3c140e4f4d1e3ae2dcf28a7acac9bcfb44628f5050037c96ce4f0012e4339cfa",
+    "docs/reports/machine_local_topology_delayed_damping_20261115_evidence.json": "1d093c72cdc33d6c4552b4f31ff1616f13733dbb88cf45e1cb85f8d74461b7b1",
+    "docs/reports/machine_local_topology_transfer_20261115_evidence.json": "2a263bf216b445e039095963bd605c775ba7a581fa5607c31394db960d4079b5",
+    "docs/research/kiki_machine_local_topology_fit_result_review_20261115.json": "e4d65762c332e3cf8968aaa53bd392cd9b9217d7dab0a555be3587412ecc251e",
+    "docs/research/machine_local_topology_delayed_damping_result_review_20261115.json": "3316b180fa3ca5652f6d0e5d247483508ba50c703f3eeb531815ed7e4e3daa40",
+    "docs/research/machine_local_topology_transfer_20261115_result_review.json": "096d2850a3e151fa828aa7348d38cd5d78c18c8c02f126a1cc927ff83eaa5af2",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/policy.py": "9f345a87711223af452cff4cfa74eecb0d815fa164b47485144002b07fc58071",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/audit_access_ledger.py": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+    "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/data/task3_full.py": "6dd2cf419d22085c9d48c5d9c9f3f7533491d47dc8915e9545a9b2c4bd723ab2",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/evaluation/kiki_machine_local_full.py": "93270c3cf2066a17a3eee0926a8143738f4da45caffc2c2bd864b9d0b2365dfd",
+    "src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py": "29976376a8e290ef29c339e057b698aa43d1af31673bf22072f8760a79758026",
+    "src/kron_reduce/evaluation/kiki_machine_local_topology.py": "16b3bfccfe46a4efe6bd76b307b3ce0345e824af5168489a0a3d2c1c4a1e5654",
+    "src/kron_reduce/evaluation/kiki_machine_local_topology_damping.py": "1172c952aa5447fd3fadb32cd470c7e1dd4b9c391e30aa78b72506a2db25a3b2",
+    "src/kron_reduce/evaluation/kiki_topology_bridge.py": "b0eceeaca751fce153cad34df8c9bf64ad940c68ae8967ffd4dd8f9d1b6d4e31",
+    "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/machine_local_topology_delayed_damping.py": "df1a6c38fe0a12a4da2cae363f698c926ca7a4d388c830a368dbe83a2f627c8d",
+    "src/kron_reduce/evaluation/state_port_training.py": "87493cd714c5229cba8895113f1d63f83ae69e762dc4bc9c445b964fb32db962",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/models/differentiable_history.py": "409b0afe87daaa39ff046674e769d354c7fa55126d497027829d6a709e2ce3c0",
+    "src/kron_reduce/models/machine_local.py": "3f79959b41a1ee99c96fad3de2307ecbe4f5d2e3d466bca25786bf0e6501fc6b",
+    "src/kron_reduce/models/machine_local_forecast.py": "3e4a9f66650cfe9595bc69fe5ab5a29342f94520805b4f7e323325c17da7644f",
+    "src/kron_reduce/models/machine_local_topology.py": "ac5d7a3eef01fdeaf279576f6e97ca21adfa16e2347cc034cdd933ec18a6f2a9",
+    "src/kron_reduce/models/nonlinear_history.py": "f8ce5dd063219c9460fbc67c7b6b3620520153c56258ee6d6be98f7f89d49087",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/kiki_machine_local_topology.py": "5444e76c7d7e3574ff9336836c13d438fff78cada2402e56db946a31f22babf2",
+    "src/kron_reduce/workflows/kiki_machine_local_topology_damping.py": "0da1e360dcff30f1e6604b1d35374b72eed6ee87105e94aa915139f2703c4e10",
+    "src/kron_reduce/workflows/kiki_machine_local_topology_radius.py": "ad73a9f274596578d3022b2c552e72e27976ce4946fed989ba430db37ce88952",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "src/kron_reduce/workflows/machine_local_equation.py": "1fc52cd7636f757acef005b8690e93d67d593aa884c0bf146b56153fa265adb0",
+    "tests/test_kiki_topology_bridge.py": "4071c265963d12d6cdeed047a58fc14ffef8c511187a7c9f3ea0f773d7e82e62",
+    "tests/test_machine_local_topology_delayed_damping.py": "85a8a0e1c6457344491a5859ca5b253ff2af716bcc7ebe5206a100dc1db7ea18",
+    "tests/test_machine_local_trainable_stiffness.py": "820a19c88e2e8a56130531753fc0ba3a58b4e008277e1acf8eff72555e0a0ee8",
+    "tests/test_task3_full.py": "d0464312f8b2c1b5bc359a8761f12cf38f09c276478d26044b79305de30ad2da"
+  }
+}

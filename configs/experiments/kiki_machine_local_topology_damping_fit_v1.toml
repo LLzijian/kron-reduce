@@ -1,0 +1,4 @@
+task_type = "kiki_machine_local_topology_damping"
+dataset = "kiki_ieee39_v1"
+plan = "configs/proposals/kiki_machine_local_topology_damping_fit_v1.json"
+stage = "fit"

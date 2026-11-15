@@ -49,19 +49,15 @@ def minimize_damping(evaluate, center, grid_points, half_width, refinements):
 
 
 @torch.no_grad()
-def fit_scale(model, visible, p, eq, lengths, scale, hscale, settings, budget):
+def fit_profile(model, objective, settings, budget):
     center = float(model.log_damping_factor)
-    history = visible[:, :11]
-    weights = visible.new_full((len(visible),), 1./len(visible))
     trace = []
 
     def evaluate(alpha):
         budget.spend("objective_calls")
         model.log_damping_factor.fill_(alpha)
         try:
-            prediction = predict_from_topology_history(model, history[:, :, :10], history[:, :, 10:],
-                                                       p, eq, hscale, 300, max_step=.005, spend=budget.spend)
-            value = float(loss(prediction["forecast"], visible[:, 10:], weights, scale, lengths))
+            value = float(objective())
             if not math.isfinite(value):
                 raise FloatingPointError("damping objective is nonfinite")
         except NUMERICAL_ERRORS as error:
@@ -81,6 +77,18 @@ def fit_scale(model, visible, p, eq, lengths, scale, hscale, settings, budget):
             "start_train_loss": start, "selected_train_loss": selected,
             "valid": status in ("refined", "grid_boundary") and all(row["train_loss"] is not None for row in trace)
             and selected < start}
+
+
+def fit_scale(model, visible, p, eq, lengths, scale, hscale, settings, budget):
+    history = visible[:, :11]
+    weights = visible.new_full((len(visible),), 1./len(visible))
+
+    def objective():
+        prediction = predict_from_topology_history(model, history[:, :, :10], history[:, :, 10:],
+                                                   p, eq, hscale, 300, max_step=.005, spend=budget.spend)
+        return loss(prediction["forecast"], visible[:, 10:], weights, scale, lengths)
+
+    return fit_profile(model, objective, settings, budget)
 
 
 def execute(root, directory, plan, budget):
