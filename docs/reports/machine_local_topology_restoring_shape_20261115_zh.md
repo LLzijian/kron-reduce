@@ -1,8 +1,8 @@
 # 合成恢复力形状识别与闭环预测
 
-本轮合成已知真值试验检验了恢复力形状系数的有符号识别，以及加入该项后的因果闭环预测。独立结果审查确认全部预注册工程与科学门通过；结论范围限于本合成结构，不代表真实 TASK3 结果。
+同一批已知真值事件的三组对照同时通过工程和科学门。正、负形状系数的恢复误差均低于 \(4.4\times10^{-6}\)，形状候选在两种非零真值下改善了八秒闭环轨迹。
 
-每种真值均使用完整 `train=24`、`val=12`、`test=12` 队列。下表列出基线与形状候选的 8 秒 pooled NRMSE；稳定性准确率在两组模型的所有划分均为 100%，各组均无未决、未覆盖或数值失败。
+每种真值均使用完整 train 24、val 12、test 12。八秒归一化 RMSE 由各事件的归一化平方误差等权平均后开方。
 
 | 真值 α | 划分 | 基线 NRMSE | 形状候选 NRMSE |
 |---:|---|---:|---:|
@@ -18,6 +18,6 @@
 
 在真值 α=−0.125 和 +0.125 下，train 拟合分别恢复 −0.1249957 和 +0.1250043。半径内 val 稳定组的 8 秒 NRMSE 比值（候选/基线）分别为 0.5761 和 0.5851，对应降低 42.4% 和 41.5%。零形状真值下拟合 α 为 0.00000429，候选与基线的 8 秒误差几乎相同。
 
-稳定性计数在每个真值的 train 均为 TP/TN/FP/FN = 6/18/0/0；val 和 test 均为 3/9/0/0。每组准确率 1.00，未决数为 0。test 只作预注册报告，不参与选择。
+六组预测的稳定性准确率均为 100%。每个真值的 train 均为 TP/TN/FP/FN = 6/18/0/0，val 和 test 均为 3/9/0/0。各组均无未决、未覆盖或数值失败。test 用于报告。
 
-来源：执行回执 [machine_local_topology_restoring_shape_20261115_evidence.json](machine_local_topology_restoring_shape_20261115_evidence.json)；独立结果审查 [machine_local_topology_restoring_shape_result_review_20261115.json](../research/machine_local_topology_restoring_shape_result_review_20261115.json)。
+[执行回执](machine_local_topology_restoring_shape_20261115_evidence.json) · [独立复核](../research/machine_local_topology_restoring_shape_result_review_20261115.json)

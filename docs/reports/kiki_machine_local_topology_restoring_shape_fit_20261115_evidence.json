@@ -1,0 +1,76 @@
+{
+  "run_id": "kiki_machine_local_topology_restoring_shape_fit_v1-train_momentum-20261115T130922046811Z-e48eb847-5d554c3c",
+  "stage": "train_momentum",
+  "source_commit": "e48eb8479ca8eb6f030b6a5be3643bf62f7db65b",
+  "plan_sha256": "8524725d305f53b26ceddab6b044577fc001456ab9b88e48e943110f62a16a87",
+  "summary_sha256": "fa24c17dcfef0298031a3749c91a78ade9e67a306301ecc145d5b39b3777e266",
+  "artifact_manifest_sha256": "34a21a4137de3607b572b6193a6ca414282fd2ca1284e0c6f3eabcab7d34f2c6",
+  "artifact_count": 5,
+  "operations_sha256": "c1710f1d2dff62721db5aa7fc3b9c5ca4162ae40fe03b9d3dd12f6f4525f8914",
+  "access_sha256": "935a8bcfea38cc7458f5f8ea80194a44777ce0d3cd482287d5d85a15d6b48246",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "role": "train",
+  "allocated": 346,
+  "memory_radius": 6.61055385191009,
+  "fit_supported": true,
+  "train_fit": {
+    "shape": {
+      "raw": -0.03621840651061638,
+      "value": -0.03621840651061638,
+      "curvature": 112644.76138427839,
+      "gradient": -4.547473508864641e-13,
+      "boundary": "interior"
+    },
+    "scale": {
+      "raw": -0.03286125780632089,
+      "value": -0.03286125780632089,
+      "curvature": 65070.00229161175,
+      "gradient": 0.0,
+      "boundary": "interior"
+    }
+  },
+  "quadrature_gap": 3.843453333374214e-14,
+  "full_rank": 346,
+  "retained_intervals": 98341,
+  "residuals": {
+    "train": {
+      "events": 346,
+      "base": 16917.656077264895,
+      "shape": 16769.891724049943,
+      "scale": 16847.38943723187
+    },
+    "stable": {
+      "events": 311,
+      "base": 11625.040624089368,
+      "shape": 11462.539931679023,
+      "scale": 11564.23782969079
+    },
+    "unstable": {
+      "events": 35,
+      "base": 5292.615453175526,
+      "shape": 5307.3517923709205,
+      "scale": 5283.151607541079
+    }
+  },
+  "status": "PASS",
+  "process_status": "PASS",
+  "data_policy": "kiki_official_train_test_v1",
+  "promotion_decision": "KEEP_BASELINE",
+  "claim_boundary": "Observed-path diagnosis over the complete official TASK3 train.",
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "numpy_damping_roots": 1,
+    "weak_intervals": 98341,
+    "quad_check_intervals": 98341,
+    "svd": 346,
+    "fits": 2
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cpu",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "result_review_sha256": "5569cb3fe0182f797a7589fc9688f8e4799043ddc3d0c5b3d70520e223149d5b"
+}

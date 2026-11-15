@@ -1,0 +1,67 @@
+{
+  "verified": true,
+  "run_id": "kiki_machine_local_topology_restoring_shape_fit_v1-train_momentum-20261115T130922046811Z-e48eb847-5d554c3c",
+  "summary_sha256": "fa24c17dcfef0298031a3749c91a78ade9e67a306301ecc145d5b39b3777e266",
+  "artifact_manifest_sha256": "34a21a4137de3607b572b6193a6ca414282fd2ca1284e0c6f3eabcab7d34f2c6",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "selected_alpha": -0.03621840651061638,
+  "checks": {
+    "saved_json_verifier": "scratch/one_off/kiki_machine_local_topology_restoring_shape_20261115/archive_fit.py (without close)",
+    "artifact_count": 5,
+    "source_qualified_train_rows": 346,
+    "stable_rows": 311,
+    "unstable_rows": 35,
+    "full_rank_rows": 346,
+    "cache_archive_opens": {
+      "static": 1,
+      "development": 1
+    },
+    "decoded_roles": [
+      "train"
+    ],
+    "retained_intervals": 98341,
+    "maximum_quadrature_gap": 3.843453333374214e-14,
+    "operation_counts": {
+      "checkpoint_loads": 2,
+      "numpy_damping_roots": 1,
+      "weak_intervals": 98341,
+      "quad_check_intervals": 98341,
+      "svd": 346,
+      "fits": 2
+    },
+    "independent_shape_and_scale_fit_arithmetic": true,
+    "shape_kkt_gradient": -4.547473508864641e-13,
+    "shape_bound_status": "interior",
+    "positive_global_stiffness_multiplier": 0.9671387421936791,
+    "group_sse_ratios": {
+      "train": {
+        "shape_to_base": 0.9912656722337837,
+        "shape_to_scale": 0.9954000165146857
+      },
+      "stable": {
+        "shape_to_base": 0.9860214946626843,
+        "shape_to_scale": 0.9912058278712791
+      },
+      "unstable": {
+        "shape_to_base": 1.002784320781619,
+        "shape_to_scale": 1.0045806341796624
+      }
+    },
+    "scientific_gate_checks": {
+      "train_improves_base": true,
+      "train_no_worse_than_scale": true,
+      "stable_improves_base": true,
+      "stable_no_worse_than_scale": true,
+      "unstable_improves_base": false,
+      "unstable_no_worse_than_scale": false,
+      "train_at_least_five_percent": false
+    }
+  },
+  "notes": [
+    "The signed shape coefficient is a finite, identifiable interior train optimum. The positive global-stiffness comparator is independently fitted on the same complete train rows.",
+    "The weak-residual scientific gate fails: complete-train improvement is below five percent, and the unstable group worsens relative to both the spatial anchor and the global-stiffness comparator.",
+    "The numerically qualified nonzero coefficient may enter the separately registered complete frozen TASK3 forecast comparison; this does not change the failed weak-residual conclusion or authorize model promotion.",
+    "Verification used saved JSON arithmetic and artifact byte hashes only. No real-data cache or trajectory array was read and no scientific execution was rerun."
+  ]
+}
