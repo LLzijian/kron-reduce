@@ -19,7 +19,7 @@ from project_harness.runner import _run_experiment
 
 MODULE = "kron_reduce.workflows.machine_local_topology"
 STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topology_closeout_v1",
-           "learning": "machine_local_topology_learning_v1"}
+           "learning": "machine_local_topology_learning_v1", "diagnosis": "machine_local_topology_diagnosis_v1"}
 
 
 def authorize(root, stage):
@@ -65,6 +65,15 @@ def authorize(root, stage):
                 or plan["settings"]["updates"]*scope["fit_attempts"] != plan["operation_limits"]["optimizer_updates"]):
             raise RuntimeError("learning requires the completed S0 engineering gate and exact update budget")
         verify_bound_file(root, previous["result_receipt_path"], previous["result_receipt_sha256"])
+    if stage == "diagnosis":
+        previous = policy[STUDIES["learning"]+"_20261115"]
+        source = plan["source"]
+        if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
+                or previous["run_id"] != source["run_id"]
+                or previous["result_manifest_sha256"] != source["manifest_sha256"]
+                or previous["result_receipt_sha256"] != source["receipt_sha256"]):
+            raise RuntimeError("diagnosis requires the exact frozen learning evidence")
+        verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
     pins = dict(line.strip().split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line.strip() and not line.startswith("#"))
     for package in ("numpy", "torch", "scipy"):
@@ -92,6 +101,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.constant_c_observability import write_json
     from kron_reduce.evaluation.machine_local_synthetic import Budget
     from kron_reduce.evaluation.machine_local_topology import closeout, execute
+    from kron_reduce.evaluation.machine_local_topology_diagnosis import execute as diagnose
     from kron_reduce.evaluation.machine_local_topology_learning import execute as learn
 
     torch.set_num_threads(1)
@@ -99,7 +109,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     started = time.perf_counter()
     budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
     try:
-        kernel = {"closeout": closeout, "learning": learn, "s0": execute}[stage]
+        kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()

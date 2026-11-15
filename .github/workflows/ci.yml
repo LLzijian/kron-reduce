@@ -38,6 +38,7 @@ jobs:
           src/kron_reduce/models/machine_local_topology.py src/kron_reduce/workflows/machine_local_topology.py
           src/kron_reduce/evaluation/machine_local_topology.py src/kron_reduce/evaluation/machine_local_topology_truth.py
           src/kron_reduce/evaluation/machine_local_topology_learning.py
+          src/kron_reduce/evaluation/machine_local_topology_diagnosis.py
           tests/test_machine_local_topology.py
           src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py src/kron_reduce/workflows/kiki_machine_local_r20_r21.py
           scripts/audit_kiki_machine_local_r20_r21_saved.py

@@ -3,6 +3,7 @@ import pytest
 import torch
 
 from kron_reduce.evaluation.machine_local_topology import energy_residual, make_model
+from kron_reduce.evaluation.machine_local_topology_diagnosis import crossed_origin
 from kron_reduce.evaluation.machine_local_topology_truth import (
     initial_cases,
     parameters,
@@ -14,6 +15,16 @@ from kron_reduce.models.machine_local_topology import (
     predict_from_topology_history,
 )
 from kron_reduce.models.nonlinear_latent import NonlinearPassiveClosure
+
+
+@pytest.mark.parametrize(("use_a", "use_z"), [(False, False), (True, False), (False, True), (True, True)])
+def test_origin_replacement_keeps_visible_state_and_crosses_latent_blocks(use_a, use_z):
+    estimated = torch.ones((2, 39), dtype=torch.float64)
+    truth = torch.zeros_like(estimated)
+    origin = crossed_origin(estimated, truth, exact_a=use_a, exact_z=use_z)
+    torch.testing.assert_close(origin[:, :20], truth[:, :20])
+    torch.testing.assert_close(origin[:, 20:30], (truth if use_z else estimated)[:, 20:30])
+    torch.testing.assert_close(origin[:, 30:], (truth if use_a else estimated)[:, 30:])
 
 
 @pytest.mark.parametrize("support", ["T0M0", "T1M0", "T0M1", "T1M1"])

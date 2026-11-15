@@ -144,6 +144,8 @@ def scoring(model, cases, paths, histories, truth, a, equilibrium, mass, scale, 
     roles = {}
     for role in ROLES:
         rows = [row for row in events if row["role"] == role]
+        if not rows:
+            continue
         valid = [row for row in rows if row["qualified"]]
         stability = summarize(rows)
         for key, good, total in (
