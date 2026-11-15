@@ -63,13 +63,22 @@ def _fit(params, train, power, equilibrium, history_scale, target_scale, family,
 
 
 def _evaluate(params, family, value, settings, observer, directory, tag, cases, truth, labels,
-              zero, power, eq, target_scale, history_scale, budget, *, truth_log_ratios=None):
+              zero, power, eq, target_scale, history_scale, budget, *, truth_log_ratios=None,
+              memory_recovery=False):
     model = _model(params, family, value, settings)
     p, equilibrium = model._tensor(power), model._tensor(eq)
     paths, histories, failures = simulate(model, truth, zero, p, equilibrium, history_scale, budget,
                                           oracle=False, observer=observer)
     score = scoring(model, cases, paths, histories, truth, zero, eq, params[0], target_scale, history_scale, labels, False,
                     truth_log_ratios=truth_log_ratios)
+    if memory_recovery:
+        end = 20+model.memory_dimension
+        target = truth[:, (0, 10), 20:end]
+        scale = np.maximum(.5, np.linalg.norm(target[:, 0], axis=-1))
+        errors = np.linalg.norm(histories[:, :, (0, 10), 20:end]-target, axis=-1)/scale[:, None]
+        for index, row in enumerate(score["events"]):
+            values = errors[:, index]
+            row["memory_relative_errors"] = values.tolist() if np.isfinite(values).all() else None
     matched_margins(model, paths, truth, labels, equilibrium, score)
     score["failures"] = failures
     write_json(directory/f"{tag}-{family}-scores.json", score)
@@ -90,11 +99,18 @@ def scientific_checks(models, fit, truth, floor, limits):
     else:
         expected = "dynamic" if truth["rate"] else "static"
     candidate = models[expected]
+    memory_limit = limits.get("memory_relative_error")
+    all_feasible = memory_limit is not None
+    support_size = 36 if all_feasible else 27
     supported = [row for row in candidate["events"] if row["role"] in ("train", "val")
-                 and not row["id"].startswith("exterior-")]
+                 and (all_feasible or not row["id"].startswith("exterior-"))]
     checks = {"candidate_selection": fit[expected]["value"] == (truth["rate"] or truth["alpha"]),
-              "feasible_trajectory": len(supported) == 27 and all(row["truth_label"] is not None and row["truth_agreement"]
+              "feasible_trajectory": len(supported) == support_size and all(row["truth_label"] is not None and row["truth_agreement"]
                   and row["trajectory"]["8"]["nrmse"] <= limits["feasible_nrmse"] for row in supported)}
+    if all_feasible:
+        checks["memory_recovery"] = len(supported) == support_size and all(
+            row["memory_relative_errors"] is not None
+            and max(map(max, row["memory_relative_errors"])) <= memory_limit for row in supported)
     if not truth["rate"] and not truth["alpha"]:
         checks["null_dynamic"] = all(row["value"] == 0. for row in fit.values())
         return checks
@@ -102,8 +118,8 @@ def scientific_checks(models, fit, truth, floor, limits):
     losses = sorted(row["loss"] for row in fit[expected]["attempts"] if row["loss"] is not None)
     pairs = [(_loss_by_role(candidate, role), _loss_by_role(other, role), floor[role])
              for other in others for role in ("train", "val")]
-    stable = _stable_supported(candidate, "val")
-    alternatives = [_stable_supported(other, "val") for other in others]
+    stable = _stable_supported(candidate, "val", all_feasible=all_feasible)
+    alternatives = [_stable_supported(other, "val", all_feasible=all_feasible) for other in others]
     roles = [(candidate["roles"][role], other["roles"][role]) for other in others for role in ("train", "val")]
     checks.update({
         "grid_separation": len(losses) == 5 and losses[0] <= limits["grid_ratio"]*losses[1] and losses[1] > 0.,
@@ -118,7 +134,7 @@ def scientific_checks(models, fit, truth, floor, limits):
     })
     if truth["rate"]:
         tolerance = limits["spatial_coupling_error"] if expected == "spatial" else limits["coupling_error"]
-        checks["coupling_recovery"] = len(supported) == 27 and all(
+        checks["coupling_recovery"] = len(supported) == support_size and all(
             row.get("coupling", {}).get("coordinate_max_error") is not None
             and row["coupling"]["coordinate_max_error"] <= tolerance for row in supported)
     if "spatial" in models:
@@ -160,6 +176,9 @@ def execute(root, directory, plan, budget):
     if not np.array_equal(eq, np.broadcast_to(reference, power.shape)):
         raise ValueError("synthetic dynamic equilibrium differs")
     q, v, z = initial[:, 0, :10], initial[:, 0, 10:20], initial[:, 0, 20:]
+    memory_recovery = "memory_relative_error" in plan["gates"]
+    if memory_recovery and np.linalg.norm(z, axis=-1).max() > plan["radius"]/2.+1e-12:
+        raise ValueError("known truth exceeds the signed half-radius support")
     zero = np.zeros_like(power)
     train = np.array(cases["roles"]) == "train"
     compare_spatial = "spatial" in plan["grids"]
@@ -218,7 +237,8 @@ def execute(root, directory, plan, budget):
         energy = energy_residual(known, known._tensor(energy_state), known._tensor(power[train]),
                                  known._tensor(eq[train]), budget.spend)
         models = {family: _evaluate(params, family, row["value"], settings, observer, directory, tag, cases, refined,
-                                    labels, zero, power, eq, scale, hscale, budget, truth_log_ratios=truth_log)
+                                    labels, zero, power, eq, scale, hscale, budget, truth_log_ratios=truth_log,
+                                    memory_recovery=memory_recovery)
                   for family, row in fit.items() if not truth["start"] or family == "dynamic"}
         if compare_spatial:
             models["baseline"] = _evaluate(params, "baseline", 0., settings, observer, directory, tag, cases, refined,

@@ -48,9 +48,9 @@ def _truth_classes(fine, refined, equilibrium, mass, scale):
     return labels
 
 
-def _stable_supported(score, role):
+def _stable_supported(score, role, *, all_feasible=False):
     rows = [row for row in score["events"] if row["role"] == role and row["truth_label"] == "stable"
-            and not row["id"].startswith("exterior-")]
+            and (all_feasible or not row["id"].startswith("exterior-"))]
     return (float(np.sqrt(np.mean([row["trajectory"]["8"]["nmse"] for row in rows])))
             if rows and all(row["qualified"] for row in rows) else None)
 

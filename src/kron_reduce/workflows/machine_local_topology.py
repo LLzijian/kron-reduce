@@ -32,13 +32,14 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "spatial_damping": "machine_local_topology_spatial_damping_v1",
            "restoring_shape": "machine_local_topology_restoring_shape_v1",
            "dynamic_coupling": "machine_local_topology_dynamic_coupling_v1",
-           "spatial_coupling": "machine_local_topology_spatial_coupling_v1"}
+           "spatial_coupling": "machine_local_topology_spatial_coupling_v1",
+           "spatial_coupling_causal": "machine_local_topology_spatial_coupling_causal_v1"}
 
 
 def authorize(root, stage):
     assert_clean(root)
     name = STUDIES[stage]
-    auth_id = name+("_20261116" if stage in ("dynamic_coupling", "spatial_coupling") else "_20261115")
+    auth_id = name+("_20261116" if stage in ("dynamic_coupling", "spatial_coupling", "spatial_coupling_causal") else "_20261115")
     entry = load_manifest(root)["experiments"][name]
     expected = {"module": MODULE, "workflow": name, "stage": stage, "dataset": "synthetic_benchmark_registry_v1",
                 "execution_mode": "bounded_synthetic_cli_only", "data_policy": "analytic_synthetic_only"}
@@ -53,7 +54,7 @@ def authorize(root, stage):
              "fit_attempts": {"learning": 4, "refinement": 2, "margin": 2, "margin_v2": 2,
                               "delayed": 2, "delayed_damping": 1, "angle_damping": 4,
                               "spatial_damping": 2, "restoring_shape": 6, "dynamic_coupling": 6,
-                              "spatial_coupling": 6}.get(stage, 0)}
+                              "spatial_coupling": 6, "spatial_coupling_causal": 6}.get(stage, 0)}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active topology and memory scope differs")
     verify_bound_file(root, plan_path, auth["plan_sha256"])
@@ -95,7 +96,8 @@ def authorize(root, stage):
         evidence = json.loads((root/previous["result_receipt_path"]).read_bytes())
         if evidence["gates"]["clean_recovery"] is not True:
             raise RuntimeError("the frozen no-prior candidate failed clean recovery")
-    if stage in ("momentum", "angle_damping", "spatial_damping", "restoring_shape", "dynamic_coupling", "spatial_coupling"):
+    if stage in ("momentum", "angle_damping", "spatial_damping", "restoring_shape", "dynamic_coupling",
+                 "spatial_coupling", "spatial_coupling_causal"):
         previous = policy[STUDIES["ball_history"]+"_20261115"]
         source = plan["source"]
         if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
@@ -129,7 +131,7 @@ def authorize(root, stage):
                 or plan["operation_limits"]["train_candidate_evaluations"] != 30):
             raise RuntimeError("dynamic coupling requires the verified static control and exact paired grid budget")
         verify_bound_file(root, receipt["path"], receipt["sha256"])
-    if stage == "spatial_coupling":
+    if stage in ("spatial_coupling", "spatial_coupling_causal"):
         prior = policy[STUDIES["dynamic_coupling"]+"_20261116"]
         receipt = {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]}
         grid = [0., .25, .5, 1., 2.]
@@ -137,6 +139,15 @@ def authorize(root, stage):
                 or receipt != plan["common_receipt"] or plan["grids"] != {"dynamic": grid, "spatial": grid}
                 or plan["operation_limits"]["fits"] != 6 or plan["operation_limits"]["train_candidate_evaluations"] != 30):
             raise RuntimeError("spatial coupling requires the verified common control and exact paired grid budget")
+        verify_bound_file(root, receipt["path"], receipt["sha256"])
+    if stage == "spatial_coupling_causal":
+        prior = policy[STUDIES["spatial_coupling"]+"_20261116"]
+        receipt = {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]}
+        if (prior["status"] != "consumed" or prior["engineering_pass"] is not True
+                or prior["scientific_pass"] is not False or receipt != plan["first_spatial_receipt"]
+                or plan["radius"] != 3. or plan["prior_weight"] != 0.
+                or plan["gates"]["memory_relative_error"] != .001):
+            raise RuntimeError("spatial causal comparison requires the archived first comparison and signed observer")
         verify_bound_file(root, receipt["path"], receipt["sha256"])
     if stage == "delayed_damping":
         diagnosis = policy[STUDIES["delayed_origin"]+"_20261115"]
@@ -253,7 +264,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
                   "ball_history": ball_history, "ball_history_no_prior": ball_history_no_prior,
                   "momentum": momentum, "angle_damping": angle_damping, "spatial_damping": execute_spatial,
                   "restoring_shape": restoring_shape, "dynamic_coupling": dynamic_coupling,
-                  "spatial_coupling": dynamic_coupling}[stage]
+                  "spatial_coupling": dynamic_coupling, "spatial_coupling_causal": dynamic_coupling}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()
