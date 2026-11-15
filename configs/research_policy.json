@@ -1410,7 +1410,7 @@
       "scientific_pass": true
     },
     "kiki_machine_local_topology_origin_transfer_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_origin_transfer_v1",
       "authority": "operator_autonomous_full_train_origin_diagnostic",
       "fit_attempts": 0,
@@ -1427,7 +1427,15 @@
         "svd": 692,
         "ball_solves": 346,
         "weak_intervals": 112450
-      }
+      },
+      "run_id": "kiki_machine_local_topology_origin_transfer_v1-train_momentum-20261115T110223793521Z-11e9ffa4-23dd8516",
+      "result_manifest_sha256": "2bd68a07fe10b0d776d56dedd7240626855f2992b1dc02121f1d388048dc37f6",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_origin_transfer_20261115_evidence.json",
+      "result_receipt_sha256": "641a9f17b59e36766550cf33d5fbd2a9ca9bfd0269e80eefe3a57ef9a0db3a6f",
+      "result_review_path": "docs/research/kiki_machine_local_topology_origin_transfer_result_review_20261115.json",
+      "result_review_sha256": "5bd1e3653be4f7f05713ceb7c205337b5a71fa304a38224446d27f58eecde900",
+      "engineering_pass": true,
+      "scientific_pass": false
     }
   },
   "archived_development_results": {

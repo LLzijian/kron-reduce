@@ -1,0 +1,78 @@
+{
+  "schema": "kiki_machine_local_topology_origin_transfer_result_review.v1",
+  "verified": true,
+  "reviewer": "Astra Ultra",
+  "run_id": "kiki_machine_local_topology_origin_transfer_v1-train_momentum-20261115T110223793521Z-11e9ffa4-23dd8516",
+  "summary_sha256": "839366e4eb1b2589f43a6935eef09e3e34e2daf3e902c3c66f51d640fefa2652",
+  "artifact_manifest_sha256": "2bd68a07fe10b0d776d56dedd7240626855f2992b1dc02121f1d388048dc37f6",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "plan_sha256": "0281effae36f64de396cfaa499a96c1a3ff56687b17ea2b06d18cfe863947d4d",
+  "artifact_count": 5,
+  "operations_sha256": "c87aa5d751f80c3a572a00ff842120b65a69107c5bb9c1ff32ec90f84102fec0",
+  "access_sha256": "935a8bcfea38cc7458f5f8ea80194a44777ce0d3cd482287d5d85a15d6b48246",
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "weak_intervals": 103531,
+    "svd": 692,
+    "ball_solves": 346
+  },
+  "independent_checks": [
+    "已阅读并独立执行保存JSON验证器，未传入close；精确计划与实现绑定、五项结果文件清单哈希、终端工作流记录均匹配。",
+    "读取日志证明静态和development档案各打开一次，仅按固定来源限定名单解码train346例，没有其他角色轨迹解码或失败队列。全部311例稳定样本和35例失稳样本保留。",
+    "逐例重新核对两档历史秩、三个历史起点状态的有限性、半径约束、抽样差异、真实未来区间数和正有限的残差平方和；随后按保存逐例统计重新汇总各组SSE、比值和资格计数。",
+    "692次SVD、346次球诊断、2次检查点载入及103531个实际区间与逐例长度和日志一致，均在预声明上限内。346例全部完成求解；数值完成和科学门结果分别报告。",
+    "本审核没有读取真实缓存、解码NPZ或运行模型，只读取保存JSON及文件字节并复算已保存的统计量。"
+  ],
+  "groups": {
+    "train": {
+      "allocated": 346,
+      "solved": 346,
+      "sse": {
+        "unconstrained": 37669.93971146474,
+        "constrained": 45354.2300079603
+      },
+      "ratio": 0.8305716954042246,
+      "active": 299,
+      "max_sampling_difference": 0.07178031218561969,
+      "sampling_qualified": 331
+    },
+    "stable": {
+      "allocated": 311,
+      "solved": 311,
+      "sse": {
+        "unconstrained": 20046.347237868704,
+        "constrained": 15011.356598791812
+      },
+      "ratio": 1.3354120998952308,
+      "active": 264,
+      "max_sampling_difference": 0.07178031218561969,
+      "sampling_qualified": 298
+    },
+    "unstable": {
+      "allocated": 35,
+      "solved": 35,
+      "sse": {
+        "unconstrained": 17623.59247359604,
+        "constrained": 30342.87340916849
+      },
+      "ratio": 0.5808148831504812,
+      "active": 35,
+      "max_sampling_difference": 0.07043945439084076,
+      "sampling_qualified": 33
+    }
+  },
+  "gate_recomputation": {
+    "all_solved": true,
+    "sampling_qualified_all": false,
+    "train_sse_ratio": false,
+    "stable_sse_ratio": false,
+    "unstable_sse_ratio": true
+  },
+  "conclusion": [
+    "当前历史无约束积分初态不通过预声明路线门：331/346例满足5%的抽样差异，最大差异7.178%；全train未来SSE比值0.83057，没有达到0.8上限。",
+    "稳定样本的未来SSE比值为1.33541，失稳样本为0.58081。两组作用方向不同，不能用失稳组的改善支持将该无约束初态用于统一模型。",
+    "结果不支持当前无约束初态路线或直接扩大预测半径；也不证明所有因果初态估计都无效。状态相关非负阻尼仍是待独立验证的机制假设。"
+  ],
+  "claim_boundary": "此结果是固定原方程下、历史估计状态对后续观测力平衡的转移检验，不是闭环预测或稳定性评分。保持KEEP_BASELINE，不将失败门重新解释为通过，不据此授权新模型执行。"
+}

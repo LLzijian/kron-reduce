@@ -75,6 +75,13 @@ alarm. The eight-second val error on the 95 stable events increased from 0.218
 to 0.464. The full test returned 71 correct judgments and two unresolved cases.
 The val guard failed, the baseline was retained and independent rescoring
 confirmed every saved judgment.
+The [history-only origin transfer check](../reports/kiki_machine_local_topology_origin_transfer_20261115_zh.md)
+kept the original equation fixed. Removing the history bound reduced subsequent
+observed-path momentum SSE by 41.92% on unstable train events and increased it
+by 33.54% on stable train events. The sampling and transfer gates failed, so
+this comparison supplies no basis to relax the bound globally.
+The next [known-truth comparison](machine_local_topology_momentum_plan_20261115_zh.md#下一项合成对照)
+prepares velocity-dependent dissipative damping with the original memory bound.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across

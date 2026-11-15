@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [TASK3 train hidden-origin transfer](kiki_machine_local_topology_origin_transfer_20261115_zh.md) | Complete train, history-only estimates, opposite transfer effects in stable and unstable events |
 | [TASK3 momentum-selected damping](kiki_machine_local_topology_momentum_damping_20261115_zh.md) | Complete train/val/test, 105/107 correct on val, 71 correct on test with two unresolved, independently recomputed |
 | [TASK3 train momentum diagnosis](kiki_machine_local_topology_momentum_20261115_zh.md) | Observed-path residuals on the full train roster, with one supported scalar damping direction |
 | [Observed-path momentum synthetic controls](machine_local_topology_momentum_20261115_zh.md) | Full known-truth comparison, sampled residual convergence and signed force-block recovery |
