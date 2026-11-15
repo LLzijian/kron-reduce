@@ -4355,7 +4355,7 @@
       "result_receipt_sha256": "d25181d10f654d96fcb46434399aee43cd77767f5009936fe20f1abc01ce537e"
     },
     "kiki_machine_local_topology_no_prior_saved_audit_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "authority": "operator_complete_radius_goal_evidence_audit",
       "max_executions": 1,
       "retry_allowed": false,
@@ -4364,7 +4364,14 @@
       "plan_path": "configs/proposals/kiki_machine_local_topology_no_prior_saved_audit_v1.json",
       "plan_sha256": "0334b214392244b3da5f4c3b3ff687fd5c093d3c7d017e6efe9bc7acecb504b4",
       "review_path": "docs/research/kiki_machine_local_topology_no_prior_saved_audit_review_20261115.json",
-      "review_sha256": "f8def4fcc8df7cb0a60e758fff4876196ff2ebb1156dd5001645d6830b92bb97"
+      "review_sha256": "f8def4fcc8df7cb0a60e758fff4876196ff2ebb1156dd5001645d6830b92bb97",
+      "consumed_at": "2026-11-15T10:11:53.770621+00:00",
+      "result_path": "reports/generated/kiki_machine_local_topology_no_prior_20261115/saved-audit.json",
+      "result_sha256": "5665d7ce21b1bc167f14c66a17cc4072e881401159659fd62a29eea365407f17",
+      "mismatches": 0,
+      "npz_decodes": 3,
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_no_prior_saved_audit_20261115_evidence.json",
+      "result_receipt_sha256": "0501516be8d621016884c6f2dd4c30933b55fe688bcf929174fc8f859d617067"
     }
   },
   "default_real_data_policy": "kiki_official_train_test_v1",

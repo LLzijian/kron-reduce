@@ -61,8 +61,12 @@ compares the exact and radial updates with the same frozen zero prior. Its
 [results](../reports/machine_local_topology_ball_history_no_prior_20261115_zh.md)
 show lower constrained history error and higher forecast error with the exact
 solve. Removing the prior within the radial method improves the matched
-train and val trajectories. The [fixed-weight TASK3 protocol](../protocols/kiki_machine_local_topology_no_prior_v1_zh.md)
-tests this prior-only intervention on all three real cohorts.
+train and val trajectories. The [fixed-weight TASK3 comparison](../reports/kiki_machine_local_topology_no_prior_20261115_zh.md)
+completed all three real cohorts and independent score recomputation. Val had
+one unresolved case and test had four. Train reproduced five of 35 matched
+instability windows. The next [momentum-consistency diagnosis](machine_local_topology_momentum_plan_20261115_zh.md)
+examines the fixed equation along observed train trajectories after eliminating
+event-specific hidden starts.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
