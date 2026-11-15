@@ -175,12 +175,15 @@ def selected_model(root, source, support, params, *, device):
     path = (root/"results"/source["run_id"]/support/"selected-equation.json").resolve(strict=True)
     if (not path.is_relative_to(root/"results")
             or sha256_file(path) != source["equation_sha256"][support]):
-        raise RuntimeError("frozen S1 equation differs from the registered source")
+        raise RuntimeError("frozen topology equation differs from the registered source")
     state = json.loads(path.read_bytes())
-    mass, k, d, _, _, eq = params
+    mass, k, d, default_g, default_tau, eq = params
     g, tau = (np.asarray(state[key], dtype=float) for key in ("port_amplitude", "tau"))
-    if g.shape != mass.shape or tau.shape != mass.shape:
+    shape = mass.shape if support.endswith("M1") else (0,)
+    if g.shape != shape or tau.shape != shape:
         raise ValueError("invalid selected memory coefficients")
+    if not g.size:
+        g, tau = default_g, default_tau
     model = make_model((mass, k, d, g, tau, eq), support, device, train_scales=True)
     with torch.no_grad():
         model.log_stiffness_factor.fill_(math.log(state["stiffness_scale"]))

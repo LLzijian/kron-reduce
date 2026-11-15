@@ -3810,6 +3810,33 @@
       "scientific_pass": true,
       "result_review_path": "docs/research/machine_local_topology_refinement_20261115_result_review.json",
       "result_review_sha256": "18b8768831dff2e55cdebb3ee6fd41e8f630a50d475d244eafb634d9de00c887"
+    },
+    "machine_local_topology_transfer_v1_20261115": {
+      "experiment": "machine_local_topology_transfer_v1",
+      "workflow": "machine_local_topology_transfer_v1",
+      "stage": "transfer",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "numpy_rhs": 311040,
+        "rollouts": 4600,
+        "torch_rhs": 16272004,
+        "tangent_rhs": 720000,
+        "gradients": 4,
+        "qr": 5760,
+        "svd": 5760,
+        "triangular_solves": 5760,
+        "matrix_products": 5760
+      },
+      "status": "active",
+      "plan_path": "configs/proposals/machine_local_topology_transfer_v1.json",
+      "plan_sha256": "00c8b0d48184bd482c50823fd23723956d780f3530f4590b2b7e006284fc9489",
+      "review_path": "docs/research/machine_local_topology_transfer_review_20261115.json",
+      "review_sha256": "1e946bd223c9c2650c4dd1c95192b5bb1264e7594a6ef7ec61087b467b739b93",
+      "authority": "explicit_operator_autonomous_topology_improvement_and_full_test_accuracy_goal"
     }
   },
   "saved_evidence_audits": {

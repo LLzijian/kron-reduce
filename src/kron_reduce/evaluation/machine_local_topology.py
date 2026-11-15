@@ -122,10 +122,11 @@ def scoring(model, cases, paths, histories, truth, a, equilibrium, mass, scale, 
         finite = np.isfinite(paths[:, i]).all()
         gap = float(np.max(np.abs((fine[:, :20]-refined[:, :20])/scale))) if finite else None
         coi = float(np.max(np.abs(paths[:, i, :, :20].reshape(2, 801, 2, 10)@mass))) if finite else None
-        qualified = bool(finite and gap <= 1e-5 and coi <= 1e-10 and align_classes(pred, pred_refined))
+        reference_ok = c.get("reference_qualified", True)
+        qualified = bool(reference_ok and finite and gap <= 1e-5 and coi <= 1e-10 and align_classes(pred, pred_refined))
         row = {"id": cases["ids"][i], "role": cases["roles"][i], "truth_label": c["label"],
                "predicted_label": pred["label"], "qualified": qualified, "numerical_failure": not qualified,
-               "prospective_eligible": c["trigger_index"] is None or c["trigger_index"] > 10,
+               "prospective_eligible": reference_ok and (c["trigger_index"] is None or c["trigger_index"] > 10),
                "unsettled": qualified and pred["label"] is None, "step_gap": gap, "coi_error": coi,
                "trajectory": trajectory_scores(fine, target, scale) if qualified else None,
                "truth_agreement": qualified and align_classes(c, pred)}

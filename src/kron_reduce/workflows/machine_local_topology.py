@@ -20,7 +20,7 @@ from project_harness.runner import _run_experiment
 MODULE = "kron_reduce.workflows.machine_local_topology"
 STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topology_closeout_v1",
            "learning": "machine_local_topology_learning_v1", "diagnosis": "machine_local_topology_diagnosis_v1",
-           "refinement": "machine_local_topology_refinement_v1"}
+           "refinement": "machine_local_topology_refinement_v1", "transfer": "machine_local_topology_transfer_v1"}
 
 
 def authorize(root, stage):
@@ -66,6 +66,18 @@ def authorize(root, stage):
                 or plan["settings"]["updates"]*scope["fit_attempts"] != plan["operation_limits"]["optimizer_updates"]):
             raise RuntimeError("learning requires the completed S0 engineering gate and exact update budget")
         verify_bound_file(root, previous["result_receipt_path"], previous["result_receipt_sha256"])
+    if stage == "transfer":
+        for key, supports in (("learning", {"T0M0", "T1M0"}), ("refinement", {"T0M1", "T1M1"})):
+            previous = policy[STUDIES[key]+"_20261115"]
+            source = plan["sources"][key]
+            if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
+                    or (key == "refinement" and previous["scientific_pass"] is not True)
+                    or previous["run_id"] != source["run_id"]
+                    or previous["result_manifest_sha256"] != source["manifest_sha256"]
+                    or previous["result_receipt_sha256"] != source["receipt_sha256"]
+                    or set(source["equation_sha256"]) != supports):
+                raise RuntimeError("transfer requires the exact frozen learning and refinement evidence")
+            verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
     if stage in ("diagnosis", "refinement"):
         previous = policy[STUDIES["learning"]+"_20261115"]
         source = plan["source"]
@@ -112,13 +124,15 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.machine_local_topology import closeout, execute
     from kron_reduce.evaluation.machine_local_topology_diagnosis import execute as diagnose
     from kron_reduce.evaluation.machine_local_topology_learning import execute as learn
+    from kron_reduce.evaluation.machine_local_topology_transfer import execute as transfer
 
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
     started = time.perf_counter()
     budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
     try:
-        kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose, "refinement": learn}[stage]
+        kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose,
+                  "refinement": learn, "transfer": transfer}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()

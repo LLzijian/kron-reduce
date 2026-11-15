@@ -1,0 +1,122 @@
+{
+  "experiment": "machine_local_topology_transfer_v1",
+  "workflow": "machine_local_topology_transfer_v1",
+  "stage": "transfer",
+  "dataset": "synthetic_benchmark_registry_v1",
+  "real_data_reads": 0,
+  "fit_attempts": 0,
+  "max_executions": 1,
+  "retry_allowed": false,
+  "operation_limits": {
+    "numpy_rhs": 311040,
+    "rollouts": 4600,
+    "torch_rhs": 16272004,
+    "tangent_rhs": 720000,
+    "gradients": 4,
+    "qr": 5760,
+    "svd": 5760,
+    "triangular_solves": 5760,
+    "matrix_products": 5760
+  },
+  "sources": {
+    "learning": {
+      "run_id": "machine_local_topology_learning_v1-learning-20261115T030004994879Z-ae296951-2f11ad18",
+      "receipt_sha256": "eff1f1bbd6b0c419b6db9bf89531fcbbf3b7f4d2c9d671c922cfad52c54a10ab",
+      "manifest_sha256": "98fb7d5f2b89acbce6dd20527cd80598b8710150a202f3ea809e17c72f735e21",
+      "equation_sha256": {
+        "T0M0": "3e6ba09335bd2129998a9ba3534fc7244a59b6b3919c6024e167940d7ba4c3a2",
+        "T1M0": "7d03a3444e2a75c0f1226d6317889efffcee96c424a4e6a276d40cc62b2346f9"
+      }
+    },
+    "refinement": {
+      "run_id": "machine_local_topology_refinement_v1-refinement-20261115T035654984080Z-5ef99a7e-97131108",
+      "receipt_sha256": "e34ef38f564a0990cd3d517e752487ceb21010f599db965dc41c6c9ca1f66107",
+      "manifest_sha256": "97335d3819d7bcc2ddef229d42f22b03257f350a648f1d15fa15076a8bcddad8",
+      "equation_sha256": {
+        "T0M1": "a78d67ad530c9bf4ab31b2db2338c887abeb9053ea7d825a5380d6cab89ac1cb",
+        "T1M1": "f0d5a8939447412ced7d8b81e0324367f7e401c54e637c77a041f065ac396261"
+      }
+    }
+  },
+  "seed": 2026111501,
+  "cohorts": {
+    "train": 12,
+    "val": 6,
+    "test": 6
+  },
+  "ids": [
+    "transfer-00",
+    "transfer-01",
+    "transfer-02",
+    "transfer-03",
+    "transfer-04",
+    "transfer-05",
+    "transfer-06",
+    "transfer-07",
+    "transfer-08",
+    "transfer-09",
+    "transfer-10",
+    "transfer-11",
+    "transfer-12",
+    "transfer-13",
+    "transfer-14",
+    "transfer-15",
+    "transfer-16",
+    "transfer-17",
+    "transfer-18",
+    "transfer-19",
+    "transfer-20",
+    "transfer-21",
+    "transfer-22",
+    "transfer-23"
+  ],
+  "speed_rad_s": [
+    10.5,
+    12.0
+  ],
+  "authorization": "machine_local_topology_transfer_v1_20261115",
+  "protocol": "docs/protocols/machine_local_topology_transfer_v1_zh.md",
+  "implementation_bindings": {
+    "configs/experiments/machine_local_topology_transfer_v1.toml": "2598388061516111a5bbcfe6a622488b312be5c8b6efea105f8d17cb2da16d99",
+    "configs/project_manifest.json": "2cc48a36eec289fcb72a0778dd3418cfe86c45ce0e7d41b4a1661840b5dc05cf",
+    "configs/workflows/machine_local_topology_transfer_v1.json": "a6916a53a55cd1662e65b8fb2bbbfd94392538a7ac3e281fb8c840587fc4da1e",
+    "docs/protocols/machine_local_topology_learning_v1_zh.md": "79a5b242afb25e444cd0961757ff6056029acbf3d9c8b92827f42a6029f083c4",
+    "docs/protocols/machine_local_topology_refinement_v1_zh.md": "212c56abe14a6e45a33d5eb9b3cbf868bb76eaa1d5cfe556746edafc63bf2e4e",
+    "docs/protocols/machine_local_topology_transfer_v1_zh.md": "6f6408f454c74cf6f1be1d8c0fce0912635c63e5d7eb57b4e4f8f695d9e2e4d1",
+    "docs/protocols/machine_local_topology_v1_zh.md": "a5c4bd26f406f38715606700140e05df1e99ce2150e4535cabb793a40e039ca8",
+    "docs/reports/machine_local_topology_diagnosis_20261115_evidence.json": "6b24a5ce4303449917b63d26ce21d8cada4879b28968f02fe73c038295dcbfe8",
+    "docs/reports/machine_local_topology_learning_20261115_evidence.json": "eff1f1bbd6b0c419b6db9bf89531fcbbf3b7f4d2c9d671c922cfad52c54a10ab",
+    "docs/reports/machine_local_topology_refinement_20261115_evidence.json": "e34ef38f564a0990cd3d517e752487ceb21010f599db965dc41c6c9ca1f66107",
+    "docs/reports/machine_local_topology_s0_20261115_evidence.json": "bf91a3b151fd57e2a58be0bc260b9a78d26bd7e5e82f626cbdeab57de5ac1922",
+    "docs/research/machine_local_topology_memory_plan_20261115_zh.md": "aa2e395b9e2132196f4a45c260ba71d844b15dda73f50cf9970e266ebf98646e",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/manifest.py": "2f070bc9aac82c9b09720830f86d7365309d73162e860904705656b0a59658ea",
+    "project_harness/policy.py": "9f345a87711223af452cff4cfa74eecb0d815fa164b47485144002b07fc58071",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+    "src/kron_reduce/evaluation/machine_local_equation.py": "03afb11716aa9a57ee56013bf037dd84cfa256bca9705a0dca363a80d5effa1e",
+    "src/kron_reduce/evaluation/machine_local_hidden_oracle.py": "a6eb890ca2789d34f4f0631fd40a7d4f3dcc4e4fad168147da6ba851db4c10c0",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/machine_local_topology.py": "5c85173f40de7b0f348a1f48013d9e0c5870025c407a0d021e00c48192252dce",
+    "src/kron_reduce/evaluation/machine_local_topology_diagnosis.py": "28b0ae2792fcc8b5ecb84e2314ee5a61d91234f5422f1c9dacc92be7d7f9e2b8",
+    "src/kron_reduce/evaluation/machine_local_topology_learning.py": "166eed867584fd1e6f45ad0d9f7a4bb889b5351bb06ef8fe4f570b9765a4cb43",
+    "src/kron_reduce/evaluation/machine_local_topology_transfer.py": "e319b4f0b4658ebf80a863cae36edf5a5896bf64a5b6ef151045911d6469e2df",
+    "src/kron_reduce/evaluation/machine_local_topology_truth.py": "8a7186108067dcc8f6995b4595810f5119eed80de6e4c48b77c66a933d19d19f",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/models/causal_latent.py": "be681e606908e4deaa82a3ee9ea1f76e42aef5e3edaad90feebe6a6c03dae305",
+    "src/kron_reduce/models/differentiable_history.py": "409b0afe87daaa39ff046674e769d354c7fa55126d497027829d6a709e2ce3c0",
+    "src/kron_reduce/models/machine_local.py": "3f79959b41a1ee99c96fad3de2307ecbe4f5d2e3d466bca25786bf0e6501fc6b",
+    "src/kron_reduce/models/machine_local_topology.py": "bbedfc76a0c71f4ed19122e6121308a5ef12220ca7e6501e167573d7cc612526",
+    "src/kron_reduce/models/nonlinear_history.py": "f8ce5dd063219c9460fbc67c7b6b3620520153c56258ee6d6be98f7f89d49087",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "src/kron_reduce/workflows/machine_local_topology.py": "537622291f1e2fc906fa7eb390f9b58fb33f479fb68170ba62dee76e710a740c",
+    "tests/test_machine_local_topology.py": "925bb8a981ea0ef98aed1c099f681c60c26a4e80b3b6a03340d5adb0baea9ee0",
+    "tests/test_machine_local_topology_transfer.py": "0b41f03e515e64f29e5b7c8fd410bf3d266d0ad5009f79ec7245123470bad03a"
+  }
+}
