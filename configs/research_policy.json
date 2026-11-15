@@ -1529,6 +1529,34 @@
       "result_review_sha256": "37b434ff2cb97188565ae4194a4bd68b7a4b6764ab97749a66156fed8d343084",
       "engineering_pass": true,
       "scientific_pass": false
+    },
+    "kiki_machine_local_topology_modal_damping_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_modal_damping_v1",
+      "authority": "operator_autonomous_full_train_modal_damping_diagnostic",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "train_cases": 346,
+      "source_cache_open_limit": 2,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_modal_damping_v1.json",
+      "plan_sha256": "27961db200d05f9e3b67d8eaf9446bbcc2e3bed71679921df6c08e0b2dec4318",
+      "review_path": "docs/research/kiki_machine_local_topology_modal_damping_v1_review_20261115.json",
+      "review_sha256": "770c4b68521aaff2609ee7a1205c65ceef53f0d5e8245710e186f82c49cde45d",
+      "operation_limits": {
+        "checkpoint_loads": 2,
+        "svd": 7266,
+        "weak_intervals": 107260,
+        "quad_check_intervals": 107260,
+        "numpy_damping_roots": 1,
+        "reference_eigh": 1,
+        "rollouts": 4998,
+        "torch_rhs": 1028160,
+        "tangent_rhs": 856800,
+        "qr": 6920,
+        "matrix_products": 6920,
+        "triangular_solves": 6920
+      }
     }
   },
   "archived_development_results": {

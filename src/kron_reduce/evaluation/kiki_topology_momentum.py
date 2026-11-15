@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import math
 from collections import Counter
+from functools import partial
 from pathlib import Path
 
 import numpy as np
@@ -21,6 +22,7 @@ from kron_reduce.evaluation.topology_angle_momentum import (
     damping_sse,
     fit_train_damping,
 )
+from kron_reduce.evaluation.topology_modal_momentum import modal_probe, modal_residuals
 from kron_reduce.evaluation.topology_momentum import (
     direction_changes,
     inspect_momentum,
@@ -271,8 +273,21 @@ def _spatial_fit(directory, events, blocks, radius, budget):
 
 
 @torch.no_grad()
-def _angle_scale(directory, events, model, blocks, plan, budget):
-    model.set_angle_damping(2./3.)
+def _fixed_origin_diagnosis(directory, events, model, blocks, plan, budget):
+    modal = plan["contrast"] == "modal_damping"
+    model.set_angle_damping(2./3., spatial_mix=1. if modal else 0.)
+    if modal:
+        budget.spend("numpy_damping_roots")
+        budget.spend("reference_eigh")
+        probe = modal_probe(blocks)
+        assess = partial(modal_residuals, probe=probe)
+        metadata = {"modal_probe": {key: value.tolist() if isinstance(value, np.ndarray) else value
+                                    for key, value in probe.items() if key != "root"}}
+        row_filename, stable_limit = "modal-damping-rows.json", .99
+    else:
+        assess = angle_scale_residuals
+        metadata = {"angle_scales_rad": [1., 1.25]}
+        row_filename, stable_limit = "angle-scale-rows.json", .95
     steps = (.0025, .00125)
     starts = np.full((len(events), len(steps), 10), np.nan)
 
@@ -301,8 +316,7 @@ def _angle_scale(directory, events, model, blocks, plan, budget):
         path = event["x"][:MAX_FRAME]
         if len(path) > 11 and np.isfinite(starts[i]).all():
             try:
-                result = angle_scale_residuals(path, event["p0"], event["equilibrium"], blocks, DT,
-                                               budget.spend, starts[i])
+                result = assess(path, event["p0"], event["equilibrium"], blocks, DT, budget.spend, starts[i])
                 ok = result["rank"] == 10 and max(result["quadrature_gap"].values()) <= 1e-10
                 row.update(result, qualified=ok)
             except (FloatingPointError, np.linalg.LinAlgError) as error:
@@ -310,7 +324,7 @@ def _angle_scale(directory, events, model, blocks, plan, budget):
         else:
             row.update(qualified=False, reason="missing history estimate or future interval")
         rows.append(row)
-    write_json(directory/"angle-scale-rows.json", rows)
+    write_json(directory/row_filename, rows)
     write_json(directory/"history-estimation-errors.json", errors)
     groups = {}
     for role in ("train", "stable", "unstable"):
@@ -324,11 +338,11 @@ def _angle_scale(directory, events, model, blocks, plan, budget):
         groups[role] = {"allocated": len(selected), "qualified": len(valid), "effects": ratios}
     engineering = groups["train"]["qualified"] == TRAIN_COUNT
     science = engineering and all(entry["ratio"] is not None and entry["ratio"] <= limit
-                                  for role, limit in (("train", 1.01), ("stable", .95), ("unstable", 1.01))
+                                  for role, limit in (("train", 1.01), ("stable", stable_limit), ("unstable", 1.01))
                                   for entry in groups[role]["effects"].values())
     return {"role": "train", "allocated": len(events), "engineering_pass": engineering,
             "scientific_pass": science, "groups": groups, "memory_radius": plan["memory_radius"],
-            "angle_scales_rad": [1., 1.25], "rho": 2./3., "trajectory_lengths": [len(event["x"]) for event in events]}
+            "rho": 2./3., "trajectory_lengths": [len(event["x"]) for event in events]} | metadata
 
 
 def execute(root, directory, plan, budget):
@@ -339,7 +353,8 @@ def execute(root, directory, plan, budget):
         raise PermissionError("momentum audit is restricted to the official train role")
     roster = sources["rosters"]["train"]
     contrast = plan.get("contrast", "force_blocks")
-    contrasts = ("force_blocks", "origin_transfer", "angle_damping_fit", "angle_scale", "spatial_damping_fit")
+    fixed_origin = ("angle_scale", "modal_damping")
+    contrasts = ("force_blocks", "origin_transfer", "angle_damping_fit", "spatial_damping_fit", *fixed_origin)
     if len(roster) != TRAIN_COUNT or contrast not in contrasts:
         raise ValueError("plan must bind the complete train roster and a supported contrast")
     factors = [float(x) for x in plan.get("inertias", [])]
@@ -354,7 +369,7 @@ def execute(root, directory, plan, budget):
     try:
         budget.spend("checkpoint_loads")
         backbone = LearnedNonlinearModel.load(verified(root, plan["backbone"])).closure
-        model = make_model(backbone, "T0M1", train_scales=True, device="cuda" if contrast == "angle_scale" else "cpu")
+        model = make_model(backbone, "T0M1", train_scales=True, device="cuda" if contrast in fixed_origin else "cpu")
         budget.spend("checkpoint_loads")
         load_snapshot(model, verified(root, plan["checkpoint"]))
         if model.topology_dimension != 0 or model.memory_dimension != 10:
@@ -383,8 +398,8 @@ def execute(root, directory, plan, budget):
             return _origin_contrast(directory, events, blocks, radius, budget) | {"trajectory_lengths": lengths}
         if contrast == "angle_damping_fit":
             return _angle_fit(directory, events, blocks, radius, budget)
-        if contrast == "angle_scale":
-            return _angle_scale(directory, events, model, blocks, plan, budget)
+        if contrast in fixed_origin:
+            return _fixed_origin_diagnosis(directory, events, model, blocks, plan, budget)
         if contrast == "spatial_damping_fit":
             return _spatial_fit(directory, events, blocks, radius, budget)
 

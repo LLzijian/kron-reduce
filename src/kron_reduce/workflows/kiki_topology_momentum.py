@@ -24,8 +24,10 @@ ORIGIN_TRANSFER = "kiki_machine_local_topology_origin_transfer_v1"
 ANGLE_FIT = "kiki_machine_local_topology_angle_damping_fit_v1"
 ANGLE_SCALE = "kiki_machine_local_topology_angle_scale_v1"
 SPATIAL_FIT = "kiki_machine_local_topology_spatial_damping_fit_v1"
+MODAL = "kiki_machine_local_topology_modal_damping_v1"
+GPU_STUDIES = (ANGLE_SCALE, MODAL)
 CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer", ANGLE_FIT: "angle_damping_fit",
-             ANGLE_SCALE: "angle_scale", SPATIAL_FIT: "spatial_damping_fit"}
+             ANGLE_SCALE: "angle_scale", SPATIAL_FIT: "spatial_damping_fit", MODAL: "modal_damping"}
 
 
 def authorize(root, name=NAME):
@@ -56,7 +58,8 @@ def authorize(root, name=NAME):
         raise RuntimeError("exact train-only plan and review required")
     for path, digest in plan["implementation_bindings"].items():
         verify_bound_file(root, path, digest)
-    known_truth = {ANGLE_FIT: "angle_damping", ANGLE_SCALE: "angle_damping", SPATIAL_FIT: "spatial_damping"}
+    known_truth = {ANGLE_FIT: "angle_damping", ANGLE_SCALE: "angle_damping", SPATIAL_FIT: "spatial_damping",
+                   MODAL: "spatial_damping"}
     synthetic = f"machine_local_topology_{known_truth.get(name, 'momentum')}_v1_20261115"
     truth = policy["bounded_synthetic_evaluations"][synthetic]
     if (truth["status"] != "consumed" or truth["scientific_pass"] is not True
@@ -87,19 +90,22 @@ def authorize(root, name=NAME):
     _result_file(root,plan["backbone"])
     pins = dict(line.split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line and not line.startswith("#"))
-    variant = "+cu130" if name == ANGLE_SCALE else "+cpu"
+    variant = "+cu130" if name in GPU_STUDIES else "+cpu"
     if any(version(p) != pins[p]+(variant if p=="torch" else "") for p in ("torch","numpy","scipy","filelock","h5py")):
         raise RuntimeError("registered train diagnostic runtime required")
-    if name == ANGLE_SCALE:
-        prior = policy["official_test_evaluations"]["kiki_machine_local_topology_angle_damping_test_v1_20261115"]
-        fit = policy["development_evaluations"]["kiki_machine_local_topology_angle_damping_fit_v1_20261115"]
-        audit = policy["saved_evidence_audits"]["kiki_machine_local_topology_angle_damping_saved_audit_v1_20261115"]
+    if name in GPU_STUDIES:
+        group = "angle_damping" if name == ANGLE_SCALE else "spatial_damping"
+        prior = policy["official_test_evaluations"][f"kiki_machine_local_topology_{group}_test_v1_20261115"]
+        fit = policy["development_evaluations"][f"kiki_machine_local_topology_{group}_fit_v1_20261115"]
+        audit = policy["saved_evidence_audits"][f"kiki_machine_local_topology_{group}_saved_audit_v1_20261115"]
         record = {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]}
         audited = {"path": audit["result_receipt_path"], "sha256": audit["result_receipt_sha256"]}
+        anchor_key = "anchor_angle_receipt" if name == ANGLE_SCALE else "anchor_spatial_receipt"
+        parameter, required = ("angle_damping_rho", 2./3.) if name == ANGLE_SCALE else ("spatial_damping_mix", 1.)
         if (any(row["status"] != "consumed" for row in (prior, fit, audit)) or audit["mismatches"] != 0
-                or _bound_json(root, audited)["run_id"] != prior["run_id"] or plan["anchor_angle_receipt"] != record
-                or _bound_json(root, record)["angle_damping_rho"] != 2./3.):
-            raise RuntimeError("closed angle-damping comparison and independent scores required")
+                or _bound_json(root, audited)["run_id"] != prior["run_id"] or plan[anchor_key] != record
+                or _bound_json(root, record)[parameter] != required):
+            raise RuntimeError("closed damping comparison and independent scores required")
         _cuda_preflight()
     return entry, plan | {"sources":source["sources"] | {"allowed_roles":["train"]},
                           "history_scale": preprocessing["history"]}
@@ -125,7 +131,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.machine_local_synthetic import Budget
 
     torch.set_num_threads(1)
-    if name == ANGLE_SCALE:
+    if name in GPU_STUDIES:
         torch.use_deterministic_algorithms(True)
     budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
     try:
@@ -136,7 +142,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
                 "promotion_decision":"KEEP_BASELINE","scientific_pass":result["scientific_pass"],
                 "claim_boundary":"Observed-path diagnosis over the complete official TASK3 train."}
     runtime = {"python":sys.version, "torch":version("torch"), "numpy":version("numpy"), "scipy":version("scipy")}
-    if name == ANGLE_SCALE:
+    if name in GPU_STUDIES:
         runtime.update(executable=sys.executable, cuda_build=torch.version.cuda, gpu=torch.cuda.get_device_name())
     write_json(result_dir/"summary.json", result | evidence | {"operation_counts":dict(budget.counts), "runtime":runtime})
     write_json(result_dir/"stage_evidence.json", evidence)
@@ -155,6 +161,7 @@ def main():
     options.add_argument("--angle-damping-fit", action="store_const", const=ANGLE_FIT, dest="study")
     options.add_argument("--angle-scale", action="store_const", const=ANGLE_SCALE, dest="study")
     options.add_argument("--spatial-damping-fit", action="store_const", const=SPATIAL_FIT, dest="study")
+    options.add_argument("--modal-damping", action="store_const", const=MODAL, dest="study")
     name = parser.parse_args().study or NAME
     root = project_root()
     with workflow_lock(root,name):
