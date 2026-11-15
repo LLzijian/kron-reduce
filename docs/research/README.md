@@ -12,6 +12,11 @@ The [first protocol](../protocols/machine_local_topology_dynamic_coupling_v1_zh.
 compares it with a static restoring term at equal fitting budgets and uses the
 same 100 ms causal history contract. Phase-dependent damping remains a separate
 candidate in the momentum plan.
+The [synthetic comparison](../reports/machine_local_topology_dynamic_coupling_20261116_zh.md)
+passes all three primary regimes. The [complete TASK3 train diagnosis](../reports/kiki_machine_local_topology_dynamic_coupling_20261116_zh.md)
+finds that fixed common-mode dynamics increase unstable momentum residuals
+under both damping references and all three memory controls. The registered
+comparison closes at the observed-path gate.
 
 The [topology and memory plan](machine_local_topology_memory_plan_20261115_zh.md)
 introduces event-conditioned edge stiffness and reciprocal machine-local memory.

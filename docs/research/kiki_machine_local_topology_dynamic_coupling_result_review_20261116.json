@@ -1,0 +1,104 @@
+{
+  "verified": true,
+  "run_id": "kiki_machine_local_topology_dynamic_coupling_v1-train_momentum-20261115T163445854081Z-1989d934-c6a8cea4",
+  "summary_sha256": "6b89a8f77f86a5d5752656d39f098d669764561d46185022bbfbfd024df1c96b",
+  "artifact_manifest_sha256": "7e0418b395cf6b72d40f6b33a6065283a1cc014414a376e3a1cb94ed44ad26b3",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "plan_sha256": "3dded270636ebb02e27b944234283ebf44b78ec65fd8cadcc18de84d8f800e5e",
+  "artifact_count": 6,
+  "access_sha256": "935a8bcfea38cc7458f5f8ea80194a44777ce0d3cd482287d5d85a15d6b48246",
+  "operations_sha256": "5aa3eecacc4018f963983384e01b95ece6d39690d969e76125fb333e1ca62bc0",
+  "checks": {
+    "exact_complete_train_roster": true,
+    "train_stable": 311,
+    "train_unstable": 35,
+    "all_346_rank10_and_numerical_gaps_pass": true,
+    "six_sse_groups_independently_recomputed": true,
+    "free_projection_lower_bounds_causal_sse": true,
+    "stage_gates_independently_recomputed": true,
+    "exact_static_and_development_cache_reads": 2,
+    "train_event_decodes": 346,
+    "val_test_event_decodes": 0,
+    "checkpoint_loads": 2,
+    "fits": 0,
+    "future_closed_loop_intervals": 0,
+    "operation_ledger_and_no_fallback_counts": true,
+    "review_array_decodes": 0
+  },
+  "numerical_gaps_max": {
+    "damping": 3.910760604242114e-14,
+    "coordinate": 1.9141114804277493e-09,
+    "impulse": 3.1438952136696175e-08
+  },
+  "group_gates": {
+    "train": false,
+    "stable": true,
+    "unstable": false
+  },
+  "group_ratios": {
+    "train": {
+      "constant": {
+        "0.0025": 1.0394503686820262,
+        "0.00125": 1.039450368623928,
+        "free": 1.0720214887628647
+      },
+      "spatial": {
+        "0.0025": 1.0197796016422254,
+        "0.00125": 1.0197796015884624,
+        "free": 1.0348926052684724
+      }
+    },
+    "stable": {
+      "constant": {
+        "0.0025": 0.9548857709985993,
+        "0.00125": 0.9548857706095236,
+        "free": 0.9965495288619197
+      },
+      "spatial": {
+        "0.0025": 0.9435321493018225,
+        "0.00125": 0.9435321490889923,
+        "free": 0.9768282779692379
+      }
+    },
+    "unstable": {
+      "constant": {
+        "0.0025": 1.069525410189256,
+        "0.00125": 1.069525410178142,
+        "free": 1.1687753727828454
+      },
+      "spatial": {
+        "0.0025": 1.072820695793024,
+        "0.00125": 1.0728206957772601,
+        "free": 1.1725978832765116
+      }
+    }
+  },
+  "coupling": {
+    "rate": 1.0,
+    "limit": 0.34657359027997264,
+    "stiffness": 49.89820959478625
+  },
+  "retained_intervals": 98341,
+  "future_intervals": 94881,
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "numpy_damping_roots": 1,
+    "rollouts": 308,
+    "tangent_rhs": 52800,
+    "torch_rhs": 63360,
+    "qr": 6920,
+    "svd": 7266,
+    "matrix_products": 6920,
+    "triangular_solves": 6920,
+    "dynamic_intervals": 196682,
+    "dynamic_rhs": 2360184,
+    "weak_intervals": 94881,
+    "quad_check_intervals": 94881
+  },
+  "notes": [
+    "完整 train 346 例均满足数值门。固定共同耦合修正降低稳定组残差，但提高失稳组和整体残差，未通过预先登记的科学门。",
+    "两个阻尼锚点下，失稳组在两档因果起报和自由投影的六项比较均变差；该方向不具备本次诊断所要求的失稳组改善证据。",
+    "结论只针对冻结恢复速率和共同耦合方向的实测路径诊断，不等同于闭环预测或所有动态耦合结构的结论。"
+  ]
+}

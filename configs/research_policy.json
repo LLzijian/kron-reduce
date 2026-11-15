@@ -1597,7 +1597,7 @@
       "scientific_pass": false
     },
     "kiki_machine_local_topology_dynamic_coupling_v1_20261116": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_dynamic_coupling_v1",
       "authority": "operator_autonomous_full_train_dynamic_coupling_diagnostic",
       "fit_attempts": 0,
@@ -1623,7 +1623,15 @@
         "qr": 13840,
         "matrix_products": 13840,
         "triangular_solves": 13840
-      }
+      },
+      "run_id": "kiki_machine_local_topology_dynamic_coupling_v1-train_momentum-20261115T163445854081Z-1989d934-c6a8cea4",
+      "result_manifest_sha256": "7e0418b395cf6b72d40f6b33a6065283a1cc014414a376e3a1cb94ed44ad26b3",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_dynamic_coupling_20261116_evidence.json",
+      "result_receipt_sha256": "1bfa4e60d70dc889bf83dc12dcbcfbe5a7171c6289a8ca6b7c03a0a5f43651d6",
+      "result_review_path": "docs/research/kiki_machine_local_topology_dynamic_coupling_result_review_20261116.json",
+      "result_review_sha256": "1072945d974c6b14d8152b7c87b35125c4a404d672fb195e13c43f5b320a06ea",
+      "engineering_pass": true,
+      "scientific_pass": false
     }
   },
   "archived_development_results": {

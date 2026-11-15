@@ -29,6 +29,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 | [Restoring force on paired synthetic truth](machine_local_topology_restoring_shape_20261115_zh.md) | Signed coefficient recovery with fixed equilibrium and linearized stiffness across three known systems |
 | [TASK3 restoring-force shape](kiki_machine_local_topology_restoring_shape_20261115_zh.md) | Complete cohorts, val 104/107, test 70 correct with two unresolved, independent scoring audit passed |
 | [Common dynamic coupling on synthetic truth](machine_local_topology_dynamic_coupling_20261116_zh.md) | Separated dynamic coupling from static shape on complete paired cohorts and checked a nonzero history start |
+| [TASK3 train dynamic coupling](kiki_machine_local_topology_dynamic_coupling_20261116_zh.md) | Complete train 346, two damping references and three memory controls, unstable residual gate failed |
 | [TASK3 train fixed-origin damping scale](kiki_machine_local_topology_angle_scale_20261115_zh.md) | Complete train, two causal starts and free projection, larger scale raises residuals in all three groups |
 | [TASK3 frozen angle damping](kiki_machine_local_topology_angle_damping_20261115_zh.md) | Full train/val/test, val 106/107 correct, test 69 correct with three unresolved, independently recomputed |
 | [Angle-dependent damping on paired synthetic truth](machine_local_topology_angle_damping_20261115_zh.md) | Two known damping laws, complete train/val/test, coefficient and causal forecast gates passed |
