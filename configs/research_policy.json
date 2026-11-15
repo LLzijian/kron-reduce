@@ -4037,6 +4037,24 @@
       "npz_decodes": 3,
       "result_receipt_path": "docs/reports/kiki_machine_local_topology_radius_saved_audit_20261115_evidence.json",
       "result_receipt_sha256": "a198b9d929e1d6783670608780af3647606b78ff049cae6dc62679e60a716b50"
+    },
+    "kiki_task3_train_witness_v1_20261115": {
+      "status": "consumed",
+      "authority": "operator_autonomous_task3_train_mechanism_diagnosis",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "max_npz_decodes": 2,
+      "new_model_calls": 0,
+      "plan_path": "configs/proposals/kiki_task3_train_witness_v1.json",
+      "plan_sha256": "353e2204d4e0c38f85636b5000e793e343b7fcf7ea96bb91045fdbb211e93733",
+      "review_path": "docs/research/kiki_task3_train_witness_review_20261115.json",
+      "review_sha256": "b3c18a28e31f0973e97c262603544241b8df921a7d415a1f822e5b71bc25835f",
+      "consumed_at": "2026-11-15T06:54:04.618532+00:00",
+      "result_path": "reports/generated/kiki_task3_train_witness_20261115/witnesses.json",
+      "result_sha256": "2e29d8fc6a5914ecfcbf4b7d36c5fa6084b1b894c872bb772fcfacb0b4455d28",
+      "result_receipt_path": "docs/reports/kiki_task3_train_witness_20261115_evidence.json",
+      "result_receipt_sha256": "5e88e2c0b61bfb43dbaf2b99ad029d6bee33823c2d7c4d9320887b103b054af4",
+      "npz_decodes": 2
     }
   },
   "default_real_data_policy": "kiki_official_train_test_v1",

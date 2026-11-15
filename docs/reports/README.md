@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [TASK3 five-point train witnesses](kiki_task3_train_witness_20261115_zh.md) | Complete train evidence, two saved radius controls, GPU gradient through history and forecast |
 | [TASK3 memory initialization radius](kiki_machine_local_topology_radius_20261115_zh.md) | Frozen-weight comparison on complete train/val/test, 70 test cases correct with three unresolved, val gate failed, all saved scores independently recomputed |
 | [TASK3 topology and memory pair](kiki_machine_local_topology_20261115_zh.md) | Two frozen models on complete train/val/test, all 67 stable test cases classified correctly, zero test instability detections, independently recomputed |
 | [Independent excitation check](machine_local_topology_transfer_20261115_zh.md) | Four frozen models across four clean synthetic systems, new stable and unstable trajectories, all matched gates passed |

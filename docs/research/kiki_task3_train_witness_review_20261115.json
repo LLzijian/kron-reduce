@@ -1,0 +1,29 @@
+{
+  "schema": "kiki_task3_train_witness_review.v1",
+  "approved": true,
+  "plan_path": "configs/proposals/kiki_task3_train_witness_v1.json",
+  "plan_sha256": "353e2204d4e0c38f85636b5000e793e343b7fcf7ea96bb91045fdbb211e93733",
+  "implementation_bindings": {
+    "scratch/one_off/kiki_task3_witness_20261115/audit.py": "aa2a9bd598b14fb194c5cced382f9b888d211abd70b8b638afa4fbf9f214bd27",
+    "scratch/one_off/kiki_task3_witness_20261115/witness_values.py": "2488d790e23c4c6f2bed24c364e580ecb323d64cfce2769b2497997dce4bacc1",
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "src/kron_reduce/evaluation/train_mechanism_audit.py": "d035641edffa8317a5199b0b0eba34c10647b6cd2dd485891fc2e98da78f5e75"
+  },
+  "review_scope": "Complete frozen train roster, 346 events with 35 official unstable and 311 official stable labels; exactly one decode of each of the original-radius and double-radius saved train prediction archives.",
+  "scientific_checks": [
+    "Five consecutive joint angle and speed exceedances use the frozen strict inequalities, mass-weighted COI, radians and rad/s-to-pu conversion.",
+    "The eleven observed points are spliced once; within-3-second and available-truth comparisons use exactly matched time support.",
+    "Tail settlement uses the last 100 points only for complete 811-row paths. Short truth retains unavailable settlement and classification without relabeling official truth.",
+    "History witnesses, future-containing witnesses and complete 8-second physical classifications are distinct. Qualified predictions must agree with both saved step-size classifications.",
+    "Nonfinite forecasts remain explicit; no numerical failure or unavailable truth is converted to stable."
+  ],
+  "governance_checks": [
+    "Verified exact implementation, source contract, official roster, both parent plan and receipt hashes, run manifest hashes, and both train JSON/NPZ byte hashes without decoding arrays.",
+    "Both parent saved-evidence authorizations are consumed with zero mismatches; their original scopes are not reopened.",
+    "The fixed anchor loop permits two train NPZ decodes only; no val or test prediction artifacts, raw caches, checkpoint loading, model calls, fitting or threshold selection.",
+    "An atomic one-use reservation precedes array decoding; retries are disabled and the result is created exclusively."
+  ],
+  "claim_boundary": "Approves this saved-train physical-witness audit only; it does not approve new training, selection, promotion, deployment, or test-driven revision.",
+  "reviewer_array_decodes": 0,
+  "fixture_execution": "Not repeated in this review; coordinator reported analytic fixtures and lint passing for the exact bound implementation."
+}

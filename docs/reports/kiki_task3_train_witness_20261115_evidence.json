@@ -1,0 +1,208 @@
+{
+  "authorization": "kiki_task3_train_witness_v1_20261115",
+  "status": "PASS",
+  "role": "train",
+  "count": 346,
+  "plan_sha256": "353e2204d4e0c38f85636b5000e793e343b7fcf7ea96bb91045fdbb211e93733",
+  "npz_decodes": 2,
+  "new_model_calls": 0,
+  "completed_at_utc": "2026-11-15T06:54:04.618532+00:00",
+  "summary": {
+    "stable": {
+      "count": 311,
+      "trajectories": {
+        "truth": {
+          "within3s": {
+            "no_trigger": 311
+          },
+          "available": {
+            "no_trigger": 311
+          },
+          "resolution": {
+            "stable": 311
+          },
+          "history_triggered": 0
+        },
+        "original_0.0025": {
+          "within3s": {
+            "no_trigger": 309,
+            "triggered": 2
+          },
+          "available": {
+            "no_trigger": 309,
+            "triggered": 2
+          },
+          "full8s": {
+            "no_trigger": 309,
+            "triggered": 2
+          },
+          "resolution": {
+            "stable": 308,
+            "unstable": 2,
+            "unresolved": 1
+          },
+          "history_triggered": 0
+        },
+        "original_0.00125": {
+          "within3s": {
+            "no_trigger": 309,
+            "triggered": 2
+          },
+          "available": {
+            "no_trigger": 309,
+            "triggered": 2
+          },
+          "full8s": {
+            "no_trigger": 309,
+            "triggered": 2
+          },
+          "resolution": {
+            "stable": 308,
+            "unstable": 2,
+            "unresolved": 1
+          },
+          "history_triggered": 0
+        },
+        "double_0.0025": {
+          "within3s": {
+            "no_trigger": 308,
+            "triggered": 3
+          },
+          "available": {
+            "no_trigger": 308,
+            "triggered": 3
+          },
+          "full8s": {
+            "no_trigger": 308,
+            "triggered": 3
+          },
+          "resolution": {
+            "stable": 307,
+            "unresolved": 1,
+            "unstable": 3
+          },
+          "history_triggered": 0
+        },
+        "double_0.00125": {
+          "within3s": {
+            "no_trigger": 308,
+            "triggered": 3
+          },
+          "available": {
+            "no_trigger": 308,
+            "triggered": 3
+          },
+          "full8s": {
+            "no_trigger": 308,
+            "triggered": 3
+          },
+          "resolution": {
+            "stable": 307,
+            "unresolved": 1,
+            "unstable": 3
+          },
+          "history_triggered": 0
+        }
+      }
+    },
+    "unstable": {
+      "count": 35,
+      "trajectories": {
+        "truth": {
+          "within3s": {
+            "triggered": 35
+          },
+          "available": {
+            "triggered": 35
+          },
+          "resolution": {
+            "short_truth": 35
+          },
+          "history_triggered": 0
+        },
+        "original_0.0025": {
+          "within3s": {
+            "no_trigger": 29,
+            "triggered": 6
+          },
+          "available": {
+            "no_trigger": 29,
+            "triggered": 6
+          },
+          "full8s": {
+            "triggered": 24,
+            "no_trigger": 11
+          },
+          "resolution": {
+            "unstable": 24,
+            "unresolved": 7,
+            "stable": 4
+          },
+          "history_triggered": 0
+        },
+        "original_0.00125": {
+          "within3s": {
+            "no_trigger": 29,
+            "triggered": 6
+          },
+          "available": {
+            "no_trigger": 29,
+            "triggered": 6
+          },
+          "full8s": {
+            "triggered": 24,
+            "no_trigger": 11
+          },
+          "resolution": {
+            "unstable": 24,
+            "unresolved": 7,
+            "stable": 4
+          },
+          "history_triggered": 0
+        },
+        "double_0.0025": {
+          "within3s": {
+            "no_trigger": 29,
+            "triggered": 6
+          },
+          "available": {
+            "no_trigger": 29,
+            "triggered": 6
+          },
+          "full8s": {
+            "triggered": 23,
+            "no_trigger": 12
+          },
+          "resolution": {
+            "unstable": 23,
+            "unresolved": 8,
+            "stable": 4
+          },
+          "history_triggered": 0
+        },
+        "double_0.00125": {
+          "within3s": {
+            "no_trigger": 29,
+            "triggered": 6
+          },
+          "available": {
+            "no_trigger": 29,
+            "triggered": 6
+          },
+          "full8s": {
+            "triggered": 23,
+            "no_trigger": 12
+          },
+          "resolution": {
+            "unstable": 23,
+            "unresolved": 8,
+            "stable": 4
+          },
+          "history_triggered": 0
+        }
+      }
+    }
+  },
+  "result_path": "reports/generated/kiki_task3_train_witness_20261115/witnesses.json",
+  "result_sha256": "2e29d8fc6a5914ecfcbf4b7d36c5fa6084b1b894c872bb772fcfacb0b4455d28"
+}

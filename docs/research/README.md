@@ -33,8 +33,12 @@ isolated the initialization radius on the same frozen T0M1 equation and complete
 all three rosters. Doubling the radius yielded 70 correct test judgments, with
 three unresolved. The val guard failed on the unresolved count and the eight-second
 stable trajectory error. Both the evaluation and saved-forecast audit are closed.
-The next preparation checks support for the five-point loss-of-synchronism
-criterion in the available train trajectories before setting a training objective.
+The [five-point witness audit](../reports/kiki_task3_train_witness_20261115_zh.md)
+found a physical witness within the available three-second interval in all 35
+officially unstable train events. Each radius reproduced it in six events in the
+matched interval. A CUDA gradient check passed through the existing history
+initializer and rollout. The next step is a paired known-truth training check
+of the trajectory-margin loss.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
