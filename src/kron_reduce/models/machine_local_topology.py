@@ -28,6 +28,7 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         self.topology_dimension = n-1 if topology else 0
         self.latent_dimension = self.memory_dimension+self.topology_dimension
         self.angle_damping_rho = 0.
+        self.angle_damping_spatial_mix = 0.
         self.register_parameter("log_damping_factor",
                                 torch.nn.Parameter(self.mass.new_zeros(())) if train_scales else None)
         self.register_buffer("edge_basis", self.incidence.abs().T @ self.basis[:, :self.topology_dimension])
@@ -50,12 +51,24 @@ class TopologyMemoryModel(DiagonalMemoryModel):
             return self.damping
         return self.damping*self.log_damping_factor.exp()
 
-    def set_angle_damping(self, rho):
-        """Set the frozen amplitude of the passive angle correction."""
-        rho = float(rho)
+    def set_angle_damping(self, rho, *, spatial_mix=0.):
+        """Set the frozen strength and spatial mix of the passive angle correction."""
+        rho, spatial_mix = float(rho), float(spatial_mix)
         if not 0. <= rho <= 2./3.:
             raise ValueError("angle damping rho must be between zero and two-thirds")
+        if not 0. <= spatial_mix <= 1.:
+            raise ValueError("spatial damping mix must be between zero and one")
         self.angle_damping_rho = rho
+        self.angle_damping_spatial_mix = spatial_mix
+
+    def _damping_root(self):
+        values, modes = torch.linalg.eigh(self.damping)
+        tolerance = 64*torch.finfo(values.dtype).eps*values.abs().max()
+        if (not torch.isfinite(values).all() or torch.any(values < -tolerance)
+                or (self.damping-self.damping.T).abs().max() > tolerance):
+            raise ValueError("spatial damping requires a symmetric PSD baseline")
+        root = (modes*values.clamp_min(0.).sqrt()) @ modes.T
+        return root if self.log_damping_factor is None else root*(.5*self.log_damping_factor).exp()
 
     def node_correction(self, state):
         return state[..., 2*self.n_nodes+self.memory_dimension:] @ self.basis[:, :self.topology_dimension].T
@@ -90,8 +103,14 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         visible_linear = -(inv_mass_projection @ torch.cat((damping, coupling), dim=1))
         memory_linear = torch.cat((coupling.T, -torch.diag(tau.reciprocal())), dim=1)
         applied = power @ inv_mass_projection.T
-        rho = self.angle_damping_rho
+        local_rho = self.angle_damping_rho*self.angle_damping_spatial_mix
+        rho = self.angle_damping_rho-local_rho
         damping_linear = -(inv_mass_projection @ damping) if rho else None
+        if local_rho:
+            root = self._damping_root()
+            projected_root = inv_mass_projection @ root
+            incident = edge.abs()
+            incident = incident/incident.sum(dim=1, keepdim=True)
 
         def field(state, sensitivity=None):
             q, velocity_memory, a = state[..., :n], state[..., n:2*n+r], state[..., 2*n+r:]
@@ -106,18 +125,29 @@ class TopologyMemoryModel(DiagonalMemoryModel):
                 strength = rho*s/(1.+s)
                 damping_acceleration = velocity_memory[..., :n] @ damping_linear.T
                 acceleration = acceleration-strength*damping_acceleration
+            if local_rho:
+                local_s = relative_angle.square() @ incident.T
+                local_strength = local_rho*local_s/(1.+local_s)
+                root_velocity = velocity_memory[..., :n] @ root
+                acceleration = acceleration+(local_strength*root_velocity) @ projected_root.T
             derivative = torch.cat((velocity_memory[..., :n], acceleration, velocity_memory @ memory_linear.T,
                                     torch.zeros_like(a)), dim=-1)
             if not tangent:
                 return derivative
             sq, svm, sa = sensitivity[:, :n], sensitivity[:, n:2*n+r], sensitivity[:, 2*n+r:]
-            force_response = (k*angle.cos())[..., None]*(edge.T @ sq)+force[..., None]*(self.edge_basis @ sa)
+            edge_response = edge.T @ sq
+            force_response = (k*angle.cos())[..., None]*edge_response+force[..., None]*(self.edge_basis @ sa)
             acceleration_response = visible_linear @ svm+edge_acceleration @ force_response
             if rho:
-                ds = 2.*(relative_angle[..., None]*(edge.T @ sq)).mean(dim=1, keepdim=True)
+                ds = 2.*(relative_angle[..., None]*edge_response).mean(dim=1, keepdim=True)
                 dstrength = rho*ds/(1.+s[..., None]).square()
                 acceleration_response = (acceleration_response-strength[..., None]*(damping_linear @ svm[:, :n])
                                          -damping_acceleration[..., None]*dstrength)
+            if local_rho:
+                local_ds = 2.*(incident @ (relative_angle[..., None]*edge_response))
+                local_dstrength = local_rho*local_ds/(1.+local_s[..., None]).square()
+                acceleration_response = acceleration_response+projected_root @ (
+                    local_strength[..., None]*(root @ svm[:, :n])+root_velocity[..., None]*local_dstrength)
             response = torch.cat((svm[:, :n], acceleration_response,
                                   memory_linear @ svm, torch.zeros_like(sa)), dim=1)
             return derivative, response

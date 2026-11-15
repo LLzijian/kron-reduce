@@ -70,8 +70,15 @@ def energy_residual(model, state, power, equilibrium, spend):
     z = x[:, 20:20+model.memory_dimension]
     damping_force = v@model.effective_damping.T
     if model.angle_damping_rho:
-        s = (x[:, :10]@model.incidence).square().mean(dim=-1, keepdim=True)
-        damping_force = (1.-model.angle_damping_rho*s/(1.+s))*damping_force
+        q = x[:, :10]
+        s = (q@model.incidence).square().mean(dim=-1, keepdim=True)
+        mix = model.angle_damping_spatial_mix
+        rho = model.angle_damping_rho
+        damping_force = (1.-(1.-mix)*rho*s/(1.+s))*damping_force
+        if mix:
+            root = model._damping_root()
+            local_s = (q[:, :, None]-q[:, None, :]).square().sum(dim=2)/(model.n_nodes-1)
+            damping_force = damping_force-((v@root)*(mix*rho*local_s/(1.+local_s)))@root
     expected = (v*(power-damping_force)).sum(-1)-(z.square()/model.tau).sum(-1)
     terms = gradient*derivative
     return float(((terms.sum(-1)-expected).abs()/terms.abs().sum(-1).clamp_min(1.)).max().detach())

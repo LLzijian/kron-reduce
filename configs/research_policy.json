@@ -4346,6 +4346,38 @@
       "result_review_sha256": "d6bcce0f023374f0596bda6ee78983227f215e284dd7ca5d306707a12be34856",
       "engineering_pass": true,
       "scientific_pass": true
+    },
+    "machine_local_topology_spatial_damping_v1_20261115": {
+      "experiment": "machine_local_topology_spatial_damping_v1",
+      "workflow": "machine_local_topology_spatial_damping_v1",
+      "stage": "spatial_damping",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 2,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "npz_decodes": 1,
+        "fits": 2,
+        "numpy_rhs": 155520,
+        "numpy_damping_roots": 3,
+        "weak_intervals": 29760,
+        "quad_check_intervals": 29760,
+        "svd": 3936,
+        "rollouts": 2744,
+        "torch_rhs": 8090882,
+        "tangent_rhs": 470400,
+        "gradients": 2,
+        "qr": 3840,
+        "matrix_products": 3840,
+        "triangular_solves": 3840
+      },
+      "status": "active",
+      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
+      "plan_path": "configs/proposals/machine_local_topology_spatial_damping_v1.json",
+      "plan_sha256": "7a738f21b4cb89e2c96688895fa86de43f8fd3bb3bf46dfa375d5f3cf1659f52",
+      "review_path": "docs/research/machine_local_topology_spatial_damping_v1_review_20261115.json",
+      "review_sha256": "60264c62cbbd53840945bb00259e9793083977e98bdf8fc9422b0d99284f8209"
     }
   },
   "saved_evidence_audits": {

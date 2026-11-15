@@ -28,7 +28,8 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "ball_history": "machine_local_topology_ball_history_v1",
            "ball_history_no_prior": "machine_local_topology_ball_history_no_prior_v1",
            "momentum": "machine_local_topology_momentum_v1",
-           "angle_damping": "machine_local_topology_angle_damping_v1"}
+           "angle_damping": "machine_local_topology_angle_damping_v1",
+           "spatial_damping": "machine_local_topology_spatial_damping_v1"}
 
 
 def authorize(root, stage):
@@ -47,7 +48,8 @@ def authorize(root, stage):
     scope = {"status": "active", "experiment": name, "workflow": name, "stage": stage,
              "real_data_reads": 0, "max_executions": 1, "retry_allowed": False,
              "fit_attempts": {"learning": 4, "refinement": 2, "margin": 2, "margin_v2": 2,
-                              "delayed": 2, "delayed_damping": 1, "angle_damping": 4}.get(stage, 0)}
+                              "delayed": 2, "delayed_damping": 1, "angle_damping": 4,
+                              "spatial_damping": 2}.get(stage, 0)}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active topology and memory scope differs")
     verify_bound_file(root, plan_path, auth["plan_sha256"])
@@ -89,7 +91,7 @@ def authorize(root, stage):
         evidence = json.loads((root/previous["result_receipt_path"]).read_bytes())
         if evidence["gates"]["clean_recovery"] is not True:
             raise RuntimeError("the frozen no-prior candidate failed clean recovery")
-    if stage in ("momentum", "angle_damping"):
+    if stage in ("momentum", "angle_damping", "spatial_damping"):
         previous = policy[STUDIES["ball_history"]+"_20261115"]
         source = plan["source"]
         if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
@@ -100,6 +102,13 @@ def authorize(root, stage):
         verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
     if stage == "angle_damping" and plan["operation_limits"]["fits"] != scope["fit_attempts"]:
         raise RuntimeError("angle damping requires four bounded scalar fits")
+    if stage == "spatial_damping":
+        prior = policy[STUDIES["angle_damping"]+"_20261115"]
+        receipt = {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]}
+        if (prior["status"] != "consumed" or prior["scientific_pass"] is not True
+                or receipt != plan["angle_receipt"] or plan["operation_limits"]["fits"] != scope["fit_attempts"]):
+            raise RuntimeError("spatial damping requires the completed global-damping study and two scalar fits")
+        verify_bound_file(root, receipt["path"], receipt["sha256"])
     if stage == "delayed_damping":
         diagnosis = policy[STUDIES["delayed_origin"]+"_20261115"]
         if (diagnosis["status"] != "consumed" or diagnosis["engineering_pass"] is not True
@@ -194,7 +203,12 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.machine_local_topology_learning import execute as learn
     from kron_reduce.evaluation.machine_local_topology_margin import execute as margin
     from kron_reduce.evaluation.machine_local_topology_transfer import execute as transfer
-    from kron_reduce.evaluation.topology_angle_damping_synthetic import execute as angle_damping
+    from kron_reduce.evaluation.topology_angle_damping_synthetic import (
+        execute as angle_damping,
+    )
+    from kron_reduce.evaluation.topology_angle_damping_synthetic import (
+        execute_spatial,
+    )
     from kron_reduce.evaluation.topology_momentum_synthetic import execute as momentum
 
     torch.set_num_threads(1)
@@ -206,7 +220,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
                   "refinement": learn, "transfer": transfer, "margin": margin, "margin_v2": margin,
                   "delayed": delayed, "delayed_origin": delayed_origin, "delayed_damping": delayed_damping,
                   "ball_history": ball_history, "ball_history_no_prior": ball_history_no_prior,
-                  "momentum": momentum, "angle_damping": angle_damping}[stage]
+                  "momentum": momentum, "angle_damping": angle_damping, "spatial_damping": execute_spatial}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()

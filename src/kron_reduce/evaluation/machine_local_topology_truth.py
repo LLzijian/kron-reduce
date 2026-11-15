@@ -19,7 +19,7 @@ def parameters():
     return mass, k0, damping, g, tau, equilibrium
 
 
-def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_damping_rho=0.):
+def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_damping_rho=0., spatial_mix=0.):
     """Integrate batched visible and optional latent states at a 10 ms frame rate."""
     mass, k0, damping, g, tau, equilibrium = (np.asarray(x, dtype=np.float64) for x in params)
     q, v, power, a, z = (np.asarray(x, dtype=np.float64) for x in (q, v, power, a, z))
@@ -29,7 +29,7 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_da
             or mass.shape != (_N,) or damping.shape != (_N, _N) or g.shape != (_N,)
             or equilibrium.shape != (_N,) or k0.shape != (len(_EDGES),)
             or z.shape[1] > len(tau) or count < 1 or max_step <= 0
-            or not 0. <= angle_damping_rho <= 2./3.):
+            or not 0. <= angle_damping_rho <= 2./3. or not 0. <= spatial_mix <= 1.):
         raise ValueError("incompatible topology truth inputs")
     if not all(np.isfinite(x).all() for x in (mass, k0, damping, g, tau, equilibrium, q, v, power, a, z)):
         raise ValueError("topology truth inputs must be finite")
@@ -39,6 +39,13 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_da
     projection = np.eye(_N) - np.outer(mass, np.ones(_N))/mass.sum()
     coupling = projection @ np.diag(g)
     incidence = _incidence()
+    if spatial_mix and angle_damping_rho:
+        spend("numpy_damping_roots")
+        spectrum, modes = np.linalg.eigh(damping)
+        tolerance = 64*np.finfo(float).eps*np.max(np.abs(spectrum))
+        if np.min(spectrum) < -tolerance or np.max(np.abs(damping-damping.T)) > tolerance:
+            raise ValueError("spatial truth requires a symmetric PSD damping matrix")
+        root = (modes*np.sqrt(spectrum.clip(min=0.))) @ modes.T
     ref = equilibrium[_EDGES[:, 0]] - equilibrium[_EDGES[:, 1]]
     edge_k = k0[None, :] * np.exp(a[:, _EDGES[:, 0]] + a[:, _EDGES[:, 1]])
     state = np.concatenate((q.copy(), v.copy(), z.copy()), axis=1)
@@ -52,7 +59,11 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_da
         drag = xv @ damping.T
         if angle_damping_rho:
             s = np.mean(edge**2, axis=1, keepdims=True)
-            drag *= 1.-angle_damping_rho*s/(1.+s)
+            drag *= 1.-(1.-spatial_mix)*angle_damping_rho*s/(1.+s)
+            if spatial_mix:
+                differences = xq[:, :, None]-xq[:, None, :]
+                local_s = np.sum(differences**2, axis=2)/(_N-1)
+                drag -= ((xv @ root)*(spatial_mix*angle_damping_rho*local_s/(1.+local_s))) @ root
         force -= drag
         if xz.shape[1]:
             force -= xz @ coupling.T
