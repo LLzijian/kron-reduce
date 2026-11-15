@@ -26,6 +26,12 @@ from kron_reduce.evaluation.topology_momentum import (
     inspect_momentum,
     origin_transfer,
 )
+from kron_reduce.evaluation.topology_spatial_momentum import (
+    fit_spatial_train,
+    spatial_damping_root,
+    spatial_momentum,
+    spatial_sse,
+)
 from kron_reduce.evaluation.train_mechanism_audit import _row_margin, _window_result
 from kron_reduce.models.nonlinear_latent import LearnedNonlinearModel
 
@@ -232,6 +238,38 @@ def _angle_fit(directory, events, blocks, radius, budget):
             "retained_intervals": sum(row["intervals"] for row in rows), "residuals": residuals}
 
 
+def _spatial_fit(directory, events, blocks, radius, budget):
+    budget.spend("numpy_damping_roots")
+    root = spatial_damping_root(blocks)
+    rows = []
+    for event in events:
+        path = event["x"][:MAX_FRAME]
+        row = {"id": event["id"], "role": "train", "label": event["label"], "intervals": len(path)-1}
+        try:
+            result = spatial_momentum(path, event["p0"], event["equilibrium"], blocks, DT, budget.spend, root=root)
+            row.update(result, qualified=True)
+        except (FloatingPointError, np.linalg.LinAlgError) as error:
+            row.update(qualified=False, reason=str(error))
+        rows.append(row)
+    write_json(directory/"spatial-fit-rows.json", rows)
+    complete = all(row["qualified"] for row in rows)
+    fit, gap = None, None
+    if complete:
+        budget.spend("fits")
+        fit = fit_spatial_train(rows)
+        gap = max(row["quadrature_gap"] for row in rows)
+    valid = fit is not None and gap <= 1e-10
+    groups = {"train": rows} | {label: [row for row in rows if row["label"] == label] for label in ("stable", "unstable")}
+    residuals = {name: {"events": len(group), "global": spatial_sse(group, 0.),
+                        "spatial": spatial_sse(group, fit["value"]), "trace": sum(row["trace_sse"] for row in group)}
+                 for name, group in groups.items()} if valid else None
+    return {"role": "train", "allocated": len(rows), "memory_radius": radius,
+            "engineering_pass": valid, "fit_supported": valid, "train_fit": fit if valid else None,
+            "scientific_pass": valid and all(row["spatial"] < row["global"] for row in residuals.values()),
+            "quadrature_gap": gap, "full_rank": sum(row.get("rank") == 10 for row in rows),
+            "retained_intervals": sum(row["intervals"] for row in rows), "residuals": residuals}
+
+
 @torch.no_grad()
 def _angle_scale(directory, events, model, blocks, plan, budget):
     model.set_angle_damping(2./3.)
@@ -301,7 +339,8 @@ def execute(root, directory, plan, budget):
         raise PermissionError("momentum audit is restricted to the official train role")
     roster = sources["rosters"]["train"]
     contrast = plan.get("contrast", "force_blocks")
-    if len(roster) != TRAIN_COUNT or contrast not in ("force_blocks", "origin_transfer", "angle_damping_fit", "angle_scale"):
+    contrasts = ("force_blocks", "origin_transfer", "angle_damping_fit", "angle_scale", "spatial_damping_fit")
+    if len(roster) != TRAIN_COUNT or contrast not in contrasts:
         raise ValueError("plan must bind the complete train roster and a supported contrast")
     factors = [float(x) for x in plan.get("inertias", [])]
     if contrast == "force_blocks" and (len(set(factors)) != 4 or len(factors) != 4
@@ -346,6 +385,8 @@ def execute(root, directory, plan, budget):
             return _angle_fit(directory, events, blocks, radius, budget)
         if contrast == "angle_scale":
             return _angle_scale(directory, events, model, blocks, plan, budget)
+        if contrast == "spatial_damping_fit":
+            return _spatial_fit(directory, events, blocks, radius, budget)
 
         history_paths = [event["x"][:11] for event in events]
         full_paths = [event["x"][:min(MAX_FRAME, len(event["x"]))] for event in events]

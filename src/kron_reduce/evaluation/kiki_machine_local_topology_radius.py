@@ -116,6 +116,9 @@ def execute(root, directory, plan, stage):
             torch.testing.assert_close(model.effective_damping, factor*original_damping, rtol=1e-13, atol=1e-13)
         if group_name == "angle_damping":
             model.set_angle_damping(frozen["settings"]["angle_damping_rho"])
+        if group_name == "spatial_damping":
+            model.set_angle_damping(frozen["settings"]["angle_damping_rho"],
+                                    spatial_mix=frozen["settings"]["spatial_damping_mix"])
         roles = {"train": development.load("train"),
                  "val": development.load("val", freeze_path=freeze_path),
                  "test": held_out.load("test", freeze_path=freeze_path)}
@@ -194,6 +197,8 @@ def execute(root, directory, plan, stage):
             summary["damping_multiplier"] = frozen["settings"]["damping_multiplier"]
         if group_name == "angle_damping":
             summary["angle_damping_rho"] = frozen["settings"]["angle_damping_rho"]
+        if group_name == "spatial_damping":
+            summary["spatial_damping_mix"] = frozen["settings"]["spatial_damping_mix"]
         write_json(directory/"summary.json", summary)
         write_json(directory/"stage_evidence.json", evidence)
         return summary

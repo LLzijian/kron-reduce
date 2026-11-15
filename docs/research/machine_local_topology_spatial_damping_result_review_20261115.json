@@ -1,0 +1,116 @@
+{
+  "verified": true,
+  "run_id": "machine_local_topology_spatial_damping_v1-spatial_damping-20261115T121431844839Z-ba8eebb1-2d083c3f",
+  "summary_sha256": "4b1d98a5329d246c2d6a677295b7e744453de14838b743ba656e74e7457f169e",
+  "artifact_manifest_sha256": "bead5ebf48b7e427d32f4dded510475a19bb4c13be1495128a5c59f994d06a75",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "artifact_count": 23,
+  "checks": {
+    "saved_archive_verifier_passed_without_close": true,
+    "immutable_artifact_and_binding_digests_verified": true,
+    "four_complete_prediction_conditions": true,
+    "cohort_counts_each": {
+      "train": 24,
+      "val": 12,
+      "test": 12
+    },
+    "raw_bounded_fit_and_kkt_recomputed": true,
+    "weak_sse_exact_arithmetic_recomputed": true,
+    "confusion_coverage_and_train_val_matched_counts_recomputed": true,
+    "all_engineering_and_scientific_gates_recomputed": true,
+    "operation_log_within_budget": true,
+    "test_reporting_only": true,
+    "review_npz_decodes": 0,
+    "new_scientific_runs": 0
+  },
+  "train_val_evidence": {
+    "mix-0": {
+      "fit": {
+        "raw": 0.00015960920826218192,
+        "value": 0.00015960920826218192,
+        "curvature": 0.14160147438174517,
+        "gradient": 0.0,
+        "boundary": "interior"
+      },
+      "raw_absolute_error": 0.00015960920826218192,
+      "feasible_train_val_count": 27,
+      "feasible_max_8s_nrmse": 0.0012863513679151394,
+      "maximum_train_val_quadrature_gap": 1.452356132222981e-13,
+      "energy_error": 2.9629431440947883e-16,
+      "recomputed_gates": {
+        "coefficient": true,
+        "feasible_trace": true
+      }
+    },
+    "mix-1": {
+      "fit": {
+        "raw": 1.0001439216604715,
+        "value": 1.0,
+        "curvature": 0.14485840941136047,
+        "gradient": -2.0848262815759133e-05,
+        "boundary": "upper"
+      },
+      "raw_absolute_error": 0.00014392166047150212,
+      "feasible_train_val_count": 27,
+      "feasible_max_8s_nrmse": 0.0012615867738088986,
+      "maximum_train_val_quadrature_gap": 1.5432606906805313e-13,
+      "energy_error": 3.460258157535176e-16,
+      "stable_val_feasible_8s_nrmse": {
+        "global": 0.0006796079929235568,
+        "spatial": 0.0005987682861153735
+      },
+      "stable_val_feasible_ratio": 0.8810495055238761,
+      "weak_candidate_control_ratios": {
+        "train": {
+          "global": 2.3435815127588292e-07,
+          "trace": 1.270605212039772e-07
+        },
+        "val": {
+          "global": 2.523651652558582e-07,
+          "trace": 1.3364171475944494e-07
+        }
+      },
+      "weak_control_truth_floor_ratios": {
+        "train": {
+          "global": 4266973.410379974,
+          "trace": 7870265.213178571
+        },
+        "val": {
+          "global": 3962512.0170058287,
+          "trace": 7482693.57213801
+        }
+      },
+      "recomputed_gates": {
+        "coefficient": true,
+        "feasible_trace": true,
+        "weak_separation": true,
+        "stable_improvement": true,
+        "matched_witness": true,
+        "no_additional_false_alarm": true
+      }
+    }
+  },
+  "operation_counts": {
+    "npz_decodes": 1,
+    "numpy_damping_roots": 3,
+    "numpy_rhs": 155520,
+    "weak_intervals": 29760,
+    "quad_check_intervals": 29760,
+    "svd": 2016,
+    "fits": 2,
+    "gradients": 2,
+    "torch_rhs": 165122,
+    "rollouts": 56,
+    "tangent_rhs": 9600,
+    "qr": 1920,
+    "matrix_products": 1920,
+    "triangular_solves": 1920
+  },
+  "notes": [
+    "Both fixed-rho known truth regimes recover the spatial coefficient within the prospective tolerance, including the raw optimum before clipping. The positive case also separates spatial allocation from the trace-matched isotropic control.",
+    "All four scoring files retain the same complete frozen 24/12/12 IDs. The radius-feasible train/val forecast gate and positive-truth stable-val improvement gate pass under the unchanged radial initializer and prior.",
+    "This establishes the registered clean matched synthetic identifiability and causal forecasting evidence. Real train coefficient fitting requires separate registration; no test result selected the mechanism or coefficient.",
+    "The review used saved JSON arithmetic and immutable file byte digests only. No trajectories were decoded and no new scientific calculation or model execution occurred."
+  ]
+}

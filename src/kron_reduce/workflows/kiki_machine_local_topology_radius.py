@@ -29,10 +29,14 @@ MOMENTUM_AUTHORIZATION = MOMENTUM_EXPERIMENT+"_20261115"
 ANGLE_WORKFLOW = "kiki_machine_local_topology_angle_damping_v1"
 ANGLE_EXPERIMENT = "kiki_machine_local_topology_angle_damping_test_v1"
 ANGLE_AUTHORIZATION = ANGLE_EXPERIMENT+"_20261115"
+SPATIAL_WORKFLOW = "kiki_machine_local_topology_spatial_damping_v1"
+SPATIAL_EXPERIMENT = "kiki_machine_local_topology_spatial_damping_test_v1"
+SPATIAL_AUTHORIZATION = SPATIAL_EXPERIMENT+"_20261115"
 COMPARISONS = {"R2": (WORKFLOW, EXPERIMENT, AUTHORIZATION),
                "no_prior": (PRIOR_WORKFLOW, PRIOR_EXPERIMENT, PRIOR_AUTHORIZATION),
                "momentum_damping": (MOMENTUM_WORKFLOW, MOMENTUM_EXPERIMENT, MOMENTUM_AUTHORIZATION),
-               "angle_damping": (ANGLE_WORKFLOW, ANGLE_EXPERIMENT, ANGLE_AUTHORIZATION)}
+               "angle_damping": (ANGLE_WORKFLOW, ANGLE_EXPERIMENT, ANGLE_AUTHORIZATION),
+               "spatial_damping": (SPATIAL_WORKFLOW, SPATIAL_EXPERIMENT, SPATIAL_AUTHORIZATION)}
 
 
 def _bound_json(root, binding):
@@ -84,6 +88,14 @@ def angle_damping_freeze(anchor, binding, checkpoint, rho):
     frozen = radius_freeze(anchor, binding, checkpoint)
     frozen["memory_radius_multiplier"] = 1.
     frozen["settings"] = anchor["settings"] | {"angle_damping_rho": rho, "matched_train_witnesses": True}
+    return frozen
+
+
+def spatial_damping_freeze(anchor, binding, checkpoint, mix):
+    if not 0. < mix <= 1.:
+        raise ValueError("spatial comparison requires a positive fitted mix no greater than one")
+    frozen = angle_damping_freeze(anchor, binding, checkpoint, 2./3.)
+    frozen["settings"]["spatial_damping_mix"] = mix
     return frozen
 
 
@@ -195,6 +207,23 @@ def authorize(root, *, comparison="R2"):
         def build(anchor, binding, checkpoint):
             return angle_damping_freeze(anchor, binding, checkpoint, rho)
 
+    if comparison == "spatial_damping":
+        fit = policy["development_evaluations"]["kiki_machine_local_topology_spatial_damping_fit_v1_20261115"]
+        if fit["status"] != "consumed" or fit["engineering_pass"] is not True:
+            raise RuntimeError("qualified complete train spatial damping fit required")
+        receipt, review = ({"path": fit[f"result_{key}_path"], "sha256": fit[f"result_{key}_sha256"]}
+                           for key in ("receipt", "review"))
+        if plan["spatial_fit_receipt"] != receipt or plan["spatial_fit_review"] != review:
+            raise RuntimeError("spatial damping fit binding differs")
+        matched = _bound_json(root, receipt)
+        mix = matched["train_fit"]["value"]
+        if (matched["fit_supported"] is not True or matched["allocated"] != 346 or not 0. < mix <= 1.
+                or _bound_json(root, review)["selected_mix"] != mix or plan["spatial_damping_mix"] != mix):
+            raise RuntimeError("frozen spatial mix differs from complete train fit")
+
+        def build(anchor, binding, checkpoint):
+            return spatial_damping_freeze(anchor, binding, checkpoint, mix)
+
     _reference(root, policy, plan, build)
     source = _bound_json(root, plan["source_contract"])
     if plan["backbone"] != source["backbone"]:
@@ -239,6 +268,7 @@ def main():
     options.add_argument("--no-prior", action="store_const", const="no_prior", dest="comparison")
     options.add_argument("--momentum-damping", action="store_const", const="momentum_damping", dest="comparison")
     options.add_argument("--angle-damping", action="store_const", const="angle_damping", dest="comparison")
+    options.add_argument("--spatial-damping", action="store_const", const="spatial_damping", dest="comparison")
     comparison = parser.parse_args().comparison or "R2"
     root = project_root()
     workflow, experiment, _ = COMPARISONS[comparison]

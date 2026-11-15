@@ -7,6 +7,7 @@ from kron_reduce.workflows.kiki_machine_local_topology_radius import (
     angle_damping_freeze,
     momentum_damping_freeze,
     radius_freeze,
+    spatial_damping_freeze,
 )
 from project_harness.evidence import sha256_file
 
@@ -70,6 +71,38 @@ def test_angle_damping_freeze_rejects_invalid_rho_before_anchor_dispatch(monkeyp
     monkeypatch.setattr(workflow, "radius_freeze", should_not_dispatch)
     with pytest.raises(ValueError, match="angle damping rho"):
         angle_damping_freeze({}, {}, {}, rho)
+
+
+def test_spatial_damping_freeze_preserves_original_anchor_contract():
+    anchor = anchor_record()
+    binding = {"path": "freeze.json", "sha256": "anchor-hash"}
+    checkpoint = {"path": "old-weights.npz", "sha256": "old-weight-hash"}
+    mix = 0.75
+    freeze = spatial_damping_freeze(anchor, binding, checkpoint, mix)
+    assert freeze["anchor_fit_manifest"] == binding
+    assert freeze["checkpoint_path"] == checkpoint["path"]
+    assert freeze["checkpoint_sha256"] == checkpoint["sha256"]
+    assert freeze["preprocessing_path"] == anchor["preprocessing_path"]
+    assert freeze["preprocessing_sha256"] == anchor["preprocessing_sha256"]
+    assert freeze["memory_radius_multiplier"] == 1.0
+    assert freeze["settings"] == anchor["settings"] | {
+        "angle_damping_rho": 2.0 / 3.0,
+        "matched_train_witnesses": True,
+        "spatial_damping_mix": mix,
+    }
+    assert freeze["settings"]["prior_weight"] == 1e-6
+
+
+@pytest.mark.parametrize("mix", [0.0, -1e-12, 1.0 + 1e-12, float("nan")])
+def test_spatial_damping_freeze_rejects_unfitted_or_invalid_mix_before_dispatch(monkeypatch, mix):
+    import kron_reduce.workflows.kiki_machine_local_topology_radius as workflow
+
+    def should_not_dispatch(*_args, **_kwargs):
+        raise AssertionError("invalid mix must be rejected before anchor validation")
+
+    monkeypatch.setattr(workflow, "angle_damping_freeze", should_not_dispatch)
+    with pytest.raises(ValueError, match="spatial comparison"):
+        spatial_damping_freeze({}, {}, {}, mix)
 
 
 def test_radius_freeze_rejects_inexact_anchor():
