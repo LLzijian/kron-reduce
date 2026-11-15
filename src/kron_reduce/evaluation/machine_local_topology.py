@@ -27,12 +27,13 @@ SUPPORTS = ("T0M0", "T1M0", "T0M1", "T1M1")
 FORECAST_COUNT = 800
 
 
-def make_model(params, support, device):
+def make_model(params, support, device, *, train_scales=False):
     mass, k, d, g, tau, _ = params
     empty = np.zeros((0, 0))
     backbone = NonlinearPassiveClosure(mass, k, d, np.zeros((len(mass), 0)), empty, empty)
     return TopologyMemoryModel(backbone, topology=support[1] == "1", port=g if support[-1] == "1" else None,
-                               tau=tau if support[-1] == "1" else None).to(device).requires_grad_(False)
+                               tau=tau if support[-1] == "1" else None,
+                               train_scales=train_scales).to(device).requires_grad_(train_scales)
 
 
 def pack(model, truth, a):
@@ -111,6 +112,7 @@ def scoring(model, cases, paths, histories, truth, a, equilibrium, mass, scale, 
     events = []
     basis = model.basis[:, :model.topology_dimension].cpu().numpy()
     edge_basis = model.incidence.abs().cpu().numpy()
+    k_ratio = (model.effective_stiffness/model.stiffness).detach().cpu().numpy()
     for i, target in enumerate(truth):
         c = truth_classes[i]
         history = histories[0, i]
@@ -132,7 +134,7 @@ def scoring(model, cases, paths, histories, truth, a, equilibrium, mass, scale, 
             estimated = history[0, 20+r:]@basis.T
             row.update(coupling_error=float(np.linalg.norm(estimated-a[i])),
                        history_nrmse=float(np.sqrt(np.mean(((history[1:, :20]-target[1:11, :20])/hscale)**2))),
-                       edge_relative_error=float(np.max(np.abs(np.expm1((estimated-a[i])@edge_basis)))),
+                       edge_relative_error=float(np.max(np.abs(k_ratio*np.exp((estimated-a[i])@edge_basis)-1.))),
                        memory_start_error=float(np.linalg.norm(history[0, 20:20+r]-target[0, 20:20+r])),
                        memory_origin_error=float(np.linalg.norm(history[-1, 20:20+r]-target[10, 20:20+r])),
                        memory_start_energy=float(.5*np.sum(history[0, 20:20+r]**2)),

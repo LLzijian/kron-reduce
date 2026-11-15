@@ -3697,6 +3697,36 @@
       "result_manifest_sha256": "5572f0e6c256831152bf0c1eaa2653cc948d9f5b5d844b1633f34103d3614f49",
       "result_receipt_path": "docs/reports/machine_local_topology_s0_20261115_evidence.json",
       "result_receipt_sha256": "bf91a3b151fd57e2a58be0bc260b9a78d26bd7e5e82f626cbdeab57de5ac1922"
+    },
+    "machine_local_topology_learning_v1_20261115": {
+      "experiment": "machine_local_topology_learning_v1",
+      "workflow": "machine_local_topology_learning_v1",
+      "stage": "learning",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 4,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "fits": 4,
+        "optimizer_updates": 960,
+        "val_checks": 100,
+        "gradients": 968,
+        "numpy_rhs": 311040,
+        "rollouts": 7610,
+        "torch_rhs": 5544484,
+        "tangent_rhs": 522400,
+        "qr": 25455,
+        "svd": 25455,
+        "triangular_solves": 25455,
+        "matrix_products": 25455
+      },
+      "status": "active",
+      "plan_path": "configs/proposals/machine_local_topology_learning_v1.json",
+      "plan_sha256": "76f2cf1ba459766129cac6c5da6516f244d7ad42e330d0371d4da09beb63d1b3",
+      "review_path": "docs/research/machine_local_topology_learning_review_20261115.json",
+      "review_sha256": "2d26169c7e309cfd8dfdbc273bfcdfa0b037150eac99f4390a34fce4ac32b0cb",
+      "authority": "explicit_operator_continue_topology_memory_learning"
     }
   },
   "saved_evidence_audits": {

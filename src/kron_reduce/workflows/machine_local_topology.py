@@ -18,7 +18,8 @@ from project_harness.policy import load_policy
 from project_harness.runner import _run_experiment
 
 MODULE = "kron_reduce.workflows.machine_local_topology"
-STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topology_closeout_v1"}
+STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topology_closeout_v1",
+           "learning": "machine_local_topology_learning_v1"}
 
 
 def authorize(root, stage):
@@ -36,7 +37,7 @@ def authorize(root, stage):
     plan_path, review_path = auth["plan_path"], auth["review_path"]
     scope = {"status": "active", "experiment": name, "workflow": name, "stage": stage,
              "real_data_reads": 0, "max_executions": 1, "retry_allowed": False,
-             "fit_attempts": 0}
+             "fit_attempts": 4 if stage == "learning" else 0}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active topology and memory scope differs")
     verify_bound_file(root, plan_path, auth["plan_sha256"])
@@ -55,6 +56,15 @@ def authorize(root, stage):
         if (previous["status"] != "consumed" or previous["run_id"] != plan["source"]["run_id"]
                 or previous["failed_record_sha256"] != plan["source"]["files"]["RUN_FAILED.json"]):
             raise RuntimeError("closeout requires the exact consumed serialization failure")
+    if stage == "learning":
+        previous = policy[STUDIES["closeout"]+"_20261115"]
+        if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
+                or previous["result_receipt_path"] != plan["prerequisite"]["path"]
+                or previous["result_receipt_sha256"] != plan["prerequisite"]["sha256"]
+                or plan["operation_limits"]["fits"] != scope["fit_attempts"]
+                or plan["settings"]["updates"]*scope["fit_attempts"] != plan["operation_limits"]["optimizer_updates"]):
+            raise RuntimeError("learning requires the completed S0 engineering gate and exact update budget")
+        verify_bound_file(root, previous["result_receipt_path"], previous["result_receipt_sha256"])
     pins = dict(line.strip().split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line.strip() and not line.startswith("#"))
     for package in ("numpy", "torch", "scipy"):
@@ -82,13 +92,14 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.constant_c_observability import write_json
     from kron_reduce.evaluation.machine_local_synthetic import Budget
     from kron_reduce.evaluation.machine_local_topology import closeout, execute
+    from kron_reduce.evaluation.machine_local_topology_learning import execute as learn
 
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
     started = time.perf_counter()
     budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
     try:
-        kernel = closeout if stage == "closeout" else execute
+        kernel = {"closeout": closeout, "learning": learn, "s0": execute}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()

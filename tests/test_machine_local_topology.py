@@ -71,18 +71,26 @@ def test_shared_coefficient_gradient_through_causal_forecast():
         error = predicted["forecast"][:, 1:, :20]-model._tensor(truth[:, 11:, :20])
         return error.square().mean()
 
-    variables = tuple(model.parameters())
-    directions = tuple(torch.linspace(.7, 1., x.numel(), dtype=x.dtype).reshape(x.shape) for x in variables)
+    named_variables = dict(model.named_parameters())
+    expected_groups = {
+        "log_stiffness_factor", "log_damping_factor", "port_parameter", "rate_parameter",
+    }
+    assert set(named_variables) == expected_groups
+    variables = tuple(named_variables.values())
     gradients = torch.autograd.grad(loss(), variables)
     initial = [x.detach().clone() for x in variables]
     epsilon = 2e-6
-    with torch.no_grad():
-        for x, y, delta in zip(variables, initial, directions, strict=True):
-            x.copy_(y+epsilon*delta)
-        plus = float(loss())
-        for x, y, delta in zip(variables, initial, directions, strict=True):
-            x.copy_(y-epsilon*delta)
-        minus = float(loss())
-    analytic = float(sum((d*g).sum() for d, g in zip(directions, gradients, strict=True)))
-    assert all(torch.isfinite(grad).all() and torch.linalg.norm(grad) > 0 for grad in gradients)
-    assert analytic == pytest.approx((plus-minus)/(2*epsilon), rel=2e-3, abs=1e-10)
+    for variable, value, gradient in zip(variables, initial, gradients, strict=True):
+        direction = torch.linspace(.7, 1., variable.numel(), dtype=variable.dtype).reshape(variable.shape)
+        assert gradient.shape == variable.shape
+        assert torch.isfinite(gradient).all() and torch.linalg.norm(gradient) > 0
+        with torch.no_grad():
+            variable.copy_(value+epsilon*direction)
+        plus = float(loss().detach())
+        with torch.no_grad():
+            variable.copy_(value-epsilon*direction)
+        minus = float(loss().detach())
+        with torch.no_grad():
+            variable.copy_(value)
+        analytic = float((direction*gradient).sum())
+        assert analytic == pytest.approx((plus-minus)/(2*epsilon), rel=2e-3, abs=1e-10)
