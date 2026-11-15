@@ -20,6 +20,11 @@ comparison closes at the observed-path gate.
 The [zero-sum spatial coupling protocol](../protocols/machine_local_topology_spatial_coupling_v1_zh.md)
 compares bounded redistribution of branch log stiffness against common-scale
 change and fixed coupling on the same complete synthetic cohorts.
+The [first zero-sum comparison](../reports/machine_local_topology_spatial_coupling_20261116_zh.md)
+selects the generating spatial rate and fails three separation gates. The
+[causal history control](../reports/machine_local_topology_spatial_coupling_causal_20261116_zh.md)
+passes the separation thresholds and recovers the synthetic memory on all
+train and val cases at both step sizes.
 
 The [topology and memory plan](machine_local_topology_memory_plan_20261115_zh.md)
 introduces event-conditioned edge stiffness and reciprocal machine-local memory.

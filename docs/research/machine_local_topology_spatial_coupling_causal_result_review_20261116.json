@@ -1,0 +1,186 @@
+{
+  "verified": true,
+  "run_id": "machine_local_topology_spatial_coupling_causal_v1-spatial_coupling_causal-20261115T175026289855Z-63380e5e-598c211f",
+  "summary_sha256": "e85e1bd20c2fb7dee6670385d5e6ae99925009e2eb1fdadbc3ab08ca0fb558df",
+  "artifact_manifest_sha256": "ac2707f96d9250174e26eb757d1e0bf6ba6a6082ffb79215b215ff1973d11efd",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "plan_sha256": "6aa4d784206068e9801fdd254c089ffe68591459d8272f1031cd024a34de5835",
+  "artifact_count": 30,
+  "operation_log_sha256": "c900ae377085d5d98384b934674869ab7a89d944e701d91d2dfb2b5528311b02",
+  "checks": {
+    "exact_48_case_roster_each_prediction": true,
+    "complete_prediction_groups": 9,
+    "truth_files_byte_identical_to_first_spatial_run": true,
+    "training_scales_unchanged": true,
+    "all_30_grid_scores_finite": true,
+    "train_only_selection_and_winner_score_correspondence": true,
+    "event_group_arithmetic": true,
+    "all_36_train_val_memory_recovery_per_truth": true,
+    "two_steps_two_history_times_checked": true,
+    "scientific_gates_recomputed_from_saved_json": true,
+    "original_failed_trial_remains_failed": true,
+    "operation_ledger_and_no_fallback_counts": true,
+    "real_data_reads": 0,
+    "review_array_decodes": 0
+  },
+  "near_zero_winner_loss_max_absolute_difference": 4.285725640420375e-26,
+  "populations": {
+    "null": {
+      "matched_family": "dynamic",
+      "selected": {
+        "dynamic": 0.0,
+        "spatial": 0.0
+      },
+      "complete_memory_recovery_count": 36,
+      "memory_relative_error_max_by_step_and_time": [
+        [
+          5.107132354486955e-08,
+          3.617059023906127e-08
+        ],
+        [
+          4.9239579577406185e-08,
+          3.547438603409357e-08
+        ]
+      ],
+      "memory_error_columns": [
+        "history_start",
+        "forecast_origin"
+      ],
+      "memory_error_steps": [
+        0.0025,
+        0.00125
+      ],
+      "trajectory_8s_nrmse_max": 2.0153909996865764e-10,
+      "gates": {
+        "candidate_selection": true,
+        "feasible_trajectory": true,
+        "memory_recovery": true,
+        "null_dynamic": true,
+        "zero_sum_and_common_invariants": true
+      }
+    },
+    "common": {
+      "matched_family": "dynamic",
+      "selected": {
+        "dynamic": 1.0,
+        "spatial": 2.0
+      },
+      "complete_memory_recovery_count": 36,
+      "memory_relative_error_max_by_step_and_time": [
+        [
+          5.730836249698675e-08,
+          3.905429481376058e-08
+        ],
+        [
+          4.960557449014901e-08,
+          3.533963606549821e-08
+        ]
+      ],
+      "memory_error_columns": [
+        "history_start",
+        "forecast_origin"
+      ],
+      "memory_error_steps": [
+        0.0025,
+        0.00125
+      ],
+      "trajectory_8s_nrmse_max": 1.7784965550197564e-10,
+      "grid_best_runner_ratio": 4.592733080191342e-16,
+      "matched_mse_1_3": {
+        "train": 1.5825930835386698e-21,
+        "val": 2.183660309757005e-21
+      },
+      "stable_val_8s_ratios": {
+        "spatial": 1.267735079976577e-09,
+        "baseline": 1.2424218591707994e-09
+      },
+      "gates": {
+        "candidate_selection": true,
+        "feasible_trajectory": true,
+        "memory_recovery": true,
+        "grid_separation": true,
+        "mechanism_separation": true,
+        "stable_improvement": true,
+        "matched_witness": true,
+        "no_additional_false_alarm": true,
+        "coupling_recovery": true,
+        "edge_recovery": true,
+        "zero_sum_and_common_invariants": true,
+        "truth_excitation": true
+      }
+    },
+    "spatial": {
+      "matched_family": "spatial",
+      "selected": {
+        "dynamic": 0.0,
+        "spatial": 1.0
+      },
+      "complete_memory_recovery_count": 36,
+      "memory_relative_error_max_by_step_and_time": [
+        [
+          5.0915013154134146e-08,
+          3.609037227735136e-08
+        ],
+        [
+          4.925248775298752e-08,
+          3.5467649083618425e-08
+        ]
+      ],
+      "memory_error_columns": [
+        "history_start",
+        "forecast_origin"
+      ],
+      "memory_error_steps": [
+        0.0025,
+        0.00125
+      ],
+      "trajectory_8s_nrmse_max": 1.9833639775946383e-10,
+      "grid_best_runner_ratio": 5.038629101782929e-14,
+      "matched_mse_1_3": {
+        "train": 1.599968738429807e-21,
+        "val": 1.9269986488235945e-21
+      },
+      "stable_val_8s_ratios": {
+        "dynamic": 5.258726961249591e-08,
+        "baseline": 5.258726961249591e-08
+      },
+      "gates": {
+        "candidate_selection": true,
+        "feasible_trajectory": true,
+        "memory_recovery": true,
+        "grid_separation": true,
+        "mechanism_separation": true,
+        "stable_improvement": true,
+        "matched_witness": true,
+        "no_additional_false_alarm": true,
+        "coupling_recovery": true,
+        "edge_recovery": true,
+        "zero_sum_and_common_invariants": true,
+        "truth_excitation": true,
+        "orthogonal_force": true
+      }
+    }
+  },
+  "operation_counts": {
+    "npz_decodes": 1,
+    "numpy_damping_roots": 6,
+    "numpy_rhs": 233280,
+    "fits": 6,
+    "train_candidate_evaluations": 30,
+    "rollouts": 336,
+    "tangent_rhs": 45600,
+    "torch_rhs": 544323,
+    "qr": 7920,
+    "svd": 7920,
+    "matrix_products": 7920,
+    "triangular_solves": 7920,
+    "gradients": 3
+  },
+  "notes": [
+    "三组真值文件与首轮逐字节相同，训练尺度相同；本轮全部预先登记门通过。",
+    "三组匹配模型均在全部36个train/val样本、两档步长、历史起点和起报点满足记忆恢复门。",
+    "约1e-21的匹配训练损失与完整评分损失存在不超过4.3e-26的绝对差；对应核对使用1e-24绝对容差，未改变任何科学门。",
+    "结论限于半径3、零先验的干净合成因果条件；首轮失败保留，真实原初始化器须另行验证。"
+  ]
+}
