@@ -4598,6 +4598,37 @@
       "result_review_sha256": "74ab7f172ee4fc12dcc8abfe5aa15e06b3150ffbc6c05f7f668eb3cfac80f85e",
       "engineering_pass": true,
       "scientific_pass": true
+    },
+    "machine_local_topology_spatial_coupling_v1_20261116": {
+      "experiment": "machine_local_topology_spatial_coupling_v1",
+      "workflow": "machine_local_topology_spatial_coupling_v1",
+      "stage": "spatial_coupling",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 6,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "npz_decodes": 1,
+        "fits": 6,
+        "train_candidate_evaluations": 30,
+        "numpy_rhs": 233280,
+        "numpy_damping_roots": 6,
+        "rollouts": 6384,
+        "torch_rhs": 18377283,
+        "tangent_rhs": 1082400,
+        "gradients": 3,
+        "qr": 12240,
+        "svd": 12240,
+        "matrix_products": 12240,
+        "triangular_solves": 12240
+      },
+      "status": "active",
+      "authority": "explicit_operator_spatial_coupling_progression",
+      "plan_path": "configs/proposals/machine_local_topology_spatial_coupling_v1.json",
+      "plan_sha256": "187f900d864d45478cef7b8361e130ac38d716e9930040c2ec791ca3f1aa9a4d",
+      "review_path": "docs/research/machine_local_topology_spatial_coupling_v1_review_20261116.json",
+      "review_sha256": "75aef5dfc5a5f21bd80ceb8a535bc3651edda5e8d8bb3e7dea761f49206c62ff"
     }
   },
   "saved_evidence_audits": {

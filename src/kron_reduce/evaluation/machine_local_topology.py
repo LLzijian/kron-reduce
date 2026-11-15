@@ -83,7 +83,7 @@ def energy_residual(model, state, power, equilibrium, spend):
             damping_force = damping_force-((v@root)*(mix*rho*local_s/(1.+local_s)))@root
     expected = (v*(power-damping_force)).sum(-1)-(z.square()/model.tau).sum(-1)
     if model.dynamic_coupling is not None:
-        expected = expected-model.dynamic_coupling[0]*gradient[:, -1].square()
+        expected = expected-model.dynamic_coupling[0]*gradient[:, 20+model.memory_dimension:].square().sum(-1)
     terms = gradient*derivative
     return float(((terms.sum(-1)-expected).abs()/terms.abs().sum(-1).clamp_min(1.)).max().detach())
 
@@ -127,11 +127,21 @@ def simulate(model, truth, a, power, equilibrium, scale, budget, *, oracle,
     return np.stack(paths), np.stack(histories), errors
 
 
-def scoring(model, cases, paths, histories, truth, a, equilibrium, mass, scale, hscale, truth_classes, oracle):
+def _coupling_log_ratios(coordinate, limit, basis):
+    if basis is None:
+        return 2.*limit*np.tanh(coordinate/limit)
+    radial = coordinate/np.sqrt(1.+np.sum((coordinate/limit)**2, axis=-1, keepdims=True))
+    return radial @ basis.T
+
+
+def scoring(model, cases, paths, histories, truth, a, equilibrium, mass, scale, hscale, truth_classes, oracle,
+            *, truth_log_ratios=None):
     events = []
     basis = model.basis[:, :model.topology_dimension].cpu().numpy()
     edge_basis = model.incidence.abs().cpu().numpy()
     k_ratio = (model.effective_stiffness/model.stiffness).detach().cpu().numpy()
+    spatial = model.dynamic_edge_basis
+    dynamic_basis = spatial.detach().cpu().numpy() if spatial is not None else None
     for i, target in enumerate(truth):
         c = truth_classes[i]
         history = histories[0, i]
@@ -161,22 +171,31 @@ def scoring(model, cases, paths, histories, truth, a, equilibrium, mass, scale, 
                        memory_origin_energy=float(.5*np.sum(history[-1, 20:20+r]**2)))
             if model.dynamic_coupling is not None:
                 limit = model.dynamic_coupling[2]
-                truth_coordinate = target[:, 30] if target.shape[1] == 31 else np.zeros(len(target))
-                truth_log_ratio = 2.*limit*np.tanh(truth_coordinate[10:]/limit)
-                model_log_ratio = 2.*limit*np.tanh(fine[:, -1]/limit)
+                model_coordinate = paths[:, i, :, 20+r:]
+                truth_coordinate = target[10:, 20+r:]
+                comparable = model_coordinate.shape[-1] == truth_coordinate.shape[-1]
+                model_log = _coupling_log_ratios(model_coordinate, limit, dynamic_basis)
+                truth_log = (truth_log_ratios[i] if truth_log_ratios is not None else
+                             _coupling_log_ratios(truth_coordinate, limit, dynamic_basis) if comparable else 0.)
+                history_finite = np.isfinite(histories[:, i]).all()
                 row["coupling"] = {
-                    "start": float(history[0, -1]),
-                    "origin": float(fine[0, -1]),
-                    "max_abs_start": float(np.abs(histories[:, i, 0, -1]).max()),
-                    "origin_continuity_error": float(np.abs(paths[:, i, 0, -1]-histories[:, i, -1, -1]).max())
-                                               if finite else None,
-                    "coordinate_max_error": float(np.abs(paths[:, i, :, -1]-truth_coordinate[10:]).max())
-                                            if finite else None,
-                    "log_ratio_rmse": float(np.sqrt(np.mean((model_log_ratio-truth_log_ratio)**2))) if finite else None,
-                    "min_multiplier": float(np.exp(model_log_ratio.min())) if finite else None,
-                    "max_multiplier": float(np.exp(model_log_ratio.max())) if finite else None,
+                    "start": float(history[0, -1]) if spatial is None else history[0, 20+r:].tolist(),
+                    "origin": (float(fine[0, -1]) if spatial is None else fine[0, 20+r:].tolist()) if finite else None,
+                    "max_abs_start": float(np.abs(histories[:, i, 0, 20+r:]).max()) if history_finite else None,
+                    "origin_continuity_error": float(np.abs(model_coordinate[:, 0]-histories[:, i, -1, 20+r:]).max())
+                                               if finite and history_finite else None,
+                    "coordinate_max_error": float(np.linalg.norm(model_coordinate-truth_coordinate, axis=-1).max())
+                                            if finite and comparable else None,
+                    "log_ratio_rmse": float(np.sqrt(np.mean((model_log[0]-truth_log)**2))) if finite else None,
+                    "log_ratio_max_error": float(np.abs(model_log-truth_log).max()) if finite else None,
+                    "log_geometric_mean_max_abs": float(np.abs(model_log.mean(axis=-1)).max()) if finite else None,
+                    "edge_log_sum_max_abs": float(np.abs(model_log.sum(axis=-1)).max()) if finite else None,
+                    "log_spatial_rms_max": float(np.sqrt(np.mean((model_log-model_log.mean(-1, keepdims=True))**2,
+                                                                axis=-1)).max()) if finite else None,
+                    "min_multiplier": float(np.exp(model_log.min())) if finite else None,
+                    "max_multiplier": float(np.exp(model_log.max())) if finite else None,
                 }
-                row["edge_relative_error"] = float(np.abs(np.expm1(model_log_ratio-truth_log_ratio)).max()) if finite else None
+                row["edge_relative_error"] = float(np.abs(np.expm1(model_log[0]-truth_log)).max()) if finite else None
         events.append(row)
 
     roles = {}

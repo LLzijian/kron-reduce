@@ -17,6 +17,9 @@ passes all three primary regimes. The [complete TASK3 train diagnosis](../report
 finds that fixed common-mode dynamics increase unstable momentum residuals
 under both damping references and all three memory controls. The registered
 comparison closes at the observed-path gate.
+The [zero-sum spatial coupling protocol](../protocols/machine_local_topology_spatial_coupling_v1_zh.md)
+compares bounded redistribution of branch log stiffness against common-scale
+change and fixed coupling on the same complete synthetic cohorts.
 
 The [topology and memory plan](machine_local_topology_memory_plan_20261115_zh.md)
 introduces event-conditioned edge stiffness and reciprocal machine-local memory.
