@@ -1,0 +1,124 @@
+{
+  "verified": true,
+  "run_id": "machine_local_topology_dynamic_coupling_v1-dynamic_coupling-20261115T162201255656Z-deb71c4a-8cddb968",
+  "summary_sha256": "a2e727edff7a0c5a962554ea9a2766c44c838960cc5c95b031bee27c289bfc49",
+  "artifact_manifest_sha256": "adebd3cd6126f022f8c4b7d34d5e152a8715df61f2753c5a7eeb94abe9399129",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "plan_sha256": "72fc7c712b6d963b2792befc08b925f15847bf0c0afcb5bf6dd57ac58a82c131",
+  "artifact_count": 29,
+  "operation_log_sha256": "82578553c38a430cb26dddd1ff78861b2c7da80a8a6c484e6355de576175794a",
+  "checks": {
+    "artifact_bytes": true,
+    "exact_48_case_roster_each_prediction": true,
+    "complete_prediction_groups": 7,
+    "truth_groups": 4,
+    "train_only_grid_selection": true,
+    "all_30_grid_losses_finite": true,
+    "selected_train_loss_matches_full_scores": true,
+    "saved_event_group_arithmetic": true,
+    "primary_gates_independently_recomputed": true,
+    "zero_history_c_and_origin_continuity": true,
+    "nonzero_start_frozen_reuse_and_report_only": true,
+    "operation_ledger_and_no_fallback_counts": true,
+    "real_data_reads": 0,
+    "review_array_decodes": 0
+  },
+  "numerics": {
+    "maximum_prediction_step_gap": 6.019474773215159e-10,
+    "maximum_reference_step_gap": 3.0601881727427694e-11,
+    "maximum_coi_error": 2.842170943040401e-14
+  },
+  "populations": {
+    "null": {
+      "selected": {
+        "dynamic": 0.0,
+        "static": 0.0
+      },
+      "feasible_count": 27,
+      "feasible_8s_nrmse_max": 0.0012615867738088986,
+      "gates": {
+        "candidate_selection": true,
+        "feasible_trajectory": true,
+        "null_dynamic": true
+      }
+    },
+    "dynamic": {
+      "selected": {
+        "dynamic": 1.0,
+        "static": 0.0
+      },
+      "feasible_count": 27,
+      "feasible_8s_nrmse_max": 0.001328646695629226,
+      "grid_best_runner_ratio": 0.6433385003844355,
+      "mechanism_train_ratio": 0.07523528937942943,
+      "mechanism_val_ratio": 0.0804715000497025,
+      "stable_val_8s_ratio": 0.1597023700821721,
+      "minimum_floor_separation": 8.722539156060288e+19,
+      "feasible_c_max_error": 0.001743416029281103,
+      "gates": {
+        "candidate_selection": true,
+        "feasible_trajectory": true,
+        "grid_separation": true,
+        "mechanism_separation": true,
+        "stable_improvement": true,
+        "matched_witness": true,
+        "no_additional_false_alarm": true,
+        "coupling_recovery": true
+      }
+    },
+    "static": {
+      "selected": {
+        "dynamic": 0.0,
+        "static": 0.125
+      },
+      "feasible_count": 27,
+      "feasible_8s_nrmse_max": 0.0012822572922364715,
+      "grid_best_runner_ratio": 0.17026058697969168,
+      "mechanism_train_ratio": 0.16276627809317515,
+      "mechanism_val_ratio": 0.08561580864197256,
+      "stable_val_8s_ratio": 0.5851459650162991,
+      "minimum_floor_separation": 7.65018410480839e+19,
+      "gates": {
+        "candidate_selection": true,
+        "feasible_trajectory": true,
+        "grid_separation": true,
+        "mechanism_separation": true,
+        "stable_improvement": true,
+        "matched_witness": true,
+        "no_additional_false_alarm": true
+      }
+    },
+    "nonzero_start": {
+      "report_only": true,
+      "selected_rate": 1.0,
+      "reused_primary_fit_and_scales": true,
+      "scored_events": 48,
+      "model_start": 0.0,
+      "truth_start": 0.05,
+      "engineering_pass": true,
+      "train_mse_1_3": 6.943083516490443e-06,
+      "val_mse_1_3": 5.6996654189837495e-06
+    }
+  },
+  "operation_counts": {
+    "npz_decodes": 1,
+    "numpy_damping_roots": 8,
+    "numpy_rhs": 311040,
+    "fits": 6,
+    "train_candidate_evaluations": 30,
+    "rollouts": 308,
+    "tangent_rhs": 40800,
+    "torch_rhs": 461764,
+    "qr": 6960,
+    "svd": 6960,
+    "matrix_products": 6960,
+    "triangular_solves": 6960,
+    "gradients": 4
+  },
+  "notes": [
+    "有限预设网格在配对已知真值上的结构区分通过；结果不构成连续参数恢复或真实数据预测结论。",
+    "逐例标签与触发一致性沿用保存评分标志；本次复核只读取 JSON 和文件字节，不重新计算轨迹。",
+    "非零耦合初态组复用主动态组系数和尺度，只报告固定零初态先验的影响，不参与主门。"
+  ]
+}

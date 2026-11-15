@@ -22,6 +22,7 @@ from kron_reduce.evaluation.topology_angle_momentum import (
     damping_sse,
     fit_train_damping,
 )
+from kron_reduce.evaluation.topology_dynamic_momentum import ANCHORS, STARTS, coupling_residuals
 from kron_reduce.evaluation.topology_modal_momentum import modal_probe, modal_residuals
 from kron_reduce.evaluation.topology_momentum import (
     direction_changes,
@@ -278,6 +279,32 @@ def _spatial_fit(directory, events, blocks, radius, budget):
 
 
 @torch.no_grad()
+def _causal_memory(events, model, plan, budget, *, at_origin=False):
+    steps = (.0025, .00125)
+    starts = np.full((len(events), len(steps), 10), np.nan)
+
+    def estimate(indices, step, slot):
+        output = predict(model, [events[i] for i in indices], plan["history_scale"], step, budget.spend,
+                         count=0, memory_radius=plan["memory_radius"], prior_weight=1e-6)
+        state = output["history"][:, -1, 20:] if at_origin else output["hidden_start"]
+        starts[indices, slot] = state.cpu().numpy()
+
+    errors = []
+    for slot, step in enumerate(steps):
+        for offset in range(0, len(events), 32):
+            indices = list(range(offset, min(offset+32, len(events))))
+            try:
+                estimate(indices, step, slot)
+            except NUMERICAL_ERRORS as error:
+                errors.append({"step": step, "batch_offset": offset, "error": str(error)})
+                for i in indices:
+                    try:
+                        estimate([i], step, slot)
+                    except NUMERICAL_ERRORS as local:
+                        errors.append({"step": step, "id": events[i]["id"], "error": str(local)})
+    return starts, errors
+
+
 def _fixed_origin_diagnosis(directory, events, model, blocks, plan, budget):
     modal = plan["contrast"] == "modal_damping"
     model.set_angle_damping(2./3., spatial_mix=1. if modal else 0.)
@@ -293,27 +320,7 @@ def _fixed_origin_diagnosis(directory, events, model, blocks, plan, budget):
         assess = angle_scale_residuals
         metadata = {"angle_scales_rad": [1., 1.25]}
         row_filename, stable_limit = "angle-scale-rows.json", .95
-    steps = (.0025, .00125)
-    starts = np.full((len(events), len(steps), 10), np.nan)
-
-    def estimate(indices, step, slot):
-        output = predict(model, [events[i] for i in indices], plan["history_scale"], step, budget.spend,
-                         count=0, memory_radius=plan["memory_radius"], prior_weight=1e-6)
-        starts[indices, slot] = output["hidden_start"].cpu().numpy()
-
-    errors = []
-    for slot, step in enumerate(steps):
-        for offset in range(0, len(events), 32):
-            indices = list(range(offset, min(offset+32, len(events))))
-            try:
-                estimate(indices, step, slot)
-            except NUMERICAL_ERRORS as error:
-                errors.append({"step": step, "batch_offset": offset, "error": str(error)})
-                for i in indices:
-                    try:
-                        estimate([i], step, slot)
-                    except NUMERICAL_ERRORS as local:
-                        errors.append({"step": step, "id": events[i]["id"], "error": str(local)})
+    starts, errors = _causal_memory(events, model, plan, budget)
 
     rows = []
     for i, event in enumerate(events):
@@ -381,6 +388,55 @@ def _restoring_fit(directory, events, blocks, radius, budget):
             "retained_intervals": sum(row["intervals"] for row in rows), "residuals": residuals}
 
 
+def _dynamic_coupling_diagnosis(directory, events, model, blocks, plan, budget):
+    settings, limits = plan["coupling"], plan["gates"]
+    budget.spend("numpy_damping_roots")
+    root = spatial_damping_root(blocks)
+    states, errors = {}, {}
+    for anchor, rho in zip(ANCHORS, (0., 2./3.), strict=True):
+        model.set_angle_damping(rho, spatial_mix=1.)
+        states[anchor], errors[anchor] = _causal_memory(events, model, plan, budget, at_origin=True)
+    rows = []
+    for index, event in enumerate(events):
+        path = event["x"][:MAX_FRAME]
+        origins = np.stack([states[anchor][index] for anchor in ANCHORS])
+        row = {"id": event["id"], "label": event["label"], "intervals": len(path)-1}
+        if len(path) > ORIGIN_FRAME+1 and np.isfinite(origins).all():
+            try:
+                result = coupling_residuals(path, event["p0"], event["equilibrium"], blocks, DT, budget.spend,
+                                            origins, root=root, **settings)
+                row.update(result, qualified=result["rank"] == 10
+                           and all(result["gaps"][key] <= value for key, value in limits["gaps"].items()))
+            except (FloatingPointError, np.linalg.LinAlgError) as error:
+                row.update(qualified=False, reason=str(error))
+        else:
+            row.update(qualified=False, reason="missing causal memory origin or future intervals")
+        rows.append(row)
+    write_json(directory/"dynamic-coupling-rows.json", rows)
+    write_json(directory/"history-estimation-errors.json", errors)
+    groups = {}
+    for label in ("train", "stable", "unstable"):
+        group = rows if label == "train" else [row for row in rows if row["label"] == label]
+        valid = [row for row in group if row["qualified"]]
+        effects = {}
+        for anchor in ANCHORS:
+            effects[anchor] = {}
+            for start in STARTS:
+                pair = ([math.fsum(row["sse"][anchor][start][i] for row in valid) for i in range(2)]
+                        if group and len(valid) == len(group) else None)
+                effects[anchor][start] = {"sse": pair, "ratio": pair[1]/pair[0] if pair and pair[0] > 0 else None}
+        groups[label] = {"allocated": len(group), "qualified": len(valid), "effects": effects}
+    engineering = groups["train"]["qualified"] == TRAIN_COUNT
+    checks = {label: all(row["ratio"] is not None and row["ratio"] <= limits["ratios"][label]
+                         for starts in group["effects"].values() for row in starts.values())
+              for label, group in groups.items()}
+    return {"role": "train", "allocated": len(events), "engineering_pass": engineering,
+            "scientific_pass": engineering and all(checks.values()), "checks": checks, "groups": groups,
+            "coupling": settings | {"stiffness": float(blocks[2].sum())}, "memory_radius": plan["memory_radius"],
+            "retained_intervals": sum(row["intervals"] for row in rows),
+            "trajectory_lengths": [len(event["x"]) for event in events]}
+
+
 def execute(root, directory, plan, budget):
     """Audit all official train cases using saved causal inputs; never forecasts."""
     root, directory = Path(root).resolve(), Path(directory)
@@ -389,7 +445,7 @@ def execute(root, directory, plan, budget):
         raise PermissionError("momentum audit is restricted to the official train role")
     roster = sources["rosters"]["train"]
     contrast = plan.get("contrast", "force_blocks")
-    fixed_origin = ("angle_scale", "modal_damping")
+    fixed_origin = ("angle_scale", "modal_damping", "dynamic_coupling")
     contrasts = ("force_blocks", "origin_transfer", "angle_damping_fit", "spatial_damping_fit", "restoring_shape_fit",
                  *fixed_origin)
     if len(roster) != TRAIN_COUNT or contrast not in contrasts:
@@ -435,6 +491,8 @@ def execute(root, directory, plan, budget):
             return _origin_contrast(directory, events, blocks, radius, budget) | {"trajectory_lengths": lengths}
         if contrast == "angle_damping_fit":
             return _angle_fit(directory, events, blocks, radius, budget)
+        if contrast == "dynamic_coupling":
+            return _dynamic_coupling_diagnosis(directory, events, model, blocks, plan, budget)
         if contrast in fixed_origin:
             return _fixed_origin_diagnosis(directory, events, model, blocks, plan, budget)
         if contrast == "spatial_damping_fit":

@@ -26,16 +26,21 @@ ANGLE_SCALE = "kiki_machine_local_topology_angle_scale_v1"
 SPATIAL_FIT = "kiki_machine_local_topology_spatial_damping_fit_v1"
 MODAL = "kiki_machine_local_topology_modal_damping_v1"
 RESTORING = "kiki_machine_local_topology_restoring_shape_fit_v1"
-GPU_STUDIES = (ANGLE_SCALE, MODAL)
+DYNAMIC = "kiki_machine_local_topology_dynamic_coupling_v1"
+GPU_STUDIES = (ANGLE_SCALE, MODAL, DYNAMIC)
 CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer", ANGLE_FIT: "angle_damping_fit",
              ANGLE_SCALE: "angle_scale", SPATIAL_FIT: "spatial_damping_fit", MODAL: "modal_damping",
-             RESTORING: "restoring_shape_fit"}
+             RESTORING: "restoring_shape_fit", DYNAMIC: "dynamic_coupling"}
+
+
+def _authority(name):
+    return name+("_20261116" if name == DYNAMIC else "_20261115")
 
 
 def authorize(root, name=NAME):
     assert_clean(root)
     contrast = CONTRASTS[name]
-    authority = name+"_20261115"
+    authority = _authority(name)
     entry = load_manifest(root)["experiments"][name]
     scope = {"module": MODULE, "workflow": name, "stage": STAGE, "execution_mode": "bounded_kiki_official_cli_only",
              "development_authorization_id": authority, "reads_validation_performance": False, "reads_test_performance": False}
@@ -62,12 +67,16 @@ def authorize(root, name=NAME):
         verify_bound_file(root, path, digest)
     known_truth = {ANGLE_FIT: "angle_damping", ANGLE_SCALE: "angle_damping", SPATIAL_FIT: "spatial_damping",
                    MODAL: "spatial_damping", RESTORING: "restoring_shape"}
-    synthetic = f"machine_local_topology_{known_truth.get(name, 'momentum')}_v1_20261115"
+    synthetic = ("machine_local_topology_dynamic_coupling_v1_20261116" if name == DYNAMIC
+                 else f"machine_local_topology_{known_truth.get(name, 'momentum')}_v1_20261115")
     truth = policy["bounded_synthetic_evaluations"][synthetic]
     if (truth["status"] != "consumed" or truth["scientific_pass"] is not True
             or plan["synthetic_receipt"] != {"path":truth["result_receipt_path"],"sha256":truth["result_receipt_sha256"]}):
         raise RuntimeError("known-truth momentum gate required")
-    _bound_json(root, plan["synthetic_receipt"])
+    synthetic_result = _bound_json(root, plan["synthetic_receipt"])
+    if name == DYNAMIC and (plan["coupling"] != {"rate": 1., "limit": .34657359027997265}
+                            or synthetic_result["populations"]["dynamic"]["fit"]["dynamic"]["value"] != 1.):
+        raise RuntimeError("fixed observed-path coupling direction must match the known-truth rate")
 
     anchor = policy["development_evaluations"]["kiki_machine_local_topology_fit_v1_20261115"]
     if anchor["status"] != "consumed":
@@ -121,7 +130,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
         raise RuntimeError("train momentum dispatch identity differs")
     common = Path(subprocess.check_output(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
                                           cwd=root, text=True).strip()).resolve(strict=True)
-    marker = common/"kiki_machine_local_topology_budgets"/(name+"_20261115.json")
+    marker = common/"kiki_machine_local_topology_budgets"/(_authority(name)+".json")
     marker.parent.mkdir(exist_ok=True)
     commit = git_head(root)
     with marker.open("x", encoding="utf-8") as stream:
@@ -166,6 +175,7 @@ def main():
     options.add_argument("--spatial-damping-fit", action="store_const", const=SPATIAL_FIT, dest="study")
     options.add_argument("--modal-damping", action="store_const", const=MODAL, dest="study")
     options.add_argument("--restoring-shape-fit", action="store_const", const=RESTORING, dest="study")
+    options.add_argument("--dynamic-coupling", action="store_const", const=DYNAMIC, dest="study")
     name = parser.parse_args().study or NAME
     root = project_root()
     with workflow_lock(root,name):
