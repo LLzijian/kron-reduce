@@ -1,0 +1,42 @@
+{
+  "verified": true,
+  "status": "PASS",
+  "stage": "fit",
+  "run_id": "kiki_machine_local_topology_damping_fit_v1-fit-20261115T090530382303Z-9389f3db-ddaaae58",
+  "artifact_count": 13,
+  "roles": [
+    "train",
+    "val"
+  ],
+  "scores": {
+    "T0M1": {
+      "train": {
+        "tp": 9,
+        "tn": 309,
+        "fp": 0,
+        "fn": 7,
+        "allocated": 346,
+        "resolved": 325,
+        "unresolved": 21,
+        "numerical_failures": 0,
+        "accuracy": null,
+        "classifiable_accuracy": 0.9784615384615385,
+        "correct": 318
+      },
+      "val": {
+        "tp": 1,
+        "tn": 95,
+        "fp": 0,
+        "fn": 4,
+        "allocated": 107,
+        "resolved": 100,
+        "unresolved": 7,
+        "numerical_failures": 0,
+        "accuracy": null,
+        "classifiable_accuracy": 0.96,
+        "correct": 96
+      }
+    }
+  },
+  "source_commit": "9389f3db5e59fa87bc00d9da69fb6cd480a73c5d"
+}

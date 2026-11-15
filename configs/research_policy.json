@@ -1351,7 +1351,7 @@
       "scientific_pass": false
     },
     "kiki_machine_local_topology_damping_fit_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_damping_fit_v1",
       "authority": "operator_full_task3_autonomous_accuracy_goal",
       "fit_attempts": 1,
@@ -1372,7 +1372,14 @@
         "triangular_solves": 66150,
         "matrix_products": 66150,
         "checkpoint_loads": 2
-      }
+      },
+      "run_id": "kiki_machine_local_topology_damping_fit_v1-fit-20261115T090530382303Z-9389f3db-ddaaae58",
+      "result_manifest_sha256": "1cfd1f8e37b741733df778e59a946633652b8f88040a039ea64fe0e6da09736a",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_damping_fit_20261115_evidence.json",
+      "result_receipt_sha256": "28d3aaf22e937a3b238e33b49dc0c24d0b0429ddd0e31b55f0e0507b7d6769b4",
+      "result_review_path": "docs/research/kiki_machine_local_topology_damping_fit_result_review_20261115.json",
+      "result_review_sha256": "627b7ff97b82abacbc3c84ad1b06f3514161d5236b4e5d237d648d53ad820969",
+      "scientific_pass": false
     }
   },
   "archived_development_results": {
@@ -4499,6 +4506,34 @@
       "result_review_sha256": "42b506c64a24797007cfc3ae69a48431af841c930736e5e1c86cee64a4e61196",
       "scientific_pass": false,
       "val_guard": false
+    },
+    "kiki_machine_local_topology_damping_test_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_damping_test_v1",
+      "authority": "operator_full_task3_autonomous_accuracy_goal",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_damping_test_v1.json",
+      "plan_sha256": "b889c69aec85750282593ab4015e3274702b253f5f55af0dbbde1477e20814cb",
+      "review_path": "docs/research/kiki_machine_local_topology_damping_test_v1_review_20261115.json",
+      "review_sha256": "cd5c8acef34941048eebff871cf3b977f9ae748c21bb50d6e6871cff7d91c2a0",
+      "operation_limits": {
+        "rollouts": 1106,
+        "torch_rhs": 3261120,
+        "tangent_rhs": 189600,
+        "qr": 1520,
+        "svd": 1520,
+        "triangular_solves": 1520,
+        "matrix_products": 1520,
+        "checkpoint_loads": 2
+      },
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "frozen_model_manifest": {
+        "path": "results/kiki_machine_local_topology_damping_fit_v1-fit-20261115T090530382303Z-9389f3db-ddaaae58/freeze.json",
+        "sha256": "abac944b0181e64d87d2ea1cca9e07a7da88afc8771c3b38306d0e65e12d67a2"
+      }
     }
   },
   "round_evaluation_defaults": {
