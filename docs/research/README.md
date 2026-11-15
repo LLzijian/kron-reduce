@@ -37,8 +37,12 @@ The [five-point witness audit](../reports/kiki_task3_train_witness_20261115_zh.m
 found a physical witness within the available three-second interval in all 35
 officially unstable train events. Each radius reproduced it in six events in the
 matched interval. A CUDA gradient check passed through the existing history
-initializer and rollout. The next step is a paired known-truth training check
-of the trajectory-margin loss.
+initializer and rollout. The [paired known-truth training check](../reports/machine_local_topology_margin_20261115_zh.md)
+completed both twenty-update fits and all 24 synthetic events. The margin term
+changed the val unstable margin RMSE by 0.041% relative to the trajectory-only
+fit. Both fits recovered all matched triggers and classified the six val events.
+The margin improvement gate failed. The next preparation examines gradient
+contributions and synthetic excitations near the five-point decision boundary.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across

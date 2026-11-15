@@ -1,0 +1,91 @@
+{
+  "schema": "machine_local_topology_margin_result_review.v1",
+  "verified": true,
+  "run_id": "machine_local_topology_margin_v2-margin_v2-20261115T072851312779Z-b523e31a-05f7989b",
+  "summary_sha256": "3f79da040da3f99e1221810ad5ee48748405c2c16c9a70e1c02f7cf1ea0c191e",
+  "plan_path": "configs/proposals/machine_local_topology_margin_v2.json",
+  "plan_sha256": "554e3495a29f5ed2bdaf251cc8121ba6fe335d203a1cc49de5c403136c6fb984",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "decision": "VERIFY_COMPLETED_SCOPE_SCIENTIFIC_GATE_NOT_MET_KEEP_BASELINE",
+  "evidence": {
+    "completed_updates": {
+      "trajectory": 20,
+      "margin": 20
+    },
+    "saved_model_roles": {
+      "val": 6,
+      "models": [
+        "initial",
+        "trajectory",
+        "margin"
+      ],
+      "test": 6,
+      "train": 12
+    },
+    "val_unstable_matched_margin_rmse": {
+      "initial": 0.00024940142323775946,
+      "margin": 0.00017997056813336547,
+      "trajectory": 0.0001800449971024969
+    },
+    "val_relative_improvement_percent": 0.04133909318738693,
+    "preregistered_required_improvement_percent": 5.0,
+    "preregistered_maximum_candidate_rmse": 0.00017104274724737205,
+    "gates": {
+      "matched_unstable": false,
+      "matched_triggers": true,
+      "trajectory": true,
+      "coverage_and_stability": true
+    },
+    "val_endpoint_stability": {
+      "trajectory": {
+        "fp": 0,
+        "tn": 3,
+        "resolved": 6,
+        "tp": 3,
+        "fn": 0
+      },
+      "margin": {
+        "fp": 0,
+        "tn": 3,
+        "resolved": 6,
+        "tp": 3,
+        "fn": 0
+      }
+    },
+    "operation_counts": {
+      "numpy_rhs": 77760,
+      "fits": 2,
+      "rollouts": 322,
+      "tangent_rhs": 23200,
+      "torch_rhs": 239043,
+      "qr": 3120,
+      "svd": 3120,
+      "matrix_products": 3120,
+      "triangular_solves": 3120,
+      "gradients": 43,
+      "optimizer_updates": 40
+    },
+    "primary_interpretation": "The added unit-weight margin objective preserves the registered coverage, trigger and trajectory guards, but does not meet the predeclared val margin-improvement criterion."
+  },
+  "independent_verification": [
+    "Verified the exact summary hash and all 13 saved JSON/JSONL artifact hashes. The manifest lists 20 artifacts; the coordinator separately verified all artifact hashes. No NPZ archive was opened or decoded in this review.",
+    "Verified each saved model has 24 unique event IDs and complete train=12, val=6 and test=6 role reports. Only train and val performance values entered this review decision.",
+    "Recomputed unstable matched-margin RMSE for train and val from the saved per-event signed margins for all three models, and matched the score files and summary.",
+    "Independently reproduced the failed 0.95 RMSE-ratio criterion and the three passing val guard gates, including the pooled 3/8-second trajectory comparisons.",
+    "Verified both fit traces contain 20 completed updates with no fitting failure. Actual counters exactly match forty training predictions, six complete-batch frozen-model predictions and three energy checks, with no individual-isolation calls."
+  ],
+  "next_route": {
+    "status": "DESIGN_ONLY_REQUIRES_SEPARATE_REGISTRATION",
+    "mechanism_diagnosis": "On the complete synthetic train roster, inspect the trajectory and margin parameter-gradient norms, their alignment, and the algebraic Adam update directions at the common frozen initial state. Loss magnitudes alone do not establish why the objectives produce similar updates.",
+    "single_candidate_change": "If the gradient diagnosis supports a scale mismatch, consider one margin weight computed once as the complete-train trajectory-gradient norm divided by the complete-train margin-gradient norm, then freeze it. Reject a degenerate or effectively unchanged update direction instead of sweeping weights.",
+    "validation_design": "Preregister a new near-threshold synthetic excitation design with every declared case retained and no outcome-based resampling. Keep the frozen physical classification rule and the complete 8-second coverage, false-alarm and trajectory guards.",
+    "evidence_boundary": "The current initial train and val models already trigger every matched positive witness, so this completed experiment does not measure recovery of missed-instability cases. No real-data training, val/test threshold change or follow-up scientific execution is approved here."
+  },
+  "reviewer_execution": {
+    "npz_decodes": 0,
+    "model_calls": 0,
+    "raw_cache_opens": 0,
+    "scientific_runs": 0
+  }
+}
