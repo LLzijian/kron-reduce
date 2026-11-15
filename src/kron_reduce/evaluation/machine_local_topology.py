@@ -68,7 +68,11 @@ def energy_residual(model, state, power, equilibrium, spend):
         derivative = model.rhs(x, power, equilibrium)
     v = x[:, 10:20]
     z = x[:, 20:20+model.memory_dimension]
-    expected = (v*(power-v@model.effective_damping.T)).sum(-1)-(z.square()/model.tau).sum(-1)
+    damping_force = v@model.effective_damping.T
+    if model.angle_damping_rho:
+        s = (x[:, :10]@model.incidence).square().mean(dim=-1, keepdim=True)
+        damping_force = (1.-model.angle_damping_rho*s/(1.+s))*damping_force
+    expected = (v*(power-damping_force)).sum(-1)-(z.square()/model.tau).sum(-1)
     terms = gradient*derivative
     return float(((terms.sum(-1)-expected).abs()/terms.abs().sum(-1).clamp_min(1.)).max().detach())
 

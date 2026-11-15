@@ -19,7 +19,7 @@ def parameters():
     return mass, k0, damping, g, tau, equilibrium
 
 
-def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend):
+def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_damping_rho=0.):
     """Integrate batched visible and optional latent states at a 10 ms frame rate."""
     mass, k0, damping, g, tau, equilibrium = (np.asarray(x, dtype=np.float64) for x in params)
     q, v, power, a, z = (np.asarray(x, dtype=np.float64) for x in (q, v, power, a, z))
@@ -28,7 +28,8 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend):
             or a.shape != q.shape or z.ndim != 2 or z.shape[0] != batch
             or mass.shape != (_N,) or damping.shape != (_N, _N) or g.shape != (_N,)
             or equilibrium.shape != (_N,) or k0.shape != (len(_EDGES),)
-            or z.shape[1] > len(tau) or count < 1 or max_step <= 0):
+            or z.shape[1] > len(tau) or count < 1 or max_step <= 0
+            or not 0. <= angle_damping_rho <= 2./3.):
         raise ValueError("incompatible topology truth inputs")
     if not all(np.isfinite(x).all() for x in (mass, k0, damping, g, tau, equilibrium, q, v, power, a, z)):
         raise ValueError("topology truth inputs must be finite")
@@ -48,7 +49,11 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend):
         xq, xv, xz = x[:, :_N], x[:, _N:2*_N], x[:, 2*_N:]
         edge = xq[:, _EDGES[:, 0]] - xq[:, _EDGES[:, 1]]
         force = power - (edge_k * (np.sin(edge + ref) - np.sin(ref))) @ incidence.T
-        force -= xv @ damping.T
+        drag = xv @ damping.T
+        if angle_damping_rho:
+            s = np.mean(edge**2, axis=1, keepdims=True)
+            drag *= 1.-angle_damping_rho*s/(1.+s)
+        force -= drag
         if xz.shape[1]:
             force -= xz @ coupling.T
             dz = xv @ coupling - xz/tau
