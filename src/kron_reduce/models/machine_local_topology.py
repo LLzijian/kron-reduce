@@ -4,7 +4,7 @@ from __future__ import annotations
 import numpy as np
 import torch
 
-from kron_reduce.models.differentiable_history import solve_hidden_batch
+from kron_reduce.models.differentiable_history import solve_hidden_ball, solve_hidden_batch
 from kron_reduce.models.machine_local import DiagonalMemoryModel
 from kron_reduce.models.nonlinear_history import history_with_tangent
 
@@ -107,8 +107,51 @@ def _ball(x, radius):
     return x*(radius/magnitude.clamp_min(radius))
 
 
+@torch.no_grad()
+def _memory_ball_update(model, hidden, design, residual, observed, power, equilibrium, scale, prior, *,
+                        radius, max_step, spend):
+    spend("svd", len(hidden))
+    observed_singular = torch.linalg.svdvals(design)
+    spend("matrix_products", len(hidden))
+    rhs = residual+(design @ hidden.unsqueeze(-1)).squeeze(-1)
+    cost = residual.square().sum(dim=1)
+    if prior is not None:
+        design = torch.cat((design, torch.diag(prior).expand(len(hidden), -1, -1)), dim=1)
+        rhs = torch.cat((rhs, torch.zeros_like(hidden)), dim=1)
+        cost = cost+(prior*hidden).square().sum(dim=1)
+    fit = solve_hidden_ball(design, rhs, radius, spend=spend)
+    chosen, chosen_cost = hidden, cost
+    accepted_step = torch.zeros_like(cost)
+    trial_failures = torch.zeros_like(cost, dtype=torch.int64)
+    for halving in range(9):
+        pending = accepted_step == 0
+        step = 2.**(-halving)
+        trial = torch.where(pending[:, None], torch.lerp(hidden, fit["hidden_start"], step), chosen)
+        try:
+            history = model.rollout(torch.cat((observed[:, 0], trial), dim=1), power, equilibrium, 10,
+                                    max_step=max_step, spend=spend)
+        except FloatingPointError:
+            # The scorer isolates a failed batch; only the failing event backs off.
+            if len(hidden) > 1:
+                raise
+            trial_failures += 1
+            continue
+        trial_cost = ((observed[:, 1:]-history[:, 1:, :2*model.n_nodes])/scale).square().sum(dim=(1, 2))
+        if prior is not None:
+            trial_cost = trial_cost+(prior*trial).square().sum(dim=1)
+        accept = pending & (trial_cost <= cost)
+        chosen = torch.where(accept[:, None], trial, chosen)
+        chosen_cost = torch.where(accept, trial_cost, chosen_cost)
+        accepted_step = torch.where(accept, step, accepted_step)
+        if (accepted_step > 0).all():
+            break
+    diagnostics = {"observed_singular": observed_singular, "multipliers": fit["multipliers"], "kkt": fit["kkt"],
+                   "before": cost, "after": chosen_cost, "step": accepted_step, "trial_failures": trial_failures}
+    return chosen, fit["singular"], diagnostics
+
+
 def predict_from_topology_history(model, q, v, power, equilibrium, scale, count, *, max_step, spend,
-                                  memory_radius=1., prior_weight=0.):
+                                  memory_radius=1., prior_weight=0., exact_memory_ball=False):
     """Estimate both latent blocks from the same eleven observations."""
     q, v, power, equilibrium, scale = map(model._tensor, (q, v, power, equilibrium, scale))
     n, r = model.n_nodes, model.memory_dimension
@@ -125,6 +168,9 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
     observed = torch.cat((q, v), dim=2)
     hidden = q.new_zeros((len(q), model.latent_dimension))
     singular = None
+    prior, diagnostics = None, []
+    if exact_memory_ball and (not r or model.topology_dimension):
+        raise ValueError("the exact ball candidate requires memory with fixed topology")
     if prior_weight:
         radii = q.new_tensor([memory_radius]*r + [.6]*model.topology_dimension)
         prior = np.sqrt(prior_weight*10*2*n)/radii
@@ -134,6 +180,12 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
             history, tangent = history_with_tangent(model, initial, power, equilibrium, max_step=max_step, spend=spend)
             design = (tangent[:, 1:, :2*n]/scale[None, None, :, None]).flatten(1, 2)
             residual = ((observed[:, 1:]-history[:, 1:, :2*n])/scale).flatten(1)
+            if exact_memory_ball:
+                hidden, singular, record = _memory_ball_update(
+                    model, hidden, design, residual, observed, power, equilibrium, scale, prior,
+                    radius=memory_radius, max_step=max_step, spend=spend)
+                diagnostics.append(record)
+                continue
             if prior_weight:
                 # The linearized solve penalizes the new absolute hidden state.
                 design = torch.cat((design, torch.diag(prior).expand(len(q), -1, -1)), dim=1)
@@ -146,4 +198,7 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
                             max_step=max_step, spend=spend)
     origin = torch.cat((observed[:, -1], history[:, -1, 2*n:]), dim=1)
     forecast = model.rollout(origin, power, equilibrium, count, max_step=max_step, spend=spend)
-    return {"hidden_start": hidden, "history": history, "forecast": forecast, "singular": singular}
+    result = {"hidden_start": hidden, "history": history, "forecast": forecast, "singular": singular}
+    if diagnostics:
+        result["history_ball"] = {name: torch.stack([row[name] for row in diagnostics]) for name in diagnostics[0]}
+    return result

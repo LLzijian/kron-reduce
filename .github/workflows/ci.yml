@@ -39,6 +39,7 @@ jobs:
           src/kron_reduce/evaluation/kiki_topology_bridge.py tests/test_kiki_topology_bridge.py
           src/kron_reduce/evaluation/kiki_machine_local_topology_radius.py src/kron_reduce/workflows/kiki_machine_local_topology_radius.py
           tests/test_kiki_topology_radius.py
+          src/kron_reduce/models/differentiable_history.py tests/test_constrained_history.py
           src/kron_reduce/models/machine_local_topology.py src/kron_reduce/workflows/machine_local_topology.py
           src/kron_reduce/evaluation/machine_local_topology.py src/kron_reduce/evaluation/machine_local_topology_truth.py
           src/kron_reduce/evaluation/machine_local_topology_learning.py
@@ -154,6 +155,7 @@ jobs:
           tests/test_machine_local_trainable_stiffness.py tests/test_kiki_machine_local_r20_r21.py
           tests/test_kiki_topology_bridge.py
           tests/test_kiki_topology_radius.py
+          tests/test_constrained_history.py tests/test_machine_local_topology_delayed_damping.py
           tests/test_machine_local_forecast.py tests/test_machine_local_stiffness_calibration.py
           tests/test_machine_local_hidden_oracle_saved_audit.py
           tests/test_task3_full.py tests/test_kiki_machine_local_full.py tests/test_kiki_machine_local_full_saved.py

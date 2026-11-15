@@ -3,7 +3,10 @@ import math
 import pytest
 import torch
 
-from kron_reduce.evaluation.machine_local_topology_delayed_damping import fit_profile, minimize_damping
+from kron_reduce.evaluation.machine_local_topology_delayed_damping import (
+    fit_profile,
+    minimize_damping,
+)
 
 
 class _Budget:

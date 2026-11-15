@@ -61,6 +61,30 @@ def test_initialization_ball_preserves_interior_and_bounds_exterior():
     assert torch.isfinite(x.grad).all()
 
 
+@torch.no_grad()
+def test_exact_memory_ball_uses_absolute_state_and_monotone_history_cost():
+    model = make_model(parameters(), "T0M1", "cpu")
+    x = model.mass.new_zeros((2, 30))
+    x[0, 20:] = .1
+    x[1, 20] = .001
+    zeros = model.mass.new_zeros((2, 10))
+    def spend(*_):
+        pass
+
+    radius = .1
+    measured = model.rollout(x, zeros, zeros, 10, max_step=.0025, spend=spend)
+    result = predict_from_topology_history(
+        model, measured[:, :, :10], measured[:, :, 10:20], zeros, zeros, model.mass.new_ones(20),
+        2, max_step=.0025, spend=spend, memory_radius=radius, exact_memory_ball=True)
+    diagnostic = result["history_ball"]
+    assert (diagnostic["after"] <= diagnostic["before"]).all()
+    assert (diagnostic["multipliers"][:, 0] > 0).all()
+    assert (diagnostic["multipliers"][:, 1] == 0).all()
+    torch.testing.assert_close(result["hidden_start"].norm(dim=1)[0], x.new_tensor(radius))
+    torch.testing.assert_close(result["hidden_start"][1], x[1, 20:], atol=1e-10, rtol=0)
+    torch.testing.assert_close(result["forecast"][:, 0, :20], measured[:, -1, :20])
+
+
 def test_shared_coefficient_gradient_through_causal_forecast():
     mass, k, d, g, tau, eq = params = parameters()
     cases = initial_cases()
