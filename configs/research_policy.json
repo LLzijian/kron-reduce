@@ -1632,6 +1632,35 @@
       "result_review_sha256": "1072945d974c6b14d8152b7c87b35125c4a404d672fb195e13c43f5b320a06ea",
       "engineering_pass": true,
       "scientific_pass": false
+    },
+    "kiki_machine_local_topology_spatial_coupling_v1_20261116": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_spatial_coupling_v1",
+      "authority": "operator_autonomous_full_train_spatial_coupling_diagnostic",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "train_cases": 346,
+      "source_cache_open_limit": 2,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_spatial_coupling_v1.json",
+      "plan_sha256": "d68a47790856093ce4deda7c2ad79a386e5d4d3a42e1b63d32e3bba57e03b000",
+      "review_path": "docs/research/kiki_machine_local_topology_spatial_coupling_v1_review_20261116.json",
+      "review_sha256": "4a0872d52e870cc6a02bc7a853a2835a04f41d66d38cebe573fbab7c57b74607",
+      "operation_limits": {
+        "checkpoint_loads": 2,
+        "svd": 14186,
+        "weak_intervals": 103800,
+        "quad_check_intervals": 103800,
+        "numpy_damping_roots": 1,
+        "dynamic_intervals": 214520,
+        "dynamic_rhs": 2574240,
+        "rollouts": 9996,
+        "torch_rhs": 2056320,
+        "tangent_rhs": 1713600,
+        "qr": 13840,
+        "matrix_products": 13840,
+        "triangular_solves": 13840
+      }
     }
   },
   "archived_development_results": {

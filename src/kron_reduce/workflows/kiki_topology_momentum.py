@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import subprocess
 import sys
 from importlib.metadata import version
@@ -27,14 +28,15 @@ SPATIAL_FIT = "kiki_machine_local_topology_spatial_damping_fit_v1"
 MODAL = "kiki_machine_local_topology_modal_damping_v1"
 RESTORING = "kiki_machine_local_topology_restoring_shape_fit_v1"
 DYNAMIC = "kiki_machine_local_topology_dynamic_coupling_v1"
-GPU_STUDIES = (ANGLE_SCALE, MODAL, DYNAMIC)
+SPATIAL_COUPLING = "kiki_machine_local_topology_spatial_coupling_v1"
+GPU_STUDIES = (ANGLE_SCALE, MODAL, DYNAMIC, SPATIAL_COUPLING)
 CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer", ANGLE_FIT: "angle_damping_fit",
              ANGLE_SCALE: "angle_scale", SPATIAL_FIT: "spatial_damping_fit", MODAL: "modal_damping",
-             RESTORING: "restoring_shape_fit", DYNAMIC: "dynamic_coupling"}
+             RESTORING: "restoring_shape_fit", DYNAMIC: "dynamic_coupling", SPATIAL_COUPLING: "spatial_coupling"}
 
 
 def _authority(name):
-    return name+("_20261116" if name == DYNAMIC else "_20261115")
+    return name+("_20261116" if name in (DYNAMIC, SPATIAL_COUPLING) else "_20261115")
 
 
 def authorize(root, name=NAME):
@@ -67,7 +69,8 @@ def authorize(root, name=NAME):
         verify_bound_file(root, path, digest)
     known_truth = {ANGLE_FIT: "angle_damping", ANGLE_SCALE: "angle_damping", SPATIAL_FIT: "spatial_damping",
                    MODAL: "spatial_damping", RESTORING: "restoring_shape"}
-    synthetic = ("machine_local_topology_dynamic_coupling_v1_20261116" if name == DYNAMIC
+    synthetic = ("machine_local_topology_spatial_coupling_causal_v1_20261116" if name == SPATIAL_COUPLING
+                 else "machine_local_topology_dynamic_coupling_v1_20261116" if name == DYNAMIC
                  else f"machine_local_topology_{known_truth.get(name, 'momentum')}_v1_20261115")
     truth = policy["bounded_synthetic_evaluations"][synthetic]
     if (truth["status"] != "consumed" or truth["scientific_pass"] is not True
@@ -77,6 +80,18 @@ def authorize(root, name=NAME):
     if name == DYNAMIC and (plan["coupling"] != {"rate": 1., "limit": .34657359027997265}
                             or synthetic_result["populations"]["dynamic"]["fit"]["dynamic"]["value"] != 1.):
         raise RuntimeError("fixed observed-path coupling direction must match the known-truth rate")
+    if name == SPATIAL_COUPLING:
+        spatial = {"rate": 1., "limit": math.log(2.)/math.sqrt(1.6), "spatial": True}
+        review_ref = {"path": truth["result_review_path"], "sha256": truth["result_review_sha256"]}
+        synthetic_review = _bound_json(root, review_ref)
+        if (plan["coupling"] != spatial
+                or plan["synthetic_scope_id"] != synthetic or plan["synthetic_review"] != review_ref
+                or plan["forecast_counts"] != {"train": 0, "val": 0, "test": 0} or plan["fit_attempts"] != 0
+                or plan["gates"]["multiplier_bounds"] != [.5, 2.] or plan["gates"]["multiplier_tolerance"] != 1e-12
+                or synthetic_review["verified"] is not True or synthetic_review["scientific_pass"] is not True
+                or synthetic_review["run_id"] != synthetic_result["run_id"]
+                or synthetic_result["populations"]["spatial"]["fit"]["spatial"]["value"] != 1.):
+            raise RuntimeError("spatial diagnosis requires the independently verified causal control and exact train-only scope")
 
     anchor = policy["development_evaluations"]["kiki_machine_local_topology_fit_v1_20261115"]
     if anchor["status"] != "consumed":
@@ -176,6 +191,7 @@ def main():
     options.add_argument("--modal-damping", action="store_const", const=MODAL, dest="study")
     options.add_argument("--restoring-shape-fit", action="store_const", const=RESTORING, dest="study")
     options.add_argument("--dynamic-coupling", action="store_const", const=DYNAMIC, dest="study")
+    options.add_argument("--spatial-coupling", action="store_const", const=SPATIAL_COUPLING, dest="study")
     name = parser.parse_args().study or NAME
     root = project_root()
     with workflow_lock(root,name):

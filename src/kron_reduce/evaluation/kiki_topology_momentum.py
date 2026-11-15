@@ -29,16 +29,16 @@ from kron_reduce.evaluation.topology_momentum import (
     inspect_momentum,
     origin_transfer,
 )
+from kron_reduce.evaluation.topology_restoring_momentum import (
+    fit_restoring_train,
+    restoring_momentum,
+    restoring_sse,
+)
 from kron_reduce.evaluation.topology_spatial_momentum import (
     fit_spatial_train,
     spatial_damping_root,
     spatial_momentum,
     spatial_sse,
-)
-from kron_reduce.evaluation.topology_restoring_momentum import (
-    fit_restoring_train,
-    restoring_momentum,
-    restoring_sse,
 )
 from kron_reduce.evaluation.train_mechanism_audit import _row_margin, _window_result
 from kron_reduce.models.nonlinear_latent import LearnedNonlinearModel
@@ -406,6 +406,7 @@ def _dynamic_coupling_diagnosis(directory, events, model, blocks, plan, budget):
                 result = coupling_residuals(path, event["p0"], event["equilibrium"], blocks, DT, budget.spend,
                                             origins, root=root, **settings)
                 row.update(result, qualified=result["rank"] == 10
+                           and result.get("spatial_geometry_qualified", True)
                            and all(result["gaps"][key] <= value for key, value in limits["gaps"].items()))
             except (FloatingPointError, np.linalg.LinAlgError) as error:
                 row.update(qualified=False, reason=str(error))
@@ -445,7 +446,7 @@ def execute(root, directory, plan, budget):
         raise PermissionError("momentum audit is restricted to the official train role")
     roster = sources["rosters"]["train"]
     contrast = plan.get("contrast", "force_blocks")
-    fixed_origin = ("angle_scale", "modal_damping", "dynamic_coupling")
+    fixed_origin = ("angle_scale", "modal_damping", "dynamic_coupling", "spatial_coupling")
     contrasts = ("force_blocks", "origin_transfer", "angle_damping_fit", "spatial_damping_fit", "restoring_shape_fit",
                  *fixed_origin)
     if len(roster) != TRAIN_COUNT or contrast not in contrasts:
@@ -491,7 +492,7 @@ def execute(root, directory, plan, budget):
             return _origin_contrast(directory, events, blocks, radius, budget) | {"trajectory_lengths": lengths}
         if contrast == "angle_damping_fit":
             return _angle_fit(directory, events, blocks, radius, budget)
-        if contrast == "dynamic_coupling":
+        if contrast in ("dynamic_coupling", "spatial_coupling"):
             return _dynamic_coupling_diagnosis(directory, events, model, blocks, plan, budget)
         if contrast in fixed_origin:
             return _fixed_origin_diagnosis(directory, events, model, blocks, plan, budget)

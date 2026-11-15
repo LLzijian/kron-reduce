@@ -1,0 +1,4 @@
+task_type = "task3_train_spatial_coupling"
+dataset = "kiki_ieee39_v1"
+plan = "configs/proposals/kiki_machine_local_topology_spatial_coupling_v1.json"
+stage = "train_momentum"
