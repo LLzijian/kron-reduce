@@ -4158,6 +4158,28 @@
       "result_review_sha256": "1e29cc8a0758c31d49dce66fdee6db1aa7889d71610c806fbe6982d6cac4e1f7",
       "engineering_pass": true,
       "scientific_pass": false
+    },
+    "machine_local_topology_momentum_v1_20261115": {
+      "experiment": "machine_local_topology_momentum_v1",
+      "workflow": "machine_local_topology_momentum_v1",
+      "stage": "momentum",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "npz_decodes": 1,
+        "svd": 480,
+        "ball_solves": 48,
+        "weak_intervals": 141360
+      },
+      "status": "active",
+      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
+      "plan_path": "configs/proposals/machine_local_topology_momentum_v1.json",
+      "plan_sha256": "23a800cb8204eded71f86d4badf5967e2e2eab671dcd46f1ea295d1d50ed96e5",
+      "review_path": "docs/research/machine_local_topology_momentum_v1_review_20261115.json",
+      "review_sha256": "544232a6e03a24ce34a41e0beafac3e72e7f6f4905fa375e40fba7adc111bc06"
     }
   },
   "saved_evidence_audits": {
