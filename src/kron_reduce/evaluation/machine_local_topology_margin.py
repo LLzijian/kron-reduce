@@ -49,26 +49,31 @@ def margin(path, equilibrium, mass, lengths):
                                torch.as_tensor(lengths, dtype=torch.int64, device=path.device))
 
 
+def training_losses(model, visible, power, equilibrium, lengths, scale, hscale, target_margin, spend):
+    history = visible[:, :HISTORY_FRAMES]
+    forecast = predict_from_topology_history(
+        model, history[:, :, :10], history[:, :, 10:], power, equilibrium, hscale, MAX_FRAMES,
+        max_step=.005, spend=spend,
+    )["forecast"][..., :20]
+    weights = visible.new_full((len(visible),), 1./len(visible))
+    trajectory = loss(forecast, visible[:, HISTORY_FRAMES-1:], weights, scale, lengths)
+    predicted = margin(torch.cat((history, forecast[:, 1:]), dim=1), equilibrium, model.mass, lengths)
+    return trajectory, (predicted-target_margin).square().mean(), predicted
+
+
 def fit(model, visible, power, equilibrium, lengths, scale, hscale, settings, weight, budget):
     """Use the same complete train update for both objectives."""
     optimizer = torch.optim.Adam(model.parameters(), lr=settings["learning_rate"], foreach=False, fused=False)
     trace, failure = [], None
-    history = visible[:, :HISTORY_FRAMES]
-    target = visible[:, HISTORY_FRAMES-1:]
-    weights = visible.new_full((len(visible),), 1./len(visible))
     target_margin = margin(visible, equilibrium, model.mass, lengths)
     budget.spend("fits")
     for update in range(1, settings["updates"]+1):
         before = snapshot(model)
         optimizer.zero_grad(set_to_none=True)
         try:
-            forecast = predict_from_topology_history(
-                model, history[:, :, :10], history[:, :, 10:], power, equilibrium, hscale, MAX_FRAMES,
-                max_step=.005, spend=budget.spend,
-            )["forecast"][..., :20]
-            trajectory = loss(forecast, target, weights, scale, lengths)
-            predicted_margin = margin(torch.cat((history, forecast[:, 1:]), dim=1), equilibrium, model.mass, lengths)
-            margin_mse = (predicted_margin-target_margin).square().mean()
+            trajectory, margin_mse, _ = training_losses(
+                model, visible, power, equilibrium, lengths, scale, hscale, target_margin, budget.spend,
+            )
             objective = trajectory+weight*margin_mse
             if not torch.isfinite(objective):
                 raise FloatingPointError("nonfinite paired training loss")
@@ -153,13 +158,18 @@ def save_equation(model, directory, name):
 
 def execute(root, directory, plan, budget):
     cases, params = transfer_cases(plan), parameters()
+    power, a = cases["power"], np.zeros_like(cases["a"])
+    fine, truth = (truth_rollout(params, cases["q"], cases["v"], power, a, cases["z"], count=810,
+                                 max_step=step, spend=budget.spend) for step in (.00125, .000625))
+    return evaluate_pair(directory, plan, budget, cases, params, fine, truth)
+
+
+def evaluate_pair(directory, plan, budget, cases, params, fine, truth, *, calibration=None):
     mass, k, d, _, _, ref = params
     roles = np.array(cases["roles"])
     is_train, development = roles == "train", roles != "test"
     power, a = cases["power"], np.zeros_like(cases["a"])
     equilibrium = np.broadcast_to(ref, power.shape).copy()
-    fine, truth = (truth_rollout(params, cases["q"], cases["v"], power, a, cases["z"], count=810,
-                                 max_step=step, spend=budget.spend) for step in (.00125, .000625))
     train = truth[is_train, :, :20]
     hscale = np.maximum(np.sqrt(np.mean(train[:, :HISTORY_FRAMES]**2, axis=(0, 1))), 1e-4)
     classes = [[classify(t[:11, :10], t[:11, 10:20], t[10:, :20], ref, mass) for t in path]
@@ -199,11 +209,16 @@ def execute(root, directory, plan, budget):
         initial.log_damping_factor.fill_(math.log(start["damping_scale"]))
     p, eq = initial._tensor(power), initial._tensor(equilibrium)
     train_visible = initial._tensor(train[:, :HISTORY_FRAMES+MAX_FRAMES])
+    batch = (train_visible, p[is_train], eq[is_train], lengths, scale, hscale)
+    selection = None if calibration is None else calibration(initial, *batch, settings, budget)
+    if selection is not None:
+        write_json(directory/"gradient-calibration.json", selection)
+    weight = settings["margin_weight"] if selection is None else selection["weight"]
     frozen, traces = {"initial": initial}, {}
-    for name, weight in (("trajectory", 0.), ("margin", settings["margin_weight"])):
+    objectives = () if weight is None else (("trajectory", 0.), ("margin", weight))
+    for name, coefficient in objectives:
         model = deepcopy(initial)
-        traces[name] = fit(model, train_visible, p[is_train], eq[is_train], lengths, scale, hscale,
-                           settings, weight, budget)
+        traces[name] = fit(model, *batch, settings, coefficient, budget)
         write_json(directory/f"{name}-fit.json", traces[name])
         frozen[name] = model
     for name, model in frozen.items():
@@ -222,9 +237,17 @@ def execute(root, directory, plan, budget):
         results[name] = result
     engineering = all(result["energy_residual_max"] <= 1e-10 for result in results.values()) and all(
         row["completed_updates"] == settings["updates"] for row in traces.values())
-    gates = compare(results["initial"], results["trajectory"], results["margin"], plan["gates"])
+    gates = (compare(results["initial"], results["trajectory"], results["margin"], plan["gates"])
+             if objectives else {"calibration": False})
+    if selection is not None and objectives:
+        a, b = (results[name]["roles"]["train"]["matched_margin"]["unstable"] for name in ("trajectory", "margin"))
+        positive = plan["cohorts"]["train"]//2
+        gates["train_witness_recovery"] = all(
+            row["qualified"] == row["allocated"] == row["truth_triggers"] == positive for row in (a, b)
+        ) and b["predicted_triggers"] > a["predicted_triggers"]
     return {"engineering_pass": engineering, "scientific_pass": engineering and all(gates.values()),
             "claim_boundary": boundary, "gates": gates,
+            **({"gradient_calibration": selection} if selection is not None else {}),
             "models": {name: {"roles": result["roles"], "energy_residual_max": result["energy_residual_max"]}
                        for name, result in results.items()},
             "fit_updates": {name: row["completed_updates"] for name, row in traces.items()}}

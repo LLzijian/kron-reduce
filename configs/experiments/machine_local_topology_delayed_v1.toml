@@ -1,0 +1,13 @@
+task_type = "machine_local_topology"
+data_policy = "analytic_synthetic_only"
+dataset = "synthetic_benchmark_registry_v1"
+authorization = "machine_local_topology_delayed_v1_20261115"
+workflow = "machine_local_topology_delayed_v1"
+stage = "delayed"
+execution_mode = "bounded_synthetic_cli_only"
+protocol = "docs/protocols/machine_local_topology_delayed_v1_zh.md"
+plan = "configs/proposals/machine_local_topology_delayed_v1.json"
+real_data_reads = 0
+fit_attempts = 2
+max_executions = 1
+retry_allowed = false
