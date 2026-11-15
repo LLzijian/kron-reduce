@@ -4215,9 +4215,9 @@
         "checkpoint_loads": 2
       },
       "plan_path": "configs/proposals/kiki_machine_local_topology_radius_test_v1.json",
-      "plan_sha256": "1e5952d136b1ce462715688d79e19c427e8eaee400043c415d3423a524203222",
+      "plan_sha256": "88fec9dd5f1c452d3a30e018190c8462d787c26cff253188bfda6e4f5e9ca729",
       "review_path": "docs/research/kiki_machine_local_topology_radius_test_review_20261115.json",
-      "review_sha256": "510228d6090428d84d480be96a938d2372166440ecc14ef200333f18662cff89"
+      "review_sha256": "0ea72af429cc19c986923f2faf06b48af659157ce3a0bfec2284e0f7b83288e1"
     }
   },
   "round_evaluation_defaults": {

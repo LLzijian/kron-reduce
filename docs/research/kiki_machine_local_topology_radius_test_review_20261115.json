@@ -7,7 +7,7 @@
   "review_completed": true,
   "decision": "APPROVE_EXACT_FROZEN_RADIUS_INTERVENTION_FULL_TASK3_COHORTS",
   "plan_path": "configs/proposals/kiki_machine_local_topology_radius_test_v1.json",
-  "plan_sha256": "1e5952d136b1ce462715688d79e19c427e8eaee400043c415d3423a524203222",
+  "plan_sha256": "88fec9dd5f1c452d3a30e018190c8462d787c26cff253188bfda6e4f5e9ca729",
   "implementation_bindings": {
     "configs/experiments/kiki_machine_local_topology_radius_test_v1.toml": "b442fdb243334c345ce15b3571efedb82aedda7c727d11f1286ad99796033975",
     "configs/experiments/kiki_machine_local_topology_test_v1.toml": "5a1ff2c0628ac9c94c2cf9195030511a1c116e0bf628b955a93844a99610052b",
@@ -53,11 +53,11 @@
     "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
     "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
     "src/kron_reduce/workflows/kiki_machine_local_topology.py": "5444e76c7d7e3574ff9336836c13d438fff78cada2402e56db946a31f22babf2",
-    "src/kron_reduce/workflows/kiki_machine_local_topology_radius.py": "94bc18022002118c1e239900f93509e8f071a78f9cefb7b6d657a030190085b4",
+    "src/kron_reduce/workflows/kiki_machine_local_topology_radius.py": "41a734b3b7cc4872d695749fcf258f0221fd412cd0199c9ccbc88386fb37f26f",
     "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
     "src/kron_reduce/workflows/machine_local_equation.py": "1fc52cd7636f757acef005b8690e93d67d593aa884c0bf146b56153fa265adb0",
     "tests/test_kiki_topology_bridge.py": "4071c265963d12d6cdeed047a58fc14ffef8c511187a7c9f3ea0f773d7e82e62",
-    "tests/test_kiki_topology_radius.py": "6bce46e6766adc1a6e92d7cd3cb0f434c72a447c2037261b19563a35b5ddc18f",
+    "tests/test_kiki_topology_radius.py": "0b43afc4d4b684cbdcbebbef2e77fad82a63aec543f9ebcbf1adee84d8300ce3",
     "tests/test_machine_local_trainable_stiffness.py": "820a19c88e2e8a56130531753fc0ba3a58b4e008277e1acf8eff72555e0a0ee8",
     "tests/test_task3_full.py": "d0464312f8b2c1b5bc359a8761f12cf38f09c276478d26044b79305de30ad2da"
   },
@@ -145,5 +145,17 @@
   "execution_conditions": [
     "Execution requires the exact active single-use scientific authorization, explicit stage approval, a clean committed checkout, pinned Python 3.12/CUDA dependencies, and the immutable run marker enforced by the registered entry point.",
     "The exposed TASK3 test roster remains a fixed comparison benchmark. This approval authorizes the frozen comparison and does not authorize retuning, additional candidates, retries, promotion or deployment changes."
-  ]
+  ],
+  "engineering_amendment": {
+    "supersedes_plan_sha256": "1e5952d136b1ce462715688d79e19c427e8eaee400043c415d3423a524203222",
+    "prior_review_sha256": "510228d6090428d84d480be96a938d2372166440ecc14ef200333f18662cff89",
+    "changed_bindings": [
+      "src/kron_reduce/workflows/kiki_machine_local_topology_radius.py",
+      "tests/test_kiki_topology_radius.py"
+    ],
+    "scientific_scope_unchanged": true,
+    "reason": "Prior result artifacts are intentionally untracked. The wrapper now verifies them as safe files confined to results with their exact archived SHA-256, while tracked contracts, implementation files and review records retain working-file plus HEAD verification.",
+    "validation": "The new helper rejects absent files, leaf symlinks, paths outside results and hash mismatches. Existing provenance checks still tie score JSON, anchor freeze, checkpoint index, selected checkpoint and preprocessing to consumed receipts. The added regression verifies acceptance of an untracked artifact and rejection after its bytes change.",
+    "preflight_boundary": "The previous failure occurred in authorization before experiment dispatch; the revised helper changes artifact verification and does not change model evaluation, data access, budgets or scientific selection."
+  }
 }

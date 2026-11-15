@@ -199,11 +199,11 @@
     "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
     "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
     "src/kron_reduce/workflows/kiki_machine_local_topology.py": "5444e76c7d7e3574ff9336836c13d438fff78cada2402e56db946a31f22babf2",
-    "src/kron_reduce/workflows/kiki_machine_local_topology_radius.py": "94bc18022002118c1e239900f93509e8f071a78f9cefb7b6d657a030190085b4",
+    "src/kron_reduce/workflows/kiki_machine_local_topology_radius.py": "41a734b3b7cc4872d695749fcf258f0221fd412cd0199c9ccbc88386fb37f26f",
     "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
     "src/kron_reduce/workflows/machine_local_equation.py": "1fc52cd7636f757acef005b8690e93d67d593aa884c0bf146b56153fa265adb0",
     "tests/test_kiki_topology_bridge.py": "4071c265963d12d6cdeed047a58fc14ffef8c511187a7c9f3ea0f773d7e82e62",
-    "tests/test_kiki_topology_radius.py": "6bce46e6766adc1a6e92d7cd3cb0f434c72a447c2037261b19563a35b5ddc18f",
+    "tests/test_kiki_topology_radius.py": "0b43afc4d4b684cbdcbebbef2e77fad82a63aec543f9ebcbf1adee84d8300ce3",
     "tests/test_machine_local_trainable_stiffness.py": "820a19c88e2e8a56130531753fc0ba3a58b4e008277e1acf8eff72555e0a0ee8",
     "tests/test_task3_full.py": "d0464312f8b2c1b5bc359a8761f12cf38f09c276478d26044b79305de30ad2da"
   }

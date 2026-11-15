@@ -8,7 +8,7 @@ from importlib.metadata import version
 from pathlib import Path
 
 from kron_reduce.workflows.machine_local_equation import _cuda_preflight
-from project_harness.evidence import sha256_file, verify_artifact_directory
+from project_harness.evidence import _safe_relative, sha256_file, verify_artifact_directory
 from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
@@ -24,6 +24,15 @@ MODULE = "kron_reduce.workflows.kiki_machine_local_topology_radius"
 def _bound_json(root, binding):
     verify_bound_file(root, binding["path"], binding["sha256"])
     return json.loads((root/binding["path"]).read_bytes())
+
+
+def _result_file(root, binding):
+    # Run artifacts live outside Git and are pinned by their archived digests.
+    path = _safe_relative(root, binding["path"])
+    if (not path.is_file() or path.is_symlink() or not path.resolve().is_relative_to(root/"results")
+            or sha256_file(path) != binding["sha256"]):
+        raise RuntimeError(f"frozen result artifact differs: {binding['path']}")
+    return path
 
 
 def radius_freeze(anchor, binding, checkpoint):
@@ -57,7 +66,7 @@ def _reference(root, policy, plan):
     if plan["reference"] != references:
         raise RuntimeError("radius comparison reference differs from the saved full-cohort records")
     for binding in references.values():
-        verify_bound_file(root, binding["path"], binding["sha256"])
+        _result_file(root, binding)
     binding = {key: receipts["fit"]["frozen_model_manifest"][key] for key in ("path", "sha256")}
     if any(receipts["test"]["frozen_model_manifest"][key] != binding[key] for key in binding):
         raise RuntimeError("test and development reference models differ")
@@ -67,13 +76,14 @@ def _reference(root, policy, plan):
     recomputed = _bound_json(root, {"path": audit["result_receipt_path"], "sha256": audit["result_receipt_sha256"]})
     if any(recomputed[f"{stage}_run_id"] != receipts[stage]["run_id"] for stage in receipts):
         raise RuntimeError("saved score audit bound different reference runs")
-    anchor = _bound_json(root, binding)
-    checkpoints = _bound_json(root, {"path": anchor["checkpoint_path"], "sha256": anchor["checkpoint_sha256"]})
+    anchor = json.loads(_result_file(root, binding).read_bytes())
+    index = _result_file(root, {"path": anchor["checkpoint_path"], "sha256": anchor["checkpoint_sha256"]})
+    checkpoints = json.loads(index.read_bytes())
     freeze = _bound_json(root, plan["frozen_model_manifest"])
     if freeze != radius_freeze(anchor, binding, checkpoints["T0M1"]) or plan["backbone"] != anchor["backbone"]:
         raise RuntimeError("radius intervention must keep the original T0M1 model and quadratic prior")
     for key in ("checkpoint", "preprocessing"):
-        verify_bound_file(root, freeze[f"{key}_path"], freeze[f"{key}_sha256"])
+        _result_file(root, {"path": freeze[f"{key}_path"], "sha256": freeze[f"{key}_sha256"]})
 
 
 def authorize(root):

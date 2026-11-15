@@ -1,7 +1,8 @@
 import pytest
 
 from kron_reduce.evaluation.kiki_machine_local_topology_radius import _validate_result
-from kron_reduce.workflows.kiki_machine_local_topology_radius import radius_freeze
+from kron_reduce.workflows.kiki_machine_local_topology_radius import _result_file, radius_freeze
+from project_harness.evidence import sha256_file
 
 
 def anchor_record():
@@ -28,6 +29,17 @@ def test_radius_freeze_rejects_inexact_anchor():
     anchor["training"]["groups"]["T0M1"]["selected_update"] = 0
     with pytest.raises(RuntimeError, match="exact selected T0M1 anchor"):
         radius_freeze(anchor, {}, {})
+
+
+def test_reference_file_uses_artifact_hash_without_git_tracking(tmp_path):
+    result = tmp_path/"results"/"reference.json"
+    result.parent.mkdir()
+    result.write_text("{}", encoding="utf-8")
+    binding = {"path": "results/reference.json", "sha256": sha256_file(result)}
+    assert _result_file(tmp_path, binding) == result
+    result.write_text("[]", encoding="utf-8")
+    with pytest.raises(RuntimeError, match="frozen result artifact differs"):
+        _result_file(tmp_path, binding)
 
 
 def test_radius_counts_missing_initializer_with_full_failure_record():
