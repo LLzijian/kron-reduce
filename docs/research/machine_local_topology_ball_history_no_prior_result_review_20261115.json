@@ -1,0 +1,147 @@
+{
+  "schema": "machine_local_topology_ball_history_no_prior_result_review.v1",
+  "verified": true,
+  "reviewer": "Astra Ultra",
+  "run_id": "machine_local_topology_ball_history_no_prior_v1-ball_history_no_prior-20261115T095113296778Z-4e86baea-b449a9d3",
+  "summary_sha256": "76b78fe291fe431b39f3409667d9a7812e4dbcb3f6dce61393183a3a90403768",
+  "artifact_manifest_sha256": "7a8211d3843722c4d37cb79d362720a5327866670b3014f5218aa46e2ade3f7d",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "verifier": {
+    "path": "scratch/one_off/machine_local_topology_ball_history_no_prior_20261115/verify_saved_json.py",
+    "sha256": "27af80360bbfe5ca35fc214998a802f3f719da729c31e8abcbacb7600e4e3e6d",
+    "exit_code": 0,
+    "artifact_count": 6
+  },
+  "checks": [
+    "独立只读核验六个本轮工件的字节哈希、源工件清单和源评分哈希、全部实现绑定及原始零先验clean_recovery前提。",
+    "完整48例来源限定ID、角色、真值与精确组复用身份一致；逐角色重算混淆计数、覆盖、未决和准确率，源精确组summary与保存scores一致。",
+    "逐条重算操作日志，实际14次传播、41280次Torch右端、2400次切线右端、各480次QR/SVD/三角求解/矩阵乘均在预算内；一次源NPZ解码、零拟合、零更新、零精确球求根。",
+    "根据两组保存事件的历史RMSE独立重算球外目标改善和触及半径标记，与paired-history-objective完全相同；仅用train和val重算全部门并与summary一致。",
+    "工程门通过；train和val的约束几何与稳定性门通过，3秒和8秒轨迹相对门均失败，scientific_pass保持false，不推进精确球求解。"
+  ],
+  "exact_to_radial_zero_nrmse_ratio": {
+    "train": {
+      "horizon_3s": 1.1777088664922157,
+      "horizon_8s": 1.1852737318443498
+    },
+    "val": {
+      "horizon_3s": 1.243054211789149,
+      "horizon_8s": 1.2375776532527378
+    }
+  },
+  "alternate_radial_prior_comparison": {
+    "source_scope": "保存的train和val；固定径向裁剪、方程、输入、半径及尺度，仅比较先验0和1e-6。",
+    "source_prior_run_id": "machine_local_topology_ball_history_v1-ball_history-20261115T094142724906Z-01f6e4da-6510defd",
+    "source_prior_score_sha256": "dfd26281c28b91e56ec37c701dec8d2f35868fdc3b31bea44e685b39f9bb6e93",
+    "train": {
+      "allocated": 24,
+      "correct": 24,
+      "numerical_failures": 0,
+      "unresolved": 0,
+      "zero_prior_nrmse_3s": 0.0020221315150575413,
+      "zero_prior_nrmse_8s": 0.001519320759925885,
+      "prior_1e6_nrmse_3s": 0.0024721173351662856,
+      "prior_1e6_nrmse_8s": 0.0018679012033839745,
+      "zero_to_prior_ratio_3s": 0.8179755411656153,
+      "zero_to_prior_ratio_8s": 0.8133838969499108,
+      "feasible_cases": 18,
+      "max_feasible_nrmse_8s": 2.569600658043936E-11,
+      "max_interior_relative_hidden_start": 4.3188139521607016E-09,
+      "max_interior_relative_hidden_origin": 3.6784369565714783E-09,
+      "matched_unstable": 6,
+      "prior_matched_unstable": 6
+    },
+    "val": {
+      "allocated": 12,
+      "correct": 12,
+      "numerical_failures": 0,
+      "unresolved": 0,
+      "zero_prior_nrmse_3s": 0.0017493104149831956,
+      "zero_prior_nrmse_8s": 0.0013223374086304375,
+      "prior_1e6_nrmse_3s": 0.002332283868713147,
+      "prior_1e6_nrmse_8s": 0.0017564686826808164,
+      "zero_to_prior_ratio_3s": 0.750041810282892,
+      "zero_to_prior_ratio_8s": 0.7528385912421822,
+      "feasible_cases": 9,
+      "max_feasible_nrmse_8s": 1.9517131831392295E-11,
+      "max_interior_relative_hidden_start": 4.331364116675137E-09,
+      "max_interior_relative_hidden_origin": 3.687170651916793E-09,
+      "matched_unstable": 3,
+      "prior_matched_unstable": 3
+    }
+  },
+  "alternate_branch_review": {
+    "preparation_supported": true,
+    "execution_authorized": false,
+    "candidate": "原径向裁剪初始化，先验权重由1e-6改为0；不采用精确球求解。",
+    "minimum_saved_evidence_gate": [
+      "封存来源与单因素身份、完整train和val数值资格、稳定性与匹配失步不退步。",
+      "各角色3秒和8秒整体归一化RMSE不高于原径向1e-6条件；可行真值8秒误差及球内隐态相对误差保持既有1e-3恢复门。保存证据满足这些条件。",
+      "该对照属于train和val上的候选提取依据，不把它重写成原精确球方法通过，不声称独立人群或含噪确认；不需要重跑相同已保存合成对照。"
+    ],
+    "before_real_execution": "单独注册零拟合真实对照，固定原T0M1第12步权重、原半径6.61055385191009、历史与评分尺度、五次径向更新以及未增广秩和条件数政策；冻结候选后完整评价train346、val107、test76。秩不足、未决及数值失败明确保留，不暗中加回先验或放宽半径。test只报告。"
+  },
+  "reviewer_execution": {
+    "saved_json_and_byte_hashes_only": true,
+    "npz_decodes": 0,
+    "real_data_reads": 0,
+    "trajectory_or_simulation_executions": 0,
+    "fits": 0
+  },
+  "radial_zero_prior_support": {
+    "passed": true,
+    "scope": "独立核验的保存train和val先验单因素证据；原径向裁剪不变，比较权重0与1e-6。",
+    "candidate_prior_weight": 0.0,
+    "reference_prior_weight": 1E-06,
+    "radius": 1.0,
+    "weights_and_scales_unchanged": true,
+    "test_used_for_support": false,
+    "source_verified": true,
+    "gates": {
+      "complete_development_numerical_coverage": true,
+      "stability_and_matched_witnesses_not_degraded": true,
+      "nrmse_3s_8s_ratio_limit": 1.0,
+      "feasible_nrmse_8s_limit": 0.001,
+      "interior_relative_hidden_error_limit": 0.001
+    },
+    "train": {
+      "allocated": 24,
+      "correct": 24,
+      "numerical_failures": 0,
+      "unresolved": 0,
+      "zero_prior_nrmse_3s": 0.0020221315150575413,
+      "zero_prior_nrmse_8s": 0.001519320759925885,
+      "prior_1e6_nrmse_3s": 0.0024721173351662856,
+      "prior_1e6_nrmse_8s": 0.0018679012033839745,
+      "zero_to_prior_ratio_3s": 0.8179755411656153,
+      "zero_to_prior_ratio_8s": 0.8133838969499108,
+      "feasible_cases": 18,
+      "max_feasible_nrmse_8s": 2.569600658043936E-11,
+      "max_interior_relative_hidden_start": 4.3188139521607016E-09,
+      "max_interior_relative_hidden_origin": 3.6784369565714783E-09,
+      "matched_unstable": 6,
+      "prior_matched_unstable": 6
+    },
+    "val": {
+      "allocated": 12,
+      "correct": 12,
+      "numerical_failures": 0,
+      "unresolved": 0,
+      "zero_prior_nrmse_3s": 0.0017493104149831956,
+      "zero_prior_nrmse_8s": 0.0013223374086304375,
+      "prior_1e6_nrmse_3s": 0.002332283868713147,
+      "prior_1e6_nrmse_8s": 0.0017564686826808164,
+      "zero_to_prior_ratio_3s": 0.750041810282892,
+      "zero_to_prior_ratio_8s": 0.7528385912421822,
+      "feasible_cases": 9,
+      "max_feasible_nrmse_8s": 1.9517131831392295E-11,
+      "max_interior_relative_hidden_start": 4.331364116675137E-09,
+      "max_interior_relative_hidden_origin": 3.687170651916793E-09,
+      "matched_unstable": 3,
+      "prior_matched_unstable": 3
+    },
+    "interpretation": "支持独立注册原径向裁剪零先验的真实候选；本次精确球求解的scientific_pass仍为false，不覆盖前一轮精确候选失败，也不代替真实执行授权。"
+  }
+}

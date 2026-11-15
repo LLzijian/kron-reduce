@@ -149,6 +149,27 @@ def train(model, events, scales, budget, directory, settings):
             return done.value
 
 
+def _train_witnesses(events, predictions, stability_events):
+    from kron_reduce.evaluation.train_mechanism_audit import _row_margin, _window_result
+
+    witnesses = []
+    for i, event in enumerate(events):
+        if event["label"] != "unstable":
+            continue
+        count = min(300, len(event["x"])-11)
+
+        def score(path, event=event):
+            if not np.isfinite(path).all():
+                return None
+            return _window_result(_row_margin(path, event["equilibrium"], event["mass"], event["omega_s"]), min_end=11)
+
+        measures = {"id": event["id"], "future_points": count, "truth": score(event["x"][:11+count]),
+                    "prediction": {str(step): score(np.concatenate((event["x"][:11], values[i, 1:1+count])))
+                                   if stability_events[i]["qualified"] else None for step, values in predictions.items()}}
+        witnesses.append(measures)
+    return witnesses
+
+
 def evaluate(model, events, scale, budget, directory, role, settings, *, predictor=None, target_scale=None, save=True):
     from task3.c2.evaluation import evaluate as task3_evaluate
     from task3.protocol import classify as task3_classify
@@ -222,6 +243,8 @@ def evaluate(model, events, scale, budget, directory, role, settings, *, predict
             ('false_alarm_rate_on_resolved', s['fp'], s['tn']+s['fp'])):
         s[name] = numerator/denominator if denominator else None
     result['stability_events'] = stability_events
+    if role == "train" and settings.get("matched_train_witnesses"):
+        result["matched_train_witnesses"] = _train_witnesses(events, predictions, stability_events)
     result['failures'] = failures
     result['initialization'] = diagnostics
     result['common_frequency_output'] = 'zero_common_frequency_relative_dynamics_only'

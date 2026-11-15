@@ -57,7 +57,12 @@ three rosters and saved-prediction checks are complete. The next candidate is th
 on the original T0M1 equation. The [48-case synthetic comparison](../reports/machine_local_topology_ball_history_20261115_zh.md)
 recovered the feasible clean states with zero prior. The original-prior condition
 failed the trajectory and active-bound gates. The [matched no-prior protocol](../protocols/machine_local_topology_ball_history_no_prior_v1_zh.md)
-compares the exact and radial updates with the same frozen zero prior.
+compares the exact and radial updates with the same frozen zero prior. Its
+[results](../reports/machine_local_topology_ball_history_no_prior_20261115_zh.md)
+show lower constrained history error and higher forecast error with the exact
+solve. Removing the prior within the radial method improves the matched
+train and val trajectories. The [fixed-weight TASK3 protocol](../protocols/kiki_machine_local_topology_no_prior_v1_zh.md)
+tests this prior-only intervention on all three real cohorts.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across

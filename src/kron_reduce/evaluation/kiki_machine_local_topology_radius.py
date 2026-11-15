@@ -49,7 +49,7 @@ def _reference(root, plan):
     return {role: read_json(verified(root, plan["reference"][role])) for role in COUNTS}
 
 
-def _validate_result(result, reference, events, radius):
+def _validate_result(result, reference, events, radius, *, multiplier=2., group="R2"):
     ids = [event["id"] for event in events]
     expected_truth = [(event["id"], event["label"]) for event in events]
     expected_initializations = {(event_id, step) for event_id in ids for step in (.0025, .00125)}
@@ -80,7 +80,7 @@ def _validate_result(result, reference, events, radius):
                                  "fraction_of_assessed": at_radius/assessed if assessed else None}
         return by_step
 
-    return {"reference": cap_counts(reference, radius/2), "R2": cap_counts(result, radius)}
+    return {"reference": cap_counts(reference, radius/multiplier), group: cap_counts(result, radius)}
 
 
 def execute(root, directory, plan, stage):
@@ -93,6 +93,7 @@ def execute(root, directory, plan, stage):
     sys.dont_write_bytecode = True
     sys.path.insert(0, str(Path(plan["task3_root"])/"src"))
     freeze_path, frozen, assets, scales = _freeze(root, plan)
+    group_name = plan.get("group", "R2")
     references = _reference(root, plan)
     started = time.perf_counter()
     budget = Budget(directory/"operations.jsonl", plan["operation_limits"])
@@ -113,14 +114,22 @@ def execute(root, directory, plan, stage):
         if (not np.allclose(development.static["mass"], backbone.mass, rtol=0, atol=1e-12)
                 or not np.array_equal(development.static["mass"], held_out.static["mass"])):
             raise RuntimeError("TASK3 mass differs from frozen model")
-        group = directory/"R2"
+        group = directory/group_name
         group.mkdir()
-        records, cap_counts = {}, {}
+        records, cap_counts, train_witnesses = {}, {}, None
         for role, events in roles.items():
             if len(events) != COUNTS[role]:
                 raise RuntimeError(f"incomplete {role} cohort")
             result = score(model, events, scales, budget, group, role, frozen["settings"])
-            cap_counts[role] = _validate_result(result, references[role], events, scales["memory_radius"])
+            if role == "train" and group_name == "no_prior":
+                witnesses = result["matched_train_witnesses"]
+                train_witnesses = {"allocated": len(witnesses),
+                                   "truth_triggered": sum(row["truth"]["triggered"] is True for row in witnesses),
+                                   "predicted": {str(step): sum(row["prediction"][str(step)] is not None
+                                                                and row["prediction"][str(step)]["triggered"] is True
+                                                                for row in witnesses) for step in (.0025, .00125)}}
+            cap_counts[role] = _validate_result(result, references[role], events, scales["memory_radius"],
+                                                multiplier=frozen["memory_radius_multiplier"], group=group_name)
             records[role] = {key: result[key] for key in
                              ("summary", "unstable_prefix", "stable_complete", "counts",
                               "stability", "task3_six_term_score")}
@@ -135,20 +144,30 @@ def execute(root, directory, plan, stage):
         val_guard = bool(val["task3_six_term_score"] is not None
                          and math.isfinite(val["task3_six_term_score"])
                          and val["task3_six_term_score"] <= .5 and s["fp"] == 0
-                         and s["unresolved"] <= 1 and s["uncovered"] == 0
+                         and s["unresolved"] <= (0 if group_name == "no_prior" else 1)
+                         and s["uncovered"] == s["numerical_failures"] == 0
                          and 107-s["tp"]-s["tn"] <= 3
                          and stable_coverage
                          and stable8 is not None and reference_stable8 is not None
                          and math.isfinite(stable8) and math.isfinite(reference_stable8)
                          and stable8 <= 1.05*reference_stable8)
+        train_guard = None
+        if train_witnesses is not None:
+            train = records["train"]["stability"]
+            train_guard = (train_witnesses["allocated"] == train_witnesses["truth_triggered"] == 35
+                           and min(train_witnesses["predicted"].values()) > 6 and train["tp"] >= 24 and train["fp"] <= 2
+                           and train["unresolved"] <= 8 and train["uncovered"] == train["numerical_failures"] == 0)
         test = records["test"]["stability"]
         test_goal_met = bool(test["allocated"] == test["resolved"] == 76 and test["accuracy"] is not None
+                             and test["numerical_failures"] == 0
                              and test["tp"]+test["tn"] >= 69)
         evidence = {"status": "PASS", "process_status": "PASS", "engineering_pass": True,
                     "source_commit": git_head(root), "data_policy": "kiki_official_train_test_v1",
                     "promotion_decision": "KEEP_BASELINE", "scientific_pass": test_goal_met,
-                    "claim_boundary": "Fixed-weight doubled-radius comparison on previously exposed TASK3 cohorts."}
-        summary = evidence | {"group": "R2", "records": {"R2": records},
+                    "claim_boundary": ("Fixed-weight zero-prior comparison on previously exposed TASK3 cohorts."
+                                       if group_name == "no_prior" else
+                                       "Fixed-weight doubled-radius comparison on previously exposed TASK3 cohorts.")}
+        summary = evidence | {"group": group_name, "records": {group_name: records},
                               "reference": {role: {key: references[role][key] for key in
                                       ("summary", "unstable_prefix", "stable_complete", "counts",
                                        "stability", "task3_six_term_score")}
@@ -163,6 +182,8 @@ def execute(root, directory, plan, stage):
                                   "gpu": torch.cuda.get_device_name(),
                                   **{package: version(package) for package in
                                      ("torch", "numpy", "scipy", "filelock", "h5py")}}}
+        if train_guard is not None:
+            summary.update(train_guard=train_guard, train_witnesses=train_witnesses)
         write_json(directory/"summary.json", summary)
         write_json(directory/"stage_evidence.json", evidence)
         return summary
