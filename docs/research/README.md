@@ -64,9 +64,17 @@ solve. Removing the prior within the radial method improves the matched
 train and val trajectories. The [fixed-weight TASK3 comparison](../reports/kiki_machine_local_topology_no_prior_20261115_zh.md)
 completed all three real cohorts and independent score recomputation. Val had
 one unresolved case and test had four. Train reproduced five of 35 matched
-instability windows. The next [momentum-consistency diagnosis](machine_local_topology_momentum_plan_20261115_zh.md)
-examines the fixed equation along observed train trajectories after eliminating
-event-specific hidden starts.
+instability windows. The [momentum-consistency diagnosis](machine_local_topology_momentum_plan_20261115_zh.md)
+isolates signed force errors along observed paths. The [known-truth controls](../reports/machine_local_topology_momentum_20261115_zh.md)
+recovered stiffness and damping perturbations. The [complete TASK3 train diagnosis](../reports/kiki_machine_local_topology_momentum_20261115_zh.md)
+selected a positive damping factor of 0.3436767365, reducing the projected
+residual SSE in stable and unstable events. The [frozen damping comparison](../reports/kiki_machine_local_topology_momentum_damping_20261115_zh.md)
+reproduced 10 of 35 matched train instability windows, with five stable false
+alarms. Val classified all 107 events, with 105 correct and one stable false
+alarm. The eight-second val error on the 95 stable events increased from 0.218
+to 0.464. The full test returned 71 correct judgments and two unresolved cases.
+The val guard failed, the baseline was retained and independent rescoring
+confirmed every saved judgment.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
