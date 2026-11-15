@@ -1,0 +1,29 @@
+{
+  "schema": "kiki_machine_local_topology_no_prior_saved_audit_review.v1",
+  "approved": true,
+  "reviewer": "Astra Ultra",
+  "plan_path": "configs/proposals/kiki_machine_local_topology_no_prior_saved_audit_v1.json",
+  "plan_sha256": "0334b214392244b3da5f4c3b3ff687fd5c093d3c7d017e6efe9bc7acecb504b4",
+  "implementation_bindings": {
+    "scratch/one_off/kiki_machine_local_topology_no_prior_20261115/audit_predictions.py": "6f3284ed5ecdd72241b211d2b1807a2f14b13777b5b141db5788375b1e31eb72",
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/proposals/kiki_machine_local_topology_no_prior_test_v1.json": "f1a72f7cc70328f69d7cc14e09ee08cd26f4b471bbb85a70a89bb7302522a833",
+    "docs/reports/kiki_machine_local_topology_no_prior_20261115_evidence.json": "eda9cb6893825e084cf2c11474ab9503c7f99493a75ff0d016cc7dbb157ad5d8",
+    "configs/proposals/kiki_machine_local_topology_no_prior_v1_freeze.json": "d3df85d61d24bea68b397e1a849d09ec72a5ad033d87773547d0a6f04b3234ec"
+  },
+  "reviewed_checks": [
+    "已核对精确plan哈希、全部10项本地实现绑定及全部外部评分代码绑定，均与审核字节一致。",
+    "已核对关闭的no_prior运行授权、结果凭据、完整11项结果清单及全部文件哈希；保存评分JSON覆盖来源限定的固定train346、val107、test76名单。",
+    "预测文件恰为no_prior/train_predictions.npz、no_prior/val_predictions.npz和no_prior/test_predictions.npz。单次入口最多解码三次，首次解码前消耗共享Git单次标记，不允许重试。",
+    "各划分调用一次原load_saved，并直接沿用score_saved；从保存预测复算固定TASK3轨迹指标、两步长数值与稳定性一致性、train尺度的1s/3s归一化均方误差。",
+    "审核入口没有模型构造、检查点解码、来源缓存读取、动力学右端、积分、拟合或优化器调用。冻结JSON清单及目标尺度元数据只用于核对和应用原评分合同。",
+    "无论候选门结果如何，均审核三个完整划分。test_goal_met只作结果报告，不选择阈值、初态、参数或后续候选。",
+    "本次审核只读JSON及代码并计算文件字节哈希，没有解码预测文件或执行科学计算。"
+  ],
+  "claim_boundary": "批准范围为一次保存预测算术审核；评分一致不代表提升无先验模型，也不改变已失败的科学门。"
+}
