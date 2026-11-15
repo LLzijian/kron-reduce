@@ -23,7 +23,8 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "refinement": "machine_local_topology_refinement_v1", "transfer": "machine_local_topology_transfer_v1",
            "margin": "machine_local_topology_margin_v1", "margin_v2": "machine_local_topology_margin_v2",
            "delayed": "machine_local_topology_delayed_v1",
-           "delayed_origin": "machine_local_topology_delayed_origin_v1"}
+           "delayed_origin": "machine_local_topology_delayed_origin_v1",
+           "delayed_damping": "machine_local_topology_delayed_damping_v1"}
 
 
 def authorize(root, stage):
@@ -41,7 +42,8 @@ def authorize(root, stage):
     plan_path, review_path = auth["plan_path"], auth["review_path"]
     scope = {"status": "active", "experiment": name, "workflow": name, "stage": stage,
              "real_data_reads": 0, "max_executions": 1, "retry_allowed": False,
-             "fit_attempts": {"learning": 4, "refinement": 2, "margin": 2, "margin_v2": 2, "delayed": 2}.get(stage, 0)}
+             "fit_attempts": {"learning": 4, "refinement": 2, "margin": 2, "margin_v2": 2,
+                              "delayed": 2, "delayed_damping": 1}.get(stage, 0)}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active topology and memory scope differs")
     verify_bound_file(root, plan_path, auth["plan_sha256"])
@@ -62,7 +64,7 @@ def authorize(root, stage):
         previous = policy[STUDIES["margin"]+"_20261115"]
         if (previous["status"] != "consumed" or previous["failed_record_sha256"] != plan["failed_record_sha256"]):
             raise RuntimeError("repaired margin run requires the archived serialization failure")
-    if stage == "delayed_origin":
+    if stage in ("delayed_origin", "delayed_damping"):
         previous = policy[STUDIES["delayed"]+"_20261115"]
         source = plan["source"]
         if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
@@ -71,6 +73,15 @@ def authorize(root, stage):
                 or previous["result_receipt_sha256"] != source["receipt_sha256"]):
             raise RuntimeError("origin controls require the verified frozen delayed cohort")
         verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
+    if stage == "delayed_damping":
+        diagnosis = policy[STUDIES["delayed_origin"]+"_20261115"]
+        if (diagnosis["status"] != "consumed" or diagnosis["engineering_pass"] is not True
+                or diagnosis["result_receipt_sha256"] != plan["diagnosis_receipt_sha256"]):
+            raise RuntimeError("damping fit requires the verified origin diagnosis")
+        path = diagnosis["result_receipt_path"]
+        verify_bound_file(root, path, plan["diagnosis_receipt_sha256"])
+        if "damping" not in json.loads((root/path).read_bytes())["sufficient_interventions"]:
+            raise RuntimeError("damping correction did not pass the registered diagnosis")
     if stage == "closeout":
         previous = policy[STUDIES["s0"]+"_20261115"]
         if (previous["status"] != "consumed" or previous["run_id"] != plan["source"]["run_id"]
@@ -142,6 +153,9 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.machine_local_synthetic import Budget
     from kron_reduce.evaluation.machine_local_topology import closeout, execute
     from kron_reduce.evaluation.machine_local_topology_delayed import execute as delayed
+    from kron_reduce.evaluation.machine_local_topology_delayed_damping import (
+        execute as delayed_damping,
+    )
     from kron_reduce.evaluation.machine_local_topology_delayed_origin import (
         execute as delayed_origin,
     )
@@ -157,7 +171,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     try:
         kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose,
                   "refinement": learn, "transfer": transfer, "margin": margin, "margin_v2": margin,
-                  "delayed": delayed, "delayed_origin": delayed_origin}[stage]
+                  "delayed": delayed, "delayed_origin": delayed_origin, "delayed_damping": delayed_damping}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()

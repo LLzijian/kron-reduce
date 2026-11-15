@@ -1,0 +1,142 @@
+{
+  "schema": "machine_local_topology_delayed_origin_result_review.v1",
+  "verified": true,
+  "run_id": "machine_local_topology_delayed_origin_v1-delayed_origin-20261115T082734914398Z-30265e36-1b1b3627",
+  "summary_sha256": "12289d1d7297ac13850f7509fd594b6f82ce1eafa31a15cb8419d91e4152446e",
+  "scientific_pass": false,
+  "engineering_pass": true,
+  "decision": "VERIFY_COMPLETED_ZERO_FIT_DIAGNOSIS_KEEP_BASELINE_ROUTE_TO_SEPARATELY_REGISTERED_CAUSAL_DAMPING_FIT",
+  "verified_metadata_hashes": {
+    "all_truth_causal-scores.json": "a0dcb2e7eaba6be305669f0b951db28844ae0424401aef3970ce6bfc6c5244b0",
+    "all_truth_exact_z-scores.json": "8a11f6b2df10710fd47cd2db368bbbf156097566eb68a92dac4ca9e0a1b16587",
+    "damping-scores.json": "9eaead66fb8d1636bc72494f3a6fe9c0b8a25a196dd086326e894ec25bf8fd2d",
+    "endpoint_causal-scores.json": "460264acc6702b040385faa0671d5acdb84e01bc494ceb124bd60d306e9fd241",
+    "endpoint_exact_z-scores.json": "a9df747115470844893360eed775aad42bf4f0b4c690946f3c503d0234d4a0ac",
+    "memory-scores.json": "fe4ca8ca30751b1ab7c322f69bb700f8126e4bd8e0d00584617342fdaf2b74c4",
+    "operations.jsonl": "a41431fdfbdadf0454bf37ff0eba463eb143103800a9c1bcd2b089bd13dc214c",
+    "source.json": "d10cf70468b322d6406a79d974985ec7ceed5e6c96756cc4835ea837511a7136",
+    "stage_evidence.json": "33c8cc0a937bb05ceb8f7175d9428440763f3f3d076766c93dc6f65abbac76dc",
+    "stiffness-scores.json": "6d89cf5294a50f7b147d2bf12aa7adcc3a3c0e5bca9645263f9e027ac866db94",
+    "summary.json": "12289d1d7297ac13850f7509fd594b6f82ce1eafa31a15cb8419d91e4152446e"
+  },
+  "evidence": {
+    "complete_rosters": {
+      "conditions": 7,
+      "train": 12,
+      "val": 6,
+      "test": 6,
+      "exact_ids_and_order_verified": true
+    },
+    "operation_counts": {
+      "npz_decodes": 3,
+      "rollouts": 24,
+      "torch_rhs": 233280,
+      "tangent_rhs": 2400,
+      "qr": 240,
+      "svd": 240,
+      "matrix_products": 240,
+      "triangular_solves": 240
+    },
+    "supported_interventions": [
+      "damping"
+    ],
+    "sufficient_interventions": [
+      "damping"
+    ],
+    "all_truth_exact_z_anchor": true,
+    "all_truth_causal_anchor": true,
+    "maximum_event_eight_second_nrmse": {
+      "all_truth_exact_z": {
+        "train": 5.053143508456019E-12,
+        "val": 6.973167843356649E-12
+      },
+      "all_truth_causal": {
+        "train": 5.2367557444315175E-11,
+        "val": 8.686926279316001E-11
+      }
+    },
+    "matched_positive_witnesses": {
+      "endpoint_causal": {
+        "train": 0,
+        "val": 0
+      },
+      "endpoint_exact_z": {
+        "train": 0,
+        "val": 0
+      },
+      "stiffness": {
+        "train": 0,
+        "val": 0
+      },
+      "memory": {
+        "train": 0,
+        "val": 0
+      },
+      "damping": {
+        "train": 6,
+        "val": 3
+      },
+      "truth_positive": {
+        "train": 6,
+        "val": 3
+      }
+    },
+    "damping_full_eight_second_stability": {
+      "train": {
+        "tp": 6,
+        "tn": 6,
+        "fp": 0,
+        "fn": 0,
+        "unresolved": 0,
+        "accuracy": 1.0
+      },
+      "val": {
+        "tp": 3,
+        "tn": 3,
+        "fp": 0,
+        "fn": 0,
+        "unresolved": 0,
+        "accuracy": 1.0
+      }
+    },
+    "fixed_true_origin_comparison": {
+      "train": {
+        "control_margin_rmse": 0.03653713895818399,
+        "damping_margin_rmse": 0.004177939562199284,
+        "control_pooled_eight_second_nrmse": 1.1006935146980956,
+        "damping_pooled_eight_second_nrmse": 0.2789990671928159,
+        "margin_rmse_ratio": 0.1143477481085985,
+        "overall_three_second_nrmse_ratio": 0.2788658609920286,
+        "overall_eight_second_nrmse_ratio": 0.2534757073310651,
+        "stable_three_second_nrmse_ratio": 0.415384567133776,
+        "stable_eight_second_nrmse_ratio": 0.6515478860394602
+      },
+      "val": {
+        "control_margin_rmse": 0.033471734461032014,
+        "damping_margin_rmse": 0.003356998106250539,
+        "control_pooled_eight_second_nrmse": 1.9024518459472695,
+        "damping_pooled_eight_second_nrmse": 0.21556223461514248,
+        "margin_rmse_ratio": 0.10029352109490398,
+        "overall_three_second_nrmse_ratio": 0.14933649508138058,
+        "overall_eight_second_nrmse_ratio": 0.11330759045194633,
+        "stable_three_second_nrmse_ratio": 0.3003112078880268,
+        "stable_eight_second_nrmse_ratio": 0.5639898716975764
+      }
+    },
+    "parameter_check": "The damping condition changes damping_scale from the saved 1.323437744597295 to known truth 1.0 while retaining stiffness_scale 1.1273900664775374 and all learned memory ports/time constants. Its comparison control uses those same learned coefficients and the same exact truth forecast-origin state. All six newly evaluated conditions report no execution failures."
+  },
+  "conclusion": "Among the registered single-block interventions at a common exact truth forecast-origin state, damping replacement alone satisfies the complete train/val recovery, stability and trajectory guards. Replacing only the hidden state does not recover any matched positive window; the all-truth equation succeeds with causal history initialization as well as with exact hidden state. This supports prioritizing damping learning and does not establish a unique cause, eliminate coefficient-initialization interactions, or show that a learned damping correction already works with causal initialization.",
+  "next_route": {
+    "status": "DESIGN_ONLY_REQUIRES_NEW_FITTING_AUTHORIZATION",
+    "objective": "Fit one shared log damping coefficient from complete train trajectory loss while retaining the saved stiffness and memory parameters and the original causal history initializer.",
+    "contract": "Freeze the proposed nine-point log-damping grid around the saved coefficient, the plus/minus log(2) range, deterministic bracket and tie rules, at most 24 refinement evaluations, numerical-failure handling, boundary handling and endpoint choice before execution. Every coefficient evaluation resets and recomputes causal hidden-state estimation from the observed history; no exact truth hidden state or truth-damping penalty is allowed. Use no-grad forward evaluations and train trajectory loss only for selection. Freeze the selected coefficient before complete train/val/test reporting; do not expand the search from val or test feedback.",
+    "unresolved_question": "Whether a train-selected damping coefficient with causal initialization reproduces the recovery demonstrated by the known-truth intervention. The fit is not authorized by this completed zero-fit scope."
+  },
+  "verification_boundary": "Independently checked 11 JSON/JSONL artifact hashes, the seven exact 24-ID rosters, per-event train/val matched margins and aggregate RMSE, both engineering anchors, block readouts, damping sufficient-gate ratios and exact successful-batch operation counts. The coordinator verified all 17 artifact hashes. Test was checked for roster coverage only and did not enter the causal interpretation or proposed fit selection.",
+  "reviewer_execution": {
+    "scientific_runs": 0,
+    "model_calls": 0,
+    "array_decodes": 0,
+    "tests_run": 0
+  }
+}
