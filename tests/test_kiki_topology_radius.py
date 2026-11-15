@@ -4,6 +4,7 @@ from kron_reduce.evaluation.kiki_machine_local_topology_radius import _validate_
 from kron_reduce.workflows.kiki_machine_local_topology_radius import (
     _execution_plan,
     _result_file,
+    momentum_damping_freeze,
     radius_freeze,
 )
 from project_harness.evidence import sha256_file
@@ -26,6 +27,17 @@ def test_radius_only_freeze_preserves_weight_and_quadratic_prior():
     assert freeze["preprocessing_sha256"] == anchor["preprocessing_sha256"]
     assert freeze["settings"]["prior_weight"]/freeze["memory_radius_multiplier"]**2 == 1e-6
     assert freeze["settings"]["eval_batch"] == anchor["settings"]["eval_batch"]
+
+
+def test_momentum_damping_freeze_retains_the_original_history_contract():
+    anchor = anchor_record()
+    checkpoint = {"path": "old-weights.npz", "sha256": "old-weight-hash"}
+    factor = 0.3436767364716119
+    freeze = momentum_damping_freeze(anchor, {"path": "freeze.json", "sha256": "anchor-hash"}, checkpoint, factor)
+    assert freeze["memory_radius_multiplier"] == 1.
+    assert freeze["checkpoint_sha256"] == checkpoint["sha256"]
+    assert freeze["preprocessing_sha256"] == anchor["preprocessing_sha256"]
+    assert freeze["settings"] == anchor["settings"] | {"damping_multiplier": factor, "matched_train_witnesses": True}
 
 
 def test_radius_freeze_rejects_inexact_anchor():

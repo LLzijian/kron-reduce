@@ -1,0 +1,29 @@
+{
+  "phase": "freeze",
+  "fitting_closed": true,
+  "selection_closed": true,
+  "input_contract": "measured_history_100ms_zoh_v1",
+  "anchor_fit_manifest": {
+    "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/freeze.json",
+    "sha256": "e2b09861637b126cb072ea7b06dbf0809adf0d6567fb1636ec70824c0e8e87ff"
+  },
+  "checkpoint_path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/freeze-T0M1.npz",
+  "checkpoint_sha256": "808b997c39f5ac2b838b514471fc35532b97c547d624d9bf1028938227258851",
+  "preprocessing_path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/preprocessing.json",
+  "preprocessing_sha256": "c6473edfce144cffcb56fda8fbad589ef5e88b8147629df3fa2a1dee219fce5e",
+  "settings": {
+    "updates": 72,
+    "train_batch": 64,
+    "eval_batch": 32,
+    "min_updates": 36,
+    "val_interval": 12,
+    "val_patience": 3,
+    "val_relative_tol": 0.001,
+    "learning_rate": 0.006,
+    "prior_weight": 1e-06,
+    "val_trajectory_limit": 0.5,
+    "damping_multiplier": 0.3436767364716119,
+    "matched_train_witnesses": true
+  },
+  "memory_radius_multiplier": 1.0
+}

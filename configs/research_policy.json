@@ -1382,7 +1382,7 @@
       "scientific_pass": false
     },
     "kiki_machine_local_topology_momentum_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_momentum_v1",
       "authority": "operator_autonomous_full_train_momentum_diagnostic",
       "fit_attempts": 0,
@@ -1399,7 +1399,15 @@
         "svd": 2111,
         "ball_solves": 727,
         "weak_intervals": 550610
-      }
+      },
+      "run_id": "kiki_machine_local_topology_momentum_v1-train_momentum-20261115T103700298268Z-fc6d0e29-cd3d0e2a",
+      "result_manifest_sha256": "79b20ef6c216c20356ebaa90b89088e4bdd94ef70041b90051055e3c19863e84",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_momentum_20261115_evidence.json",
+      "result_receipt_sha256": "c99c5cda6989271b087290bd4cb04728b3d6a78f86d59269e62b8989aa622f4d",
+      "result_review_path": "docs/research/kiki_machine_local_topology_momentum_result_review_20261115.json",
+      "result_review_sha256": "ed4c53d77d94454b4ef367c41a3c8063b58e50738180730ef8ae062257c2d0bf",
+      "engineering_pass": true,
+      "scientific_pass": true
     }
   },
   "archived_development_results": {
@@ -4734,6 +4742,34 @@
       "result_review_sha256": "0fa0df0cbf0d03d7342e07fb5eb57857342f16d23b27cfdb6194b35e18b49a4e",
       "scientific_pass": false,
       "val_guard": false
+    },
+    "kiki_machine_local_topology_momentum_damping_test_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_momentum_damping_test_v1",
+      "authority": "operator_frozen_momentum_damping_full_task3",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "frozen_model_manifest": {
+        "path": "configs/proposals/kiki_machine_local_topology_momentum_damping_v1_freeze.json",
+        "sha256": "9e392c9ebb55c7f635513b74db17b5d3b424493d8eb022849b0b3c9f9da87275"
+      },
+      "operation_limits": {
+        "rollouts": 7658,
+        "torch_rhs": 22580160,
+        "tangent_rhs": 1312800,
+        "qr": 10580,
+        "svd": 10580,
+        "triangular_solves": 10580,
+        "matrix_products": 10580,
+        "checkpoint_loads": 2
+      },
+      "plan_path": "configs/proposals/kiki_machine_local_topology_momentum_damping_test_v1.json",
+      "plan_sha256": "13cac9886f646bca31af9db7e09c8512615643a4b30c470bd1be10a0500ea294",
+      "review_path": "docs/research/kiki_machine_local_topology_momentum_damping_test_v1_review_20261115.json",
+      "review_sha256": "a7a93d4e1430385322d0cb0cf690552b5d6a134b4d9561a96ee4e867c7d65a0d"
     }
   },
   "round_evaluation_defaults": {

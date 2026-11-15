@@ -1,0 +1,80 @@
+{
+  "schema": "kiki_machine_local_topology_momentum_result_review.v1",
+  "verified": true,
+  "reviewer": "Astra Ultra",
+  "run_id": "kiki_machine_local_topology_momentum_v1-train_momentum-20261115T103700298268Z-fc6d0e29-cd3d0e2a",
+  "summary_sha256": "cb1a6ac0c8fffda8b688bd0f3931ce0ec89377db995cecf8926122561527685c",
+  "artifact_manifest_sha256": "79b20ef6c216c20356ebaa90b89088e4bdd94ef70041b90051055e3c19863e84",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "plan_sha256": "2c6412af7837be327de794de30a56149adcdad567652407796e301e6b2c5fdd1",
+  "artifact_count": 11,
+  "operations_sha256": "d5cdef19c508ea25a3cdde46c8cef69508d71fc6ce9ebba27f81e39687200cc6",
+  "access_sha256": "935a8bcfea38cc7458f5f8ea80194a44777ce0d3cd482287d5d85a15d6b48246",
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "weak_intervals": 497096,
+    "svd": 2111,
+    "ball_solves": 727
+  },
+  "independent_checks": [
+    "已阅读并独立执行保存JSON验证器，未传入close；精确计划与实现绑定、完整11项结果清单哈希、终端工作流记录和固定train名单均匹配。",
+    "读取日志证明只打开静态与development档案各一次，按固定顺序解码全部train346例，无val/test轨迹解码、重复队列或失败记录。模型检查点载入2次；实际使用497096个区间、2111次SVD和727次球诊断，均在预声明预算内。",
+    "从保存逐例JSON独立复算全train的三项有符号方向统计及稳定、失稳、匹配触发时段的同一修正效果，并复算四个记忆惯性对照和支持方向清单。唯一具备预声明资格的方向是阻尼。",
+    "额外核对全部2111项SVD均为秩10，条件数及奇异值有限；727项球约束诊断全部完成，无未决或数值失败。",
+    "本次审核没有读取真实缓存、解码检查点或轨迹NPZ，也没有模型调用或新的科学执行。"
+  ],
+  "damping_evidence": {
+    "delta_multiplier": -0.6563232635283881,
+    "positive_multiplier": 0.3436767364716119,
+    "by_group": {
+      "train": {
+        "events": 346,
+        "baseline_sse": 21752.09653505298,
+        "corrected_sse": 14727.021807152492,
+        "ratio": 0.6770391894602091,
+        "sse_improvement": 0.32296081053979087
+      },
+      "label/stable": {
+        "events": 311,
+        "baseline_sse": 12204.862441651114,
+        "corrected_sse": 9898.330420405742,
+        "ratio": 0.8110153201420813,
+        "sse_improvement": 0.18898467985791867
+      },
+      "label/unstable": {
+        "events": 35,
+        "baseline_sse": 9547.234093401867,
+        "corrected_sse": 4828.691386746749,
+        "ratio": 0.5057686173301101,
+        "sse_improvement": 0.49423138266988986
+      },
+      "matched_unstable_five_point": {
+        "events": 35,
+        "baseline_sse": 9547.234093401867,
+        "corrected_sse": 4828.691386746749,
+        "ratio": 0.5057686173301101,
+        "sse_improvement": 0.49423138266988986
+      }
+    },
+    "fault_groups": 24,
+    "fault_groups_improved": 24,
+    "matched_windows_identical_to_full_unstable_support": 35
+  },
+  "physical_interpretation": [
+    "全train确定的阻尼因子为0.3436767364716119；它降低的是观测路径中、与任意初始记忆作用正交的力平衡残差，不是闭环轨迹RMSE或稳定性错误率。",
+    "稳定与失稳样本均支持同一降低阻尼方向。35个匹配触发时段与对应失稳样本的完整可用时段全部一致，因此两项49.42%的改善来自同一批观测，不是额外的独立证据。",
+    "正阻尼缩放保持原刚度、耦合和记忆耗散结构的能量关系。完整观测推得的代数初态仍只用于消除未知量，不能进入实际预测。"
+  ],
+  "prospective_evaluation_support": {
+    "supported": true,
+    "intervention": "D_new=0.3436767364716119*D_old",
+    "freeze_original_stiffness_coupling_tau_radius_and_prior": true,
+    "apply_same_damping_to_history_and_forecast": true,
+    "algebraic_oracle_state_must_not_enter_prediction": true,
+    "freeze_before_complete_train_val_test_scoring": true,
+    "held_out_refitting_or_rescaling": false,
+    "scope": "支持另行登记一次精确固定因子的完整TASK3比较；不授权本审核执行预测或晋升模型。"
+  },
+  "claim_boundary": "该幅度由事先声明的正系数标量诊断确定，未使用val/test。它超出先前合成错系数示例的幅度，但力方向的线性代数关系对该正因子仍成立；已知真值示例不提供此幅度下真实闭环性能保证。完整候选比较须保留全部失稳、未决及数值失败样本并独立审核。"
+}

@@ -23,6 +23,12 @@ MODULE = "kron_reduce.workflows.kiki_machine_local_topology_radius"
 PRIOR_WORKFLOW = "kiki_machine_local_topology_no_prior_v1"
 PRIOR_EXPERIMENT = "kiki_machine_local_topology_no_prior_test_v1"
 PRIOR_AUTHORIZATION = PRIOR_EXPERIMENT+"_20261115"
+MOMENTUM_WORKFLOW = "kiki_machine_local_topology_momentum_damping_v1"
+MOMENTUM_EXPERIMENT = "kiki_machine_local_topology_momentum_damping_test_v1"
+MOMENTUM_AUTHORIZATION = MOMENTUM_EXPERIMENT+"_20261115"
+COMPARISONS = {"R2": (WORKFLOW, EXPERIMENT, AUTHORIZATION),
+               "no_prior": (PRIOR_WORKFLOW, PRIOR_EXPERIMENT, PRIOR_AUTHORIZATION),
+               "momentum_damping": (MOMENTUM_WORKFLOW, MOMENTUM_EXPERIMENT, MOMENTUM_AUTHORIZATION)}
 
 
 def _bound_json(root, binding):
@@ -61,7 +67,14 @@ def prior_freeze(anchor, binding, checkpoint):
     return frozen
 
 
-def _reference(root, policy, plan, *, no_prior=False):
+def momentum_damping_freeze(anchor, binding, checkpoint, multiplier):
+    frozen = radius_freeze(anchor, binding, checkpoint)
+    frozen["memory_radius_multiplier"] = 1.
+    frozen["settings"] = anchor["settings"] | {"damping_multiplier": multiplier, "matched_train_witnesses": True}
+    return frozen
+
+
+def _reference(root, policy, plan, build):
     receipts, references = {}, {}
     for stage, roles, category in (("fit", ("train", "val"), "development_evaluations"),
                                    ("test", ("test",), "official_test_evaluations")):
@@ -91,7 +104,6 @@ def _reference(root, policy, plan, *, no_prior=False):
     index = _result_file(root, {"path": anchor["checkpoint_path"], "sha256": anchor["checkpoint_sha256"]})
     checkpoints = json.loads(index.read_bytes())
     freeze = _bound_json(root, plan["frozen_model_manifest"])
-    build = prior_freeze if no_prior else radius_freeze
     if freeze != build(anchor, binding, checkpoints["T0M1"]) or plan["backbone"] != anchor["backbone"]:
         raise RuntimeError("initialization intervention differs from the original T0M1 freeze")
     for key in ("checkpoint", "preprocessing"):
@@ -103,10 +115,9 @@ def _execution_plan(plan, source):
     return plan | {"sources": sources, "task3_root": source["task3_root"]}
 
 
-def authorize(root, *, no_prior=False):
+def authorize(root, *, comparison="R2"):
     assert_clean(root)
-    workflow, experiment, auth_id = ((PRIOR_WORKFLOW, PRIOR_EXPERIMENT, PRIOR_AUTHORIZATION) if no_prior
-                                     else (WORKFLOW, EXPERIMENT, AUTHORIZATION))
+    workflow, experiment, auth_id = COMPARISONS[comparison]
     entry = load_manifest(root)["experiments"][experiment]
     scope = {"workflow": workflow, "stage": "test", "module": MODULE,
              "execution_mode": "bounded_kiki_official_cli_only", "test_authorization": auth_id}
@@ -121,13 +132,15 @@ def authorize(root, *, no_prior=False):
     if (plan["stage"] != "test" or plan["device"] != "cuda" or plan["fit_attempts"] != 0
             or plan["cohort_counts"] != {"train": 346, "val": 107, "test": 76}
             or plan["source_cache_open_limit"] != 80 or plan["frozen_model_manifest"] != auth["frozen_model_manifest"]
+            or plan.get("group", "R2") != comparison
             or plan["operation_limits"] != auth["operation_limits"] or review.get("approved") is not True
             or review.get("plan_path") != auth["plan_path"] or review.get("plan_sha256") != auth["plan_sha256"]
             or review.get("implementation_bindings") != plan["implementation_bindings"]):
         raise RuntimeError("exact radius evaluation implementation and scientific review required")
     for path, digest in plan["implementation_bindings"].items():
         verify_bound_file(root, path, digest)
-    if no_prior:
+    build = radius_freeze
+    if comparison == "no_prior":
         synthetic = policy["bounded_synthetic_evaluations"]["machine_local_topology_ball_history_no_prior_v1_20261115"]
         support = plan["radial_zero_prior_support"]
         review_binding = {"path": synthetic["result_review_path"], "sha256": synthetic["result_review_sha256"]}
@@ -135,7 +148,24 @@ def authorize(root, *, no_prior=False):
                 or support != review_binding or plan["group"] != "no_prior"
                 or _bound_json(root, support)["radial_zero_prior_support"]["passed"] is not True):
             raise RuntimeError("verified synthetic evidence for the radial zero-prior control required")
-    _reference(root, policy, plan, no_prior=no_prior)
+        build = prior_freeze
+    if comparison == "momentum_damping":
+        diagnostic = policy["development_evaluations"]["kiki_machine_local_topology_momentum_v1_20261115"]
+        receipt_binding = {"path": diagnostic["result_receipt_path"], "sha256": diagnostic["result_receipt_sha256"]}
+        result_binding = {"path": diagnostic["result_review_path"], "sha256": diagnostic["result_review_sha256"]}
+        if (diagnostic["status"] != "consumed" or diagnostic["scientific_pass"] is not True
+                or plan["momentum_receipt"] != receipt_binding or plan["momentum_review"] != result_binding
+                or _bound_json(root, result_binding)["prospective_evaluation_support"]["supported"] is not True):
+            raise RuntimeError("verified train-only momentum direction evidence required")
+        directions = _bound_json(root, receipt_binding)["supported_directions"]
+        if (len(directions) != 1 or directions[0]["direction"] != "damping"
+                or plan["damping_multiplier"] != directions[0]["multiplier"] or plan["damping_multiplier"] <= 0.):
+            raise RuntimeError("registered damping factor differs from the sole train direction")
+
+        def build(anchor, binding, checkpoint):
+            return momentum_damping_freeze(anchor, binding, checkpoint, plan["damping_multiplier"])
+
+    _reference(root, policy, plan, build)
     source = _bound_json(root, plan["source_contract"])
     if plan["backbone"] != source["backbone"]:
         raise RuntimeError("radius evaluation backbone differs from the registered source")
@@ -152,13 +182,14 @@ def authorize(root, *, no_prior=False):
 
 
 def run(*, root, experiment, stage, result_dir, run_id):
-    no_prior = experiment.get("workflow") == PRIOR_WORKFLOW
-    entry, plan = authorize(root, no_prior=no_prior)
+    comparison, auth_id = next((group, identity[2]) for group, identity in COMPARISONS.items()
+                               if identity[0] == experiment.get("workflow"))
+    entry, plan = authorize(root, comparison=comparison)
     if stage != "test" or experiment != entry or result_dir != root/"results"/run_id or any(result_dir.iterdir()):
         raise RuntimeError("TASK3 radius dispatch identity differs")
     common = Path(subprocess.check_output(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
                                           cwd=root, text=True).strip()).resolve(strict=True)
-    marker = common/"kiki_machine_local_topology_budgets"/((PRIOR_AUTHORIZATION if no_prior else AUTHORIZATION)+".json")
+    marker = common/"kiki_machine_local_topology_budgets"/(auth_id+".json")
     marker.parent.mkdir(exist_ok=True)
     commit = git_head(root)
     with marker.open("x", encoding="utf-8") as stream:
@@ -174,12 +205,14 @@ def run(*, root, experiment, stage, result_dir, run_id):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--no-prior", action="store_true")
-    no_prior = parser.parse_args().no_prior
+    options = parser.add_mutually_exclusive_group()
+    options.add_argument("--no-prior", action="store_const", const="no_prior", dest="comparison")
+    options.add_argument("--momentum-damping", action="store_const", const="momentum_damping", dest="comparison")
+    comparison = parser.parse_args().comparison or "R2"
     root = project_root()
-    workflow, experiment = (PRIOR_WORKFLOW, PRIOR_EXPERIMENT) if no_prior else (WORKFLOW, EXPERIMENT)
+    workflow, experiment, _ = COMPARISONS[comparison]
     with workflow_lock(root, workflow):
-        entry, _ = authorize(root, no_prior=no_prior)
+        entry, _ = authorize(root, comparison=comparison)
         print(_run_experiment(root, experiment, "test", experiment=entry))
 
 

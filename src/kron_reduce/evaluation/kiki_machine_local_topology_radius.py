@@ -108,6 +108,12 @@ def execute(root, directory, plan, stage):
         model = make_model(backbone, "T0M1", train_scales=True, device="cuda")
         budget.spend("checkpoint_loads")
         load_snapshot(model, assets["checkpoint"])
+        if group_name == "momentum_damping":
+            factor = frozen["settings"]["damping_multiplier"]
+            original_damping = model.effective_damping.clone()
+            with torch.no_grad():
+                model.log_damping_factor.add_(math.log(factor))
+            torch.testing.assert_close(model.effective_damping, factor*original_damping, rtol=1e-13, atol=1e-13)
         roles = {"train": development.load("train"),
                  "val": development.load("val", freeze_path=freeze_path),
                  "test": held_out.load("test", freeze_path=freeze_path)}
@@ -121,7 +127,7 @@ def execute(root, directory, plan, stage):
             if len(events) != COUNTS[role]:
                 raise RuntimeError(f"incomplete {role} cohort")
             result = score(model, events, scales, budget, group, role, frozen["settings"])
-            if role == "train" and group_name == "no_prior":
+            if role == "train" and frozen["settings"].get("matched_train_witnesses"):
                 witnesses = result["matched_train_witnesses"]
                 train_witnesses = {"allocated": len(witnesses),
                                    "truth_triggered": sum(row["truth"]["triggered"] is True for row in witnesses),
@@ -144,7 +150,7 @@ def execute(root, directory, plan, stage):
         val_guard = bool(val["task3_six_term_score"] is not None
                          and math.isfinite(val["task3_six_term_score"])
                          and val["task3_six_term_score"] <= .5 and s["fp"] == 0
-                         and s["unresolved"] <= (0 if group_name == "no_prior" else 1)
+                         and s["unresolved"] <= int(group_name == "R2")
                          and s["uncovered"] == s["numerical_failures"] == 0
                          and 107-s["tp"]-s["tn"] <= 3
                          and stable_coverage
@@ -164,9 +170,7 @@ def execute(root, directory, plan, stage):
         evidence = {"status": "PASS", "process_status": "PASS", "engineering_pass": True,
                     "source_commit": git_head(root), "data_policy": "kiki_official_train_test_v1",
                     "promotion_decision": "KEEP_BASELINE", "scientific_pass": test_goal_met,
-                    "claim_boundary": ("Fixed-weight zero-prior comparison on previously exposed TASK3 cohorts."
-                                       if group_name == "no_prior" else
-                                       "Fixed-weight doubled-radius comparison on previously exposed TASK3 cohorts.")}
+                    "claim_boundary": "Frozen one-factor comparison on previously exposed TASK3 cohorts."}
         summary = evidence | {"group": group_name, "records": {group_name: records},
                               "reference": {role: {key: references[role][key] for key in
                                       ("summary", "unstable_prefix", "stable_complete", "counts",
@@ -184,6 +188,8 @@ def execute(root, directory, plan, stage):
                                      ("torch", "numpy", "scipy", "filelock", "h5py")}}}
         if train_guard is not None:
             summary.update(train_guard=train_guard, train_witnesses=train_witnesses)
+        if group_name == "momentum_damping":
+            summary["damping_multiplier"] = frozen["settings"]["damping_multiplier"]
         write_json(directory/"summary.json", summary)
         write_json(directory/"stage_evidence.json", evidence)
         return summary

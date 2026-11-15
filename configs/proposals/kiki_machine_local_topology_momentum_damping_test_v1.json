@@ -1,0 +1,107 @@
+{
+  "stage": "test",
+  "device": "cuda",
+  "fit_attempts": 0,
+  "source_contract": {
+    "path": "configs/proposals/kiki_machine_local_full_fit_v1.json",
+    "sha256": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed"
+  },
+  "backbone": {
+    "path": "results/paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996/checkpoint-240-324/model.npz",
+    "sha256": "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8"
+  },
+  "reference": {
+    "train": {
+      "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/T0M1/train.json",
+      "sha256": "e113024214f72a6347796de582108f7f482eaa7d64deda7e380e407a40914e92"
+    },
+    "val": {
+      "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/T0M1/val.json",
+      "sha256": "b195742a3b943fbf2742f8b5238fabebaae9b7d77085ea935e41cd22f7269d44"
+    },
+    "test": {
+      "path": "results/kiki_machine_local_topology_test_v1-test-20261115T055817136229Z-9e5782ad-0ffc5eb1/T0M1/test.json",
+      "sha256": "4184866e721e01b84fcd5c0ad6f3d7640c567ecfd1d37099e3a8fa0c393a044d"
+    }
+  },
+  "cohort_counts": {
+    "train": 346,
+    "val": 107,
+    "test": 76
+  },
+  "source_cache_open_limit": 80,
+  "operation_limits": {
+    "rollouts": 7658,
+    "torch_rhs": 22580160,
+    "tangent_rhs": 1312800,
+    "qr": 10580,
+    "svd": 10580,
+    "triangular_solves": 10580,
+    "matrix_products": 10580,
+    "checkpoint_loads": 2
+  },
+  "schema": "kiki_machine_local_topology_momentum_damping.v1",
+  "group": "momentum_damping",
+  "protocol_path": "docs/protocols/kiki_machine_local_topology_momentum_damping_v1_zh.md",
+  "frozen_model_manifest": {
+    "path": "configs/proposals/kiki_machine_local_topology_momentum_damping_v1_freeze.json",
+    "sha256": "9e392c9ebb55c7f635513b74db17b5d3b424493d8eb022849b0b3c9f9da87275"
+  },
+  "damping_multiplier": 0.3436767364716119,
+  "momentum_receipt": {
+    "path": "docs/reports/kiki_machine_local_topology_momentum_20261115_evidence.json",
+    "sha256": "c99c5cda6989271b087290bd4cb04728b3d6a78f86d59269e62b8989aa622f4d"
+  },
+  "momentum_review": {
+    "path": "docs/research/kiki_machine_local_topology_momentum_result_review_20261115.json",
+    "sha256": "ed4c53d77d94454b4ef367c41a3c8063b58e50738180730ef8ae062257c2d0bf"
+  },
+  "implementation_bindings": {
+    "configs/experiments/kiki_machine_local_topology_momentum_damping_test_v1.toml": "4b9933dc55633dd8be227db75f1b59870ef0665f75cc320b703a418f44c96495",
+    "configs/project_manifest.json": "153cb8c6b4824c0641b6498c862b4eb1a57e7c7e61b7119e856b729b5c7b684c",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_machine_local_topology_momentum_damping_v1_freeze.json": "9e392c9ebb55c7f635513b74db17b5d3b424493d8eb022849b0b3c9f9da87275",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/workflows/kiki_machine_local_topology_momentum_damping_v1.json": "73cdc92bbea07fb88467332d2a8d30323578a40022c77e1260469093069131b3",
+    "docs/protocols/kiki_machine_local_topology_momentum_damping_v1_zh.md": "b552e8daac95d27335f22bfe46dba6356399ad4053f47560a41f6f0296e36a5d",
+    "docs/reports/kiki_machine_local_topology_fit_20261115_evidence.json": "3c140e4f4d1e3ae2dcf28a7acac9bcfb44628f5050037c96ce4f0012e4339cfa",
+    "docs/reports/kiki_machine_local_topology_momentum_20261115_evidence.json": "c99c5cda6989271b087290bd4cb04728b3d6a78f86d59269e62b8989aa622f4d",
+    "docs/reports/kiki_machine_local_topology_saved_audit_20261115_evidence.json": "c1004118c1836f159ca1c5f3f52350ffa0c43215b8c3e6b3efe0abd4e8f64f4b",
+    "docs/reports/kiki_machine_local_topology_test_20261115_evidence.json": "cb743d0404f3f6a34b7f175a16981e8e954079604b2f355288e728f75d25e260",
+    "docs/reports/kiki_task3_train_witness_20261115_evidence.json": "5e88e2c0b61bfb43dbaf2b99ad029d6bee33823c2d7c4d9320887b103b054af4",
+    "docs/research/kiki_machine_local_topology_momentum_result_review_20261115.json": "ed4c53d77d94454b4ef367c41a3c8063b58e50738180730ef8ae062257c2d0bf",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/policy.py": "9f345a87711223af452cff4cfa74eecb0d815fa164b47485144002b07fc58071",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/audit_access_ledger.py": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+    "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/data/task3_full.py": "14f5b7681f1993822a41615e1905f5e7916554371e29f02213a0382d6291cd2d",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/evaluation/kiki_machine_local_full.py": "e2d3846f953ad97cf7f69294e8e6ec79ad3456ea39a47ce06891e8047aae7d65",
+    "src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py": "29976376a8e290ef29c339e057b698aa43d1af31673bf22072f8760a79758026",
+    "src/kron_reduce/evaluation/kiki_machine_local_topology.py": "16b3bfccfe46a4efe6bd76b307b3ce0345e824af5168489a0a3d2c1c4a1e5654",
+    "src/kron_reduce/evaluation/kiki_machine_local_topology_radius.py": "93ef943c5e17cef0a844f62dff6733b26e601cd88145851d1a85450e49ac2927",
+    "src/kron_reduce/evaluation/kiki_topology_bridge.py": "b0eceeaca751fce153cad34df8c9bf64ad940c68ae8967ffd4dd8f9d1b6d4e31",
+    "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/state_port_training.py": "87493cd714c5229cba8895113f1d63f83ae69e762dc4bc9c445b964fb32db962",
+    "src/kron_reduce/evaluation/train_mechanism_audit.py": "d035641edffa8317a5199b0b0eba34c10647b6cd2dd485891fc2e98da78f5e75",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/models/differentiable_history.py": "d6b7dc4dd0170cb5e943539b72fe37e1a1842e1fb0799613f19bd8844a60e9b2",
+    "src/kron_reduce/models/machine_local.py": "3f79959b41a1ee99c96fad3de2307ecbe4f5d2e3d466bca25786bf0e6501fc6b",
+    "src/kron_reduce/models/machine_local_forecast.py": "3e4a9f66650cfe9595bc69fe5ab5a29342f94520805b4f7e323325c17da7644f",
+    "src/kron_reduce/models/machine_local_topology.py": "c0c93a682e039c265b81a84b4f290a7411647f6ec4bee70d7d5c9279b5c86f5b",
+    "src/kron_reduce/models/nonlinear_history.py": "f8ce5dd063219c9460fbc67c7b6b3620520153c56258ee6d6be98f7f89d49087",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/kiki_machine_local_topology.py": "5444e76c7d7e3574ff9336836c13d438fff78cada2402e56db946a31f22babf2",
+    "src/kron_reduce/workflows/kiki_machine_local_topology_radius.py": "07e6f0b12576c494d23a5b6d89d10601308f93fae85a45746aab66309ef7916f",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "src/kron_reduce/workflows/machine_local_equation.py": "1fc52cd7636f757acef005b8690e93d67d593aa884c0bf146b56153fa265adb0",
+    "tests/test_kiki_topology_radius.py": "df196ce050aea14fb94f9e79f5b7a9cb5c15460b7d9e812d63f71fd2d7138c77"
+  }
+}
