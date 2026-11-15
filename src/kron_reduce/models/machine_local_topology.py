@@ -29,6 +29,7 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         self.latent_dimension = self.memory_dimension+self.topology_dimension
         self.angle_damping_rho = 0.
         self.angle_damping_spatial_mix = 0.
+        self.restoring_shape = 0.
         self.register_parameter("log_damping_factor",
                                 torch.nn.Parameter(self.mass.new_zeros(())) if train_scales else None)
         self.register_buffer("edge_basis", self.incidence.abs().T @ self.basis[:, :self.topology_dimension])
@@ -70,6 +71,13 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         root = (modes*values.clamp_min(0.).sqrt()) @ modes.T
         return root if self.log_damping_factor is None else root*(.5*self.log_damping_factor).exp()
 
+    def set_restoring_shape(self, alpha):
+        """Set the conservative correction with zero equilibrium slope."""
+        alpha = float(alpha)
+        if not -.25 <= alpha <= .25:
+            raise ValueError("restoring shape must be between minus and plus one-quarter")
+        self.restoring_shape = alpha
+
     def node_correction(self, state):
         return state[..., 2*self.n_nodes+self.memory_dimension:] @ self.basis[:, :self.topology_dimension].T
 
@@ -87,7 +95,11 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         n, r = self.n_nodes, self.memory_dimension
         angle = state[..., :n] @ self.incidence
         ref = equilibrium @ self.incidence
-        potential = (self.edge_stiffness(state)*(ref.cos()-(ref+angle).cos()-angle*ref.sin())).sum(-1)
+        potential = ref.cos()-(ref+angle).cos()-angle*ref.sin()
+        if self.restoring_shape:
+            second = ((2.*ref).cos()-(2.*(ref+angle)).cos())/2.-angle*(2.*ref).sin()
+            potential = potential+self.restoring_shape*(ref.cos()*second-2.*(2.*ref).cos()*potential)
+        potential = (self.edge_stiffness(state)*potential).sum(-1)
         v, z = state[..., n:2*n], state[..., 2*n:2*n+r]
         return potential+.5*((v.square()*self.mass).sum(-1)+z.square().sum(-1))
 
@@ -103,6 +115,11 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         visible_linear = -(inv_mass_projection @ torch.cat((damping, coupling), dim=1))
         memory_linear = torch.cat((coupling.T, -torch.diag(tau.reciprocal())), dim=1)
         applied = power @ inv_mass_projection.T
+        alpha = self.restoring_shape
+        if alpha:
+            first_weight = 1.-2.*alpha*(2.*ref).cos()
+            second_weight = alpha*ref.cos()
+            second_ref = (2.*ref).sin()
         local_rho = self.angle_damping_rho*self.angle_damping_spatial_mix
         rho = self.angle_damping_rho-local_rho
         damping_linear = -(inv_mass_projection @ damping) if rho else None
@@ -117,6 +134,8 @@ class TopologyMemoryModel(DiagonalMemoryModel):
             relative_angle = q @ edge
             angle = relative_angle+ref
             shifted_sine = angle.sin()-ref.sin()
+            if alpha:
+                shifted_sine = first_weight*shifted_sine+second_weight*((2.*angle).sin()-second_ref)
             k = self.edge_stiffness(state)
             force = k*shifted_sine
             acceleration = velocity_memory @ visible_linear.T+applied+force @ edge_acceleration.T
@@ -136,7 +155,10 @@ class TopologyMemoryModel(DiagonalMemoryModel):
                 return derivative
             sq, svm, sa = sensitivity[:, :n], sensitivity[:, n:2*n+r], sensitivity[:, 2*n+r:]
             edge_response = edge.T @ sq
-            force_response = (k*angle.cos())[..., None]*edge_response+force[..., None]*(self.edge_basis @ sa)
+            slope = angle.cos()
+            if alpha:
+                slope = first_weight*slope+2.*second_weight*(2.*angle).cos()
+            force_response = (k*slope)[..., None]*edge_response+force[..., None]*(self.edge_basis @ sa)
             acceleration_response = visible_linear @ svm+edge_acceleration @ force_response
             if rho:
                 ds = 2.*(relative_angle[..., None]*edge_response).mean(dim=1, keepdim=True)

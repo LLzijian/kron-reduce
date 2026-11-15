@@ -19,7 +19,8 @@ def parameters():
     return mass, k0, damping, g, tau, equilibrium
 
 
-def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_damping_rho=0., spatial_mix=0.):
+def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_damping_rho=0., spatial_mix=0.,
+                  restoring_alpha=0.):
     """Integrate batched visible and optional latent states at a 10 ms frame rate."""
     mass, k0, damping, g, tau, equilibrium = (np.asarray(x, dtype=np.float64) for x in params)
     q, v, power, a, z = (np.asarray(x, dtype=np.float64) for x in (q, v, power, a, z))
@@ -29,7 +30,8 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_da
             or mass.shape != (_N,) or damping.shape != (_N, _N) or g.shape != (_N,)
             or equilibrium.shape != (_N,) or k0.shape != (len(_EDGES),)
             or z.shape[1] > len(tau) or count < 1 or max_step <= 0
-            or not 0. <= angle_damping_rho <= 2./3. or not 0. <= spatial_mix <= 1.):
+            or not 0. <= angle_damping_rho <= 2./3. or not 0. <= spatial_mix <= 1.
+            or not -.25 <= restoring_alpha <= .25):
         raise ValueError("incompatible topology truth inputs")
     if not all(np.isfinite(x).all() for x in (mass, k0, damping, g, tau, equilibrium, q, v, power, a, z)):
         raise ValueError("topology truth inputs must be finite")
@@ -55,7 +57,11 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_da
     def rhs(x):
         xq, xv, xz = x[:, :_N], x[:, _N:2*_N], x[:, 2*_N:]
         edge = xq[:, _EDGES[:, 0]] - xq[:, _EDGES[:, 1]]
-        force = power - (edge_k * (np.sin(edge + ref) - np.sin(ref))) @ incidence.T
+        shifted = np.sin(edge + ref) - np.sin(ref)
+        if restoring_alpha:
+            harmonic = np.sin(2.*(edge+ref))-np.sin(2.*ref)
+            shifted = shifted+restoring_alpha*(np.cos(ref)*harmonic-2.*np.cos(2.*ref)*shifted)
+        force = power - (edge_k*shifted) @ incidence.T
         drag = xv @ damping.T
         if angle_damping_rho:
             s = np.mean(edge**2, axis=1, keepdims=True)

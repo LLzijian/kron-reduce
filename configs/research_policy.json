@@ -4452,6 +4452,38 @@
       "result_review_sha256": "2e72131ba4506c6d19aef7d8c799ca3d255b547eea7720ac0254c8d66d599a28",
       "engineering_pass": true,
       "scientific_pass": true
+    },
+    "machine_local_topology_restoring_shape_v1_20261115": {
+      "experiment": "machine_local_topology_restoring_shape_v1",
+      "workflow": "machine_local_topology_restoring_shape_v1",
+      "stage": "restoring_shape",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 6,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "npz_decodes": 1,
+        "fits": 6,
+        "numpy_rhs": 233280,
+        "numpy_damping_roots": 7,
+        "weak_intervals": 44640,
+        "quad_check_intervals": 44640,
+        "svd": 5904,
+        "rollouts": 4116,
+        "torch_rhs": 12136323,
+        "tangent_rhs": 705600,
+        "gradients": 3,
+        "qr": 5760,
+        "matrix_products": 5760,
+        "triangular_solves": 5760
+      },
+      "status": "active",
+      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
+      "plan_path": "configs/proposals/machine_local_topology_restoring_shape_v1.json",
+      "plan_sha256": "5bfc5a0dc00a926af4a3e829680d65db18855f9570a8db4e0584431ee7990026",
+      "review_path": "docs/research/machine_local_topology_restoring_shape_v1_review_20261115.json",
+      "review_sha256": "3284f51668668b3b586b37ffa1d0465d7117fdc876e31973dc27fe7d351272e0"
     }
   },
   "saved_evidence_audits": {

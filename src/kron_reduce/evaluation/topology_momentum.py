@@ -52,12 +52,16 @@ def project_residual(operator, rhs):
             "threshold": threshold, "basis": basis, "u": u, "vh": vh}
 
 
-def momentum_system(path, power, equilibrium, blocks, step, *, memory_inertia=1.):
-    """Assemble the mass- and time-scaled weak equation and signed force directions."""
+def momentum_system(path, power, equilibrium, blocks, step, *, memory_inertia=1., restoring=False):
+    """Assemble the mass- and time-scaled weak equation and signed force directions.
+
+    With ``restoring=True``, also return the exact integrated reverse-restoring
+    force direction while leaving the legacy right-hand side unchanged.
+    """
     mass, incidence, stiffness, damping, coupling, tau = blocks
     path, power, equilibrium = (np.asarray(x, dtype=np.float64) for x in (path, power, equilibrium))
     n, edges = incidence.shape
-    if (path.ndim != 2 or path.shape[1] != 2*n or len(path) < 2 or power.shape != (n,)
+    if (not isinstance(restoring, bool) or path.ndim != 2 or path.shape[1] != 2*n or len(path) < 2 or power.shape != (n,)
             or equilibrium.shape != (n,) or mass.shape != (n,) or stiffness.shape != (edges,)
             or damping.shape != (n, n) or coupling.shape != (n, len(tau)) or np.any(mass <= 0)
             or not all(np.isfinite(x).all() for x in (*blocks, path, power, equilibrium))
@@ -82,6 +86,10 @@ def momentum_system(path, power, equilibrium, blocks, step, *, memory_inertia=1.
     rhs = (np.diff(v, axis=0)*mass-forcing)*weights
     directions = {"stiffness": (stiffness_force*weights).ravel(), "damping": (damping_force*weights).ravel(),
                   "second_harmonic": ((-(harmonic*stiffness) @ edge_force.T)*weights).ravel()}
+    if restoring:
+        psi = np.cos(ref_angle)*harmonic-2.*np.cos(2.*ref_angle)*sine
+        restoring_force = -(psi*stiffness) @ edge_force.T
+        directions["restoring"] = (restoring_force*weights).ravel()
     return operator.reshape(rhs.size, -1), rhs.ravel(), directions
 
 
