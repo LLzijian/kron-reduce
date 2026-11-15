@@ -24,7 +24,8 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "margin": "machine_local_topology_margin_v1", "margin_v2": "machine_local_topology_margin_v2",
            "delayed": "machine_local_topology_delayed_v1",
            "delayed_origin": "machine_local_topology_delayed_origin_v1",
-           "delayed_damping": "machine_local_topology_delayed_damping_v1"}
+           "delayed_damping": "machine_local_topology_delayed_damping_v1",
+           "ball_history": "machine_local_topology_ball_history_v1"}
 
 
 def authorize(root, stage):
@@ -64,7 +65,7 @@ def authorize(root, stage):
         previous = policy[STUDIES["margin"]+"_20261115"]
         if (previous["status"] != "consumed" or previous["failed_record_sha256"] != plan["failed_record_sha256"]):
             raise RuntimeError("repaired margin run requires the archived serialization failure")
-    if stage in ("delayed_origin", "delayed_damping"):
+    if stage in ("delayed_origin", "delayed_damping", "ball_history"):
         previous = policy[STUDIES["delayed"]+"_20261115"]
         source = plan["source"]
         if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
@@ -152,6 +153,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.constant_c_observability import write_json
     from kron_reduce.evaluation.machine_local_synthetic import Budget
     from kron_reduce.evaluation.machine_local_topology import closeout, execute
+    from kron_reduce.evaluation.machine_local_topology_ball_history import execute as ball_history
     from kron_reduce.evaluation.machine_local_topology_delayed import execute as delayed
     from kron_reduce.evaluation.machine_local_topology_delayed_damping import (
         execute as delayed_damping,
@@ -171,7 +173,8 @@ def run(*, root, experiment, stage, result_dir, run_id):
     try:
         kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose,
                   "refinement": learn, "transfer": transfer, "margin": margin, "margin_v2": margin,
-                  "delayed": delayed, "delayed_origin": delayed_origin, "delayed_damping": delayed_damping}[stage]
+                  "delayed": delayed, "delayed_origin": delayed_origin, "delayed_damping": delayed_damping,
+                  "ball_history": ball_history}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()

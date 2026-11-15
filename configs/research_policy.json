@@ -4088,6 +4088,34 @@
       "result_review_sha256": "3316b180fa3ca5652f6d0e5d247483508ba50c703f3eeb531815ed7e4e3daa40",
       "engineering_pass": true,
       "scientific_pass": true
+    },
+    "machine_local_topology_ball_history_v1_20261115": {
+      "experiment": "machine_local_topology_ball_history_v1",
+      "workflow": "machine_local_topology_ball_history_v1",
+      "stage": "ball_history",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "npz_decodes": 1,
+        "numpy_rhs": 77760,
+        "rollouts": 11026,
+        "torch_rhs": 11026560,
+        "tangent_rhs": 352800,
+        "qr": 960,
+        "triangular_solves": 960,
+        "svd": 4800,
+        "matrix_products": 10560,
+        "secular_iterations": 122880
+      },
+      "status": "active",
+      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
+      "plan_path": "configs/proposals/machine_local_topology_ball_history_v1.json",
+      "plan_sha256": "0f38bbfa3c79058d3f213e1661d44ce5d0a5d3b288cddd6a962c8a9b8f5e07a5",
+      "review_path": "docs/research/machine_local_topology_ball_history_v1_review_20261115.json",
+      "review_sha256": "5159cc9e470d46187f6799a5449e5afd6905e34ca1c470a160157e1c977c4654"
     }
   },
   "saved_evidence_audits": {

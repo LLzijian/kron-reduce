@@ -73,7 +73,8 @@ def energy_residual(model, state, power, equilibrium, spend):
     return float(((terms.sum(-1)-expected).abs()/terms.abs().sum(-1).clamp_min(1.)).max().detach())
 
 
-def simulate(model, truth, a, power, equilibrium, scale, budget, *, oracle):
+def simulate(model, truth, a, power, equilibrium, scale, budget, *, oracle,
+             observer=predict_from_topology_history, diagnostics=None):
     size = len(truth)
     shape = (size, 801, 20+model.latent_dimension)
     paths, histories, errors = [], [], []
@@ -88,11 +89,14 @@ def simulate(model, truth, a, power, equilibrium, scale, budget, *, oracle):
                                            max_step=step, spend=budget.spend)
                     future[rows] = result.cpu().numpy()
                 else:
-                    result = predict_from_topology_history(model, truth[rows, :11, :10], truth[rows, :11, 10:20],
-                                                           power[rows], equilibrium[rows], scale, FORECAST_COUNT,
-                                                           max_step=step, spend=budget.spend)
+                    result = observer(model, truth[rows, :11, :10], truth[rows, :11, 10:20],
+                                      power[rows], equilibrium[rows], scale, FORECAST_COUNT,
+                                      max_step=step, spend=budget.spend)
                     future[rows] = result["forecast"].cpu().numpy()
                     history[rows] = result["history"].cpu().numpy()
+                    if diagnostics is not None:
+                        diagnostics.append({"step": step, "indexes": list(range(*rows.indices(size))),
+                                            **{key: value.cpu().tolist() for key, value in result["history_ball"].items()}})
 
         try:
             forecast(slice(None))
