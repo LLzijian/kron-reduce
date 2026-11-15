@@ -3721,12 +3721,25 @@
         "triangular_solves": 25455,
         "matrix_products": 25455
       },
-      "status": "active",
+      "status": "consumed",
       "plan_path": "configs/proposals/machine_local_topology_learning_v1.json",
       "plan_sha256": "76f2cf1ba459766129cac6c5da6516f244d7ad42e330d0371d4da09beb63d1b3",
       "review_path": "docs/research/machine_local_topology_learning_review_20261115.json",
       "review_sha256": "2d26169c7e309cfd8dfdbc273bfcdfa0b037150eac99f4390a34fce4ac32b0cb",
-      "authority": "explicit_operator_continue_topology_memory_learning"
+      "authority": "explicit_operator_continue_topology_memory_learning",
+      "run_id": "machine_local_topology_learning_v1-learning-20261115T030004994879Z-ae296951-2f11ad18",
+      "engineering_pass": true,
+      "scientific_pass": false,
+      "result_manifest_sha256": "98fb7d5f2b89acbce6dd20527cd80598b8710150a202f3ea809e17c72f735e21",
+      "original_process_status": "FAILED_HEAD_CHANGED",
+      "failed_record_sha256": "dc184639164b18388e8db0e70f30b0eb3b43f30c0b8f8ead26914bf501267db8",
+      "reconciliation": {
+        "run_id": "machine_local_topology_learning_v1-reconciled-20261115T031551190622Z-36e4d4ce-27bc5dea",
+        "path": "artifact_hashes.json",
+        "sha256": "a9543da62388e11a8d50e6694a7f9415369ab26b22cef14d9b99cd8c1291a07f"
+      },
+      "result_receipt_path": "docs/reports/machine_local_topology_learning_20261115_evidence.json",
+      "result_receipt_sha256": "eff1f1bbd6b0c419b6db9bf89531fcbbf3b7f4d2c9d671c922cfad52c54a10ab"
     }
   },
   "saved_evidence_audits": {

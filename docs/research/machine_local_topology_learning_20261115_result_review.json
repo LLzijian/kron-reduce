@@ -1,0 +1,23 @@
+{
+  "reviewer": "/root/s1_design",
+  "run_id": "machine_local_topology_learning_v1-learning-20261115T030004994879Z-ae296951-2f11ad18",
+  "decision": "KEEP_BASELINE",
+  "scientific_pass": false,
+  "independent_checks": 722,
+  "discrepancies": 0,
+  "source_scalar_review_sha256": "8d322e4267f090dcde612b25a70ecfe288701351def7a41d871eed9d894d7c9c",
+  "input_json_count": 118,
+  "scope": "Saved scalar JSON only; no model execution, truth regeneration, NPZ access or test-driven recommendation.",
+  "limitations": [
+    "Raw trajectories, instantaneous energy derivatives and truth fine/refined class agreement were not recomputed.",
+    "Recorded final-GN diagnostics do not expose intermediate projection branch changes."
+  ],
+  "bindings": {
+    "results/machine_local_topology_learning_v1-learning-20261115T030004994879Z-ae296951-2f11ad18/summary.json": "f40470de6e76fc28b8a76ffc2c0ac2cb56d8ed0cee5af151c515ee533e0094e0",
+    "results/machine_local_topology_learning_v1-learning-20261115T030004994879Z-ae296951-2f11ad18/stage_evidence.json": "80188256372046216e47a3534bd0d474154d31cd8d9d83a9a31605d9c873f3c9",
+    "results/machine_local_topology_learning_v1-learning-20261115T030004994879Z-ae296951-2f11ad18/artifact_hashes.json": "98fb7d5f2b89acbce6dd20527cd80598b8710150a202f3ea809e17c72f735e21",
+    "results/machine_local_topology_learning_v1-learning-20261115T030004994879Z-ae296951-2f11ad18/RUN_FAILED.json": "dc184639164b18388e8db0e70f30b0eb3b43f30c0b8f8ead26914bf501267db8",
+    "configs/proposals/machine_local_topology_learning_v1.json": "76f2cf1ba459766129cac6c5da6516f244d7ad42e330d0371d4da09beb63d1b3"
+  },
+  "original_process_status": "failed"
+}

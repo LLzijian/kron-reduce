@@ -11,8 +11,14 @@ introduces event-conditioned edge stiffness and reciprocal machine-local memory.
 The [S0 protocol](../protocols/machine_local_topology_v1_zh.md) tests four known-
 coefficient combinations and the 100 ms initialization before shared-parameter
 learning and function selection. The [S0 evidence](../reports/machine_local_topology_s0_20261115_zh.md)
-passes the engineering checks for clean synthetic histories. Shared-coefficient
-learning is the next registered comparison to prepare.
+passes the engineering checks for clean synthetic histories. The
+[shared-coefficient comparison](../reports/machine_local_topology_learning_20261115_zh.md)
+recovers both no-memory models and reduces trajectory error in the two memory
+models. The memory-kernel gate remains open, and the combined model exceeds its
+per-event trajectory and effective-stiffness limits. The next comparison should
+hold the selected shared coefficients fixed and cross true and inferred
+coupling corrections and memory states at the forecast origin on synthetic
+train and val. Structure selection and real evaluation remain gated.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
