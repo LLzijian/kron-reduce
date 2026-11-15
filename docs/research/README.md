@@ -81,7 +81,7 @@ observed-path momentum SSE by 41.92% on unstable train events and increased it
 by 33.54% on stable train events. The sampling and transfer gates failed, so
 this comparison supplies no basis to relax the bound globally.
 The next [known-truth comparison](machine_local_topology_momentum_plan_20261115_zh.md#下一项合成对照)
-prepares velocity-dependent dissipative damping with the original memory bound.
+prepares angle-dependent dissipative damping with the original memory bound.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
