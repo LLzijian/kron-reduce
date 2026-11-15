@@ -1,0 +1,109 @@
+{
+  "schema": "machine_local_topology_delayed_damping_result_review.v1",
+  "verified": true,
+  "run_id": "machine_local_topology_delayed_damping_v1-delayed_damping-20261115T083744695248Z-02325f0b-ec203ad9",
+  "summary_sha256": "67d87228aa5cb2f6b8b739cf9edb6d57127953ede65a37af042b1104e4d08eb1",
+  "scientific_pass": true,
+  "engineering_pass": true,
+  "decision": "VERIFY_SYNTHETIC_CAUSAL_DAMPING_FIT_PASS_KEEP_BASELINE_PREPARE_SEPARATE_REAL_TRANSFER_GATE",
+  "verified_metadata_hashes": {
+    "candidate-equation.json": "5eaee7a5843f7ff4a6da724161b3b918d5cbe9add25a885a12ebe1fc2aa42c66",
+    "candidate-scores.json": "337b9803ba5d1fc87696d63595993daa3c11052612f8847c39784f541bdeb4a3",
+    "damping-profile.json": "a2580ad791ae0f64c2be1e7d5460d600365c7b177c9c171d23ab8cdd6d43ba77",
+    "operations.jsonl": "b9ec835e848f406bea672b0a51e37fa805d0372cb1124ac74bf4a96d1507e659",
+    "reference-scores.json": "460264acc6702b040385faa0671d5acdb84e01bc494ceb124bd60d306e9fd241",
+    "stage_evidence.json": "0e2be607b584b7c13d8035c7682ed1549b0d1e11abb15dcc562aebe5bc1c156e",
+    "summary.json": "67d87228aa5cb2f6b8b739cf9edb6d57127953ede65a37af042b1104e4d08eb1"
+  },
+  "evidence": {
+    "fit": {
+      "status": "refined",
+      "objective_calls": 19,
+      "all_trials_finite": true,
+      "start_scale": 1.323437744597295,
+      "selected_scale": 0.9973390061646012,
+      "start_train_loss": 0.0014101972275663598,
+      "selected_train_loss": 5.683985112968881E-06,
+      "selected_is_lowest_recorded_train_loss": true
+    },
+    "unchanged_equation_fields": [
+      "stiffness_scale",
+      "port_amplitude",
+      "tau"
+    ],
+    "operation_counts": {
+      "npz_decodes": 3,
+      "fits": 1,
+      "objective_calls": 19,
+      "rollouts": 147,
+      "tangent_rhs": 10000,
+      "torch_rhs": 96000,
+      "qr": 1380,
+      "svd": 1380,
+      "matrix_products": 1380,
+      "triangular_solves": 1380
+    },
+    "exact_rosters": {
+      "train": 12,
+      "val": 6,
+      "test": 6,
+      "reference_and_candidate_ids_verified": true
+    },
+    "independent_sufficient_gates": {
+      "train": true,
+      "val": true
+    },
+    "train": {
+      "matched_reference": 0,
+      "matched_candidate": 6,
+      "truth_positive": 6,
+      "reference_unstable_margin_rmse": 0.0330075949081454,
+      "candidate_unstable_margin_rmse": 0.0034322466671837504,
+      "reference_pooled_eight_second_nrmse": 1.0687045211584096,
+      "candidate_pooled_eight_second_nrmse": 0.2726686859079299,
+      "tp": 6,
+      "tn": 6,
+      "fp": 0,
+      "fn": 0,
+      "unresolved": 0,
+      "qualified": 12,
+      "accuracy": 1.0
+    },
+    "val": {
+      "matched_reference": 0,
+      "matched_candidate": 3,
+      "truth_positive": 3,
+      "reference_unstable_margin_rmse": 0.03114156565517847,
+      "candidate_unstable_margin_rmse": 0.0027319830175370923,
+      "reference_pooled_eight_second_nrmse": 1.8504509917982126,
+      "candidate_pooled_eight_second_nrmse": 0.21481418505314145,
+      "tp": 3,
+      "tn": 3,
+      "fp": 0,
+      "fn": 0,
+      "unresolved": 0,
+      "qualified": 6,
+      "accuracy": 1.0
+    }
+  },
+  "scientific_conclusion": "A scalar damping coefficient selected solely by complete synthetic train visible-trajectory loss, with fresh causal history initialization at every trial and final prediction, restores all train and val matched instability witnesses and passes the registered full-horizon stability and trajectory guards. This demonstrates the proposed causal fitting mechanism on this known-truth cohort; it does not establish real-data accuracy or authorize deployment.",
+  "verification_checks": [
+    "Seven JSON/JSONL artifact hashes match the manifest; the coordinator separately verified all nine artifact hashes. Both reference and candidate contain the exact 24 IDs and ordered train/val/test rosters.",
+    "The nineteen-entry frozen profile contains nine prescribed log-grid points and ten interior refinement evaluations, all with finite train loss. Its chosen coefficient is an evaluated minimum of the saved train objective. Neither stability labels nor val/test scores appear in the objective selection trace.",
+    "The previously reviewed frozen implementation passes only eleven observed visible history points to each fresh causal initializer and scores predicted visible trajectories against the masked train target. It never uses the truth hidden state or a penalty toward truth damping. Saved equation metadata shows only damping changed; stiffness and all port/time-constant entries exactly match the source equation metadata.",
+    "Per-event train/val signed-margin errors independently reproduce the reported aggregate RMSE and restored witness counts. Complete qualification, correct eight-second stability, the five-percent margin improvement and all overall/truth-stable three/eight-second trajectory guards pass separately in train and val.",
+    "Actual counters equal nineteen train predictions plus one complete dual-step candidate evaluation: 147 rollouts, 96000 Torch RHS, 10000 tangent RHS and 1380 each QR/SVD/triangular/matrix operation, with three NPZ decodes and one scalar fit. No gradient or parameter-update optimizer operation is registered or reported."
+  ],
+  "next_route": {
+    "status": "DESIGN_ONLY_REQUIRES_SEPARATE_REAL_DATA_REGISTRATION_AND_APPROVAL",
+    "objective": "Transfer the scalar fitting procedure to the frozen real T0M1 step-12 equation with its ORIGINAL causal initializer radius, prior, train scales, input contract and support. Fit only on the complete frozen train roster, then freeze and assess complete train=346, val=107 and test=76.",
+    "restrictions": "Do not import synthetic damping 0.9973390061646012 or truth hidden states. Retain official real labels and separate trajectory witnesses. Freeze one search rule and all numerical/stability/trajectory gates before real fitting; test is reporting-only and cannot select coefficients, boundaries, priors or thresholds. Keep deployment baseline unchanged pending an independent real-result review."
+  },
+  "verification_boundary": "Saved JSON and metadata review only. Test was checked for exact roster coverage and did not enter the scientific inference or proposed transfer design. No NPZ was opened or decoded, no model was called and no test was executed by this reviewer.",
+  "reviewer_execution": {
+    "scientific_runs": 0,
+    "model_calls": 0,
+    "array_decodes": 0,
+    "tests_run": 0
+  }
+}

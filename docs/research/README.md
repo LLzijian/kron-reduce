@@ -45,8 +45,12 @@ The margin improvement gate failed. The subsequent [delayed-excitation check](..
 reproduced six matched train misses at the shared start and measured both
 loss gradients. Norm calibration changed the first Adam update substantially
 while improving its projected margin descent by 0.16%. Neither twenty-update
-fit recovered a matched witness. The next preparation isolates the estimated
-origin state and the stiffness, damping, and memory coefficients on this truth.
+fit recovered a matched witness. In the [seven-condition diagnosis](../reports/machine_local_topology_delayed_origin_20261115_zh.md),
+damping substitution recovered every matched train and val witness at a
+fixed true origin. The [causal damping fit](../reports/machine_local_topology_delayed_damping_20261115_zh.md)
+recovered these witnesses from visible train trajectories and passed the
+synthetic gate. The next preparation is a separately registered full TASK3
+single-parameter comparison from the original frozen T0M1 model.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across

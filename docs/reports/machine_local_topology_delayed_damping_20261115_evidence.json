@@ -1,0 +1,506 @@
+{
+  "run_id": "machine_local_topology_delayed_damping_v1-delayed_damping-20261115T083744695248Z-02325f0b-ec203ad9",
+  "stage": "delayed_damping",
+  "source_commit": "02325f0bacf917095e65872eaf6eb9a67cb845d5",
+  "plan_sha256": "b8c8b2f39d9e4e430b50ea71ee04edfc11fc39cc6cea06c05b61d548ad61cdae",
+  "artifact_manifest_sha256": "2ad5c53cc2a93e4ed872f58e9653c39898a15ce76fe7581799881a88cef873a0",
+  "summary_sha256": "67d87228aa5cb2f6b8b739cf9edb6d57127953ede65a37af042b1104e4d08eb1",
+  "artifact_count": 9,
+  "operation_log_sha256": "b9ec835e848f406bea672b0a51e37fa805d0372cb1124ac74bf4a96d1507e659",
+  "development_accepted": true,
+  "result_review_sha256": "3316b180fa3ca5652f6d0e5d247483508ba50c703f3eeb531815ed7e4e3daa40",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "claim_boundary": "Single damping scale fitted to visible synthetic train trajectories; causal evaluation.",
+  "fit": {
+    "status": "refined",
+    "start_scale": 1.323437744597295,
+    "selected_scale": 0.9973390061646012,
+    "start_train_loss": 0.0014101972275663598,
+    "selected_train_loss": 5.683985112968881e-06,
+    "valid": true
+  },
+  "paired_witnesses": {
+    "train": {
+      "allocated": 6,
+      "qualified": 6,
+      "recovered": 6,
+      "lost": 0
+    },
+    "val": {
+      "allocated": 3,
+      "qualified": 3,
+      "recovered": 3,
+      "lost": 0
+    }
+  },
+  "models": {
+    "reference": {
+      "train": {
+        "allocated": 12,
+        "qualified": 12,
+        "stability": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 0,
+          "tn": 6,
+          "eligible_unstable": 6,
+          "eligible_stable": 6,
+          "eligible": 12,
+          "unstable_unresolved": 2,
+          "stable_unresolved": 0,
+          "numerical_unresolved": 2,
+          "fsr": null,
+          "fur": null,
+          "fsr_lower": 0.0,
+          "fsr_upper": 0.3333333333333333,
+          "fur_lower": 0.0,
+          "fur_upper": 0.0,
+          "accuracy": null,
+          "balanced_accuracy": null,
+          "recall": null,
+          "precision": null,
+          "f1": null,
+          "allocated": 12,
+          "resolved": 10,
+          "uncovered": 0,
+          "unresolved": 2,
+          "coverage": 0.8333333333333334,
+          "correct_fraction_lower_bound": 0.8333333333333334,
+          "accuracy_on_resolved": 1.0,
+          "numerical_failures": 0,
+          "unsettled_predictions": 2,
+          "weighting": "event_equal",
+          "forecast_horizon_s": 8.0,
+          "positive_class": "unstable",
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.0
+        },
+        "pooled_nrmse": {
+          "1": 0.12873810569582006,
+          "2": 0.3351366482413924,
+          "3": 0.5060480695353379,
+          "5": 0.8006309980091326,
+          "8": 1.0687045211584096
+        },
+        "matched_margin": {
+          "stable": {
+            "allocated": 6,
+            "qualified": 6,
+            "rmse": 0.00011686495256470036,
+            "predicted_triggers": 0,
+            "truth_triggers": 0,
+            "pooled_nrmse": {
+              "3": 0.004615082393509255,
+              "8": 0.003923646997499463
+            }
+          },
+          "unstable": {
+            "allocated": 6,
+            "qualified": 6,
+            "rmse": 0.0330075949081454,
+            "predicted_triggers": 0,
+            "truth_triggers": 6,
+            "pooled_nrmse": {
+              "3": 0.7156451623363252,
+              "8": 1.511371334941579
+            }
+          }
+        }
+      },
+      "val": {
+        "allocated": 6,
+        "qualified": 6,
+        "stability": {
+          "tp": 2,
+          "fn": 0,
+          "fp": 0,
+          "tn": 3,
+          "eligible_unstable": 3,
+          "eligible_stable": 3,
+          "eligible": 6,
+          "unstable_unresolved": 1,
+          "stable_unresolved": 0,
+          "numerical_unresolved": 1,
+          "fsr": null,
+          "fur": null,
+          "fsr_lower": 0.0,
+          "fsr_upper": 0.3333333333333333,
+          "fur_lower": 0.0,
+          "fur_upper": 0.0,
+          "accuracy": null,
+          "balanced_accuracy": null,
+          "recall": null,
+          "precision": null,
+          "f1": null,
+          "allocated": 6,
+          "resolved": 5,
+          "uncovered": 0,
+          "unresolved": 1,
+          "coverage": 0.8333333333333334,
+          "correct_fraction_lower_bound": 0.8333333333333334,
+          "accuracy_on_resolved": 1.0,
+          "numerical_failures": 0,
+          "unsettled_predictions": 1,
+          "weighting": "event_equal",
+          "forecast_horizon_s": 8.0,
+          "positive_class": "unstable",
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.0
+        },
+        "pooled_nrmse": {
+          "1": 0.20311437735625343,
+          "2": 0.5281806798759274,
+          "3": 0.8327981318805473,
+          "5": 1.3255634843960853,
+          "8": 1.8504509917982126
+        },
+        "matched_margin": {
+          "stable": {
+            "allocated": 3,
+            "qualified": 3,
+            "rmse": 0.00010380348547417022,
+            "predicted_triggers": 0,
+            "truth_triggers": 0,
+            "pooled_nrmse": {
+              "3": 0.007400168206560209,
+              "8": 0.006294861571238567
+            }
+          },
+          "unstable": {
+            "allocated": 3,
+            "qualified": 3,
+            "rmse": 0.03114156565517847,
+            "predicted_triggers": 0,
+            "truth_triggers": 3,
+            "pooled_nrmse": {
+              "3": 1.1777311639071004,
+              "8": 2.616925318157126
+            }
+          }
+        }
+      },
+      "test": {
+        "allocated": 6,
+        "qualified": 6,
+        "stability": {
+          "tp": 2,
+          "fn": 0,
+          "fp": 0,
+          "tn": 3,
+          "eligible_unstable": 3,
+          "eligible_stable": 3,
+          "eligible": 6,
+          "unstable_unresolved": 1,
+          "stable_unresolved": 0,
+          "numerical_unresolved": 1,
+          "fsr": null,
+          "fur": null,
+          "fsr_lower": 0.0,
+          "fsr_upper": 0.3333333333333333,
+          "fur_lower": 0.0,
+          "fur_upper": 0.0,
+          "accuracy": null,
+          "balanced_accuracy": null,
+          "recall": null,
+          "precision": null,
+          "f1": null,
+          "allocated": 6,
+          "resolved": 5,
+          "uncovered": 0,
+          "unresolved": 1,
+          "coverage": 0.8333333333333334,
+          "correct_fraction_lower_bound": 0.8333333333333334,
+          "accuracy_on_resolved": 1.0,
+          "numerical_failures": 0,
+          "unsettled_predictions": 1,
+          "weighting": "event_equal",
+          "forecast_horizon_s": 8.0,
+          "positive_class": "unstable",
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.0
+        },
+        "pooled_nrmse": {
+          "1": 0.2279342879842792,
+          "2": 0.5794339094064528,
+          "3": 0.9445214668424975,
+          "5": 1.2174656440985077,
+          "8": 1.4882136294342585
+        },
+        "matched_margin": {
+          "stable": {
+            "allocated": 3,
+            "qualified": 3,
+            "rmse": 0.00013454317926212225,
+            "predicted_triggers": 0,
+            "truth_triggers": 0,
+            "pooled_nrmse": {
+              "3": 0.007928949175667421,
+              "8": 0.006259226031833226
+            }
+          },
+          "unstable": {
+            "allocated": 3,
+            "qualified": 3,
+            "rmse": 0.04335979937224431,
+            "predicted_triggers": 0,
+            "truth_triggers": 3,
+            "pooled_nrmse": {
+              "3": 1.33573153530849,
+              "8": 2.104642590977684
+            }
+          }
+        }
+      }
+    },
+    "candidate": {
+      "train": {
+        "allocated": 12,
+        "qualified": 12,
+        "stability": {
+          "tp": 6,
+          "fn": 0,
+          "fp": 0,
+          "tn": 6,
+          "eligible_unstable": 6,
+          "eligible_stable": 6,
+          "eligible": 12,
+          "unstable_unresolved": 0,
+          "stable_unresolved": 0,
+          "numerical_unresolved": 0,
+          "fsr": 0.0,
+          "fur": 0.0,
+          "fsr_lower": 0.0,
+          "fsr_upper": 0.0,
+          "fur_lower": 0.0,
+          "fur_upper": 0.0,
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "recall": 1.0,
+          "precision": 1.0,
+          "f1": 1.0,
+          "allocated": 12,
+          "resolved": 12,
+          "uncovered": 0,
+          "unresolved": 0,
+          "coverage": 1.0,
+          "correct_fraction_lower_bound": 1.0,
+          "accuracy_on_resolved": 1.0,
+          "numerical_failures": 0,
+          "unsettled_predictions": 0,
+          "weighting": "event_equal",
+          "forecast_horizon_s": 8.0,
+          "positive_class": "unstable",
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.0
+        },
+        "pooled_nrmse": {
+          "1": 0.014891570429494115,
+          "2": 0.06487704003105883,
+          "3": 0.14024522370890544,
+          "5": 0.2650980011244756,
+          "8": 0.2726686859079299
+        },
+        "matched_margin": {
+          "stable": {
+            "allocated": 6,
+            "qualified": 6,
+            "rmse": 0.00014478769730359695,
+            "predicted_triggers": 0,
+            "truth_triggers": 0,
+            "pooled_nrmse": {
+              "3": 0.001365918098990962,
+              "8": 0.002446922258094709
+            }
+          },
+          "unstable": {
+            "allocated": 6,
+            "qualified": 6,
+            "rmse": 0.0034322466671837504,
+            "predicted_triggers": 6,
+            "truth_triggers": 6,
+            "pooled_nrmse": {
+              "3": 0.19833199392450204,
+              "8": 0.3856039900221178
+            }
+          }
+        }
+      },
+      "val": {
+        "allocated": 6,
+        "qualified": 6,
+        "stability": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 3,
+          "eligible_unstable": 3,
+          "eligible_stable": 3,
+          "eligible": 6,
+          "unstable_unresolved": 0,
+          "stable_unresolved": 0,
+          "numerical_unresolved": 0,
+          "fsr": 0.0,
+          "fur": 0.0,
+          "fsr_lower": 0.0,
+          "fsr_upper": 0.0,
+          "fur_lower": 0.0,
+          "fur_upper": 0.0,
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "recall": 1.0,
+          "precision": 1.0,
+          "f1": 1.0,
+          "allocated": 6,
+          "resolved": 6,
+          "uncovered": 0,
+          "unresolved": 0,
+          "coverage": 1.0,
+          "correct_fraction_lower_bound": 1.0,
+          "accuracy_on_resolved": 1.0,
+          "numerical_failures": 0,
+          "unsettled_predictions": 0,
+          "weighting": "event_equal",
+          "forecast_horizon_s": 8.0,
+          "positive_class": "unstable",
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.0
+        },
+        "pooled_nrmse": {
+          "1": 0.015744661185493843,
+          "2": 0.062029265143462915,
+          "3": 0.12374355906477559,
+          "5": 0.23798227855993678,
+          "8": 0.21481418505314145
+        },
+        "matched_margin": {
+          "stable": {
+            "allocated": 3,
+            "qualified": 3,
+            "rmse": 0.0001124007987722096,
+            "predicted_triggers": 0,
+            "truth_triggers": 0,
+            "pooled_nrmse": {
+              "3": 0.001777390279152804,
+              "8": 0.0035177111311914147
+            }
+          },
+          "unstable": {
+            "allocated": 3,
+            "qualified": 3,
+            "rmse": 0.0027319830175370923,
+            "predicted_triggers": 3,
+            "truth_triggers": 3,
+            "pooled_nrmse": {
+              "3": 0.17499079319733019,
+              "8": 0.3037727668973769
+            }
+          }
+        }
+      },
+      "test": {
+        "allocated": 6,
+        "qualified": 6,
+        "stability": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 3,
+          "eligible_unstable": 3,
+          "eligible_stable": 3,
+          "eligible": 6,
+          "unstable_unresolved": 0,
+          "stable_unresolved": 0,
+          "numerical_unresolved": 0,
+          "fsr": 0.0,
+          "fur": 0.0,
+          "fsr_lower": 0.0,
+          "fsr_upper": 0.0,
+          "fur_lower": 0.0,
+          "fur_upper": 0.0,
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "recall": 1.0,
+          "precision": 1.0,
+          "f1": 1.0,
+          "allocated": 6,
+          "resolved": 6,
+          "uncovered": 0,
+          "unresolved": 0,
+          "coverage": 1.0,
+          "correct_fraction_lower_bound": 1.0,
+          "accuracy_on_resolved": 1.0,
+          "numerical_failures": 0,
+          "unsettled_predictions": 0,
+          "weighting": "event_equal",
+          "forecast_horizon_s": 8.0,
+          "positive_class": "unstable",
+          "recall_on_resolved": 1.0,
+          "miss_rate_on_resolved": 0.0,
+          "false_alarm_rate_on_resolved": 0.0
+        },
+        "pooled_nrmse": {
+          "1": 0.01072046427433771,
+          "2": 0.03680902876478947,
+          "3": 0.06697293262193849,
+          "5": 0.1327282863991982,
+          "8": 0.1352419017007966
+        },
+        "matched_margin": {
+          "stable": {
+            "allocated": 3,
+            "qualified": 3,
+            "rmse": 0.00014537233447120237,
+            "predicted_triggers": 0,
+            "truth_triggers": 0,
+            "pooled_nrmse": {
+              "3": 0.0018630668803666969,
+              "8": 0.003110945042262545
+            }
+          },
+          "unstable": {
+            "allocated": 3,
+            "qualified": 3,
+            "rmse": 0.0016345947642096537,
+            "predicted_triggers": 2,
+            "truth_triggers": 3,
+            "pooled_nrmse": {
+              "3": 0.09469570417798637,
+              "8": 0.19123562945288175
+            }
+          }
+        }
+      }
+    }
+  },
+  "status": "PASS",
+  "process_status": "PASS",
+  "data_policy": "analytic_synthetic_only",
+  "promotion_decision": "KEEP_BASELINE",
+  "operation_counts": {
+    "npz_decodes": 3,
+    "fits": 1,
+    "objective_calls": 19,
+    "rollouts": 147,
+    "tangent_rhs": 10000,
+    "torch_rhs": 96000,
+    "qr": 1380,
+    "svd": 1380,
+    "matrix_products": 1380,
+    "triangular_solves": 1380
+  },
+  "elapsed_seconds": 17.75225220003631,
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  }
+}

@@ -4043,12 +4043,20 @@
         "triangular_solves": 2460,
         "matrix_products": 2460
       },
-      "status": "active",
+      "status": "consumed",
       "plan_path": "configs/proposals/machine_local_topology_delayed_damping_v1.json",
       "plan_sha256": "b8c8b2f39d9e4e430b50ea71ee04edfc11fc39cc6cea06c05b61d548ad61cdae",
       "review_path": "docs/research/machine_local_topology_delayed_damping_review_20261115.json",
       "review_sha256": "1a1d17beb3b148a1b5ada94f9c90a055133d2671248d986314dc37ab8f76693c",
-      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal"
+      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
+      "run_id": "machine_local_topology_delayed_damping_v1-delayed_damping-20261115T083744695248Z-02325f0b-ec203ad9",
+      "result_manifest_sha256": "2ad5c53cc2a93e4ed872f58e9653c39898a15ce76fe7581799881a88cef873a0",
+      "result_receipt_path": "docs/reports/machine_local_topology_delayed_damping_20261115_evidence.json",
+      "result_receipt_sha256": "1d093c72cdc33d6c4552b4f31ff1616f13733dbb88cf45e1cb85f8d74461b7b1",
+      "result_review_path": "docs/research/machine_local_topology_delayed_damping_result_review_20261115.json",
+      "result_review_sha256": "3316b180fa3ca5652f6d0e5d247483508ba50c703f3eeb531815ed7e4e3daa40",
+      "engineering_pass": true,
+      "scientific_pass": true
     }
   },
   "saved_evidence_audits": {

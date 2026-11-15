@@ -23,6 +23,8 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Causal damping profile](machine_local_topology_delayed_damping_20261115_zh.md) | Train-only scalar fit, recovered all matched train and val witnesses, passed synthetic gate |
+| [Delayed origin and coefficient controls](machine_local_topology_delayed_origin_20261115_zh.md) | Seven no-fit conditions on complete synthetic train/val/test, isolated damping as a sufficient correction at the true origin |
 | [Delayed instability and gradient calibration](machine_local_topology_delayed_20261115_zh.md) | Two same-start fits and full train/val/test, reproduced matched misses, calibrated margin recovered none |
 | [Paired synthetic five-point margin training](machine_local_topology_margin_20261115_zh.md) | Two same-start fits on 24 known-truth events, complete train/val/test, margin improvement gate failed |
 | [TASK3 five-point train witnesses](kiki_task3_train_witness_20261115_zh.md) | Complete train evidence, two saved radius controls, GPU gradient through history and forecast |
