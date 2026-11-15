@@ -4267,7 +4267,7 @@
       "npz_decodes": 2
     },
     "kiki_machine_local_topology_damping_saved_audit_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "authority": "operator_full_task3_accuracy_goal_evidence",
       "max_executions": 1,
       "retry_allowed": false,
@@ -4276,7 +4276,13 @@
       "plan_path": "configs/proposals/kiki_machine_local_topology_damping_saved_audit_v1.json",
       "plan_sha256": "9cb96df6958cad3c6911555a4a5d97dd873f1dac6f2f97f67c2702c81a76af92",
       "review_path": "docs/research/kiki_machine_local_topology_damping_saved_audit_v1_review_20261115.json",
-      "review_sha256": "de9284df973fdc9fa3b149d91f27585fef982a4754693788d3453c7f6ee77ab7"
+      "review_sha256": "de9284df973fdc9fa3b149d91f27585fef982a4754693788d3453c7f6ee77ab7",
+      "result_path": "reports/generated/kiki_machine_local_topology_damping_20261115/saved-audit.json",
+      "result_sha256": "e44b7c7178d88cb74d0a9462df24b2c3c5d3d481a27e7e386b83d0ef1ada916a",
+      "mismatches": 0,
+      "npz_decodes": 3,
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_damping_saved_audit_20261115_evidence.json",
+      "result_receipt_sha256": "d25181d10f654d96fcb46434399aee43cd77767f5009936fe20f1abc01ce537e"
     }
   },
   "default_real_data_policy": "kiki_official_train_test_v1",

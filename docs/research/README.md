@@ -49,8 +49,12 @@ fit recovered a matched witness. In the [seven-condition diagnosis](../reports/m
 damping substitution recovered every matched train and val witness at a
 fixed true origin. The [causal damping fit](../reports/machine_local_topology_delayed_damping_20261115_zh.md)
 recovered these witnesses from visible train trajectories and passed the
-synthetic gate. The next preparation is a separately registered full TASK3
-single-parameter comparison from the original frozen T0M1 model.
+synthetic gate. The [full TASK3 damping comparison](../reports/kiki_machine_local_topology_damping_20261115_zh.md)
+reduced the short-horizon train objective by 18.85%. Val instability detection
+fell from 8/12 to 1/12, and the full test accuracy remained unresolved. All
+three rosters and saved-prediction checks are complete. The next candidate is the
+[ball-constrained history solve](machine_local_topology_ball_history_plan_20261115_zh.md)
+on the original T0M1 equation.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
