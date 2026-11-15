@@ -1,0 +1,54 @@
+{
+  "verified": true,
+  "status": "PASS",
+  "run_id": "kiki_machine_local_topology_radius_test_v2-test-20261115T063702092803Z-2f594951-76280f50",
+  "artifact_count": 11,
+  "roles": [
+    "train",
+    "val",
+    "test"
+  ],
+  "scores": {
+    "train": {
+      "tp": 23,
+      "tn": 307,
+      "fp": 3,
+      "fn": 4,
+      "allocated": 346,
+      "resolved": 337,
+      "unresolved": 9,
+      "numerical_failures": 0,
+      "accuracy": null,
+      "classifiable_accuracy": 0.9792284866468842,
+      "correct": 330
+    },
+    "val": {
+      "tp": 9,
+      "tn": 95,
+      "fp": 0,
+      "fn": 1,
+      "allocated": 107,
+      "resolved": 105,
+      "unresolved": 2,
+      "numerical_failures": 0,
+      "accuracy": null,
+      "classifiable_accuracy": 0.9904761904761905,
+      "correct": 104
+    },
+    "test": {
+      "tp": 3,
+      "tn": 67,
+      "fp": 0,
+      "fn": 3,
+      "allocated": 76,
+      "resolved": 73,
+      "unresolved": 3,
+      "numerical_failures": 0,
+      "accuracy": null,
+      "classifiable_accuracy": 0.958904109589041,
+      "correct": 70
+    }
+  },
+  "val_guard": false,
+  "test_goal_met": false
+}

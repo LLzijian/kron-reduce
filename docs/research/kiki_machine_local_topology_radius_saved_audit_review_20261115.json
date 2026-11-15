@@ -1,0 +1,74 @@
+{
+  "schema": "kron_reduce.kiki_machine_local_topology_radius_saved_audit_review.v1",
+  "review_date": "2026-11-15",
+  "reviewer": "Independent scientific and engineering review",
+  "review_task": "/root/radius_review",
+  "approved": true,
+  "review_completed": true,
+  "decision": "APPROVE_EXACT_THREE_ARCHIVE_SAVED_ARITHMETIC_AUDIT",
+  "plan_path": "configs/proposals/kiki_machine_local_topology_radius_saved_audit_v1.json",
+  "plan_sha256": "c962417f827ffea47c2f51b55b778e9085b68435dc4f9069f5262843fc2014e2",
+  "implementation_bindings": {
+    "scratch/one_off/kiki_machine_local_topology_radius_20261115/audit_predictions.py": "4b6c34d6b2c73344809e46eeb45b8de3fc64e3368818681350ab9a64496f8fbd",
+    "scripts/audit_kiki_machine_local_r20_r21_saved.py": "067b35fdd2ad24235e8c080ec57e23b7f34337a69e57e27d98c0e6640888027d",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/proposals/kiki_machine_local_topology_radius_test_v2.json": "3d5504fea5b0ca591dc33b6f560a9e41333aa720ab6a50926d30856a3e40d50c",
+    "docs/reports/kiki_machine_local_topology_radius_20261115_evidence.json": "d00647fdb942a16b23276ddfc5a927b37e9995b0403ab8fe8d0ea363c361e9a1",
+    "configs/proposals/kiki_machine_local_topology_radius_v1_freeze.json": "fe1135c254239f0de33b4d4b547a6396afa6d4751c945d6ed2130d0e13bd6ef1"
+  },
+  "run_id": "kiki_machine_local_topology_radius_test_v2-test-20261115T063702092803Z-2f594951-76280f50",
+  "artifact_manifest_sha256": "bedb45a2809b218780feab9a752dab71bcefda9c1cda38d6eb5bbaf76f4f7099",
+  "scope": {
+    "candidate": "R2",
+    "roles": [
+      "train",
+      "val",
+      "test"
+    ],
+    "counts": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    },
+    "max_executions": 1,
+    "retry_allowed": false,
+    "max_npz_decodes": 3,
+    "new_raw_source_reads": 0,
+    "new_model_calls": 0,
+    "checkpoint_loads": 0,
+    "fitting": 0,
+    "optimizer_updates": 0,
+    "test_tuning": false
+  },
+  "verification": {
+    "exact_plan_hash_verified": true,
+    "local_implementation_bindings_verified": 10,
+    "external_scoring_code_bindings_verified": 60,
+    "consumed_v2_run_and_terminal_workflow_record_verified": true,
+    "completed_receipt_and_artifact_manifest_hashes_verified": true,
+    "exact_three_json_and_archive_bindings_matched_to_manifest": true,
+    "scalar_json_byte_hashes_verified": true,
+    "source_qualified_rosters_and_frozen_truth_labels_verified": true,
+    "unique_source_qualified_ids": 529,
+    "reviewer_npz_files_opened": 0,
+    "reviewer_npz_decodes": 0,
+    "reviewer_raw_cache_reads": 0,
+    "reviewer_model_calls": 0
+  },
+  "rationale": [
+    "The plan binds exactly the R2 train, val and test prediction archives and score JSON files from the consumed v2 evaluation. The completed receipt and hashed artifact manifest agree with the run identity and all six file bindings. Archive identity was checked through manifest entries and file existence without opening an NPZ file.",
+    "The auditor verifies active one-use authorization, exact plan and review hashes, local implementation, external TASK3 scoring code, consumed run provenance, the terminal workflow record, frozen model metadata and original train-derived target scale. It reserves an exclusive shared-Git marker before any archive decoding and writes a new report outside the immutable result directory.",
+    "The fixed three-role loop calls the pinned saved-archive loader once per role. The loader uses allow_pickle=False and checks explicit archive fields, prediction dimensions, saved truth lengths, finite truth/static metadata, complete ordered source-qualified IDs, frozen labels and event metadata. The exact 346/107/76 rosters remain disjoint and complete.",
+    "The pinned arithmetic functions recompute trajectory summaries, physical-unit RMSE, dual-step numerical qualification, trajectory-derived predicted labels, confusion counts, full-cohort and classifiable accuracy, coverage, and train-scale 1 s/3 s NMSE. The comparison checks saved score fields at the existing 1e-12 numerical tolerance. Invalid metrics remain null and unresolved predictions remain unresolved.",
+    "The script reads saved forecasts and their saved truth arrays, plus frozen JSON metadata. It does not invoke the source cache reader, load model weights, initialize hidden states, integrate trajectories, fit parameters, select checkpoints or alter thresholds. Exactly three NPZ decodes are available; the consumed evaluation and prior failure records remain unchanged.",
+    "Audit PASS means the saved arithmetic agrees with the pinned scorer. The fixed-test accuracy goal is reported from the recomputed counts and cannot trigger tuning or promotion. This is a consistency audit using the official scorer, not an independently implemented scoring oracle."
+  ],
+  "execution_conditions": [
+    "Run the exact bound script with the selected pinned Python 3.12 environment after registering the separate active single-use saved-evidence audit authority.",
+    "This approval covers saved arithmetic recomputation only. It does not authorize raw cache access, additional prediction runs, refitting, threshold changes, retries or deployment changes."
+  ]
+}

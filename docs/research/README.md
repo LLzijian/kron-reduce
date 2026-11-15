@@ -28,11 +28,13 @@ classified 67 stable test events correctly and detected zero of nine unstable
 events. The six saved forecasts were independently rescored. The objective
 remains full-cohort test stability accuracy above 90%. On val, each model detected
 8 of 12 unstable events, with three classified stable and one unresolved.
-The next scope isolates the memory initialization radius on the same frozen
-T0M1 equation. An analytic fixture confirmed that doubling the radius while
-quadrupling the prior weight preserves the quadratic coefficient and leaves the
-solution identical when the smaller bound is inactive. A loss-of-synchronism
-training objective remains a separate candidate.
+The [memory radius comparison](../reports/kiki_machine_local_topology_radius_20261115_zh.md)
+isolated the initialization radius on the same frozen T0M1 equation and completed
+all three rosters. Doubling the radius yielded 70 correct test judgments, with
+three unresolved. The val guard failed on the unresolved count and the eight-second
+stable trajectory error. Both the evaluation and saved-forecast audit are closed.
+The next preparation checks support for the five-point loss-of-synchronism
+criterion in the available train trajectories before setting a training objective.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
