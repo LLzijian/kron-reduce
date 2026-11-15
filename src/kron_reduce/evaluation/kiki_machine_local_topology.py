@@ -1,0 +1,223 @@
+"""Paired topology fits on the complete TASK3 train and frozen stability scoring."""
+
+from __future__ import annotations
+
+import math
+import sys
+import time
+from functools import partial
+from importlib.metadata import version
+from pathlib import Path
+
+import numpy as np
+import torch
+
+from kron_reduce.data.durable_audit_ledger import AppendOnlyAuditJournal
+from kron_reduce.data.task3_full import Task3FullReader
+from kron_reduce.evaluation.constant_c_observability import write_json
+from kron_reduce.evaluation.kiki_machine_local_full import evaluate, train_updates
+from kron_reduce.evaluation.kiki_machine_local_r20_r21 import bind, read_json, verified
+from kron_reduce.evaluation.kiki_topology_bridge import load_snapshot, make_model, predict
+from kron_reduce.evaluation.machine_local_clean_learning import snapshot
+from kron_reduce.evaluation.machine_local_synthetic import Budget
+from kron_reduce.models.nonlinear_latent import LearnedNonlinearModel
+from project_harness.evidence import sha256_file
+from project_harness.git_state import git_head
+
+SUPPORTS = ("T0M1", "T1M1")
+
+
+def scales_from_train(events, mass):
+    history = np.mean([np.mean(row["x"][:11]**2, axis=0) for row in events], axis=0)
+    target = np.mean([np.mean(row["x"][11:311]**2, axis=0) for row in events], axis=0)
+    hscale = np.maximum(np.sqrt(history), 1e-5)
+    return {"history": hscale, "target": np.maximum(np.sqrt(target), 1e-5),
+            "memory_radius": 3.*math.sqrt(float(mass @ hscale[10:]**2))}
+
+
+def freeze_pair(root, directory, phase, models, plan, training):
+    checkpoints = {}
+    for support, model in models.items():
+        file = directory/f"{phase}-{support}.npz"
+        np.savez_compressed(file, **{key: value.cpu().numpy() for key, value in snapshot(model).items()})
+        checkpoints[support] = bind(root, file)
+    index = directory/f"{phase}-checkpoints.json"
+    write_json(index, checkpoints)
+    freeze = {"input_contract": "measured_history_100ms_zoh_v1", "source_commit": git_head(root),
+              "phase": phase, "fitting_closed": phase == "freeze", "selection_closed": phase == "freeze",
+              "settings": plan["settings"], "backbone": plan["backbone"], "training": training,
+              "fit_plan_sha256": sha256_file(root/plan["plan_path"])}
+    for key, path in (("checkpoint", index), ("preprocessing", directory/"preprocessing.json")):
+        binding = bind(root, path)
+        freeze[key+"_path"], freeze[key+"_sha256"] = binding["path"], binding["sha256"]
+    path = directory/f"{phase}.json"
+    write_json(path, freeze)
+    return path
+
+
+def selection_rank(result, threshold, update):
+    stability = result["stability"]
+    failures = stability["allocated"]-stability["resolved"]
+    errors = stability["allocated"]-stability["tp"]-stability["tn"]
+    score = result["task3_six_term_score"]
+    if score is None or not math.isfinite(score):
+        return (2, failures, errors, update)
+    if score > threshold:
+        return (1, score, failures, errors, update)
+    return (0, failures, errors, score, update)
+
+
+def score(model, events, scales, budget, directory, role, settings, *, save=True):
+    run = partial(predict, model, scale=scales["history"], spend=budget.spend,
+                  memory_radius=scales["memory_radius"], prior_weight=settings["prior_weight"])
+
+    def predict_batch(batch, step):
+        return run(batch, step=step)
+
+    return evaluate(model, events, scales["history"], budget, directory, role, settings,
+                    predictor=predict_batch, target_scale=scales["target"], save=save)
+
+
+def fit_pair(models, train, val, scales, budget, directory, settings):
+    bounds = (math.log(.5), math.log(2.))
+    predictor = partial(predict, memory_radius=scales["memory_radius"], prior_weight=settings["prior_weight"])
+    active = {support: train_updates(model, train, scales, budget, directory/support, settings,
+                                    stiffness_bounds=bounds, damping_bounds=bounds, predictor=predictor,
+                                    learning_rate=settings["learning_rate"], gradient_clip=1.)
+              for support, model in models.items()}
+    best, latest, statuses, checks = {}, {}, {}, []
+    stale, reason = 0, "update_cap"
+    try:
+        for update in range(settings["updates"]+1):
+            if update:
+                for support, steps in tuple(active.items()):
+                    try:
+                        latest[support] = next(steps)
+                    except StopIteration as done:
+                        statuses[support] = done.value
+                        del active[support]
+                if not active:
+                    reason = "all_training_failed"
+                    break
+            if update % settings["val_interval"] and update != settings["updates"]:
+                continue
+            record, improved = {"update": update, "groups": {}}, False
+            for support in active:
+                model = models[support]
+                budget.spend("val_checks")
+                result = score(model, val, scales, budget, directory/support, "val", settings, save=False)
+                rank = selection_rank(result, settings["val_trajectory_limit"], update)
+                previous = best.get(support)
+                if previous is None or rank < previous[0]:
+                    best[support] = (rank, snapshot(model))
+                    if previous is None or rank[0] != previous[0][0]:
+                        improved = True
+                    elif rank[0] == 0:
+                        improved |= (rank[1:3] < previous[0][1:3]
+                                     or rank[3] < previous[0][3]*(1.-settings["val_relative_tol"]))
+                    elif rank[0] == 1:
+                        improved |= rank[1] < previous[0][1]*(1.-settings["val_relative_tol"])
+                    else:
+                        improved |= rank[1:3] < previous[0][1:3]
+                record["groups"][support] = {"rank": list(rank), "stability": result["stability"],
+                    "trajectory_score": result["task3_six_term_score"], "train": latest.get(support)}
+            checks.append(record)
+            write_json(directory/f"val-check-{update:03d}.json", record)
+            print(f"val checkpoint {update}: { {key: row['rank'] for key, row in record['groups'].items()} }",
+                  flush=True)
+            stale = 0 if improved else stale+1
+            if update >= settings["min_updates"] and stale >= settings["val_patience"]:
+                reason = "joint_val_plateau"
+                break
+    finally:
+        for steps in active.values():
+            steps.close()
+    groups = {}
+    for support, (rank, state) in best.items():
+        models[support].load_state_dict(state)
+        models[support].requires_grad_(False).eval()
+        groups[support] = {"completed_updates": latest.get(support, {}).get("update", 0),
+                           "selected_update": rank[-1], "selected_rank": list(rank),
+                           "status": statuses.get(support, {}).get("status", "COMPLETED"),
+                           "message": statuses.get(support, {}).get("message")}
+    training = {"stop_reason": reason, "groups": groups, "val_checks": len(checks)}
+    write_json(directory/"selection.json", training)
+    return training
+
+
+def execute(root, directory, plan, stage):
+    torch.set_num_threads(1)
+    torch.use_deterministic_algorithms(True)
+    sys.dont_write_bytecode = True
+    sys.path.insert(0, str(Path(plan["task3_root"])/"src"))
+    settings = plan["settings"]
+    budget = Budget(directory/"operations.jsonl", plan["operation_limits"])
+    journal = AppendOnlyAuditJournal(directory/"access.jsonl")
+    started = time.perf_counter()
+    try:
+        reader = Task3FullReader(root, plan["sources"], journal)
+        budget.spend("checkpoint_loads")
+        backbone = LearnedNonlinearModel.load(verified(root, plan["backbone"])).closure
+        models = {support: make_model(backbone, support, train_scales=True, device="cuda") for support in SUPPORTS}
+        for support in models:
+            (directory/support).mkdir()
+        training = None
+        if stage == "fit":
+            train = reader.load("train")
+            if not np.allclose(reader.static["mass"], backbone.mass, rtol=0, atol=1e-12):
+                raise ValueError("equation and TASK3 mass differ")
+            scales = scales_from_train(train, backbone.mass)
+            write_json(directory/"preprocessing.json", {key: np.asarray(value).tolist() for key, value in scales.items()})
+            write_json(directory/"preprocessing-roster.json", {"ids": [row["id"] for row in train],
+                                                              "history_points": 11})
+            initial = freeze_pair(root, directory, "initial", models, plan, None)
+            val = reader.load("val", freeze_path=initial)
+            training = fit_pair(models, train, val, scales, budget, directory, settings)
+            freeze_pair(root, directory, "freeze", models, plan, training)
+            roles = {"train": train, "val": val}
+        else:
+            freeze_path = verified(root, plan["frozen_model_manifest"])
+            frozen = read_json(freeze_path)
+            if (frozen["phase"] != "freeze" or frozen["fitting_closed"] is not True or frozen["selection_closed"] is not True
+                    or frozen["settings"] != settings or frozen["backbone"] != plan["backbone"]
+                    or frozen["fit_plan_sha256"] != plan["fit_plan_sha256"]):
+                raise RuntimeError("test requires the exact selected pair and frozen fit inputs")
+            assets = {key: verified(root, {"path": frozen[key+"_path"], "sha256": frozen[key+"_sha256"]})
+                      for key in ("checkpoint", "preprocessing")}
+            checkpoints, scales = (read_json(assets[key]) for key in ("checkpoint", "preprocessing"))
+            if set(checkpoints) != set(models) or set(scales) != {"history", "target", "memory_radius"}:
+                raise RuntimeError("frozen model pair or preprocessing differs")
+            for support, model in models.items():
+                budget.spend("checkpoint_loads")
+                load_snapshot(model, verified(root, checkpoints[support]))
+            roles = {"test": reader.load("test", freeze_path=freeze_path)}
+
+        if not np.allclose(reader.static["mass"], backbone.mass, rtol=0, atol=1e-12):
+            raise ValueError("equation and TASK3 mass differ")
+        records = {}
+        for group, model in models.items():
+            records[group] = {}
+            for role, events in roles.items():
+                result = score(model, events, scales, budget, directory/group, role, settings)
+                records[group][role] = {key: result[key] for key in
+                                        ("summary", "unstable_prefix", "stability", "task3_six_term_score")}
+        summaries = [value["test"]["stability"] for value in records.values()] if stage == "test" else []
+        pass_goal = any(s["allocated"] == s["resolved"] == 76 and s["accuracy"] is not None
+                        and s["tp"]+s["tn"] >= 69 for s in summaries)
+        evidence = {"status": "PASS", "process_status": "PASS", "source_commit": git_head(root),
+                    "promotion_decision": "KEEP_BASELINE", "data_policy": "kiki_official_train_test_v1",
+                    "claim_boundary": "Fixed TASK3 cohort and input contract; frozen paired-model comparison.",
+                    "scientific_pass": pass_goal}
+        summary = evidence | {"records": records, "operations": dict(budget.counts), "training": training,
+                              "wall_seconds": time.perf_counter()-started, "runtime": {
+            "python": sys.version, "executable": sys.executable, "device": "cuda",
+            "cuda_build": torch.version.cuda, "gpu": torch.cuda.get_device_name(),
+            **{package: version(package) for package in ("torch", "numpy", "scipy", "filelock", "h5py")}}}
+        write_json(directory/"summary.json", summary)
+        write_json(directory/"stage_evidence.json", evidence)
+        return summary
+    finally:
+        budget.stream.close()
+        journal.close()
+        write_json(directory/"artifact_hashes.json", {path.relative_to(directory).as_posix(): sha256_file(path)
+                   for path in sorted(directory.rglob("*")) if path.is_file()})

@@ -51,13 +51,13 @@ def make_model(backbone, *, train_stiffness=False):
     return model
 
 
-def batch_objective(model, batch, population, scales, budget, *, return_events=False):
+def batch_objective(model, batch, population, scales, budget, *, return_events=False, predictor=None):
     counts = np.array([min(300, len(e['x'])-11) for e in batch])
     count = int(counts.max())
     target = np.stack([np.pad(e['x'][10:11+c], ((0, count-c), (0, 0)), mode='edge')
                        for e, c in zip(batch, counts, strict=True)])
-    result = predict_checked(model, *inputs(batch, scales['history']), count,
-                             max_step=.005, spend=budget.spend)
+    result = (predict_checked(model, *inputs(batch, scales['history']), count, max_step=.005, spend=budget.spend)
+              if predictor is None else predictor(model, batch, scales['history'], .005, budget.spend, count=count))
     args = (result['forecast'], target, np.full(len(batch), 1/population), scales['target'], counts)
     value = loss(*args, return_events=True) if return_events else loss(*args)
     if not torch.isfinite(value[0] if return_events else value):
@@ -65,14 +65,20 @@ def batch_objective(model, batch, population, scales, budget, *, return_events=F
     return value
 
 
-def train_updates(model, events, scales, budget, directory, settings, *, stiffness_bounds=None):
+def train_updates(model, events, scales, budget, directory, settings, *, stiffness_bounds=None,
+                  damping_bounds=None, predictor=None, learning_rate=.01, gradient_clip=10.):
     parameters = (model.port_parameter, model.rate_parameter)
     scalar = getattr(model, 'log_stiffness_factor', None)
     if (scalar is None) != (stiffness_bounds is None):
         raise ValueError("trainable stiffness requires an explicit parameter range")
     if scalar is not None:
         parameters += (scalar,)
-    optimizer = torch.optim.Adam(parameters, lr=.01, betas=(.9, .999), eps=1e-8,
+    damping = getattr(model, 'log_damping_factor', None)
+    if (damping is None) != (damping_bounds is None):
+        raise ValueError('trainable damping requires an explicit parameter range')
+    if damping is not None:
+        parameters += (damping,)
+    optimizer = torch.optim.Adam(parameters, lr=learning_rate, betas=(.9, .999), eps=1e-8,
         weight_decay=0., amsgrad=False, maximize=False, foreach=False, fused=False)
     completed, started = 0, time.perf_counter()
     status, message = 'COMPLETED', None
@@ -85,14 +91,14 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
             try:
                 for offset in range(0, len(events), settings['train_batch']):
                     batch = events[offset:offset+settings['train_batch']]
-                    value = batch_objective(model, batch, len(events), scales, budget)
+                    value = batch_objective(model, batch, len(events), scales, budget, predictor=predictor)
                     budget.spend('gradients')
                     value.backward()
                     objective += float(value.detach())
                     del value
                 if any(p.grad is None or not torch.isfinite(p.grad).all() for p in parameters):
                     raise FloatingPointError('nonfinite train gradient')
-                norm = torch.nn.utils.clip_grad_norm_(parameters, 10.)
+                norm = torch.nn.utils.clip_grad_norm_(parameters, gradient_clip)
                 if not torch.isfinite(norm):
                     raise FloatingPointError('nonfinite gradient norm')
                 budget.spend('optimizer_updates')
@@ -106,6 +112,9 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                     log_factor_before_projection = float(scalar.detach())
                     with torch.no_grad():
                         scalar.clamp_(*stiffness_bounds)
+                if damping is not None:
+                    with torch.no_grad():
+                        damping.clamp_(*damping_bounds)
                 completed += 1
             except NUMERICAL_ERRORS as error:
                 np.savez_compressed(directory/'failed_parameters.npz',
@@ -140,7 +149,7 @@ def train(model, events, scales, budget, directory, settings):
             return done.value
 
 
-def evaluate(model, events, scale, budget, directory, role, settings, *, predictor=None, target_scale=None):
+def evaluate(model, events, scale, budget, directory, role, settings, *, predictor=None, target_scale=None, save=True):
     from task3.c2.evaluation import evaluate as task3_evaluate
     from task3.protocol import classify as task3_classify
     predictions = {step: np.full((len(events), 801, 20), np.nan) for step in (.0025, .00125)}
@@ -151,7 +160,8 @@ def evaluate(model, events, scale, budget, directory, role, settings, *, predict
             result = (predict_checked(model, *inputs(batch, scale), 800, max_step=step, spend=budget.spend)
                       if predictor is None else predictor(batch, step))
         fields = ('forecast', 'hidden_start', 'history', 'gn_singular')
-        if predictor is not None:
+        detailed = 'iteration_residuals' in result
+        if detailed:
             fields += ('iteration_residuals', 'gn_hidden_start', 'iterates')
         result = {field: result[field].cpu().numpy() for field in fields}
         forecast = result['forecast']
@@ -162,7 +172,7 @@ def evaluate(model, events, scale, budget, directory, role, settings, *, predict
                 'hidden_origin_energy': float(np.sum(result['history'][i, -1, 20:]**2)/2),
                 'history_nrmse': float(np.sqrt(np.mean(((result['history'][i, :, :20]-event['x'][:11])/scale)**2))),
                 'singular_min': float(result['gn_singular'][:, i, -1].min())})
-            if predictor is not None:
+            if detailed:
                 singular = result['gn_singular'][:, i]
                 residual = result['iteration_residuals'][:, i]
                 final = (result['history'][i, 1:, :20]-event['x'][1:11])/scale
@@ -231,14 +241,15 @@ def evaluate(model, events, scale, budget, directory, role, settings, *, predict
             terminal[str(step)] = {'event_values': values, 'qualified': sum(v is not None for v in values),
                 'allocated': len(values), 'mean': float(np.mean(values)) if all(v is not None for v in values) else None}
         result['terminal_train_scale_nmse_1s_3s'] = terminal
-    np.savez_compressed(directory/(role+'_predictions.npz'),
-                        ids=np.array([e['id'] for e in events]), fine=predictions[.0025], refined=predictions[.00125],
-                        truth=np.concatenate([e['raw_x'] for e in events]),
-                        lengths=np.array([len(e['raw_x']) for e in events]),
-                        mass=np.stack([e['mass'] for e in events]),
-                        equilibrium=np.stack([e['equilibrium'] for e in events]),
-                        labels=np.array([e['label'] for e in events]))
-    write_json(directory/(role+'.json'), result)
+    if save:
+        np.savez_compressed(directory/(role+'_predictions.npz'),
+                            ids=np.array([e['id'] for e in events]), fine=predictions[.0025], refined=predictions[.00125],
+                            truth=np.concatenate([e['raw_x'] for e in events]),
+                            lengths=np.array([len(e['raw_x']) for e in events]),
+                            mass=np.stack([e['mass'] for e in events]),
+                            equilibrium=np.stack([e['equilibrium'] for e in events]),
+                            labels=np.array([e['label'] for e in events]))
+        write_json(directory/(role+'.json'), result)
     return result
 
 

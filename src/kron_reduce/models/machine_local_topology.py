@@ -107,13 +107,16 @@ def _ball(x, radius):
     return x*(radius/magnitude.clamp_min(radius))
 
 
-def predict_from_topology_history(model, q, v, power, equilibrium, scale, count, *, max_step, spend):
+def predict_from_topology_history(model, q, v, power, equilibrium, scale, count, *, max_step, spend,
+                                  memory_radius=1., prior_weight=0.):
     """Estimate both latent blocks from the same eleven observations."""
     q, v, power, equilibrium, scale = map(model._tensor, (q, v, power, equilibrium, scale))
     n, r = model.n_nodes, model.memory_dimension
     if (q.ndim != 3 or not len(q) or q.shape[1:] != (11, n) or v.shape != q.shape
             or power.shape != (len(q), n) or equilibrium.shape != power.shape or scale.shape != (2*n,)
             or max_step not in (.005, .0025, .00125) or type(count) is not int or count < 0
+            or not np.isfinite(memory_radius) or memory_radius <= 0
+            or not np.isfinite(prior_weight) or prior_weight < 0
             or not all(torch.isfinite(x).all() for x in (q, v, power, equilibrium, scale))
             or torch.any(scale <= 0)):
         raise ValueError("eleven finite history frames and positive scales required")
@@ -122,15 +125,22 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
     observed = torch.cat((q, v), dim=2)
     hidden = q.new_zeros((len(q), model.latent_dimension))
     singular = None
+    if prior_weight:
+        radii = q.new_tensor([memory_radius]*r + [.6]*model.topology_dimension)
+        prior = np.sqrt(prior_weight*10*2*n)/radii
     if model.latent_dimension:
         for _ in range(5):
             initial = torch.cat((observed[:, 0], hidden), dim=1)
             history, tangent = history_with_tangent(model, initial, power, equilibrium, max_step=max_step, spend=spend)
             design = (tangent[:, 1:, :2*n]/scale[None, None, :, None]).flatten(1, 2)
             residual = ((observed[:, 1:]-history[:, 1:, :2*n])/scale).flatten(1)
+            if prior_weight:
+                # The linearized solve penalizes the new absolute hidden state.
+                design = torch.cat((design, torch.diag(prior).expand(len(q), -1, -1)), dim=1)
+                residual = torch.cat((residual, -hidden*prior), dim=1)
             result = solve_hidden_batch(design, residual, spend=spend)
             proposal = hidden+result["hidden_start"]
-            hidden = torch.cat((_ball(proposal[:, :r], 1.), _ball(proposal[:, r:], .6)), dim=1)
+            hidden = torch.cat((_ball(proposal[:, :r], memory_radius), _ball(proposal[:, r:], .6)), dim=1)
             singular = result["singular"]
     history = model.rollout(torch.cat((observed[:, 0], hidden), dim=1), power, equilibrium, 10,
                             max_step=max_step, spend=spend)

@@ -1316,6 +1316,32 @@
       "result_receipt_sha256": "df9c262e7d77b908579844c32a30a6465582f3355698eb2172d6a0b60ea18d13",
       "result_review_path": "docs/research/kiki_machine_local_memory_result_review_20261114.json",
       "result_review_sha256": "343ab3e41cb3e1d2132b4d59f16290f46480ac70db0eae139e2c73c10350a576"
+    },
+    "kiki_machine_local_topology_fit_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_fit_v1",
+      "fit_attempts": 2,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "operator_full_task3_autonomous_accuracy_goal",
+      "plan_path": "configs/proposals/kiki_machine_local_topology_fit_v1.json",
+      "plan_sha256": "efaca5373f285e7abe45244b4b22d18addda2c2a5585be1565abe9d854b0ac7e",
+      "review_path": "docs/research/kiki_machine_local_topology_fit_review_20261115.json",
+      "review_sha256": "55902f40b6a0c2c09ad5147ada69a5ba180db58ea2736911437cca79f825eca1",
+      "operation_limits": {
+        "rollouts": 40908,
+        "torch_rhs": 105275520,
+        "tangent_rhs": 6321600,
+        "qr": 297200,
+        "svd": 297200,
+        "triangular_solves": 297200,
+        "matrix_products": 297200,
+        "fits": 2,
+        "optimizer_updates": 144,
+        "gradients": 864,
+        "val_checks": 14,
+        "checkpoint_loads": 1
+      }
     }
   },
   "archived_development_results": {
