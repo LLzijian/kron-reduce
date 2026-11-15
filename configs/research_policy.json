@@ -1465,6 +1465,32 @@
       "result_review_sha256": "fceeea81841d9a41782da006243fb7d7b49229df192fbbfea1c929a9871fa905",
       "engineering_pass": true,
       "scientific_pass": true
+    },
+    "kiki_machine_local_topology_angle_scale_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_angle_scale_v1",
+      "authority": "operator_autonomous_full_train_angle_scale_diagnostic",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "train_cases": 346,
+      "source_cache_open_limit": 2,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_angle_scale_v1.json",
+      "plan_sha256": "549b34e3207f408ecc03109ec5ef2c1aaaebce30018764a61ec7dd975ed58e5a",
+      "review_path": "docs/research/kiki_machine_local_topology_angle_scale_v1_review_20261115.json",
+      "review_sha256": "58463ad8d6baa39ecdc7a55d9c1c00c76d9f3febeb87987b417f7fdb1b424cbe",
+      "operation_limits": {
+        "checkpoint_loads": 2,
+        "svd": 7266,
+        "weak_intervals": 107260,
+        "quad_check_intervals": 214520,
+        "rollouts": 4998,
+        "torch_rhs": 1028160,
+        "tangent_rhs": 856800,
+        "qr": 6920,
+        "matrix_products": 6920,
+        "triangular_solves": 6920
+      }
     }
   },
   "archived_development_results": {

@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 import torch
 
+from kron_reduce.evaluation import topology_angle_momentum as angle_momentum_module
 from kron_reduce.models.machine_local_topology import (
     TopologyMemoryModel,
     predict_from_topology_history,
@@ -137,3 +138,74 @@ def test_angle_damping_power_identity_and_full_state_tangent(angle_model):
 def test_angle_damping_rejects_values_outside_passive_range(angle_model, rho):
     with pytest.raises(ValueError):
         angle_model.set_angle_damping(rho)
+
+
+def test_angle_scale_residuals_use_future_projection_and_rescaled_sse(monkeypatch):
+    n = 10
+    intervals = 13
+    path = np.zeros((intervals + 1, 3 * n), dtype=np.float64)
+    power = np.zeros(n, dtype=np.float64)
+    equilibrium = np.zeros(n, dtype=np.float64)
+    mass = np.ones(n, dtype=np.float64)
+    blocks = (mass, np.zeros((n, 1)), np.zeros(1), np.eye(n), np.zeros((n, 0)), np.zeros(0))
+
+    operator = np.zeros((intervals * n, n), dtype=np.float64)
+    operator[: 10 * n] = np.tile(np.eye(n), (10, 1))
+    operator[10 * n :, 0] = 1.0
+    rhs = np.full(intervals * n, 10_000.0, dtype=np.float64)
+    rhs[10 * n :] = np.arange(30, dtype=np.float64) / 10.0
+
+    def controlled_momentum_system(*_args):
+        return operator.copy(), rhs.copy(), {}
+
+    direction_calls = []
+
+    def controlled_angle_direction(_path, _blocks, _step, points, theta_radians):
+        direction_calls.append((points, theta_radians))
+        values = np.full((intervals, n), 777.0, dtype=np.float64)
+        values[10:] = theta_radians * np.arange(1, 31, dtype=np.float64).reshape(3, n) / 50.0
+        return values
+
+    monkeypatch.setattr(angle_momentum_module, "momentum_system", controlled_momentum_system)
+    monkeypatch.setattr(angle_momentum_module, "_angle_damping_direction", controlled_angle_direction)
+    svd_calls = []
+    real_svd = np.linalg.svd
+
+    def counted_svd(*args, **kwargs):
+        svd_calls.append(args[0].copy())
+        return real_svd(*args, **kwargs)
+
+    monkeypatch.setattr(angle_momentum_module.np.linalg, "svd", counted_svd)
+    operations = {}
+
+    def spend(name, count=1):
+        operations[name] = operations.get(name, 0) + count
+
+    starts = np.stack((np.linspace(-0.2, 0.25, n), np.linspace(0.3, -0.15, n)))
+    result = angle_momentum_module.angle_scale_residuals(
+        path, power, equilibrium, blocks, 1.0, spend, starts
+    )
+
+    future_rhs = rhs[10 * n :]
+    future_operator = operator[10 * n :]
+    weight = 1.0 / np.sqrt(intervals)
+    normalization = intervals / (intervals - 10)
+    expected = {"0.0025": [], "0.00125": [], "free": []}
+    for theta in (1.0, 1.25):
+        direction = theta * np.arange(1, 31, dtype=np.float64) / 50.0 * weight
+        adjusted = future_rhs - (2.0 / 3.0) * direction
+        for key, start in zip(("0.0025", "0.00125"), starts, strict=True):
+            residual = adjusted - future_operator @ start
+            expected[key].append(float(residual @ residual * normalization))
+        perpendicular_sse = float(adjusted @ adjusted - adjusted.sum() ** 2 / len(adjusted))
+        expected["free"].append(perpendicular_sse * normalization)
+
+    assert result["rank"] == 1
+    assert result["quadrature_gap"] == {"1.0": 0.0, "1.25": 0.0}
+    assert result["sse"].keys() == expected.keys()
+    for key, values in expected.items():
+        np.testing.assert_allclose(result["sse"][key], values, rtol=1e-13, atol=1e-13)
+    assert len(svd_calls) == 1
+    np.testing.assert_array_equal(svd_calls[0], future_operator)
+    assert direction_calls == [(4, 1.0), (8, 1.0), (4, 1.25), (8, 1.25)]
+    assert operations == {"weak_intervals": intervals, "quad_check_intervals": 2 * intervals, "svd": 1}

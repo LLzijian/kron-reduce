@@ -9,6 +9,7 @@ from importlib.metadata import version
 from pathlib import Path
 
 from kron_reduce.workflows.kiki_machine_local_topology_radius import _bound_json, _result_file
+from kron_reduce.workflows.machine_local_equation import _cuda_preflight
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
@@ -21,7 +22,9 @@ STAGE = "train_momentum"
 MODULE = "kron_reduce.workflows.kiki_topology_momentum"
 ORIGIN_TRANSFER = "kiki_machine_local_topology_origin_transfer_v1"
 ANGLE_FIT = "kiki_machine_local_topology_angle_damping_fit_v1"
-CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer", ANGLE_FIT: "angle_damping_fit"}
+ANGLE_SCALE = "kiki_machine_local_topology_angle_scale_v1"
+CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer", ANGLE_FIT: "angle_damping_fit",
+             ANGLE_SCALE: "angle_scale"}
 
 
 def authorize(root, name=NAME):
@@ -51,7 +54,7 @@ def authorize(root, name=NAME):
         raise RuntimeError("exact train-only plan and review required")
     for path, digest in plan["implementation_bindings"].items():
         verify_bound_file(root, path, digest)
-    synthetic = ("machine_local_topology_angle_damping_v1_20261115" if name == ANGLE_FIT
+    synthetic = ("machine_local_topology_angle_damping_v1_20261115" if name in (ANGLE_FIT, ANGLE_SCALE)
                  else "machine_local_topology_momentum_v1_20261115")
     truth = policy["bounded_synthetic_evaluations"][synthetic]
     if (truth["status"] != "consumed" or truth["scientific_pass"] is not True
@@ -69,10 +72,11 @@ def authorize(root, name=NAME):
     freeze = json.loads(_result_file(root,binding).read_bytes())
     checkpoint, prep = (_result_file(root, {"path":freeze[k+"_path"],"sha256":freeze[k+"_sha256"]})
                         for k in ("checkpoint","preprocessing"))
+    preprocessing = json.loads(prep.read_bytes())
     if (freeze["phase"] != "freeze" or freeze["fitting_closed"] is not True
             or freeze["training"]["groups"]["T0M1"]["selected_update"] != 12
             or json.loads(checkpoint.read_bytes())["T0M1"] != plan["checkpoint"]
-            or json.loads(prep.read_bytes())["memory_radius"] != plan["memory_radius"]):
+            or preprocessing["memory_radius"] != plan["memory_radius"]):
         raise RuntimeError("original model, preprocessing or radius differs")
     _result_file(root,plan["checkpoint"])
     source = _bound_json(root,plan["source_contract"])
@@ -81,9 +85,22 @@ def authorize(root, name=NAME):
     _result_file(root,plan["backbone"])
     pins = dict(line.split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line and not line.startswith("#"))
-    if any(version(p) != pins[p]+("+cpu" if p=="torch" else "") for p in ("torch","numpy","scipy","filelock","h5py")):
-        raise RuntimeError("registered CPU runtime required")
-    return entry, plan | {"sources":source["sources"] | {"allowed_roles":["train"]}}
+    variant = "+cu130" if name == ANGLE_SCALE else "+cpu"
+    if any(version(p) != pins[p]+(variant if p=="torch" else "") for p in ("torch","numpy","scipy","filelock","h5py")):
+        raise RuntimeError("registered train diagnostic runtime required")
+    if name == ANGLE_SCALE:
+        prior = policy["official_test_evaluations"]["kiki_machine_local_topology_angle_damping_test_v1_20261115"]
+        fit = policy["development_evaluations"]["kiki_machine_local_topology_angle_damping_fit_v1_20261115"]
+        audit = policy["saved_evidence_audits"]["kiki_machine_local_topology_angle_damping_saved_audit_v1_20261115"]
+        record = {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]}
+        audited = {"path": audit["result_receipt_path"], "sha256": audit["result_receipt_sha256"]}
+        if (any(row["status"] != "consumed" for row in (prior, fit, audit)) or audit["mismatches"] != 0
+                or _bound_json(root, audited)["run_id"] != prior["run_id"] or plan["anchor_angle_receipt"] != record
+                or _bound_json(root, record)["angle_damping_rho"] != 2./3.):
+            raise RuntimeError("closed angle-damping comparison and independent scores required")
+        _cuda_preflight()
+    return entry, plan | {"sources":source["sources"] | {"allowed_roles":["train"]},
+                          "history_scale": preprocessing["history"]}
 
 
 def run(*, root, experiment, stage, result_dir, run_id):
@@ -106,6 +123,8 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.machine_local_synthetic import Budget
 
     torch.set_num_threads(1)
+    if name == ANGLE_SCALE:
+        torch.use_deterministic_algorithms(True)
     budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
     try:
         result = execute(root,result_dir,plan,budget)
@@ -114,8 +133,10 @@ def run(*, root, experiment, stage, result_dir, run_id):
     evidence = {"status":"PASS","process_status":"PASS","source_commit":commit,"data_policy":"kiki_official_train_test_v1",
                 "promotion_decision":"KEEP_BASELINE","scientific_pass":result["scientific_pass"],
                 "claim_boundary":"Observed-path diagnosis over the complete official TASK3 train."}
-    write_json(result_dir/"summary.json", result | evidence | {"operation_counts":dict(budget.counts),
-        "runtime":{"python":sys.version,"torch":version("torch"),"numpy":version("numpy"),"scipy":version("scipy")}})
+    runtime = {"python":sys.version, "torch":version("torch"), "numpy":version("numpy"), "scipy":version("scipy")}
+    if name == ANGLE_SCALE:
+        runtime.update(executable=sys.executable, cuda_build=torch.version.cuda, gpu=torch.cuda.get_device_name())
+    write_json(result_dir/"summary.json", result | evidence | {"operation_counts":dict(budget.counts), "runtime":runtime})
     write_json(result_dir/"stage_evidence.json", evidence)
     write_json(result_dir/"artifact_hashes.json", {p.relative_to(result_dir).as_posix():sha256_file(p)
                for p in sorted(result_dir.rglob("*")) if p.is_file()})
@@ -130,6 +151,7 @@ def main():
     options = parser.add_mutually_exclusive_group()
     options.add_argument("--origin-transfer", action="store_const", const=ORIGIN_TRANSFER, dest="study")
     options.add_argument("--angle-damping-fit", action="store_const", const=ANGLE_FIT, dest="study")
+    options.add_argument("--angle-scale", action="store_const", const=ANGLE_SCALE, dest="study")
     name = parser.parse_args().study or NAME
     root = project_root()
     with workflow_lock(root,name):

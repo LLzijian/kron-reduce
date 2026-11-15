@@ -13,9 +13,11 @@ from kron_reduce.data.durable_audit_ledger import AppendOnlyAuditJournal
 from kron_reduce.data.task3_full import Task3FullReader
 from kron_reduce.evaluation.constant_c_observability import write_json
 from kron_reduce.evaluation.kiki_machine_local_r20_r21 import verified
-from kron_reduce.evaluation.kiki_topology_bridge import load_snapshot, make_model
+from kron_reduce.evaluation.kiki_topology_bridge import load_snapshot, make_model, predict
+from kron_reduce.evaluation.machine_local_clean_learning import NUMERICAL_ERRORS
 from kron_reduce.evaluation.topology_angle_momentum import (
     angle_momentum,
+    angle_scale_residuals,
     damping_sse,
     fit_train_damping,
 )
@@ -230,6 +232,67 @@ def _angle_fit(directory, events, blocks, radius, budget):
             "retained_intervals": sum(row["intervals"] for row in rows), "residuals": residuals}
 
 
+@torch.no_grad()
+def _angle_scale(directory, events, model, blocks, plan, budget):
+    model.set_angle_damping(2./3.)
+    steps = (.0025, .00125)
+    starts = np.full((len(events), len(steps), 10), np.nan)
+
+    def estimate(indices, step, slot):
+        output = predict(model, [events[i] for i in indices], plan["history_scale"], step, budget.spend,
+                         count=0, memory_radius=plan["memory_radius"], prior_weight=1e-6)
+        starts[indices, slot] = output["hidden_start"].cpu().numpy()
+
+    errors = []
+    for slot, step in enumerate(steps):
+        for offset in range(0, len(events), 32):
+            indices = list(range(offset, min(offset+32, len(events))))
+            try:
+                estimate(indices, step, slot)
+            except NUMERICAL_ERRORS as error:
+                errors.append({"step": step, "batch_offset": offset, "error": str(error)})
+                for i in indices:
+                    try:
+                        estimate([i], step, slot)
+                    except NUMERICAL_ERRORS as local:
+                        errors.append({"step": step, "id": events[i]["id"], "error": str(local)})
+
+    rows = []
+    for i, event in enumerate(events):
+        row = {"id": event["id"], "label": event["label"]}
+        path = event["x"][:MAX_FRAME]
+        if len(path) > 11 and np.isfinite(starts[i]).all():
+            try:
+                result = angle_scale_residuals(path, event["p0"], event["equilibrium"], blocks, DT,
+                                               budget.spend, starts[i])
+                ok = result["rank"] == 10 and max(result["quadrature_gap"].values()) <= 1e-10
+                row.update(result, qualified=ok)
+            except (FloatingPointError, np.linalg.LinAlgError) as error:
+                row.update(qualified=False, reason=str(error))
+        else:
+            row.update(qualified=False, reason="missing history estimate or future interval")
+        rows.append(row)
+    write_json(directory/"angle-scale-rows.json", rows)
+    write_json(directory/"history-estimation-errors.json", errors)
+    groups = {}
+    for role in ("train", "stable", "unstable"):
+        selected = rows if role == "train" else [row for row in rows if row["label"] == role]
+        valid = [row for row in selected if row["qualified"]]
+        ratios = {}
+        for observer in ("0.0025", "0.00125", "free"):
+            pair = ([math.fsum(row["sse"][observer][i] for row in valid) for i in range(2)]
+                    if len(selected) == len(valid) else None)
+            ratios[observer] = {"sse": pair, "ratio": pair[1]/pair[0] if pair and pair[0] > 0. else None}
+        groups[role] = {"allocated": len(selected), "qualified": len(valid), "effects": ratios}
+    engineering = groups["train"]["qualified"] == TRAIN_COUNT
+    science = engineering and all(entry["ratio"] is not None and entry["ratio"] <= limit
+                                  for role, limit in (("train", 1.01), ("stable", .95), ("unstable", 1.01))
+                                  for entry in groups[role]["effects"].values())
+    return {"role": "train", "allocated": len(events), "engineering_pass": engineering,
+            "scientific_pass": science, "groups": groups, "memory_radius": plan["memory_radius"],
+            "angle_scales_rad": [1., 1.25], "rho": 2./3., "trajectory_lengths": [len(event["x"]) for event in events]}
+
+
 def execute(root, directory, plan, budget):
     """Audit all official train cases using saved causal inputs; never forecasts."""
     root, directory = Path(root).resolve(), Path(directory)
@@ -238,7 +301,7 @@ def execute(root, directory, plan, budget):
         raise PermissionError("momentum audit is restricted to the official train role")
     roster = sources["rosters"]["train"]
     contrast = plan.get("contrast", "force_blocks")
-    if len(roster) != TRAIN_COUNT or contrast not in ("force_blocks", "origin_transfer", "angle_damping_fit"):
+    if len(roster) != TRAIN_COUNT or contrast not in ("force_blocks", "origin_transfer", "angle_damping_fit", "angle_scale"):
         raise ValueError("plan must bind the complete train roster and a supported contrast")
     factors = [float(x) for x in plan.get("inertias", [])]
     if contrast == "force_blocks" and (len(set(factors)) != 4 or len(factors) != 4
@@ -252,7 +315,7 @@ def execute(root, directory, plan, budget):
     try:
         budget.spend("checkpoint_loads")
         backbone = LearnedNonlinearModel.load(verified(root, plan["backbone"])).closure
-        model = make_model(backbone, "T0M1", train_scales=True, device="cpu")
+        model = make_model(backbone, "T0M1", train_scales=True, device="cuda" if contrast == "angle_scale" else "cpu")
         budget.spend("checkpoint_loads")
         load_snapshot(model, verified(root, plan["checkpoint"]))
         if model.topology_dimension != 0 or model.memory_dimension != 10:
@@ -281,6 +344,8 @@ def execute(root, directory, plan, budget):
             return _origin_contrast(directory, events, blocks, radius, budget) | {"trajectory_lengths": lengths}
         if contrast == "angle_damping_fit":
             return _angle_fit(directory, events, blocks, radius, budget)
+        if contrast == "angle_scale":
+            return _angle_scale(directory, events, model, blocks, plan, budget)
 
         history_paths = [event["x"][:11] for event in events]
         full_paths = [event["x"][:min(MAX_FRAME, len(event["x"]))] for event in events]
