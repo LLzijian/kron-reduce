@@ -4190,6 +4190,34 @@
       "result_review_path": "docs/research/kiki_machine_local_topology_test_result_review_20261115.json",
       "result_review_sha256": "21e197564876909e726cda8fc1e95cebad33618954b4652915c3479309aa8f7a",
       "scientific_pass": false
+    },
+    "kiki_machine_local_topology_radius_test_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_radius_test_v1",
+      "authority": "operator_fixed_weight_memory_radius_full_task3",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "frozen_model_manifest": {
+        "path": "configs/proposals/kiki_machine_local_topology_radius_v1_freeze.json",
+        "sha256": "fe1135c254239f0de33b4d4b547a6396afa6d4751c945d6ed2130d0e13bd6ef1"
+      },
+      "operation_limits": {
+        "rollouts": 7658,
+        "torch_rhs": 22580160,
+        "tangent_rhs": 1312800,
+        "qr": 10580,
+        "svd": 10580,
+        "triangular_solves": 10580,
+        "matrix_products": 10580,
+        "checkpoint_loads": 2
+      },
+      "plan_path": "configs/proposals/kiki_machine_local_topology_radius_test_v1.json",
+      "plan_sha256": "1e5952d136b1ce462715688d79e19c427e8eaee400043c415d3423a524203222",
+      "review_path": "docs/research/kiki_machine_local_topology_radius_test_review_20261115.json",
+      "review_sha256": "510228d6090428d84d480be96a938d2372166440ecc14ef200333f18662cff89"
     }
   },
   "round_evaluation_defaults": {
