@@ -145,7 +145,7 @@ class Task3FullReader:
     def __init__(self, root, plan, journal):
         self.root = Path(root).resolve()
         self._roles = tuple(plan.get("allowed_roles", ("train", "val")))
-        _require(self._roles in (("train", "val"), ("test",)), "unregistered reader stage roles")
+        _require(self._roles in (("train", "val"), ("train",), ("test",)), "unregistered reader stage roles")
         _require({key: value for key, value in plan.items() if key != "allowed_roles"}
                  == source_plan(self.root), "source plan differs from frozen metadata")
         self.plan = json.loads(json.dumps(plan))

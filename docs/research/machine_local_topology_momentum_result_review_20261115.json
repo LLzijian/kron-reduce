@@ -1,0 +1,62 @@
+{
+  "schema": "machine_local_topology_momentum_result_review.v1",
+  "verified": true,
+  "reviewer": "Astra Ultra",
+  "run_id": "machine_local_topology_momentum_v1-momentum-20261115T102739144459Z-44546b9e-fb2b4f42",
+  "summary_sha256": "651b31f2fc88444f232dec459c1660c418d47283d204db4fee8f731cb298ef95",
+  "artifact_manifest_sha256": "731ed8601062c4924ed2ac18e8edce7a871d595666e3946e15099d9b44f40f98",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "plan_sha256": "23a800cb8204eded71f86d4badf5967e2e2eab671dcd46f1ea295d1d50ed96e5",
+  "artifact_count": 13,
+  "operation_log_sha256": "0d2a93a91decc945c6f24b7a0414690d1d651b141efcd9f79776512dc5fec7b4",
+  "operation_counts": {
+    "npz_decodes": 1,
+    "weak_intervals": 141360,
+    "svd": 480,
+    "ball_solves": 48
+  },
+  "independent_checks": [
+    "已阅读并独立执行保存JSON验证器，未传入close；验证精确计划和实现绑定、工作流终端记录、完整13项结果文件哈希、逐项预算账本以及全部预声明判据。",
+    "另行核对十个条件及四项错系数对照恰好齐全，每项保存JSON均含同一48个来源限定ID与角色；全部保存条件均为秩10，奇异值、条件数及方向统计有限。",
+    "从保存逐例统计独立复算train标量修正、各划分剩余SSE比例、10/20ms RMS、五点惯性比较和最终工程及科学门。门值与保存summary一致。",
+    "本审核只读取JSON及文件字节哈希；未解码NPZ、读取真实缓存、调用模型或执行动力学计算。"
+  ],
+  "train_val_evidence": {
+    "train": {
+      "count": 24,
+      "rank10_count": 24,
+      "sampling_rms_ratio_10ms_over_20ms": 0.2501874396138219,
+      "max_memory_operator_condition": 5.438087630399734,
+      "max_algebraic_state_error": 0.0001787149315226185,
+      "largest_nominal_to_wrong_inertia_rms_ratio": 0.0011712396517445033
+    },
+    "val": {
+      "count": 12,
+      "rank10_count": 12,
+      "sampling_rms_ratio_10ms_over_20ms": 0.2501783421332587,
+      "max_memory_operator_condition": 5.438087630399734,
+      "max_algebraic_state_error": 0.00027204255329172034,
+      "largest_nominal_to_wrong_inertia_rms_ratio": 0.001600495658487408
+    }
+  },
+  "force_control_evidence": {
+    "maximum_absolute_correction_error": 4.263264773818332e-06,
+    "correct_direction_sse_ratio_range": {
+      "min": 3.4578329593304136e-09,
+      "max": 9.296938491878555e-08
+    },
+    "wrong_stiffness_or_damping_direction_sse_ratio_range": {
+      "min": 0.9999157193492018,
+      "max": 1.0000404517747428
+    },
+    "matched_inertia_selected_on_train": 1.0
+  },
+  "physical_interpretation": [
+    "10ms匹配残差约为20ms的四分之一，符合分段线性观测近似的二阶误差变化；这里比较抽样间隔，不把它称为独立真值积分器收敛。",
+    "正负刚度或阻尼错系数均由正确方向恢复，另一基础力方向保留几乎全部残差。残差降低支持该诊断在本固定已知真值范围内区分这两类错系数。",
+    "消除未知初态之后，五点惯性比较仍在a=1取得train最小值并通过val对照。这支持离散记忆时间尺度辨别，不是连续参数辨识精度或真实动力学改进的证明。",
+    "纯刚度错误也会使二次谐波方向降低约26%的train SSE及19%的val SSE，说明这项相关性不是独立的谐波机制证据；真实诊断中应保持描述用途。"
+  ],
+  "claim_boundary": "结果验证的是完整观测轨迹上的力平衡诊断，不是100ms因果初态或闭环预测。真实train346诊断须使用另行授权的静态及development缓存读取提供因果p0；本结果不授权val/test轨迹读取或模型晋升。"
+}

@@ -1,0 +1,383 @@
+{
+  "run_id": "machine_local_topology_momentum_v1-momentum-20261115T102739144459Z-44546b9e-fb2b4f42",
+  "stage": "momentum",
+  "source_commit": "44546b9efb3f1823840951b770b2d3937763c547",
+  "plan_sha256": "23a800cb8204eded71f86d4badf5967e2e2eab671dcd46f1ea295d1d50ed96e5",
+  "artifact_manifest_sha256": "731ed8601062c4924ed2ac18e8edce7a871d595666e3946e15099d9b44f40f98",
+  "artifact_count": 13,
+  "summary_sha256": "651b31f2fc88444f232dec459c1660c418d47283d204db4fee8f731cb298ef95",
+  "operation_log_sha256": "0d2a93a91decc945c6f24b7a0414690d1d651b141efcd9f79776512dc5fec7b4",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "refinement_gate": true,
+  "inertia_gate": true,
+  "matched_rms_10ms": {
+    "train": 7.992468595572636e-06,
+    "val": 8.54806324242557e-06,
+    "test": 1.0542804401715761e-05
+  },
+  "matched_rms_20ms": {
+    "train": 3.1945922656666746e-05,
+    "val": 3.416787868021127e-05,
+    "test": 4.214342677719949e-05
+  },
+  "wrong_force": [
+    {
+      "perturbation": "stiffness",
+      "operator_multiplier": 0.8,
+      "expected_correction": 0.25,
+      "direction_fit": {
+        "stiffness": {
+          "delta_multiplier": 0.24999890133907374,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 0.19851942725262775,
+              "corrected_sse": 1.532725898990546e-08,
+              "ratio": 7.720785417338834e-08
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 0.09429416586897714,
+              "corrected_sse": 8.766470602268746e-09,
+              "ratio": 9.296938491878555e-08
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 0.1151369634138831,
+              "corrected_sse": 1.3327999704750015e-08,
+              "ratio": 1.1575778368272424e-07
+            }
+          }
+        },
+        "damping": {
+          "delta_multiplier": -0.000517761389115069,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 0.19851942725262775,
+              "corrected_sse": 0.1985026959061028,
+              "ratio": 0.9999157193492018
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 0.09429416586897714,
+              "corrected_sse": 0.09429790591726034,
+              "ratio": 1.0000396636233932
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 0.1151369634138831,
+              "corrected_sse": 0.11514871779154374,
+              "ratio": 1.0001020903914097
+            }
+          }
+        },
+        "second_harmonic": {
+          "delta_multiplier": 0.09211316507548145,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 0.19851942725262775,
+              "corrected_sse": 0.14615914142434647,
+              "ratio": 0.7362460362045589
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 0.09429416586897714,
+              "corrected_sse": 0.07668916122467219,
+              "ratio": 0.8132969894577856
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 0.1151369634138831,
+              "corrected_sse": 0.09571557887408243,
+              "ratio": 0.8313192917031642
+            }
+          }
+        }
+      },
+      "passed": true
+    },
+    {
+      "perturbation": "stiffness",
+      "operator_multiplier": 1.25,
+      "expected_correction": -0.19999999999999996,
+      "direction_fit": {
+        "stiffness": {
+          "delta_multiplier": -0.20000070314299276,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 0.31019150387584565,
+              "corrected_sse": 1.5327258977396478e-08,
+              "ratio": 4.941224626039797e-08
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 0.14733698229033715,
+              "corrected_sse": 8.766470613910367e-09,
+              "ratio": 5.9499458164790316e-08
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 0.1799093766518143,
+              "corrected_sse": 1.3327999580635972e-08,
+              "ratio": 7.408173953284366e-08
+            }
+          }
+        },
+        "damping": {
+          "delta_multiplier": 0.0006395278598009148,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 0.31019150387584565,
+              "corrected_sse": 0.3101659774206564,
+              "ratio": 0.9999177074327623
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 0.14733698229033715,
+              "corrected_sse": 0.14734294233275605,
+              "ratio": 1.0000404517747428
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 0.1799093766518143,
+              "corrected_sse": 0.17992775254532897,
+              "ratio": 1.0001021397208787
+            }
+          }
+        },
+        "second_harmonic": {
+          "delta_multiplier": -0.07368801715007214,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 0.31019150387584565,
+              "corrected_sse": 0.22838414139798394,
+              "ratio": 0.7362682038170679
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 0.14733698229033715,
+              "corrected_sse": 0.1198320805944968,
+              "ratio": 0.8133197703096692
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 0.1799093766518143,
+              "corrected_sse": 0.1495662218263412,
+              "ratio": 0.8313420045682365
+            }
+          }
+        }
+      },
+      "passed": true
+    },
+    {
+      "perturbation": "damping",
+      "operator_multiplier": 0.8,
+      "expected_correction": 0.25,
+      "direction_fit": {
+        "stiffness": {
+          "delta_multiplier": -0.006469089757561096,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 2.496414831538408,
+              "corrected_sse": 2.4962071331342193,
+              "ratio": 0.9999168013258194
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 1.5414282385450024,
+              "corrected_sse": 1.5414462016801056,
+              "ratio": 1.000011653565605
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 2.19445254711023,
+              "corrected_sse": 2.1945382544831236,
+              "ratio": 1.0000390563801465
+            }
+          }
+        },
+        "damping": {
+          "delta_multiplier": 0.24999573673522618,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 2.496414831538408,
+              "corrected_sse": 1.4605093935535592e-08,
+              "ratio": 5.850427481451569e-09
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 1.5414282385450024,
+              "corrected_sse": 8.328632569755954e-09,
+              "ratio": 5.4031918979358945e-09
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 2.19445254711023,
+              "corrected_sse": 1.2798986038340559e-08,
+              "ratio": 5.832427798539063e-09
+            }
+          }
+        },
+        "second_harmonic": {
+          "delta_multiplier": -0.05230134874217909,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 2.496414831538408,
+              "corrected_sse": 2.470039106829401,
+              "ratio": 0.9894345585614259
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 1.5414282385450024,
+              "corrected_sse": 1.5289778800840337,
+              "ratio": 0.9919228426276133
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 2.19445254711023,
+              "corrected_sse": 2.183802227786313,
+              "ratio": 0.9951467078484144
+            }
+          }
+        }
+      },
+      "passed": true
+    },
+    {
+      "perturbation": "damping",
+      "operator_multiplier": 1.25,
+      "expected_correction": -0.19999999999999996,
+      "direction_fit": {
+        "stiffness": {
+          "delta_multiplier": 0.00808438460728445,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 3.9008876385628297,
+              "corrected_sse": 3.9005632685194915,
+              "ratio": 0.9999168471195808
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 2.4086280671272435,
+              "corrected_sse": 2.4086561660648798,
+              "ratio": 1.0000116659512608
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 3.4290262624002033,
+              "corrected_sse": 3.429160356181062,
+              "ratio": 1.0000391054983535
+            }
+          }
+        },
+        "damping": {
+          "delta_multiplier": -0.2000027284894555,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 3.9008876385628297,
+              "corrected_sse": 1.4605093504677037e-08,
+              "ratio": 3.744043627480095e-09
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 2.4086280671272435,
+              "corrected_sse": 8.32863351728089e-09,
+              "ratio": 3.4578329593304136e-09
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 3.4290262624002033,
+              "corrected_sse": 1.2798983705340772e-08,
+              "ratio": 3.732541755565883e-09
+            }
+          }
+        },
+        "second_harmonic": {
+          "delta_multiplier": 0.06537982956561539,
+          "by_group": {
+            "train": {
+              "events": 24,
+              "baseline_sse": 3.9008876385628297,
+              "corrected_sse": 3.8596716052450235,
+              "ratio": 0.989434191102979
+            },
+            "val": {
+              "events": 12,
+              "baseline_sse": 2.4086280671272435,
+              "corrected_sse": 2.389172041709879,
+              "ratio": 0.9919223620770269
+            },
+            "test": {
+              "events": 12,
+              "baseline_sse": 3.4290262624002033,
+              "corrected_sse": 3.412383115370556,
+              "ratio": 0.9951463926619222
+            }
+          }
+        }
+      },
+      "passed": true
+    }
+  ],
+  "inertia_profile": {
+    "1.0": {
+      "train": 7.992468595572636e-06,
+      "val": 8.54806324242557e-06,
+      "test": 1.0542804401715761e-05
+    },
+    "0.6666666666666666": {
+      "train": 0.013523470832522911,
+      "val": 0.010131019484548283,
+      "test": 0.006064405495309911
+    },
+    "0.8": {
+      "train": 0.007311361120698896,
+      "val": 0.005546267717033091,
+      "test": 0.0033285204072688365
+    },
+    "1.25": {
+      "train": 0.006823939561530597,
+      "val": 0.005340884992155587,
+      "test": 0.0032555678045065157
+    },
+    "1.5": {
+      "train": 0.011949244066335341,
+      "val": 0.009465953644394908,
+      "test": 0.005827013641705976
+    }
+  },
+  "selected_inertia_train": 1.0,
+  "claim_boundary": "Observed-path momentum controls on fixed known-truth analytic trajectories.",
+  "status": "PASS",
+  "process_status": "PASS",
+  "data_policy": "analytic_synthetic_only",
+  "promotion_decision": "KEEP_BASELINE",
+  "operation_counts": {
+    "npz_decodes": 1,
+    "weak_intervals": 141360,
+    "svd": 480,
+    "ball_solves": 48
+  },
+  "elapsed_seconds": 1.9754516000393778,
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "result_review_sha256": "bf92fd0cbcbebdfa432668f7df1c2283a571fdb6ca41ea1cd8077213d4dc0da3"
+}

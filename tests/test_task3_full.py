@@ -110,6 +110,19 @@ def test_metadata_planner_never_decodes_payload_and_binds_exact_roster(fixture, 
         Task3FullReader(fixture, plan, [])
 
 
+def test_train_only_reader_rejects_other_cohorts_before_access(fixture):
+    journal = []
+    reader = Task3FullReader(fixture, source_plan(fixture) | {"allowed_roles": ["train"]}, journal)
+    for role in ("val", "test"):
+        with pytest.raises(PermissionError):
+            reader.load(role, "freeze.json")
+    assert not journal
+    assert len(reader.load("train")) == 346
+    assert [row["source"] for row in journal if row["stage"] == "read_reserved"] == ["static", "development"]
+    with pytest.raises(PermissionError):
+        reader.load("val", "freeze.json")
+
+
 def test_full_reader_preserves_labels_projects_inputs_and_retains_common_frequency(fixture):
     journal = []
     reader = Task3FullReader(fixture, source_plan(fixture), journal)

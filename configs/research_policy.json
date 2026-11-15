@@ -1380,6 +1380,26 @@
       "result_review_path": "docs/research/kiki_machine_local_topology_damping_fit_result_review_20261115.json",
       "result_review_sha256": "627b7ff97b82abacbc3c84ad1b06f3514161d5236b4e5d237d648d53ad820969",
       "scientific_pass": false
+    },
+    "kiki_machine_local_topology_momentum_v1_20261115": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_momentum_v1",
+      "authority": "operator_autonomous_full_train_momentum_diagnostic",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "train_cases": 346,
+      "source_cache_open_limit": 2,
+      "plan_path": "configs/proposals/kiki_machine_local_topology_momentum_v1.json",
+      "plan_sha256": "2c6412af7837be327de794de30a56149adcdad567652407796e301e6b2c5fdd1",
+      "review_path": "docs/research/kiki_machine_local_topology_momentum_v1_review_20261115.json",
+      "review_sha256": "fc2ed47e0725f5f0b998e296be7a713f0303802172226eaa6bd5887e8877887d",
+      "operation_limits": {
+        "checkpoint_loads": 2,
+        "svd": 2111,
+        "ball_solves": 727,
+        "weak_intervals": 550610
+      }
     }
   },
   "archived_development_results": {
@@ -4174,12 +4194,20 @@
         "ball_solves": 48,
         "weak_intervals": 141360
       },
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
       "plan_path": "configs/proposals/machine_local_topology_momentum_v1.json",
       "plan_sha256": "23a800cb8204eded71f86d4badf5967e2e2eab671dcd46f1ea295d1d50ed96e5",
       "review_path": "docs/research/machine_local_topology_momentum_v1_review_20261115.json",
-      "review_sha256": "544232a6e03a24ce34a41e0beafac3e72e7f6f4905fa375e40fba7adc111bc06"
+      "review_sha256": "544232a6e03a24ce34a41e0beafac3e72e7f6f4905fa375e40fba7adc111bc06",
+      "run_id": "machine_local_topology_momentum_v1-momentum-20261115T102739144459Z-44546b9e-fb2b4f42",
+      "result_manifest_sha256": "731ed8601062c4924ed2ac18e8edce7a871d595666e3946e15099d9b44f40f98",
+      "result_receipt_path": "docs/reports/machine_local_topology_momentum_20261115_evidence.json",
+      "result_receipt_sha256": "a24eceb856a543af8198d34594d125d1851c0c3c66ba56bd2320555f8181f7ad",
+      "result_review_path": "docs/research/machine_local_topology_momentum_result_review_20261115.json",
+      "result_review_sha256": "bf92fd0cbcbebdfa432668f7df1c2283a571fdb6ca41ea1cd8077213d4dc0da3",
+      "engineering_pass": true,
+      "scientific_pass": true
     }
   },
   "saved_evidence_audits": {

@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Observed-path momentum synthetic controls](machine_local_topology_momentum_20261115_zh.md) | Full known-truth comparison, sampled residual convergence and signed force-block recovery |
 | [TASK3 zero-prior radial initialization](kiki_machine_local_topology_no_prior_20261115_zh.md) | Frozen complete train/val/test, 67 correct and 4 unresolved on test, all saved scores independently recomputed |
 | [Matched zero-prior history solve](machine_local_topology_ball_history_no_prior_20261115_zh.md) | Full synthetic train/val/test, exact history improvement with weaker future scores, support for prior-only ablation |
 | [Ball-constrained history initialization](machine_local_topology_ball_history_20261115_zh.md) | Full synthetic train/val/test and a wrong-damping oracle, clean recovery with zero prior, original-prior gate failed |
