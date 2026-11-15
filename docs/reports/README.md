@@ -23,6 +23,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Delayed instability and gradient calibration](machine_local_topology_delayed_20261115_zh.md) | Two same-start fits and full train/val/test, reproduced matched misses, calibrated margin recovered none |
 | [Paired synthetic five-point margin training](machine_local_topology_margin_20261115_zh.md) | Two same-start fits on 24 known-truth events, complete train/val/test, margin improvement gate failed |
 | [TASK3 five-point train witnesses](kiki_task3_train_witness_20261115_zh.md) | Complete train evidence, two saved radius controls, GPU gradient through history and forecast |
 | [TASK3 memory initialization radius](kiki_machine_local_topology_radius_20261115_zh.md) | Frozen-weight comparison on complete train/val/test, 70 test cases correct with three unresolved, val gate failed, all saved scores independently recomputed |

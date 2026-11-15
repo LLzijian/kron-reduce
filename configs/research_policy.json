@@ -3973,12 +3973,20 @@
         "fits": 2,
         "optimizer_updates": 40
       },
-      "status": "active",
+      "status": "consumed",
       "plan_path": "configs/proposals/machine_local_topology_delayed_v1.json",
       "plan_sha256": "6ae42a3e0455eeaaa42508fa819922b2ac98d83005ca69e2e8c3a3fe24393aa9",
       "review_path": "docs/research/machine_local_topology_delayed_review_20261115.json",
       "review_sha256": "247286da74a70afe23f39a137e4669c8fdf3de3e7d307cadc8cfb9b0f7f2ee54",
-      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal"
+      "authority": "explicit_operator_autonomous_full_task3_accuracy_goal",
+      "run_id": "machine_local_topology_delayed_v1-delayed-20261115T075847142292Z-aa3aa014-c7d6d0af",
+      "result_manifest_sha256": "7ddcef9280073afe6a9749c34d19922dd26e7fcd1a3f1bfd703c770ebcc9d440",
+      "result_receipt_path": "docs/reports/machine_local_topology_delayed_20261115_evidence.json",
+      "result_receipt_sha256": "5dae3917872500a9bfbe89e5cfc0443706b355da63f83b24bbc159c324ced988",
+      "result_review_path": "docs/research/machine_local_topology_delayed_result_review_20261115.json",
+      "result_review_sha256": "9622215e3514c90a4561cb65e7c43a43a6dd7c52142097a9afd47f1145f89f44",
+      "engineering_pass": true,
+      "scientific_pass": false
     }
   },
   "saved_evidence_audits": {

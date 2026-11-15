@@ -1,0 +1,122 @@
+{
+  "schema": "machine_local_topology_delayed_result_review.v1",
+  "verified": true,
+  "run_id": "machine_local_topology_delayed_v1-delayed-20261115T075847142292Z-aa3aa014-c7d6d0af",
+  "summary_sha256": "73d277ac68fc43b8128f78c2cde3b6c55b633c3f56f4c922385fcbf4bb122705",
+  "scientific_pass": false,
+  "engineering_pass": true,
+  "decision": "VERIFY_COMPLETED_SCOPE_SCIENTIFIC_GATE_NOT_MET_KEEP_BASELINE",
+  "verified_metadata_hashes": {
+    "excitation-qualification.json": "c090a5bdf6c3b2298e9b20b258f3dea20a24f28e5d6d10c254a41b505ffb419d",
+    "gradient-calibration.json": "6307e7405aa722979317f199c1f3b60215cac4da78e72f40ac773377cb9cf7ca",
+    "initial-equation.json": "e537cd7fc41e643730f898adf1a56543dce1f526f389735657aea83e95391ec2",
+    "initial-scores.json": "2f23b5e9f4c82cbc4dc4609068c16e8c7ac65d9b3b92e3df5abf2fd7bace15c7",
+    "margin-equation.json": "e97d056d0826684ef916b01792d765a758427d8adb836c34d47385591cc2ce29",
+    "margin-fit.json": "126d69bfa0c432685bb1e17c1cfacda353c87b51b5a45756ad8e4e6c061e3a2d",
+    "margin-scores.json": "9f7f2102dbc7d858aa9fcc3e7b97270f5627ad490f5b9821b2751b6c778e3313",
+    "operations.jsonl": "c58c8158cd49f8a8f7b5c11f84650cf61054e4c758072fe545244cda519409c4",
+    "preprocessing.json": "c23fa674b975744624704743e571eee97972b6735727c48bd455fb2fc3554d17",
+    "stage_evidence.json": "ed2692f200b3521d16874010e90e99f45e871f1ab1c773b1c5b4be02f95e3fe6",
+    "summary.json": "73d277ac68fc43b8128f78c2cde3b6c55b633c3f56f4c922385fcbf4bb122705",
+    "trajectory-equation.json": "228b27a59ba59f99a3b29f8ed9811aef59c09047ac103ea470035efc30b8b907",
+    "trajectory-fit.json": "45f8410fee2144ffdd1022570616dcf2222c70920b6e4f8aaa22602a4383aa05",
+    "trajectory-scores.json": "460264acc6702b040385faa0671d5acdb84e01bc494ceb124bd60d306e9fd241",
+    "truth-classes.json": "3b738c573fb4d41f0569b3e9f67aead7297ac8a8bbcdb296a0a35b8f6b3b0f26"
+  },
+  "evidence": {
+    "completed_updates": {
+      "trajectory": 20,
+      "margin": 20
+    },
+    "exact_rosters": {
+      "train": 12,
+      "val": 6,
+      "test": 6,
+      "frozen_models": 3,
+      "exact_ids_verified": true
+    },
+    "operation_counts": {
+      "numpy_rhs": 77760,
+      "rollouts": 329,
+      "tangent_rhs": 23600,
+      "torch_rhs": 241923,
+      "qr": 3180,
+      "svd": 3180,
+      "matrix_products": 3180,
+      "triangular_solves": 3180,
+      "gradients": 45,
+      "fits": 2,
+      "optimizer_updates": 40
+    },
+    "recomputed_gates": {
+      "matched_unstable": false,
+      "matched_triggers": true,
+      "trajectory": true,
+      "coverage_and_stability": false,
+      "train_witness_recovery": false
+    },
+    "val_unstable_matched_margin_rmse": {
+      "initial": 0.03442091188287529,
+      "trajectory": 0.03114156565517847,
+      "margin": 0.03114320768049712
+    },
+    "train_unstable_matched_margin_rmse": {
+      "initial": 0.037167865114773185,
+      "trajectory": 0.0330075949081454,
+      "margin": 0.03300515486573938
+    },
+    "endpoint_matched_positive_witnesses": {
+      "trajectory": {
+        "train": 0,
+        "val": 0
+      },
+      "margin": {
+        "train": 0,
+        "val": 0
+      },
+      "truth": {
+        "train": 6,
+        "val": 3
+      }
+    },
+    "endpoint_full_eight_second_stability": "Both endpoints: train TP=4,TN=6,FP=0,FN=0,unresolved=2 of 12; val TP=2,TN=3,FP=0,FN=0,unresolved=1 of 6. All train and val paths are numerically qualified. Full-cohort accuracy is null because of unresolved cases; late full-horizon triggers are distinct from matched-window witnesses.",
+    "calibration": {
+      "weight": 1.9360080295820288,
+      "gradient_cosine": 0.9976727856540133,
+      "relative_adam_direction_change": 0.42593709523578877,
+      "margin_first_step_directional_derivative_control": -7.877609708431574E-06,
+      "margin_first_step_directional_derivative_candidate": -7.889995638966267E-06,
+      "relative_extra_margin_decrease": 0.0015722955303860697,
+      "changed_sign_coordinate": "rate_parameter[8]",
+      "damping_fraction_of_margin_gradient_squared_norm": 0.9928836031582619
+    },
+    "mechanism_observations": [
+      "For initial and both endpoints, all six train and all three val unstable cases have history-start memory energy 0.5, the radius-one boundary, while the known truth starts with zero hidden state. This establishes saturation, not its causal contribution to forecast error.",
+      "The trajectory endpoint retains stiffness factor 1.1273900664775374 and damping factor 1.323437744597295. Its final recorded pre-update trajectory loss falls from 0.0014363582921705857 at update 19 to 0.00142323044370868 at update 20; these records do not establish convergence or a plateau.",
+      "The large relative Adam-direction change comes from one coordinate sign reversal and corresponds to only 0.15722955303860697 percent additional predicted first-step margin-loss decrease. This is a local derivative diagnostic, not a measured nonlinear loss improvement."
+    ]
+  },
+  "verification_boundary": "Independently checked 15 JSON/JSONL artifact hashes, exact 24-ID role rosters for all three frozen models, complete finite 1-to-20 fit traces, operation caps, train/val matched-margin aggregates and gates, and calibration algebra using saved gradient components. The coordinator separately verified all 22 artifact hashes. No NPZ was opened or decoded, no model was called, and test performance did not enter scientific conclusions or the next-route choice.",
+  "next_route": {
+    "status": "DESIGN_ONLY_REQUIRES_SEPARATE_REGISTRATION_AND_APPROVAL",
+    "recommendation": "One fixed known-truth substitution and hidden-state diagnostic before further fitting or loss-weight changes.",
+    "anchor": "The frozen trajectory-only endpoint and the exact existing delayed truth, IDs, train normalization, matched counts and eight-second scoring window.",
+    "fixed_conditions": [
+      "Saved trajectory endpoint with the existing causal history initializer.",
+      "Same endpoint coefficients with exact truth hidden state at forecast origin.",
+      "Causal endpoint with only damping replaced by its known truth.",
+      "Causal endpoint with only stiffness replaced by its known truth.",
+      "Causal endpoint with only all memory ports and time constants replaced by known truth.",
+      "All coefficients set to known truth with the existing causal initializer.",
+      "All coefficients and forecast-origin hidden state set to known truth."
+    ],
+    "execution_contract": "No fitting, no amplitude regeneration, no weight or radius scan. Freeze all seven conditions before evaluating complete train, val and test with both numerical steps over eight seconds. Use train/val for diagnostic conclusions and test for reporting only. Five causal and two exact-origin conditions require 74 batched rollouts when all calls succeed; any isolation allowance and energy checks require explicit new budgets.",
+    "interpretation": "Check the all-truth equation plus exact-origin hidden-state control first. Its difference from all-truth causal prediction measures the history-initialization limitation. Single-block replacements measure conditional effects at the fixed endpoint; they do not prove additive attribution or exclude interactions. A later trajectory-only convergence fit is considered only after this routing evidence, with a separately frozen update cap and stopping rule."
+  },
+  "reviewer_execution": {
+    "scientific_runs": 0,
+    "model_calls": 0,
+    "array_decodes": 0,
+    "tests_run": 0
+  }
+}

@@ -41,8 +41,12 @@ initializer and rollout. The [paired known-truth training check](../reports/mach
 completed both twenty-update fits and all 24 synthetic events. The margin term
 changed the val unstable margin RMSE by 0.041% relative to the trajectory-only
 fit. Both fits recovered all matched triggers and classified the six val events.
-The margin improvement gate failed. The next preparation examines gradient
-contributions and synthetic excitations near the five-point decision boundary.
+The margin improvement gate failed. The subsequent [delayed-excitation check](../reports/machine_local_topology_delayed_20261115_zh.md)
+reproduced six matched train misses at the shared start and measured both
+loss gradients. Norm calibration changed the first Adam update substantially
+while improving its projected margin descent by 0.16%. Neither twenty-update
+fit recovered a matched witness. The next preparation isolates the estimated
+origin state and the stiffness, damping, and memory coefficients on this truth.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
