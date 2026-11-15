@@ -1,0 +1,145 @@
+{
+  "verified": true,
+  "run_id": "kiki_machine_local_topology_angle_scale_v1-train_momentum-20261115T115504524767Z-1d3ecb45-fde33d42",
+  "summary_sha256": "18b0b862bb49240871a8bf520c2604aee7ef3aa36a6100dd3a26b628c282942c",
+  "artifact_manifest_sha256": "69163f1a3faeec17a0c23412088bcad4b18ae259589388d4b1db6abd8f296be0",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "checks": {
+    "saved_archive_verifier_passed": true,
+    "artifact_digest_count": 6,
+    "complete_source_qualified_train_id_label_match": true,
+    "train_cases": 346,
+    "stable_cases": 311,
+    "unstable_cases": 35,
+    "numerically_qualified_cases": 346,
+    "full_rank_cases": 346,
+    "history_estimation_errors": 0,
+    "source_cache_opens": {
+      "static": 1,
+      "development": 1
+    },
+    "val_test_trajectory_reads": 0,
+    "interval_normalization_recomputed": true,
+    "group_sse_and_ratios_exactly_recomputed": true,
+    "operation_counts_recomputed": true,
+    "registered_scientific_subgates_passed": 0,
+    "registered_scientific_subgates_total": 9,
+    "review_array_decodes": 0,
+    "new_scientific_execution": false
+  },
+  "groups": {
+    "train": {
+      "allocated": 346,
+      "qualified": 346,
+      "effects": {
+        "0.0025": {
+          "sse": [
+            34354.6819095624,
+            36658.17571338793
+          ],
+          "ratio": 1.0670503604105375
+        },
+        "0.00125": {
+          "sse": [
+            34354.68188948679,
+            36658.17569323844
+          ],
+          "ratio": 1.0670503604475687
+        },
+        "free": {
+          "sse": [
+            15133.535729971889,
+            15609.235190223566
+          ],
+          "ratio": 1.0314334646403587
+        }
+      }
+    },
+    "stable": {
+      "allocated": 311,
+      "qualified": 311,
+      "effects": {
+        "0.0025": {
+          "sse": [
+            13371.969166153045,
+            13532.236337748294
+          ],
+          "ratio": 1.0119853081923726
+        },
+        "0.00125": {
+          "sse": [
+            13371.969146312122,
+            13532.236317936504
+          ],
+          "ratio": 1.011985308212335
+        },
+        "free": {
+          "sse": [
+            10481.66866666769,
+            10620.059141428314
+          ],
+          "ratio": 1.013203095724702
+        }
+      }
+    },
+    "unstable": {
+      "allocated": 35,
+      "qualified": 35,
+      "effects": {
+        "0.0025": {
+          "sse": [
+            20982.712743409356,
+            23125.939375639635
+          ],
+          "ratio": 1.102142495035751
+        },
+        "0.00125": {
+          "sse": [
+            20982.712743174667,
+            23125.939375301932
+          ],
+          "ratio": 1.102142495031984
+        },
+        "free": {
+          "sse": [
+            4651.867063304198,
+            4989.176048795253
+          ],
+          "ratio": 1.0725104524486273
+        }
+      }
+    }
+  },
+  "subgates": {
+    "train/0.0025": false,
+    "train/0.00125": false,
+    "train/free": false,
+    "stable/0.0025": false,
+    "stable/0.00125": false,
+    "stable/free": false,
+    "unstable/0.0025": false,
+    "unstable/0.00125": false,
+    "unstable/free": false
+  },
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "rollouts": 154,
+    "tangent_rhs": 26400,
+    "torch_rhs": 31680,
+    "qr": 3460,
+    "svd": 3806,
+    "matrix_products": 3460,
+    "triangular_solves": 3460,
+    "weak_intervals": 98341,
+    "quad_check_intervals": 196682
+  },
+  "maximum_quadrature_gap": 4.163336342344337e-17,
+  "conclusion": "Reject the registered increase from theta=1 to theta=1.25 at fixed rho=2/3.",
+  "notes": [
+    "All 346 cases are retained and numerically qualified. Both causal history starts and the free-memory control produce larger future weak residual SSE in train, stable and unstable groups.",
+    "The rejection has the same sign under both history integration steps and under elimination of the future memory response. It is not an improvement concealed by the current memory initializer.",
+    "The free-memory residual remains substantially below the causal residual, particularly in the unstable group. This gap measures the benefit of noncausal memory flexibility and does not establish a recoverable causal initializer.",
+    "This result closes the single prospective theta=1.25 contrast. It does not authorize reversing direction, sweeping theta, changing bounds or using test feedback. Any new structural mechanism needs separate known-truth and causal-support evidence."
+  ]
+}

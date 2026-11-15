@@ -1467,7 +1467,7 @@
       "scientific_pass": true
     },
     "kiki_machine_local_topology_angle_scale_v1_20261115": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_machine_local_topology_angle_scale_v1",
       "authority": "operator_autonomous_full_train_angle_scale_diagnostic",
       "fit_attempts": 0,
@@ -1490,7 +1490,15 @@
         "qr": 6920,
         "matrix_products": 6920,
         "triangular_solves": 6920
-      }
+      },
+      "run_id": "kiki_machine_local_topology_angle_scale_v1-train_momentum-20261115T115504524767Z-1d3ecb45-fde33d42",
+      "result_manifest_sha256": "69163f1a3faeec17a0c23412088bcad4b18ae259589388d4b1db6abd8f296be0",
+      "result_receipt_path": "docs/reports/kiki_machine_local_topology_angle_scale_20261115_evidence.json",
+      "result_receipt_sha256": "258b31079d075e48ad3fae7e8187f02fff4f38cf5b33aefab8ebedfe95d74b8d",
+      "result_review_path": "docs/research/kiki_machine_local_topology_angle_scale_result_review_20261115.json",
+      "result_review_sha256": "8a04606177f6070d20456117caae38aa0e27e103e79190220e1e23034aae4a24",
+      "engineering_pass": true,
+      "scientific_pass": false
     }
   },
   "archived_development_results": {

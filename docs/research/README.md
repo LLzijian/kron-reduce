@@ -87,9 +87,10 @@ used the complete train estimate at the frozen upper bound. Val classified
 106/107 correctly with no stable false alarm and passed its trajectory gate.
 Three train false alarms account for 99.55% of the increase in the mean stable
 eight-second error. Test returned 69 correct judgments with three unresolved.
-The complete rosters have been independently rescored. The next planned
-[damping scale check](machine_local_topology_momentum_plan_20261115_zh.md#功角尺度诊断)
-tests one increased angle scale at common origins on complete train.
+The complete rosters have been independently rescored. The [damping scale check](../reports/kiki_machine_local_topology_angle_scale_20261115_zh.md)
+qualified all 346 train cases. At fixed causal origins and after free-origin
+projection, increasing the scale from 1 to 1.25 rad raised residuals in both
+stable and unstable train events. The change failed its registered gate.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
