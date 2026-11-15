@@ -20,7 +20,7 @@ def parameters():
 
 
 def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_damping_rho=0., spatial_mix=0.,
-                  restoring_alpha=0.):
+                  restoring_alpha=0., dynamic_coupling=None, coupling_initial=None):
     """Integrate batched visible and optional latent states at a 10 ms frame rate."""
     mass, k0, damping, g, tau, equilibrium = (np.asarray(x, dtype=np.float64) for x in params)
     q, v, power, a, z = (np.asarray(x, dtype=np.float64) for x in (q, v, power, a, z))
@@ -33,6 +33,26 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_da
             or not 0. <= angle_damping_rho <= 2./3. or not 0. <= spatial_mix <= 1.
             or not -.25 <= restoring_alpha <= .25):
         raise ValueError("incompatible topology truth inputs")
+    if dynamic_coupling is None:
+        if coupling_initial is not None:
+            raise ValueError("coupling_initial requires dynamic_coupling")
+        dynamic = None
+    else:
+        try:
+            dynamic = tuple(float(x) for x in dynamic_coupling)
+        except (TypeError, ValueError):
+            raise ValueError("dynamic_coupling must be (mobility, stiffness, limit)") from None
+        if (len(dynamic) != 3 or not np.isfinite(dynamic).all()
+                or any(x <= 0. for x in dynamic)):
+            raise ValueError("dynamic coupling parameters must be finite and positive")
+        if coupling_initial is None:
+            c_initial = np.zeros(batch, dtype=np.float64)
+        else:
+            c_initial = np.asarray(coupling_initial, dtype=np.float64)
+            if c_initial.ndim == 0 and batch == 1:
+                c_initial = c_initial.reshape(1)
+            if c_initial.shape != (batch,) or not np.isfinite(c_initial).all():
+                raise ValueError("coupling_initial must be one finite scalar per event")
     if not all(np.isfinite(x).all() for x in (mass, k0, damping, g, tau, equilibrium, q, v, power, a, z)):
         raise ValueError("topology truth inputs must be finite")
     substeps = max(1, int(np.ceil(.01/max_step - 1e-12)))
@@ -50,18 +70,29 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_da
         root = (modes*np.sqrt(spectrum.clip(min=0.))) @ modes.T
     ref = equilibrium[_EDGES[:, 0]] - equilibrium[_EDGES[:, 1]]
     edge_k = k0[None, :] * np.exp(a[:, _EDGES[:, 0]] + a[:, _EDGES[:, 1]])
-    state = np.concatenate((q.copy(), v.copy(), z.copy()), axis=1)
-    path = np.empty((batch, count + 1, 2*_N + z.shape[1]), dtype=np.float64)
+    state_parts = [q.copy(), v.copy(), z.copy()]
+    if dynamic is not None:
+        state_parts.append(c_initial[:, None].copy())
+    state = np.concatenate(state_parts, axis=1)
+    path = np.empty((batch, count + 1, 2*_N + z.shape[1] + (dynamic is not None)), dtype=np.float64)
     path[:, 0] = state
 
     def rhs(x):
-        xq, xv, xz = x[:, :_N], x[:, _N:2*_N], x[:, 2*_N:]
+        xq, xv = x[:, :_N], x[:, _N:2*_N]
+        xz = x[:, 2*_N:2*_N + z.shape[1]]
         edge = xq[:, _EDGES[:, 0]] - xq[:, _EDGES[:, 1]]
         shifted = np.sin(edge + ref) - np.sin(ref)
         if restoring_alpha:
             harmonic = np.sin(2.*(edge+ref))-np.sin(2.*ref)
             shifted = shifted+restoring_alpha*(np.cos(ref)*harmonic-2.*np.cos(2.*ref)*shifted)
-        force = power - (edge_k*shifted) @ incidence.T
+        effective_edge_k = edge_k
+        multiplier = None
+        if dynamic is not None:
+            mobility, stiffness, limit = dynamic
+            xc = x[:, 2*_N + z.shape[1]]
+            multiplier = np.exp(2.*limit*np.tanh(xc/limit))
+            effective_edge_k = edge_k * multiplier[:, None]
+        force = power - (effective_edge_k*shifted) @ incidence.T
         drag = xv @ damping.T
         if angle_damping_rho:
             s = np.mean(edge**2, axis=1, keepdims=True)
@@ -76,7 +107,19 @@ def truth_rollout(params, q, v, power, a, z, *, count, max_step, spend, angle_da
             dz = xv @ coupling - xz/tau
         else:
             dz = xz
-        return np.concatenate((xv, (force @ projection.T)/mass, dz), axis=1)
+        result = [xv, (force @ projection.T)/mass, dz]
+        if dynamic is not None:
+            base_potential = np.cos(ref) - np.cos(edge + ref) - edge*np.sin(ref)
+            if restoring_alpha:
+                second = ((np.cos(2.*ref)-np.cos(2.*(edge+ref)))/2.
+                          - edge*np.sin(2.*ref))
+                base_potential = (base_potential + restoring_alpha*(
+                    np.cos(ref)*second - 2.*np.cos(2.*ref)*base_potential))
+            potential = np.sum(effective_edge_k*base_potential, axis=1)
+            sech2 = 1. - np.tanh(xc/limit)**2
+            dc = -mobility*(stiffness*xc + 2.*sech2*potential)
+            result.append(dc[:, None])
+        return np.concatenate(result, axis=1)
 
     for frame in range(1, count + 1):
         for _ in range(substeps):

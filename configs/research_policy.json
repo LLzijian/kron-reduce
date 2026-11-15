@@ -4522,6 +4522,37 @@
       "result_review_sha256": "e28d07ee0aaf68e6767ca8270d0f208c81c2ba6b313ef9e876ea99651312b868",
       "engineering_pass": true,
       "scientific_pass": true
+    },
+    "machine_local_topology_dynamic_coupling_v1_20261116": {
+      "experiment": "machine_local_topology_dynamic_coupling_v1",
+      "workflow": "machine_local_topology_dynamic_coupling_v1",
+      "stage": "dynamic_coupling",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 6,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "npz_decodes": 1,
+        "fits": 6,
+        "train_candidate_evaluations": 30,
+        "numpy_rhs": 311040,
+        "numpy_damping_roots": 8,
+        "rollouts": 5012,
+        "torch_rhs": 14331844,
+        "tangent_rhs": 847200,
+        "gradients": 4,
+        "qr": 10320,
+        "svd": 10320,
+        "matrix_products": 10320,
+        "triangular_solves": 10320
+      },
+      "status": "active",
+      "authority": "explicit_operator_dynamic_coupling_progression",
+      "plan_path": "configs/proposals/machine_local_topology_dynamic_coupling_v1.json",
+      "plan_sha256": "72fc7c712b6d963b2792befc08b925f15847bf0c0afcb5bf6dd57ac58a82c131",
+      "review_path": "docs/research/machine_local_topology_dynamic_coupling_v1_review_20261116.json",
+      "review_sha256": "cfb15935ae1d279e4fcedfc172c02f8df73fa160ddf162f18a24f154da34e812"
     }
   },
   "saved_evidence_audits": {

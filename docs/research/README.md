@@ -6,6 +6,13 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [dynamic effective coupling plan](machine_local_dynamic_coupling_plan_20261116_zh.md)
+tests a shared state that varies branch stiffness through an energy gradient.
+The [first protocol](../protocols/machine_local_topology_dynamic_coupling_v1_zh.md)
+compares it with a static restoring term at equal fitting budgets and uses the
+same 100 ms causal history contract. Phase-dependent damping remains a separate
+candidate in the momentum plan.
+
 The [topology and memory plan](machine_local_topology_memory_plan_20261115_zh.md)
 introduces event-conditioned edge stiffness and reciprocal machine-local memory.
 The [S0 protocol](../protocols/machine_local_topology_v1_zh.md) tests four known-

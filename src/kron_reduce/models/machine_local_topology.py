@@ -9,8 +9,17 @@ from kron_reduce.models.machine_local import DiagonalMemoryModel
 from kron_reduce.models.nonlinear_history import history_with_tangent
 
 
+def _edge_potential(relative, ref, alpha):
+    angle = ref+relative
+    potential = ref.cos()-angle.cos()-relative*ref.sin()
+    if alpha:
+        second = ((2.*ref).cos()-(2.*angle).cos())/2.-relative*(2.*ref).sin()
+        potential = potential+alpha*(ref.cos()*second-2.*(2.*ref).cos()*potential)
+    return potential
+
+
 class TopologyMemoryModel(DiagonalMemoryModel):
-    """State ordering q, v, memory, and zero-sum coupling coordinates."""
+    """State ordering q, v, memory, and optional coupling coordinates."""
 
     def __init__(self, backbone, *, topology, port, tau, train_scales=False):
         n = backbone.n_nodes
@@ -30,6 +39,7 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         self.angle_damping_rho = 0.
         self.angle_damping_spatial_mix = 0.
         self.restoring_shape = 0.
+        self.dynamic_coupling = None
         self.register_parameter("log_damping_factor",
                                 torch.nn.Parameter(self.mass.new_zeros(())) if train_scales else None)
         self.register_buffer("edge_basis", self.incidence.abs().T @ self.basis[:, :self.topology_dimension])
@@ -78,10 +88,25 @@ class TopologyMemoryModel(DiagonalMemoryModel):
             raise ValueError("restoring shape must be between minus and plus one-quarter")
         self.restoring_shape = alpha
 
+    def set_dynamic_coupling(self, mobility, *, stiffness, limit):
+        """Enable one shared coupling state on the fixed-topology memory model."""
+        mobility, stiffness, limit = map(float, (mobility, stiffness, limit))
+        if (self.topology_dimension or not self.memory_dimension or not np.isfinite([mobility, stiffness, limit]).all()
+                or mobility < 0. or stiffness <= 0. or not 0. < limit < np.log(np.finfo(float).max)/2.):
+            raise ValueError("dynamic coupling requires T0M1 and valid mobility, stiffness and log-scale limit")
+        self.dynamic_coupling = (mobility, stiffness, limit)
+        self.latent_dimension = self.memory_dimension+1
+
     def node_correction(self, state):
+        if self.dynamic_coupling is not None:
+            limit = self.dynamic_coupling[2]
+            return (limit*(state[..., -1:]/limit).tanh()).expand(*state.shape[:-1], self.n_nodes)
         return state[..., 2*self.n_nodes+self.memory_dimension:] @ self.basis[:, :self.topology_dimension].T
 
     def edge_stiffness(self, state):
+        if self.dynamic_coupling is not None:
+            limit = self.dynamic_coupling[2]
+            return self.effective_stiffness*torch.exp(2.*limit*(state[..., -1:]/limit).tanh())
         return self.effective_stiffness*torch.exp(
             state[..., 2*self.n_nodes+self.memory_dimension:] @ self.edge_basis.T)
 
@@ -95,11 +120,9 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         n, r = self.n_nodes, self.memory_dimension
         angle = state[..., :n] @ self.incidence
         ref = equilibrium @ self.incidence
-        potential = ref.cos()-(ref+angle).cos()-angle*ref.sin()
-        if self.restoring_shape:
-            second = ((2.*ref).cos()-(2.*(ref+angle)).cos())/2.-angle*(2.*ref).sin()
-            potential = potential+self.restoring_shape*(ref.cos()*second-2.*(2.*ref).cos()*potential)
-        potential = (self.edge_stiffness(state)*potential).sum(-1)
+        potential = (self.edge_stiffness(state)*_edge_potential(angle, ref, self.restoring_shape)).sum(-1)
+        if self.dynamic_coupling is not None:
+            potential = potential+.5*self.dynamic_coupling[1]*state[..., -1].square()
         v, z = state[..., n:2*n], state[..., 2*n:2*n+r]
         return potential+.5*((v.square()*self.mass).sum(-1)+z.square().sum(-1))
 
@@ -115,6 +138,7 @@ class TopologyMemoryModel(DiagonalMemoryModel):
         visible_linear = -(inv_mass_projection @ torch.cat((damping, coupling), dim=1))
         memory_linear = torch.cat((coupling.T, -torch.diag(tau.reciprocal())), dim=1)
         applied = power @ inv_mass_projection.T
+        dynamic = self.dynamic_coupling
         alpha = self.restoring_shape
         if alpha:
             first_weight = 1.-2.*alpha*(2.*ref).cos()
@@ -138,6 +162,14 @@ class TopologyMemoryModel(DiagonalMemoryModel):
                 shifted_sine = first_weight*shifted_sine+second_weight*((2.*angle).sin()-second_ref)
             k = self.edge_stiffness(state)
             force = k*shifted_sine
+            latent_rate = torch.zeros_like(a)
+            if dynamic is not None:
+                mobility, stiffness, limit = dynamic
+                saturated = (a/limit).tanh()
+                log_slope = 2.*(1.-saturated.square())
+                if mobility:
+                    potential = (k*_edge_potential(relative_angle, ref, alpha)).sum(dim=-1, keepdim=True)
+                    latent_rate = -mobility*(stiffness*a+log_slope*potential)
             acceleration = velocity_memory @ visible_linear.T+applied+force @ edge_acceleration.T
             if rho:
                 s = relative_angle.square().mean(dim=-1, keepdim=True)
@@ -150,7 +182,7 @@ class TopologyMemoryModel(DiagonalMemoryModel):
                 root_velocity = velocity_memory[..., :n] @ root
                 acceleration = acceleration+(local_strength*root_velocity) @ projected_root.T
             derivative = torch.cat((velocity_memory[..., :n], acceleration, velocity_memory @ memory_linear.T,
-                                    torch.zeros_like(a)), dim=-1)
+                                    latent_rate), dim=-1)
             if not tangent:
                 return derivative
             sq, svm, sa = sensitivity[:, :n], sensitivity[:, n:2*n+r], sensitivity[:, 2*n+r:]
@@ -158,7 +190,14 @@ class TopologyMemoryModel(DiagonalMemoryModel):
             slope = angle.cos()
             if alpha:
                 slope = first_weight*slope+2.*second_weight*(2.*angle).cos()
-            force_response = (k*slope)[..., None]*edge_response+force[..., None]*(self.edge_basis @ sa)
+            log_response = self.edge_basis @ sa if dynamic is None else log_slope[..., None]*sa
+            force_response = (k*slope)[..., None]*edge_response+force[..., None]*log_response
+            latent_response = torch.zeros_like(sa)
+            if dynamic is not None and mobility:
+                potential_response = (force[..., None]*edge_response).sum(dim=1, keepdim=True)
+                log_curvature = -2.*saturated*log_slope/limit
+                hessian = stiffness+(log_curvature+log_slope.square())*potential
+                latent_response = -mobility*(hessian[..., None]*sa+log_slope[..., None]*potential_response)
             acceleration_response = visible_linear @ svm+edge_acceleration @ force_response
             if rho:
                 ds = 2.*(relative_angle[..., None]*edge_response).mean(dim=1, keepdim=True)
@@ -171,7 +210,7 @@ class TopologyMemoryModel(DiagonalMemoryModel):
                 acceleration_response = acceleration_response+projected_root @ (
                     local_strength[..., None]*(root @ svm[:, :n])+root_velocity[..., None]*local_dstrength)
             response = torch.cat((svm[:, :n], acceleration_response,
-                                  memory_linear @ svm, torch.zeros_like(sa)), dim=1)
+                                  memory_linear @ svm, latent_response), dim=1)
             return derivative, response
 
         return field
@@ -183,7 +222,7 @@ def _ball(x, radius):
 
 
 @torch.no_grad()
-def _memory_ball_update(model, hidden, design, residual, observed, power, equilibrium, scale, prior, *,
+def _memory_ball_update(model, hidden, design, residual, observed, fixed, power, equilibrium, scale, prior, *,
                         radius, max_step, spend):
     spend("svd", len(hidden))
     observed_singular = torch.linalg.svdvals(design)
@@ -203,7 +242,7 @@ def _memory_ball_update(model, hidden, design, residual, observed, power, equili
         step = 2.**(-halving)
         trial = torch.where(pending[:, None], torch.lerp(hidden, fit["hidden_start"], step), chosen)
         try:
-            history = model.rollout(torch.cat((observed[:, 0], trial), dim=1), power, equilibrium, 10,
+            history = model.rollout(torch.cat((observed[:, 0], trial, fixed), dim=1), power, equilibrium, 10,
                                     max_step=max_step, spend=spend)
         except FloatingPointError:
             # The scorer isolates a failed batch; only the failing event backs off.
@@ -227,7 +266,7 @@ def _memory_ball_update(model, hidden, design, residual, observed, power, equili
 
 def predict_from_topology_history(model, q, v, power, equilibrium, scale, count, *, max_step, spend,
                                   memory_radius=1., prior_weight=0., exact_memory_ball=False):
-    """Estimate both latent blocks from the same eleven observations."""
+    """Fit latent initial conditions and propagate the optional zero-start coupling state."""
     q, v, power, equilibrium, scale = map(model._tensor, (q, v, power, equilibrium, scale))
     n, r = model.n_nodes, model.memory_dimension
     if (q.ndim != 3 or not len(q) or q.shape[1:] != (11, n) or v.shape != q.shape
@@ -241,7 +280,9 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
     if max(power.sum(1).abs().max(), (q@model.mass).abs().max(), (v@model.mass).abs().max()) > 1e-10:
         raise ValueError("history needs balanced power and COI visible states")
     observed = torch.cat((q, v), dim=2)
-    hidden = q.new_zeros((len(q), model.latent_dimension))
+    fixed = q.new_zeros((len(q), int(model.dynamic_coupling is not None)))
+    fitted_dimension = model.latent_dimension-fixed.shape[1]
+    hidden = q.new_zeros((len(q), fitted_dimension))
     singular = None
     prior, diagnostics = None, []
     if exact_memory_ball and (not r or model.topology_dimension):
@@ -249,15 +290,15 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
     if prior_weight:
         radii = q.new_tensor([memory_radius]*r + [.6]*model.topology_dimension)
         prior = np.sqrt(prior_weight*10*2*n)/radii
-    if model.latent_dimension:
+    if fitted_dimension:
         for _ in range(5):
-            initial = torch.cat((observed[:, 0], hidden), dim=1)
+            initial = torch.cat((observed[:, 0], hidden, fixed), dim=1)
             history, tangent = history_with_tangent(model, initial, power, equilibrium, max_step=max_step, spend=spend)
-            design = (tangent[:, 1:, :2*n]/scale[None, None, :, None]).flatten(1, 2)
+            design = (tangent[:, 1:, :2*n, :fitted_dimension]/scale[None, None, :, None]).flatten(1, 2)
             residual = ((observed[:, 1:]-history[:, 1:, :2*n])/scale).flatten(1)
             if exact_memory_ball:
                 hidden, singular, record = _memory_ball_update(
-                    model, hidden, design, residual, observed, power, equilibrium, scale, prior,
+                    model, hidden, design, residual, observed, fixed, power, equilibrium, scale, prior,
                     radius=memory_radius, max_step=max_step, spend=spend)
                 diagnostics.append(record)
                 continue
@@ -269,7 +310,7 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
             proposal = hidden+result["hidden_start"]
             hidden = torch.cat((_ball(proposal[:, :r], memory_radius), _ball(proposal[:, r:], .6)), dim=1)
             singular = result["singular"]
-    history = model.rollout(torch.cat((observed[:, 0], hidden), dim=1), power, equilibrium, 10,
+    history = model.rollout(torch.cat((observed[:, 0], hidden, fixed), dim=1), power, equilibrium, 10,
                             max_step=max_step, spend=spend)
     origin = torch.cat((observed[:, -1], history[:, -1, 2*n:]), dim=1)
     forecast = model.rollout(origin, power, equilibrium, count, max_step=max_step, spend=spend)

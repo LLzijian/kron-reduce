@@ -37,6 +37,8 @@ def make_model(params, support, device, *, train_scales=False):
 
 
 def pack(model, truth, a):
+    if model.dynamic_coupling is not None:
+        return model._tensor(truth[:, :20+model.latent_dimension])
     basis = model.basis[:, :model.topology_dimension].cpu().numpy()
     return model._tensor(np.concatenate((truth[:, :20+model.memory_dimension], a@basis), axis=-1))
 
@@ -80,6 +82,8 @@ def energy_residual(model, state, power, equilibrium, spend):
             local_s = (q[:, :, None]-q[:, None, :]).square().sum(dim=2)/(model.n_nodes-1)
             damping_force = damping_force-((v@root)*(mix*rho*local_s/(1.+local_s)))@root
     expected = (v*(power-damping_force)).sum(-1)-(z.square()/model.tau).sum(-1)
+    if model.dynamic_coupling is not None:
+        expected = expected-model.dynamic_coupling[0]*gradient[:, -1].square()
     terms = gradient*derivative
     return float(((terms.sum(-1)-expected).abs()/terms.abs().sum(-1).clamp_min(1.)).max().detach())
 
@@ -147,7 +151,7 @@ def scoring(model, cases, paths, histories, truth, a, equilibrium, mass, scale, 
                "truth_agreement": qualified and align_classes(c, pred)}
         if not oracle and np.isfinite(history).all():
             r = model.memory_dimension
-            estimated = history[0, 20+r:]@basis.T
+            estimated = history[0, 20+r:20+r+model.topology_dimension]@basis.T
             row.update(coupling_error=float(np.linalg.norm(estimated-a[i])),
                        history_nrmse=float(np.sqrt(np.mean(((history[1:, :20]-target[1:11, :20])/hscale)**2))),
                        edge_relative_error=float(np.max(np.abs(k_ratio*np.exp((estimated-a[i])@edge_basis)-1.))),
@@ -155,6 +159,24 @@ def scoring(model, cases, paths, histories, truth, a, equilibrium, mass, scale, 
                        memory_origin_error=float(np.linalg.norm(history[-1, 20:20+r]-target[10, 20:20+r])),
                        memory_start_energy=float(.5*np.sum(history[0, 20:20+r]**2)),
                        memory_origin_energy=float(.5*np.sum(history[-1, 20:20+r]**2)))
+            if model.dynamic_coupling is not None:
+                limit = model.dynamic_coupling[2]
+                truth_coordinate = target[:, 30] if target.shape[1] == 31 else np.zeros(len(target))
+                truth_log_ratio = 2.*limit*np.tanh(truth_coordinate[10:]/limit)
+                model_log_ratio = 2.*limit*np.tanh(fine[:, -1]/limit)
+                row["coupling"] = {
+                    "start": float(history[0, -1]),
+                    "origin": float(fine[0, -1]),
+                    "max_abs_start": float(np.abs(histories[:, i, 0, -1]).max()),
+                    "origin_continuity_error": float(np.abs(paths[:, i, 0, -1]-histories[:, i, -1, -1]).max())
+                                               if finite else None,
+                    "coordinate_max_error": float(np.abs(paths[:, i, :, -1]-truth_coordinate[10:]).max())
+                                            if finite else None,
+                    "log_ratio_rmse": float(np.sqrt(np.mean((model_log_ratio-truth_log_ratio)**2))) if finite else None,
+                    "min_multiplier": float(np.exp(model_log_ratio.min())) if finite else None,
+                    "max_multiplier": float(np.exp(model_log_ratio.max())) if finite else None,
+                }
+                row["edge_relative_error"] = float(np.abs(np.expm1(model_log_ratio-truth_log_ratio)).max()) if finite else None
         events.append(row)
 
     roles = {}
