@@ -22,7 +22,8 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "learning": "machine_local_topology_learning_v1", "diagnosis": "machine_local_topology_diagnosis_v1",
            "refinement": "machine_local_topology_refinement_v1", "transfer": "machine_local_topology_transfer_v1",
            "margin": "machine_local_topology_margin_v1", "margin_v2": "machine_local_topology_margin_v2",
-           "delayed": "machine_local_topology_delayed_v1"}
+           "delayed": "machine_local_topology_delayed_v1",
+           "delayed_origin": "machine_local_topology_delayed_origin_v1"}
 
 
 def authorize(root, stage):
@@ -61,6 +62,15 @@ def authorize(root, stage):
         previous = policy[STUDIES["margin"]+"_20261115"]
         if (previous["status"] != "consumed" or previous["failed_record_sha256"] != plan["failed_record_sha256"]):
             raise RuntimeError("repaired margin run requires the archived serialization failure")
+    if stage == "delayed_origin":
+        previous = policy[STUDIES["delayed"]+"_20261115"]
+        source = plan["source"]
+        if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
+                or previous["run_id"] != source["run_id"]
+                or previous["result_manifest_sha256"] != source["manifest_sha256"]
+                or previous["result_receipt_sha256"] != source["receipt_sha256"]):
+            raise RuntimeError("origin controls require the verified frozen delayed cohort")
+        verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
     if stage == "closeout":
         previous = policy[STUDIES["s0"]+"_20261115"]
         if (previous["status"] != "consumed" or previous["run_id"] != plan["source"]["run_id"]
@@ -132,6 +142,9 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.machine_local_synthetic import Budget
     from kron_reduce.evaluation.machine_local_topology import closeout, execute
     from kron_reduce.evaluation.machine_local_topology_delayed import execute as delayed
+    from kron_reduce.evaluation.machine_local_topology_delayed_origin import (
+        execute as delayed_origin,
+    )
     from kron_reduce.evaluation.machine_local_topology_diagnosis import execute as diagnose
     from kron_reduce.evaluation.machine_local_topology_learning import execute as learn
     from kron_reduce.evaluation.machine_local_topology_margin import execute as margin
@@ -144,7 +157,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     try:
         kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose,
                   "refinement": learn, "transfer": transfer, "margin": margin, "margin_v2": margin,
-                  "delayed": delayed}[stage]
+                  "delayed": delayed, "delayed_origin": delayed_origin}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()
