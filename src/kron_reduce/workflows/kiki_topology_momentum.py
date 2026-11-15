@@ -25,9 +25,11 @@ ANGLE_FIT = "kiki_machine_local_topology_angle_damping_fit_v1"
 ANGLE_SCALE = "kiki_machine_local_topology_angle_scale_v1"
 SPATIAL_FIT = "kiki_machine_local_topology_spatial_damping_fit_v1"
 MODAL = "kiki_machine_local_topology_modal_damping_v1"
+RESTORING = "kiki_machine_local_topology_restoring_shape_fit_v1"
 GPU_STUDIES = (ANGLE_SCALE, MODAL)
 CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer", ANGLE_FIT: "angle_damping_fit",
-             ANGLE_SCALE: "angle_scale", SPATIAL_FIT: "spatial_damping_fit", MODAL: "modal_damping"}
+             ANGLE_SCALE: "angle_scale", SPATIAL_FIT: "spatial_damping_fit", MODAL: "modal_damping",
+             RESTORING: "restoring_shape_fit"}
 
 
 def authorize(root, name=NAME):
@@ -44,7 +46,7 @@ def authorize(root, name=NAME):
     policy = load_policy(root)
     auth = policy["development_evaluations"][authority]
     expected = {"status": "active", "experiment": name,
-                "fit_attempts": {ANGLE_FIT: 2, SPATIAL_FIT: 1}.get(name, 0), "max_executions": 1,
+                "fit_attempts": {ANGLE_FIT: 2, SPATIAL_FIT: 1, RESTORING: 2}.get(name, 0), "max_executions": 1,
                 "retry_allowed": False, "train_cases": 346, "source_cache_open_limit": 2}
     if any(type(auth.get(k)) is not type(v) or auth[k] != v for k,v in expected.items()):
         raise RuntimeError("one-run train-only momentum authority differs")
@@ -59,7 +61,7 @@ def authorize(root, name=NAME):
     for path, digest in plan["implementation_bindings"].items():
         verify_bound_file(root, path, digest)
     known_truth = {ANGLE_FIT: "angle_damping", ANGLE_SCALE: "angle_damping", SPATIAL_FIT: "spatial_damping",
-                   MODAL: "spatial_damping"}
+                   MODAL: "spatial_damping", RESTORING: "restoring_shape"}
     synthetic = f"machine_local_topology_{known_truth.get(name, 'momentum')}_v1_20261115"
     truth = policy["bounded_synthetic_evaluations"][synthetic]
     if (truth["status"] != "consumed" or truth["scientific_pass"] is not True
@@ -93,7 +95,7 @@ def authorize(root, name=NAME):
     variant = "+cu130" if name in GPU_STUDIES else "+cpu"
     if any(version(p) != pins[p]+(variant if p=="torch" else "") for p in ("torch","numpy","scipy","filelock","h5py")):
         raise RuntimeError("registered train diagnostic runtime required")
-    if name in GPU_STUDIES:
+    if name in (*GPU_STUDIES, RESTORING):
         group = "angle_damping" if name == ANGLE_SCALE else "spatial_damping"
         prior = policy["official_test_evaluations"][f"kiki_machine_local_topology_{group}_test_v1_20261115"]
         fit = policy["development_evaluations"][f"kiki_machine_local_topology_{group}_fit_v1_20261115"]
@@ -106,7 +108,8 @@ def authorize(root, name=NAME):
                 or _bound_json(root, audited)["run_id"] != prior["run_id"] or plan[anchor_key] != record
                 or _bound_json(root, record)[parameter] != required):
             raise RuntimeError("closed damping comparison and independent scores required")
-        _cuda_preflight()
+        if name in GPU_STUDIES:
+            _cuda_preflight()
     return entry, plan | {"sources":source["sources"] | {"allowed_roles":["train"]},
                           "history_scale": preprocessing["history"]}
 
@@ -162,6 +165,7 @@ def main():
     options.add_argument("--angle-scale", action="store_const", const=ANGLE_SCALE, dest="study")
     options.add_argument("--spatial-damping-fit", action="store_const", const=SPATIAL_FIT, dest="study")
     options.add_argument("--modal-damping", action="store_const", const=MODAL, dest="study")
+    options.add_argument("--restoring-shape-fit", action="store_const", const=RESTORING, dest="study")
     name = parser.parse_args().study or NAME
     root = project_root()
     with workflow_lock(root,name):

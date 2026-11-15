@@ -99,6 +99,10 @@ score of 0.42674. Test returned 70 correct judgments and two unresolved, all
 independently rescored. The [fixed modal probe](../reports/kiki_machine_local_topology_modal_damping_20261115_zh.md)
 qualified all train cases. Adding the fixed reference-stiffness mode increased
 stable residuals at both causal starts and under free-memory projection.
+The [paired restoring-force check](../reports/machine_local_topology_restoring_shape_20261115_zh.md)
+recovered signed coefficients on the spatial damping model while preserving
+the equilibrium and linearized stiffness. The positive and negative known
+systems passed the complete causal trajectory checks.
 
 The [coefficient substitutions](../reports/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across

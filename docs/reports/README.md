@@ -26,6 +26,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 | [TASK3 train fixed modal damping](kiki_machine_local_topology_modal_damping_20261115_zh.md) | Complete train, shared causal starts, stable residual gate failed in all three controls |
 | [TASK3 frozen spatial damping](kiki_machine_local_topology_spatial_damping_20261115_zh.md) | Complete cohorts, val 106/107, test 70 correct with two unresolved, independent scoring audit passed |
 | [Spatial damping on paired synthetic truth](machine_local_topology_spatial_damping_20261115_zh.md) | Two known spatial distributions, trace-matched control and complete train/val/test causal evaluation |
+| [Restoring force on paired synthetic truth](machine_local_topology_restoring_shape_20261115_zh.md) | Signed coefficient recovery with fixed equilibrium and linearized stiffness across three known systems |
 | [TASK3 train fixed-origin damping scale](kiki_machine_local_topology_angle_scale_20261115_zh.md) | Complete train, two causal starts and free projection, larger scale raises residuals in all three groups |
 | [TASK3 frozen angle damping](kiki_machine_local_topology_angle_damping_20261115_zh.md) | Full train/val/test, val 106/107 correct, test 69 correct with three unresolved, independently recomputed |
 | [Angle-dependent damping on paired synthetic truth](machine_local_topology_angle_damping_20261115_zh.md) | Two known damping laws, complete train/val/test, coefficient and causal forecast gates passed |

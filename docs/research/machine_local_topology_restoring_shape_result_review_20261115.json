@@ -1,0 +1,103 @@
+{
+  "verified": true,
+  "run_id": "machine_local_topology_restoring_shape_v1-restoring_shape-20261115T130114918126Z-762ec8d6-4803c72b",
+  "summary_sha256": "43a771554cf33648e36ed9db58c8b3c4a3ff4f50c5d6512b45d20fa526bb4b7f",
+  "artifact_manifest_sha256": "3118bd6ae248ebfa3db21e814f7e985bb715cb28a5689befc8337dbc63aee692",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "checks": {
+    "saved_json_verifier": "scratch/one_off/machine_local_topology_restoring_shape_20261115/archive.py (without close)",
+    "artifact_count": 33,
+    "truth_conditions": [
+      -0.125,
+      0.0,
+      0.125
+    ],
+    "prediction_groups": 6,
+    "events_per_prediction_group": 48,
+    "cohort_counts_per_group": {
+      "train": 24,
+      "val": 12,
+      "test": 12
+    },
+    "all_prediction_ids_and_roles_match": true,
+    "all_prediction_failure_lists_empty": true,
+    "independent_scalar_fit_and_null_control_checks": true,
+    "independent_engineering_and_scientific_gate_recomputation": true,
+    "independent_confusion_coverage_and_matched_trigger_arithmetic": true,
+    "operation_counts": {
+      "npz_decodes": 1,
+      "numpy_damping_roots": 7,
+      "numpy_rhs": 233280,
+      "weak_intervals": 44640,
+      "quad_check_intervals": 44640,
+      "svd": 3024,
+      "fits": 6,
+      "gradients": 3,
+      "torch_rhs": 247683,
+      "rollouts": 84,
+      "tangent_rhs": 14400,
+      "qr": 2880,
+      "matrix_products": 2880,
+      "triangular_solves": 2880
+    },
+    "condition_evidence": {
+      "alpha--0.125": {
+        "fitted_alpha": -0.12499568725592101,
+        "alpha_error": 4.312744078985298e-06,
+        "fitted_global_stiffness_multiplier": 1.1730252078468337,
+        "feasible_train_val_cases": 27,
+        "maximum_feasible_8s_nrmse": 0.001242352483525233,
+        "energy_error": 3.584229287136122e-16,
+        "all_registered_gates_passed": true,
+        "feasible_val_stable_8s_shape_to_base_ratio": 0.5760532599975917,
+        "weak_shape_to_control_ratios": {
+          "train": {
+            "base": 1.4493009218435532e-07,
+            "scale": 3.437071798704993e-07
+          },
+          "val": {
+            "base": 1.637444889236561e-07,
+            "scale": 4.244703947628519e-07
+          }
+        }
+      },
+      "alpha-+0": {
+        "fitted_alpha": 4.290759064926251e-06,
+        "alpha_error": 4.290759064926251e-06,
+        "fitted_global_stiffness_multiplier": 0.999986098431791,
+        "feasible_train_val_cases": 27,
+        "maximum_feasible_8s_nrmse": 0.0012615976471315267,
+        "energy_error": 2.6203555064559615e-16,
+        "all_registered_gates_passed": true
+      },
+      "alpha-+0.125": {
+        "fitted_alpha": 0.12500426885910446,
+        "alpha_error": 4.268859104455958e-06,
+        "fitted_global_stiffness_multiplier": 0.8302918576283718,
+        "feasible_train_val_cases": 27,
+        "maximum_feasible_8s_nrmse": 0.0012822686880505777,
+        "energy_error": 3.332912849776667e-16,
+        "all_registered_gates_passed": true,
+        "feasible_val_stable_8s_shape_to_base_ratio": 0.5851475693101533,
+        "weak_shape_to_control_ratios": {
+          "train": {
+            "base": 1.26528235942383e-07,
+            "scale": 2.947265712066187e-07
+          },
+          "val": {
+            "base": 1.444732648983368e-07,
+            "scale": 3.692610713146253e-07
+          }
+        }
+      }
+    }
+  },
+  "notes": [
+    "All three signed known-truth conditions pass their frozen train/val engineering and scientific gates. Both nonzero shape conditions separate strongly from the zero-change and positive global-stiffness controls.",
+    "The six complete prediction groups each retain the exact 24/12/12 roster. Gate selection uses train and val only; synthetic test remains reporting-only.",
+    "The causal accuracy claim uses the predeclared 27 radius-feasible train/val cases per condition. Exterior cases remain in complete reports and stability comparisons.",
+    "These results support signed coefficient identification and causal prediction under the matched synthetic structure. They do not establish a real-data improvement or a global stability certificate.",
+    "Independent review used saved JSON arithmetic and artifact byte hashes only. No trajectory array was decoded and no model, simulation or scientific calculation was rerun."
+  ]
+}

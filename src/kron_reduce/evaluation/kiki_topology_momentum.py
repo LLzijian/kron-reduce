@@ -34,6 +34,11 @@ from kron_reduce.evaluation.topology_spatial_momentum import (
     spatial_momentum,
     spatial_sse,
 )
+from kron_reduce.evaluation.topology_restoring_momentum import (
+    fit_restoring_train,
+    restoring_momentum,
+    restoring_sse,
+)
 from kron_reduce.evaluation.train_mechanism_audit import _row_margin, _window_result
 from kron_reduce.models.nonlinear_latent import LearnedNonlinearModel
 
@@ -345,6 +350,37 @@ def _fixed_origin_diagnosis(directory, events, model, blocks, plan, budget):
             "rho": 2./3., "trajectory_lengths": [len(event["x"]) for event in events]} | metadata
 
 
+def _restoring_fit(directory, events, blocks, radius, budget):
+    budget.spend("numpy_damping_roots")
+    root = spatial_damping_root(blocks)
+    rows = []
+    for event in events:
+        path = event["x"][:MAX_FRAME]
+        row = {"id": event["id"], "role": "train", "label": event["label"], "intervals": len(path)-1}
+        try:
+            row.update(restoring_momentum(path, event["p0"], event["equilibrium"], blocks, DT, budget.spend,
+                                          root=root))
+        except (FloatingPointError, np.linalg.LinAlgError) as error:
+            row.update(qualified=False, reason=str(error))
+        rows.append(row)
+    write_json(directory/"restoring-fit-rows.json", rows)
+    fit = None
+    if all(row["qualified"] for row in rows):
+        budget.spend("fits", 2)
+        fit = fit_restoring_train(rows)
+    groups = {"train": rows} | {key: [row for row in rows if row["label"] == key] for key in ("stable", "unstable")}
+    qualified = fit is not None
+    residuals = ({key: {"events": len(group), **restoring_sse(group, fit)} for key, group in groups.items()}
+                 if qualified else None)
+    science = bool(qualified and residuals["train"]["shape"] <= .95*residuals["train"]["base"]
+                   and all(row["shape"] < row["base"] and row["shape"] <= row["scale"] for row in residuals.values()))
+    return {"role": "train", "allocated": len(rows), "memory_radius": radius,
+            "engineering_pass": qualified, "scientific_pass": science, "fit_supported": qualified, "train_fit": fit,
+            "quadrature_gap": max((row["quadrature_gap"] for row in rows if "quadrature_gap" in row), default=None),
+            "full_rank": sum(row.get("rank") == 10 for row in rows),
+            "retained_intervals": sum(row["intervals"] for row in rows), "residuals": residuals}
+
+
 def execute(root, directory, plan, budget):
     """Audit all official train cases using saved causal inputs; never forecasts."""
     root, directory = Path(root).resolve(), Path(directory)
@@ -354,7 +390,8 @@ def execute(root, directory, plan, budget):
     roster = sources["rosters"]["train"]
     contrast = plan.get("contrast", "force_blocks")
     fixed_origin = ("angle_scale", "modal_damping")
-    contrasts = ("force_blocks", "origin_transfer", "angle_damping_fit", "spatial_damping_fit", *fixed_origin)
+    contrasts = ("force_blocks", "origin_transfer", "angle_damping_fit", "spatial_damping_fit", "restoring_shape_fit",
+                 *fixed_origin)
     if len(roster) != TRAIN_COUNT or contrast not in contrasts:
         raise ValueError("plan must bind the complete train roster and a supported contrast")
     factors = [float(x) for x in plan.get("inertias", [])]
@@ -402,6 +439,8 @@ def execute(root, directory, plan, budget):
             return _fixed_origin_diagnosis(directory, events, model, blocks, plan, budget)
         if contrast == "spatial_damping_fit":
             return _spatial_fit(directory, events, blocks, radius, budget)
+        if contrast == "restoring_shape_fit":
+            return _restoring_fit(directory, events, blocks, radius, budget)
 
         history_paths = [event["x"][:11] for event in events]
         full_paths = [event["x"][:min(MAX_FRAME, len(event["x"]))] for event in events]
