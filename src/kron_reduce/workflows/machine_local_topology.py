@@ -20,7 +20,8 @@ from project_harness.runner import _run_experiment
 MODULE = "kron_reduce.workflows.machine_local_topology"
 STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topology_closeout_v1",
            "learning": "machine_local_topology_learning_v1", "diagnosis": "machine_local_topology_diagnosis_v1",
-           "refinement": "machine_local_topology_refinement_v1", "transfer": "machine_local_topology_transfer_v1"}
+           "refinement": "machine_local_topology_refinement_v1", "transfer": "machine_local_topology_transfer_v1",
+           "margin": "machine_local_topology_margin_v1"}
 
 
 def authorize(root, stage):
@@ -38,7 +39,7 @@ def authorize(root, stage):
     plan_path, review_path = auth["plan_path"], auth["review_path"]
     scope = {"status": "active", "experiment": name, "workflow": name, "stage": stage,
              "real_data_reads": 0, "max_executions": 1, "retry_allowed": False,
-             "fit_attempts": {"learning": 4, "refinement": 2}.get(stage, 0)}
+             "fit_attempts": {"learning": 4, "refinement": 2, "margin": 2}.get(stage, 0)}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active topology and memory scope differs")
     verify_bound_file(root, plan_path, auth["plan_sha256"])
@@ -52,6 +53,10 @@ def authorize(root, stage):
         raise RuntimeError("exact reviewed topology and memory plan required")
     for path, digest in bindings.items():
         verify_bound_file(root, path, digest)
+    if stage == "margin" and (plan["operation_limits"]["fits"] != scope["fit_attempts"]
+                              or plan["settings"]["updates"]*scope["fit_attempts"]
+                              != plan["operation_limits"]["optimizer_updates"]):
+        raise RuntimeError("paired margin training requires the exact update budget")
     if stage == "closeout":
         previous = policy[STUDIES["s0"]+"_20261115"]
         if (previous["status"] != "consumed" or previous["run_id"] != plan["source"]["run_id"]
@@ -124,6 +129,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     from kron_reduce.evaluation.machine_local_topology import closeout, execute
     from kron_reduce.evaluation.machine_local_topology_diagnosis import execute as diagnose
     from kron_reduce.evaluation.machine_local_topology_learning import execute as learn
+    from kron_reduce.evaluation.machine_local_topology_margin import execute as margin
     from kron_reduce.evaluation.machine_local_topology_transfer import execute as transfer
 
     torch.set_num_threads(1)
@@ -132,7 +138,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
     try:
         kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose,
-                  "refinement": learn, "transfer": transfer}[stage]
+                  "refinement": learn, "transfer": transfer, "margin": margin}[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()
