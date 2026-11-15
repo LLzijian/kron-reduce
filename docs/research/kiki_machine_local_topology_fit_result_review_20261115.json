@@ -1,0 +1,71 @@
+{
+  "verified": true,
+  "status": "PASS",
+  "stage": "fit",
+  "run_id": "kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024",
+  "artifact_count": 30,
+  "roles": [
+    "train",
+    "val"
+  ],
+  "scores": {
+    "T0M1": {
+      "train": {
+        "tp": 24,
+        "tn": 308,
+        "fp": 2,
+        "fn": 4,
+        "allocated": 346,
+        "resolved": 338,
+        "unresolved": 8,
+        "numerical_failures": 0,
+        "accuracy": null,
+        "classifiable_accuracy": 0.9822485207100592,
+        "correct": 332
+      },
+      "val": {
+        "tp": 8,
+        "tn": 95,
+        "fp": 0,
+        "fn": 3,
+        "allocated": 107,
+        "resolved": 106,
+        "unresolved": 1,
+        "numerical_failures": 0,
+        "accuracy": null,
+        "classifiable_accuracy": 0.9716981132075472,
+        "correct": 103
+      }
+    },
+    "T1M1": {
+      "train": {
+        "tp": 23,
+        "tn": 308,
+        "fp": 2,
+        "fn": 4,
+        "allocated": 346,
+        "resolved": 337,
+        "unresolved": 9,
+        "numerical_failures": 0,
+        "accuracy": null,
+        "classifiable_accuracy": 0.9821958456973294,
+        "correct": 331
+      },
+      "val": {
+        "tp": 8,
+        "tn": 95,
+        "fp": 0,
+        "fn": 3,
+        "allocated": 107,
+        "resolved": 106,
+        "unresolved": 1,
+        "numerical_failures": 0,
+        "accuracy": null,
+        "classifiable_accuracy": 0.9716981132075472,
+        "correct": 103
+      }
+    }
+  },
+  "goal_met": null,
+  "test_resolution_goal_met": null
+}
