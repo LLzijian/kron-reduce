@@ -6,6 +6,11 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [single memory saturation fit](../reports/memory_saturation_synthetic_20261117_zh.md)
+recovers the S2 memory kernel with 1.55% relative error and complete causal
+coverage. The [fixed-structure TASK3 protocol](../protocols/kiki_memory_saturation_v1_zh.md)
+freezes one positive coefficient using val and scores all three rosters.
+
 The [ES-SINDy harmonic fit](../reports/es_sindy_synthetic_20261117_zh.md)
 recovers both shared shape coefficients in one clean synthetic fit. The selected
 weak-form start reduces 3 s val squared trajectory error by a factor of 1001

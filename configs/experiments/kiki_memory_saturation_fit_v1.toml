@@ -1,0 +1,4 @@
+task_type = "kiki_machine_local_topology"
+dataset = "kiki_ieee39_v1"
+plan = "configs/proposals/kiki_memory_saturation_fit_v1.json"
+stage = "fit"

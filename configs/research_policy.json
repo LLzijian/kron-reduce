@@ -1670,6 +1670,34 @@
       "engineering_pass": true,
       "scientific_pass": false
     },
+    "kiki_memory_saturation_fit_v1_20261117": {
+      "status": "active",
+      "experiment": "kiki_memory_saturation_fit_v1",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "explicit_operator_autonomous_memory_saturation_after_synthetic_gate",
+      "fit_attempts": 1,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "plan_path": "configs/proposals/kiki_memory_saturation_fit_v1.json",
+      "plan_sha256": "30007dd760796e72e695695998eefaa7ab1b7d23858f8846e842a0e1e4be1b2d",
+      "review_path": "docs/research/kiki_memory_saturation_fit_v1_review_20261117.json",
+      "review_sha256": "15e4132801d850c0e77173b72b66d933f8b3e4399977818dec751dece487562d",
+      "operation_limits": {
+        "rollouts": 22000,
+        "torch_rhs": 47000000,
+        "tangent_rhs": 3800000,
+        "qr": 120000,
+        "svd": 120000,
+        "triangular_solves": 120000,
+        "matrix_products": 120000,
+        "fits": 1,
+        "optimizer_updates": 12,
+        "gradients": 72,
+        "val_checks": 4,
+        "checkpoint_loads": 2
+      }
+    },
     "kiki_es_sindy_fit_v1_20261117": {
       "status": "consumed",
       "experiment": "kiki_es_sindy_fit_v1",
@@ -4954,12 +4982,20 @@
         "gradients": 13,
         "val_checks": 5
       },
-      "status": "active",
+      "status": "consumed",
       "authority": "operator_autonomous_memory_saturation_pre_fit_call_repair",
       "plan_path": "configs/proposals/memory_saturation_synthetic_v1_call_repair.json",
       "plan_sha256": "5020f2b6e7c8994e7ec80001d1fdee66ff9c9feddbb0313f2d770ec99cf5d039",
       "review_path": "docs/research/memory_saturation_synthetic_v1_call_repair_review_20261117.json",
-      "review_sha256": "9e6f0bbc6760f7375a6f5e75eb05179060de3d9fd4437dcc3e0379dbc79086ba"
+      "review_sha256": "9e6f0bbc6760f7375a6f5e75eb05179060de3d9fd4437dcc3e0379dbc79086ba",
+      "run_id": "memory_saturation_synthetic_v1-memory_saturation-20261116T232026074259Z-cfd284b9-2cca2abd",
+      "result_manifest_sha256": "d6d26efeaad8f783c7d1a84ee36ae80d918e084b19db34d60821fe7076404848",
+      "result_receipt_path": "docs/reports/memory_saturation_synthetic_20261117_evidence.json",
+      "result_receipt_sha256": "de568f6882e74a5867c3bbdfc0cc7eed68fff2daa412642cd2b1edd402234aab",
+      "result_review_path": "docs/research/memory_saturation_synthetic_v1_result_review_20261117.json",
+      "result_review_sha256": "c0bd661cdd95add53960e797cad9c7914f8162a719346f4e5fecea08ac37b464",
+      "engineering_pass": true,
+      "scientific_pass": true
     },
     "topology_memory_rom_synthetic_v1_20261116": {
       "experiment": "topology_memory_rom_synthetic_v1",

@@ -1,0 +1,18 @@
+{
+  "reviewer": "Artifact verification and preregistered gate check",
+  "run_id": "memory_saturation_synthetic_v1-memory_saturation-20261116T232026074259Z-cfd284b9-2cca2abd",
+  "result_receipt_sha256": "de568f6882e74a5867c3bbdfc0cc7eed68fff2daa412642cd2b1edd402234aab",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "checks": {
+    "fit_completed": true,
+    "energy_balance": true,
+    "integration_and_coverage": true,
+    "all_stability_classifiable": true,
+    "val_trajectory_and_stability": true,
+    "val_improvement": true,
+    "coefficient_recovery": true,
+    "memory_kernel_recovery": true
+  },
+  "scope": "Single fixed-structure synthetic true/reference fit, clean 100 ms history."
+}
