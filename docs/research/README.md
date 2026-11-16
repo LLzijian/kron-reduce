@@ -6,6 +6,13 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
+defines the common storage, topology and memory states, candidate library,
+deletion rules and phased validation for future explicit reduced models.
+The first stage is the [complete train momentum and work diagnosis](../protocols/kiki_topology_memory_balance_v1_zh.md).
+
+## Prior topology and memory studies
+
 The [dynamic effective coupling plan](machine_local_dynamic_coupling_plan_20261116_zh.md)
 tests a shared state that varies branch stiffness through an energy gradient.
 The [first protocol](../protocols/machine_local_topology_dynamic_coupling_v1_zh.md)

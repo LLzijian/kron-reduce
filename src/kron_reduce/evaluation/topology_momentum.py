@@ -13,7 +13,7 @@ from kron_reduce.evaluation.energy_constrained_initializer import (
 )
 
 
-def memory_integrals(velocity, coupling, rates, step):
+def memory_integrals(velocity, coupling, rates, step, *, return_states=False):
     """Integrate each free mode and its zero-initial-state response to linear drive."""
     velocity, coupling, rates = (np.asarray(x, dtype=np.float64) for x in (velocity, coupling, rates))
     if (velocity.ndim != 2 or coupling.ndim != 2 or rates.ndim != 1 or len(velocity) < 2
@@ -29,11 +29,14 @@ def memory_integrals(velocity, coupling, rates, step):
     left, change = drive[:-1], np.diff(drive, axis=0)
     state = np.zeros_like(rates)
     integral = np.empty_like(left)
+    states = np.zeros_like(drive) if return_states else None
     for i, (u, du) in enumerate(zip(left, change, strict=True)):
         integral[i] = step*(phi1*state+step*(phi2*u+phi3*du))
         state = decay*state+step*(phi1*u+phi2*du)
+        if states is not None:
+            states[i+1] = state
     free = step*phi1*np.exp(-np.arange(len(left))[:, None]*x)
-    return free, integral
+    return (free, integral, states) if return_states else (free, integral)
 
 
 def project_residual(operator, rhs):

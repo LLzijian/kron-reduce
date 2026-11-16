@@ -1,0 +1,4 @@
+task_type = "task3_train_momentum"
+dataset = "kiki_ieee39_v1"
+plan = "configs/proposals/kiki_topology_memory_balance_v1.json"
+stage = "train_momentum"

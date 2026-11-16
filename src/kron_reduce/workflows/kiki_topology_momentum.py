@@ -29,14 +29,16 @@ MODAL = "kiki_machine_local_topology_modal_damping_v1"
 RESTORING = "kiki_machine_local_topology_restoring_shape_fit_v1"
 DYNAMIC = "kiki_machine_local_topology_dynamic_coupling_v1"
 SPATIAL_COUPLING = "kiki_machine_local_topology_spatial_coupling_v1"
-GPU_STUDIES = (ANGLE_SCALE, MODAL, DYNAMIC, SPATIAL_COUPLING)
+MOMENTUM_WORK = "kiki_topology_memory_balance_v1"
+GPU_STUDIES = (ANGLE_SCALE, MODAL, DYNAMIC, SPATIAL_COUPLING, MOMENTUM_WORK)
 CONTRASTS = {NAME: "force_blocks", ORIGIN_TRANSFER: "origin_transfer", ANGLE_FIT: "angle_damping_fit",
              ANGLE_SCALE: "angle_scale", SPATIAL_FIT: "spatial_damping_fit", MODAL: "modal_damping",
-             RESTORING: "restoring_shape_fit", DYNAMIC: "dynamic_coupling", SPATIAL_COUPLING: "spatial_coupling"}
+             RESTORING: "restoring_shape_fit", DYNAMIC: "dynamic_coupling", SPATIAL_COUPLING: "spatial_coupling",
+             MOMENTUM_WORK: "momentum_work"}
 
 
 def _authority(name):
-    return name+("_20261116" if name in (DYNAMIC, SPATIAL_COUPLING) else "_20261115")
+    return name+("_20261116" if name in (DYNAMIC, SPATIAL_COUPLING, MOMENTUM_WORK) else "_20261115")
 
 
 def authorize(root, name=NAME):
@@ -77,6 +79,13 @@ def authorize(root, name=NAME):
             or plan["synthetic_receipt"] != {"path":truth["result_receipt_path"],"sha256":truth["result_receipt_sha256"]}):
         raise RuntimeError("known-truth momentum gate required")
     synthetic_result = _bound_json(root, plan["synthetic_receipt"])
+    if name == MOMENTUM_WORK:
+        fixture = _bound_json(root, plan["engineering_fixture"])
+        design = plan["mother_design"]
+        verify_bound_file(root, design["path"], design["sha256"])
+        if (fixture["passed"] is not True or fixture["real_data_reads"] != 0 or plan["fit_attempts"] != 0
+                or plan["forecast_counts"] != {"train": 0, "val": 0, "test": 0}):
+            raise RuntimeError("the exact no-fit, no-forecast balance diagnostic is required")
     if name == DYNAMIC and (plan["coupling"] != {"rate": 1., "limit": .34657359027997265}
                             or synthetic_result["populations"]["dynamic"]["fit"]["dynamic"]["value"] != 1.):
         raise RuntimeError("fixed observed-path coupling direction must match the known-truth rate")
@@ -192,6 +201,7 @@ def main():
     options.add_argument("--restoring-shape-fit", action="store_const", const=RESTORING, dest="study")
     options.add_argument("--dynamic-coupling", action="store_const", const=DYNAMIC, dest="study")
     options.add_argument("--spatial-coupling", action="store_const", const=SPATIAL_COUPLING, dest="study")
+    options.add_argument("--momentum-work", action="store_const", const=MOMENTUM_WORK, dest="study")
     name = parser.parse_args().study or NAME
     root = project_root()
     with workflow_lock(root,name):

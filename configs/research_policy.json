@@ -1704,6 +1704,36 @@
       "result_review_path": "docs/research/kiki_machine_local_topology_spatial_relaxation_fit_result_review_20261116.json",
       "result_review_sha256": "b811b27816dc8736b83b095fbaa52ef8da73fbc42d27451c32884419c7f813ff",
       "scientific_pass": false
+    },
+    "kiki_topology_memory_balance_v1_20261116": {
+      "status": "active",
+      "experiment": "kiki_topology_memory_balance_v1",
+      "authority": "operator_autonomous_full_train_memory_balance_diagnostic",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "train_cases": 346,
+      "source_cache_open_limit": 2,
+      "plan_path": "configs/proposals/kiki_topology_memory_balance_v1.json",
+      "plan_sha256": "8366674e36fd6714d7a043f848017e000dd81cb137c855f4ea9105c62c7e933e",
+      "review_path": "docs/research/kiki_topology_memory_balance_v1_review_20261116.json",
+      "review_sha256": "9a60a2936a59779d04f66970e62806f1f99f30b02c4b771bf340cffd026d418e",
+      "operation_limits": {
+        "rollouts": 4998,
+        "torch_rhs": 1028160,
+        "tangent_rhs": 856800,
+        "qr": 6920,
+        "svd": 6920,
+        "matrix_products": 6920,
+        "triangular_solves": 6920,
+        "fits": 0,
+        "future_rhs": 0,
+        "checkpoint_loads": 2,
+        "numpy_damping_roots": 1,
+        "storage_calls": 1038,
+        "work_gauss_intervals": 321780,
+        "work_gauss_nodes": 2145200
+      }
     }
   },
   "archived_development_results": {

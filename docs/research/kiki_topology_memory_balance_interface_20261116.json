@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "real_data_reads": 0,
+  "scope": "Engineering checks with constructed trajectories and saved regression fixtures",
+  "focused_tests": 28,
+  "checks": [
+    "Signed impulse and mechanical work for each force component",
+    "Independent analytic initial and driven memory split across successive intervals with linearly changing velocity",
+    "Memory energy with nonuniform mass, nonzero reference angles and distinct rates",
+    "Four- and eight-point quadrature agreement",
+    "Independent projected-input momentum and kinetic closure",
+    "Causal history, origin reset and future interval artifact layout"
+  ]
+}

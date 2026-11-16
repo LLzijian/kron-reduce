@@ -16,6 +16,11 @@ claims require a separately registered population. The user has authorized this
 prospective change; exact run budgets and synthetic prerequisites still apply.
 The active rules are machine-checked by `configs/research_policy.json`.
 
+The [Topology–Memory Energy-Constrained ROM design](research/topology_memory_energy_rom_zh.md)
+governs new explicit topology–memory candidates and their staged comparisons.
+Signed momentum and work on observed paths are diagnostic evidence. Prospective
+performance requires a separately registered causal closed-loop comparison.
+
 The historical `kiki_a04_development_20261023` exception permitted one
 registered pre-certification development evaluation inside original source
 train, following its frozen internal train/val, causal inputs, candidates and
