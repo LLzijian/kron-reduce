@@ -5494,6 +5494,42 @@
       "result_review_sha256": "f83cddb2c9a09d67b215d9da42a928ef7697977143a85c5f104310f2eac6a37a",
       "scientific_pass": false,
       "val_guard": true
+    },
+    "kiki_machine_local_topology_spatial_relaxation_test_v1_20261116": {
+      "status": "active",
+      "experiment": "kiki_machine_local_topology_spatial_relaxation_test_v1",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "operator_authorized_zero_sum_spatial_relaxation_full_task3_fit_and_test",
+      "plan_path": "configs/proposals/kiki_machine_local_topology_spatial_relaxation_test_v1.json",
+      "plan_sha256": "c76cc130f7a735faff8a48aa541792fe71b71b1e987a66e85506c682d6cc8c32",
+      "review_path": "docs/research/kiki_machine_local_topology_spatial_relaxation_test_review_20261116.json",
+      "review_sha256": "4b7a93f54b8abcc56830249ead4e049d93e45f2721c1cf239d23a6b1f047fe07",
+      "operation_limits": {
+        "rollouts": 2212,
+        "torch_rhs": 6522240,
+        "tangent_rhs": 379200,
+        "qr": 3040,
+        "svd": 3040,
+        "triangular_solves": 3040,
+        "matrix_products": 3040,
+        "checkpoint_loads": 3
+      },
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "fit_attempts": 0,
+      "frozen_model_manifest": {
+        "path": "results/kiki_machine_local_topology_spatial_relaxation_fit_v1-fit-20261115T233040485482Z-68164fa3-d3020d1d/freeze.json",
+        "sha256": "3c0be97a1f2cb3d84e853671a8c31e935705b8fe2ab0710d7f8ee0cc952334cd"
+      },
+      "fit_result": {
+        "run_id": "kiki_machine_local_topology_spatial_relaxation_fit_v1-fit-20261115T233040485482Z-68164fa3-d3020d1d",
+        "result_manifest_sha256": "beb3e782653db0f293c211a77fb060bfdf157d757307914d266a4196d3d3a745",
+        "result_receipt_path": "docs/reports/kiki_machine_local_topology_spatial_relaxation_fit_20261116_evidence.json",
+        "result_receipt_sha256": "c5bb728c5d457deeac6f65a69a2e5b619729045581634192cfcf7d64a98e2acb",
+        "result_review_path": "docs/research/kiki_machine_local_topology_spatial_relaxation_fit_result_review_20261116.json",
+        "result_review_sha256": "b811b27816dc8736b83b095fbaa52ef8da73fbc42d27451c32884419c7f813ff"
+      }
     }
   },
   "round_evaluation_defaults": {
