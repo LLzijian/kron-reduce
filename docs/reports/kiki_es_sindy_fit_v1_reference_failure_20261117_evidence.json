@@ -1,0 +1,10 @@
+{
+  "run_id": "kiki_es_sindy_fit_v1-fit-20261116T175308451687Z-7fb3376e-f0dccb50",
+  "source_commit": "7fb3376e",
+  "status": "FAILED_BEFORE_READ",
+  "failure_record_sha256": "f0be3be593fe67ab22b079d448a236cf2a160d38bff36e8c94e4554d5f03de43",
+  "failed_plan_sha256": "a963008a96e6209534e0a6cbfa5ce164c4032eb15ea6b80f793abf5e6d187ef2",
+  "trajectory_reads": 0,
+  "model_fits": 0,
+  "disposition": "One-use scope consumed; a separate path-rebinding scope follows."
+}

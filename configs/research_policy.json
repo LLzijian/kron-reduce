@@ -1671,7 +1671,7 @@
       "scientific_pass": false
     },
     "kiki_es_sindy_fit_v1_20261117": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_es_sindy_fit_v1",
       "max_executions": 1,
       "retry_allowed": false,
@@ -1680,6 +1680,39 @@
       "plan_sha256": "a963008a96e6209534e0a6cbfa5ce164c4032eb15ea6b80f793abf5e6d187ef2",
       "review_path": "docs/research/kiki_es_sindy_fit_v1_review_20261117.json",
       "review_sha256": "22a034cb4b3f2cfd686b740a2f1ddae027bbb3d739bc4cf22a576dfaff7f196f",
+      "operation_limits": {
+        "rollouts": 22000,
+        "torch_rhs": 47000000,
+        "tangent_rhs": 3800000,
+        "qr": 120000,
+        "svd": 120000,
+        "triangular_solves": 120000,
+        "matrix_products": 120000,
+        "fits": 1,
+        "optimizer_updates": 12,
+        "gradients": 72,
+        "val_checks": 4,
+        "checkpoint_loads": 2
+      },
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "fit_attempts": 1,
+      "run_id": "kiki_es_sindy_fit_v1-fit-20261116T175308451687Z-7fb3376e-f0dccb50",
+      "failed_record_sha256": "f0be3be593fe67ab22b079d448a236cf2a160d38bff36e8c94e4554d5f03de43",
+      "result_receipt_path": "docs/reports/kiki_es_sindy_fit_v1_reference_failure_20261117_evidence.json",
+      "result_receipt_sha256": "3150db6f07f111d9320c98e545b9f93c44d5f80274163adc28d48a602634722a",
+      "scientific_pass": false
+    },
+    "kiki_es_sindy_fit_v1_reference_repair_20261117": {
+      "status": "active",
+      "experiment": "kiki_es_sindy_fit_v1",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "operator_autonomous_es_sindy_zero_read_engineering_repair",
+      "plan_path": "configs/proposals/kiki_es_sindy_fit_v1_reference_repair.json",
+      "plan_sha256": "f80067cf1f643b7855f7358a12f1303e88efccfd0ce6f94f96b83ebc8ef9d818",
+      "review_path": "docs/research/kiki_es_sindy_fit_v1_reference_repair_review_20261117.json",
+      "review_sha256": "ad9c6af59d94e76a150ca0e7ecb7ee5a92337a9b504bd18c4046ee39b2917b55",
       "operation_limits": {
         "rollouts": 22000,
         "torch_rhs": 47000000,

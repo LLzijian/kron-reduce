@@ -72,7 +72,7 @@ def authorize(root, stage, *, workflow=WORKFLOW):
     validate_run_policy(root, name, entry)
     policy = load_policy(root)
     suffix = "_20261117" if harmonic else "_20261116" if spatial else "_20261115"
-    authorization = name + suffix
+    authorization = (entry["development_authorization_id"] if harmonic and stage == "fit" else name + suffix)
     category = "development_evaluations" if stage == "fit" else "official_test_evaluations"
     auth = policy[category][authorization]
     scope = {"status": "active", "experiment": name, "fit_attempts": (1 if harmonic else 2) if stage == "fit" else 0,
@@ -127,7 +127,10 @@ def authorize(root, stage, *, workflow=WORKFLOW):
     if plan["backbone"] != source_plan["backbone"]:
         raise RuntimeError("starting backbone differs from the registered TASK3 source")
     if stage == "test":
-        fit_auth = policy["development_evaluations"][f"{series}_fit_v1{suffix}"]
+        fit_name = f"{series}_fit_v1"
+        fit_id = (load_manifest(root)["experiments"][fit_name]["development_authorization_id"]
+                  if harmonic else fit_name + suffix)
+        fit_auth = policy["development_evaluations"][fit_id]
         if fit_auth["status"] != "consumed" or plan["fit_plan_sha256"] != fit_auth["plan_sha256"]:
             raise RuntimeError("test requires the completed paired fit")
         verify_bound_file(root, fit_auth["plan_path"], fit_auth["plan_sha256"])
@@ -154,7 +157,16 @@ def authorize(root, stage, *, workflow=WORKFLOW):
     for path, digest in source_plan["external_code"].items():
         if sha256_file(Path(path)) != digest:
             raise RuntimeError("TASK3 scoring source changed")
-    plan["sources"] = source_plan["sources"] | {"allowed_roles": ["train", "val"] if stage == "fit" else ["test"]}
+    sources = source_plan["sources"]
+    if harmonic:
+        from kron_reduce.data.task3_full import REFERENCE, source_plan as current_source_plan
+
+        reference = sources["files"]["reference"] | {"path": str((root / REFERENCE).resolve())}
+        sources = {key: value for key, value in sources.items() if key != "allowed_roles"}
+        sources["files"] = sources["files"] | {"reference": reference}
+        if sources != current_source_plan(root):
+            raise RuntimeError("TASK3 reference rebinding changed the frozen source contract")
+    plan["sources"] = sources | {"allowed_roles": ["train", "val"] if stage == "fit" else ["test"]}
     plan["task3_root"] = source_plan["task3_root"]
     pins = dict(line.split("==") for line in (root / "requirements/constraints-py312.txt").read_text().splitlines()
                 if line and not line.startswith("#"))
