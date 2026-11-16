@@ -2980,6 +2980,18 @@
       "reads_validation_performance": false,
       "reads_test_performance": false
     },
+    "es_sindy_synthetic_v1": {
+      "module": "kron_reduce.workflows.machine_local_topology",
+      "workflow": "es_sindy_synthetic_v1",
+      "stage": "es_sindy",
+      "config": "es_sindy_synthetic_v1.toml",
+      "status": "gated",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "data_policy": "analytic_synthetic_only",
+      "execution_mode": "bounded_synthetic_cli_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false
+    },
     "topology_memory_rom_synthetic_v1": {
       "module": "kron_reduce.workflows.machine_local_topology",
       "workflow": "topology_memory_rom_synthetic_v1",

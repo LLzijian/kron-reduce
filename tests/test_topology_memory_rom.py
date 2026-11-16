@@ -10,12 +10,12 @@ from kron_reduce.models.nonlinear_latent import NonlinearPassiveClosure
 from kron_reduce.models.topology_memory_rom import TopologyMemoryROM
 
 
-def _model(*, common=False, spatial=False):
+def _model(*, common=False, spatial=False, learn_harmonics=False):
     mass, stiffness, damping, port, tau, _ = parameters()
     empty = np.zeros((0, 0), dtype=np.float64)
     backbone = NonlinearPassiveClosure(mass, stiffness, damping, np.zeros((10, 0)), empty, empty)
     return TopologyMemoryROM(backbone, port=port, tau=tau, common=common, spatial=spatial,
-                             saturation=True)
+                             saturation=True, learn_harmonics=learn_harmonics)
 
 
 def _balanced(x, mass):
@@ -158,8 +158,49 @@ def test_combined_topology_and_memory_agree_with_independent_truth_and_power_bal
                                atol=2e-13, rtol=2e-13)
 
 
+def test_shared_signed_harmonics_match_truth_and_preserve_storage_power_balance():
+    model = _model(common=True, spatial=True, learn_harmonics=True)
+    model.set_angle_damping(2/3, spatial_mix=1.)
+    model.restoring_harmonics.data.copy_(model.mass.new_tensor((.10, -.05)))
+    generator = torch.Generator().manual_seed(952)
+    state = .12*torch.randn((2, 40), generator=generator, dtype=model.mass.dtype)
+    q, v, z, c, xi = state.split((10, 10, 10, 1, 9), dim=1)
+    q, v = _balanced(q, model.mass), _balanced(v, model.mass)
+    state = torch.cat((q, v, z, c, xi), dim=1)
+    power = torch.randn((2, 10), generator=generator, dtype=model.mass.dtype) @ model.power_projection.T
+    equilibrium = torch.full_like(power, .035)
+    with torch.no_grad():
+        model.topology_rates.copy_(model.mass.new_tensor((.23, .45)))
+        model.saturation_strength.fill_(.25)
+        path = model.rollout(state, power, equilibrium, 8, max_step=.0025, spend=lambda *_: None)
+    independent = truth_rollout(parameters(), q.numpy(), v.numpy(), power.numpy(), z.numpy(),
+                                count=8, max_step=.0025, spend=lambda *_: None, topology="both",
+                                c=c[:, 0].numpy(), xi=xi.numpy(), gamma_s=.25,
+                                topology_dynamics=((.23, .45), (1., 1.)),
+                                restoring_harmonics=(.10, -.05))
+    torch.testing.assert_close(path, torch.from_numpy(independent), atol=2e-11, rtol=2e-11)
+
+    state.requires_grad_()
+    energy_gradient, = torch.autograd.grad(model.storage(state, equilibrium).sum(), state)
+    derivative = model.rhs(state, power, equilibrium)
+    incident_squares = (q @ model.incidence).square() @ model.incident_weights.T
+    weighted_damping = (v @ model._damping_root()).square()*(1-(2/3)*incident_squares/(1+incident_squares))
+    mobility = torch.repeat_interleave(model.topology_rates, torch.tensor([1, 9]))
+    dissipation = weighted_damping.sum(dim=-1)+(z.square()/model.tau).sum(dim=-1)
+    dissipation += (mobility*energy_gradient[:, 30:].square()).sum(dim=-1)
+    torch.testing.assert_close((energy_gradient*derivative).sum(dim=-1), (v*power).sum(dim=-1)-dissipation,
+                               atol=2e-13, rtol=2e-13)
+
+    direction = torch.randn(state.shape, generator=generator, dtype=state.dtype)
+    _, tangent = model._rhs(power, equilibrium, tangent=True)(state.detach(), direction[..., None])
+    epsilon = 1e-6
+    numerical = (model.rhs(state.detach()+epsilon*direction, power, equilibrium)
+                 -model.rhs(state.detach()-epsilon*direction, power, equilibrium))/(2*epsilon)
+    torch.testing.assert_close(tangent[..., 0], numerical, atol=2e-8, rtol=2e-7)
+
+
 def test_shared_parameter_derivative_includes_causal_history_solve():
-    model = _model(common=True, spatial=True)
+    model = _model(common=True, spatial=True, learn_harmonics=True)
     q, v, power, equilibrium = (x.detach() for x in _history(model))
 
     def objective(candidate):
@@ -169,14 +210,14 @@ def test_shared_parameter_derivative_includes_causal_history_solve():
         )
         return result["forecast"][:, -1, 10:20].square().sum()
 
-    parameters = (model.topology_rates, model.saturation_strength)
-    directions = (model.mass.new_tensor((.33, -.27)), model.mass.new_tensor(.56))
+    parameters = (model.topology_rates, model.saturation_strength, model.restoring_harmonics)
+    directions = tuple(model.mass.new_tensor(value) for value in ((.33, -.27), .56, (.42, -.29)))
     derivative = sum((x*y).sum() for x, y in zip(torch.autograd.grad(objective(model), parameters), directions))
-    restored = _model(common=True, spatial=True)
+    restored = _model(common=True, spatial=True, learn_harmonics=True)
     restored.load_state_dict(model.state_dict(), strict=True)
     with torch.no_grad():
         torch.testing.assert_close(objective(restored), objective(model), atol=0., rtol=0.)
-        other = (restored.topology_rates, restored.saturation_strength)
+        other = (restored.topology_rates, restored.saturation_strength, restored.restoring_harmonics)
         readings = []
         delta = 2e-5
         for sign in (-1., 1.):

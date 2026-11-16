@@ -16,7 +16,8 @@ _RHO = 2./3.
 
 def truth_rollout(params, q, v, power, z, *, count, max_step, spend,
                   topology="none", c=None, xi=None, gamma_s=0.0,
-                  topology_dynamics=None, fifth_harmonic=0.0):
+                  topology_dynamics=None, fifth_harmonic=0.0,
+                  restoring_harmonics=(0.0, 0.0)):
     """Integrate fixed-input synthetic trajectories with topology and memory states.
 
     ``topology`` selects ``none``, ``common``, ``spatial`` or ``both``. When a
@@ -24,12 +25,18 @@ def truth_rollout(params, q, v, power, z, *, count, max_step, spend,
     each is a pair ordered as common, spatial. ``gamma_s=0`` gives constant memory
     ports. ``fifth_harmonic`` is a truth-only coefficient for the out-of-library
     fifth harmonic and is restricted to topology-off, constant-port cases. The
-    fixed damping baseline uses the existing local angle law at rho=2/3.
+    optional ``restoring_harmonics`` contains signed second- and third-harmonic
+    restoring coefficients. The fixed damping baseline uses the existing local
+    angle law at rho=2/3.
     """
     mass, k0, damping, g, tau, equilibrium = (
         np.asarray(value, dtype=np.float64) for value in params
     )
     q, v, power, z = (np.asarray(value, dtype=np.float64) for value in (q, v, power, z))
+    try:
+        restoring_harmonics = np.asarray(restoring_harmonics, dtype=np.float64)
+    except (TypeError, ValueError):
+        raise ValueError("restoring_harmonics must contain two finite coefficients") from None
     if topology not in ("none", "common", "spatial", "both"):
         raise ValueError("topology must be none, common, spatial, or both")
     batch = len(q) if q.ndim else 0
@@ -41,7 +48,8 @@ def truth_rollout(params, q, v, power, z, *, count, max_step, spend,
             or np.any(mass <= 0) or np.any(g <= 0) or np.any(tau <= .02) or np.any(tau >= 5.)
             or type(count) is not int or count < 1 or not np.isfinite(max_step) or max_step <= 0
             or not np.isfinite(gamma_s) or gamma_s < 0 or not np.isfinite(fifth_harmonic)
-            or abs(fifth_harmonic) > .05):
+            or abs(fifth_harmonic) > .05 or restoring_harmonics.shape != (2,)
+            or not np.isfinite(restoring_harmonics).all()):
         raise ValueError("invalid topology-memory truth inputs")
     if fifth_harmonic and (topology != "none" or gamma_s != 0.):
         raise ValueError("fifth-harmonic truth requires topology and port saturation to be off")
@@ -125,8 +133,18 @@ def truth_rollout(params, q, v, power, z, *, count, max_step, spend,
             denom = np.sqrt(1.+(edge_norm/_LIMIT)**2*np.sum(xxi*xxi, axis=1, keepdims=True))
             ell += (xxi @ edge_basis.T)/denom
         edge_k = k0[None, :]*np.exp(ell)
-        phi = np.cos(ref)[None, :]-np.cos(edge+ref)-edge*np.sin(ref)[None, :]
-        restoring = np.sin(edge+ref)-np.sin(ref)[None, :]
+        angle = edge+ref
+        base_phi = np.cos(ref)-np.cos(angle)-edge*np.sin(ref)
+        base_force = np.sin(angle)-np.sin(ref)
+        phi, restoring = base_phi, base_force
+        for harmonic, coefficient in enumerate(restoring_harmonics, start=2):
+            if coefficient:
+                phase = harmonic*ref
+                phi_m = (np.cos(phase)-np.cos(harmonic*angle))/harmonic-edge*np.sin(phase)
+                force_m = np.sin(harmonic*angle)-np.sin(phase)
+                linear = harmonic*np.cos(phase)
+                phi = phi+coefficient*(np.cos(ref)*phi_m-linear*base_phi)
+                restoring = restoring+coefficient*(np.cos(ref)*force_m-linear*base_force)
         if fifth_harmonic:
             phi5 = ((np.cos(5.*ref)[None, :]-np.cos(5.*(edge+ref)))/5.
                     - edge*np.sin(5.*ref)[None, :])

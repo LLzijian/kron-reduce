@@ -17,7 +17,8 @@ class TopologyMemoryROM(TopologyMemoryModel):
 
     log_limit = log(2.)/2.
 
-    def __init__(self, backbone, *, port, tau, common=False, spatial=False, saturation=False, train_scales=False):
+    def __init__(self, backbone, *, port, tau, common=False, spatial=False, saturation=False,
+                 train_scales=False, learn_harmonics=False):
         super().__init__(backbone, topology=False, port=port, tau=tau, train_scales=train_scales)
         if self.memory_dimension != self.n_nodes or (spatial and self.n_nodes < 3):
             raise ValueError("the ROM requires a local port per node and at least three nodes for spatial coupling")
@@ -29,6 +30,8 @@ class TopologyMemoryROM(TopologyMemoryModel):
         self.topology_rates = torch.nn.Parameter(self.mass.new_zeros(len(self.topology_stiffness)))
         self.register_parameter("saturation_strength", torch.nn.Parameter(self.mass.new_zeros(()))
                                 if saturation else None)
+        self.register_parameter("restoring_harmonics", torch.nn.Parameter(self.mass.new_zeros(2))
+                                if learn_harmonics else None)
         incident = self.incidence.abs()
         self.register_buffer("incident_weights", incident/incident.sum(dim=1, keepdim=True), persistent=False)
         self.register_buffer("spatial_basis", incident.T @ self.basis[:, :self.n_nodes-1] if spatial else None,
@@ -53,10 +56,25 @@ class TopologyMemoryROM(TopologyMemoryModel):
     def storage(self, state, equilibrium):
         coordinates = state[..., 3*self.n_nodes:]
         # Unit penalties fix the coordinate scale in both topology groups.
-        return super().storage(state, equilibrium)+.5*coordinates.square().sum(dim=-1)
+        energy = super().storage(state, equilibrium)+.5*coordinates.square().sum(dim=-1)
+        if self.restoring_harmonics is not None:
+            ref = equilibrium @ self.incidence
+            relative = state[..., :self.n_nodes] @ self.incidence
+            energy = energy+(self.edge_stiffness(state)*self._shape_potential(relative, ref)).sum(-1)
+        return energy
+
+    def _shape_potential(self, relative, ref):
+        angle = ref+relative
+        base = _edge_potential(relative, ref, 0.)
+        correction = 0.
+        for order, coefficient in zip((2., 3.), self.restoring_harmonics, strict=True):
+            phase = order*ref
+            harmonic = (phase.cos()-(order*angle).cos())/order-relative*phase.sin()
+            correction = correction+coefficient*(ref.cos()*harmonic-order*phase.cos()*base)
+        return correction
 
     def _rhs(self, power, equilibrium, *, tangent=False):
-        if not self.dynamic_dimension and self.saturation_strength is None:
+        if not self.dynamic_dimension and self.saturation_strength is None and self.restoring_harmonics is None:
             return super()._rhs(power, equilibrium, tangent=tangent)
 
         n = self.n_nodes
@@ -71,6 +89,12 @@ class TopologyMemoryROM(TopologyMemoryModel):
         mobility = self.topology_rates.clamp_min(0.)
         gamma = self.saturation_strength.clamp_min(0.) if self.saturation_strength is not None else 0.
         alpha = self.restoring_shape
+        active_shape = alpha or self.restoring_harmonics is not None
+        if active_shape:
+            beta2, beta3 = self.restoring_harmonics if self.restoring_harmonics is not None else (0., 0.)
+            first = 1.-2.*(alpha+beta2)*(2.*ref).cos()-3.*beta3*(3.*ref).cos()
+            second = (alpha+beta2)*ref.cos()
+            third = beta3*ref.cos()
         local_rho = self.angle_damping_rho*self.angle_damping_spatial_mix
         rho = self.angle_damping_rho-local_rho
         if local_rho:
@@ -82,10 +106,10 @@ class TopologyMemoryROM(TopologyMemoryModel):
             relative = q @ edge
             angle = relative+ref
             sine = angle.sin()-ref.sin()
-            if alpha:
-                first = 1.-2.*alpha*(2.*ref).cos()
-                second = alpha*ref.cos()
+            if active_shape:
                 sine = first*sine+second*((2.*angle).sin()-(2.*ref).sin())
+                if self.restoring_harmonics is not None:
+                    sine = sine+third*((3.*angle).sin()-(3.*ref).sin())
             common, radial, scale = self._edge_modulation(coordinates)
             log_scale = self.log_limit*common if self.common else 0.
             if self.spatial:
@@ -94,7 +118,10 @@ class TopologyMemoryROM(TopologyMemoryModel):
             force = k*sine
             blocks = []
             if self.dynamic_dimension:
-                edge_energy = k*_edge_potential(relative, ref, alpha)
+                potential = _edge_potential(relative, ref, alpha)
+                if self.restoring_harmonics is not None:
+                    potential = potential+self._shape_potential(relative, ref)
+                edge_energy = k*potential
             if self.common:
                 log_slope = 2.*(1.-common.square())
                 energy = edge_energy.sum(dim=-1, keepdim=True)
@@ -126,8 +153,10 @@ class TopologyMemoryROM(TopologyMemoryModel):
             sq, sv, sz, sa = sensitivity.split((n, n, n, self.dynamic_dimension), dim=1)
             sd = edge.T @ sq
             slope = angle.cos()
-            if alpha:
+            if active_shape:
                 slope = first*slope+2.*second*(2.*angle).cos()
+                if self.restoring_harmonics is not None:
+                    slope = slope+3.*third*(3.*angle).cos()
             log_response = log_slope[..., None]*sa[:, :1] if self.common else 0.
             if self.spatial:
                 sxi = sa[:, int(self.common):]
