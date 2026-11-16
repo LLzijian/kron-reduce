@@ -10,6 +10,9 @@ The [single memory saturation fit](../reports/memory_saturation_synthetic_202611
 recovers the S2 memory kernel with 1.55% relative error and complete causal
 coverage. The [fixed-structure TASK3 protocol](../protocols/kiki_memory_saturation_v1_zh.md)
 freezes one positive coefficient using val and scores all three rosters.
+The [completed TASK3 comparison](../reports/kiki_memory_saturation_20261117_zh.md)
+selects 0.07996 per radian squared. Val and test unstable detection counts match
+the fixed anchor. Matched train instability windows improve from seven to eight.
 
 The [ES-SINDy harmonic fit](../reports/es_sindy_synthetic_20261117_zh.md)
 recovers both shared shape coefficients in one clean synthetic fit. The selected
