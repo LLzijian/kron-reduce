@@ -20,6 +20,7 @@ from project_harness.runner import _run_experiment
 WORKFLOW = "kiki_machine_local_topology_v1"
 SPATIAL_WORKFLOW = "kiki_machine_local_topology_spatial_relaxation_v1"
 HARMONIC_WORKFLOW = "kiki_es_sindy_v1"
+SATURATION_WORKFLOW = "kiki_memory_saturation_v1"
 MODULE = "kron_reduce.workflows.kiki_machine_local_topology"
 CALIBRATION = "machine_local_topology_transfer_v1_20261115"
 
@@ -61,6 +62,8 @@ def authorize(root, stage, *, workflow=WORKFLOW):
     assert_clean(root)
     spatial = workflow == SPATIAL_WORKFLOW
     harmonic = workflow == HARMONIC_WORKFLOW
+    saturation = workflow == SATURATION_WORKFLOW
+    fixed = harmonic or saturation
     series = workflow.removesuffix("_v1")
     name = f"{series}_{stage}_v1"
     entry = load_manifest(root)["experiments"][name]
@@ -71,11 +74,11 @@ def authorize(root, stage, *, workflow=WORKFLOW):
         raise RuntimeError("registered TASK3 topology stage and explicit stage approval required")
     validate_run_policy(root, name, entry)
     policy = load_policy(root)
-    suffix = "_20261117" if harmonic else "_20261116" if spatial else "_20261115"
-    authorization = (entry["development_authorization_id"] if harmonic and stage == "fit" else name + suffix)
+    suffix = "_20261117" if fixed else "_20261116" if spatial else "_20261115"
+    authorization = (entry["development_authorization_id"] if fixed and stage == "fit" else name + suffix)
     category = "development_evaluations" if stage == "fit" else "official_test_evaluations"
     auth = policy[category][authorization]
-    scope = {"status": "active", "experiment": name, "fit_attempts": (1 if harmonic else 2) if stage == "fit" else 0,
+    scope = {"status": "active", "experiment": name, "fit_attempts": (1 if fixed else 2) if stage == "fit" else 0,
              "max_executions": 1, "retry_allowed": False}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active single-use TASK3 scope differs")
@@ -93,14 +96,16 @@ def authorize(root, stage, *, workflow=WORKFLOW):
     if spatial:
         _spatial_prerequisites(root, plan, policy)
 
-    if harmonic:
-        synthetic = policy["bounded_synthetic_evaluations"]["es_sindy_synthetic_v1_20261117"]
+    if fixed:
+        kind = "saturation" if saturation else "harmonic"
+        synthetic_name = "memory_saturation_synthetic_v1" if saturation else "es_sindy_synthetic_v1"
+        synthetic = policy["bounded_synthetic_evaluations"][synthetic_name+suffix]
         receipt = {"path": synthetic["result_receipt_path"], "sha256": synthetic["result_receipt_sha256"]}
         if (synthetic["status"] != "consumed" or synthetic["scientific_pass"] is not True
-                or plan["harmonic_synthetic"] != receipt or plan["operation_limits"]["fits"] != scope["fit_attempts"]):
-            raise RuntimeError("harmonic training requires the exact completed synthetic gate and fit scope")
+                or plan[kind+"_synthetic"] != receipt or plan["operation_limits"]["fits"] != scope["fit_attempts"]):
+            raise RuntimeError("fixed-structure training requires the exact completed synthetic gate and fit scope")
         verify_bound_file(root, receipt["path"], receipt["sha256"])
-        start = plan["harmonic_start"]
+        start = plan[kind+"_start"]
         if stage == "fit":
             anchor = json.loads(_result_file(root, start["freeze"]).read_bytes())
             checkpoint = {"path": anchor["checkpoint_path"], "sha256": anchor["checkpoint_sha256"]}
@@ -108,9 +113,18 @@ def authorize(root, stage, *, workflow=WORKFLOW):
             if (index["T0M1"] != start["checkpoint"] or anchor["backbone"] != plan["backbone"]
                     or anchor["training"]["groups"]["T0M1"]["selected_update"] != 12
                     or start["preprocessing"] != {"path": anchor["preprocessing_path"], "sha256": anchor["preprocessing_sha256"]}):
-                raise RuntimeError("harmonic training requires the frozen T0M1 anchor and preprocessing")
+                raise RuntimeError("fixed-structure training requires the frozen T0M1 anchor and preprocessing")
             _result_file(root, start["checkpoint"])
             _result_file(root, start["preprocessing"])
+            if saturation:
+                reference = plan["saturation_val_reference"]
+                verify_bound_file(root, reference["path"], reference["sha256"])
+                anchor_fit = json.loads((root/reference["path"]).read_bytes())
+                saved = anchor_fit["training"]["groups"]["es_sindy"]
+                if (saved["selected_update"] != 0 or saved["selected_restoring_harmonics"] != [0., 0.]
+                        or anchor_fit["records"]["es_sindy"]["val"]["stability"]["allocated"] != 107
+                        or not 0. < plan["settings"]["memory_saturation_start"] <= plan["settings"]["memory_saturation_bound"]):
+                    raise RuntimeError("saturation fit requires the exact positive start and zero-correction val anchor")
 
     transfer = policy["bounded_synthetic_evaluations"][CALIBRATION]
     for key in ("run_id", "result_manifest_sha256", "result_receipt_sha256", "result_review_sha256"):
@@ -129,7 +143,7 @@ def authorize(root, stage, *, workflow=WORKFLOW):
     if stage == "test":
         fit_name = f"{series}_fit_v1"
         fit_id = (load_manifest(root)["experiments"][fit_name]["development_authorization_id"]
-                  if harmonic else fit_name + suffix)
+                  if fixed else fit_name + suffix)
         fit_auth = policy["development_evaluations"][fit_id]
         if fit_auth["status"] != "consumed" or plan["fit_plan_sha256"] != fit_auth["plan_sha256"]:
             raise RuntimeError("test requires the completed paired fit")
@@ -158,7 +172,7 @@ def authorize(root, stage, *, workflow=WORKFLOW):
         if sha256_file(Path(path)) != digest:
             raise RuntimeError("TASK3 scoring source changed")
     sources = source_plan["sources"]
-    if harmonic:
+    if fixed:
         from kron_reduce.data.task3_full import REFERENCE, source_plan as current_source_plan
 
         reference = sources["files"]["reference"] | {"path": str((root / REFERENCE).resolve())}
@@ -203,9 +217,11 @@ def main():
     variant = parser.add_mutually_exclusive_group()
     variant.add_argument("--spatial-relaxation", action="store_true")
     variant.add_argument("--es-sindy", action="store_true")
+    variant.add_argument("--memory-saturation", action="store_true")
     args = parser.parse_args()
     stage = args.stage
-    workflow = HARMONIC_WORKFLOW if args.es_sindy else SPATIAL_WORKFLOW if args.spatial_relaxation else WORKFLOW
+    workflow = (SATURATION_WORKFLOW if args.memory_saturation else HARMONIC_WORKFLOW if args.es_sindy else
+                SPATIAL_WORKFLOW if args.spatial_relaxation else WORKFLOW)
     root = project_root()
     with workflow_lock(root, workflow):
         name, entry, _, _ = authorize(root, stage, workflow=workflow)

@@ -88,6 +88,13 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
     if harmonics is not None:
         parameters = (harmonics,)
         scalar, damping = None, None
+    saturation = getattr(model, 'saturation_strength', None)
+    saturation_bound = settings.get('memory_saturation_bound')
+    if (saturation is None) != (saturation_bound is None) or (harmonics is not None and saturation is not None):
+        raise ValueError('memory saturation requires a separate scalar fit with an explicit bound')
+    if saturation is not None:
+        parameters = (saturation,)
+        scalar, damping = None, None
     shared_parameters = parameters
     groups = [{"params": shared_parameters}]
     if rates is not None:
@@ -137,6 +144,9 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                 if harmonics is not None:
                     with torch.no_grad():
                         harmonics.clamp_(-harmonic_bound, harmonic_bound)
+                if saturation is not None:
+                    with torch.no_grad():
+                        saturation.clamp_(0., saturation_bound)
                 completed += 1
             except NUMERICAL_ERRORS as error:
                 np.savez_compressed(directory/'failed_parameters.npz',
@@ -159,6 +169,8 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                 row['spatial_gradient_norm'] = float(spatial_norm)
             if harmonics is not None:
                 row['restoring_harmonics'] = harmonics.detach().tolist()
+            if saturation is not None:
+                row['memory_saturation'] = float(saturation.detach())
             stream.write(json.dumps(row, allow_nan=False)+'\n')
             stream.flush()
             print(f"{directory.name} update {completed}/{settings['updates']} train NMSE={objective:.6g}", flush=True)

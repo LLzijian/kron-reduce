@@ -4894,6 +4894,37 @@
       "engineering_pass": true,
       "scientific_pass": true
     },
+    "memory_saturation_synthetic_v1_20261117": {
+      "experiment": "memory_saturation_synthetic_v1",
+      "workflow": "memory_saturation_synthetic_v1",
+      "stage": "memory_saturation",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 1,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "numpy_rhs": 77760,
+        "numpy_damping_roots": 2,
+        "torch_rhs": 500000,
+        "tangent_rhs": 100000,
+        "rollouts": 1024,
+        "qr": 6000,
+        "svd": 6000,
+        "matrix_products": 6000,
+        "triangular_solves": 6000,
+        "fits": 1,
+        "optimizer_updates": 12,
+        "gradients": 13,
+        "val_checks": 5
+      },
+      "status": "active",
+      "authority": "explicit_operator_autonomous_memory_saturation_research",
+      "plan_path": "configs/proposals/memory_saturation_synthetic_v1.json",
+      "plan_sha256": "1a5fa32f2a3ead2d8a5e08dcaa5e34b8a64c794ef69f6db3a499717bca4c0cce",
+      "review_path": "docs/research/memory_saturation_synthetic_v1_review_20261117.json",
+      "review_sha256": "64c8b7819da39f0225c42fad43d759670318d5ad8f26479ac3093012df857ded"
+    },
     "topology_memory_rom_synthetic_v1_20261116": {
       "experiment": "topology_memory_rom_synthetic_v1",
       "workflow": "topology_memory_rom_synthetic_v1",

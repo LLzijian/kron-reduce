@@ -45,6 +45,31 @@ def test_snapshot_rejects_changed_backbone_and_freezes_weights(tmp_path):
         load_snapshot(make_model(backbone(), "T1M1", train_scales=True), path)
 
 
+def test_memory_saturation_bridge_matches_baseline_at_zero_and_changes_large_angle_rhs():
+    baseline = make_model(backbone(), "T0M1")
+    saturated = make_model(backbone(), "T0M1", memory_saturation=True)
+    for model in (baseline, saturated):
+        model.set_angle_damping(2./3., spatial_mix=1.)
+    assert saturated.saturation_strength is not None
+    with torch.no_grad():
+        saturated.load_state_dict(saturated.state_dict() | baseline.state_dict(), strict=True)
+        state = baseline.mass.new_zeros((1, 30))
+        state[:, 0] = 1.2
+        state[:, 10:20] = torch.linspace(-.5, .5, 10, dtype=state.dtype)
+        state[:, 20:30] = torch.linspace(.1, .9, 10, dtype=state.dtype)
+        power = torch.linspace(-.1, .1, 10, dtype=state.dtype)[None]
+        equilibrium = torch.zeros_like(power)
+        baseline_rhs = baseline._rhs(power, equilibrium)(state)
+        zero_rhs = saturated._rhs(power, equilibrium)(state)
+        baseline_storage = baseline.storage(state, equilibrium)
+        zero_storage = saturated.storage(state, equilibrium)
+        saturated.saturation_strength.fill_(.8)
+        nonzero_rhs = saturated._rhs(power, equilibrium)(state)
+    torch.testing.assert_close(zero_rhs, baseline_rhs, rtol=0, atol=1e-14)
+    torch.testing.assert_close(zero_storage, baseline_storage, rtol=0, atol=1e-14)
+    assert not torch.allclose(nonzero_rhs, baseline_rhs, rtol=1e-8, atol=1e-12)
+
+
 def test_selection_rank_requires_coverage_before_error_count():
     def result(*, resolved, tp, tn, score):
         return {"stability": {"allocated": 107, "resolved": resolved, "tp": tp, "tn": tn},

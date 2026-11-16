@@ -36,7 +36,8 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "spatial_coupling_causal": "machine_local_topology_spatial_coupling_causal_v1",
            "topology_memory_rom": "topology_memory_rom_synthetic_v1",
            "topology_memory_rom_causal": "topology_memory_rom_causal_v1",
-           "es_sindy": "es_sindy_synthetic_v1"}
+           "es_sindy": "es_sindy_synthetic_v1",
+           "memory_saturation": "memory_saturation_synthetic_v1"}
 
 
 def authorize(root, stage):
@@ -44,7 +45,7 @@ def authorize(root, stage):
     name = STUDIES[stage]
     recent = ("dynamic_coupling", "spatial_coupling", "spatial_coupling_causal", "topology_memory_rom",
               "topology_memory_rom_causal")
-    date = "20261117" if stage == "es_sindy" else "20261116" if stage in recent else "20261115"
+    date = "20261117" if stage in ("es_sindy", "memory_saturation") else "20261116" if stage in recent else "20261115"
     auth_id = f"{name}_{date}"
     entry = load_manifest(root)["experiments"][name]
     expected = {"module": MODULE, "workflow": name, "stage": stage, "dataset": "synthetic_benchmark_registry_v1",
@@ -61,7 +62,7 @@ def authorize(root, stage):
                               "delayed": 2, "delayed_damping": 1, "angle_damping": 4,
                               "spatial_damping": 2, "restoring_shape": 6, "dynamic_coupling": 6,
                               "spatial_coupling": 6, "spatial_coupling_causal": 6,
-                              "topology_memory_rom": 40, "es_sindy": 1}.get(stage, 0)}
+                              "topology_memory_rom": 40, "es_sindy": 1, "memory_saturation": 1}.get(stage, 0)}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active topology and memory scope differs")
     verify_bound_file(root, plan_path, auth["plan_sha256"])
@@ -122,9 +123,9 @@ def authorize(root, stage):
                 or plan["diagnosis_receipt"] != receipt or plan["operation_limits"]["fits"] != scope["fit_attempts"]):
             raise RuntimeError("topology-memory identification requires the completed train diagnosis and paired supports")
         verify_bound_file(root, receipt["path"], receipt["sha256"])
-    if stage == "es_sindy" and (plan["operation_limits"]["fits"] != scope["fit_attempts"]
+    if stage in ("es_sindy", "memory_saturation") and (plan["operation_limits"]["fits"] != scope["fit_attempts"]
             or plan["settings"]["updates"] != plan["operation_limits"]["optimizer_updates"]):
-        raise RuntimeError("ES-SINDy requires a single fit and its exact update budget")
+        raise RuntimeError("the registered experiment requires a single fit and its exact update budget")
     if stage == "topology_memory_rom_causal":
         prior = policy[STUDIES["topology_memory_rom"]+"_20261116"]
         source = {"run_id": prior["run_id"], "manifest_sha256": prior["result_manifest_sha256"],
@@ -307,6 +308,10 @@ def run(*, root, experiment, stage, result_dir, run_id):
             from kron_reduce.evaluation.es_sindy import execute as es_sindy
 
             kernels[stage] = es_sindy
+        if stage == "memory_saturation":
+            from kron_reduce.evaluation.topology_memory_rom_synthetic import execute_saturation
+
+            kernels[stage] = execute_saturation
         kernel = kernels[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:

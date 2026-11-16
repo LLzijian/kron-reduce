@@ -15,22 +15,23 @@ from kron_reduce.models.topology_memory_rom import TopologyMemoryROM
 
 
 def make_model(backbone, support: str, *, train_scales: bool = False, device: str = "cpu",
-               learn_harmonics: bool = False) -> TopologyMemoryModel:
+               learn_harmonics: bool = False, memory_saturation: bool = False) -> TopologyMemoryModel:
     if support not in ("T0M1", "T1M1") or backbone.n_nodes != 10:
         raise ValueError("TASK3 bridge supports ten-machine T0M1 or T1M1 only")
-    if learn_harmonics and support != "T0M1":
-        raise ValueError("learned restoring harmonics require fixed-topology T0M1 support")
+    if (learn_harmonics or memory_saturation) and support != "T0M1":
+        raise ValueError("a restoring or memory modification requires fixed-topology T0M1 support")
     mass = backbone.mass
     projection = np.eye(10) - np.outer(mass, np.ones(10)) / mass.sum()
     amplitude = np.linalg.norm(backbone.coupling) / np.linalg.norm(projection)
     if not np.isfinite(amplitude) or amplitude <= 0:
         raise ValueError("backbone port scale must be finite and positive")
-    model_type = TopologyMemoryROM if learn_harmonics else TopologyMemoryModel
-    model = (model_type(backbone, port=np.full(10, amplitude), tau=np.geomspace(.06, 1.6, 10),
-                        train_scales=train_scales, learn_harmonics=True)
-             if learn_harmonics else
-             model_type(backbone, topology=support == "T1M1", port=np.full(10, amplitude),
-                        tau=np.geomspace(.06, 1.6, 10), train_scales=train_scales))
+    port, tau = np.full(10, amplitude), np.geomspace(.06, 1.6, 10)
+    if learn_harmonics or memory_saturation:
+        model = TopologyMemoryROM(backbone, port=port, tau=tau, train_scales=train_scales,
+                                  learn_harmonics=learn_harmonics, saturation=memory_saturation)
+    else:
+        model = TopologyMemoryModel(backbone, topology=support == "T1M1", port=port, tau=tau,
+                                    train_scales=train_scales)
     return model.to(device)
 
 

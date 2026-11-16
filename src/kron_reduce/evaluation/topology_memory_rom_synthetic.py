@@ -403,6 +403,68 @@ def _physical(model, state, power, equilibrium, budget):
         (gradient*derivative).abs().sum(1).clamp_min(1.)).max().detach())
 
 
+def execute_saturation(root, directory, plan, budget):
+    """Recover one positive memory saturation coefficient on the paired S2 truth."""
+    _validate(plan)
+    cases = _cases(plan)
+    params = list(parameters())
+    params[4] = np.geomspace(*plan["tau_range"], 10)
+    mass, _, _, _, _, reference = params
+    roles = np.asarray(cases["roles"])
+    train, val = (np.flatnonzero(roles == role) for role in ("train", "val"))
+    power = cases["power"]
+    equilibrium = np.broadcast_to(reference, power.shape).copy()
+    settings, gates = plan["settings"], plan["gates"]
+    gamma = plan["truth"]["saturation_strength"]
+    coarse, truth = [truth_rollout(params, cases["q"], cases["v"], power, cases["z"], count=810,
+                     max_step=step, spend=budget.spend, gamma_s=gamma) for step in (.00125, .000625)]
+    observed = truth[:, :11, :20]
+    scale = np.maximum(np.sqrt(np.mean(truth[train, 11:, :20]**2, axis=(0, 1))), 1e-4)
+    hscale = np.maximum(np.sqrt(np.mean(observed[train]**2, axis=(0, 1))), 1e-4)
+    labels = [[classify(path[:11, :10], path[:11, 10:20], path[10:, :20], reference, mass)
+               for path in paths] for paths in (coarse, truth)]
+    truth_gaps = np.max(np.abs((coarse[:, :, :20]-truth[:, :, :20])/scale), axis=(1, 2))
+    for a, b, gap in zip(*labels, truth_gaps, strict=True):
+        b["reference_qualified"] = bool(np.isfinite(gap) and gap <= gates["truth_step_max"] and align_classes(a, b))
+    np.savez_compressed(directory/"truth.npz", fine=coarse, refined=truth, ids=cases["ids"], roles=roles,
+                        power=power, equilibrium=equilibrium, scale=scale, history_scale=hscale)
+
+    anchor = _model(params, "C0S0H0", plan)
+    budget.spend("val_checks")
+    with torch.no_grad():
+        baseline = float(_objective(anchor, truth, val, power, equilibrium, scale, hscale,
+                                    settings["val_frames"], budget.spend))
+    model = _model(params, "C0S0H1", plan)
+    fit = _fit(model, "C0S0H1", truth, roles, power, equilibrium, scale, hscale, plan, budget, directory)
+    print(f"S2 fit {fit['completed_updates']} updates; selected {fit['equation']}", flush=True)
+    paths, histories, failures, _, _ = _forecast(model, roles, observed, power, equilibrium, hscale, plan, budget)
+    np.savez_compressed(directory/"forecasts.npz", forecasts=paths, histories=histories)
+    score = _scores(cases, paths, truth, observed, equilibrium, mass, scale, labels[1], gates)
+    _write(directory/"scores.json", {**score, "failures": failures})
+    energy = _physical(model, truth[:, 10], power, equilibrium, budget)
+    learned = fit["equation"]["saturation_strength"]
+    kernel = _kernel_error(model, "C0S0H1", truth, gamma, scale, roles)
+    recovery = abs(learned-gamma)/gamma
+    checks = {
+        "fit_completed": fit["failure"] is None and fit["completed_updates"] == settings["updates"],
+        "energy_balance": np.isfinite(energy) and energy <= gates["energy_balance_max"],
+        "integration_and_coverage": all(row["qualified"] for row in score["events"]),
+        "all_stability_classifiable": all(row["stability"]["resolved"] == row["stability"]["allocated"]
+                                          for row in score["roles"].values()),
+        "val_trajectory_and_stability": _adequate(score, gates),
+        "val_improvement": fit["selected_val_nmse"] is not None and baseline > 0
+                           and fit["selected_val_nmse"] <= (1.-gates["support_relative_tolerance"])*baseline,
+        "coefficient_recovery": recovery <= gates["parameter_relative_error"],
+        "memory_kernel_recovery": kernel is not None and kernel <= gates["kernel_relative_error"],
+    }
+    return {"engineering_pass": bool(checks["energy_balance"] and checks["integration_and_coverage"]),
+            "scientific_pass": bool(all(checks.values())), "checks": {k: bool(v) for k, v in checks.items()},
+            "fit": fit, "baseline_val_nmse": baseline, "truth_gamma": gamma, "coefficient_relative_error": recovery,
+            "kernel_relative_error": kernel, "max_energy_balance_residual": energy,
+            "max_truth_step_gap": float(truth_gaps.max()), "roles": score["roles"],
+            "claim_boundary": "One S2 fit with known fixed topology, damping and memory poles; clean causal histories."}
+
+
 def execute(root, directory, plan, budget):
     """Fit eight exact supports per truth once, freeze, then score every role."""
     _validate(plan)
