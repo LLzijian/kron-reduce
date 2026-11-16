@@ -323,14 +323,26 @@ def _memory_ball_update(model, hidden, design, residual, observed, fixed, power,
 
 
 def predict_from_topology_history(model, q, v, power, equilibrium, scale, count, *, max_step, spend,
-                                  memory_radius=1., prior_weight=0., exact_memory_ball=False):
-    """Fit latent initial conditions and propagate the optional zero-start coupling state."""
+                                  memory_radius=1., prior_weight=0., exact_memory_ball=False,
+                                  fit_dynamic_coupling=False, dynamic_radius=.6,
+                                  return_observation_jacobian=False):
+    """Fit latent initial conditions and propagate optional zero-start topology states.
+
+    For topology-memory ROMs, dynamic coordinates stay zero unless explicitly
+    fitted. The optional observation Jacobian is the unregularized design from
+    the final Gauss–Newton linearization, before its update.
+    """
     q, v, power, equilibrium, scale = map(model._tensor, (q, v, power, equilibrium, scale))
     n, r = model.n_nodes, model.memory_dimension
+    dynamic_dimension = int(getattr(model, "dynamic_dimension", 0))
+    if (type(fit_dynamic_coupling) is not bool or type(return_observation_jacobian) is not bool
+            or (fit_dynamic_coupling and not dynamic_dimension)):
+        raise ValueError("dynamic coupling fitting requires active ROM topology coordinates")
     if (q.ndim != 3 or not len(q) or q.shape[1:] != (11, n) or v.shape != q.shape
             or power.shape != (len(q), n) or equilibrium.shape != power.shape or scale.shape != (2*n,)
             or max_step not in (.005, .0025, .00125) or type(count) is not int or count < 0
             or not np.isfinite(memory_radius) or memory_radius <= 0
+            or not np.isfinite(dynamic_radius) or dynamic_radius <= 0
             or not np.isfinite(prior_weight) or prior_weight < 0
             or not all(torch.isfinite(x).all() for x in (q, v, power, equilibrium, scale))
             or torch.any(scale <= 0)):
@@ -338,21 +350,25 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
     if max(power.sum(1).abs().max(), (q@model.mass).abs().max(), (v@model.mass).abs().max()) > 1e-10:
         raise ValueError("history needs balanced power and COI visible states")
     observed = torch.cat((q, v), dim=2)
-    fixed = q.new_zeros((len(q), model.latent_dimension-r-model.topology_dimension))
-    fitted_dimension = model.latent_dimension-fixed.shape[1]
+    fitted_dynamic_dimension = dynamic_dimension if fit_dynamic_coupling else 0
+    fitted_dimension = r+model.topology_dimension+fitted_dynamic_dimension
+    fixed = q.new_zeros((len(q), model.latent_dimension-fitted_dimension))
     hidden = q.new_zeros((len(q), fitted_dimension))
     singular = None
-    prior, diagnostics = None, []
-    if exact_memory_ball and (not r or model.topology_dimension):
+    prior, diagnostics, observation_jacobian = None, [], None
+    if exact_memory_ball and (not r or model.topology_dimension or fit_dynamic_coupling):
         raise ValueError("the exact ball candidate requires memory with fixed topology")
     if prior_weight:
-        radii = q.new_tensor([memory_radius]*r + [.6]*model.topology_dimension)
+        radii = q.new_tensor([memory_radius]*r + [.6]*model.topology_dimension
+                             + [dynamic_radius]*fitted_dynamic_dimension)
         prior = np.sqrt(prior_weight*10*2*n)/radii
     if fitted_dimension:
-        for _ in range(5):
+        for iteration in range(5):
             initial = torch.cat((observed[:, 0], hidden, fixed), dim=1)
             history, tangent = history_with_tangent(model, initial, power, equilibrium, max_step=max_step, spend=spend)
             design = (tangent[:, 1:, :2*n, :fitted_dimension]/scale[None, None, :, None]).flatten(1, 2)
+            observation_jacobian = ((tangent[:, 1:, :2*n]/scale[None, None, :, None]).flatten(1, 2)
+                                    if return_observation_jacobian else None)
             residual = ((observed[:, 1:]-history[:, 1:, :2*n])/scale).flatten(1)
             if exact_memory_ball:
                 hidden, singular, record = _memory_ball_update(
@@ -366,13 +382,26 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
                 residual = torch.cat((residual, -hidden*prior), dim=1)
             result = solve_hidden_batch(design, residual, spend=spend)
             proposal = hidden+result["hidden_start"]
-            hidden = torch.cat((_ball(proposal[:, :r], memory_radius), _ball(proposal[:, r:], .6)), dim=1)
+            blocks = [_ball(proposal[:, :r], memory_radius)]
+            if model.topology_dimension:
+                blocks.append(_ball(proposal[:, r:r+model.topology_dimension], .6))
+            if fitted_dynamic_dimension:
+                blocks.append(_ball(proposal[:, r+model.topology_dimension:], dynamic_radius))
+            hidden = torch.cat(blocks, dim=1)
             singular = result["singular"]
     history = model.rollout(torch.cat((observed[:, 0], hidden, fixed), dim=1), power, equilibrium, 10,
                             max_step=max_step, spend=spend)
     origin = torch.cat((observed[:, -1], history[:, -1, 2*n:]), dim=1)
     forecast = model.rollout(origin, power, equilibrium, count, max_step=max_step, spend=spend)
     result = {"hidden_start": hidden, "history": history, "forecast": forecast, "singular": singular}
+    if return_observation_jacobian:
+        if observation_jacobian is None:
+            observation_jacobian = q.new_zeros((len(q), 20*n, model.latent_dimension))
+            linearization_iterate = None
+        else:
+            linearization_iterate = iteration
+        result["observation_jacobian"] = observation_jacobian.detach()
+        result["observation_jacobian_iterate"] = linearization_iterate
     if diagnostics:
         result["history_ball"] = {name: torch.stack([row[name] for row in diagnostics]) for name in diagnostics[0]}
     return result

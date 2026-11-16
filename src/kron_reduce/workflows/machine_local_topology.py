@@ -33,13 +33,15 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "restoring_shape": "machine_local_topology_restoring_shape_v1",
            "dynamic_coupling": "machine_local_topology_dynamic_coupling_v1",
            "spatial_coupling": "machine_local_topology_spatial_coupling_v1",
-           "spatial_coupling_causal": "machine_local_topology_spatial_coupling_causal_v1"}
+           "spatial_coupling_causal": "machine_local_topology_spatial_coupling_causal_v1",
+           "topology_memory_rom": "topology_memory_rom_synthetic_v1"}
 
 
 def authorize(root, stage):
     assert_clean(root)
     name = STUDIES[stage]
-    auth_id = name+("_20261116" if stage in ("dynamic_coupling", "spatial_coupling", "spatial_coupling_causal") else "_20261115")
+    recent = ("dynamic_coupling", "spatial_coupling", "spatial_coupling_causal", "topology_memory_rom")
+    auth_id = name+("_20261116" if stage in recent else "_20261115")
     entry = load_manifest(root)["experiments"][name]
     expected = {"module": MODULE, "workflow": name, "stage": stage, "dataset": "synthetic_benchmark_registry_v1",
                 "execution_mode": "bounded_synthetic_cli_only", "data_policy": "analytic_synthetic_only"}
@@ -54,7 +56,8 @@ def authorize(root, stage):
              "fit_attempts": {"learning": 4, "refinement": 2, "margin": 2, "margin_v2": 2,
                               "delayed": 2, "delayed_damping": 1, "angle_damping": 4,
                               "spatial_damping": 2, "restoring_shape": 6, "dynamic_coupling": 6,
-                              "spatial_coupling": 6, "spatial_coupling_causal": 6}.get(stage, 0)}
+                              "spatial_coupling": 6, "spatial_coupling_causal": 6,
+                              "topology_memory_rom": 40}.get(stage, 0)}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active topology and memory scope differs")
     verify_bound_file(root, plan_path, auth["plan_sha256"])
@@ -108,6 +111,13 @@ def authorize(root, stage):
         verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
     if stage == "angle_damping" and plan["operation_limits"]["fits"] != scope["fit_attempts"]:
         raise RuntimeError("angle damping requires four bounded scalar fits")
+    if stage == "topology_memory_rom":
+        prior = load_policy(root)["development_evaluations"]["kiki_topology_memory_balance_v1_20261116"]
+        receipt = {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]}
+        if (prior["status"] != "consumed" or prior["engineering_pass"] is not True
+                or plan["diagnosis_receipt"] != receipt or plan["operation_limits"]["fits"] != scope["fit_attempts"]):
+            raise RuntimeError("topology-memory identification requires the completed train diagnosis and paired supports")
+        verify_bound_file(root, receipt["path"], receipt["sha256"])
     if stage == "spatial_damping":
         prior = policy[STUDIES["angle_damping"]+"_20261115"]
         receipt = {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]}
@@ -258,13 +268,18 @@ def run(*, root, experiment, stage, result_dir, run_id):
     started = time.perf_counter()
     budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
     try:
-        kernel = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose,
+        kernels = {"closeout": closeout, "learning": learn, "s0": execute, "diagnosis": diagnose,
                   "refinement": learn, "transfer": transfer, "margin": margin, "margin_v2": margin,
                   "delayed": delayed, "delayed_origin": delayed_origin, "delayed_damping": delayed_damping,
                   "ball_history": ball_history, "ball_history_no_prior": ball_history_no_prior,
                   "momentum": momentum, "angle_damping": angle_damping, "spatial_damping": execute_spatial,
                   "restoring_shape": restoring_shape, "dynamic_coupling": dynamic_coupling,
-                  "spatial_coupling": dynamic_coupling, "spatial_coupling_causal": dynamic_coupling}[stage]
+                  "spatial_coupling": dynamic_coupling, "spatial_coupling_causal": dynamic_coupling}
+        if stage == "topology_memory_rom":
+            from kron_reduce.evaluation.topology_memory_rom_synthetic import execute as rom
+
+            kernels[stage] = rom
+        kernel = kernels[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
         budget.stream.close()
