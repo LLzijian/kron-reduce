@@ -1704,7 +1704,7 @@
       "scientific_pass": false
     },
     "kiki_es_sindy_fit_v1_reference_repair_20261117": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_es_sindy_fit_v1",
       "max_executions": 1,
       "retry_allowed": false,
@@ -1729,7 +1729,12 @@
       },
       "test_population": "task3_campaign2_final_test",
       "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
-      "fit_attempts": 1
+      "fit_attempts": 1,
+      "run_id": "kiki_es_sindy_fit_v1-fit-20261116T175607241836Z-3360c0d3-dfa96cb9",
+      "result_manifest_sha256": "55793622ee296987d47dec4eb97aaed513df2032852e2ff6b441203790c9fc12",
+      "result_receipt_path": "docs/reports/kiki_es_sindy_fit_20261117_evidence.json",
+      "result_receipt_sha256": "f2518c90a261c27f7c6ca371304d9086bea729711f9aad3878a365288b91f96f",
+      "scientific_pass": false
     },
     "kiki_machine_local_topology_spatial_relaxation_fit_v1_20261116": {
       "status": "consumed",
@@ -5707,6 +5712,38 @@
       "result_review_sha256": "f83cddb2c9a09d67b215d9da42a928ef7697977143a85c5f104310f2eac6a37a",
       "scientific_pass": false,
       "val_guard": true
+    },
+    "kiki_es_sindy_test_v1_20261117": {
+      "status": "active",
+      "experiment": "kiki_es_sindy_test_v1",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "operator_autonomous_es_sindy_complete_frozen_task3_test",
+      "fit_attempts": 0,
+      "plan_path": "configs/proposals/kiki_es_sindy_test_v1.json",
+      "plan_sha256": "a04667596edf3099c503a0c1dd8f143df82be3ba5cf4489f239949b5bbf5526f",
+      "review_path": "docs/research/kiki_es_sindy_test_v1_review_20261117.json",
+      "review_sha256": "8f325a130682114e21688e326585e2217fb6f38198be304747bd7d1fbe843deb",
+      "operation_limits": {
+        "rollouts": 8000,
+        "torch_rhs": 24000000,
+        "tangent_rhs": 1400000,
+        "qr": 11000,
+        "svd": 11000,
+        "triangular_solves": 11000,
+        "matrix_products": 11000,
+        "fits": 0,
+        "optimizer_updates": 0,
+        "gradients": 0,
+        "val_checks": 0,
+        "checkpoint_loads": 2
+      },
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "frozen_model_manifest": {
+        "path": "results/kiki_es_sindy_fit_v1-fit-20261116T175607241836Z-3360c0d3-dfa96cb9/freeze.json",
+        "sha256": "e31cac93086f3111eebb969766e78bc293b4739b71178da23a38d3a15b773eb9"
+      }
     },
     "kiki_machine_local_topology_spatial_relaxation_test_v1_20261116": {
       "status": "consumed",
