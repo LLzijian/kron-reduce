@@ -1,0 +1,163 @@
+{
+  "verified": true,
+  "run_id": "kiki_machine_local_topology_spatial_relaxation_fit_v1-fit-20261115T233040485482Z-68164fa3-d3020d1d",
+  "summary_sha256": "0e284ac6561763b35f2f90c04741f8941cd736d61abd718c15d6067fcfae4a45",
+  "artifact_manifest_sha256": "beb3e782653db0f293c211a77fb060bfdf157d757307914d266a4196d3d3a745",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "source_commit": "68164fa3f715ec35136000e09c8f7ae2dd576007",
+  "plan_sha256": "9ed059664a42a99d21b6c4f8c987fc8cf69724f9f29891c2627867302137ab22",
+  "artifact_count": 29,
+  "selected_updates": {
+    "fixed": 0,
+    "spatial": 0
+  },
+  "completed_updates": {
+    "fixed": 18,
+    "spatial": 18
+  },
+  "selected_relaxation_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "checkpoint_initial_freeze_byte_identity": {
+    "fixed": true,
+    "spatial": true
+  },
+  "stop_reason": "joint_val_plateau",
+  "val_check_updates": [
+    0,
+    6,
+    12,
+    18
+  ],
+  "operation_counts": {
+    "checkpoint_loads": 3,
+    "val_checks": 8,
+    "rollouts": 1624,
+    "tangent_rhs": 192000,
+    "torch_rhs": 2870400,
+    "qr": 79900,
+    "svd": 79900,
+    "matrix_products": 79900,
+    "triangular_solves": 79900,
+    "fits": 2,
+    "gradients": 108,
+    "optimizer_updates": 36
+  },
+  "scores": {
+    "fixed": {
+      "train": {
+        "stability": {
+          "tp": 27,
+          "tn": 308,
+          "fp": 3,
+          "fn": 4,
+          "allocated": 346,
+          "resolved": 342,
+          "unresolved": 4,
+          "numerical_failures": 0,
+          "full_accuracy": null
+        },
+        "task3_six_term_score": 0.5517635602782645
+      },
+      "val": {
+        "stability": {
+          "tp": 11,
+          "tn": 95,
+          "fp": 0,
+          "fn": 1,
+          "allocated": 107,
+          "resolved": 107,
+          "unresolved": 0,
+          "numerical_failures": 0,
+          "full_accuracy": 0.9906542056074766
+        },
+        "task3_six_term_score": 0.4267438270869421
+      }
+    },
+    "spatial": {
+      "train": {
+        "stability": {
+          "tp": 27,
+          "tn": 308,
+          "fp": 3,
+          "fn": 4,
+          "allocated": 346,
+          "resolved": 342,
+          "unresolved": 4,
+          "numerical_failures": 0,
+          "full_accuracy": null
+        },
+        "task3_six_term_score": 0.5517635602782645
+      },
+      "val": {
+        "stability": {
+          "tp": 11,
+          "tn": 95,
+          "fp": 0,
+          "fn": 1,
+          "allocated": 107,
+          "resolved": 107,
+          "unresolved": 0,
+          "numerical_failures": 0,
+          "full_accuracy": 0.9906542056074766
+        },
+        "task3_six_term_score": 0.4267438270869421
+      }
+    }
+  },
+  "training_trace_summary": {
+    "fixed": {
+      "first_pre_update_train_loss": 0.8307346768110653,
+      "last_pre_update_train_loss": 0.4217580037789066,
+      "last_attempt": 18
+    },
+    "spatial": {
+      "first_pre_update_train_loss": 0.8307346768110653,
+      "last_pre_update_train_loss": 0.3989706509262453,
+      "last_attempt": 18,
+      "last_updated_rates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5807791917708749,
+        0.0,
+        0.0,
+        0.0,
+        0.4694393952418223
+      ]
+    }
+  },
+  "checks": {
+    "artifact_set_and_byte_digests": true,
+    "loop_terminal_fit_evidence": true,
+    "exact_train_val_rosters_and_truth_labels": true,
+    "three_raw_cache_opens_train_val_only": true,
+    "budget_ledger_and_exact_completed_work": true,
+    "independent_val_rank_minimum_and_joint_stopping": true,
+    "full_train_val_stability_counts_and_null_accuracy": true,
+    "frozen_preprocessing_equals_anchor": true,
+    "selected_zero_checkpoint_byte_identity": true,
+    "both_frozen_score_summaries_identical": true,
+    "json_only_crosscheck_functions_passed": true
+  },
+  "notes": [
+    "This review read saved JSON and byte hashes only. The verifier functions that decode NPZ checkpoints were not called; no array decoding, raw-data reading or model execution occurred.",
+    "Both optimizers completed 18 updates and joint stopping occurred after three val checks without improvement. The registered val rule selected update 0 for both groups.",
+    "The candidate trained nonzero rates, but its selected rates are all zero. Initial and selected checkpoint files are byte-identical within each group, confirming exact restoration without decoding.",
+    "Training trace losses are evaluated before each logged update; the last reported loss is before update 18, not an independently scored post-update-18 loss.",
+    "The fit provides no improvement of the selected model and retains scientific_pass=false. This does not block the separately registered complete frozen test comparison requested by the user.",
+    "No test trajectories or test results were read or used for selection."
+  ]
+}
