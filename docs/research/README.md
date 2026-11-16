@@ -32,6 +32,10 @@ remaining unstable residual after free memory projection.
 The [paired spatial relaxation protocol](../protocols/kiki_machine_local_topology_spatial_relaxation_v1_zh.md)
 learns machine-specific nonnegative relaxation rates on the complete TASK3 train
 roster from a shared starting checkpoint, with frozen val and test scoring.
+The [complete paired result](../reports/kiki_machine_local_topology_spatial_relaxation_20261116_zh.md)
+shows lower train loss after 18 updates, with both models selecting update 0
+on val. Full test yields 70 correct, including 3 of 9 unstable cases, and two
+unresolved cases.
 
 The [topology and memory plan](machine_local_topology_memory_plan_20261115_zh.md)
 introduces event-conditioned edge stiffness and reciprocal machine-local memory.

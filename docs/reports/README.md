@@ -32,6 +32,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 | [Zero-sum dynamic coupling on synthetic truth](machine_local_topology_spatial_coupling_20261116_zh.md) | Correct mechanism selected, three spatial separation gates failed with the original causal observer |
 | [Zero-sum coupling with matched causal history](machine_local_topology_spatial_coupling_causal_20261116_zh.md) | Full synthetic comparison passed the original separation thresholds and dual-step memory recovery |
 | [TASK3 train zero-sum coupling](kiki_machine_local_topology_spatial_coupling_20261116_zh.md) | Complete train 346, lower overall residual and failed unstable-group gate |
+| [TASK3 learned spatial relaxation](kiki_machine_local_topology_spatial_relaxation_20261116_zh.md) | Two full fits and complete 346/107/76 scoring, both selecting the shared starting checkpoint |
 | [TASK3 train dynamic coupling](kiki_machine_local_topology_dynamic_coupling_20261116_zh.md) | Complete train 346, two damping references and three memory controls, unstable residual gate failed |
 | [TASK3 train fixed-origin damping scale](kiki_machine_local_topology_angle_scale_20261115_zh.md) | Complete train, two causal starts and free projection, larger scale raises residuals in all three groups |
 | [TASK3 frozen angle damping](kiki_machine_local_topology_angle_damping_20261115_zh.md) | Full train/val/test, val 106/107 correct, test 69 correct with three unresolved, independently recomputed |

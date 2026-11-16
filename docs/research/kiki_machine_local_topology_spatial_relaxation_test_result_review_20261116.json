@@ -1,0 +1,102 @@
+{
+  "verified": true,
+  "run_id": "kiki_machine_local_topology_spatial_relaxation_test_v1-test-20261116T000723345682Z-f5511189-7f5a6571",
+  "summary_sha256": "7e85dae6409e0aeac9090021776c68f26697b714c56ae2b58bf61b92f376c0b6",
+  "artifact_manifest_sha256": "6f8cd322df7afc6e49906bd2ced246ece6c174d33002f456b550a19c562f09e4",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "source_commit": "f5511189c090add0bfa8efdf2421fc294a8a4ac6",
+  "plan_sha256": "c76cc130f7a735faff8a48aa541792fe71b71b1e987a66e85506c682d6cc8c32",
+  "artifact_count": 8,
+  "test_resolution_goal_met": false,
+  "raw_cache_open_count": 77,
+  "decoded_test_event_count": 76,
+  "operation_counts": {
+    "checkpoint_loads": 3,
+    "rollouts": 84,
+    "tangent_rhs": 14400,
+    "torch_rhs": 247680,
+    "qr": 1520,
+    "svd": 1520,
+    "matrix_products": 1520,
+    "triangular_solves": 1520
+  },
+  "scores": {
+    "fixed": {
+      "allocated": 76,
+      "resolved": 74,
+      "correct": 70,
+      "tp": 3,
+      "tn": 67,
+      "fp": 0,
+      "fn": 4,
+      "unresolved": 2,
+      "uncovered": 0,
+      "numerical_failures": 0,
+      "full_cohort_accuracy": null,
+      "classifiable_accuracy": 0.9459459459459459,
+      "coverage": 0.9736842105263158,
+      "unstable_recall_on_resolved": 0.42857142857142855,
+      "missed_instability_rate_on_resolved": 0.5714285714285714,
+      "stable_false_alarm_rate_on_resolved": 0.0,
+      "stable_event_mean_nrmse": {
+        "1": 0.29394598183020937,
+        "2": 0.24672173618956117,
+        "5": 0.2093272806323607,
+        "8": 0.18778623378407414
+      },
+      "unstable_available_interval_mean_nrmse": 1.0185218130324025,
+      "task3_six_term_score": 0.4188977048338936
+    },
+    "spatial": {
+      "allocated": 76,
+      "resolved": 74,
+      "correct": 70,
+      "tp": 3,
+      "tn": 67,
+      "fp": 0,
+      "fn": 4,
+      "unresolved": 2,
+      "uncovered": 0,
+      "numerical_failures": 0,
+      "full_cohort_accuracy": null,
+      "classifiable_accuracy": 0.9459459459459459,
+      "coverage": 0.9736842105263158,
+      "unstable_recall_on_resolved": 0.42857142857142855,
+      "missed_instability_rate_on_resolved": 0.5714285714285714,
+      "stable_false_alarm_rate_on_resolved": 0.0,
+      "stable_event_mean_nrmse": {
+        "1": 0.29394598183020937,
+        "2": 0.24672173618956117,
+        "5": 0.2093272806323607,
+        "8": 0.18778623378407414
+      },
+      "unstable_available_interval_mean_nrmse": 1.0185218130324025,
+      "task3_six_term_score": 0.4188977048338936
+    }
+  },
+  "metric_row_counts": {
+    "fixed": 344,
+    "spatial": 344
+  },
+  "checks": {
+    "all_artifact_byte_digests_and_terminal_loop_evidence": true,
+    "exact_test_only_source_qualified_roster": true,
+    "all_77_cache_opens_and_76_event_decodes": true,
+    "zero_fits_gradients_updates_and_val_checks": true,
+    "exact_no_fallback_operator_counts": true,
+    "both_complete_frozen_models_and_unchanged_fit_chain": true,
+    "saved_scalar_sse_rmse_and_all_reported_aggregates_recomputed": true,
+    "six_term_scores_recomputed": true,
+    "full_confusion_coverage_and_null_accuracy_recomputed": true,
+    "all_saved_test_json_equal_between_models": true,
+    "json_only_verifier_crosscheck": true
+  },
+  "notes": [
+    "Review used saved JSON, registered source and byte hashes only; no NPZ decoding, raw trajectory access or model execution.",
+    "Both complete test comparisons are identical because val selected update zero and ten zero spatial rates.",
+    "All 76 cases are numerically qualified. Two instability cases remain unsettled; there are zero numerical failures. The full-cohort accuracy is null, while 70 of 74 classifiable cases are correct.",
+    "The fixed goal requires all 76 classifications and at least 69 correct; it is not met despite 70 correct. Test remains reporting-only and does not revise parameters or selection.",
+    "Trajectory NRMSE over 1/2/5/8 s uses the 67 stable complete cases; the nine instability cases use their separate available intervals. Numerical RMSE coverage and stability classification coverage are distinct."
+  ]
+}
