@@ -1671,7 +1671,7 @@
       "scientific_pass": false
     },
     "kiki_memory_saturation_fit_v1_20261117": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_memory_saturation_fit_v1",
       "max_executions": 1,
       "retry_allowed": false,
@@ -1696,7 +1696,12 @@
         "gradients": 72,
         "val_checks": 4,
         "checkpoint_loads": 2
-      }
+      },
+      "run_id": "kiki_memory_saturation_fit_v1-fit-20261116T232536560925Z-34e031c7-dc9a27e9",
+      "result_manifest_sha256": "a043a9f6ce465d8cc7134929e9ff58f703a4f7b1d30473cce01e540051884e5e",
+      "result_receipt_path": "docs/reports/kiki_memory_saturation_fit_20261117_evidence.json",
+      "result_receipt_sha256": "d149b79e5d5aa432185301df9b1f6b227aa3a9654f823bb73a62f9433683b94e",
+      "scientific_pass": false
     },
     "kiki_es_sindy_fit_v1_20261117": {
       "status": "consumed",
@@ -5854,6 +5859,38 @@
       "result_review_path": "docs/research/kiki_es_sindy_test_v1_result_review_20261117.json",
       "result_review_sha256": "28ee720d975be03040cf12d79aa54e4da3e036f0faac65bcfe5fb204dbe94e7f",
       "scientific_pass": false
+    },
+    "kiki_memory_saturation_test_v1_20261117": {
+      "status": "active",
+      "experiment": "kiki_memory_saturation_test_v1",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "operator_autonomous_memory_saturation_complete_frozen_task3_test",
+      "fit_attempts": 0,
+      "plan_path": "configs/proposals/kiki_memory_saturation_test_v1.json",
+      "plan_sha256": "ae5208d111943944d7abb1d89745796625ea4c83780d1ea91fbb8bb0fcec9c11",
+      "review_path": "docs/research/kiki_memory_saturation_test_v1_review_20261117.json",
+      "review_sha256": "c15af40088974b82c0ae00b843f98e4b6370bc8a19ec2b5d92bdee42bf9b8103",
+      "operation_limits": {
+        "rollouts": 8000,
+        "torch_rhs": 24000000,
+        "tangent_rhs": 1400000,
+        "qr": 11000,
+        "svd": 11000,
+        "triangular_solves": 11000,
+        "matrix_products": 11000,
+        "fits": 0,
+        "optimizer_updates": 0,
+        "gradients": 0,
+        "val_checks": 0,
+        "checkpoint_loads": 2
+      },
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "frozen_model_manifest": {
+        "path": "results/kiki_memory_saturation_fit_v1-fit-20261116T232536560925Z-34e031c7-dc9a27e9/freeze.json",
+        "sha256": "44ae1ea34a4b074bf64a856e7e2c108f22d6b28d2326dc591a158283c1e9e50c"
+      }
     },
     "kiki_machine_local_topology_spatial_relaxation_test_v1_20261116": {
       "status": "consumed",

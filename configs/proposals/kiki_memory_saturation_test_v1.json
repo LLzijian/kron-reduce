@@ -1,0 +1,133 @@
+{
+  "schema": "kiki_machine_local_topology.v1",
+  "stage": "test",
+  "source_contract": {
+    "path": "configs/proposals/kiki_machine_local_full_fit_v1.json",
+    "sha256": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed"
+  },
+  "transfer": {
+    "run_id": "machine_local_topology_transfer_v1-transfer-20261115T044343858959Z-cd2990d9-99b9d085",
+    "result_manifest_sha256": "63fffdf254f2575b71dcc456c4b3145ba3ccaa47f27e9fbd7ed4af1fa046c2b8",
+    "result_receipt_sha256": "2a263bf216b445e039095963bd605c775ba7a581fa5607c31394db960d4079b5",
+    "result_review_sha256": "096d2850a3e151fa828aa7348d38cd5d78c18c8c02f126a1cc927ff83eaa5af2"
+  },
+  "backbone": {
+    "path": "results/paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996/checkpoint-240-324/model.npz",
+    "sha256": "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8"
+  },
+  "device": "cuda",
+  "plan_path": "configs/proposals/kiki_memory_saturation_test_v1.json",
+  "protocol_path": "docs/protocols/kiki_memory_saturation_v1_zh.md",
+  "protocol_sha256": "34c0914a3a4636ac76e0bbbb1fbeb4130f745b157a126c61e9ea4663a2c4911f",
+  "saturation_start": {
+    "freeze": {
+      "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/freeze.json",
+      "sha256": "e2b09861637b126cb072ea7b06dbf0809adf0d6567fb1636ec70824c0e8e87ff"
+    },
+    "checkpoint": {
+      "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/freeze-T0M1.npz",
+      "sha256": "808b997c39f5ac2b838b514471fc35532b97c547d624d9bf1028938227258851"
+    },
+    "preprocessing": {
+      "path": "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024/preprocessing.json",
+      "sha256": "c6473edfce144cffcb56fda8fbad589ef5e88b8147629df3fa2a1dee219fce5e"
+    }
+  },
+  "saturation_synthetic": {
+    "path": "docs/reports/memory_saturation_synthetic_20261117_evidence.json",
+    "sha256": "de568f6882e74a5867c3bbdfc0cc7eed68fff2daa412642cd2b1edd402234aab"
+  },
+  "saturation_val_reference": {
+    "path": "docs/reports/kiki_es_sindy_fit_20261117_evidence.json",
+    "sha256": "f2518c90a261c27f7c6ca371304d9086bea729711f9aad3878a365288b91f96f"
+  },
+  "settings": {
+    "updates": 12,
+    "train_batch": 64,
+    "eval_batch": 32,
+    "min_updates": 12,
+    "val_interval": 4,
+    "val_patience": 4,
+    "val_relative_tol": 0.001,
+    "learning_rate": 0.03,
+    "prior_weight": 1e-06,
+    "val_trajectory_limit": 0.5,
+    "memory_saturation_start": 0.2,
+    "memory_saturation_bound": 2.0,
+    "matched_train_witnesses": true
+  },
+  "operation_limits": {
+    "rollouts": 8000,
+    "torch_rhs": 24000000,
+    "tangent_rhs": 1400000,
+    "qr": 11000,
+    "svd": 11000,
+    "triangular_solves": 11000,
+    "matrix_products": 11000,
+    "fits": 0,
+    "optimizer_updates": 0,
+    "gradients": 0,
+    "val_checks": 0,
+    "checkpoint_loads": 2
+  },
+  "implementation_bindings": {
+    "configs/experiments/kiki_memory_saturation_test_v1.toml": "23f5984ed8273c0acb9fca461bd3eb02e743c1316c6f2475dd82a8b2f7080464",
+    "configs/project_manifest.json": "dd74fb10ff8627081497d4e494b966ec85ea50770b088e7f739930bef4f49833",
+    "configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "configs/proposals/kiki_memory_saturation_fit_v1.json": "30007dd760796e72e695695998eefaa7ab1b7d23858f8846e842a0e1e4be1b2d",
+    "configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "configs/workflows/kiki_memory_saturation_v1.json": "ac396d775901f82443554240c01a13a298e62b9a741f7ccf0ceb1cffe61f3a6f",
+    "docs/protocols/kiki_memory_saturation_v1_zh.md": "34c0914a3a4636ac76e0bbbb1fbeb4130f745b157a126c61e9ea4663a2c4911f",
+    "docs/reports/kiki_es_sindy_fit_20261117_evidence.json": "f2518c90a261c27f7c6ca371304d9086bea729711f9aad3878a365288b91f96f",
+    "docs/reports/kiki_machine_local_topology_fit_20261115_evidence.json": "3c140e4f4d1e3ae2dcf28a7acac9bcfb44628f5050037c96ce4f0012e4339cfa",
+    "docs/reports/kiki_memory_saturation_fit_20261117_evidence.json": "d149b79e5d5aa432185301df9b1f6b227aa3a9654f823bb73a62f9433683b94e",
+    "docs/reports/kiki_topology_memory_balance_20261116_evidence.json": "c3e75aa76cfecdac879c6a264b276935bf223c870500c2ac11dc6f8b0994bc62",
+    "docs/reports/machine_local_topology_transfer_20261115_evidence.json": "2a263bf216b445e039095963bd605c775ba7a581fa5607c31394db960d4079b5",
+    "docs/reports/memory_saturation_synthetic_20261117_evidence.json": "de568f6882e74a5867c3bbdfc0cc7eed68fff2daa412642cd2b1edd402234aab",
+    "docs/research/kiki_machine_local_topology_fit_result_review_20261115.json": "e4d65762c332e3cf8968aaa53bd392cd9b9217d7dab0a555be3587412ecc251e",
+    "docs/research/machine_local_topology_transfer_20261115_result_review.json": "096d2850a3e151fa828aa7348d38cd5d78c18c8c02f126a1cc927ff83eaa5af2",
+    "docs/research/memory_saturation_synthetic_v1_result_review_20261117.json": "c0bd661cdd95add53960e797cad9c7914f8162a719346f4e5fecea08ac37b464",
+    "project_harness/evidence.py": "bdd3b26e27f0edb0e6f89ba78dc1cbe0d32d9b15fc14506765d189cde2c207ae",
+    "project_harness/git_state.py": "3689f3e36c9cbcd685f00ff8b5137dae70c885ba69c63d9314f0a89ccd72d4d6",
+    "project_harness/loop.py": "18c0421c2198f3680c9ca25bb48d637e40b80f37ae43ddb702f957892cb68fcf",
+    "project_harness/policy.py": "9f345a87711223af452cff4cfa74eecb0d815fa164b47485144002b07fc58071",
+    "project_harness/runner.py": "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77",
+    "requirements/constraints-py312.txt": "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9",
+    "src/kron_reduce/data/audit_access_ledger.py": "6c0333cb9e1f5c56ba309334a52f84655c2b14cc606862ab97997cf70835d1bc",
+    "src/kron_reduce/data/durable_audit_ledger.py": "c1aa5889395f7d8e280a6d787c82c8f8247a79f2ee506974c09a2554dda87943",
+    "src/kron_reduce/data/history_contract.py": "81f8d96abaa5f87cf4dbc38ce3dd21eb6a461daf027b394d8445840ce1df7d83",
+    "src/kron_reduce/data/task3_full.py": "14f5b7681f1993822a41615e1905f5e7916554371e29f02213a0382d6291cd2d",
+    "src/kron_reduce/evaluation/constant_c_observability.py": "ffa79a786d2e28a103f9b56d91bc36c4c233c0f7f028b05bbca5809324dd202b",
+    "src/kron_reduce/evaluation/kiki_machine_local_full.py": "4a0e1287de5b3d83a722ddfa55a6f723b31738e48df179bf059f9322e8cd27fb",
+    "src/kron_reduce/evaluation/kiki_machine_local_r20_r21.py": "29976376a8e290ef29c339e057b698aa43d1af31673bf22072f8760a79758026",
+    "src/kron_reduce/evaluation/kiki_machine_local_topology.py": "03edc5c2f0bc110f6ff6f28dcdc66a61acf6c86c02661e2234f4a68f770c6079",
+    "src/kron_reduce/evaluation/kiki_topology_bridge.py": "df08987d94c4ae6c1a784b82f8a9420419e73ff73068509054e6c89d9b59aeae",
+    "src/kron_reduce/evaluation/machine_local_clean_learning.py": "c2a7bad3f80464494f190e0f7b5cba16b448d1481869f89b44817abea268fac0",
+    "src/kron_reduce/evaluation/machine_local_synthetic.py": "50f26bda1d05cf2994ef7c337f7549992b38e81b8f78eb35cdff0a85b2b7fffb",
+    "src/kron_reduce/evaluation/machine_local_topology.py": "b663038cccb06d5e360589971fe0f7823fa884e8557037f7315afdd62f0d84e7",
+    "src/kron_reduce/evaluation/state_port_training.py": "87493cd714c5229cba8895113f1d63f83ae69e762dc4bc9c445b964fb32db962",
+    "src/kron_reduce/evaluation/trajectory_stability.py": "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c",
+    "src/kron_reduce/models/differentiable_history.py": "d6b7dc4dd0170cb5e943539b72fe37e1a1842e1fb0799613f19bd8844a60e9b2",
+    "src/kron_reduce/models/machine_local.py": "3f79959b41a1ee99c96fad3de2307ecbe4f5d2e3d466bca25786bf0e6501fc6b",
+    "src/kron_reduce/models/machine_local_forecast.py": "3e4a9f66650cfe9595bc69fe5ab5a29342f94520805b4f7e323325c17da7644f",
+    "src/kron_reduce/models/machine_local_topology.py": "a3aada35dcc4f03507a094edab29f4149c56a8fabb955142f26282503a24c52e",
+    "src/kron_reduce/models/nonlinear_history.py": "f8ce5dd063219c9460fbc67c7b6b3620520153c56258ee6d6be98f7f89d49087",
+    "src/kron_reduce/models/nonlinear_latent.py": "766991fa340f5d4176694fc5ad78eded074cf0e906d0c944b49057cbd26697c4",
+    "src/kron_reduce/models/topology_memory_rom.py": "4927d2bfeb95442600419f070c3df4c76d0e40f86a8dfc17d355106b7824aa8c",
+    "src/kron_reduce/physics/coordinates.py": "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089",
+    "src/kron_reduce/workflows/kiki_machine_local_topology.py": "ab47a269f17bc886b0ad02964b6c639238cbad5d779237ed7cf4b1045def80d3",
+    "src/kron_reduce/workflows/kiki_machine_local_topology_radius.py": "7d1f7e79384c41d0cb7c33922441167cdb4faacb5b811983eb6211e965b73c27",
+    "src/kron_reduce/workflows/kiki_stability_comparison.py": "92c6809bba4bf130adca934ccf59d1238ae717c6c8113f76a20bbe4e405363bd",
+    "src/kron_reduce/workflows/machine_local_equation.py": "1fc52cd7636f757acef005b8690e93d67d593aa884c0bf146b56153fa265adb0",
+    "tests/test_kiki_topology_bridge.py": "87a79119ec52a4482971cb6c03452124c7a7a82d66055707cbcf000f4844742a",
+    "tests/test_machine_local_trainable_stiffness.py": "820a19c88e2e8a56130531753fc0ba3a58b4e008277e1acf8eff72555e0a0ee8",
+    "tests/test_task3_full.py": "bcb3331c6fbadb65b4b764459c6bb86cafe9f7e537b5f6aa442ac377d2ad7499",
+    "tests/test_topology_memory_rom.py": "c97858ae8c08f1ad32eec00524fcecfd2dbfaf8a007e41eaa5b678c26269c13d",
+    "tests/test_topology_trainable_relaxation.py": "e8aa6440e59a96c7a658e6c1f645d38bcb8d48cb8cb3b1d3b12a2935d0f16229"
+  },
+  "fit_plan_sha256": "30007dd760796e72e695695998eefaa7ab1b7d23858f8846e842a0e1e4be1b2d",
+  "frozen_model_manifest": {
+    "path": "results/kiki_memory_saturation_fit_v1-fit-20261116T232536560925Z-34e031c7-dc9a27e9/freeze.json",
+    "sha256": "44ae1ea34a4b074bf64a856e7e2c108f22d6b28d2326dc591a158283c1e9e50c"
+  }
+}
