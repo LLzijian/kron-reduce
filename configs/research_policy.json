@@ -1717,7 +1717,7 @@
       "plan_path": "configs/proposals/kiki_topology_memory_balance_v1.json",
       "plan_sha256": "8366674e36fd6714d7a043f848017e000dd81cb137c855f4ea9105c62c7e933e",
       "review_path": "docs/research/kiki_topology_memory_balance_v1_review_20261116.json",
-      "review_sha256": "9a60a2936a59779d04f66970e62806f1f99f30b02c4b771bf340cffd026d418e",
+      "review_sha256": "f4403f2fd3b87b9e4546900324cc22058d68bbf8d6f5e64775ab9d480add5a8c",
       "operation_limits": {
         "rollouts": 4998,
         "torch_rhs": 1028160,
