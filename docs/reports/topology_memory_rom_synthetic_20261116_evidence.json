@@ -1,0 +1,4687 @@
+{
+  "run_id": "topology_memory_rom_synthetic_v1-topology_memory_rom-20261116T060550614316Z-ddcc4110-deb6b9f1",
+  "stage": "topology_memory_rom",
+  "source_commit": "ddcc41106a804fbff24d78940c5f6a179e5b4ea3",
+  "plan_sha256": "f6ad27338b88594ea77de21e445aac76518057e34e7e3c16399bcd5e498221bd",
+  "result_manifest_sha256": "8a1ede954ad0498633d49f2460f0ca01dad3c8dd8629ca71faa52465e86db346",
+  "summary_sha256": "420e7da6b02778e74f310976772013a2ce772735dd4b114c4e35032a8555902f",
+  "artifact_count": 423,
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "elapsed_seconds": 8474.326267899945,
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "operation_counts": {
+    "numpy_damping_roots": 10,
+    "numpy_rhs": 388800,
+    "fits": 40,
+    "val_checks": 145,
+    "rollouts": 7495,
+    "tangent_rhs": 821200,
+    "torch_rhs": 12033605,
+    "qr": 97500,
+    "svd": 110940,
+    "matrix_products": 97500,
+    "triangular_solves": 97500,
+    "gradients": 425,
+    "optimizer_updates": 420
+  },
+  "cohorts": {
+    "train": 24,
+    "val": 12,
+    "test": 12
+  },
+  "real_data_reads": 0,
+  "candidates": 40,
+  "selected_by_truth": {
+    "S0": {
+      "selected_support": "C0S0H0",
+      "expected_support": "C0S0H0",
+      "outside_library_selected_extra_support": null,
+      "gates": {
+        "truth": {
+          "status": "PASS"
+        },
+        "mixed_truth": {
+          "status": "PASS"
+        },
+        "energy": {
+          "status": "PASS"
+        },
+        "complete_deletion_controls": {
+          "status": "PASS"
+        },
+        "known_coefficient_true_origin": {
+          "status": "PASS"
+        },
+        "support_recovery": {
+          "status": "PASS"
+        },
+        "clean_prediction": {
+          "status": "PASS"
+        },
+        "noisy_prediction": {
+          "status": "PASS"
+        },
+        "parameter_recovery": {
+          "status": "PASS"
+        },
+        "kernel_recovery": {
+          "status": "PASS"
+        },
+        "history_identifiability": {
+          "status": "PASS"
+        },
+        "initial_state_recovery": {
+          "status": "FAIL"
+        },
+        "selected_coefficient_true_origin": {
+          "status": "PASS"
+        },
+        "outside_library_rejection": {
+          "status": "NOT_APPLICABLE"
+        }
+      },
+      "energy_residual_max": 2.663905003061768e-16,
+      "parameter_relative_error": 0.0,
+      "truth_step_max": 5.292556794694981e-11,
+      "initial_relative_error": [
+        0.6469718761305208,
+        0.6442865499012589,
+        0.7210226918431366,
+        0.7193087566725754,
+        0.6524631583616998,
+        0.6498396821708452,
+        0.5923649758695562,
+        0.5889092729315705,
+        0.6447382744435293,
+        0.6421405935415059,
+        0.8086394624302693,
+        0.8072121917206694,
+        0.6132604516129356,
+        0.6103582889104592,
+        0.7605600520324555,
+        0.7587311299797866,
+        0.5740565944347202,
+        0.570904275233078,
+        0.5838438865033895,
+        0.580235122943994,
+        0.577689909075373,
+        0.5739532762129496,
+        0.712359256987516,
+        0.7106478463153976,
+        0.6037332649693248,
+        0.6006310449797992,
+        0.5741982106761926,
+        0.5703913750782459,
+        0.5788063338857912,
+        0.5748431464809737,
+        0.662412692217503,
+        0.659666630047928,
+        0.5824108136128807,
+        0.5783896875596329,
+        0.6618071096447802,
+        0.6591234513830043,
+        0.578758113635518,
+        0.5750664122070989,
+        0.6049103062871054,
+        0.6012040061130669,
+        0.74313154842872,
+        0.7411501097518541,
+        0.5762123653817405,
+        0.5731386972425307,
+        0.5738048008832105,
+        0.5698217589082155,
+        0.5751535986666148,
+        0.5716552347563814
+      ],
+      "origin_relative_error": [
+        0.6541981246509256,
+        0.13424408376395827,
+        0.7266169191445253,
+        0.1691783320237362,
+        0.6516663049860875,
+        0.12210398306561596,
+        0.5910353324359056,
+        0.16098381465513484,
+        0.6518388116033299,
+        0.11331698994155737,
+        0.8279712097011637,
+        0.1736091117845961,
+        0.6012292457182579,
+        0.11968347081828026,
+        0.7776298956633884,
+        0.16369450271099542,
+        0.567691773654053,
+        0.11072646878019188,
+        0.5859330564440981,
+        0.10569827177243993,
+        0.5729242971619245,
+        0.11728489519881112,
+        0.7088198488137913,
+        0.14238148945890455,
+        0.5966750517823927,
+        0.10449473910255125,
+        0.5672135538281541,
+        0.08723167363654905,
+        0.5832254383901624,
+        0.12288597132288284,
+        0.6578473085897858,
+        0.11549487839813642,
+        0.5810495401439737,
+        0.09707416449537386,
+        0.660650896033202,
+        0.14129344316630862,
+        0.5831949999253824,
+        0.10991694010205935,
+        0.6090536287282889,
+        0.1299471128008744,
+        0.7393274640299654,
+        0.058194238405754585,
+        0.5714710499146309,
+        0.1073571804503491,
+        0.5850796008253805,
+        0.07103712290382996,
+        0.5678789435242587,
+        0.09866342698709003
+      ],
+      "initial_state_claim": "rank_sufficient_but_recovery_failed",
+      "engineering_pass": true,
+      "scientific_pass": false,
+      "fit": {
+        "completed_updates": 0,
+        "selected_update": 0,
+        "selected_val_nmse": 4.109984487747011e-06,
+        "failure": null,
+        "train_curve": [],
+        "val_curve": [
+          {
+            "update": 0,
+            "nrmse_squared": 4.109984487747011e-06,
+            "equation": {
+              "support": "C0S0H0",
+              "common_rate": 0.0,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.0
+            }
+          }
+        ],
+        "equation": {
+          "support": "C0S0H0",
+          "common_rate": 0.0,
+          "spatial_rate": 0.0,
+          "saturation_strength": 0.0
+        }
+      },
+      "scores": {
+        "clean": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.003879778694368062,
+            "nrmse_8s_max": 0.005426655995716086,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0021517459899267183,
+                    "median": 0.001874852419611683,
+                    "pooled": 0.002280486313948021
+                  },
+                  "q_rmse": {
+                    "mean": 0.01365713850490465,
+                    "median": 0.012183358779959654,
+                    "pooled": 0.014397586795917752
+                  },
+                  "v_rmse": {
+                    "mean": 0.008349553081046625,
+                    "median": 0.007259781775247066,
+                    "pooled": 0.008831793238128148
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0021517459899267183,
+                    "median": 0.001874852419611683,
+                    "pooled": 0.002280486313948021
+                  },
+                  "q_rmse": {
+                    "mean": 0.01365713850490465,
+                    "median": 0.012183358779959654,
+                    "pooled": 0.014397586795917752
+                  },
+                  "v_rmse": {
+                    "mean": 0.008349553081046625,
+                    "median": 0.007259781775247066,
+                    "pooled": 0.008831793238128148
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0023373963589052647,
+                    "median": 0.0019224405655055964,
+                    "pooled": 0.0027148585731357716
+                  },
+                  "q_rmse": {
+                    "mean": 0.022086839823736618,
+                    "median": 0.01341642617631688,
+                    "pooled": 0.02811549187578821
+                  },
+                  "v_rmse": {
+                    "mean": 0.008151433102984787,
+                    "median": 0.006752154882865946,
+                    "pooled": 0.009193001599302558
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0023373963589052647,
+                    "median": 0.0019224405655055964,
+                    "pooled": 0.0027148585731357716
+                  },
+                  "q_rmse": {
+                    "mean": 0.022086839823736618,
+                    "median": 0.01341642617631688,
+                    "pooled": 0.02811549187578821
+                  },
+                  "v_rmse": {
+                    "mean": 0.008151433102984787,
+                    "median": 0.006752154882865946,
+                    "pooled": 0.009193001599302558
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0029397180363931272,
+            "nrmse_8s_max": 0.004398497594589891,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0019380513550059635,
+                    "median": 0.001732421285977255,
+                    "pooled": 0.002027309431493672
+                  },
+                  "q_rmse": {
+                    "mean": 0.012200351788859184,
+                    "median": 0.011086796990695463,
+                    "pooled": 0.012710710421701263
+                  },
+                  "v_rmse": {
+                    "mean": 0.007437028475485709,
+                    "median": 0.006588652774368148,
+                    "pooled": 0.007764921856514369
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0019380513550059635,
+                    "median": 0.001732421285977255,
+                    "pooled": 0.002027309431493672
+                  },
+                  "q_rmse": {
+                    "mean": 0.012200351788859184,
+                    "median": 0.011086796990695463,
+                    "pooled": 0.012710710421701263
+                  },
+                  "v_rmse": {
+                    "mean": 0.007437028475485709,
+                    "median": 0.006588652774368148,
+                    "pooled": 0.007764921856514369
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0022070045658641874,
+                    "median": 0.001482278932324662,
+                    "pooled": 0.0025746523764234187
+                  },
+                  "q_rmse": {
+                    "mean": 0.021019674594715043,
+                    "median": 0.01183089093022648,
+                    "pooled": 0.02679774002527616
+                  },
+                  "v_rmse": {
+                    "mean": 0.007519293305265584,
+                    "median": 0.005430256781541825,
+                    "pooled": 0.008481306191867887
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0022070045658641874,
+                    "median": 0.001482278932324662,
+                    "pooled": 0.0025746523764234187
+                  },
+                  "q_rmse": {
+                    "mean": 0.021019674594715043,
+                    "median": 0.01183089093022648,
+                    "pooled": 0.02679774002527616
+                  },
+                  "v_rmse": {
+                    "mean": 0.007519293305265584,
+                    "median": 0.005430256781541825,
+                    "pooled": 0.008481306191867887
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0037826942420844593,
+            "nrmse_8s_max": 0.004572273230821512,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0019695844120621252,
+                    "median": 0.001846652950526267,
+                    "pooled": 0.0021361597488704577
+                  },
+                  "q_rmse": {
+                    "mean": 0.012450832835464457,
+                    "median": 0.011805958974705585,
+                    "pooled": 0.013406011511394754
+                  },
+                  "v_rmse": {
+                    "mean": 0.00750691548304622,
+                    "median": 0.006938638900877007,
+                    "pooled": 0.00810202270983109
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0019695844120621252,
+                    "median": 0.001846652950526267,
+                    "pooled": 0.0021361597488704577
+                  },
+                  "q_rmse": {
+                    "mean": 0.012450832835464457,
+                    "median": 0.011805958974705585,
+                    "pooled": 0.013406011511394754
+                  },
+                  "v_rmse": {
+                    "mean": 0.00750691548304622,
+                    "median": 0.006938638900877007,
+                    "pooled": 0.00810202270983109
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0020470937959828155,
+                    "median": 0.0017208261449158746,
+                    "pooled": 0.00234141111301356
+                  },
+                  "q_rmse": {
+                    "mean": 0.019248679478553094,
+                    "median": 0.015013076452121056,
+                    "pooled": 0.024136803904464425
+                  },
+                  "v_rmse": {
+                    "mean": 0.0069673118869466736,
+                    "median": 0.005936535362294881,
+                    "pooled": 0.007715184471874953
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0020470937959828155,
+                    "median": 0.0017208261449158746,
+                    "pooled": 0.00234141111301356
+                  },
+                  "q_rmse": {
+                    "mean": 0.019248679478553094,
+                    "median": 0.015013076452121056,
+                    "pooled": 0.024136803904464425
+                  },
+                  "v_rmse": {
+                    "mean": 0.0069673118869466736,
+                    "median": 0.005936535362294881,
+                    "pooled": 0.007715184471874953
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "noise": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.009336036697585147,
+            "nrmse_8s_max": 0.01053623018801076,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.004456800050663122,
+                    "median": 0.004022476770943358,
+                    "pooled": 0.004836026452780293
+                  },
+                  "q_rmse": {
+                    "mean": 0.028607986176818163,
+                    "median": 0.026129325233276046,
+                    "pooled": 0.031107527969486303
+                  },
+                  "v_rmse": {
+                    "mean": 0.017251204564939015,
+                    "median": 0.015791579208982293,
+                    "pooled": 0.018628977666003233
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.004456800050663122,
+                    "median": 0.004022476770943358,
+                    "pooled": 0.004836026452780293
+                  },
+                  "q_rmse": {
+                    "mean": 0.028607986176818163,
+                    "median": 0.026129325233276046,
+                    "pooled": 0.031107527969486303
+                  },
+                  "v_rmse": {
+                    "mean": 0.017251204564939015,
+                    "median": 0.015791579208982293,
+                    "pooled": 0.018628977666003233
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0044495874969681035,
+                    "median": 0.0033270019428139398,
+                    "pooled": 0.005184108508299941
+                  },
+                  "q_rmse": {
+                    "mean": 0.04105905180345527,
+                    "median": 0.025041212047132604,
+                    "pooled": 0.05339091076793215
+                  },
+                  "v_rmse": {
+                    "mean": 0.015552059162491106,
+                    "median": 0.012738595665034953,
+                    "pooled": 0.01746174263109423
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0044495874969681035,
+                    "median": 0.0033270019428139398,
+                    "pooled": 0.005184108508299941
+                  },
+                  "q_rmse": {
+                    "mean": 0.04105905180345527,
+                    "median": 0.025041212047132604,
+                    "pooled": 0.05339091076793215
+                  },
+                  "v_rmse": {
+                    "mean": 0.015552059162491106,
+                    "median": 0.012738595665034953,
+                    "pooled": 0.01746174263109423
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.011129243159791776,
+            "nrmse_8s_max": 0.014948169385893478,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0049587369702588134,
+                    "median": 0.0036934016520424676,
+                    "pooled": 0.005554895292741769
+                  },
+                  "q_rmse": {
+                    "mean": 0.031647196423880204,
+                    "median": 0.02468492762253937,
+                    "pooled": 0.035553078986783185
+                  },
+                  "v_rmse": {
+                    "mean": 0.018986501609495193,
+                    "median": 0.014258551448686122,
+                    "pooled": 0.021202916839468556
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0049587369702588134,
+                    "median": 0.0036934016520424676,
+                    "pooled": 0.005554895292741769
+                  },
+                  "q_rmse": {
+                    "mean": 0.031647196423880204,
+                    "median": 0.02468492762253937,
+                    "pooled": 0.035553078986783185
+                  },
+                  "v_rmse": {
+                    "mean": 0.018986501609495193,
+                    "median": 0.014258551448686122,
+                    "pooled": 0.021202916839468556
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.005330701906656372,
+                    "median": 0.0036700045248994973,
+                    "pooled": 0.006541466889107762
+                  },
+                  "q_rmse": {
+                    "mean": 0.05254440584810351,
+                    "median": 0.03260749234221562,
+                    "pooled": 0.07147184920517702
+                  },
+                  "v_rmse": {
+                    "mean": 0.017940054615694485,
+                    "median": 0.013053295695550518,
+                    "pooled": 0.02117743907524087
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.005330701906656372,
+                    "median": 0.0036700045248994973,
+                    "pooled": 0.006541466889107762
+                  },
+                  "q_rmse": {
+                    "mean": 0.05254440584810351,
+                    "median": 0.03260749234221562,
+                    "pooled": 0.07147184920517702
+                  },
+                  "v_rmse": {
+                    "mean": 0.017940054615694485,
+                    "median": 0.013053295695550518,
+                    "pooled": 0.02117743907524087
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.00985600632468117,
+            "nrmse_8s_max": 0.010527055734488654,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.004714810074688469,
+                    "median": 0.004159569662595861,
+                    "pooled": 0.005213274947708724
+                  },
+                  "q_rmse": {
+                    "mean": 0.029915079135437662,
+                    "median": 0.0280041504358434,
+                    "pooled": 0.032875411768288135
+                  },
+                  "v_rmse": {
+                    "mean": 0.01806145488994056,
+                    "median": 0.01631319674298851,
+                    "pooled": 0.01984785552574558
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.004714810074688469,
+                    "median": 0.004159569662595861,
+                    "pooled": 0.005213274947708724
+                  },
+                  "q_rmse": {
+                    "mean": 0.029915079135437662,
+                    "median": 0.0280041504358434,
+                    "pooled": 0.032875411768288135
+                  },
+                  "v_rmse": {
+                    "mean": 0.01806145488994056,
+                    "median": 0.01631319674298851,
+                    "pooled": 0.01984785552574558
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0047095085179561635,
+                    "median": 0.0036705866288388473,
+                    "pooled": 0.005570776293999654
+                  },
+                  "q_rmse": {
+                    "mean": 0.04486029361992546,
+                    "median": 0.032394013694055646,
+                    "pooled": 0.05705665434731409
+                  },
+                  "v_rmse": {
+                    "mean": 0.016123020610362724,
+                    "median": 0.01340914740459887,
+                    "pooled": 0.018578787443409243
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0047095085179561635,
+                    "median": 0.0036705866288388473,
+                    "pooled": 0.005570776293999654
+                  },
+                  "q_rmse": {
+                    "mean": 0.04486029361992546,
+                    "median": 0.032394013694055646,
+                    "pooled": 0.05705665434731409
+                  },
+                  "v_rmse": {
+                    "mean": 0.016123020610362724,
+                    "median": 0.01340914740459887,
+                    "pooled": 0.018578787443409243
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "kernel_relative_error": 0.0
+      }
+    },
+    "S1": {
+      "selected_support": "C1S0H0",
+      "expected_support": "C1S1H0",
+      "outside_library_selected_extra_support": null,
+      "gates": {
+        "truth": {
+          "status": "PASS"
+        },
+        "mixed_truth": {
+          "status": "PASS"
+        },
+        "energy": {
+          "status": "PASS"
+        },
+        "complete_deletion_controls": {
+          "status": "PASS"
+        },
+        "known_coefficient_true_origin": {
+          "status": "PASS"
+        },
+        "support_recovery": {
+          "status": "FAIL"
+        },
+        "clean_prediction": {
+          "status": "PASS"
+        },
+        "noisy_prediction": {
+          "status": "PASS"
+        },
+        "parameter_recovery": {
+          "status": "FAIL"
+        },
+        "kernel_recovery": {
+          "status": "PASS"
+        },
+        "history_identifiability": {
+          "status": "PASS"
+        },
+        "initial_state_recovery": {
+          "status": "FAIL"
+        },
+        "selected_coefficient_true_origin": {
+          "status": "PASS"
+        },
+        "outside_library_rejection": {
+          "status": "NOT_APPLICABLE"
+        }
+      },
+      "energy_residual_max": 1.872632543893888e-16,
+      "parameter_relative_error": 1.0,
+      "truth_step_max": 5.369735584263499e-11,
+      "initial_relative_error": null,
+      "origin_relative_error": null,
+      "initial_state_claim": "rank_sufficient_but_recovery_failed",
+      "engineering_pass": true,
+      "scientific_pass": false,
+      "fit": {
+        "completed_updates": 12,
+        "selected_update": 12,
+        "selected_val_nmse": 5.405864590438895e-06,
+        "failure": null,
+        "train_curve": [
+          {
+            "update": 1,
+            "nrmse_squared_before_update": 4.075795860915214e-06,
+            "gradient_norm": 3.8189909164392984e-07
+          },
+          {
+            "update": 2,
+            "nrmse_squared_before_update": 4.067777527706996e-06,
+            "gradient_norm": 1.8970894636114106e-07
+          },
+          {
+            "update": 3,
+            "nrmse_squared_before_update": 4.063997752765736e-06,
+            "gradient_norm": 9.91088758323023e-08
+          },
+          {
+            "update": 4,
+            "nrmse_squared_before_update": 4.062190821093561e-06,
+            "gradient_norm": 5.294617373338997e-08
+          },
+          {
+            "update": 5,
+            "nrmse_squared_before_update": 4.061334750136611e-06,
+            "gradient_norm": 2.766687121475968e-08
+          },
+          {
+            "update": 6,
+            "nrmse_squared_before_update": 4.06095348201756e-06,
+            "gradient_norm": 1.2931044018150797e-08
+          },
+          {
+            "update": 7,
+            "nrmse_squared_before_update": 4.060815504406961e-06,
+            "gradient_norm": 3.8742040391025706e-09
+          },
+          {
+            "update": 8,
+            "nrmse_squared_before_update": 4.060803269804189e-06,
+            "gradient_norm": 1.946896530632056e-09
+          },
+          {
+            "update": 9,
+            "nrmse_squared_before_update": 4.060854777538602e-06,
+            "gradient_norm": 5.832782797188689e-09
+          },
+          {
+            "update": 10,
+            "nrmse_squared_before_update": 4.060936302946773e-06,
+            "gradient_norm": 8.511447618439904e-09
+          },
+          {
+            "update": 11,
+            "nrmse_squared_before_update": 4.061029093986376e-06,
+            "gradient_norm": 1.0408454319125568e-08
+          },
+          {
+            "update": 12,
+            "nrmse_squared_before_update": 4.061122605986884e-06,
+            "gradient_norm": 1.1782065395105941e-08
+          }
+        ],
+        "val_curve": [
+          {
+            "update": 0,
+            "nrmse_squared": 5.4665537689502315e-06,
+            "equation": {
+              "support": "C1S0H0",
+              "common_rate": 0.15,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.0
+            }
+          },
+          {
+            "update": 4,
+            "nrmse_squared": 5.41971462565397e-06,
+            "equation": {
+              "support": "C1S0H0",
+              "common_rate": 0.25242880008680535,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.0
+            }
+          },
+          {
+            "update": 8,
+            "nrmse_squared": 5.409448057184431e-06,
+            "equation": {
+              "support": "C1S0H0",
+              "common_rate": 0.3163973851388212,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.0
+            }
+          },
+          {
+            "update": 12,
+            "nrmse_squared": 5.405864590438895e-06,
+            "equation": {
+              "support": "C1S0H0",
+              "common_rate": 0.35306247796174905,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.0
+            }
+          }
+        ],
+        "equation": {
+          "support": "C1S0H0",
+          "common_rate": 0.35306247796174905,
+          "spatial_rate": 0.0,
+          "saturation_strength": 0.0
+        }
+      },
+      "scores": {
+        "clean": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.004137131630774014,
+            "nrmse_8s_max": 0.006432988568225801,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0023267487520591355,
+                    "median": 0.0020017276875186076,
+                    "pooled": 0.002498770381475334
+                  },
+                  "q_rmse": {
+                    "mean": 0.01464249605369119,
+                    "median": 0.013365856535559686,
+                    "pooled": 0.015599918705819157
+                  },
+                  "v_rmse": {
+                    "mean": 0.009045910186120887,
+                    "median": 0.007898456226329884,
+                    "pooled": 0.009708705981103813
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0023267487520591355,
+                    "median": 0.0020017276875186076,
+                    "pooled": 0.002498770381475334
+                  },
+                  "q_rmse": {
+                    "mean": 0.01464249605369119,
+                    "median": 0.013365856535559686,
+                    "pooled": 0.015599918705819157
+                  },
+                  "v_rmse": {
+                    "mean": 0.009045910186120887,
+                    "median": 0.007898456226329884,
+                    "pooled": 0.009708705981103813
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0028767505889356042,
+                    "median": 0.002457837949824589,
+                    "pooled": 0.0033626216984837705
+                  },
+                  "q_rmse": {
+                    "mean": 0.027328572701822762,
+                    "median": 0.02068088633750452,
+                    "pooled": 0.03450559255844347
+                  },
+                  "v_rmse": {
+                    "mean": 0.010320491943036211,
+                    "median": 0.008962168109642336,
+                    "pooled": 0.011822958751719608
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0028767505889356042,
+                    "median": 0.002457837949824589,
+                    "pooled": 0.0033626216984837705
+                  },
+                  "q_rmse": {
+                    "mean": 0.027328572701822762,
+                    "median": 0.02068088633750452,
+                    "pooled": 0.03450559255844347
+                  },
+                  "v_rmse": {
+                    "mean": 0.010320491943036211,
+                    "median": 0.008962168109642336,
+                    "pooled": 0.011822958751719608
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.003375897211995697,
+            "nrmse_8s_max": 0.005731682169249887,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0021760201712688505,
+                    "median": 0.0018537140561201441,
+                    "pooled": 0.002325051137124025
+                  },
+                  "q_rmse": {
+                    "mean": 0.013584324657704915,
+                    "median": 0.011961697720495,
+                    "pooled": 0.014400196871537204
+                  },
+                  "v_rmse": {
+                    "mean": 0.008356614919092599,
+                    "median": 0.007087611109713022,
+                    "pooled": 0.00891952378501658
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0021760201712688505,
+                    "median": 0.0018537140561201441,
+                    "pooled": 0.002325051137124025
+                  },
+                  "q_rmse": {
+                    "mean": 0.013584324657704915,
+                    "median": 0.011961697720495,
+                    "pooled": 0.014400196871537204
+                  },
+                  "v_rmse": {
+                    "mean": 0.008356614919092599,
+                    "median": 0.007087611109713022,
+                    "pooled": 0.00891952378501658
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0026658788121855692,
+                    "median": 0.002045795031301428,
+                    "pooled": 0.00314018374234427
+                  },
+                  "q_rmse": {
+                    "mean": 0.025766129601185656,
+                    "median": 0.017333437775822802,
+                    "pooled": 0.03306878758576735
+                  },
+                  "v_rmse": {
+                    "mean": 0.009271437756039655,
+                    "median": 0.007690387552345216,
+                    "pooled": 0.010664448704474598
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0026658788121855692,
+                    "median": 0.002045795031301428,
+                    "pooled": 0.00314018374234427
+                  },
+                  "q_rmse": {
+                    "mean": 0.025766129601185656,
+                    "median": 0.017333437775822802,
+                    "pooled": 0.03306878758576735
+                  },
+                  "v_rmse": {
+                    "mean": 0.009271437756039655,
+                    "median": 0.007690387552345216,
+                    "pooled": 0.010664448704474598
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.00422615584560071,
+            "nrmse_8s_max": 0.006222497859192326,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.00217323583651843,
+                    "median": 0.0020048600813350535,
+                    "pooled": 0.002394442481129542
+                  },
+                  "q_rmse": {
+                    "mean": 0.013518138858846626,
+                    "median": 0.01268424293513607,
+                    "pooled": 0.014746912659068724
+                  },
+                  "v_rmse": {
+                    "mean": 0.008291406389220294,
+                    "median": 0.007526641848683801,
+                    "pooled": 0.009098723749798957
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.00217323583651843,
+                    "median": 0.0020048600813350535,
+                    "pooled": 0.002394442481129542
+                  },
+                  "q_rmse": {
+                    "mean": 0.013518138858846626,
+                    "median": 0.01268424293513607,
+                    "pooled": 0.014746912659068724
+                  },
+                  "v_rmse": {
+                    "mean": 0.008291406389220294,
+                    "median": 0.007526641848683801,
+                    "pooled": 0.009098723749798957
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.002674785529391904,
+                    "median": 0.0023379697681070078,
+                    "pooled": 0.003164378545451253
+                  },
+                  "q_rmse": {
+                    "mean": 0.024491283261645194,
+                    "median": 0.019965868336939748,
+                    "pooled": 0.031044664758697986
+                  },
+                  "v_rmse": {
+                    "mean": 0.009686332740578781,
+                    "median": 0.008665450090133583,
+                    "pooled": 0.011252523418938187
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.002674785529391904,
+                    "median": 0.0023379697681070078,
+                    "pooled": 0.003164378545451253
+                  },
+                  "q_rmse": {
+                    "mean": 0.024491283261645194,
+                    "median": 0.019965868336939748,
+                    "pooled": 0.031044664758697986
+                  },
+                  "v_rmse": {
+                    "mean": 0.009686332740578781,
+                    "median": 0.008665450090133583,
+                    "pooled": 0.011252523418938187
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "noise": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.008468884818397809,
+            "nrmse_8s_max": 0.010228842242338982,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.004796750516298613,
+                    "median": 0.004343056442188633,
+                    "pooled": 0.005110027825279609
+                  },
+                  "q_rmse": {
+                    "mean": 0.030447733018664668,
+                    "median": 0.02774510239046122,
+                    "pooled": 0.032406551392313784
+                  },
+                  "v_rmse": {
+                    "mean": 0.018448523843794685,
+                    "median": 0.01601427760320239,
+                    "pooled": 0.01963331213947341
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.004796750516298613,
+                    "median": 0.004343056442188633,
+                    "pooled": 0.005110027825279609
+                  },
+                  "q_rmse": {
+                    "mean": 0.030447733018664668,
+                    "median": 0.02774510239046122,
+                    "pooled": 0.032406551392313784
+                  },
+                  "v_rmse": {
+                    "mean": 0.018448523843794685,
+                    "median": 0.01601427760320239,
+                    "pooled": 0.01963331213947341
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.005013574437102989,
+                    "median": 0.0037580623016727254,
+                    "pooled": 0.005655905912660828
+                  },
+                  "q_rmse": {
+                    "mean": 0.04872195035453897,
+                    "median": 0.03204084105702435,
+                    "pooled": 0.06049156550251546
+                  },
+                  "v_rmse": {
+                    "mean": 0.017075845071829198,
+                    "median": 0.013462177467209173,
+                    "pooled": 0.018626932345681163
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.005013574437102989,
+                    "median": 0.0037580623016727254,
+                    "pooled": 0.005655905912660828
+                  },
+                  "q_rmse": {
+                    "mean": 0.04872195035453897,
+                    "median": 0.03204084105702435,
+                    "pooled": 0.06049156550251546
+                  },
+                  "v_rmse": {
+                    "mean": 0.017075845071829198,
+                    "median": 0.013462177467209173,
+                    "pooled": 0.018626932345681163
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.01095971139280563,
+            "nrmse_8s_max": 0.013780715399680482,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.004997452340901895,
+                    "median": 0.004280204632957774,
+                    "pooled": 0.00577704905743754
+                  },
+                  "q_rmse": {
+                    "mean": 0.03130763711362181,
+                    "median": 0.026963662278837557,
+                    "pooled": 0.03601180100643992
+                  },
+                  "v_rmse": {
+                    "mean": 0.019208836944809286,
+                    "median": 0.01647764676972092,
+                    "pooled": 0.02214772071034823
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.004997452340901895,
+                    "median": 0.004280204632957774,
+                    "pooled": 0.00577704905743754
+                  },
+                  "q_rmse": {
+                    "mean": 0.03130763711362181,
+                    "median": 0.026963662278837557,
+                    "pooled": 0.03601180100643992
+                  },
+                  "v_rmse": {
+                    "mean": 0.019208836944809286,
+                    "median": 0.01647764676972092,
+                    "pooled": 0.02214772071034823
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.00544844319247786,
+                    "median": 0.0038790873364154353,
+                    "pooled": 0.006675961867340407
+                  },
+                  "q_rmse": {
+                    "mean": 0.056177201987191915,
+                    "median": 0.03153794065130863,
+                    "pooled": 0.07557634109139598
+                  },
+                  "v_rmse": {
+                    "mean": 0.018112676537712143,
+                    "median": 0.014470766124754168,
+                    "pooled": 0.021320244683221225
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.00544844319247786,
+                    "median": 0.0038790873364154353,
+                    "pooled": 0.006675961867340407
+                  },
+                  "q_rmse": {
+                    "mean": 0.056177201987191915,
+                    "median": 0.03153794065130863,
+                    "pooled": 0.07557634109139598
+                  },
+                  "v_rmse": {
+                    "mean": 0.018112676537712143,
+                    "median": 0.014470766124754168,
+                    "pooled": 0.021320244683221225
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.011084935404527143,
+            "nrmse_8s_max": 0.012739120938444965,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.00485269729039691,
+                    "median": 0.00437835325865747,
+                    "pooled": 0.0054535949837272585
+                  },
+                  "q_rmse": {
+                    "mean": 0.030595862105276653,
+                    "median": 0.02797592539290426,
+                    "pooled": 0.03421680832712022
+                  },
+                  "v_rmse": {
+                    "mean": 0.01865499937466886,
+                    "median": 0.016864030937977073,
+                    "pooled": 0.020853465871204475
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.00485269729039691,
+                    "median": 0.00437835325865747,
+                    "pooled": 0.0054535949837272585
+                  },
+                  "q_rmse": {
+                    "mean": 0.030595862105276653,
+                    "median": 0.02797592539290426,
+                    "pooled": 0.03421680832712022
+                  },
+                  "v_rmse": {
+                    "mean": 0.01865499937466886,
+                    "median": 0.016864030937977073,
+                    "pooled": 0.020853465871204475
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.005078302482803699,
+                    "median": 0.003950246178838702,
+                    "pooled": 0.006073251654405022
+                  },
+                  "q_rmse": {
+                    "mean": 0.05094736410374817,
+                    "median": 0.032350818302022306,
+                    "pooled": 0.0678152612505834
+                  },
+                  "v_rmse": {
+                    "mean": 0.017183795865733525,
+                    "median": 0.01478165702683273,
+                    "pooled": 0.01966436106551994
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.005078302482803699,
+                    "median": 0.003950246178838702,
+                    "pooled": 0.006073251654405022
+                  },
+                  "q_rmse": {
+                    "mean": 0.05094736410374817,
+                    "median": 0.032350818302022306,
+                    "pooled": 0.0678152612505834
+                  },
+                  "v_rmse": {
+                    "mean": 0.017183795865733525,
+                    "median": 0.01478165702683273,
+                    "pooled": 0.01966436106551994
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "kernel_relative_error": 0.0
+      }
+    },
+    "S2": {
+      "selected_support": "C0S0H1",
+      "expected_support": "C0S0H1",
+      "outside_library_selected_extra_support": null,
+      "gates": {
+        "truth": {
+          "status": "PASS"
+        },
+        "mixed_truth": {
+          "status": "PASS"
+        },
+        "energy": {
+          "status": "PASS"
+        },
+        "complete_deletion_controls": {
+          "status": "PASS"
+        },
+        "known_coefficient_true_origin": {
+          "status": "PASS"
+        },
+        "support_recovery": {
+          "status": "PASS"
+        },
+        "clean_prediction": {
+          "status": "PASS"
+        },
+        "noisy_prediction": {
+          "status": "PASS"
+        },
+        "parameter_recovery": {
+          "status": "PASS"
+        },
+        "kernel_recovery": {
+          "status": "PASS"
+        },
+        "history_identifiability": {
+          "status": "PASS"
+        },
+        "initial_state_recovery": {
+          "status": "FAIL"
+        },
+        "selected_coefficient_true_origin": {
+          "status": "PASS"
+        },
+        "outside_library_rejection": {
+          "status": "NOT_APPLICABLE"
+        }
+      },
+      "energy_residual_max": 3.6881172918472503e-16,
+      "parameter_relative_error": 0.22703388492211352,
+      "truth_step_max": 4.718777953201838e-11,
+      "initial_relative_error": [
+        0.6480673926810757,
+        0.7158343032612565,
+        0.7223984312349875,
+        0.771856587570529,
+        0.6569526836011587,
+        0.7350897478482299,
+        0.5943562874265331,
+        0.6515364695325411,
+        0.6495592442495381,
+        0.695329200711037,
+        0.8096602950924355,
+        0.8335984100418328,
+        0.615837664117577,
+        0.6981942269163306,
+        0.7624989357253216,
+        0.7928197674344718,
+        0.5798078512855169,
+        0.6454192076260428,
+        0.5894056426368277,
+        0.6705742503981225,
+        0.5809269861707069,
+        0.6613562073830324,
+        0.7149412878002086,
+        0.771107487900493,
+        0.6071116187475312,
+        0.6856945430205802,
+        0.5782795694502293,
+        0.658846950653919,
+        0.5808197816697589,
+        0.6432303250827659,
+        0.6651601204074876,
+        0.7207429018242764,
+        0.5878534171165237,
+        0.7003187801042846,
+        0.6644687808848135,
+        0.7112718578990315,
+        0.5827095350217586,
+        0.6612182243148251,
+        0.6097693794913818,
+        0.6849807019205933,
+        0.7459071851014296,
+        0.8397190921745326,
+        0.5791118629341759,
+        0.6863189149362834,
+        0.5752429625720079,
+        0.6884988686571236,
+        0.57939084809047,
+        0.6717230740484613
+      ],
+      "origin_relative_error": [
+        0.6552685050402284,
+        0.1863012920055898,
+        0.7280075429640989,
+        0.24751103240673605,
+        0.6559377538966296,
+        0.1726263764798332,
+        0.5930329039944446,
+        0.3199277674851817,
+        0.6568303552908461,
+        0.16235974871005168,
+        0.8288144557989943,
+        0.25674793973878496,
+        0.6038932265789698,
+        0.17307823339459275,
+        0.7794199009108796,
+        0.25306613194546274,
+        0.5736942134342075,
+        0.16999099917310379,
+        0.5914303257672551,
+        0.16639055256468058,
+        0.5761257497614701,
+        0.21578002394140253,
+        0.7114621407902787,
+        0.19446013431428566,
+        0.5998606810717102,
+        0.1431949180964251,
+        0.5713503795926145,
+        0.164432822213661,
+        0.5852529196439213,
+        0.24727251282358845,
+        0.6606405223464342,
+        0.19500506045032576,
+        0.586461141993856,
+        0.12876906457961151,
+        0.6632716226756495,
+        0.26053056636871663,
+        0.5873175041857419,
+        0.19767397330234288,
+        0.6144494376479991,
+        0.282700467467814,
+        0.7423161563456003,
+        0.0850039133575587,
+        0.5744446315332001,
+        0.1701579749430319,
+        0.586555465147987,
+        0.11934480735761763,
+        0.572159878323094,
+        0.1528036193262255
+      ],
+      "initial_state_claim": "rank_sufficient_but_recovery_failed",
+      "engineering_pass": true,
+      "scientific_pass": false,
+      "fit": {
+        "completed_updates": 12,
+        "selected_update": 12,
+        "selected_val_nmse": 6.682446084557809e-07,
+        "failure": null,
+        "train_curve": [
+          {
+            "update": 1,
+            "nrmse_squared_before_update": 5.60309188179998e-06,
+            "gradient_norm": 6.695518043139334e-05
+          },
+          {
+            "update": 2,
+            "nrmse_squared_before_update": 3.9986042184344584e-06,
+            "gradient_norm": 4.227541863015959e-05
+          },
+          {
+            "update": 3,
+            "nrmse_squared_before_update": 2.998202195461519e-06,
+            "gradient_norm": 2.805511678800526e-05
+          },
+          {
+            "update": 4,
+            "nrmse_squared_before_update": 2.3543374436255644e-06,
+            "gradient_norm": 1.942512206286813e-05
+          },
+          {
+            "update": 5,
+            "nrmse_squared_before_update": 1.92743789250992e-06,
+            "gradient_norm": 1.3936937916890683e-05
+          },
+          {
+            "update": 6,
+            "nrmse_squared_before_update": 1.6367375415669194e-06,
+            "gradient_norm": 1.0299978262417562e-05
+          },
+          {
+            "update": 7,
+            "nrmse_squared_before_update": 1.4341087787449035e-06,
+            "gradient_norm": 7.801829191497291e-06
+          },
+          {
+            "update": 8,
+            "nrmse_squared_before_update": 1.2900023691803631e-06,
+            "gradient_norm": 6.031761678909874e-06
+          },
+          {
+            "update": 9,
+            "nrmse_squared_before_update": 1.185745882509162e-06,
+            "gradient_norm": 4.7433490651462855e-06
+          },
+          {
+            "update": 10,
+            "nrmse_squared_before_update": 1.1092193075207704e-06,
+            "gradient_norm": 3.7833208638456136e-06
+          },
+          {
+            "update": 11,
+            "nrmse_squared_before_update": 1.0523604543052097e-06,
+            "gradient_norm": 3.0532184470028413e-06
+          },
+          {
+            "update": 12,
+            "nrmse_squared_before_update": 1.009686140565567e-06,
+            "gradient_norm": 2.4879404849266285e-06
+          }
+        ],
+        "val_curve": [
+          {
+            "update": 0,
+            "nrmse_squared": 5.625095704760938e-06,
+            "equation": {
+              "support": "C0S0H1",
+              "common_rate": 0.0,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.2
+            }
+          },
+          {
+            "update": 4,
+            "nrmse_squared": 1.6406972374876265e-06,
+            "equation": {
+              "support": "C0S0H1",
+              "common_rate": 0.0,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.3122256989256415
+            }
+          },
+          {
+            "update": 8,
+            "nrmse_squared": 8.785225014621119e-07,
+            "equation": {
+              "support": "C0S0H1",
+              "common_rate": 0.0,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.39933334863509135
+            }
+          },
+          {
+            "update": 12,
+            "nrmse_squared": 6.682446084557809e-07,
+            "equation": {
+              "support": "C0S0H1",
+              "common_rate": 0.0,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.46377966904673185
+            }
+          }
+        ],
+        "equation": {
+          "support": "C0S0H1",
+          "common_rate": 0.0,
+          "spatial_rate": 0.0,
+          "saturation_strength": 0.46377966904673185
+        }
+      },
+      "scores": {
+        "clean": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0016638956939551315,
+            "nrmse_8s_max": 0.0013479219921601496,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0008495357426976639,
+                    "median": 0.0007452160636366048,
+                    "pooled": 0.0009334694833925648
+                  },
+                  "q_rmse": {
+                    "mean": 0.007650443438562784,
+                    "median": 0.006405972400655552,
+                    "pooled": 0.008408084637561576
+                  },
+                  "v_rmse": {
+                    "mean": 0.004578042746784118,
+                    "median": 0.003992908979116193,
+                    "pooled": 0.005032323330898976
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0008495357426976639,
+                    "median": 0.0007452160636366048,
+                    "pooled": 0.0009334694833925648
+                  },
+                  "q_rmse": {
+                    "mean": 0.007650443438562784,
+                    "median": 0.006405972400655552,
+                    "pooled": 0.008408084637561576
+                  },
+                  "v_rmse": {
+                    "mean": 0.004578042746784118,
+                    "median": 0.003992908979116193,
+                    "pooled": 0.005032323330898976
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0007619948270823191,
+                    "median": 0.0006896779175571796,
+                    "pooled": 0.0008004327186514254
+                  },
+                  "q_rmse": {
+                    "mean": 0.009521573267327313,
+                    "median": 0.009560573824510766,
+                    "pooled": 0.009818613634987717
+                  },
+                  "v_rmse": {
+                    "mean": 0.003823800403490537,
+                    "median": 0.003447245055971506,
+                    "pooled": 0.0041309107807624475
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0007619948270823191,
+                    "median": 0.0006896779175571796,
+                    "pooled": 0.0008004327186514254
+                  },
+                  "q_rmse": {
+                    "mean": 0.009521573267327313,
+                    "median": 0.009560573824510766,
+                    "pooled": 0.009818613634987717
+                  },
+                  "v_rmse": {
+                    "mean": 0.003823800403490537,
+                    "median": 0.003447245055971506,
+                    "pooled": 0.0041309107807624475
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0012003951018114524,
+            "nrmse_8s_max": 0.0009607187503490975,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0007588222226557422,
+                    "median": 0.0006627583289705065,
+                    "pooled": 0.0008174621860436103
+                  },
+                  "q_rmse": {
+                    "mean": 0.006886051556260123,
+                    "median": 0.005901119853076588,
+                    "pooled": 0.007415097333167874
+                  },
+                  "v_rmse": {
+                    "mean": 0.004117998877842819,
+                    "median": 0.003554148974708865,
+                    "pooled": 0.004452442007587849
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0007588222226557422,
+                    "median": 0.0006627583289705065,
+                    "pooled": 0.0008174621860436103
+                  },
+                  "q_rmse": {
+                    "mean": 0.006886051556260123,
+                    "median": 0.005901119853076588,
+                    "pooled": 0.007415097333167874
+                  },
+                  "v_rmse": {
+                    "mean": 0.004117998877842819,
+                    "median": 0.003554148974708865,
+                    "pooled": 0.004452442007587849
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0006795418535328344,
+                    "median": 0.0006132744588325158,
+                    "pooled": 0.0007021005692988744
+                  },
+                  "q_rmse": {
+                    "mean": 0.008592297693273836,
+                    "median": 0.008587525365849707,
+                    "pooled": 0.008866563912405164
+                  },
+                  "v_rmse": {
+                    "mean": 0.003421094095073006,
+                    "median": 0.0029850771801381284,
+                    "pooled": 0.003638605187695082
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0006795418535328344,
+                    "median": 0.0006132744588325158,
+                    "pooled": 0.0007021005692988744
+                  },
+                  "q_rmse": {
+                    "mean": 0.008592297693273836,
+                    "median": 0.008587525365849707,
+                    "pooled": 0.008866563912405164
+                  },
+                  "v_rmse": {
+                    "mean": 0.003421094095073006,
+                    "median": 0.0029850771801381284,
+                    "pooled": 0.003638605187695082
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0015984107548286685,
+            "nrmse_8s_max": 0.001288900103059835,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0007497213728582926,
+                    "median": 0.0005204502866717011,
+                    "pooled": 0.0008466680670345779
+                  },
+                  "q_rmse": {
+                    "mean": 0.006928874258123625,
+                    "median": 0.004752991285981039,
+                    "pooled": 0.007844426730537814
+                  },
+                  "v_rmse": {
+                    "mean": 0.004080772745352959,
+                    "median": 0.002804952964836414,
+                    "pooled": 0.004619293465964505
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0007497213728582926,
+                    "median": 0.0005204502866717011,
+                    "pooled": 0.0008466680670345779
+                  },
+                  "q_rmse": {
+                    "mean": 0.006928874258123625,
+                    "median": 0.004752991285981039,
+                    "pooled": 0.007844426730537814
+                  },
+                  "v_rmse": {
+                    "mean": 0.004080772745352959,
+                    "median": 0.002804952964836414,
+                    "pooled": 0.004619293465964505
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.000668464248174664,
+                    "median": 0.0005490466178069947,
+                    "pooled": 0.0007187361403260314
+                  },
+                  "q_rmse": {
+                    "mean": 0.008399944942530251,
+                    "median": 0.008836537974561139,
+                    "pooled": 0.008682385069131103
+                  },
+                  "v_rmse": {
+                    "mean": 0.003392715891543914,
+                    "median": 0.0023769590269109315,
+                    "pooled": 0.003774463093265761
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.000668464248174664,
+                    "median": 0.0005490466178069947,
+                    "pooled": 0.0007187361403260314
+                  },
+                  "q_rmse": {
+                    "mean": 0.008399944942530251,
+                    "median": 0.008836537974561139,
+                    "pooled": 0.008682385069131103
+                  },
+                  "v_rmse": {
+                    "mean": 0.003392715891543914,
+                    "median": 0.0023769590269109315,
+                    "pooled": 0.003774463093265761
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "noise": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0030768416482954085,
+            "nrmse_8s_max": 0.002417426788128118,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.001636900882334677,
+                    "median": 0.001465867621434825,
+                    "pooled": 0.0018121530800719835
+                  },
+                  "q_rmse": {
+                    "mean": 0.014620906678793975,
+                    "median": 0.01272241265006367,
+                    "pooled": 0.01612355582124793
+                  },
+                  "v_rmse": {
+                    "mean": 0.008796060814636766,
+                    "median": 0.007893916341053788,
+                    "pooled": 0.009805284849559738
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.001636900882334677,
+                    "median": 0.001465867621434825,
+                    "pooled": 0.0018121530800719835
+                  },
+                  "q_rmse": {
+                    "mean": 0.014620906678793975,
+                    "median": 0.01272241265006367,
+                    "pooled": 0.01612355582124793
+                  },
+                  "v_rmse": {
+                    "mean": 0.008796060814636766,
+                    "median": 0.007893916341053788,
+                    "pooled": 0.009805284849559738
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0014062519733817093,
+                    "median": 0.001298863444666469,
+                    "pooled": 0.0014972569688650407
+                  },
+                  "q_rmse": {
+                    "mean": 0.015346465336612112,
+                    "median": 0.014861708551311671,
+                    "pooled": 0.015866287950106608
+                  },
+                  "v_rmse": {
+                    "mean": 0.007281405976111468,
+                    "median": 0.006396943288389582,
+                    "pooled": 0.007940386116502215
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0014062519733817093,
+                    "median": 0.001298863444666469,
+                    "pooled": 0.0014972569688650407
+                  },
+                  "q_rmse": {
+                    "mean": 0.015346465336612112,
+                    "median": 0.014861708551311671,
+                    "pooled": 0.015866287950106608
+                  },
+                  "v_rmse": {
+                    "mean": 0.007281405976111468,
+                    "median": 0.006396943288389582,
+                    "pooled": 0.007940386116502215
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0035091432677660525,
+            "nrmse_8s_max": 0.0027947500246596063,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0017051272012161588,
+                    "median": 0.0015094287347730594,
+                    "pooled": 0.0019422245863944577
+                  },
+                  "q_rmse": {
+                    "mean": 0.015379912791424455,
+                    "median": 0.012825410934151432,
+                    "pooled": 0.017400056574714964
+                  },
+                  "v_rmse": {
+                    "mean": 0.009225704418095042,
+                    "median": 0.008162923968141698,
+                    "pooled": 0.01054496437729267
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0017051272012161588,
+                    "median": 0.0015094287347730594,
+                    "pooled": 0.0019422245863944577
+                  },
+                  "q_rmse": {
+                    "mean": 0.015379912791424455,
+                    "median": 0.012825410934151432,
+                    "pooled": 0.017400056574714964
+                  },
+                  "v_rmse": {
+                    "mean": 0.009225704418095042,
+                    "median": 0.008162923968141698,
+                    "pooled": 0.01054496437729267
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0015710240808218593,
+                    "median": 0.0014915509358705667,
+                    "pooled": 0.0016984337655689499
+                  },
+                  "q_rmse": {
+                    "mean": 0.01757062514051255,
+                    "median": 0.019739196683188614,
+                    "pooled": 0.018931264810484405
+                  },
+                  "v_rmse": {
+                    "mean": 0.00812766198298553,
+                    "median": 0.007707644995911209,
+                    "pooled": 0.008923010115832831
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0015710240808218593,
+                    "median": 0.0014915509358705667,
+                    "pooled": 0.0016984337655689499
+                  },
+                  "q_rmse": {
+                    "mean": 0.01757062514051255,
+                    "median": 0.019739196683188614,
+                    "pooled": 0.018931264810484405
+                  },
+                  "v_rmse": {
+                    "mean": 0.00812766198298553,
+                    "median": 0.007707644995911209,
+                    "pooled": 0.008923010115832831
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0038453888133633415,
+            "nrmse_8s_max": 0.0030787509242032047,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0017459600526092461,
+                    "median": 0.0010204169054357445,
+                    "pooled": 0.0021139825383790223
+                  },
+                  "q_rmse": {
+                    "mean": 0.01608050482702186,
+                    "median": 0.009335704058866082,
+                    "pooled": 0.019666081470376236
+                  },
+                  "v_rmse": {
+                    "mean": 0.009469719656831348,
+                    "median": 0.005428580955551112,
+                    "pooled": 0.011562450869418688
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0017459600526092461,
+                    "median": 0.0010204169054357445,
+                    "pooled": 0.0021139825383790223
+                  },
+                  "q_rmse": {
+                    "mean": 0.01608050482702186,
+                    "median": 0.009335704058866082,
+                    "pooled": 0.019666081470376236
+                  },
+                  "v_rmse": {
+                    "mean": 0.009469719656831348,
+                    "median": 0.005428580955551112,
+                    "pooled": 0.011562450869418688
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0015146872491038773,
+                    "median": 0.0010961080762081966,
+                    "pooled": 0.0017386574459940833
+                  },
+                  "q_rmse": {
+                    "mean": 0.016457062817781518,
+                    "median": 0.014995644202147223,
+                    "pooled": 0.017633502739358233
+                  },
+                  "v_rmse": {
+                    "mean": 0.00792927928515622,
+                    "median": 0.004939428565530256,
+                    "pooled": 0.009400053277626481
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0015146872491038773,
+                    "median": 0.0010961080762081966,
+                    "pooled": 0.0017386574459940833
+                  },
+                  "q_rmse": {
+                    "mean": 0.016457062817781518,
+                    "median": 0.014995644202147223,
+                    "pooled": 0.017633502739358233
+                  },
+                  "v_rmse": {
+                    "mean": 0.00792927928515622,
+                    "median": 0.004939428565530256,
+                    "pooled": 0.009400053277626481
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "kernel_relative_error": 0.015460477493763052
+      }
+    },
+    "S3": {
+      "selected_support": "C1S0H1",
+      "expected_support": "C1S1H1",
+      "outside_library_selected_extra_support": null,
+      "gates": {
+        "truth": {
+          "status": "PASS"
+        },
+        "mixed_truth": {
+          "status": "PASS"
+        },
+        "energy": {
+          "status": "PASS"
+        },
+        "complete_deletion_controls": {
+          "status": "PASS"
+        },
+        "known_coefficient_true_origin": {
+          "status": "PASS"
+        },
+        "support_recovery": {
+          "status": "FAIL"
+        },
+        "clean_prediction": {
+          "status": "PASS"
+        },
+        "noisy_prediction": {
+          "status": "PASS"
+        },
+        "parameter_recovery": {
+          "status": "FAIL"
+        },
+        "kernel_recovery": {
+          "status": "PASS"
+        },
+        "history_identifiability": {
+          "status": "PASS"
+        },
+        "initial_state_recovery": {
+          "status": "FAIL"
+        },
+        "selected_coefficient_true_origin": {
+          "status": "PASS"
+        },
+        "outside_library_rejection": {
+          "status": "NOT_APPLICABLE"
+        }
+      },
+      "energy_residual_max": 1.9279944132585026e-16,
+      "parameter_relative_error": 1.0,
+      "truth_step_max": 4.871713466653917e-11,
+      "initial_relative_error": null,
+      "origin_relative_error": null,
+      "initial_state_claim": "rank_sufficient_but_recovery_failed",
+      "engineering_pass": true,
+      "scientific_pass": false,
+      "fit": {
+        "completed_updates": 12,
+        "selected_update": 12,
+        "selected_val_nmse": 8.896107794423056e-07,
+        "failure": null,
+        "train_curve": [
+          {
+            "update": 1,
+            "nrmse_squared_before_update": 5.622721115026083e-06,
+            "gradient_norm": 6.773646261605486e-05
+          },
+          {
+            "update": 2,
+            "nrmse_squared_before_update": 3.964997655584915e-06,
+            "gradient_norm": 4.2431364279015075e-05
+          },
+          {
+            "update": 3,
+            "nrmse_squared_before_update": 2.9188977700919093e-06,
+            "gradient_norm": 2.77285300800661e-05
+          },
+          {
+            "update": 4,
+            "nrmse_squared_before_update": 2.2396635377860776e-06,
+            "gradient_norm": 1.8547786072621932e-05
+          },
+          {
+            "update": 5,
+            "nrmse_squared_before_update": 1.834669583847619e-06,
+            "gradient_norm": 1.2202788516824358e-05
+          },
+          {
+            "update": 6,
+            "nrmse_squared_before_update": 1.6742042024418077e-06,
+            "gradient_norm": 1.3197297693734509e-05
+          },
+          {
+            "update": 7,
+            "nrmse_squared_before_update": 1.4414533309471603e-06,
+            "gradient_norm": 7.935177423845971e-06
+          },
+          {
+            "update": 8,
+            "nrmse_squared_before_update": 1.2827240539415704e-06,
+            "gradient_norm": 5.388707662378107e-06
+          },
+          {
+            "update": 9,
+            "nrmse_squared_before_update": 1.1804611783642294e-06,
+            "gradient_norm": 4.238861508492436e-06
+          },
+          {
+            "update": 10,
+            "nrmse_squared_before_update": 1.109744376848577e-06,
+            "gradient_norm": 3.476368915072741e-06
+          },
+          {
+            "update": 11,
+            "nrmse_squared_before_update": 1.0580016300087586e-06,
+            "gradient_norm": 2.886183411588443e-06
+          },
+          {
+            "update": 12,
+            "nrmse_squared_before_update": 1.0188685683255861e-06,
+            "gradient_norm": 2.4118787850481417e-06
+          }
+        ],
+        "val_curve": [
+          {
+            "update": 0,
+            "nrmse_squared": 5.729354406221904e-06,
+            "equation": {
+              "support": "C1S0H1",
+              "common_rate": 0.15,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.2
+            }
+          },
+          {
+            "update": 4,
+            "nrmse_squared": 3.1134462997605734e-06,
+            "equation": {
+              "support": "C1S0H1",
+              "common_rate": 0.03082155237500908,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.31186839216552187
+            }
+          },
+          {
+            "update": 8,
+            "nrmse_squared": 1.4045190677537463e-06,
+            "equation": {
+              "support": "C1S0H1",
+              "common_rate": 0.05847565130702475,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.3958143604271444
+            }
+          },
+          {
+            "update": 12,
+            "nrmse_squared": 8.896107794423056e-07,
+            "equation": {
+              "support": "C1S0H1",
+              "common_rate": 0.10749191985173517,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.45688086940055417
+            }
+          }
+        ],
+        "equation": {
+          "support": "C1S0H1",
+          "common_rate": 0.10749191985173517,
+          "spatial_rate": 0.0,
+          "saturation_strength": 0.45688086940055417
+        }
+      },
+      "scores": {
+        "clean": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.001692875748996399,
+            "nrmse_8s_max": 0.0031493976950256303,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.001038155070303893,
+                    "median": 0.0009754832525069369,
+                    "pooled": 0.0010753609491111643
+                  },
+                  "q_rmse": {
+                    "mean": 0.008340719526559773,
+                    "median": 0.007411066838505084,
+                    "pooled": 0.008919954403690651
+                  },
+                  "v_rmse": {
+                    "mean": 0.0055888562572551865,
+                    "median": 0.005072618807977445,
+                    "pooled": 0.005793803915697222
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.001038155070303893,
+                    "median": 0.0009754832525069369,
+                    "pooled": 0.0010753609491111643
+                  },
+                  "q_rmse": {
+                    "mean": 0.008340719526559773,
+                    "median": 0.007411066838505084,
+                    "pooled": 0.008919954403690651
+                  },
+                  "v_rmse": {
+                    "mean": 0.0055888562572551865,
+                    "median": 0.005072618807977445,
+                    "pooled": 0.005793803915697222
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0014724036440776772,
+                    "median": 0.0014007507260242013,
+                    "pooled": 0.0015953280621754818
+                  },
+                  "q_rmse": {
+                    "mean": 0.01732499971086318,
+                    "median": 0.015301926177930456,
+                    "pooled": 0.020001937682197397
+                  },
+                  "v_rmse": {
+                    "mean": 0.007436717332444456,
+                    "median": 0.007340805905995279,
+                    "pooled": 0.007962798833861941
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0014724036440776772,
+                    "median": 0.0014007507260242013,
+                    "pooled": 0.0015953280621754818
+                  },
+                  "q_rmse": {
+                    "mean": 0.01732499971086318,
+                    "median": 0.015301926177930456,
+                    "pooled": 0.020001937682197397
+                  },
+                  "v_rmse": {
+                    "mean": 0.007436717332444456,
+                    "median": 0.007340805905995279,
+                    "pooled": 0.007962798833861941
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0011570930589297028,
+            "nrmse_8s_max": 0.005653269074657918,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0009219309197357779,
+                    "median": 0.000941410784430046,
+                    "pooled": 0.000943191705409524
+                  },
+                  "q_rmse": {
+                    "mean": 0.007499264272476013,
+                    "median": 0.0067555292659456125,
+                    "pooled": 0.00787657727311133
+                  },
+                  "v_rmse": {
+                    "mean": 0.004977772702328793,
+                    "median": 0.004997783440028111,
+                    "pooled": 0.005099887156179794
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0009219309197357779,
+                    "median": 0.000941410784430046,
+                    "pooled": 0.000943191705409524
+                  },
+                  "q_rmse": {
+                    "mean": 0.007499264272476013,
+                    "median": 0.0067555292659456125,
+                    "pooled": 0.00787657727311133
+                  },
+                  "v_rmse": {
+                    "mean": 0.004977772702328793,
+                    "median": 0.004997783440028111,
+                    "pooled": 0.005099887156179794
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.001729039906830115,
+                    "median": 0.001058321593148494,
+                    "pooled": 0.002202465766849789
+                  },
+                  "q_rmse": {
+                    "mean": 0.019223586634172125,
+                    "median": 0.01204381007592966,
+                    "pooled": 0.024885227913865438
+                  },
+                  "v_rmse": {
+                    "mean": 0.008671201660628085,
+                    "median": 0.00550860267221167,
+                    "pooled": 0.010708834918300613
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.001729039906830115,
+                    "median": 0.001058321593148494,
+                    "pooled": 0.002202465766849789
+                  },
+                  "q_rmse": {
+                    "mean": 0.019223586634172125,
+                    "median": 0.01204381007592966,
+                    "pooled": 0.024885227913865438
+                  },
+                  "v_rmse": {
+                    "mean": 0.008671201660628085,
+                    "median": 0.00550860267221167,
+                    "pooled": 0.010708834918300613
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0015940111150080786,
+            "nrmse_8s_max": 0.0022029762280259503,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0010705644478220544,
+                    "median": 0.0010928595202718467,
+                    "pooled": 0.0011026398940582416
+                  },
+                  "q_rmse": {
+                    "mean": 0.008132241286149661,
+                    "median": 0.006619321137637805,
+                    "pooled": 0.00871127885294819
+                  },
+                  "v_rmse": {
+                    "mean": 0.005697337944988443,
+                    "median": 0.005806077976723094,
+                    "pooled": 0.00588353841770236
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0010705644478220544,
+                    "median": 0.0010928595202718467,
+                    "pooled": 0.0011026398940582416
+                  },
+                  "q_rmse": {
+                    "mean": 0.008132241286149661,
+                    "median": 0.006619321137637805,
+                    "pooled": 0.00871127885294819
+                  },
+                  "v_rmse": {
+                    "mean": 0.005697337944988443,
+                    "median": 0.005806077976723094,
+                    "pooled": 0.00588353841770236
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0013860863287135847,
+                    "median": 0.0014813649252571695,
+                    "pooled": 0.0015038346693301262
+                  },
+                  "q_rmse": {
+                    "mean": 0.017239573669644973,
+                    "median": 0.017687008440516804,
+                    "pooled": 0.019849596387350673
+                  },
+                  "v_rmse": {
+                    "mean": 0.006798133080559935,
+                    "median": 0.007176658442059546,
+                    "pooled": 0.007249245378931392
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0013860863287135847,
+                    "median": 0.0014813649252571695,
+                    "pooled": 0.0015038346693301262
+                  },
+                  "q_rmse": {
+                    "mean": 0.017239573669644973,
+                    "median": 0.017687008440516804,
+                    "pooled": 0.019849596387350673
+                  },
+                  "v_rmse": {
+                    "mean": 0.006798133080559935,
+                    "median": 0.007176658442059546,
+                    "pooled": 0.007249245378931392
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "noise": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.004537385598180385,
+            "nrmse_8s_max": 0.0036333772826685562,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0018954553925939858,
+                    "median": 0.0015919241727297712,
+                    "pooled": 0.002081169441595125
+                  },
+                  "q_rmse": {
+                    "mean": 0.016964924178368226,
+                    "median": 0.014039900731155686,
+                    "pooled": 0.018996210272355454
+                  },
+                  "v_rmse": {
+                    "mean": 0.010308618315277702,
+                    "median": 0.008766513801716759,
+                    "pooled": 0.011380130338824
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0018954553925939858,
+                    "median": 0.0015919241727297712,
+                    "pooled": 0.002081169441595125
+                  },
+                  "q_rmse": {
+                    "mean": 0.016964924178368226,
+                    "median": 0.014039900731155686,
+                    "pooled": 0.018996210272355454
+                  },
+                  "v_rmse": {
+                    "mean": 0.010308618315277702,
+                    "median": 0.008766513801716759,
+                    "pooled": 0.011380130338824
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.002085761850804157,
+                    "median": 0.0021149044272691674,
+                    "pooled": 0.0021543047077795417
+                  },
+                  "q_rmse": {
+                    "mean": 0.02415026712420927,
+                    "median": 0.02200991697080454,
+                    "pooled": 0.025785301556709623
+                  },
+                  "v_rmse": {
+                    "mean": 0.010748444135322827,
+                    "median": 0.010493051213491235,
+                    "pooled": 0.011134853713346833
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.002085761850804157,
+                    "median": 0.0021149044272691674,
+                    "pooled": 0.0021543047077795417
+                  },
+                  "q_rmse": {
+                    "mean": 0.02415026712420927,
+                    "median": 0.02200991697080454,
+                    "pooled": 0.025785301556709623
+                  },
+                  "v_rmse": {
+                    "mean": 0.010748444135322827,
+                    "median": 0.010493051213491235,
+                    "pooled": 0.011134853713346833
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0036199417925842857,
+            "nrmse_8s_max": 0.0053194355275681384,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0019821612338450675,
+                    "median": 0.0018154699901197391,
+                    "pooled": 0.002177614681179194
+                  },
+                  "q_rmse": {
+                    "mean": 0.017525222916447047,
+                    "median": 0.014960404199486263,
+                    "pooled": 0.019526340998716425
+                  },
+                  "v_rmse": {
+                    "mean": 0.01069429231180105,
+                    "median": 0.009648866094086307,
+                    "pooled": 0.011830844752325672
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0019821612338450675,
+                    "median": 0.0018154699901197391,
+                    "pooled": 0.002177614681179194
+                  },
+                  "q_rmse": {
+                    "mean": 0.017525222916447047,
+                    "median": 0.014960404199486263,
+                    "pooled": 0.019526340998716425
+                  },
+                  "v_rmse": {
+                    "mean": 0.01069429231180105,
+                    "median": 0.009648866094086307,
+                    "pooled": 0.011830844752325672
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.002488249981214874,
+                    "median": 0.0022516468426228534,
+                    "pooled": 0.0026879961531948446
+                  },
+                  "q_rmse": {
+                    "mean": 0.026948448266545116,
+                    "median": 0.021918783064978166,
+                    "pooled": 0.0301693027033718
+                  },
+                  "v_rmse": {
+                    "mean": 0.012713052562490543,
+                    "median": 0.011425005738270396,
+                    "pooled": 0.013553993182028929
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.002488249981214874,
+                    "median": 0.0022516468426228534,
+                    "pooled": 0.0026879961531948446
+                  },
+                  "q_rmse": {
+                    "mean": 0.026948448266545116,
+                    "median": 0.021918783064978166,
+                    "pooled": 0.0301693027033718
+                  },
+                  "v_rmse": {
+                    "mean": 0.012713052562490543,
+                    "median": 0.011425005738270396,
+                    "pooled": 0.013553993182028929
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.0036170773674441587,
+            "nrmse_8s_max": 0.0028478502206514553,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0020411433223263627,
+                    "median": 0.0016852607634666819,
+                    "pooled": 0.0021775896080972663
+                  },
+                  "q_rmse": {
+                    "mean": 0.017724111511082125,
+                    "median": 0.013945827208415378,
+                    "pooled": 0.019387943289074474
+                  },
+                  "v_rmse": {
+                    "mean": 0.01101797891434427,
+                    "median": 0.008777237355345167,
+                    "pooled": 0.011840938321966822
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0020411433223263627,
+                    "median": 0.0016852607634666819,
+                    "pooled": 0.0021775896080972663
+                  },
+                  "q_rmse": {
+                    "mean": 0.017724111511082125,
+                    "median": 0.013945827208415378,
+                    "pooled": 0.019387943289074474
+                  },
+                  "v_rmse": {
+                    "mean": 0.01101797891434427,
+                    "median": 0.008777237355345167,
+                    "pooled": 0.011840938321966822
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.002076719120531422,
+                    "median": 0.0021815683162602325,
+                    "pooled": 0.0021242282464691772
+                  },
+                  "q_rmse": {
+                    "mean": 0.024675815832932074,
+                    "median": 0.024898887582487095,
+                    "pooled": 0.026073827891738465
+                  },
+                  "v_rmse": {
+                    "mean": 0.010480753878232338,
+                    "median": 0.01007264289247069,
+                    "pooled": 0.010793260139994447
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.002076719120531422,
+                    "median": 0.0021815683162602325,
+                    "pooled": 0.0021242282464691772
+                  },
+                  "q_rmse": {
+                    "mean": 0.024675815832932074,
+                    "median": 0.024898887582487095,
+                    "pooled": 0.026073827891738465
+                  },
+                  "v_rmse": {
+                    "mean": 0.010480753878232338,
+                    "median": 0.01007264289247069,
+                    "pooled": 0.010793260139994447
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "kernel_relative_error": 0.016486561203207156
+      }
+    },
+    "S4": {
+      "selected_support": "C0S0H0",
+      "expected_support": null,
+      "outside_library_selected_extra_support": false,
+      "gates": {
+        "truth": {
+          "status": "PASS"
+        },
+        "mixed_truth": {
+          "status": "PASS"
+        },
+        "energy": {
+          "status": "PASS"
+        },
+        "complete_deletion_controls": {
+          "status": "PASS"
+        },
+        "known_coefficient_true_origin": {
+          "status": "NOT_APPLICABLE"
+        },
+        "support_recovery": {
+          "status": "NOT_APPLICABLE"
+        },
+        "clean_prediction": {
+          "status": "NOT_APPLICABLE"
+        },
+        "noisy_prediction": {
+          "status": "NOT_APPLICABLE"
+        },
+        "parameter_recovery": {
+          "status": "NOT_APPLICABLE"
+        },
+        "kernel_recovery": {
+          "status": "NOT_APPLICABLE"
+        },
+        "history_identifiability": {
+          "status": "NOT_APPLICABLE"
+        },
+        "initial_state_recovery": {
+          "status": "NOT_APPLICABLE"
+        },
+        "selected_coefficient_true_origin": {
+          "status": "NOT_APPLICABLE"
+        },
+        "outside_library_rejection": {
+          "status": "FAIL"
+        }
+      },
+      "energy_residual_max": 4.291671115833321e-16,
+      "parameter_relative_error": null,
+      "truth_step_max": 5.8668892172998e-11,
+      "initial_relative_error": [
+        0.641915431958963,
+        0.6417990980798385,
+        0.717995598469999,
+        0.7172751549970027,
+        0.6259299968922408,
+        0.634408936487966,
+        0.6084482657699627,
+        0.5952852487748895,
+        0.6625538100302042,
+        0.6508654087774493,
+        0.8138021698959568,
+        0.8125539839962982,
+        0.6053136668040775,
+        0.6036310726633906,
+        0.7615465652822001,
+        0.7622405823342118,
+        0.5844736452262415,
+        0.5768975908112579,
+        0.5946889642879203,
+        0.5840254612179208,
+        0.5789064908734247,
+        0.575235905336543,
+        0.731667586059291,
+        0.7157116166003771,
+        0.6188838014022442,
+        0.6040096007351128,
+        0.5744783113629867,
+        0.5699284624485973,
+        0.5720873508799665,
+        0.5759445631518328,
+        0.6955951730189699,
+        0.6781908396424885,
+        0.5754091552147634,
+        0.5701883153308082,
+        0.6487198959943459,
+        0.6598888483243582,
+        0.5720456784487143,
+        0.5731926957440662,
+        0.6283356843672723,
+        0.6104810701321984,
+        0.7333523928487772,
+        0.7313086160726936,
+        0.5700443494718522,
+        0.5681720149785595,
+        0.5738618552011225,
+        0.5692917280784197,
+        0.5697965054480191,
+        0.5606824212773079
+      ],
+      "origin_relative_error": [
+        0.6484739320945158,
+        0.1334968401650289,
+        0.7191316691943302,
+        0.16824717657712213,
+        0.633116628613515,
+        0.11992457185652633,
+        0.6074087600883633,
+        0.16280321276517587,
+        0.6645920272918749,
+        0.11455828045817285,
+        0.8334272740644221,
+        0.1743320923167034,
+        0.5916613537195868,
+        0.11825777953406759,
+        0.7828262447212755,
+        0.16469573633414447,
+        0.5816898755375153,
+        0.11204422950441255,
+        0.5995082231895716,
+        0.10670352614600498,
+        0.5761263040804832,
+        0.1177778741238773,
+        0.7252160263372205,
+        0.14334271421135675,
+        0.6158250470054007,
+        0.10498115096500056,
+        0.5724226147548737,
+        0.08800059214713216,
+        0.5748369860944157,
+        0.1228656439605594,
+        0.6914144173971343,
+        0.11867373071509044,
+        0.5790084741934267,
+        0.09611924425639368,
+        0.6468855646157686,
+        0.1410884297293683,
+        0.570981328413048,
+        0.10892905773996338,
+        0.6326954367319559,
+        0.13197478877954955,
+        0.7219945384520297,
+        0.05713518511176577,
+        0.5609507485839323,
+        0.10591180842131867,
+        0.5849226250141489,
+        0.07091970546460298,
+        0.5566659600629608,
+        0.09643630330045015
+      ],
+      "initial_state_claim": "not_applicable_outside_library",
+      "engineering_pass": true,
+      "scientific_pass": false,
+      "fit": {
+        "completed_updates": 0,
+        "selected_update": 0,
+        "selected_val_nmse": 4.216792877238913e-06,
+        "failure": null,
+        "train_curve": [],
+        "val_curve": [
+          {
+            "update": 0,
+            "nrmse_squared": 4.216792877238913e-06,
+            "equation": {
+              "support": "C0S0H0",
+              "common_rate": 0.0,
+              "spatial_rate": 0.0,
+              "saturation_strength": 0.0
+            }
+          }
+        ],
+        "equation": {
+          "support": "C0S0H0",
+          "common_rate": 0.0,
+          "spatial_rate": 0.0,
+          "saturation_strength": 0.0
+        }
+      },
+      "scores": {
+        "clean": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.00385214835437238,
+            "nrmse_8s_max": 0.005421213981209289,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.002161228165609265,
+                    "median": 0.0018993796310355407,
+                    "pooled": 0.0022934188614516554
+                  },
+                  "q_rmse": {
+                    "mean": 0.013466145453705156,
+                    "median": 0.012045507036303388,
+                    "pooled": 0.014295135571942999
+                  },
+                  "v_rmse": {
+                    "mean": 0.008444497561680635,
+                    "median": 0.007416381555784725,
+                    "pooled": 0.008937028287152019
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.002161228165609265,
+                    "median": 0.0018993796310355407,
+                    "pooled": 0.0022934188614516554
+                  },
+                  "q_rmse": {
+                    "mean": 0.013466145453705156,
+                    "median": 0.012045507036303388,
+                    "pooled": 0.014295135571942999
+                  },
+                  "v_rmse": {
+                    "mean": 0.008444497561680635,
+                    "median": 0.007416381555784725,
+                    "pooled": 0.008937028287152019
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0023896546134200766,
+                    "median": 0.0018276558375450128,
+                    "pooled": 0.0027546534090405173
+                  },
+                  "q_rmse": {
+                    "mean": 0.02200053239955629,
+                    "median": 0.01252664422464276,
+                    "pooled": 0.028100099926267618
+                  },
+                  "v_rmse": {
+                    "mean": 0.008450960022511195,
+                    "median": 0.006889865570654619,
+                    "pooled": 0.009445398528879757
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0023896546134200766,
+                    "median": 0.0018276558375450128,
+                    "pooled": 0.0027546534090405173
+                  },
+                  "q_rmse": {
+                    "mean": 0.02200053239955629,
+                    "median": 0.01252664422464276,
+                    "pooled": 0.028100099926267618
+                  },
+                  "v_rmse": {
+                    "mean": 0.008450960022511195,
+                    "median": 0.006889865570654619,
+                    "pooled": 0.009445398528879757
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.002926978387487683,
+            "nrmse_8s_max": 0.004504151479270001,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0019704376143187432,
+                    "median": 0.0017279808357304866,
+                    "pooled": 0.0020534829837172957
+                  },
+                  "q_rmse": {
+                    "mean": 0.01213472448754187,
+                    "median": 0.010548481030094613,
+                    "pooled": 0.012672446978610419
+                  },
+                  "v_rmse": {
+                    "mean": 0.007637292676423375,
+                    "median": 0.006651336741228378,
+                    "pooled": 0.007938521493991062
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0019704376143187432,
+                    "median": 0.0017279808357304866,
+                    "pooled": 0.0020534829837172957
+                  },
+                  "q_rmse": {
+                    "mean": 0.01213472448754187,
+                    "median": 0.010548481030094613,
+                    "pooled": 0.012672446978610419
+                  },
+                  "v_rmse": {
+                    "mean": 0.007637292676423375,
+                    "median": 0.006651336741228378,
+                    "pooled": 0.007938521493991062
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0022891658339844268,
+                    "median": 0.0016015279960955352,
+                    "pooled": 0.00262759806438463
+                  },
+                  "q_rmse": {
+                    "mean": 0.02131956145717454,
+                    "median": 0.01242513996302737,
+                    "pooled": 0.027021179432318933
+                  },
+                  "v_rmse": {
+                    "mean": 0.00792849728689843,
+                    "median": 0.005908841755933456,
+                    "pooled": 0.00878044439661231
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0022891658339844268,
+                    "median": 0.0016015279960955352,
+                    "pooled": 0.00262759806438463
+                  },
+                  "q_rmse": {
+                    "mean": 0.02131956145717454,
+                    "median": 0.01242513996302737,
+                    "pooled": 0.027021179432318933
+                  },
+                  "v_rmse": {
+                    "mean": 0.00792849728689843,
+                    "median": 0.005908841755933456,
+                    "pooled": 0.00878044439661231
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.003785421657164753,
+            "nrmse_8s_max": 0.0044628637239587,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.002059346307846508,
+                    "median": 0.0018058404463212993,
+                    "pooled": 0.002196882932630673
+                  },
+                  "q_rmse": {
+                    "mean": 0.01278249515109421,
+                    "median": 0.011601844048187065,
+                    "pooled": 0.013653829051225707
+                  },
+                  "v_rmse": {
+                    "mean": 0.007935103029060237,
+                    "median": 0.0070350744670835425,
+                    "pooled": 0.008419207258274128
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.002059346307846508,
+                    "median": 0.0018058404463212993,
+                    "pooled": 0.002196882932630673
+                  },
+                  "q_rmse": {
+                    "mean": 0.01278249515109421,
+                    "median": 0.011601844048187065,
+                    "pooled": 0.013653829051225707
+                  },
+                  "v_rmse": {
+                    "mean": 0.007935103029060237,
+                    "median": 0.0070350744670835425,
+                    "pooled": 0.008419207258274128
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0021377610871971416,
+                    "median": 0.001813815304389348,
+                    "pooled": 0.0023846404152242143
+                  },
+                  "q_rmse": {
+                    "mean": 0.01945404342839058,
+                    "median": 0.014499332032434182,
+                    "pooled": 0.024109672140365874
+                  },
+                  "v_rmse": {
+                    "mean": 0.0074309811925873485,
+                    "median": 0.006177210014635077,
+                    "pooled": 0.008014266384972891
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0021377610871971416,
+                    "median": 0.001813815304389348,
+                    "pooled": 0.0023846404152242143
+                  },
+                  "q_rmse": {
+                    "mean": 0.01945404342839058,
+                    "median": 0.014499332032434182,
+                    "pooled": 0.024109672140365874
+                  },
+                  "v_rmse": {
+                    "mean": 0.0074309811925873485,
+                    "median": 0.006177210014635077,
+                    "pooled": 0.008014266384972891
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "noise": {
+          "train": {
+            "stability": {
+              "tp": 12,
+              "fn": 0,
+              "fp": 0,
+              "tn": 12,
+              "eligible_unstable": 12,
+              "eligible_stable": 12,
+              "eligible": 24,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 24,
+              "resolved": 24,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.008326469474184181,
+            "nrmse_8s_max": 0.009653159006620553,
+            "trajectory": {
+              "3": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.004365562500498887,
+                    "median": 0.0038718579510342594,
+                    "pooled": 0.004683466880479205
+                  },
+                  "q_rmse": {
+                    "mean": 0.02767461788618869,
+                    "median": 0.025024180327197755,
+                    "pooled": 0.029848440728697627
+                  },
+                  "v_rmse": {
+                    "mean": 0.016814299211283325,
+                    "median": 0.014739601457530623,
+                    "pooled": 0.017947120139034718
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.004365562500498887,
+                    "median": 0.0038718579510342594,
+                    "pooled": 0.004683466880479205
+                  },
+                  "q_rmse": {
+                    "mean": 0.02767461788618869,
+                    "median": 0.025024180327197755,
+                    "pooled": 0.029848440728697627
+                  },
+                  "v_rmse": {
+                    "mean": 0.016814299211283325,
+                    "median": 0.014739601457530623,
+                    "pooled": 0.017947120139034718
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 24,
+                "qualified": 24,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.004516953253081028,
+                    "median": 0.004222100231662284,
+                    "pooled": 0.00511639141083541
+                  },
+                  "q_rmse": {
+                    "mean": 0.04091430582680153,
+                    "median": 0.036902092200426104,
+                    "pooled": 0.05074722991440406
+                  },
+                  "v_rmse": {
+                    "mean": 0.01586202673334182,
+                    "median": 0.015554978937304849,
+                    "pooled": 0.017490165932260982
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.004516953253081028,
+                    "median": 0.004222100231662284,
+                    "pooled": 0.00511639141083541
+                  },
+                  "q_rmse": {
+                    "mean": 0.04091430582680153,
+                    "median": 0.036902092200426104,
+                    "pooled": 0.05074722991440406
+                  },
+                  "v_rmse": {
+                    "mean": 0.01586202673334182,
+                    "median": 0.015554978937304849,
+                    "pooled": 0.017490165932260982
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "val": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.007292226085743029,
+            "nrmse_8s_max": 0.009506889233955023,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.004783675574106468,
+                    "median": 0.004563900676328907,
+                    "pooled": 0.005009278951351353
+                  },
+                  "q_rmse": {
+                    "mean": 0.03039852644961226,
+                    "median": 0.029430090394748656,
+                    "pooled": 0.03179307454969814
+                  },
+                  "v_rmse": {
+                    "mean": 0.01835937470917555,
+                    "median": 0.017223049323233,
+                    "pooled": 0.019217253930355165
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.004783675574106468,
+                    "median": 0.004563900676328907,
+                    "pooled": 0.005009278951351353
+                  },
+                  "q_rmse": {
+                    "mean": 0.03039852644961226,
+                    "median": 0.029430090394748656,
+                    "pooled": 0.03179307454969814
+                  },
+                  "v_rmse": {
+                    "mean": 0.01835937470917555,
+                    "median": 0.017223049323233,
+                    "pooled": 0.019217253930355165
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.004944337422750398,
+                    "median": 0.003930593431954213,
+                    "pooled": 0.005521219431151168
+                  },
+                  "q_rmse": {
+                    "mean": 0.04717859325637461,
+                    "median": 0.03493869105864701,
+                    "pooled": 0.05781071136208933
+                  },
+                  "v_rmse": {
+                    "mean": 0.016882723892846962,
+                    "median": 0.013903192589016553,
+                    "pooled": 0.018366416053276456
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.004944337422750398,
+                    "median": 0.003930593431954213,
+                    "pooled": 0.005521219431151168
+                  },
+                  "q_rmse": {
+                    "mean": 0.04717859325637461,
+                    "median": 0.03493869105864701,
+                    "pooled": 0.05781071136208933
+                  },
+                  "v_rmse": {
+                    "mean": 0.016882723892846962,
+                    "median": 0.013903192589016553,
+                    "pooled": 0.018366416053276456
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          },
+          "test": {
+            "stability": {
+              "tp": 6,
+              "fn": 0,
+              "fp": 0,
+              "tn": 6,
+              "eligible_unstable": 6,
+              "eligible_stable": 6,
+              "eligible": 12,
+              "unstable_unresolved": 0,
+              "stable_unresolved": 0,
+              "numerical_unresolved": 0,
+              "fsr": 0.0,
+              "fur": 0.0,
+              "fsr_lower": 0.0,
+              "fsr_upper": 0.0,
+              "fur_lower": 0.0,
+              "fur_upper": 0.0,
+              "accuracy": 1.0,
+              "balanced_accuracy": 1.0,
+              "recall": 1.0,
+              "precision": 1.0,
+              "f1": 1.0,
+              "allocated": 12,
+              "resolved": 12,
+              "uncovered": 0,
+              "unresolved": 0,
+              "coverage": 1.0,
+              "correct_fraction_lower_bound": 1.0,
+              "accuracy_on_resolved": 1.0,
+              "numerical_failures": 0,
+              "unsettled_predictions": 0,
+              "weighting": "event_equal",
+              "forecast_horizon_s": 8.0,
+              "positive_class": "unstable"
+            },
+            "nrmse_3s_max": 0.005700397753435873,
+            "nrmse_8s_max": 0.00874951586359957,
+            "trajectory": {
+              "3": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0038159271416790693,
+                    "median": 0.0035708759493185355,
+                    "pooled": 0.003952641565306518
+                  },
+                  "q_rmse": {
+                    "mean": 0.024110290281774444,
+                    "median": 0.023152258302283908,
+                    "pooled": 0.025098371301271585
+                  },
+                  "v_rmse": {
+                    "mean": 0.014870674609175285,
+                    "median": 0.013775836656630753,
+                    "pooled": 0.015408485874721309
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0038159271416790693,
+                    "median": 0.0035708759493185355,
+                    "pooled": 0.003952641565306518
+                  },
+                  "q_rmse": {
+                    "mean": 0.024110290281774444,
+                    "median": 0.023152258302283908,
+                    "pooled": 0.025098371301271585
+                  },
+                  "v_rmse": {
+                    "mean": 0.014870674609175285,
+                    "median": 0.013775836656630753,
+                    "pooled": 0.015408485874721309
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              },
+              "8": {
+                "allocated": 12,
+                "qualified": 12,
+                "coverage": 1.0,
+                "full_cohort": {
+                  "nrmse": {
+                    "mean": 0.0038904007368156072,
+                    "median": 0.002970697639985978,
+                    "pooled": 0.004358951995250899
+                  },
+                  "q_rmse": {
+                    "mean": 0.036223255534763965,
+                    "median": 0.02517427485652597,
+                    "pooled": 0.04481640531074282
+                  },
+                  "v_rmse": {
+                    "mean": 0.013659685442637064,
+                    "median": 0.011127428387523997,
+                    "pooled": 0.014969318888985169
+                  }
+                },
+                "qualified_only": {
+                  "nrmse": {
+                    "mean": 0.0038904007368156072,
+                    "median": 0.002970697639985978,
+                    "pooled": 0.004358951995250899
+                  },
+                  "q_rmse": {
+                    "mean": 0.036223255534763965,
+                    "median": 0.02517427485652597,
+                    "pooled": 0.04481640531074282
+                  },
+                  "v_rmse": {
+                    "mean": 0.013659685442637064,
+                    "median": 0.011127428387523997,
+                    "pooled": 0.014969318888985169
+                  }
+                },
+                "weighting": "event_equal; pooled over equal-length forecasts"
+              }
+            }
+          }
+        },
+        "kernel_relative_error": 0.0
+      }
+    }
+  }
+}

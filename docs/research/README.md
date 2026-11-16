@@ -12,9 +12,10 @@ deletion rules and phased validation for future explicit reduced models.
 The first stage is the [complete train momentum and work diagnosis](../protocols/kiki_topology_memory_balance_v1_zh.md).
 The [completed diagnosis](../reports/kiki_topology_memory_balance_20261116_zh.md)
 isolates release from driven memory and records a positive separation residual
-in 31 of the 33 witnessed unstable train events. The [S0–S4 synthetic protocol](../protocols/topology_memory_rom_synthetic_v1_zh.md)
-tests common coupling, spatial redistribution and memory saturation with
-separate exact deletion refits before any full TASK3 training.
+in 31 of the 33 witnessed unstable train events. The [completed S0–S4 comparison](../reports/topology_memory_rom_synthetic_20261116_zh.md)
+recovers the saturation support in S2 and omits the generating spatial
+redistribution in S1 and S3. The [fixed-coefficient history prior comparison](../protocols/topology_memory_rom_causal_v1_zh.md)
+isolates the observed hidden-state recovery error before any full TASK3 training.
 
 ## Prior topology and memory studies
 

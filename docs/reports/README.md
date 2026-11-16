@@ -4,6 +4,9 @@ This directory is the canonical home for human-curated, version-controlled
 research reports. Numerical source evidence remains in immutable `results/<run-id>/`
 directories; harness-generated summaries belong in `reports/generated/`.
 
+The [S0–S4 topology-memory identification report](topology_memory_rom_synthetic_20261116_zh.md)
+records the complete synthetic structure comparisons and frozen train/val/test scores.
+
 ## Report contract
 
 Each new report should state:

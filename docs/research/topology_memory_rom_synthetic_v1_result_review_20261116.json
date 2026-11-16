@@ -1,0 +1,16 @@
+{
+  "reviewer": "Astra Ultra",
+  "run_id": "topology_memory_rom_synthetic_v1-topology_memory_rom-20261116T060550614316Z-ddcc4110-deb6b9f1",
+  "result_receipt_sha256": "c555da1c6aa8aec00ade2c994c6430d7ebed214ba58dbf8fe36ade8e86fb8c0c",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "findings": [
+    "The receipt, artifact manifest, summary and 142 JSON artifact digests match. All observed operation counts equal the approved caps.",
+    "All 40 candidates save complete train/val/test coverage under both history conditions. Support selection used val 3 seconds.",
+    "S0 and S2 recover their structure but fail matched-dimension hidden-state recovery.",
+    "S1 and S3 omit spatial redistribution. Hidden-state error comparisons are unavailable with these mismatched supports.",
+    "S4 selects no extra support, but the benchmark does not reject the model family despite its known omission.",
+    "Phase C remains closed. A separately authorized fixed-parameter prior comparison can isolate initial-state shrinkage."
+  ]
+}

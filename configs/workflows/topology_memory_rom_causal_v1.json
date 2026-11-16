@@ -1,0 +1,27 @@
+{
+  "workflow": "topology_memory_rom_causal_v1",
+  "experiment": "topology_memory_rom_causal_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "topology_memory_rom_causal"],
+  "transitions": {"scaffold": "topology_memory_rom_causal"},
+  "terminal_stages": ["topology_memory_rom_causal"],
+  "approval_required": ["topology_memory_rom_causal"],
+  "stage_evidence_contracts": {
+    "topology_memory_rom_causal": {
+      "required_fields": [
+        "status", "process_status", "source_commit", "data_policy", "promotion_decision", "result_dir",
+        "artifact_manifest", "claim_boundary", "engineering_pass", "scientific_pass"
+      ],
+      "non_empty_fields": ["source_commit", "claim_boundary"],
+      "allowed_values": {
+        "status": ["PASS"],
+        "process_status": ["PASS"],
+        "data_policy": ["analytic_synthetic_only"],
+        "promotion_decision": ["KEEP_BASELINE"],
+        "engineering_pass": [true, false],
+        "scientific_pass": [true, false]
+      }
+    }
+  }
+}

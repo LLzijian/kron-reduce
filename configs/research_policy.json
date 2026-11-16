@@ -4796,7 +4796,7 @@
       "fit_attempts": 40,
       "max_executions": 1,
       "retry_allowed": false,
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_topology_memory_rom_progression",
       "operation_limits": {
         "numpy_rhs": 388800,
@@ -4816,7 +4816,41 @@
       "plan_path": "configs/proposals/topology_memory_rom_synthetic_v1.json",
       "plan_sha256": "f6ad27338b88594ea77de21e445aac76518057e34e7e3c16399bcd5e498221bd",
       "review_path": "docs/research/topology_memory_rom_synthetic_v1_review_20261116.json",
-      "review_sha256": "dcd8da7b78c73b5c1b5c71f9e99f029494183190769972c9440f491658cdb79d"
+      "review_sha256": "dcd8da7b78c73b5c1b5c71f9e99f029494183190769972c9440f491658cdb79d",
+      "run_id": "topology_memory_rom_synthetic_v1-topology_memory_rom-20261116T060550614316Z-ddcc4110-deb6b9f1",
+      "result_manifest_sha256": "8a1ede954ad0498633d49f2460f0ca01dad3c8dd8629ca71faa52465e86db346",
+      "result_receipt_path": "docs/reports/topology_memory_rom_synthetic_20261116_evidence.json",
+      "result_receipt_sha256": "c555da1c6aa8aec00ade2c994c6430d7ebed214ba58dbf8fe36ade8e86fb8c0c",
+      "result_review_path": "docs/research/topology_memory_rom_synthetic_v1_result_review_20261116.json",
+      "result_review_sha256": "25eca9c17030682d76967fd1ac0a7813fc1ae1f9553f100a018d0b6414ededeb",
+      "engineering_pass": true,
+      "scientific_pass": false
+    },
+    "topology_memory_rom_causal_v1_20261116": {
+      "experiment": "topology_memory_rom_causal_v1",
+      "workflow": "topology_memory_rom_causal_v1",
+      "stage": "topology_memory_rom_causal",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "status": "active",
+      "authority": "explicit_operator_topology_memory_rom_progression",
+      "operation_limits": {
+        "npz_decodes": 4,
+        "rollouts": 696,
+        "torch_rhs": 1985280,
+        "tangent_rhs": 119040,
+        "qr": 7680,
+        "svd": 9984,
+        "matrix_products": 7680,
+        "triangular_solves": 7680
+      },
+      "plan_path": "configs/proposals/topology_memory_rom_causal_v1.json",
+      "plan_sha256": "eedce0f19eb6006cad37914ae70fd8da77ab18fa2d257b4a356baffee9a51f55",
+      "review_path": "docs/research/topology_memory_rom_causal_v1_review_20261116.json",
+      "review_sha256": "218b6d4f661d0695be91547ba4c41070cf62bc04e97b12c30a3153e7e06f1f60"
     }
   },
   "saved_evidence_audits": {
