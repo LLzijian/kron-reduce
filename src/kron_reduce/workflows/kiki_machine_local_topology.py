@@ -19,6 +19,7 @@ from project_harness.runner import _run_experiment
 
 WORKFLOW = "kiki_machine_local_topology_v1"
 SPATIAL_WORKFLOW = "kiki_machine_local_topology_spatial_relaxation_v1"
+HARMONIC_WORKFLOW = "kiki_es_sindy_v1"
 MODULE = "kron_reduce.workflows.kiki_machine_local_topology"
 CALIBRATION = "machine_local_topology_transfer_v1_20261115"
 
@@ -59,7 +60,8 @@ def _spatial_prerequisites(root, plan, policy):
 def authorize(root, stage, *, workflow=WORKFLOW):
     assert_clean(root)
     spatial = workflow == SPATIAL_WORKFLOW
-    series = "kiki_machine_local_topology_spatial_relaxation" if spatial else "kiki_machine_local_topology"
+    harmonic = workflow == HARMONIC_WORKFLOW
+    series = workflow.removesuffix("_v1")
     name = f"{series}_{stage}_v1"
     entry = load_manifest(root)["experiments"][name]
     if (sys.version_info[:2] != (3, 12) or stage not in ("fit", "test")
@@ -69,11 +71,11 @@ def authorize(root, stage, *, workflow=WORKFLOW):
         raise RuntimeError("registered TASK3 topology stage and explicit stage approval required")
     validate_run_policy(root, name, entry)
     policy = load_policy(root)
-    suffix = "_20261116" if spatial else "_20261115"
+    suffix = "_20261117" if harmonic else "_20261116" if spatial else "_20261115"
     authorization = name + suffix
     category = "development_evaluations" if stage == "fit" else "official_test_evaluations"
     auth = policy[category][authorization]
-    scope = {"status": "active", "experiment": name, "fit_attempts": 2 if stage == "fit" else 0,
+    scope = {"status": "active", "experiment": name, "fit_attempts": (1 if harmonic else 2) if stage == "fit" else 0,
              "max_executions": 1, "retry_allowed": False}
     if any(type(auth.get(key)) is not type(value) or auth[key] != value for key, value in scope.items()):
         raise RuntimeError("active single-use TASK3 scope differs")
@@ -90,6 +92,25 @@ def authorize(root, stage, *, workflow=WORKFLOW):
 
     if spatial:
         _spatial_prerequisites(root, plan, policy)
+
+    if harmonic:
+        synthetic = policy["bounded_synthetic_evaluations"]["es_sindy_synthetic_v1_20261117"]
+        receipt = {"path": synthetic["result_receipt_path"], "sha256": synthetic["result_receipt_sha256"]}
+        if (synthetic["status"] != "consumed" or synthetic["scientific_pass"] is not True
+                or plan["harmonic_synthetic"] != receipt or plan["operation_limits"]["fits"] != scope["fit_attempts"]):
+            raise RuntimeError("harmonic training requires the exact completed synthetic gate and fit scope")
+        verify_bound_file(root, receipt["path"], receipt["sha256"])
+        start = plan["harmonic_start"]
+        if stage == "fit":
+            anchor = json.loads(_result_file(root, start["freeze"]).read_bytes())
+            checkpoint = {"path": anchor["checkpoint_path"], "sha256": anchor["checkpoint_sha256"]}
+            index = json.loads(_result_file(root, checkpoint).read_bytes())
+            if (index["T0M1"] != start["checkpoint"] or anchor["backbone"] != plan["backbone"]
+                    or anchor["training"]["groups"]["T0M1"]["selected_update"] != 12
+                    or start["preprocessing"] != {"path": anchor["preprocessing_path"], "sha256": anchor["preprocessing_sha256"]}):
+                raise RuntimeError("harmonic training requires the frozen T0M1 anchor and preprocessing")
+            _result_file(root, start["checkpoint"])
+            _result_file(root, start["preprocessing"])
 
     transfer = policy["bounded_synthetic_evaluations"][CALIBRATION]
     for key in ("run_id", "result_manifest_sha256", "result_receipt_sha256", "result_review_sha256"):
@@ -167,10 +188,12 @@ def run(*, root, experiment, stage, result_dir, run_id):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--stage", choices=("fit", "test"), required=True)
-    parser.add_argument("--spatial-relaxation", action="store_true")
+    variant = parser.add_mutually_exclusive_group()
+    variant.add_argument("--spatial-relaxation", action="store_true")
+    variant.add_argument("--es-sindy", action="store_true")
     args = parser.parse_args()
     stage = args.stage
-    workflow = SPATIAL_WORKFLOW if args.spatial_relaxation else WORKFLOW
+    workflow = HARMONIC_WORKFLOW if args.es_sindy else SPATIAL_WORKFLOW if args.spatial_relaxation else WORKFLOW
     root = project_root()
     with workflow_lock(root, workflow):
         name, entry, _, _ = authorize(root, stage, workflow=workflow)

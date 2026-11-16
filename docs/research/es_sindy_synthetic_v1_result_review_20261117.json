@@ -1,0 +1,13 @@
+{
+  "reviewer": "Independent artifact verification",
+  "run_id": "es_sindy_synthetic_v1-es_sindy-20261116T174317678667Z-f798e292-63abe159",
+  "result_receipt_sha256": "c0e5c87781fe8c73ca521166771cddd5035cc2f357a06f9b1567de73aeed6807",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "findings": [
+    "All eight run artifact SHA-256 values match. The saved reference and forecasts contain all 48 events with two integration steps.",
+    "One fit, 12 attempted and completed updates; checkpoint 0 chosen on val. Both nonzero coefficients are recovered within the registered tolerances.",
+    "The train/val/test split counts are 24/12/12. All have complete trajectory and stability coverage with no unresolved cases or numerical failures.",
+    "The evidence is for clean synthetic fixed-structure recovery and applies to a separate fixed-structure TASK3 proposal. It does not close the previous spatial-selection or out-of-library findings."
+  ]
+}

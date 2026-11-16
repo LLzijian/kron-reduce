@@ -81,6 +81,13 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
     rates = getattr(model, 'spatial_relaxation_rates', None)
     if (rates is None) != (spatial_rate_limit is None):
         raise ValueError('trainable spatial relaxation requires an explicit rate limit')
+    harmonics = getattr(model, 'restoring_harmonics', None)
+    harmonic_bound = settings.get('harmonic_bound')
+    if (harmonics is None) != (harmonic_bound is None):
+        raise ValueError('trainable restoring harmonics require an explicit coefficient bound')
+    if harmonics is not None:
+        parameters = (harmonics,)
+        scalar, damping = None, None
     shared_parameters = parameters
     groups = [{"params": shared_parameters}]
     if rates is not None:
@@ -127,6 +134,9 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                 if rates is not None:
                     with torch.no_grad():
                         rates.clamp_(0., spatial_rate_limit)
+                if harmonics is not None:
+                    with torch.no_grad():
+                        harmonics.clamp_(-harmonic_bound, harmonic_bound)
                 completed += 1
             except NUMERICAL_ERRORS as error:
                 np.savez_compressed(directory/'failed_parameters.npz',
@@ -147,6 +157,8 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
             if rates is not None:
                 row['spatial_relaxation_rates'] = rates.detach().tolist()
                 row['spatial_gradient_norm'] = float(spatial_norm)
+            if harmonics is not None:
+                row['restoring_harmonics'] = harmonics.detach().tolist()
             stream.write(json.dumps(row, allow_nan=False)+'\n')
             stream.flush()
             print(f"{directory.name} update {completed}/{settings['updates']} train NMSE={objective:.6g}", flush=True)

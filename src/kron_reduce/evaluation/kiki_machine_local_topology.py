@@ -150,6 +150,9 @@ def fit_pair(models, train, val, scales, budget, directory, settings):
                            "message": statuses.get(support, {}).get("message")}
         if models[support].spatial_relaxation_rates is not None:
             groups[support]["selected_relaxation_rates"] = models[support].spatial_relaxation_rates.tolist()
+        harmonics = getattr(models[support], "restoring_harmonics", None)
+        if harmonics is not None:
+            groups[support]["selected_restoring_harmonics"] = harmonics.tolist()
     training = {"stop_reason": reason, "groups": groups, "val_checks": len(checks)}
     write_json(directory/"selection.json", training)
     return training
@@ -169,7 +172,20 @@ def execute(root, directory, plan, stage):
         budget.spend("checkpoint_loads")
         backbone = LearnedNonlinearModel.load(verified(root, plan["backbone"])).closure
         spatial_start = plan.get("paired_start")
-        if spatial_start is None:
+        harmonic_start = plan.get("harmonic_start")
+        if harmonic_start is not None:
+            model = make_model(backbone, "T0M1", train_scales=True, device="cuda", learn_harmonics=True)
+            model.set_angle_damping(2./3., spatial_mix=1.)
+            models = {"es_sindy": model}
+            if stage == "fit":
+                anchor = make_model(backbone, "T0M1", train_scales=True, device="cuda")
+                budget.spend("checkpoint_loads")
+                load_snapshot(anchor, verified(root, harmonic_start["checkpoint"]))
+                model.load_state_dict(snapshot(model) | snapshot(anchor), strict=True)
+                model.requires_grad_(False).train()
+                model.restoring_harmonics.requires_grad_(True)
+                del anchor
+        elif spatial_start is None:
             models = {support: make_model(backbone, support, train_scales=True, device="cuda") for support in SUPPORTS}
         else:
             models = {group: make_model(backbone, "T0M1", train_scales=True, device="cuda")
@@ -193,8 +209,9 @@ def execute(root, directory, plan, stage):
             if not np.allclose(reader.static["mass"], backbone.mass, rtol=0, atol=1e-12):
                 raise ValueError("equation and TASK3 mass differ")
             scales = scales_from_train(train, backbone.mass)
-            if spatial_start is not None:
-                frozen_scales = read_json(verified(root, spatial_start["preprocessing"]))
+            fixed_start = spatial_start or harmonic_start
+            if fixed_start is not None:
+                frozen_scales = read_json(verified(root, fixed_start["preprocessing"]))
                 if set(frozen_scales) != set(scales) or any(not np.allclose(scales[key], frozen_scales[key],
                         rtol=1e-13, atol=1e-14) for key in scales):
                     raise RuntimeError("full train preprocessing differs from the common T0M1 anchor")
@@ -225,6 +242,9 @@ def execute(root, directory, plan, stage):
                 rates = model.spatial_relaxation_rates
                 if rates is not None and (torch.any(rates < 0.) or torch.any(rates > settings["spatial_rate_limit"])):
                     raise RuntimeError("frozen spatial relaxation rates exceed the signed range")
+                harmonics = getattr(model, "restoring_harmonics", None)
+                if harmonics is not None and torch.any(harmonics.abs() > settings["harmonic_bound"]):
+                    raise RuntimeError("frozen restoring coefficients exceed the signed range")
             roles = {"test": reader.load("test", freeze_path=freeze_path)}
 
         if not np.allclose(reader.static["mass"], backbone.mass, rtol=0, atol=1e-12):
@@ -236,14 +256,15 @@ def execute(root, directory, plan, stage):
                 result = score(model, events, scales, budget, directory/group, role, settings)
                 records[group][role] = {key: result[key] for key in
                                         ("summary", "unstable_prefix", "stability", "task3_six_term_score")}
-                if spatial_start is not None:
+                if spatial_start is not None or harmonic_start is not None:
                     records[group][role]["stable_complete"] = result["stable_complete"]
         summaries = [value["test"]["stability"] for value in records.values()] if stage == "test" else []
         pass_goal = any(s["allocated"] == s["resolved"] == 76 and s["accuracy"] is not None
                         and s["tp"]+s["tn"] >= 69 for s in summaries)
         evidence = {"status": "PASS", "process_status": "PASS", "source_commit": git_head(root),
                     "promotion_decision": "KEEP_BASELINE", "data_policy": "kiki_official_train_test_v1",
-                    "claim_boundary": "Fixed TASK3 cohort and input contract; frozen paired-model comparison.",
+                    "claim_boundary": ("Fixed TASK3 comparison; one frozen fixed-topology harmonic equation."
+                                       if harmonic_start else "Fixed TASK3 cohort and input contract; frozen paired-model comparison."),
                     "scientific_pass": pass_goal}
         summary = evidence | {"records": records, "operations": dict(budget.counts), "training": training,
                               "wall_seconds": time.perf_counter()-started, "runtime": {

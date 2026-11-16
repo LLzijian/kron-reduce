@@ -6,6 +6,11 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [ES-SINDy harmonic fit](../reports/es_sindy_synthetic_20261117_zh.md)
+recovers both shared shape coefficients in one clean synthetic fit. The selected
+weak-form start reduces 3 s val squared trajectory error by a factor of 1001
+and retains complete causal prediction coverage at both integration steps.
+
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,
 deletion rules and phased validation for future explicit reduced models.

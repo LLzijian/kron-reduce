@@ -1,0 +1,530 @@
+{
+  "run_id": "es_sindy_synthetic_v1-es_sindy-20261116T174317678667Z-f798e292-63abe159",
+  "stage": "es_sindy",
+  "source_commit": "f798e29236098de6315ea16a50c670f02f9902e6",
+  "plan_sha256": "3b375488167556d0bf9b6bc75aff21852e947a78522fada6faf15cd072e3da3a",
+  "result_manifest_sha256": "64ac82e0d8135375ef1e28215a709db4ac91b1c98a1e167fc8ce93bd803034f9",
+  "summary_sha256": "c2b4b9a2d784f8002318fbdcfdd114cb4794f4c4bd28aec6ffe7c966f1e8b522",
+  "scores_sha256": "bdb6f1fd600613b8685e059bac287b79025a6b049db7b455b4a7dd5ca6a42d4e",
+  "artifact_count": 8,
+  "real_data_reads": 0,
+  "fit_attempts": 1,
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "promotion_decision": "KEEP_BASELINE",
+  "elapsed_seconds": 105.34359649999533,
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "operation_counts": {
+    "numpy_damping_roots": 2,
+    "numpy_rhs": 77760,
+    "fits": 1,
+    "val_checks": 5,
+    "rollouts": 168,
+    "tangent_rhs": 14400,
+    "torch_rhs": 154081,
+    "qr": 2340,
+    "svd": 2341,
+    "matrix_products": 2340,
+    "triangular_solves": 2340,
+    "weak_events": 24,
+    "weak_solves": 1,
+    "gradients": 13,
+    "optimizer_updates": 12
+  },
+  "checks": {
+    "fit_completed": true,
+    "physical": true,
+    "integration_and_coverage": true,
+    "separable_dictionary": true,
+    "coefficient_recovery": true,
+    "trajectory": true,
+    "val_improvement": true,
+    "val_stability": true
+  },
+  "fit": {
+    "actual_updates": 12,
+    "selected_update": 0,
+    "selected_val_nmse": 3.3409307877242218e-09,
+    "failure": null,
+    "baseline_val_nmse": 3.3447301170363265e-06,
+    "train_curve": [
+      {
+        "update": 1,
+        "nmse_before_update": 5.00393895090024e-09
+      },
+      {
+        "update": 2,
+        "nmse_before_update": 1.0073381399733193e-06
+      },
+      {
+        "update": 3,
+        "nmse_before_update": 6.611229527084053e-08
+      },
+      {
+        "update": 4,
+        "nmse_before_update": 2.2403983407763972e-07
+      },
+      {
+        "update": 5,
+        "nmse_before_update": 5.747854302004436e-07
+      },
+      {
+        "update": 6,
+        "nmse_before_update": 4.0423406451794724e-07
+      },
+      {
+        "update": 7,
+        "nmse_before_update": 9.326514025333309e-08
+      },
+      {
+        "update": 8,
+        "nmse_before_update": 8.080272158140619e-09
+      },
+      {
+        "update": 9,
+        "nmse_before_update": 1.608538856827905e-07
+      },
+      {
+        "update": 10,
+        "nmse_before_update": 2.9051479651934195e-07
+      },
+      {
+        "update": 11,
+        "nmse_before_update": 2.3956123443000256e-07
+      },
+      {
+        "update": 12,
+        "nmse_before_update": 9.167658352704255e-08
+      }
+    ],
+    "val_curve": [
+      {
+        "update": 0,
+        "nmse": 3.3409307877242218e-09,
+        "coefficients": [
+          0.1021835132579322,
+          -0.05161540062619866
+        ]
+      },
+      {
+        "update": 4,
+        "nmse": 5.057677564928452e-07,
+        "coefficients": [
+          0.09890518676354929,
+          -0.054829012094738075
+        ]
+      },
+      {
+        "update": 8,
+        "nmse": 1.6456523844701225e-07,
+        "coefficients": [
+          0.10423903378347947,
+          -0.049373399907421685
+        ]
+      },
+      {
+        "update": 12,
+        "nmse": 5.208600590730521e-09,
+        "coefficients": [
+          0.10250336532454664,
+          -0.05097087806577345
+        ]
+      }
+    ],
+    "truth": [
+      0.1,
+      -0.05
+    ],
+    "weak_start": [
+      0.1021835132579322,
+      -0.05161540062619866
+    ],
+    "weak_singular_values": [
+      3.587409342481963,
+      0.8457957262052883
+    ],
+    "learned": [
+      0.1021835132579322,
+      -0.05161540062619866
+    ]
+  },
+  "roles": {
+    "train": {
+      "stability": {
+        "tp": 12,
+        "fn": 0,
+        "fp": 0,
+        "tn": 12,
+        "eligible_unstable": 12,
+        "eligible_stable": 12,
+        "eligible": 24,
+        "unstable_unresolved": 0,
+        "stable_unresolved": 0,
+        "numerical_unresolved": 0,
+        "fsr": 0.0,
+        "fur": 0.0,
+        "fsr_lower": 0.0,
+        "fsr_upper": 0.0,
+        "fur_lower": 0.0,
+        "fur_upper": 0.0,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "recall": 1.0,
+        "precision": 1.0,
+        "f1": 1.0,
+        "allocated": 24,
+        "resolved": 24,
+        "uncovered": 0,
+        "unresolved": 0,
+        "coverage": 1.0,
+        "correct_fraction_lower_bound": 1.0,
+        "accuracy_on_resolved": 1.0,
+        "numerical_failures": 0,
+        "unsettled_predictions": 0,
+        "weighting": "event_equal",
+        "forecast_horizon_s": 8.0,
+        "positive_class": "unstable"
+      },
+      "nrmse_3s_max": 0.0003647004202258622,
+      "nrmse_8s_max": 0.000669804690628921,
+      "trajectory": {
+        "3": {
+          "allocated": 24,
+          "qualified": 24,
+          "coverage": 1.0,
+          "full_cohort": {
+            "nrmse": {
+              "mean": 7.334047393756133e-05,
+              "median": 3.1879828286073346e-05,
+              "pooled": 0.00012594742143973506
+            },
+            "q_rmse": {
+              "mean": 0.00043126936842105204,
+              "median": 0.00018352776056273343,
+              "pooled": 0.0007446496753358984
+            },
+            "v_rmse": {
+              "mean": 0.0002941919455779439,
+              "median": 0.0001242589622617073,
+              "pooled": 0.0005082380087969327
+            }
+          },
+          "qualified_only": {
+            "nrmse": {
+              "mean": 7.334047393756133e-05,
+              "median": 3.1879828286073346e-05,
+              "pooled": 0.00012594742143973506
+            },
+            "q_rmse": {
+              "mean": 0.00043126936842105204,
+              "median": 0.00018352776056273343,
+              "pooled": 0.0007446496753358984
+            },
+            "v_rmse": {
+              "mean": 0.0002941919455779439,
+              "median": 0.0001242589622617073,
+              "pooled": 0.0005082380087969327
+            }
+          },
+          "weighting": "event_equal; pooled over equal-length forecasts"
+        },
+        "8": {
+          "allocated": 24,
+          "qualified": 24,
+          "coverage": 1.0,
+          "full_cohort": {
+            "nrmse": {
+              "mean": 0.00012886498077504767,
+              "median": 5.299361401543845e-05,
+              "pooled": 0.00022174319219209226
+            },
+            "q_rmse": {
+              "mean": 0.001297224554370083,
+              "median": 0.00044941749962441543,
+              "pooled": 0.0022772062485883465
+            },
+            "v_rmse": {
+              "mean": 0.00044576479552648195,
+              "median": 0.0001973899505259939,
+              "pooled": 0.000760593575999597
+            }
+          },
+          "qualified_only": {
+            "nrmse": {
+              "mean": 0.00012886498077504767,
+              "median": 5.299361401543845e-05,
+              "pooled": 0.00022174319219209226
+            },
+            "q_rmse": {
+              "mean": 0.001297224554370083,
+              "median": 0.00044941749962441543,
+              "pooled": 0.0022772062485883465
+            },
+            "v_rmse": {
+              "mean": 0.00044576479552648195,
+              "median": 0.0001973899505259939,
+              "pooled": 0.000760593575999597
+            }
+          },
+          "weighting": "event_equal; pooled over equal-length forecasts"
+        }
+      }
+    },
+    "val": {
+      "stability": {
+        "tp": 6,
+        "fn": 0,
+        "fp": 0,
+        "tn": 6,
+        "eligible_unstable": 6,
+        "eligible_stable": 6,
+        "eligible": 12,
+        "unstable_unresolved": 0,
+        "stable_unresolved": 0,
+        "numerical_unresolved": 0,
+        "fsr": 0.0,
+        "fur": 0.0,
+        "fsr_lower": 0.0,
+        "fsr_upper": 0.0,
+        "fur_lower": 0.0,
+        "fur_upper": 0.0,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "recall": 1.0,
+        "precision": 1.0,
+        "f1": 1.0,
+        "allocated": 12,
+        "resolved": 12,
+        "uncovered": 0,
+        "unresolved": 0,
+        "coverage": 1.0,
+        "correct_fraction_lower_bound": 1.0,
+        "accuracy_on_resolved": 1.0,
+        "numerical_failures": 0,
+        "unsettled_predictions": 0,
+        "weighting": "event_equal",
+        "forecast_horizon_s": 8.0,
+        "positive_class": "unstable"
+      },
+      "nrmse_3s_max": 0.00013514374475938034,
+      "nrmse_8s_max": 0.00026369848077001194,
+      "trajectory": {
+        "3": {
+          "allocated": 12,
+          "qualified": 12,
+          "coverage": 1.0,
+          "full_cohort": {
+            "nrmse": {
+              "mean": 3.865513979687091e-05,
+              "median": 2.7198530513858232e-05,
+              "pooled": 5.779007703727632e-05
+            },
+            "q_rmse": {
+              "mean": 0.00022772958642079655,
+              "median": 0.0001597147603948397,
+              "pooled": 0.0003410797155738824
+            },
+            "v_rmse": {
+              "mean": 0.0001537502024776364,
+              "median": 0.00010625118748901038,
+              "pooled": 0.00023072485486752775
+            }
+          },
+          "qualified_only": {
+            "nrmse": {
+              "mean": 3.865513979687091e-05,
+              "median": 2.7198530513858232e-05,
+              "pooled": 5.779007703727632e-05
+            },
+            "q_rmse": {
+              "mean": 0.00022772958642079655,
+              "median": 0.0001597147603948397,
+              "pooled": 0.0003410797155738824
+            },
+            "v_rmse": {
+              "mean": 0.0001537502024776364,
+              "median": 0.00010625118748901038,
+              "pooled": 0.00023072485486752775
+            }
+          },
+          "weighting": "event_equal; pooled over equal-length forecasts"
+        },
+        "8": {
+          "allocated": 12,
+          "qualified": 12,
+          "coverage": 1.0,
+          "full_cohort": {
+            "nrmse": {
+              "mean": 7.158274838015358e-05,
+              "median": 5.0798404811091377e-05,
+              "pooled": 0.00010836286361250892
+            },
+            "q_rmse": {
+              "mean": 0.000678162994133976,
+              "median": 0.00047786081979650144,
+              "pooled": 0.0010151931981125621
+            },
+            "v_rmse": {
+              "mean": 0.00025758841396740316,
+              "median": 0.00017623006420056355,
+              "pooled": 0.00039472973287147853
+            }
+          },
+          "qualified_only": {
+            "nrmse": {
+              "mean": 7.158274838015358e-05,
+              "median": 5.0798404811091377e-05,
+              "pooled": 0.00010836286361250892
+            },
+            "q_rmse": {
+              "mean": 0.000678162994133976,
+              "median": 0.00047786081979650144,
+              "pooled": 0.0010151931981125621
+            },
+            "v_rmse": {
+              "mean": 0.00025758841396740316,
+              "median": 0.00017623006420056355,
+              "pooled": 0.00039472973287147853
+            }
+          },
+          "weighting": "event_equal; pooled over equal-length forecasts"
+        }
+      }
+    },
+    "test": {
+      "stability": {
+        "tp": 6,
+        "fn": 0,
+        "fp": 0,
+        "tn": 6,
+        "eligible_unstable": 6,
+        "eligible_stable": 6,
+        "eligible": 12,
+        "unstable_unresolved": 0,
+        "stable_unresolved": 0,
+        "numerical_unresolved": 0,
+        "fsr": 0.0,
+        "fur": 0.0,
+        "fsr_lower": 0.0,
+        "fsr_upper": 0.0,
+        "fur_lower": 0.0,
+        "fur_upper": 0.0,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "recall": 1.0,
+        "precision": 1.0,
+        "f1": 1.0,
+        "allocated": 12,
+        "resolved": 12,
+        "uncovered": 0,
+        "unresolved": 0,
+        "coverage": 1.0,
+        "correct_fraction_lower_bound": 1.0,
+        "accuracy_on_resolved": 1.0,
+        "numerical_failures": 0,
+        "unsettled_predictions": 0,
+        "weighting": "event_equal",
+        "forecast_horizon_s": 8.0,
+        "positive_class": "unstable"
+      },
+      "nrmse_3s_max": 0.00017114128704099273,
+      "nrmse_8s_max": 0.00027171078122519455,
+      "trajectory": {
+        "3": {
+          "allocated": 12,
+          "qualified": 12,
+          "coverage": 1.0,
+          "full_cohort": {
+            "nrmse": {
+              "mean": 4.511187908745939e-05,
+              "median": 2.241999248284578e-05,
+              "pooled": 7.070940255420526e-05
+            },
+            "q_rmse": {
+              "mean": 0.00026744747768600997,
+              "median": 0.00013653047762154168,
+              "pooled": 0.00041849173236438534
+            },
+            "v_rmse": {
+              "mean": 0.00018127283984114095,
+              "median": 8.912305223866978e-05,
+              "pooled": 0.00028549118341580383
+            }
+          },
+          "qualified_only": {
+            "nrmse": {
+              "mean": 4.511187908745939e-05,
+              "median": 2.241999248284578e-05,
+              "pooled": 7.070940255420526e-05
+            },
+            "q_rmse": {
+              "mean": 0.00026744747768600997,
+              "median": 0.00013653047762154168,
+              "pooled": 0.00041849173236438534
+            },
+            "v_rmse": {
+              "mean": 0.00018127283984114095,
+              "median": 8.912305223866978e-05,
+              "pooled": 0.00028549118341580383
+            }
+          },
+          "weighting": "event_equal; pooled over equal-length forecasts"
+        },
+        "8": {
+          "allocated": 12,
+          "qualified": 12,
+          "coverage": 1.0,
+          "full_cohort": {
+            "nrmse": {
+              "mean": 7.647435250249939e-05,
+              "median": 4.188973167410459e-05,
+              "pooled": 0.00011718644066663709
+            },
+            "q_rmse": {
+              "mean": 0.0007286066646459392,
+              "median": 0.00041856826608782427,
+              "pooled": 0.0011057990445072705
+            },
+            "v_rmse": {
+              "mean": 0.00027529813624610266,
+              "median": 0.00014106841799609585,
+              "pooled": 0.00042431243175618174
+            }
+          },
+          "qualified_only": {
+            "nrmse": {
+              "mean": 7.647435250249939e-05,
+              "median": 4.188973167410459e-05,
+              "pooled": 0.00011718644066663709
+            },
+            "q_rmse": {
+              "mean": 0.0007286066646459392,
+              "median": 0.00041856826608782427,
+              "pooled": 0.0011057990445072705
+            },
+            "v_rmse": {
+              "mean": 0.00027529813624610266,
+              "median": 0.00014106841799609585,
+              "pooled": 0.00042431243175618174
+            }
+          },
+          "weighting": "event_equal; pooled over equal-length forecasts"
+        }
+      }
+    }
+  },
+  "max_energy_balance_residual": 5.113650625111815e-16,
+  "max_truth_step_gap": 4.7569330253165016e-11,
+  "coefficient_relative_error": [
+    0.021835132579321875,
+    0.03230801252397317
+  ],
+  "claim_boundary": "clean analytic synthetic, fixed topology/damping/memory, one causal shared-coefficient fit"
+}

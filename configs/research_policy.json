@@ -1670,6 +1670,34 @@
       "engineering_pass": true,
       "scientific_pass": false
     },
+    "kiki_es_sindy_fit_v1_20261117": {
+      "status": "active",
+      "experiment": "kiki_es_sindy_fit_v1",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "authority": "operator_autonomous_es_sindy_fixed_structure_fit",
+      "plan_path": "configs/proposals/kiki_es_sindy_fit_v1.json",
+      "plan_sha256": "a963008a96e6209534e0a6cbfa5ce164c4032eb15ea6b80f793abf5e6d187ef2",
+      "review_path": "docs/research/kiki_es_sindy_fit_v1_review_20261117.json",
+      "review_sha256": "22a034cb4b3f2cfd686b740a2f1ddae027bbb3d739bc4cf22a576dfaff7f196f",
+      "operation_limits": {
+        "rollouts": 22000,
+        "torch_rhs": 47000000,
+        "tangent_rhs": 3800000,
+        "qr": 120000,
+        "svd": 120000,
+        "triangular_solves": 120000,
+        "matrix_products": 120000,
+        "fits": 1,
+        "optimizer_updates": 12,
+        "gradients": 72,
+        "val_checks": 4,
+        "checkpoint_loads": 2
+      },
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "fit_attempts": 1
+    },
     "kiki_machine_local_topology_spatial_relaxation_fit_v1_20261116": {
       "status": "consumed",
       "experiment": "kiki_machine_local_topology_spatial_relaxation_fit_v1",
@@ -4813,12 +4841,20 @@
         "matrix_products": 6000,
         "triangular_solves": 6000
       },
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_autonomous_es_sindy_research",
       "plan_path": "configs/proposals/es_sindy_synthetic_v1.json",
       "plan_sha256": "3b375488167556d0bf9b6bc75aff21852e947a78522fada6faf15cd072e3da3a",
       "review_path": "docs/research/es_sindy_synthetic_v1_review_20261117.json",
-      "review_sha256": "1662c5e9730c2b8f0b2dca3aec310c15affdd358d0a6ab3508c665c27f2a255c"
+      "review_sha256": "1662c5e9730c2b8f0b2dca3aec310c15affdd358d0a6ab3508c665c27f2a255c",
+      "run_id": "es_sindy_synthetic_v1-es_sindy-20261116T174317678667Z-f798e292-63abe159",
+      "result_manifest_sha256": "64ac82e0d8135375ef1e28215a709db4ac91b1c98a1e167fc8ce93bd803034f9",
+      "result_receipt_path": "docs/reports/es_sindy_synthetic_20261117_evidence.json",
+      "result_receipt_sha256": "c0e5c87781fe8c73ca521166771cddd5035cc2f357a06f9b1567de73aeed6807",
+      "result_review_path": "docs/research/es_sindy_synthetic_v1_result_review_20261117.json",
+      "result_review_sha256": "bedd4ad5736c28b04dafee674a47149a1e2f130273f81f6a364e42c6045f217b",
+      "engineering_pass": true,
+      "scientific_pass": true
     },
     "topology_memory_rom_synthetic_v1_20261116": {
       "experiment": "topology_memory_rom_synthetic_v1",
