@@ -1,0 +1,13 @@
+{
+  "run_id": "memory_saturation_synthetic_v1-memory_saturation-20261116T231715496927Z-fc3ecf2c-ff9a050f",
+  "source_commit": "fc3ecf2",
+  "status": "FAILED_BEFORE_FIT",
+  "real_data_reads": 0,
+  "failure_record_sha256": "4268c4c4b9e3bdc7f26b85e00e6cd7f774da2a01bc77ba9e2079709be31e4c20",
+  "failed_plan_sha256": "1a5fa32f2a3ead2d8a5e08dcaa5e34b8a64c794ef69f6db3a499717bca4c0cce",
+  "operation_counts": {
+    "numpy_damping_roots": 2,
+    "numpy_rhs": 77760,
+    "val_checks": 1
+  }
+}

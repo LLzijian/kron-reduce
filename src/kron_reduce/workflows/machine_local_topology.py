@@ -46,8 +46,8 @@ def authorize(root, stage):
     recent = ("dynamic_coupling", "spatial_coupling", "spatial_coupling_causal", "topology_memory_rom",
               "topology_memory_rom_causal")
     date = "20261117" if stage in ("es_sindy", "memory_saturation") else "20261116" if stage in recent else "20261115"
-    auth_id = f"{name}_{date}"
     entry = load_manifest(root)["experiments"][name]
+    auth_id = entry.get("synthetic_authorization_id", f"{name}_{date}")
     expected = {"module": MODULE, "workflow": name, "stage": stage, "dataset": "synthetic_benchmark_registry_v1",
                 "execution_mode": "bounded_synthetic_cli_only", "data_policy": "analytic_synthetic_only"}
     if (sys.version_info[:2] != (3, 12) or any(entry.get(k) != v for k, v in expected.items())

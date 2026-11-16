@@ -99,7 +99,9 @@ def authorize(root, stage, *, workflow=WORKFLOW):
     if fixed:
         kind = "saturation" if saturation else "harmonic"
         synthetic_name = "memory_saturation_synthetic_v1" if saturation else "es_sindy_synthetic_v1"
-        synthetic = policy["bounded_synthetic_evaluations"][synthetic_name+suffix]
+        synthetic_entry = load_manifest(root)["experiments"][synthetic_name]
+        synthetic_id = synthetic_entry.get("synthetic_authorization_id", synthetic_name+suffix)
+        synthetic = policy["bounded_synthetic_evaluations"][synthetic_id]
         receipt = {"path": synthetic["result_receipt_path"], "sha256": synthetic["result_receipt_sha256"]}
         if (synthetic["status"] != "consumed" or synthetic["scientific_pass"] is not True
                 or plan[kind+"_synthetic"] != receipt or plan["operation_limits"]["fits"] != scope["fit_attempts"]):

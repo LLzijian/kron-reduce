@@ -433,7 +433,7 @@ def execute_saturation(root, directory, plan, budget):
     budget.spend("val_checks")
     with torch.no_grad():
         baseline = float(_objective(anchor, truth, val, power, equilibrium, scale, hscale,
-                                    settings["val_frames"], budget.spend))
+                                    settings["val_frames"], settings, budget.spend))
     model = _model(params, "C0S0H1", plan)
     fit = _fit(model, "C0S0H1", truth, roles, power, equilibrium, scale, hscale, plan, budget, directory)
     print(f"S2 fit {fit['completed_updates']} updates; selected {fit['equation']}", flush=True)
