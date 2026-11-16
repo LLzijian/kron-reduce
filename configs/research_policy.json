@@ -1706,7 +1706,7 @@
       "scientific_pass": false
     },
     "kiki_topology_memory_balance_v1_20261116": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_topology_memory_balance_v1",
       "authority": "operator_autonomous_full_train_memory_balance_diagnostic",
       "fit_attempts": 0,
@@ -1733,7 +1733,15 @@
         "storage_calls": 1038,
         "work_gauss_intervals": 321780,
         "work_gauss_nodes": 2145200
-      }
+      },
+      "run_id": "kiki_topology_memory_balance_v1-train_momentum-20261116T052515039351Z-9dd38563-3d74a01a",
+      "result_manifest_sha256": "d97ccab465a2f8a2419722b818e9693bd11265abda3886da72c0aba1e9db69a1",
+      "result_receipt_path": "docs/reports/kiki_topology_memory_balance_20261116_evidence.json",
+      "result_receipt_sha256": "c3e75aa76cfecdac879c6a264b276935bf223c870500c2ac11dc6f8b0994bc62",
+      "result_review_path": "docs/research/kiki_topology_memory_balance_v1_result_review_20261116.json",
+      "result_review_sha256": "47e92af17ca1bf01ad8325c7bb04a1a6a99b73620f0c4b1d045210d65a96ca92",
+      "engineering_pass": true,
+      "scientific_pass": false
     }
   },
   "archived_development_results": {

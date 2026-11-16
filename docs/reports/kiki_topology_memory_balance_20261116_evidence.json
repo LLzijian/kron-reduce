@@ -1,0 +1,872 @@
+{
+  "run_id": "kiki_topology_memory_balance_v1-train_momentum-20261116T052515039351Z-9dd38563-3d74a01a",
+  "stage": "train_momentum",
+  "source_commit": "9dd38563ea73398cdf5b9cad83c06cea688fac3f",
+  "plan_sha256": "8366674e36fd6714d7a043f848017e000dd81cb137c855f4ea9105c62c7e933e",
+  "artifact_manifest_sha256": "d97ccab465a2f8a2419722b818e9693bd11265abda3886da72c0aba1e9db69a1",
+  "summary_sha256": "b76025f3da6446b1e3a90ed25b7a66531602e63bde1401bf043a3fa7fa7bac65",
+  "artifact_count": 7,
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "group_metrics": {
+    "train": {
+      "events": 346,
+      "history_nrmse_median": 0.06831969743041488,
+      "history_hidden_norm_median": 6.61055385191009,
+      "history_starts_at_radius": 283,
+      "reset_velocity_norm_median": 0.4844742304657751,
+      "net_memory_work_early_median": -0.0002869071289531098,
+      "work_early_median": {
+        "applied": 0.42002358560842545,
+        "restoring": 0.8408856295812803,
+        "damping": -1.589504738066354,
+        "initial_memory": 0.0963257940049865,
+        "driven_memory": -0.1857162998927217,
+        "residual": 0.2907605838074782
+      },
+      "witnesses": 33,
+      "completed_outward_swings": 2
+    },
+    "stable": {
+      "events": 311,
+      "history_nrmse_median": 0.05954086585163091,
+      "history_hidden_norm_median": 6.61055385191009,
+      "history_starts_at_radius": 248,
+      "reset_velocity_norm_median": 0.43109939213548754,
+      "net_memory_work_early_median": 0.0017422684840730368,
+      "work_early_median": {
+        "applied": 0.5389098194463269,
+        "restoring": 0.719301209278534,
+        "damping": -1.4415676017196142,
+        "initial_memory": 0.07404321395147742,
+        "driven_memory": -0.1670013954250208,
+        "residual": 0.2439642348056602
+      },
+      "witnesses": 0,
+      "completed_outward_swings": 0
+    },
+    "unstable": {
+      "events": 35,
+      "history_nrmse_median": 0.20308324471657563,
+      "history_hidden_norm_median": 6.61055385191009,
+      "history_starts_at_radius": 35,
+      "reset_velocity_norm_median": 1.7424356668981593,
+      "net_memory_work_early_median": -0.04620561222667202,
+      "work_early_median": {
+        "applied": -4.305227586750082,
+        "restoring": 6.71586426283777,
+        "damping": -3.017005327387002,
+        "initial_memory": 0.6219430115296709,
+        "driven_memory": -0.6441554708345532,
+        "residual": 4.2320570532739525
+      },
+      "witnesses": 33,
+      "completed_outward_swings": 2
+    },
+    "lower": {
+      "events": 173,
+      "history_nrmse_median": 0.029178323728417003,
+      "history_hidden_norm_median": 6.6105538519100895,
+      "history_starts_at_radius": 110,
+      "reset_velocity_norm_median": 0.1549276074164118,
+      "net_memory_work_early_median": 0.06266558974064329,
+      "work_early_median": {
+        "applied": 0.2601978288937681,
+        "restoring": 0.3071031864008994,
+        "damping": -0.7297922676614901,
+        "initial_memory": 0.11892313880783398,
+        "driven_memory": -0.07368083436250134,
+        "residual": 0.05523922586493635
+      },
+      "witnesses": 2,
+      "completed_outward_swings": 0
+    },
+    "higher": {
+      "events": 173,
+      "history_nrmse_median": 0.13801020772672945,
+      "history_hidden_norm_median": 6.61055385191009,
+      "history_starts_at_radius": 173,
+      "reset_velocity_norm_median": 0.9389261598842961,
+      "net_memory_work_early_median": -0.2091138883888518,
+      "work_early_median": {
+        "applied": 0.7292608284212112,
+        "restoring": 1.6316707147690694,
+        "damping": -2.3488052826596433,
+        "initial_memory": 0.040005532284733636,
+        "driven_memory": -0.3311685701844734,
+        "residual": 0.7400055596317414
+      },
+      "witnesses": 31,
+      "completed_outward_swings": 2
+    }
+  },
+  "stable_matched_windows": 33,
+  "positive_unstable_separation_residuals": 31,
+  "matched_witness_horizon_s_median": 0.34,
+  "matched_increment_median": {
+    "unstable_increment": {
+      "applied": -3.8078074418955286,
+      "restoring": 8.29347028037457,
+      "damping": -2.750819028662492,
+      "initial_memory": 0.43142457268748113,
+      "driven_memory": -0.5422184494567939,
+      "residual": 2.5510199108167058
+    },
+    "stable_increment": {
+      "applied": -2.996848040194065,
+      "restoring": -2.4124029294326594,
+      "damping": 0.09211962942005833,
+      "initial_memory": 0.4697237269989095,
+      "driven_memory": -0.03558589117464915,
+      "residual": -0.15384354634684688
+    }
+  },
+  "qualified_max_gaps": {
+    "quadrature_max": 1.432187701766452e-14,
+    "memory_balance_max": 1.404432126150823e-14,
+    "balance_identity_max": 1.1102230246251565e-16
+  },
+  "role": "train",
+  "allocated": 346,
+  "qualified": 346,
+  "history_nrmse_median": 0.06831969743041488,
+  "matched_stable": [
+    {
+      "unstable": "ieee39_expansion/expansion_0008",
+      "stable": "ieee39_expansion/expansion_0006",
+      "unstable_increment": {
+        "applied": -3.842980160721269,
+        "restoring": 9.040676793301945,
+        "damping": -3.699270124869576,
+        "initial_memory": 0.6174667371472433,
+        "driven_memory": -0.663496121693256,
+        "residual": 2.6202502359524535
+      },
+      "stable_increment": {
+        "applied": -2.996848040194065,
+        "restoring": -3.6922832573542808,
+        "damping": 0.09211962942005833,
+        "initial_memory": 0.8466577037614484,
+        "driven_memory": -0.12320454559938229,
+        "residual": -1.3138061938847883
+      },
+      "intervals": 36
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0010",
+      "stable": "ieee39_expansion/expansion_0006",
+      "unstable_increment": {
+        "applied": -1.2116518257307574,
+        "restoring": 2.5705128324742015,
+        "damping": -1.2846600063988496,
+        "initial_memory": 0.04237608987868231,
+        "driven_memory": -0.104660092307193,
+        "residual": 1.0661175434608812
+      },
+      "stable_increment": {
+        "applied": -0.7492120100485163,
+        "restoring": -1.089938522319288,
+        "damping": -0.5520312762621408,
+        "initial_memory": 0.44359861274013257,
+        "driven_memory": -0.04166747472875676,
+        "residual": -0.2544077358036697
+      },
+      "intervals": 9
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0013",
+      "stable": "ieee39_expansion/expansion_0006",
+      "unstable_increment": {
+        "applied": -2.271390606181938,
+        "restoring": 7.147551446570694,
+        "damping": -2.455023634489154,
+        "initial_memory": 0.1442066178131519,
+        "driven_memory": -0.3467602802719134,
+        "residual": 1.7783371137422694
+      },
+      "stable_increment": {
+        "applied": -1.7481613567798706,
+        "restoring": -2.1869733206167843,
+        "damping": -0.6231649357394033,
+        "initial_memory": 0.7190224856745713,
+        "driven_memory": -0.120539879673802,
+        "residual": -0.5933957366418615
+      },
+      "intervals": 21
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0030",
+      "stable": "ieee39_expansion/expansion_0028",
+      "unstable_increment": {
+        "applied": -2.52238566090094,
+        "restoring": 5.648347771208855,
+        "damping": -1.7051836177610458,
+        "initial_memory": 0.09519358130121318,
+        "driven_memory": -0.31859919852167984,
+        "residual": 1.092685155296769
+      },
+      "stable_increment": {
+        "applied": -1.5330171069412288,
+        "restoring": -0.26062406091611134,
+        "damping": -0.43228656377136176,
+        "initial_memory": 0.22853145614724993,
+        "driven_memory": -0.09126054883824485,
+        "residual": -0.19699106773349503
+      },
+      "intervals": 20
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0044",
+      "stable": "ieee39_expansion/expansion_0042",
+      "unstable_increment": {
+        "applied": -4.01593373654424,
+        "restoring": 8.254408935130087,
+        "damping": -3.4175526015343234,
+        "initial_memory": 0.6154577830614338,
+        "driven_memory": -0.8844349520508653,
+        "residual": 4.3205578940517055
+      },
+      "stable_increment": {
+        "applied": -3.188457065295349,
+        "restoring": -1.7803769369240081,
+        "damping": -0.5005727375389938,
+        "initial_memory": 0.6423918042334423,
+        "driven_memory": -0.17053040772566813,
+        "residual": -0.4621699880586225
+      },
+      "intervals": 56
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0078",
+      "stable": "ieee39_expansion/expansion_0076",
+      "unstable_increment": {
+        "applied": -2.7063072896978015,
+        "restoring": 2.1451793967246164,
+        "damping": -0.997264714771904,
+        "initial_memory": 0.43142457268748113,
+        "driven_memory": -0.34713775164601973,
+        "residual": 5.743573581290306
+      },
+      "stable_increment": {
+        "applied": -1.7579713094230272,
+        "restoring": -4.097695339090591,
+        "damping": 0.0725458057481091,
+        "initial_memory": 0.0010022983050132564,
+        "driven_memory": -0.03558589117464915,
+        "residual": 0.08986414339003454
+      },
+      "intervals": 25
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0104",
+      "stable": "ieee39_expansion/expansion_0102",
+      "unstable_increment": {
+        "applied": -4.064426868267079,
+        "restoring": 8.29347028037457,
+        "damping": -3.4089910757977453,
+        "initial_memory": 0.8510373641938649,
+        "driven_memory": -0.5422184494567939,
+        "residual": 3.7829118049059973
+      },
+      "stable_increment": {
+        "applied": -3.0582037212870183,
+        "restoring": -7.747060775734318,
+        "damping": 1.5923005163440818,
+        "initial_memory": 0.08916163216706044,
+        "driven_memory": 0.05735883974639193,
+        "residual": 0.32563144533896116
+      },
+      "intervals": 33
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0106",
+      "stable": "ieee39_expansion/expansion_0102"
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0109",
+      "stable": "ieee39_expansion/expansion_0102",
+      "unstable_increment": {
+        "applied": -1.1350164068363489,
+        "restoring": 3.1936919310488414,
+        "damping": -1.1578016465345469,
+        "initial_memory": 0.08000364764866424,
+        "driven_memory": -0.09165985977963749,
+        "residual": 1.3065266567056741
+      },
+      "stable_increment": {
+        "applied": -0.741382720312005,
+        "restoring": -1.9033974578879866,
+        "damping": -0.3736450133725822,
+        "initial_memory": 0.16069865020667962,
+        "driven_memory": -0.029555655585983626,
+        "residual": 0.18101720022952764
+      },
+      "intervals": 8
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0118",
+      "stable": "ieee39_expansion/expansion_0121",
+      "unstable_increment": {
+        "applied": -5.3807053499873385,
+        "restoring": 9.100411466389327,
+        "damping": -4.396989491508171,
+        "initial_memory": 1.4041486985575524,
+        "driven_memory": -0.7970644836558913,
+        "residual": 5.262111578774389
+      },
+      "stable_increment": {
+        "applied": -4.490352077294935,
+        "restoring": -5.942566221977762,
+        "damping": 2.527765897600877,
+        "initial_memory": 1.1586025897456977,
+        "driven_memory": 0.1357473102602947,
+        "residual": -2.44391137598328
+      },
+      "intervals": 59
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0120",
+      "stable": "ieee39_expansion/expansion_0121",
+      "unstable_increment": {
+        "applied": -1.6960905268218833,
+        "restoring": 3.556439986439503,
+        "damping": -2.0436793012300596,
+        "initial_memory": 0.2762508698106379,
+        "driven_memory": -0.21416331368484534,
+        "residual": 2.027456009139181
+      },
+      "stable_increment": {
+        "applied": -1.0655072725784582,
+        "restoring": -1.209977912325412,
+        "damping": -0.5884919573193454,
+        "initial_memory": 0.5601987056682449,
+        "driven_memory": -0.06938420863487296,
+        "residual": -0.5298373667310455
+      },
+      "intervals": 14
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0123",
+      "stable": "ieee39_expansion/expansion_0121",
+      "unstable_increment": {
+        "applied": -2.731947682452825,
+        "restoring": 7.365798956595922,
+        "damping": -3.1706504048223856,
+        "initial_memory": 0.46240626463664536,
+        "driven_memory": -0.4818125853983776,
+        "residual": 3.5472978242814426
+      },
+      "stable_increment": {
+        "applied": -2.207122207483949,
+        "restoring": -2.2193492289340986,
+        "damping": -0.3763870393063532,
+        "initial_memory": 0.8530621246622407,
+        "driven_memory": -0.12480560414975632,
+        "residual": -0.8337364699040144
+      },
+      "intervals": 29
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0138",
+      "stable": "ieee39_expansion/expansion_0136",
+      "unstable_increment": {
+        "applied": -11.977131230824318,
+        "restoring": 17.55825467319173,
+        "damping": -2.750819028662492,
+        "initial_memory": 1.441214908086311,
+        "driven_memory": -2.488543211867632,
+        "residual": 2.0801103515058736
+      },
+      "stable_increment": {
+        "applied": -10.242124088284466,
+        "restoring": 0.5080396497138417,
+        "damping": 1.9767746886784419,
+        "initial_memory": 1.3487445255748356,
+        "driven_memory": 1.2846098792227876,
+        "residual": 1.1360669085494006
+      },
+      "intervals": 128
+    },
+    {
+      "unstable": "ieee39_expansion/expansion_0143",
+      "stable": "ieee39_expansion/expansion_0136",
+      "unstable_increment": {
+        "applied": -2.976927442236105,
+        "restoring": 3.488180929729417,
+        "damping": -2.512955492100043,
+        "initial_memory": 0.7742306432767823,
+        "driven_memory": -0.3613563148864575,
+        "residual": 5.481287182260718
+      },
+      "stable_increment": {
+        "applied": -2.16663313906365,
+        "restoring": -5.364430130878514,
+        "damping": 0.26864466257947145,
+        "initial_memory": 0.43474177140605597,
+        "driven_memory": -0.06294465555690816,
+        "residual": 0.8749289969060827
+      },
+      "intervals": 21
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0030",
+      "stable": "ieee39_postfault/pilot_0028",
+      "unstable_increment": {
+        "applied": -5.647673685666857,
+        "restoring": 16.437902129608474,
+        "damping": -3.344633956821811,
+        "initial_memory": -0.6943146280246926,
+        "driven_memory": -1.0781693751943182,
+        "residual": -4.005969974298613
+      },
+      "stable_increment": {
+        "applied": -3.5122598370801974,
+        "restoring": -3.9755767101696713,
+        "damping": 0.7377694962258459,
+        "initial_memory": -0.5455736888756182,
+        "driven_memory": 0.07587302476360311,
+        "residual": 0.8049566555463284
+      },
+      "intervals": 51
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0044",
+      "stable": "ieee39_postfault/pilot_0042",
+      "unstable_increment": {
+        "applied": -8.04547628496484,
+        "restoring": 15.881629862039267,
+        "damping": -4.500539044428735,
+        "initial_memory": 0.2567352517238181,
+        "driven_memory": -1.0493130707124563,
+        "residual": 1.7510453024765753
+      },
+      "stable_increment": {
+        "applied": -6.2142239094939145,
+        "restoring": -1.6781992597216502,
+        "damping": 3.5366065036203835,
+        "initial_memory": 0.09291243310175898,
+        "driven_memory": 0.7454278154197609,
+        "residual": -1.3551253975257151
+      },
+      "intervals": 87
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0072",
+      "stable": "ieee39_postfault/pilot_0070",
+      "unstable_increment": {
+        "applied": -5.181271839986654,
+        "restoring": 9.470807205485743,
+        "damping": -3.561417903396088,
+        "initial_memory": 0.7131494380733016,
+        "driven_memory": -0.6523878590250206,
+        "residual": 4.019829321221683
+      },
+      "stable_increment": {
+        "applied": -4.0391395726102495,
+        "restoring": -8.327528982353414,
+        "damping": 2.0194068516733177,
+        "initial_memory": 0.44200514565220494,
+        "driven_memory": 0.08271229960085918,
+        "residual": 1.4328132547082078
+      },
+      "intervals": 42
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0077",
+      "stable": "ieee39_postfault/pilot_0070",
+      "unstable_increment": {
+        "applied": -3.477929225940162,
+        "restoring": 9.692225982701896,
+        "damping": -2.881980539530203,
+        "initial_memory": 0.3503262280918371,
+        "driven_memory": -0.47932680932720584,
+        "residual": 2.5510199108167058
+      },
+      "stable_increment": {
+        "applied": -2.885099694721608,
+        "restoring": -6.104082563762181,
+        "damping": 0.5522615380046149,
+        "initial_memory": 0.4697237269989095,
+        "driven_memory": -0.04351110171973146,
+        "residual": 1.1167267769756497
+      },
+      "intervals": 30
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0093",
+      "stable": "ieee39_postfault/pilot_0086",
+      "unstable_increment": {
+        "applied": -2.688907640250718,
+        "restoring": 7.6732162507229615,
+        "damping": -2.349224416123051,
+        "initial_memory": 0.20666772051503496,
+        "driven_memory": -0.34606164801195904,
+        "residual": 2.0844344467456066
+      },
+      "stable_increment": {
+        "applied": -2.139595816415752,
+        "restoring": -3.9246035306324636,
+        "damping": -0.3658012200463967,
+        "initial_memory": 0.5494704653348517,
+        "driven_memory": -0.09872720408001903,
+        "residual": 0.9731825918133247
+      },
+      "intervals": 21
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0122",
+      "stable": "ieee39_postfault/pilot_0120",
+      "unstable_increment": {
+        "applied": -4.257802901810341,
+        "restoring": 9.205668932648162,
+        "damping": -3.1663362528569987,
+        "initial_memory": 0.5307145550009149,
+        "driven_memory": -0.5571030554305503,
+        "residual": 3.065259335786231
+      },
+      "stable_increment": {
+        "applied": -3.463785221671675,
+        "restoring": -5.343361705231991,
+        "damping": 0.5230715837661736,
+        "initial_memory": 0.5823702158197492,
+        "driven_memory": -0.05072649076916623,
+        "residual": 1.1544345615369709
+      },
+      "intervals": 35
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0174",
+      "stable": "ieee39_postfault/pilot_0172",
+      "unstable_increment": {
+        "applied": -2.867909767786439,
+        "restoring": 11.117018530365735,
+        "damping": -3.2216522204322104,
+        "initial_memory": 0.23746696275075635,
+        "driven_memory": -0.5021653797224876,
+        "residual": 1.8793951868642058
+      },
+      "stable_increment": {
+        "applied": -1.8578732880785132,
+        "restoring": -4.2285485372167875,
+        "damping": 2.3978857189511102,
+        "initial_memory": -0.1921813724483175,
+        "driven_memory": 0.16978560911410165,
+        "residual": -2.8768387408578837
+      },
+      "intervals": 34
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0202",
+      "stable": "ieee39_postfault/pilot_0200",
+      "unstable_increment": {
+        "applied": -3.8078074418955286,
+        "restoring": 9.595601454922084,
+        "damping": -3.5067119367515933,
+        "initial_memory": 0.37192508127518936,
+        "driven_memory": -0.6422932111521109,
+        "residual": 1.8905449915020034
+      },
+      "stable_increment": {
+        "applied": -3.104885961857457,
+        "restoring": -1.0239552489128934,
+        "damping": -0.7326746782845286,
+        "initial_memory": 0.6592336176330149,
+        "driven_memory": -0.2117495948013249,
+        "residual": -0.8879274623756572
+      },
+      "intervals": 34
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0205",
+      "stable": "ieee39_postfault/pilot_0198",
+      "unstable_increment": {
+        "applied": -7.060310474295967,
+        "restoring": 19.345605400802185,
+        "damping": -5.347452346998466,
+        "initial_memory": -0.02658793063570719,
+        "driven_memory": -0.4653958603941648,
+        "residual": 2.244733442614595
+      },
+      "stable_increment": {
+        "applied": -6.946427278118758,
+        "restoring": 1.8658112890558332,
+        "damping": 3.124980539461614,
+        "initial_memory": 0.7400961837718776,
+        "driven_memory": 0.7042662487473004,
+        "residual": -1.3896777772059064
+      },
+      "intervals": 144
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0207",
+      "stable": "ieee39_postfault/pilot_0200",
+      "unstable_increment": {
+        "applied": -0.6000390966609465,
+        "restoring": 1.9233304585124211,
+        "damping": -0.5647201006867277,
+        "initial_memory": -0.031610723009962594,
+        "driven_memory": -0.025046139483084533,
+        "residual": 0.3880417400105254
+      },
+      "stable_increment": {
+        "applied": -0.36528070139499486,
+        "restoring": -0.3651136996540896,
+        "damping": -0.29742796661438964,
+        "initial_memory": 0.1339523266960529,
+        "driven_memory": -0.011000070886893264,
+        "residual": -0.05455575093288305
+      },
+      "intervals": 4
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0220",
+      "stable": "ieee39_postfault/pilot_0218",
+      "unstable_increment": {
+        "applied": -10.483037365032345,
+        "restoring": 10.382694252611298,
+        "damping": -2.3074625021423234,
+        "initial_memory": 1.0680838207211991,
+        "driven_memory": -1.8259394014913366,
+        "residual": -1.6072581580831258
+      },
+      "stable_increment": {
+        "applied": -8.164041441492943,
+        "restoring": 4.010793536535865,
+        "damping": 2.6620312684478593,
+        "initial_memory": 1.1453764871444858,
+        "driven_memory": 0.8904587176231673,
+        "residual": -2.8235407490227082
+      },
+      "intervals": 121
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0222",
+      "stable": "ieee39_postfault/pilot_0218",
+      "unstable_increment": {
+        "applied": -1.340098513567133,
+        "restoring": 3.663279831081028,
+        "damping": -0.9559375495903262,
+        "initial_memory": -0.025814518081409766,
+        "driven_memory": -0.10182551380754491,
+        "residual": 0.36158084531695067
+      },
+      "stable_increment": {
+        "applied": -0.6072427518465825,
+        "restoring": -0.8434417916928825,
+        "damping": -0.1825284132389945,
+        "initial_memory": 0.13158171394848103,
+        "driven_memory": -0.024024902754287845,
+        "residual": -0.05693721265380705
+      },
+      "intervals": 9
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0252",
+      "stable": "ieee39_postfault/pilot_0250",
+      "unstable_increment": {
+        "applied": -5.86429117788601,
+        "restoring": 9.744498264053533,
+        "damping": -3.494656966657346,
+        "initial_memory": 0.6511806738107333,
+        "driven_memory": -1.1771139039183638,
+        "residual": 2.6296609179656083
+      },
+      "stable_increment": {
+        "applied": -4.512111359228326,
+        "restoring": -2.977198115262077,
+        "damping": 0.7264616773526644,
+        "initial_memory": 0.6779397682379902,
+        "driven_memory": 0.03268430942899161,
+        "residual": -2.413575696983368
+      },
+      "intervals": 67
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0254",
+      "stable": "ieee39_postfault/pilot_0250"
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0280",
+      "stable": "ieee39_postfault/pilot_0278",
+      "unstable_increment": {
+        "applied": -11.836127295345076,
+        "restoring": 9.193851847976589,
+        "damping": -1.9576429403909308,
+        "initial_memory": 0.6312804336864376,
+        "driven_memory": -1.4992185163399876,
+        "residual": 9.309494596355279
+      },
+      "stable_increment": {
+        "applied": -9.465172563271015,
+        "restoring": -2.9777268147033897,
+        "damping": 1.876426817025469,
+        "initial_memory": 0.6717650874085914,
+        "driven_memory": 1.05156505481704,
+        "residual": 3.670761825915984
+      },
+      "intervals": 99
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0282",
+      "stable": "ieee39_postfault/pilot_0278",
+      "unstable_increment": {
+        "applied": -5.797610918600594,
+        "restoring": 7.5143108709780035,
+        "damping": -1.8766438143700392,
+        "initial_memory": 0.1784593539363913,
+        "driven_memory": -1.2132787666108384,
+        "residual": 4.349593806742989
+      },
+      "stable_increment": {
+        "applied": -3.9199199504455735,
+        "restoring": -2.479577214854039,
+        "damping": -0.16256681755364183,
+        "initial_memory": 0.235282844499496,
+        "driven_memory": -0.23560527438454024,
+        "residual": -0.1539357406933587
+      },
+      "intervals": 41
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0285",
+      "stable": "ieee39_postfault/pilot_0278",
+      "unstable_increment": {
+        "applied": -5.356496631178219,
+        "restoring": 7.764531888933141,
+        "damping": -1.6813697317956722,
+        "initial_memory": 0.0762276115960141,
+        "driven_memory": -1.0465523667890466,
+        "residual": 4.085224818948947
+      },
+      "stable_increment": {
+        "applied": -3.82431214677617,
+        "restoring": -2.4124029294326594,
+        "damping": -0.19259753314629302,
+        "initial_memory": 0.22759152622224024,
+        "driven_memory": -0.23996999137480776,
+        "residual": -0.15384354634684688
+      },
+      "intervals": 40
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0300",
+      "stable": "ieee39_postfault/pilot_0298",
+      "unstable_increment": {
+        "applied": -4.211418015819861,
+        "restoring": 9.419534119897017,
+        "damping": -4.1414850124136,
+        "initial_memory": 0.753340948210041,
+        "driven_memory": -1.0696289526141363,
+        "residual": 4.681685408725022
+      },
+      "stable_increment": {
+        "applied": -3.412167443148961,
+        "restoring": -3.57117810749732,
+        "damping": 0.3322294236667628,
+        "initial_memory": 0.8044685135272263,
+        "driven_memory": 0.006530189992855846,
+        "residual": -1.4021928268813402
+      },
+      "intervals": 73
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0303",
+      "stable": "ieee39_postfault/pilot_0296",
+      "unstable_increment": {
+        "applied": -0.4466572651079801,
+        "restoring": 11.836375089637897,
+        "damping": -8.708905901788556,
+        "initial_memory": 0.8447383871683798,
+        "driven_memory": -1.7254293732675956,
+        "residual": 8.856219370634106
+      },
+      "stable_increment": {
+        "applied": -1.6764102507389582,
+        "restoring": -0.8983185544437511,
+        "damping": 1.1325576036922316,
+        "initial_memory": 0.1607117937694782,
+        "driven_memory": -0.25841063902709926,
+        "residual": 0.0410052170681805
+      },
+      "intervals": 161
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0335",
+      "stable": "ieee39_postfault/pilot_0330",
+      "unstable_increment": {
+        "applied": -2.5508460479994977,
+        "restoring": 1.8039957631976096,
+        "damping": -1.2494041425661366,
+        "initial_memory": 0.5346716460618488,
+        "driven_memory": -0.2910679762071044,
+        "residual": 3.932833659023109
+      },
+      "stable_increment": {
+        "applied": -2.0701018637061748,
+        "restoring": -2.849530628370524,
+        "damping": -0.5921661037375398,
+        "initial_memory": 0.5114190940977987,
+        "driven_memory": -0.15023461636150767,
+        "residual": 1.9915717670793824
+      },
+      "intervals": 14
+    },
+    {
+      "unstable": "ieee39_postfault/pilot_0380",
+      "stable": "ieee39_postfault/pilot_0378",
+      "unstable_increment": {
+        "applied": -0.9412783365830183,
+        "restoring": -0.65637370703187,
+        "damping": -0.5044632246086824,
+        "initial_memory": 0.6146309244147384,
+        "driven_memory": -0.06428307030128273,
+        "residual": 2.449628974049887
+      },
+      "stable_increment": {
+        "applied": -0.6572561867615141,
+        "restoring": -1.5884979353986446,
+        "damping": -0.1858640266805447,
+        "initial_memory": 0.02428465191903193,
+        "driven_memory": -0.02044253783167246,
+        "residual": 0.24792365592453264
+      },
+      "intervals": 9
+    }
+  ],
+  "component_order": [
+    "applied",
+    "restoring",
+    "damping",
+    "initial_memory",
+    "driven_memory"
+  ],
+  "status": "PASS",
+  "process_status": "PASS",
+  "data_policy": "kiki_official_train_test_v1",
+  "promotion_decision": "KEEP_BASELINE",
+  "claim_boundary": "Observed-path diagnosis over the complete official TASK3 train.",
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "numpy_damping_roots": 1,
+    "rollouts": 154,
+    "tangent_rhs": 26400,
+    "torch_rhs": 31680,
+    "qr": 3460,
+    "svd": 3460,
+    "matrix_products": 3460,
+    "triangular_solves": 3460,
+    "storage_calls": 1038,
+    "work_gauss_intervals": 295023,
+    "work_gauss_nodes": 1966820
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cu130",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\.venv-cu130\\Scripts\\python.exe",
+    "cuda_build": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti"
+  },
+  "result_review_sha256": "47e92af17ca1bf01ad8325c7bb04a1a6a99b73620f0c4b1d045210d65a96ca92"
+}

@@ -10,6 +10,10 @@ The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,
 deletion rules and phased validation for future explicit reduced models.
 The first stage is the [complete train momentum and work diagnosis](../protocols/kiki_topology_memory_balance_v1_zh.md).
+The [completed diagnosis](../reports/kiki_topology_memory_balance_20261116_zh.md)
+isolates release from driven memory and records a positive separation residual
+in 31 of the 33 witnessed unstable train events. The next stage is the
+registered implementation and synthetic separation of topology and memory.
 
 ## Prior topology and memory studies
 

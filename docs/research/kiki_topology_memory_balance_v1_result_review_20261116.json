@@ -1,0 +1,74 @@
+{
+  "verified": true,
+  "run_id": "kiki_topology_memory_balance_v1-train_momentum-20261116T052515039351Z-9dd38563-3d74a01a",
+  "summary_sha256": "b76025f3da6446b1e3a90ed25b7a66531602e63bde1401bf043a3fa7fa7bac65",
+  "artifact_manifest_sha256": "d97ccab465a2f8a2419722b818e9693bd11265abda3886da72c0aba1e9db69a1",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "review_date": "2026-11-16",
+  "artifact_files_verified": 7,
+  "cohort": {
+    "train": 346,
+    "stable": 311,
+    "unstable": 35,
+    "qualified": 346
+  },
+  "source_cache_opens": 2,
+  "opened_source_names": [
+    "static",
+    "development"
+  ],
+  "decoded_roles": [
+    "train"
+  ],
+  "fit_attempts": 0,
+  "free_forecast_rhs": 0,
+  "initialization_failures": 0,
+  "observed_intervals": 98341,
+  "window_summaries_recomputed": 1073,
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "numpy_damping_roots": 1,
+    "rollouts": 154,
+    "tangent_rhs": 26400,
+    "torch_rhs": 31680,
+    "qr": 3460,
+    "svd": 3460,
+    "matrix_products": 3460,
+    "triangular_solves": 3460,
+    "storage_calls": 1038,
+    "work_gauss_intervals": 295023,
+    "work_gauss_nodes": 1966820
+  },
+  "recomputed_relative_maxima": {
+    "history_start_norm": 0,
+    "reset_momentum": 0,
+    "reset_kinetic": 0,
+    "reset_partition": 1.3877787807814457e-17,
+    "momentum_identity": 2.7755575615628914e-17,
+    "kinetic_identity": 4.9404924595819466e-15,
+    "memory_balance": 1.404432126150823e-14,
+    "independent_memory_impulse": 4.098284211995207e-17,
+    "independent_memory_work": 1.0408340855860843e-16,
+    "independent_memory_energy": 2.55351295663786e-15,
+    "window_impulse": 0,
+    "window_work": 0,
+    "window_absolute_work": 0,
+    "window_memory_balance": 2.4868995751603507e-14,
+    "window_separation": 0,
+    "matched_separation": 0,
+    "history_median": 0
+  },
+  "reported_quadrature_gap_max": 1.432187701766452e-14,
+  "witness_coverage": {
+    "unstable_with_post_origin_witness": 33,
+    "unstable_total": 35
+  },
+  "review_scope": "Read-only verification of terminal saved results, registered roster and saved model parameters; no raw source cache reads and no model execution.",
+  "independent_memory_check": "Reconstructed observed velocities from saved acceleration and causal/reset states; independently integrated each constant-rate memory using a five-state matrix exponential including work moments. No production memory-integral helper was used.",
+  "claim_boundary": "Stage A is descriptive observed-path accounting. Engineering verification does not establish proposed-model predictive effect, identifiability, stability certification or promotion. Scientific_pass=false is retained.",
+  "review_limits": [
+    "Saved witness/window bounds were checked; raw threshold crossings and angle extrema were not rederived because original equilibrium arrays were not reread.",
+    "Nonzero physical momentum and kinetic residuals remain diagnostic values; only accounting and memory identities were checked against zero."
+  ]
+}
