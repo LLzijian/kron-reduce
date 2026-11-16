@@ -1,0 +1,15 @@
+{
+  "reviewer": "Astra Ultra",
+  "run_id": "topology_memory_rom_causal_v1-topology_memory_rom_causal-20261116T083655084758Z-6bc27e8c-7c410f18",
+  "result_receipt_sha256": "a12edc11ab90a66d30c5a9e146596862d84c4714e21cbd121be1c13dbe4ffc4e",
+  "engineering_pass": true,
+  "scientific_pass": true,
+  "promotion_decision": "KEEP_BASELINE",
+  "findings": [
+    "Receipt, manifest, summary and all 26 JSON artifact digests match. Operation counts equal all approved caps.",
+    "Both priors and both history conditions have complete 24/12/12 coverage in S0–S3, with zero numerical failures or unresolved events.",
+    "Known-coefficient clean-history initial and origin recovery pass in all four systems with zero prior.",
+    "With the fixed noise, zero prior increases all four maximum hidden errors and event-mean val 8 s NRMSE while all declared prediction gates pass. S0 pooled val NRMSE decreases slightly.",
+    "The primary structure study remains a scientific failure. This diagnosis uses zero fits and zero real data and grants no TASK3 or deployment progression."
+  ]
+}

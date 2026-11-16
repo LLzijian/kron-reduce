@@ -6,6 +6,8 @@ directories; harness-generated summaries belong in `reports/generated/`.
 
 The [S0–S4 topology-memory identification report](topology_memory_rom_synthetic_20261116_zh.md)
 records the complete synthetic structure comparisons and frozen train/val/test scores.
+The [fixed-coefficient history prior report](topology_memory_rom_causal_20261116_zh.md)
+records how the prior affects hidden-state and trajectory recovery under two history conditions.
 
 ## Report contract
 

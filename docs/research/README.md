@@ -15,7 +15,9 @@ isolates release from driven memory and records a positive separation residual
 in 31 of the 33 witnessed unstable train events. The [completed S0–S4 comparison](../reports/topology_memory_rom_synthetic_20261116_zh.md)
 recovers the saturation support in S2 and omits the generating spatial
 redistribution in S1 and S3. The [fixed-coefficient history prior comparison](../protocols/topology_memory_rom_causal_v1_zh.md)
-isolates the observed hidden-state recovery error before any full TASK3 training.
+passes its [fixed-truth recovery gates](../reports/topology_memory_rom_causal_20261116_zh.md)
+and exposes greater hidden-state error without the prior under noise. Full TASK3
+training remains gated on structure recovery and rejection of out-of-library mismatch.
 
 ## Prior topology and memory studies
 

@@ -4835,7 +4835,7 @@
       "fit_attempts": 0,
       "max_executions": 1,
       "retry_allowed": false,
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_topology_memory_rom_progression",
       "operation_limits": {
         "npz_decodes": 4,
@@ -4850,7 +4850,15 @@
       "plan_path": "configs/proposals/topology_memory_rom_causal_v1.json",
       "plan_sha256": "eedce0f19eb6006cad37914ae70fd8da77ab18fa2d257b4a356baffee9a51f55",
       "review_path": "docs/research/topology_memory_rom_causal_v1_review_20261116.json",
-      "review_sha256": "218b6d4f661d0695be91547ba4c41070cf62bc04e97b12c30a3153e7e06f1f60"
+      "review_sha256": "218b6d4f661d0695be91547ba4c41070cf62bc04e97b12c30a3153e7e06f1f60",
+      "run_id": "topology_memory_rom_causal_v1-topology_memory_rom_causal-20261116T083655084758Z-6bc27e8c-7c410f18",
+      "result_manifest_sha256": "3bbe623dd1182fc51018a0481423003f82f7547cce1b2047022b032be30e99a9",
+      "result_receipt_path": "docs/reports/topology_memory_rom_causal_20261116_evidence.json",
+      "result_receipt_sha256": "a12edc11ab90a66d30c5a9e146596862d84c4714e21cbd121be1c13dbe4ffc4e",
+      "result_review_path": "docs/research/topology_memory_rom_causal_v1_result_review_20261116.json",
+      "result_review_sha256": "27569174bf84a0fc03c106d0975bcc9229e9e7c257897ac34ec2d98895a3e621",
+      "engineering_pass": true,
+      "scientific_pass": true
     }
   },
   "saved_evidence_audits": {
