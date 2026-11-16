@@ -5714,7 +5714,7 @@
       "val_guard": true
     },
     "kiki_es_sindy_test_v1_20261117": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "kiki_es_sindy_test_v1",
       "max_executions": 1,
       "retry_allowed": false,
@@ -5743,7 +5743,14 @@
       "frozen_model_manifest": {
         "path": "results/kiki_es_sindy_fit_v1-fit-20261116T175607241836Z-3360c0d3-dfa96cb9/freeze.json",
         "sha256": "e31cac93086f3111eebb969766e78bc293b4739b71178da23a38d3a15b773eb9"
-      }
+      },
+      "run_id": "kiki_es_sindy_test_v1-test-20261116T181034922368Z-41cedc91-37b14016",
+      "result_manifest_sha256": "85b43592d062b503a92fa50ad7fcc28dcdca1d4745fd0784446b1b33b36b6b87",
+      "result_receipt_path": "docs/reports/kiki_es_sindy_test_20261117_evidence.json",
+      "result_receipt_sha256": "687cd282da8b78cf279ec8a98eb666a438f461962dc09c6f717c5cf4963c3c17",
+      "result_review_path": "docs/research/kiki_es_sindy_test_v1_result_review_20261117.json",
+      "result_review_sha256": "28ee720d975be03040cf12d79aa54e4da3e036f0faac65bcfe5fb204dbe94e7f",
+      "scientific_pass": false
     },
     "kiki_machine_local_topology_spatial_relaxation_test_v1_20261116": {
       "status": "consumed",

@@ -10,6 +10,9 @@ The [ES-SINDy harmonic fit](../reports/es_sindy_synthetic_20261117_zh.md)
 recovers both shared shape coefficients in one clean synthetic fit. The selected
 weak-form start reduces 3 s val squared trajectory error by a factor of 1001
 and retains complete causal prediction coverage at both integration steps.
+The [full TASK3 fit and frozen score](../reports/kiki_es_sindy_20261117_zh.md)
+retains the zero-coefficient anchor after 12 updates. Complete train, val and
+test scoring gives 335, 106 and 70 correct stability judgments, respectively.
 
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,

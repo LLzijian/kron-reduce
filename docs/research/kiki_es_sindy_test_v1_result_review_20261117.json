@@ -1,0 +1,13 @@
+{
+  "reviewer": "Artifact verification and frozen roster check",
+  "run_id": "kiki_es_sindy_test_v1-test-20261116T181034922368Z-41cedc91-37b14016",
+  "result_receipt_sha256": "687cd282da8b78cf279ec8a98eb666a438f461962dc09c6f717c5cf4963c3c17",
+  "verified": true,
+  "scientific_pass": false,
+  "findings": [
+    "All 22 fit and six scoring artifact SHA-256 checks matched.",
+    "Fit completed 12 updates and selected update 0 using full val alone.",
+    "Frozen scoring covers train 346, val 107 and test 76; test stage performed zero fits.",
+    "Test has 70 correct, two unresolved and no uncovered events or numerical failures. Full-roster accuracy remains null."
+  ]
+}
