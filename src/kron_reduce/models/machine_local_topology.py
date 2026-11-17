@@ -322,19 +322,38 @@ def _memory_ball_update(model, hidden, design, residual, observed, fixed, power,
     return chosen, fit["singular"], diagnostics
 
 
+def _branch_log_design(hidden, design, radial_radius, width):
+    xi = hidden[:, -width:]
+    stretch = (1.+(xi/radial_radius).square().sum(dim=1, keepdim=True)).sqrt()
+    branch = design[..., -width:]
+    branch = stretch[:, None]*(branch+(branch @ xi[..., None])*xi[:, None, :]/radial_radius**2)
+    return torch.cat((hidden[:, :-width], xi/stretch), dim=1), torch.cat((design[..., :-width], branch), dim=-1)
+
+
+def _restore_branch_initial_state(proposal, radial_radius, dynamic_radius, width):
+    mapped_radius = dynamic_radius/np.sqrt(1.+(dynamic_radius/radial_radius)**2)
+    w = _ball(proposal[:, -width:], mapped_radius)
+    xi = w/(1.-(w/radial_radius).square().sum(dim=1, keepdim=True)).sqrt()
+    return torch.cat((proposal[:, :-width], xi), dim=1)
+
+
 def predict_from_topology_history(model, q, v, power, equilibrium, scale, count, *, max_step, spend,
                                   memory_radius=1., prior_weight=0., exact_memory_ball=False,
                                   fit_dynamic_coupling=False, dynamic_radius=.6,
-                                  return_observation_jacobian=False):
+                                  return_observation_jacobian=False, branch_log_coordinates=False):
     """Fit latent initial conditions and propagate optional zero-start topology states.
 
     For topology-memory ROMs, dynamic coordinates stay zero unless explicitly
     fitted. The optional observation Jacobian is the unregularized design from
-    the final Gauss–Newton linearization, before its update.
+    the final Gauss–Newton linearization, before its update, in physical coordinates.
     """
     q, v, power, equilibrium, scale = map(model._tensor, (q, v, power, equilibrium, scale))
     n, r = model.n_nodes, model.memory_dimension
     dynamic_dimension = int(getattr(model, "dynamic_dimension", 0))
+    radial_radius = getattr(model, "spatial_radius", None)
+    if type(branch_log_coordinates) is not bool or (branch_log_coordinates and (
+            not fit_dynamic_coupling or radial_radius is None or prior_weight != 0. or model.topology_dimension)):
+        raise ValueError("branch log coordinates require a fitted ROM branch state with zero prior")
     if (type(fit_dynamic_coupling) is not bool or type(return_observation_jacobian) is not bool
             or (fit_dynamic_coupling and not dynamic_dimension)):
         raise ValueError("dynamic coupling fitting requires active ROM topology coordinates")
@@ -380,8 +399,14 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
                 # The linearized solve penalizes the new absolute hidden state.
                 design = torch.cat((design, torch.diag(prior).expand(len(q), -1, -1)), dim=1)
                 residual = torch.cat((residual, -hidden*prior), dim=1)
+            coordinates = hidden
+            if branch_log_coordinates:
+                spend("branch_jacobian_products", len(q))
+                coordinates, design = _branch_log_design(hidden, design, radial_radius, n-1)
             result = solve_hidden_batch(design, residual, spend=spend)
-            proposal = hidden+result["hidden_start"]
+            proposal = coordinates+result["hidden_start"]
+            if branch_log_coordinates:
+                proposal = _restore_branch_initial_state(proposal, radial_radius, dynamic_radius, n-1)
             blocks = [_ball(proposal[:, :r], memory_radius)]
             if model.topology_dimension:
                 blocks.append(_ball(proposal[:, r:r+model.topology_dimension], .6))

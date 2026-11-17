@@ -106,7 +106,8 @@ def _observer(model, history, power, equilibrium, hscale, count, step, settings,
         equilibrium, hscale, count, max_step=step, spend=spend,
         memory_radius=settings["memory_radius"], dynamic_radius=settings["topology_radius"],
         prior_weight=settings["prior_weight"], fit_dynamic_coupling=bool(model.dynamic_dimension),
-        return_observation_jacobian=jacobian)
+        return_observation_jacobian=jacobian,
+        branch_log_coordinates=settings.get("branch_log_coordinates", False) and bool(getattr(model, "spatial", False)))
 
 
 def _objective(model, truth, indices, power, equilibrium, scale, hscale, count, settings, spend):

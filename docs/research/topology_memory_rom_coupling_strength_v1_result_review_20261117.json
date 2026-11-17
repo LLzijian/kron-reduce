@@ -1,0 +1,15 @@
+{
+  "reviewer": "Astra Ultra",
+  "run_id": "topology_memory_rom_coupling_strength_v1-topology_memory_rom_coupling_strength-20261117T093739105529Z-e0941400-2be1815b",
+  "result_receipt_sha256": "c829d7b4729586f2555e619ec4b05630514370502a73a56ddbf0e39091a1c923",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "findings": [
+    "The receipt, source summary and all 73 artifact hashes match. All 20 full score rosters match the approved IDs.",
+    "The matching overall-coupling candidate passes; a val event of the candidate with both dynamic terms exceeds the integration-step disagreement threshold.",
+    "The matched branch and combined candidates pass with the known forecast start, but fail short-momentum and hidden-state thresholds with the causal estimate.",
+    "The fixed-coupling and fifth-harmonic omission cases meet their registered decisions. The short diagnostic detects a mismatch while a candidate meets the original long-horizon gate.",
+    "The run has zero fits and zero real data reads. Close the authority with science fail; a separately approved change in branch initialization coordinates can test the diagnosed mechanism."
+  ]
+}

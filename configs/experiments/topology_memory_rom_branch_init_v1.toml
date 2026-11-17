@@ -1,0 +1,13 @@
+task_type = "machine_local_topology"
+data_policy = "analytic_synthetic_only"
+dataset = "synthetic_benchmark_registry_v1"
+authorization = "topology_memory_rom_branch_init_v1_20261117"
+workflow = "topology_memory_rom_branch_init_v1"
+stage = "topology_memory_rom_branch_init"
+execution_mode = "bounded_synthetic_cli_only"
+protocol = "docs/protocols/topology_memory_rom_branch_init_v1_zh.md"
+plan = "configs/proposals/topology_memory_rom_branch_init_v1.json"
+real_data_reads = 0
+fit_attempts = 0
+max_executions = 1
+retry_allowed = false

@@ -4869,7 +4869,7 @@
       "fit_attempts": 0,
       "max_executions": 1,
       "retry_allowed": false,
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_coupling_comparison_progression",
       "operation_limits": {
         "numpy_rhs": 388800,
@@ -4886,7 +4886,43 @@
       "plan_path": "configs/proposals/topology_memory_rom_coupling_strength_v1.json",
       "plan_sha256": "51c6c81dc3abe1f792a01413fefb2d697fb0f04e7b7004d6837b044f2dc81fd7",
       "review_path": "docs/research/topology_memory_rom_coupling_strength_v1_review_20261117.json",
-      "review_sha256": "23538a77c278160c0fd48ffecb12ce65d685e0ac2cb1ad3132095be427fbd03a"
+      "review_sha256": "23538a77c278160c0fd48ffecb12ce65d685e0ac2cb1ad3132095be427fbd03a",
+      "run_id": "topology_memory_rom_coupling_strength_v1-topology_memory_rom_coupling_strength-20261117T093739105529Z-e0941400-2be1815b",
+      "result_manifest_sha256": "7e51b8d0826e5b5ce796f55e2c6e86b8f42319e26f7f3183cdaa7d5eb3d13c96",
+      "result_receipt_path": "docs/reports/topology_memory_rom_coupling_strength_v1_20261117_evidence.json",
+      "result_receipt_sha256": "c829d7b4729586f2555e619ec4b05630514370502a73a56ddbf0e39091a1c923",
+      "result_review_path": "docs/research/topology_memory_rom_coupling_strength_v1_result_review_20261117.json",
+      "result_review_sha256": "a6cfb2a5b8c54a1546d2cc8b1c448715f5e89865cf48abd6ace4446add7dad1d",
+      "engineering_pass": true,
+      "scientific_pass": false
+    },
+    "topology_memory_rom_branch_init_v1_20261117": {
+      "experiment": "topology_memory_rom_branch_init_v1",
+      "workflow": "topology_memory_rom_branch_init_v1",
+      "stage": "topology_memory_rom_branch_init",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "status": "active",
+      "authority": "explicit_operator_coupling_initialization_progression",
+      "operation_limits": {
+        "npz_decodes": 5,
+        "torch_rhs": 1244805,
+        "tangent_rhs": 72000,
+        "rollouts": 430,
+        "qr": 4800,
+        "svd": 4800,
+        "matrix_products": 4800,
+        "triangular_solves": 4800,
+        "branch_jacobian_products": 4800,
+        "gradients": 5
+      },
+      "plan_path": "configs/proposals/topology_memory_rom_branch_init_v1.json",
+      "plan_sha256": "702e0f043b685800cc51c9b9bb28cd39ed6494549b639efa4d36690d38728d3a",
+      "review_path": "docs/research/topology_memory_rom_branch_init_v1_review_20261117.json",
+      "review_sha256": "181d7e02c1c5815e3417d6774c2303bffebd409b73ea6db0f6ed6286358a6814"
     }
   },
   "saved_evidence_audits": {

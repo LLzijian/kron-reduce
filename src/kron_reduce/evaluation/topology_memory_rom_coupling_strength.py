@@ -10,6 +10,7 @@ from kron_reduce.evaluation.machine_local_topology_truth import (
     _incidence,
     parameters,
 )
+from kron_reduce.evaluation.topology_memory_rom_causal import _read_source
 from kron_reduce.evaluation.topology_memory_rom_synthetic import (
     _adequate,
     _cases,
@@ -23,6 +24,7 @@ from kron_reduce.evaluation.topology_memory_rom_synthetic import (
 )
 from kron_reduce.evaluation.topology_memory_rom_truth import truth_rollout
 from kron_reduce.evaluation.trajectory_stability import classify
+from project_harness.evidence import sha256_file
 
 SUPPORT = {"fixed": "C0S0H0", "overall": "C1S0H0", "branch": "C0S1H0", "both": "C1S1H0"}
 TRUTHS = (*SUPPORT, "fifth_harmonic")
@@ -89,6 +91,12 @@ def execute(root, directory, plan, budget):
     equilibrium = np.broadcast_to(reference, power.shape).copy()
     rates = (plan["truth"]["common_rate"], plan["truth"]["spatial_rate"])
     limits = plan["gates"]
+    source = plan.get("source")
+    if source is not None:
+        baseline = root/"results"/source["run_id"]
+        if baseline.is_symlink() or baseline.is_junction() or baseline.resolve().parent != (root/"results").resolve():
+            raise ValueError("frozen coupling comparison directory differs")
+        manifest = _read_source(baseline/"artifact_hashes.json", source["manifest_sha256"])
     models = {key: _model(params, support, plan, truth=True).eval() for key, support in SUPPORT.items()}
     records = {}
     for population in TRUTHS:
@@ -98,12 +106,25 @@ def execute(root, directory, plan, budget):
         common = generating in ("overall", "both")
         branch = generating in ("branch", "both")
         topology = {"fixed": "none", "overall": "common", "branch": "spatial", "both": "both"}[generating]
-        fine, truth = (truth_rollout(params, cases["q"], cases["v"], power, cases["z"], count=810,
-                      max_step=step, spend=budget.spend, topology=topology,
-                      c=cases["c"][:, 0] if common else None, xi=cases["xi"] if branch else None,
-                      topology_dynamics=(rates, (1., 1.)) if common or branch else None,
-                      fifth_harmonic=plan["truth"]["fifth_harmonic"] if population == "fifth_harmonic" else 0.)
-                       for step in (.00125, .000625))
+        if source is None:
+            fine, truth = (truth_rollout(params, cases["q"], cases["v"], power, cases["z"], count=810,
+                          max_step=step, spend=budget.spend, topology=topology,
+                          c=cases["c"][:, 0] if common else None, xi=cases["xi"] if branch else None,
+                          topology_dynamics=(rates, (1., 1.)) if common or branch else None,
+                          fifth_harmonic=plan["truth"]["fifth_harmonic"] if population == "fifth_harmonic" else 0.)
+                           for step in (.00125, .000625))
+        else:
+            truth_name = f"{population}/truth.npz"
+            path = baseline/truth_name
+            if path.is_symlink() or path.is_junction() or sha256_file(path) != manifest[truth_name]:
+                raise ValueError("frozen coupling truth archive differs")
+            budget.spend("npz_decodes")
+            with np.load(path, allow_pickle=False) as data:
+                if (data["ids"].tolist() != cases["ids"] or not np.array_equal(data["roles"], roles)
+                        or not np.array_equal(data["power"], power) or not np.array_equal(data["equilibrium"], equilibrium)):
+                    raise ValueError("frozen coupling roster or inputs differ")
+                fine, truth = data["fine"], data["refined"]
+            old_summary = _read_source(baseline/population/"summary.json", manifest[f"{population}/summary.json"])
         scale = np.sqrt(np.mean(truth[train, 11:, :20]**2, axis=(0, 1))).clip(min=1e-4)
         hscale = np.sqrt(np.mean(truth[train, :11, :20]**2, axis=(0, 1))).clip(min=1e-4)
         momentum_scale = np.sqrt(np.mean(_momentum_increment(truth[train, 10:], mass)**2,
@@ -114,12 +135,19 @@ def execute(root, directory, plan, budget):
         step_gap = np.max(np.abs((fine[..., :20]-truth[..., :20])/scale), axis=(1, 2))
         for coarse, refined, gap in zip(classes_fine, classes, step_gap, strict=True):
             refined["reference_qualified"] = bool(gap <= limits["truth_step_max"] and align_classes(coarse, refined))
-        np.savez_compressed(folder/"truth.npz", fine=fine, refined=truth, roles=roles, ids=cases["ids"],
-                            power=power, equilibrium=equilibrium, scale=scale, history_scale=hscale,
-                            momentum_scale=momentum_scale)
+        if source is None:
+            np.savez_compressed(folder/"truth.npz", fine=fine, refined=truth, roles=roles, ids=cases["ids"],
+                                power=power, equilibrium=equilibrium, scale=scale, history_scale=hscale,
+                                momentum_scale=momentum_scale)
+        else:
+            _write(folder/"source.json", {"run_id": source["run_id"], "truth_sha256": manifest[truth_name],
+                "reused_score_sha256": {key: manifest[f"{population}/{key}-scores.json"] for key in ("fixed", "overall")}})
 
         candidates = {}
         for candidate, model in models.items():
+            if source is not None and candidate in ("fixed", "overall"):
+                candidates[candidate] = old_summary["candidates"][candidate] | {"reused": True}
+                continue
             forecast, histories, failures, _, _ = _forecast(model, roles, truth[:, :11, :20], power,
                                                              equilibrium, hscale, plan, budget)
             score = _scores(cases, forecast, truth, truth[:, :11, :20], equilibrium, mass, scale, classes, limits)

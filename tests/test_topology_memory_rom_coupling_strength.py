@@ -9,8 +9,28 @@ from kron_reduce.evaluation.topology_memory_rom_coupling_strength import (
     _match_initial_coupling,
     _momentum_error,
 )
+from kron_reduce.models.machine_local_topology import (
+    _branch_log_design,
+    _restore_branch_initial_state,
+)
 from kron_reduce.models.nonlinear_latent import NonlinearPassiveClosure
 from kron_reduce.models.topology_memory_rom import TopologyMemoryROM
+
+
+def test_branch_log_initialization_uses_exact_inverse_derivative():
+    physical = torch.tensor([[.1, .04, .18, -.16]], dtype=torch.float64)
+    design = torch.eye(4, dtype=physical.dtype)[None]
+    log_state, converted = _branch_log_design(physical, design, .27, 2)
+    restored = _restore_branch_initial_state(log_state, .27, .6, 2)
+    torch.testing.assert_close(restored, physical)
+    independent = torch.func.jacfwd(
+        lambda log_row: _restore_branch_initial_state(log_row[None], .27, .6, 2)[0],
+    )(log_state[0])
+    torch.testing.assert_close(converted[0], independent)
+    outside = log_state.clone()
+    outside[:, -2:] *= 10
+    capped = _restore_branch_initial_state(outside, .27, .6, 2)
+    torch.testing.assert_close(torch.linalg.vector_norm(capped[:, -2:]), physical.new_tensor(.6))
 
 
 def test_hidden_errors_separate_coupling_groups_and_steps():

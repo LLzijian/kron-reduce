@@ -36,7 +36,8 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "spatial_coupling_causal": "machine_local_topology_spatial_coupling_causal_v1",
            "topology_memory_rom": "topology_memory_rom_synthetic_v1",
            "topology_memory_rom_causal": "topology_memory_rom_causal_v1",
-           "topology_memory_rom_coupling_strength": "topology_memory_rom_coupling_strength_v1"}
+           "topology_memory_rom_coupling_strength": "topology_memory_rom_coupling_strength_v1",
+           "topology_memory_rom_branch_init": "topology_memory_rom_branch_init_v1"}
 
 
 def authorize(root, stage):
@@ -44,7 +45,7 @@ def authorize(root, stage):
     name = STUDIES[stage]
     recent = ("dynamic_coupling", "spatial_coupling", "spatial_coupling_causal", "topology_memory_rom",
               "topology_memory_rom_causal")
-    suffix = "_20261117" if stage == "topology_memory_rom_coupling_strength" else (
+    suffix = "_20261117" if stage in ("topology_memory_rom_coupling_strength", "topology_memory_rom_branch_init") else (
         "_20261116" if stage in recent else "_20261115")
     auth_id = name+suffix
     entry = load_manifest(root)["experiments"][name]
@@ -143,6 +144,21 @@ def authorize(root, stage):
                 or plan["causal_receipt"] != receipt or "fits" in plan["operation_limits"]):
             raise RuntimeError("the coupling comparison requires completed fixed-coefficient clean recovery and zero fits")
         verify_bound_file(root, receipt["path"], receipt["sha256"])
+    if stage == "topology_memory_rom_branch_init":
+        previous = policy[STUDIES["topology_memory_rom_coupling_strength"]+"_20261117"]
+        source = {"run_id": previous["run_id"], "manifest_sha256": previous["result_manifest_sha256"],
+                  "receipt_path": previous["result_receipt_path"], "receipt_sha256": previous["result_receipt_sha256"],
+                  "plan_path": previous["plan_path"], "plan_sha256": previous["plan_sha256"]}
+        if (previous["status"] != "consumed" or previous["engineering_pass"] is not True
+                or previous["scientific_pass"] is not False or plan["source"] != source or "fits" in plan["operation_limits"]):
+            raise RuntimeError("the branch initializer requires the closed known-coefficient comparison and zero fits")
+        verify_bound_file(root, source["receipt_path"], source["receipt_sha256"])
+        verify_bound_file(root, source["plan_path"], source["plan_sha256"])
+        original = json.loads((root/source["plan_path"]).read_bytes())
+        same = ("ids", "cohorts", "speed_rad_s", "tau_range", "gates", "seed", "excitation", "truth")
+        if (any(plan[key] != original[key] for key in same)
+                or plan["settings"] != original["settings"] | {"branch_log_coordinates": True}):
+            raise RuntimeError("the comparison may change only the branch history solve coordinates")
     if stage == "spatial_damping":
         prior = policy[STUDIES["angle_damping"]+"_20261115"]
         receipt = {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]}
@@ -308,7 +324,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
             from kron_reduce.evaluation.topology_memory_rom_causal import execute as rom_causal
 
             kernels[stage] = rom_causal
-        if stage == "topology_memory_rom_coupling_strength":
+        if stage in ("topology_memory_rom_coupling_strength", "topology_memory_rom_branch_init"):
             from kron_reduce.evaluation.topology_memory_rom_coupling_strength import (
                 execute as rom_coupling_strength,
             )
