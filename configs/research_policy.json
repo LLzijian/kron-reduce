@@ -4953,12 +4953,20 @@
         "gradients": 49,
         "val_checks": 5
       },
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_from_scratch_joint_es_sindy",
       "plan_path": "configs/proposals/joint_energy_sindy_synthetic_v1.json",
       "plan_sha256": "c07f99d3a909fae33acbcfb6080b7074719e6aa31b97c2abb1e5eac70da68006",
       "review_path": "docs/research/joint_energy_sindy_synthetic_v1_review_20261117.json",
-      "review_sha256": "df84bcbaf962aac57ca7df54db10a32a66480b33a070e63ee6900abdf623dea1"
+      "review_sha256": "df84bcbaf962aac57ca7df54db10a32a66480b33a070e63ee6900abdf623dea1",
+      "run_id": "joint_energy_sindy_synthetic_v1-synthetic-20261117T002335088268Z-4979f53b-febd3a86",
+      "result_manifest_sha256": "71ba03bb02f002e0d3641e0669e0d047c7a21ce5705f019578008f455599693e",
+      "result_receipt_path": "docs/reports/joint_energy_sindy_synthetic_20261117_evidence.json",
+      "result_receipt_sha256": "79ffcc36ebc516b333d563d1a86cf618d658b599cf2bcd09ddce155977892402",
+      "result_review_path": "docs/research/joint_energy_sindy_synthetic_v1_result_review_20261117.json",
+      "result_review_sha256": "f5d089c652191f37609e7143f1430e34f19bade6358249287ec249d8b7b88acb",
+      "engineering_pass": false,
+      "scientific_pass": false
     },
     "memory_saturation_synthetic_v1_20261117": {
       "experiment": "memory_saturation_synthetic_v1",

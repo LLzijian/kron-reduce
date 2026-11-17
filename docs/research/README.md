@@ -6,6 +6,11 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [from-scratch joint ES-SINDy fit](../reports/joint_energy_sindy_synthetic_20261117_zh.md)
+completes all 48 updates with an explicit energy balance. The frozen model
+misses the synthetic trajectory, spatial redistribution, and memory-kernel
+gates, so the new joint TASK3 scope is not opened.
+
 The [single memory saturation fit](../reports/memory_saturation_synthetic_20261117_zh.md)
 recovers the S2 memory kernel with 1.55% relative error and complete causal
 coverage. The [fixed-structure TASK3 protocol](../protocols/kiki_memory_saturation_v1_zh.md)

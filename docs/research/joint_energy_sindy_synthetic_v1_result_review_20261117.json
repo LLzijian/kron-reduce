@@ -1,0 +1,14 @@
+{
+  "reviewer": "Astra Ultra",
+  "run_id": "joint_energy_sindy_synthetic_v1-synthetic-20261117T002335088268Z-4979f53b-febd3a86",
+  "result_receipt_sha256": "79ffcc36ebc516b333d563d1a86cf618d658b599cf2bcd09ddce155977892402",
+  "engineering_pass": false,
+  "scientific_pass": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "findings": [
+    "All 11 artifact hashes match. One fit completed all 48 updates and selected update 48.",
+    "Val has 11 reference-qualified events and one truth-only qualification failure. There were no prediction numerical failures.",
+    "Spatial redistribution and memory-kernel errors exceed the frozen gates. Pruning removes two groups present in truth and retains speed damping absent from truth.",
+    "The nominal matched threshold was not met, so the fifth-harmonic comparison cannot certify the preregistered rejection. The TASK3 gate remains closed."
+  ]
+}
