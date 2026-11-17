@@ -35,7 +35,8 @@ STUDIES = {"s0": "machine_local_topology_v1", "closeout": "machine_local_topolog
            "spatial_coupling": "machine_local_topology_spatial_coupling_v1",
            "spatial_coupling_causal": "machine_local_topology_spatial_coupling_causal_v1",
            "topology_memory_rom": "topology_memory_rom_synthetic_v1",
-           "topology_memory_rom_causal": "topology_memory_rom_causal_v1"}
+           "topology_memory_rom_causal": "topology_memory_rom_causal_v1",
+           "topology_memory_rom_coupling_strength": "topology_memory_rom_coupling_strength_v1"}
 
 
 def authorize(root, stage):
@@ -43,7 +44,9 @@ def authorize(root, stage):
     name = STUDIES[stage]
     recent = ("dynamic_coupling", "spatial_coupling", "spatial_coupling_causal", "topology_memory_rom",
               "topology_memory_rom_causal")
-    auth_id = name+("_20261116" if stage in recent else "_20261115")
+    suffix = "_20261117" if stage == "topology_memory_rom_coupling_strength" else (
+        "_20261116" if stage in recent else "_20261115")
+    auth_id = name+suffix
     entry = load_manifest(root)["experiments"][name]
     expected = {"module": MODULE, "workflow": name, "stage": stage, "dataset": "synthetic_benchmark_registry_v1",
                 "execution_mode": "bounded_synthetic_cli_only", "data_policy": "analytic_synthetic_only"}
@@ -133,6 +136,13 @@ def authorize(root, stage):
         receipt = json.loads((root/source["receipt_path"]).read_bytes())
         if receipt["selected_by_truth"]["S0"]["gates"]["initial_state_recovery"]["status"] != "FAIL":
             raise RuntimeError("the history prior diagnosis requires the registered fixed-coefficient recovery failure")
+    if stage == "topology_memory_rom_coupling_strength":
+        previous = policy[STUDIES["topology_memory_rom_causal"]+"_20261116"]
+        receipt = {"path": previous["result_receipt_path"], "sha256": previous["result_receipt_sha256"]}
+        if (previous["status"] != "consumed" or previous["scientific_pass"] is not True
+                or plan["causal_receipt"] != receipt or "fits" in plan["operation_limits"]):
+            raise RuntimeError("the coupling comparison requires completed fixed-coefficient clean recovery and zero fits")
+        verify_bound_file(root, receipt["path"], receipt["sha256"])
     if stage == "spatial_damping":
         prior = policy[STUDIES["angle_damping"]+"_20261115"]
         receipt = {"path": prior["result_receipt_path"], "sha256": prior["result_receipt_sha256"]}
@@ -298,6 +308,12 @@ def run(*, root, experiment, stage, result_dir, run_id):
             from kron_reduce.evaluation.topology_memory_rom_causal import execute as rom_causal
 
             kernels[stage] = rom_causal
+        if stage == "topology_memory_rom_coupling_strength":
+            from kron_reduce.evaluation.topology_memory_rom_coupling_strength import (
+                execute as rom_coupling_strength,
+            )
+
+            kernels[stage] = rom_coupling_strength
         kernel = kernels[stage]
         summary = kernel(root, result_dir, plan, budget)
     finally:
