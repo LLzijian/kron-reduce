@@ -8,6 +8,8 @@ The [S0–S4 topology-memory identification report](topology_memory_rom_syntheti
 records the complete synthetic structure comparisons and frozen train/val/test scores.
 The [fixed-coefficient history prior report](topology_memory_rom_causal_20261116_zh.md)
 records how the prior affects hidden-state and trajectory recovery under two history conditions.
+The [coupling strength report](topology_memory_rom_coupling_strength_20261117_zh.md)
+compares overall and branch-dependent changes and diagnoses their history initialization.
 
 ## Report contract
 

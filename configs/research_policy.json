@@ -4905,7 +4905,7 @@
       "fit_attempts": 0,
       "max_executions": 1,
       "retry_allowed": false,
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_coupling_initialization_progression",
       "operation_limits": {
         "npz_decodes": 5,
@@ -4922,7 +4922,15 @@
       "plan_path": "configs/proposals/topology_memory_rom_branch_init_v1.json",
       "plan_sha256": "702e0f043b685800cc51c9b9bb28cd39ed6494549b639efa4d36690d38728d3a",
       "review_path": "docs/research/topology_memory_rom_branch_init_v1_review_20261117.json",
-      "review_sha256": "181d7e02c1c5815e3417d6774c2303bffebd409b73ea6db0f6ed6286358a6814"
+      "review_sha256": "181d7e02c1c5815e3417d6774c2303bffebd409b73ea6db0f6ed6286358a6814",
+      "run_id": "topology_memory_rom_branch_init_v1-topology_memory_rom_branch_init-20261117T100024225497Z-8b1fbc63-a2d016a5",
+      "result_manifest_sha256": "fa1b4a5995311639b3b1ac9a0052438773eededb164960e4aa6fce8100052fa5",
+      "result_receipt_path": "docs/reports/topology_memory_rom_branch_init_v1_20261117_evidence.json",
+      "result_receipt_sha256": "76da00616565f054c9a43aa3de3f9f4c3b7a22c54ef3aa6e4e0f50ec23bee53a",
+      "result_review_path": "docs/research/topology_memory_rom_branch_init_v1_result_review_20261117.json",
+      "result_review_sha256": "efd2f8056015a8bf53087752a2b285a92dc0298f3482922d3a8fd6126249cf0f",
+      "engineering_pass": true,
+      "scientific_pass": false
     }
   },
   "saved_evidence_audits": {

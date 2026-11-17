@@ -1,0 +1,15 @@
+{
+  "reviewer": "Astra Ultra",
+  "run_id": "topology_memory_rom_branch_init_v1-topology_memory_rom_branch_init-20261117T100024225497Z-8b1fbc63-a2d016a5",
+  "result_receipt_sha256": "76da00616565f054c9a43aa3de3f9f4c3b7a22c54ef3aa6e4e0f50ec23bee53a",
+  "engineering_pass": true,
+  "scientific_pass": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "findings": [
+    "All 43 artifacts, the result receipt, summary and source lineage match. All new rosters remain complete and operation counts meet the signed budget exactly.",
+    "The fixed, overall-only and branch-only systems recover their generating structure and meet the registered checks.",
+    "The system with both coupling changes selects the correct structure and meets the short momentum criterion. The branch hidden-state error 0.381687 exceeds the fixed 0.2 bound.",
+    "The earlier integration comparison failure in the overall-change population is resolved. The fifth-harmonic omission remains detectable by the short momentum criterion.",
+    "This outcome leaves parameter fitting and real-data progression outside the closed clean synthetic scope."
+  ]
+}
