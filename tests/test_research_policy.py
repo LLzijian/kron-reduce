@@ -170,3 +170,10 @@ def test_historical_replay_requires_explicit_mode_and_frozen_contract(policy_roo
 def test_replay_flag_cannot_bypass_policy(policy_root):
     with pytest.raises(RuntimeError, match="HISTORICAL_IDENTITY"):
         validate_run_policy(policy_root, "next", candidate(), historical_reproduction=True)
+
+
+def test_registered_historical_replay_contracts_remain_intact(root):
+    manifest = json.loads((root / "configs/project_manifest.json").read_text(encoding="utf-8"))
+    for name, experiment in manifest["experiments"].items():
+        if experiment.get("execution_mode") == "historical_reproduction_only":
+            validate_run_policy(root, name, experiment, historical_reproduction=True)

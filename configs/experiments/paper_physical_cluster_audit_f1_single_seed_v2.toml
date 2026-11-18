@@ -8,7 +8,7 @@ seed = 324
 pm_mode = "observed"
 test_access = "forbidden"
 
-frozen_gmd_checkpoint = "results/backup/m0_gmd_horizon_balanced_backbone/m0-gmd-horizon-balanced-f1-seed324-20260731/checkpoints/M0-GMD.npz"
+frozen_gmd_checkpoint = "results/diagnostics/m0-gmd-horizon-balanced-f1-seed324-20260731/checkpoints/M0-GMD.npz"
 minimum_fit_steps = 101
 fit_steps = 101
 modal_horizon_s = 10.0

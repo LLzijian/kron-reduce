@@ -48,6 +48,22 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _frozen_gmd_checkpoint(root: Path, relative: str) -> Path:
+    checkpoint = root / relative
+    diagnostics = root / "results/diagnostics"
+    # Resolve archived artifacts without changing hashed historical configurations.
+    if not checkpoint.is_file() and checkpoint.is_relative_to(diagnostics):
+        archived = (
+            root / "results/backup/m0_gmd_horizon_balanced_backbone"
+            / checkpoint.relative_to(diagnostics)
+        )
+        if archived.is_file():
+            return archived
+    if not checkpoint.is_file():
+        raise FileNotFoundError(checkpoint)
+    return checkpoint
+
+
 def _json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False), encoding="utf-8")
 
@@ -2322,9 +2338,7 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
         for field in ("delta", "omega")
     )
 
-    checkpoint = root / str(config["frozen_gmd_checkpoint"])
-    if not checkpoint.is_file():
-        raise FileNotFoundError(checkpoint)
+    checkpoint = _frozen_gmd_checkpoint(root, str(config["frozen_gmd_checkpoint"]))
     source_run_dir = checkpoint.parents[1]
     selection_marker_path = source_run_dir / "selection_marker.json"
     selection_marker = json.loads(selection_marker_path.read_text(encoding="utf-8"))

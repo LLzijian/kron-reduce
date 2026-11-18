@@ -8,6 +8,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from kron_reduce.workflows.physical_cluster_audit import _frozen_gmd_checkpoint
 from kron_reduce.workflows.ten_machine_physical_discovery import (
     _causal_schedule_invariance_audit,
     _historical_audit,
@@ -170,3 +171,20 @@ def test_historical_mainline_representation_claim_has_hashed_evidence(
     gmd.unlink()
     with pytest.raises(FileNotFoundError):
         _historical_audit(tmp_path)
+
+
+def test_frozen_gmd_checkpoint_uses_archive_without_changing_config(tmp_path: Path) -> None:
+    relative = "results/diagnostics/frozen-run/checkpoints/M0-GMD.npz"
+    original = tmp_path / relative
+    archived = tmp_path / (
+        "results/backup/m0_gmd_horizon_balanced_backbone/"
+        "frozen-run/checkpoints/M0-GMD.npz"
+    )
+    with pytest.raises(FileNotFoundError):
+        _frozen_gmd_checkpoint(tmp_path, relative)
+    archived.parent.mkdir(parents=True)
+    archived.write_bytes(b"saved-model")
+    assert _frozen_gmd_checkpoint(tmp_path, relative) == archived
+    original.parent.mkdir(parents=True)
+    original.write_bytes(b"original-model")
+    assert _frozen_gmd_checkpoint(tmp_path, relative) == original
