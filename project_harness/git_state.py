@@ -5,6 +5,8 @@ import re
 import subprocess
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
+ARCHIVE_OUTCOMES = ("completed", "rejected", "failed", "abandoned")
+
 
 def verify_bound_file(root: Path, relative: str, expected_sha256: str) -> None:
     """Require raw working-file and HEAD-blob bytes to match a bound SHA256."""
@@ -60,7 +62,10 @@ def git_head(root: Path) -> str:
 
 
 def status_lines(root: Path) -> list[str]:
-    result = subprocess.run(["git", "status", "--porcelain"], cwd=root, capture_output=True, text=True, check=False)
+    result = subprocess.run(
+        ["git", "status", "--porcelain", "--untracked-files=normal"],
+        cwd=root, capture_output=True, text=True, check=False,
+    )
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or "not a Git repository")
     return [line for line in result.stdout.splitlines() if line.strip()]
@@ -70,3 +75,51 @@ def assert_clean(root: Path) -> None:
     dirty = status_lines(root)
     if dirty:
         raise RuntimeError("canonical/full runs require a clean Git baseline:\n" + "\n".join(dirty[:30]))
+
+
+def _archive_git(root: Path, *args: str, message: str | None = None) -> str:
+    result = subprocess.run(
+        ["git", *args], cwd=root, input=message, capture_output=True,
+        encoding="utf-8", errors="replace", check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or f"git {args[0]} failed")
+    return result.stdout.strip()
+
+
+def archive_attempt(
+    root: Path, outcome: str, message: str, *, push: bool = False,
+) -> dict[str, str | bool]:
+    """Pin the final commit and outcome before an attempt branch is retired."""
+    if outcome not in ARCHIVE_OUTCOMES:
+        raise RuntimeError(f"unknown archive outcome: {outcome}")
+    summary = message.strip()
+    if not summary or "\0" in summary:
+        raise RuntimeError("archive requires a nonempty summary without NUL bytes")
+
+    branch_ref = _archive_git(root, "symbolic-ref", "--quiet", "HEAD")
+    if not branch_ref.startswith("refs/heads/codex/"):
+        raise RuntimeError("archive requires a checked-out codex/ attempt branch")
+    dirty = status_lines(root)
+    if dirty:
+        raise RuntimeError("commit the attempt's changes before archiving:\n" + "\n".join(dirty[:30]))
+    branch = branch_ref.removeprefix("refs/heads/")
+    commit = _archive_git(root, "rev-parse", "--verify", f"{branch_ref}^{{commit}}")
+    tag = f"attempt/{branch}/{commit}"
+    tag_ref = f"refs/tags/{tag}"
+    annotation = f"Branch: {branch}\nOutcome: {outcome}\n\n{summary}"
+    existing = _archive_git(
+        root, "for-each-ref", "--format=%(refname)%00%(objecttype)%00%(*objectname)%00%(contents)",
+        tag_ref,
+    )
+    if existing:
+        if existing != f"{tag_ref}\0tag\0{commit}\0{annotation}":
+            raise RuntimeError(f"archive tag already exists with a different record: {tag}")
+    else:
+        _archive_git(
+            root, "tag", "--annotate", "--no-sign", "--cleanup=verbatim", "-F", "-",
+            "--", tag, commit, message=annotation + "\n",
+        )
+    if push:
+        _archive_git(root, "push", "--no-follow-tags", "origin", f"{tag_ref}:{tag_ref}")
+    return {"tag": tag, "branch": branch, "commit": commit, "outcome": outcome, "pushed": push}

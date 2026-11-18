@@ -6,7 +6,7 @@ from pathlib import Path
 
 from .audit import audit_project
 from .data_check import verify_data
-from .git_state import assert_clean, status_lines
+from .git_state import ARCHIVE_OUTCOMES, archive_attempt, assert_clean, status_lines
 from .loop import approve, load_state, next_stage, plan, record_stage, run_one
 from .manifest import load_manifest, project_root
 from .runner import run_experiment
@@ -18,6 +18,10 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("list", help="show the dataset and experiment registry")
     sub.add_parser("audit", help="validate repository metadata and saved workflow evidence")
     sub.add_parser("git-check", help="require a clean checkout")
+    archive_parser = sub.add_parser("git-archive", help="tag a concluded codex/ attempt")
+    archive_parser.add_argument("--outcome", choices=ARCHIVE_OUTCOMES, required=True)
+    archive_parser.add_argument("--message", required=True, help="summarize the outcome and evidence")
+    archive_parser.add_argument("--push", action="store_true", help="publish the tag to origin")
     data_parser = sub.add_parser("data-check")
     data_parser.add_argument("--dataset")
     run_parser = sub.add_parser("run")
@@ -52,6 +56,12 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "git-check":
         assert_clean(root)
         print(json.dumps({"status": "PASS", "dirty": status_lines(root)}, indent=2))
+    elif args.command == "git-archive":
+        try:
+            record = archive_attempt(root, args.outcome, args.message, push=args.push)
+        except (RuntimeError, OSError) as error:
+            archive_parser.error(str(error))
+        print(json.dumps(record, indent=2))
     elif args.command == "run":
         print(run_experiment(root, args.experiment, args.stage,
                              historical_reproduction=args.historical_reproduction))

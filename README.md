@@ -96,6 +96,23 @@ GitHub Actions checks policy and synthetic fixtures on pushes and pull requests.
 Install with `pip install -e '.[dev]' -c requirements/constraints-py312.txt` on
 Python 3.12; the constraint file records tested core versions.
 
+### Git archives
+
+Commit the final code and evidence receipt on the attempt's `codex/` branch.
+Run the harness from that clean worktree and record the outcome and reason.
+
+```powershell
+python -m project_harness git-archive --outcome rejected --message "Trajectory RMSE missed the promotion gate" --push
+```
+
+Choose `completed`, `rejected`, `failed`, or `abandoned`. The annotated tag
+`attempt/<branch>/<full-commit>` records the branch, outcome, summary, and exact
+commit. Include the run ID or receipt path in the summary when available.
+`--push` publishes that tag to `origin`. Keep the branch until the push
+succeeds, and retry with the same outcome and message if publishing fails.
+Use `git fetch --tags` to retrieve the archives, `git tag --list 'attempt/*'`
+to list them, and `git show <tag>` to inspect a record after branch deletion.
+
 ### CUDA for machine-local forecasts
 
 On Windows with a compatible NVIDIA driver, install the pinned CUDA build in

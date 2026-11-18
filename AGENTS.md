@@ -103,6 +103,8 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   on `codex/` branches and review before merging to main. Track manifests and
   receipts in Git. Keep raw trajectories, result bodies, data archives,
   credentials and local environments outside Git.
+- Archive each concluded `codex/` attempt, including failures, before retiring
+  its branch. See [harness Git archive instructions](README.md#git-archives).
 - Keep `AGENTS.md` files for durable instructions and pointers. Record campaign
   work and decisions in research docs, protocols in `docs/protocols/`, and
   curated results in `docs/reports/`.

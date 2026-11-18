@@ -16,6 +16,10 @@ stability classifiers belong in `src/kron_reduce/`.
   reject those registrations before generic data verification.
 - Assign a new run ID to every experiment attempt. Retain failure evidence and
   keep spent one-use authorizations closed.
+- Close each attempt on its `codex/` branch by committing the final code and
+  evidence receipt, then publishing an annotated `git-archive --push` tag.
+  Archive completed, rejected, failed, and abandoned attempts. Verify the tag
+  was published before deleting the branch. Keep published archive tags fixed.
 - Assign simple, independent work to a lightweight subagent with explicit
   scope and acceptance checks. The coordinator reviews and integrates the
   result. See
