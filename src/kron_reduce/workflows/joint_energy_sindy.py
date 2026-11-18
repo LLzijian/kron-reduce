@@ -19,18 +19,34 @@ from project_harness.runner import _run_experiment
 
 MODULE = "kron_reduce.workflows.joint_energy_sindy"
 SYNTHETIC = "joint_energy_sindy_synthetic_v1"
+SYNTHETIC_V2 = "joint_energy_sindy_synthetic_v2"
 TASK3 = "kiki_joint_energy_sindy_v1"
 
 
-def authorize(root, stage):
+def _experiment_name(stage, requested=None):
+    if stage == "synthetic":
+        name = requested or SYNTHETIC
+        if name not in (SYNTHETIC, SYNTHETIC_V2):
+            raise RuntimeError("unregistered joint ES-SINDy synthetic experiment")
+    else:
+        if stage not in ("fit", "test"):
+            raise RuntimeError("unknown joint ES-SINDy stage")
+        name = f"kiki_joint_energy_sindy_{stage}_v1"
+        if requested is not None and requested != name:
+            raise RuntimeError("synthetic v2 does not authorize a TASK3 run")
+    return name
+
+
+def authorize(root, stage, experiment_name=None):
     assert_clean(root)
     analytic = stage == "synthetic"
-    workflow = SYNTHETIC if analytic else TASK3
-    name = SYNTHETIC if analytic else f"kiki_joint_energy_sindy_{stage}_v1"
+    name = _experiment_name(stage, experiment_name)
     entries = load_manifest(root)["experiments"]
     entry = entries[name]
+    workflow = entry["workflow"]
     mode = "bounded_synthetic_cli_only" if analytic else "bounded_kiki_official_cli_only"
-    expected = {"module": MODULE, "workflow": workflow, "stage": stage, "execution_mode": mode}
+    expected = {"module": MODULE, "workflow": name if analytic else TASK3,
+                "stage": stage, "execution_mode": mode}
     if (sys.version_info[:2] != (3, 12) or any(entry.get(k) != v for k, v in expected.items())
             or not approval_recorded(load_state(root, workflow), stage)):
         raise RuntimeError("registered joint ES-SINDy stage, Python 3.12 and explicit stage approval required")
@@ -44,14 +60,17 @@ def authorize(root, stage):
     authorization = entry[authority_key]
     auth = policy[category][authorization]
     attempts = 0 if stage == "test" else 1
-    scope = {"status": "active", "experiment": name, "fit_attempts": attempts,
+    scope = {"status": "active", "experiment": name, "workflow": workflow,
+             "stage": stage, "fit_attempts": attempts,
              "max_executions": 1, "retry_allowed": False}
     if any(type(auth.get(k)) is not type(v) or auth[k] != v for k, v in scope.items()):
         raise RuntimeError("active one-use joint ES-SINDy scope differs")
     for field in ("plan", "review"):
         verify_bound_file(root, auth[f"{field}_path"], auth[f"{field}_sha256"])
     plan, review = (json.loads((root/auth[f"{field}_path"]).read_bytes()) for field in ("plan", "review"))
-    if (plan["stage"] != stage or plan["plan_path"] != auth["plan_path"]
+    if (plan["stage"] != stage or plan["workflow"] != workflow
+            or plan["experiment"] != name or plan["authorization"] != authorization
+            or plan["plan_path"] != auth["plan_path"]
             or plan["operation_limits"] != auth["operation_limits"]
             or plan["operation_limits"]["fits"] != attempts
             or plan["operation_limits"]["optimizer_updates"] != (plan["settings"]["updates"] if attempts else 0)
@@ -93,15 +112,30 @@ def authorize(root, stage):
         raise RuntimeError("synthetic gate accepts only analytic truth")
     pins = dict(line.split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line and not line.startswith("#"))
-    if any(version(package) != pins[package]+("+cu130" if package == "torch" else "")
-           for package in ("numpy", "scipy", "torch", "filelock", "h5py")):
-        raise RuntimeError("joint ES-SINDy requires the pinned deterministic CUDA environment")
-    _cuda_preflight()
+    packages = ("numpy", "scipy", "torch", "filelock", "h5py")
+    if name == SYNTHETIC_V2:
+        device = plan["settings"].get("device")
+        if device not in ("cpu", "cuda"):
+            raise RuntimeError("synthetic v2 must explicitly register cpu or cuda")
+        for package in packages:
+            allowed = {pins[package]}
+            if package == "torch":
+                allowed.update((pins[package]+"+cu130", pins[package]+"+cpu"))
+            if version(package) not in allowed:
+                raise RuntimeError(f"joint ES-SINDy v2 requires the pinned {package} base version")
+        if device == "cuda":
+            _cuda_preflight()
+    else:
+        if any(version(package) != pins[package]+("+cu130" if package == "torch" else "")
+               for package in packages):
+            raise RuntimeError("joint ES-SINDy requires the pinned deterministic CUDA environment")
+        _cuda_preflight()
     return name, entry, plan, authorization, auth
 
 
 def run(*, root, experiment, stage, result_dir, run_id):
-    _, entry, plan, authorization, auth = authorize(root, stage)
+    requested = experiment.get("workflow") if stage == "synthetic" else None
+    name, entry, plan, authorization, auth = authorize(root, stage, requested)
     if experiment != entry or result_dir != root/"results"/run_id or any(result_dir.iterdir()):
         raise RuntimeError("joint ES-SINDy dispatch identity differs")
     common = Path(subprocess.check_output(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
@@ -130,10 +164,12 @@ def run(*, root, experiment, stage, result_dir, run_id):
         evidence = {"status": "PASS", "process_status": "PASS", "source_commit": commit,
                     "data_policy": "analytic_synthetic_only", "promotion_decision": "KEEP_BASELINE",
                     **{key: summary[key] for key in ("engineering_pass", "scientific_pass", "claim_boundary")}}
+        device = plan["settings"]["device"] if name == SYNTHETIC_V2 else "cuda"
         write_json(result_dir/"summary.json", summary | evidence | {
             "operation_counts": dict(budget.counts), "elapsed_seconds": time.perf_counter()-started,
             "runtime": {"python": sys.version, "torch": torch.__version__, "cuda": torch.version.cuda,
-                        "gpu": torch.cuda.get_device_name(), "numpy": version("numpy"), "scipy": version("scipy")}})
+                        "device": device, "gpu": torch.cuda.get_device_name() if device == "cuda" else None,
+                        **{package: version(package) for package in ("numpy", "scipy", "filelock", "h5py")}}})
         write_json(result_dir/"stage_evidence.json", evidence)
         write_json(result_dir/"artifact_hashes.json", {p.relative_to(result_dir).as_posix(): sha256_file(p)
                    for p in sorted(result_dir.rglob("*")) if p.is_file()})
@@ -150,10 +186,14 @@ def run(*, root, experiment, stage, result_dir, run_id):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--stage", required=True, choices=("synthetic", "fit", "test"))
-    stage = parser.parse_args().stage
+    parser.add_argument("--experiment", help="Registered experiment; synthetic defaults to v1")
+    args = parser.parse_args()
+    stage = args.stage
     root = project_root()
-    with workflow_lock(root, SYNTHETIC if stage == "synthetic" else TASK3):
-        name, entry, _, _, _ = authorize(root, stage)
+    name = _experiment_name(stage, args.experiment)
+    entry = load_manifest(root)["experiments"][name]
+    with workflow_lock(root, entry["workflow"]):
+        name, entry, _, _, _ = authorize(root, stage, name)
         print(_run_experiment(root, name, stage, experiment=entry))
 
 

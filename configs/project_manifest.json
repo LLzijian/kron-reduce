@@ -3278,6 +3278,19 @@
       "reads_validation_performance": false,
       "reads_test_performance": false,
       "development_authorization_id": "kiki_topology_memory_balance_v1_20261116"
+    },
+    "joint_energy_sindy_synthetic_v2": {
+      "module": "kron_reduce.workflows.joint_energy_sindy",
+      "workflow": "joint_energy_sindy_synthetic_v2",
+      "stage": "synthetic",
+      "config": "joint_energy_sindy_synthetic_v2.toml",
+      "status": "gated",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "data_policy": "analytic_synthetic_only",
+      "execution_mode": "bounded_synthetic_cli_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "synthetic_authorization_id": "joint_energy_sindy_synthetic_v2_20261118"
     }
   },
   "active_policy": "configs/research_policy.json",

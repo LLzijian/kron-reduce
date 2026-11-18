@@ -1,12 +1,22 @@
 """One full-library fit followed by a frozen independent-truth gate."""
 from __future__ import annotations
 
+import json
 import math
+import time
 
 import numpy as np
 import torch
 from scipy.linalg import expm
 
+from kron_reduce.evaluation.joint_energy_sindy_training import (
+    causal_rollout,
+    checkpoint_eligible,
+    group_regularization,
+    prune_due,
+    training_controls,
+    update_learning_rate,
+)
 from kron_reduce.evaluation.joint_energy_sindy_truth import operators, port_and_edges, truth_rollout
 from kron_reduce.evaluation.joint_energy_sindy_weak import initialize
 from kron_reduce.evaluation.machine_local_clean_learning import NUMERICAL_ERRORS, snapshot
@@ -41,9 +51,12 @@ def _population(plan):
     return cases, mass, initial, eq
 
 
-def _reference(mass, state, power, equilibrium, coeffs, scale, budget, *, fifth=0., train_mask=None):
+def _reference(mass, state, power, equilibrium, coeffs, scale, budget, *, fifth=0., train_mask=None,
+               steps=(.00125, .000625)):
+    if len(steps) != 2 or not 0. < steps[1] < steps[0] <= .00125:
+        raise ValueError("truth reference requires an ordered coarse/fine step pair")
     coarse, fine = [truth_rollout(mass, state, power, equilibrium, coeffs, count=810, step=step,
-                                 spend=budget.spend, fifth=fifth) for step in (.00125, .000625)]
+                                 spend=budget.spend, fifth=fifth) for step in steps]
     if scale is None:
         scale = np.sqrt(np.mean(fine[train_mask, 11:, :20]**2, axis=(0, 1))).clip(min=1e-4)
     gaps = np.max(np.abs((coarse[:, :, :20]-fine[:, :, :20])/scale), axis=(1, 2))
@@ -55,35 +68,77 @@ def _reference(mass, state, power, equilibrium, coeffs, scale, budget, *, fifth=
     return fine, labels, float(gaps.max())
 
 
-def _fit(model, observed, roles, power, equilibrium, scale, hscale, settings, budget):
+def trajectory_objective(model, observed, rows, power, equilibrium, scale, hscale, count, settings, budget,
+                         *, training):
+    history, u, eq = model._tensor(observed[rows, :11]), power[rows], equilibrium[rows]
+    with torch.set_grad_enabled(training):
+        forecast = causal_rollout(model, history[:, :, :10], history[:, :, 10:20], u, eq, hscale,
+                                  count, settings=settings, spend=budget.spend)
+        residual = (forecast[:, 1:, :20]-model._tensor(observed[rows, 11:11+count]))/scale
+        value = residual.square().mean()
+    if not torch.isfinite(value):
+        raise FloatingPointError("nonfinite joint trajectory loss")
+    return value
+
+
+def _fit(model, observed, roles, power, equilibrium, scale, hscale, settings, budget, *, directory=None):
     train, val = (np.flatnonzero(roles == role) for role in ("train", "val"))
+    controls = training_controls(settings)
+    batch_size = settings.get("train_batch", 2)
+    if type(batch_size) is not int or batch_size < 1:
+        raise ValueError("train_batch must be a positive integer")
     optimizer = torch.optim.Adam(model.parameters(), lr=settings["learning_rate"], foreach=False, fused=False)
     train_curve, val_curve, removed = [], [], []
     budget.spend("fits")
     best = None
     failure = None
     completed = 0
+    started = time.perf_counter()
+    stop_reason = "update_cap"
+    progress = None if directory is None else directory/"training.jsonl"
+    if progress is not None:
+        with progress.open("x", encoding="utf-8"):
+            pass
 
     def objective(rows, count, training):
-        history, u, eq = model._tensor(observed[rows, :11]), power[rows], equilibrium[rows]
-        with torch.no_grad():
-            inferred = _observe(model, history, u, eq, hscale, 0 if training else count, settings, .005, budget)
-        forecast = (model.rollout(inferred["forecast"][:, 0], u, eq, count, max_step=.005, spend=budget.spend)
-                    if training else inferred["forecast"])
-        residual = (forecast[:, 1:, :20]-model._tensor(observed[rows, 11:11+count]))/scale
-        loss = residual.square().mean()
-        if not torch.isfinite(loss):
-            raise FloatingPointError("nonfinite joint trajectory loss")
-        return loss
+        return trajectory_objective(model, observed, rows, power, equilibrium, scale, hscale, count,
+                                     settings, budget, training=training)
+
+    def evaluated_train():
+        return sum(float(objective(batch, settings["train_frames"], False))*len(batch)/len(train)
+                   for offset in range(0, len(train), batch_size)
+                   for batch in (train[offset:offset+batch_size],))
+
+    def save_progress():
+        if progress is not None:
+            row = {"actual_updates": completed, "train": train_curve[-1] if train_curve else None,
+                   "val": val_curve[-1] if val_curve and val_curve[-1]["update"] == completed else None,
+                   "stop_reason": stop_reason, **controls}
+            with progress.open("a", encoding="utf-8") as stream:
+                stream.write(json.dumps(row, allow_nan=False)+"\n")
 
     for update in range(settings["updates"]+1):
         before = snapshot(model)
         if update:
+            limit = settings.get("max_training_seconds")
+            if limit is not None and time.perf_counter()-started >= limit:
+                stop_reason = "wall_time_cap"
+                break
             optimizer.zero_grad(set_to_none=True)
+            learning_rate = update_learning_rate(optimizer, settings, update)
+            value = 0.
             try:
-                value = objective(train, settings["train_frames"], True)
-                budget.spend("gradients")
-                (value+model.regularization()).backward()
+                # Sum all event gradients before one shared update: this is still
+                # the exact full-train objective, with bounded activation memory.
+                for offset in range(0, len(train), batch_size):
+                    batch = train[offset:offset+batch_size]
+                    part = objective(batch, settings["train_frames"], True)*len(batch)/len(train)
+                    budget.spend("gradients")
+                    part.backward()
+                    value += float(part.detach())
+                penalty = group_regularization(model, settings)
+                if penalty is not None:
+                    penalty.backward()
                 norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1., error_if_nonfinite=False)
                 if not torch.isfinite(norm):
                     raise FloatingPointError("nonfinite joint gradient")
@@ -94,27 +149,35 @@ def _fit(model, observed, roles, power, equilibrium, scale, hscale, settings, bu
             except NUMERICAL_ERRORS as error:
                 model.load_state_dict(before, strict=True)
                 failure = str(error)
+                stop_reason = "numerical_failure"
                 break
             completed = update
-            train_curve.append({"update": update, "nmse_before_update": float(value.detach()), "gradient_norm": float(norm)})
-        if update == settings["prune_update"]:
+            train_curve.append({"update": update, "nmse_before_update": value, "gradient_norm": float(norm),
+                                "learning_rate": learning_rate})
+            print(f"joint synthetic update {update}/{settings['updates']}: train before={value:.6g}, "
+                  f"lr={learning_rate:.6g}", flush=True)
+            save_progress()
+        if prune_due(settings, update):
             removed = [name for name, norm in model.group_norms().items()
                        if name not in ("common", "spatial") and float(norm.detach()) < settings["support_threshold"]]
             model.prune_groups(removed)
-        if update % settings["val_interval"] == 0:
+        if update % settings["val_interval"] == 0 or update == settings["updates"]:
             budget.spend("val_checks")
             try:
                 loss = float(objective(val, settings["val_frames"], False))
-                if update >= settings["prune_update"] and (best is None or loss < best[0]):
+                train_after = evaluated_train()
+                if checkpoint_eligible(settings, update) and (best is None or loss < best[0]):
                     best = (loss, update, snapshot(model))
-                val_curve.append({"update": update, "nmse": loss})
+                val_curve.append({"update": update, "nmse": loss, "train_nmse_after_update": train_after})
                 print(f"joint synthetic update {update}: val NMSE={loss:.6g}", flush=True)
             except NUMERICAL_ERRORS as error:
                 val_curve.append({"update": update, "nmse": None, "failure": str(error)})
+            save_progress()
     if best is not None:
         model.load_state_dict(best[2], strict=True)
     model.requires_grad_(False).eval()
     return {"actual_updates": completed, "selected_update": None if best is None else best[1], "failure": failure,
+            "stop_reason": stop_reason, "training_wall_seconds": time.perf_counter()-started, **controls,
             "train_curve": train_curve, "val_curve": val_curve, "removed_groups": removed,
             "effective_group_norms": {name: float(norm) for name, norm in model.group_norms().items()}}
 
@@ -219,18 +282,31 @@ def execute(root, directory, plan, budget):
     coeffs = plan["truth"]["coefficients"]
     power = cases["power"]
     train, val = roles == "train", roles == "val"
-    truth, labels, step_gap = _reference(mass, initial, power, eq, coeffs, None, budget, train_mask=train)
+    reference_steps = (settings.get("truth_step_coarse", .00125), settings.get("truth_step_fine", .000625))
+    truth, labels, step_gap = _reference(mass, initial, power, eq, coeffs, None, budget, train_mask=train,
+                                         steps=reference_steps)
     visible = truth[:, :, :20]
     scale = np.sqrt(np.mean(visible[train, 11:]**2, axis=(0, 1))).clip(min=1e-4)
     hscale = np.sqrt(np.mean(visible[train, :11]**2, axis=(0, 1))).clip(min=1e-4)
     np.savez_compressed(directory/"truth.npz", truth=truth, power=power, equilibrium=eq, scale=scale,
                         history_scale=hscale, ids=cases["ids"], roles=roles)
-    model = JointEnergySINDy.from_mass(mass).to("cuda")
-    seed = initialize(model, ({"x": path, "p0": u, "equilibrium": r}
-                              for path, u, r in zip(visible[train], power[train], eq[train], strict=True)),
-                      budget, frames=settings["train_frames"])
+    model = JointEnergySINDy.from_mass(mass, physical_seed=settings.get("physical_seed")).to(settings.get("device", "cuda"))
+    seed_policy = settings.get("weak_initialization", "train_integral")
+    if seed_policy == "off":
+        seed = {"policy": "off", "reason": "fit the complete physical seed without omitted-term weak calibration"}
+    elif seed_policy == "train_integral":
+        seed = initialize(model, ({"x": path, "p0": u, "equilibrium": r}
+                                  for path, u, r in zip(visible[train], power[train], eq[train], strict=True)),
+                          budget, frames=settings["train_frames"])
+        seed["policy"] = seed_policy
+    else:
+        raise ValueError("weak_initialization must be off or train_integral")
+    _write(directory/"initial-coefficients.json", {
+        "coefficients": {name: value.detach().cpu().tolist() for name, value in model.effective_coefficients().items()},
+        "weak_initialization": seed,
+    })
     p, e, s, hs = map(model._tensor, (power, eq, scale, hscale))
-    fit = _fit(model, visible, roles, p, e, s, hs, settings, budget)
+    fit = _fit(model, visible, roles, p, e, s, hs, settings, budget, directory=directory)
     fit["weak_seed"] = seed
     _write(directory/"fit.json", fit)
     np.savez_compressed(directory/"selected-equation.npz", **{k: v.cpu().numpy() for k, v in snapshot(model).items()})
@@ -242,54 +318,64 @@ def execute(root, directory, plan, budget):
     mechanism = _mechanisms(model, paths[0, val], truth[val], mass, e[val], coeffs, budget)
     energy = _energy(model, truth[:, 10], p, e, budget)
 
-    val_cases = {key: [row for row, keep in zip(value, val, strict=True) if keep]
-                 for key, value in cases.items() if key in ("ids", "groups", "roles", "excitation")}
-    val_roles = roles[val]
-    rng = np.random.default_rng(plan["seed"]+2)
-    noise = rng.normal(size=history[val].shape)*hscale*settings["noise_sigma"]
-    for offset in (0, 10):
-        piece = noise[:, :, offset:offset+10]
-        piece -= (piece@mass/mass.sum())[:, :, None]
-    noisy_history = history[val]+noise
-    noisy_paths, noisy_failures, _ = _forecast(model, noisy_history, val_roles, p[val], e[val], hs, settings, budget)
-    val_labels = [row for row, keep in zip(labels, val, strict=True) if keep]
-    noisy = _scores(val_cases, noisy_paths, truth[val], noisy_history, eq[val], mass, scale, val_labels, gates)
-    _write(directory/"val-noise-scores.json", {**noisy, "failures": noisy_failures})
+    run_controls = settings.get("run_auxiliary_controls", True)
+    noisy, out, out_gap = None, None, step_gap
+    if run_controls:
+        val_cases = {key: [row for row, keep in zip(value, val, strict=True) if keep]
+                     for key, value in cases.items() if key in ("ids", "groups", "roles", "excitation")}
+        val_roles = roles[val]
+        rng = np.random.default_rng(plan["seed"]+2)
+        noise = rng.normal(size=history[val].shape)*hscale*settings["noise_sigma"]
+        for offset in (0, 10):
+            piece = noise[:, :, offset:offset+10]
+            piece -= (piece@mass/mass.sum())[:, :, None]
+        noisy_history = history[val]+noise
+        noisy_paths, noisy_failures, _ = _forecast(model, noisy_history, val_roles, p[val], e[val], hs, settings, budget)
+        val_labels = [row for row, keep in zip(labels, val, strict=True) if keep]
+        noisy = _scores(val_cases, noisy_paths, truth[val], noisy_history, eq[val], mass, scale, val_labels, gates)
+        _write(directory/"val-noise-scores.json", {**noisy, "failures": noisy_failures})
 
-    out_truth, out_labels, out_gap = _reference(mass, initial[val], power[val], eq[val], coeffs, scale, budget,
-                                                 fifth=plan["truth"]["out_of_library_fifth"])
-    out_history = out_truth[:, :11, :20]
-    out_paths, out_failures, _ = _forecast(model, out_history, val_roles, p[val], e[val], hs, settings, budget)
-    out = _scores(val_cases, out_paths, out_truth, out_history, eq[val], mass, scale, out_labels, gates)
-    _write(directory/"val-fifth-harmonic-scores.json", {**out, "failures": out_failures})
-    np.savez_compressed(directory/"val-controls.npz", noisy_history=noisy_history, noisy_forecasts=noisy_paths,
-                        fifth_truth=out_truth, fifth_forecasts=out_paths)
+        out_truth, out_labels, out_gap = _reference(mass, initial[val], power[val], eq[val], coeffs, scale, budget,
+                                                     fifth=plan["truth"]["out_of_library_fifth"], steps=reference_steps)
+        out_history = out_truth[:, :11, :20]
+        out_paths, out_failures, _ = _forecast(model, out_history, val_roles, p[val], e[val], hs, settings, budget)
+        out = _scores(val_cases, out_paths, out_truth, out_history, eq[val], mass, scale, out_labels, gates)
+        _write(directory/"val-fifth-harmonic-scores.json", {**out, "failures": out_failures})
+        np.savez_compressed(directory/"val-controls.npz", noisy_history=noisy_history, noisy_forecasts=noisy_paths,
+                            fifth_truth=out_truth, fifth_forecasts=out_paths)
 
-    val_3s, val_8s, noise_8s, out_8s = _rmse(score, horizon="3"), _rmse(score), _rmse(noisy), _rmse(out)
+    val_3s, val_8s = _rmse(score, horizon="3"), _rmse(score)
+    noise_8s = None if noisy is None else _rmse(noisy)
+    out_8s = None if out is None else _rmse(out)
     val_rows = [r for r in score["events"] if r["role"] == "val"]
     timing_ok = all(r["prospective_eligible"] and r["truth_label"] is not None and r["predicted_label"] == r["truth_label"]
                     and (r["truth_label"] != "unstable" or (r["trigger_time_error_s"] is not None
                          and r["trigger_time_error_s"] <= gates["timing_error_s"])) for r in val_rows)
     checks = {
         "complete_fit": fit["failure"] is None and fit["actual_updates"] == settings["updates"] and fit["selected_update"] is not None,
-        "all_numerically_covered": all(row["qualified"] for record in (score, noisy, out) for row in record["events"]),
+        "all_numerically_covered": all(row["qualified"] for record in (score, noisy, out) if record is not None for row in record["events"]),
         "energy_balance": math.isfinite(energy) and energy <= gates["energy_balance_max"],
         "clean_val_trajectory": val_3s is not None and val_3s <= gates["nrmse_3s"] and val_8s is not None and val_8s <= gates["nrmse_8s"],
         "clean_val_stability_and_timing": timing_ok,
         "mixed_truth_excitations": all({row["label"] for row, split in zip(labels, roles, strict=True)
                                         if split == role and (row["trigger_index"] is None or row["trigger_index"] > 10)}
                                        == {"stable", "unstable"} for role in ("train", "val")),
-        "noisy_val_trajectory": noise_8s is not None and noise_8s <= gates["noisy_nrmse_8s"],
+        "noisy_val_trajectory": (noise_8s is not None and noise_8s <= gates["noisy_nrmse_8s"]) if run_controls else None,
         "effective_redistribution": mechanism["relative_spatial_error"] is not None and mechanism["spatial_truth_rms"] >= .02
                                    and mechanism["relative_spatial_error"] <= gates["relative_spatial_error"],
         "effective_memory_kernel": mechanism["relative_memory_kernel_error"] is not None
                                  and mechanism["relative_memory_kernel_error"] <= gates["kernel_relative_error"],
-        "out_of_library_rejected": val_8s is not None and val_8s <= gates["nrmse_8s"] and out_8s is not None
-                                and out_8s > max(gates["nrmse_8s"], 3.*val_8s),
+        "out_of_library_rejected": (val_8s is not None and val_8s <= gates["nrmse_8s"] and out_8s is not None
+                                and out_8s > max(gates["nrmse_8s"], 3.*val_8s)) if run_controls else None,
     }
-    checks = {key: bool(value) for key, value in checks.items()}
+    checks = {key: None if value is None else bool(value) for key, value in checks.items()}
     return {"engineering_pass": checks["all_numerically_covered"] and checks["energy_balance"],
-            "scientific_pass": all(checks.values()), "checks": checks, "fit": fit, "roles": score["roles"],
+            "scientific_pass": all(value is True for value in checks.values()),
+            "clean_fit_pass": all(checks[key] for key in ("complete_fit", "all_numerically_covered", "energy_balance",
+                                   "clean_val_trajectory", "clean_val_stability_and_timing", "mixed_truth_excitations")),
+            "not_assessed_checks": [key for key, value in checks.items() if value is None],
+            "checks": checks, "fit": fit, "roles": score["roles"],
             "noisy_val_8s_nrmse": noise_8s, "fifth_harmonic_val_8s_nrmse": out_8s, "mechanisms": mechanism,
             "max_energy_balance_residual": energy, "max_truth_step_gap": max(step_gap, out_gap),
-            "claim_boundary": "One from-scratch joint fit, independent matched truth and one frozen fifth-harmonic challenge."}
+            "claim_boundary": ("One from-scratch joint fit, independent matched truth and one frozen fifth-harmonic challenge."
+                               if run_controls else "One dense causal-gradient fit on the complete clean cohorts; no sparse support, noise-robustness or out-of-library claim.")}

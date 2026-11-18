@@ -6,6 +6,14 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [full-gradient repair](joint_energy_sindy_full_gradient_repair_20261118_zh.md)
+keeps all 127 trainable scalars and all candidate groups. Both train entry points
+now differentiate through causal history inference. The separately registered
+[v2 fit](../protocols/joint_energy_sindy_synthetic_v2_zh.md) uses physical initial
+coefficients, 120 dense updates and complete clean-cohort scoring, without the
+old early group pruning or repeated auxiliary challenges. Engineering gradient
+checks passed; the new scientific fit has not yet run.
+
 The [from-scratch joint ES-SINDy fit](../reports/joint_energy_sindy_synthetic_20261117_zh.md)
 completes all 48 updates with an explicit energy balance. The frozen model
 misses the synthetic trajectory, spatial redistribution, and memory-kernel

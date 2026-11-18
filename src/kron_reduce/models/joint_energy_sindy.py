@@ -84,8 +84,12 @@ class JointEnergySINDy(torch.nn.Module):
         self.register_buffer("edge_gate", torch.ones(len(backbone.edge_stiffness), dtype=torch.float64))
 
     @classmethod
-    def from_mass(cls, mass):
-        """Analytic, untrained complete-graph seed; no fitted checkpoint is read."""
+    def from_mass(cls, mass, *, physical_seed=None):
+        """Analytic, untrained complete-graph seed; no fitted checkpoint is read.
+
+        ``physical_seed`` names effective coefficients, not their unconstrained
+        optimizer coordinates. Omitting it preserves the historical v1 seed.
+        """
         mass = np.asarray(mass, dtype=np.float64)
         if mass.shape != (10,) or not np.isfinite(mass).all() or np.any(mass <= 0):
             raise ValueError("ten finite positive inertias required")
@@ -98,7 +102,70 @@ class JointEnergySINDy(torch.nn.Module):
                     tau=np.stack((np.linspace(.12, .3, n), np.linspace(.65, 1.8, n))))
         with torch.no_grad():
             model.damping_root.copy_(model._tensor(projection@np.diag(np.sqrt(.1*mass))))
+        if physical_seed is not None:
+            model.set_physical_seed(physical_seed)
         return model
+
+    @torch.no_grad()
+    def set_physical_seed(self, values):
+        """Set explicit physical initialization without disabling any group.
+
+        Positive additive terms need small *positive* seeds to retain a finite,
+        trainable softplus coordinate. A raw zero means log(2), not an absent
+        term. The rank-one decay factor likewise starts away from zero because
+        the derivative of ``u u.T`` vanishes at ``u = 0``. Signed harmonic and
+        topology-port coefficients may start at zero.
+
+        Validate the complete request before changing parameters, so an invalid
+        configuration cannot leave a partly initialized model.
+        """
+        if not isinstance(values, dict):
+            raise TypeError("physical seed must be a coefficient mapping")
+        positive = {
+            "mobility": (self.topology_mobility, 1e-6),
+            "topology_storage": (self.topology_storage, 1e-6),
+            "saturation": (self.saturation_parameter, 0.),
+            "edge_damping": (self.edge_damping_parameter, 0.),
+            "speed_damping": (self.speed_damping_parameter, 0.),
+        }
+        signed = {
+            "topology_port": self.topology_port_parameter,
+            "harmonics": self.harmonics,
+        }
+        allowed = {*positive, *signed, "angle_damping", "memory_decay_factor"}
+        unknown = set(values)-allowed
+        if unknown:
+            raise ValueError(f"unknown physical seed coefficients: {sorted(unknown)}")
+        updates = []
+        for name, value in values.items():
+            value = self._tensor(value)
+            if name in positive:
+                parameter, floor = positive[name]
+                if not torch.all(value > floor):
+                    raise ValueError(f"{name} seed must be strictly greater than {floor}")
+                shifted = value-floor
+                # Stable inverse softplus, including for large physical values.
+                raw = shifted+torch.log(-torch.expm1(-shifted))
+            elif name in signed:
+                parameter = signed[name]
+                if not torch.all(value.abs() < .5):
+                    raise ValueError(f"{name} seed must be strictly between -0.5 and 0.5")
+                raw = torch.atanh(2.*value)
+            elif name == "angle_damping":
+                parameter = self.angle_damping_parameter
+                if not torch.all((value > 0.) & (value < .95)):
+                    raise ValueError("angle_damping seed must be strictly between 0 and 0.95")
+                raw = torch.logit(value/.95)
+            else:
+                parameter = self.memory_decay_factor
+                if not torch.any(value != 0.):
+                    raise ValueError("memory_decay_factor seed must be nonzero to remain learnable")
+                raw = value
+            if value.shape != parameter.shape or not torch.isfinite(raw).all():
+                raise ValueError(f"{name} seed requires finite values with shape {tuple(parameter.shape)}")
+            updates.append((parameter, raw))
+        for parameter, raw in updates:
+            parameter.copy_(raw)
 
     def _tensor(self, value):
         if isinstance(value, torch.Tensor) and value.dtype != torch.float64:

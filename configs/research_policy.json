@@ -5115,6 +5115,41 @@
       "result_review_sha256": "27569174bf84a0fc03c106d0975bcc9229e9e7c257897ac34ec2d98895a3e621",
       "engineering_pass": true,
       "scientific_pass": true
+    },
+    "joint_energy_sindy_synthetic_v2_20261118": {
+      "experiment": "joint_energy_sindy_synthetic_v2",
+      "workflow": "joint_energy_sindy_synthetic_v2",
+      "stage": "synthetic",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 1,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "numpy_rhs": 155520,
+        "torch_rhs": 2500000,
+        "tangent_rhs": 700000,
+        "rollouts": 12000,
+        "qr": 18000,
+        "svd": 18200,
+        "matrix_products": 18000,
+        "triangular_solves": 18000,
+        "weak_cases": 0,
+        "weak_solves": 0,
+        "kernel_exponentials": 20,
+        "fits": 1,
+        "optimizer_updates": 120,
+        "gradients": 1441,
+        "val_checks": 11
+      },
+      "status": "active",
+      "authority": "explicit_operator_full_gradient_repair_20261118",
+      "operator_instruction": "修复你上述的核心问题，我还是希望保持激进，不在这做反复的安全验证，以快速推进取得进展为第一要务",
+      "approved_date": "2026-11-18",
+      "plan_path": "configs/proposals/joint_energy_sindy_synthetic_v2.json",
+      "plan_sha256": "b5fe898633a3c1aa8fcc4c89d6ec63f98526199a2131166a89c30e46a328ef49",
+      "review_path": "docs/research/joint_energy_sindy_synthetic_v2_review_20261118.json",
+      "review_sha256": "ce283f5b3cb0f0415f8235000a9cbeed3fe9edeb141bf16dfff26a03c1256fc9"
     }
   },
   "saved_evidence_audits": {
