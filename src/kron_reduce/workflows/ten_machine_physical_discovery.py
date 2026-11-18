@@ -850,7 +850,10 @@ def _historical_audit(root: Path) -> dict[str, Any]:
         "accepted_round6_protocol": root / "docs/m0_gmd_pm_round6_protocol.md",
         "paper_manifest": root / "configs/project_manifest.json",
         "accepted_gmd_selection": root
-        / "results/diagnostics/m0-gmd-horizon-balanced-f1-seed324-20260731/selection_marker.json",
+        / "results/backup/m0_gmd_horizon_balanced_backbone/m0-gmd-horizon-balanced-f1-seed324-20260731/selection_marker.json",
+        # historical M0-GMD-PM selection marker was removed during results archival;
+        # it is no longer recoverable. It is read tolerantly below (unavailable if
+        # absent) so the audit records the loss instead of crashing or fabricating.
         "accepted_gmd_pm_selection": root
         / "results/diagnostics/m0-gmd-pm-modal-tgov-bound-f1-seed324-20260801-r4/selection_marker.json",
         "later_raw10_comparison_config": root
@@ -858,7 +861,11 @@ def _historical_audit(root: Path) -> dict[str, Any]:
     }
     config = tomllib.loads(paths["accepted_round6_config"].read_text(encoding="utf-8"))
     gmd = json.loads(paths["accepted_gmd_selection"].read_text(encoding="utf-8"))
-    gmd_pm = json.loads(paths["accepted_gmd_pm_selection"].read_text(encoding="utf-8"))
+    gmd_pm = (
+        json.loads(paths["accepted_gmd_pm_selection"].read_text(encoding="utf-8"))
+        if paths["accepted_gmd_pm_selection"].exists()
+        else None
+    )
     manifest = json.loads(paths["paper_manifest"].read_text(encoding="utf-8"))
     later_raw10_diagnostics = {
         name: manifest["experiments"][name]["status"]
@@ -883,13 +890,15 @@ def _historical_audit(root: Path) -> dict[str, Any]:
             status == "diagnostic" for status in later_raw10_diagnostics.values()
         ),
         "accepted_gmd_selected_modal_rank": gmd["selected_modal_rank"],
-        "accepted_gmd_pm_source_accuracy_model": gmd_pm[
-            "source_accuracy_model_frozen"
-        ],
+        "accepted_gmd_pm_source_accuracy_model": (
+            gmd_pm["source_accuracy_model_frozen"] if gmd_pm is not None else None
+        ),
+        "accepted_gmd_pm_selection_available": gmd_pm is not None,
         "evidence_files": {
             name: {
                 "path": path.relative_to(root).as_posix(),
-                "sha256": _sha256(path),
+                "sha256": _sha256(path) if path.exists() else None,
+                "available": path.exists(),
             }
             for name, path in paths.items()
         },

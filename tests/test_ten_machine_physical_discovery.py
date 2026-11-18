@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import shutil
 import tomllib
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from kron_reduce.workflows.ten_machine_physical_discovery import (
     _causal_schedule_invariance_audit,
@@ -113,14 +115,58 @@ def test_raw_ten_machine_protocol_is_registered_and_test_locked(root: Path) -> N
         )
 
 
+@pytest.mark.parametrize("selection_available", [False, True])
 def test_historical_mainline_representation_claim_has_hashed_evidence(
-    root: Path,
+    root: Path, tmp_path: Path, selection_available: bool,
 ) -> None:
-    audit = _historical_audit(root)
+    for relative in (
+        "configs/experiments/paper_m0_gmd_pm_round6_f1_single_seed.toml",
+        "docs/m0_gmd_pm_round6_protocol.md",
+        "configs/project_manifest.json",
+        "configs/experiments/paper_m0_3eg_cluster_compare_f2_seed324.toml",
+    ):
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(root / relative, target)
+    gmd = tmp_path / (
+        "results/backup/m0_gmd_horizon_balanced_backbone/"
+        "m0-gmd-horizon-balanced-f1-seed324-20260731/selection_marker.json"
+    )
+    gmd.parent.mkdir(parents=True)
+    gmd.write_text(json.dumps({"selected_modal_rank": 2}), encoding="utf-8")
+    gmd_pm = tmp_path / (
+        "results/diagnostics/m0-gmd-pm-modal-tgov-bound-f1-seed324-20260801-r4/"
+        "selection_marker.json"
+    )
+    if selection_available:
+        gmd_pm.parent.mkdir(parents=True)
+        gmd_pm.write_text(
+            json.dumps({"source_accuracy_model_frozen": "synthetic-reference"}),
+            encoding="utf-8",
+        )
+
+    audit = _historical_audit(tmp_path)
     assert audit["accepted_round6_representation"] == "clustered_7"
     assert audit["accepted_downstream_chain_representation"] == "clustered_7"
     assert audit["later_raw10_runs_were_diagnostic_only"] is True
-    assert len(audit["evidence_files"]) >= 5
-    assert all(
-        len(value["sha256"]) == 64 for value in audit["evidence_files"].values()
+    assert audit["accepted_gmd_selected_modal_rank"] == 2
+    assert audit["accepted_gmd_pm_selection_available"] is selection_available
+    assert audit["accepted_gmd_pm_source_accuracy_model"] == (
+        "synthetic-reference" if selection_available else None
     )
+    assert len(audit["evidence_files"]) == 6
+    for name, evidence in audit["evidence_files"].items():
+        available = name != "accepted_gmd_pm_selection" or selection_available
+        assert evidence["available"] is available
+        if available:
+            assert len(evidence["sha256"]) == 64
+        else:
+            assert evidence["sha256"] is None
+
+    if selection_available:
+        gmd_pm.write_text("{", encoding="utf-8")
+        with pytest.raises(json.JSONDecodeError):
+            _historical_audit(tmp_path)
+    gmd.unlink()
+    with pytest.raises(FileNotFoundError):
+        _historical_audit(tmp_path)
