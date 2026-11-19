@@ -1,0 +1,32 @@
+task_type = "unified_first_swing_probes"
+dataset = "kiki_ieee39_v1"
+stage = "probe"
+development_authorization_id = "unified_first_swing_probes_v2_20261119"
+protocol = "docs/protocols/unified_first_swing_probes_v2_zh.md"
+baseline_receipt = "docs/reports/unified_first_swing_fit_20261119_evidence.json"
+r_ref_floor = 0.001
+
+[operation_limits]
+rollouts = 6584
+torch_rhs = 19329440
+tangent_rhs = 1124400
+qr = 10790
+svd = 10790
+triangular_solves = 10790
+matrix_products = 10790
+observed_rhs = 15360
+checkpoint_loads = 2
+gradients = 9
+fits = 0
+optimizer_updates = 0
+
+[bindings]
+"configs/experiments/unified_first_swing_v1.toml" = "374f0404703d713ee3cac29420c8707673b3751debda4eb3b0ff4e44d82a6051"
+"configs/workflows/unified_first_swing_probes_v2.json" = "23d732ef3692b6c636cb535c6d64befab6b9caa6ec919d2a3e6a787dc65642b3"
+"docs/protocols/unified_first_swing_probes_v2_zh.md" = "bcc15280e0b0bcbe46292c5c73b12d4eebe9e4f862b3bb6227a9f1ff4efa1cd3"
+"docs/reports/unified_first_swing_fit_20261119_evidence.json" = "378c8e1e9709d172209e41c9c83c8bc328c94c17ed7881f19cc805a01f19ee26"
+"src/kron_reduce/evaluation/first_swing_geometry.py" = "269721617d184f9954f59265baa9d0adb6bf731c6c1b4d6c41255fd1158de69b"
+"src/kron_reduce/evaluation/first_swing_probes.py" = "3c3fdb522f7710c30c61e959d343f3b366e104dedfb0d71c2b0796d06cd8e0df"
+"src/kron_reduce/workflows/unified_first_swing_probes.py" = "5e0785e34e423c91b936394d5ff56dcec0016ed1df45602d80ffa14aac628e6e"
+"tests/test_first_swing_geometry.py" = "82fa67a857817f7ee7a7ab5252b5ae832c204fbc49c8abcc17205e9cd8cc2af2"
+"tests/test_first_swing_probes.py" = "5b79446411558ef69ae13360463ab319087bab424da030c2af398ece58cbe351"
