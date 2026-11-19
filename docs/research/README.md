@@ -15,6 +15,9 @@ all mechanism groups enabled. Engineering gradient
 checks passed. The [local v2 run](../reports/joint_energy_sindy_synthetic_v2_20261119_zh.md)
 completed 114 updates and lowered the val loss by 57.7%. The operation limit
 stopped the run before model export and final scoring.
+The [restart protocol](../protocols/joint_energy_sindy_synthetic_v2_restart_zh.md)
+records computational work and saves weights and Adam state at each full val
+checkpoint.
 
 The [from-scratch joint ES-SINDy fit](../reports/joint_energy_sindy_synthetic_20261117_zh.md)
 completes all 48 updates with an explicit energy balance. The frozen model

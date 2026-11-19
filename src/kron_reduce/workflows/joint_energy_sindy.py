@@ -20,20 +20,21 @@ from project_harness.runner import _run_experiment
 MODULE = "kron_reduce.workflows.joint_energy_sindy"
 SYNTHETIC = "joint_energy_sindy_synthetic_v1"
 SYNTHETIC_V2 = "joint_energy_sindy_synthetic_v2"
+SYNTHETIC_RESTART = "joint_energy_sindy_synthetic_v2_restart"
 TASK3 = "kiki_joint_energy_sindy_v1"
 
 
 def _experiment_name(stage, requested=None):
     if stage == "synthetic":
         name = requested or SYNTHETIC
-        if name not in (SYNTHETIC, SYNTHETIC_V2):
+        if name not in (SYNTHETIC, SYNTHETIC_V2, SYNTHETIC_RESTART):
             raise RuntimeError("unregistered joint ES-SINDy synthetic experiment")
     else:
         if stage not in ("fit", "test"):
             raise RuntimeError("unknown joint ES-SINDy stage")
         name = f"kiki_joint_energy_sindy_{stage}_v1"
         if requested is not None and requested != name:
-            raise RuntimeError("synthetic v2 does not authorize a TASK3 run")
+            raise RuntimeError("a synthetic experiment does not authorize a TASK3 run")
     return name
 
 
@@ -113,7 +114,7 @@ def authorize(root, stage, experiment_name=None):
     pins = dict(line.split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line and not line.startswith("#"))
     packages = ("numpy", "scipy", "torch", "filelock", "h5py")
-    if name == SYNTHETIC_V2:
+    if name in (SYNTHETIC_V2, SYNTHETIC_RESTART):
         device = plan["settings"].get("device")
         if device not in ("cpu", "cuda"):
             raise RuntimeError("synthetic v2 must explicitly register cpu or cuda")
@@ -156,7 +157,9 @@ def run(*, root, experiment, stage, result_dir, run_id):
         torch.set_num_threads(1)
         torch.use_deterministic_algorithms(True)
         started = time.perf_counter()
-        budget = Budget(result_dir/"operations.jsonl", plan["operation_limits"])
+        limits = {key: float("inf") if limit is None else limit
+                  for key, limit in plan["operation_limits"].items()}
+        budget = Budget(result_dir/"operations.jsonl", limits)
         try:
             summary = execute(root, result_dir, plan, budget)
         finally:
@@ -164,7 +167,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
         evidence = {"status": "PASS", "process_status": "PASS", "source_commit": commit,
                     "data_policy": "analytic_synthetic_only", "promotion_decision": "KEEP_BASELINE",
                     **{key: summary[key] for key in ("engineering_pass", "scientific_pass", "claim_boundary")}}
-        device = plan["settings"]["device"] if name == SYNTHETIC_V2 else "cuda"
+        device = plan["settings"].get("device", "cuda")
         write_json(result_dir/"summary.json", summary | evidence | {
             "operation_counts": dict(budget.counts), "elapsed_seconds": time.perf_counter()-started,
             "runtime": {"python": sys.version, "torch": torch.__version__, "cuda": torch.version.cuda,

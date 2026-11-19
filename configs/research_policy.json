@@ -5157,6 +5157,41 @@
       "result_review_path": "docs/research/joint_energy_sindy_synthetic_v2_result_review_20261119.json",
       "result_review_sha256": "a10c8e1c3b62cbdc608f0c7ec234926e5ac608e52bd570864cb806a231e496ce",
       "scientific_pass": false
+    },
+    "joint_energy_sindy_synthetic_v2_restart_20261119": {
+      "experiment": "joint_energy_sindy_synthetic_v2_restart",
+      "workflow": "joint_energy_sindy_synthetic_v2_restart",
+      "stage": "synthetic",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "real_data_reads": 0,
+      "fit_attempts": 1,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "operation_limits": {
+        "numpy_rhs": null,
+        "torch_rhs": null,
+        "tangent_rhs": null,
+        "rollouts": null,
+        "qr": null,
+        "svd": null,
+        "matrix_products": null,
+        "triangular_solves": null,
+        "weak_cases": null,
+        "weak_solves": null,
+        "kernel_exponentials": null,
+        "fits": 1,
+        "optimizer_updates": 120,
+        "gradients": null,
+        "val_checks": null
+      },
+      "status": "active",
+      "authority": "explicit_operator_restart_without_resource_limits_20261119",
+      "operator_instruction": "重新开始，不设置资源上限",
+      "approved_date": "2026-11-19",
+      "plan_path": "configs/proposals/joint_energy_sindy_synthetic_v2_restart.json",
+      "plan_sha256": "570fa469fc0a94c206c95acb9680cb74ea7afb735b19070cc93d096b026c4af6",
+      "review_path": "docs/research/joint_energy_sindy_synthetic_v2_restart_review_20261119.json",
+      "review_sha256": "8daaa06cf38fdbf87886a6d42e42d0e46e581fae4252e3043f6215bb0e7aef5c"
     }
   },
   "saved_evidence_audits": {

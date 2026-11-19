@@ -3291,6 +3291,19 @@
       "reads_validation_performance": false,
       "reads_test_performance": false,
       "synthetic_authorization_id": "joint_energy_sindy_synthetic_v2_20261118"
+    },
+    "joint_energy_sindy_synthetic_v2_restart": {
+      "module": "kron_reduce.workflows.joint_energy_sindy",
+      "workflow": "joint_energy_sindy_synthetic_v2_restart",
+      "stage": "synthetic",
+      "config": "joint_energy_sindy_synthetic_v2_restart.toml",
+      "status": "gated",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "data_policy": "analytic_synthetic_only",
+      "execution_mode": "bounded_synthetic_cli_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "synthetic_authorization_id": "joint_energy_sindy_synthetic_v2_restart_20261119"
     }
   },
   "active_policy": "configs/research_policy.json",

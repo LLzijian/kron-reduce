@@ -96,6 +96,10 @@ def _fit(model, observed, roles, power, equilibrium, scale, hscale, settings, bu
     started = time.perf_counter()
     stop_reason = "update_cap"
     progress = None if directory is None else directory/"training.jsonl"
+    checkpoints = None
+    if directory is not None and settings.get("save_checkpoints", False):
+        checkpoints = directory/"checkpoints"
+        checkpoints.mkdir()
     if progress is not None:
         with progress.open("x", encoding="utf-8"):
             pass
@@ -169,9 +173,19 @@ def _fit(model, observed, roles, power, equilibrium, scale, hscale, settings, bu
                 if checkpoint_eligible(settings, update) and (best is None or loss < best[0]):
                     best = (loss, update, snapshot(model))
                 val_curve.append({"update": update, "nmse": loss, "train_nmse_after_update": train_after})
-                print(f"joint synthetic update {update}: val NMSE={loss:.6g}", flush=True)
             except NUMERICAL_ERRORS as error:
                 val_curve.append({"update": update, "nmse": None, "failure": str(error)})
+            else:
+                if checkpoints is not None:
+                    checkpoint = checkpoints/f"update-{update:03d}.pt"
+                    pending = checkpoint.with_suffix(".tmp")
+                    try:
+                        torch.save({"update": update, "model": snapshot(model),
+                                    "optimizer": optimizer.state_dict()}, pending)
+                        pending.replace(checkpoint)
+                    finally:
+                        pending.unlink(missing_ok=True)
+                print(f"joint synthetic update {update}: val NMSE={loss:.6g}", flush=True)
             save_progress()
     if best is not None:
         model.load_state_dict(best[2], strict=True)
