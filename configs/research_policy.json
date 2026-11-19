@@ -65,9 +65,9 @@
   },
   "development_evaluations": {
     "unified_first_swing_v1_20261119": {
-      "status": "pending",
+      "status": "active",
       "experiment": "unified_first_swing_v1",
-      "authority": "pending_explicit_operator_approval_for_first_swing_pair",
+      "authority": "explicit_operator_first_swing_train_val_ablation",
       "allowed_roles": [
         "train",
         "val"
