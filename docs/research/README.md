@@ -11,6 +11,10 @@ tests the weighted rollout, one-sided speed and weak momentum objective on the
 fixed T0M1 start with machine-local angle damping. The first paired fit follows
 the synthetic check and scoped approval. The adaptive history initializer and
 spatial coupling each have a separate paired comparison design.
+The [GN prior and radius comparison](../reports/unified_first_swing_gn_decomposition_v3_20261119_zh.md)
+records the complete zero-update comparison. Fixed priors with soft radii
+detect all val instabilities in two configurations. The joint gate retains
+the original initializer.
 
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,

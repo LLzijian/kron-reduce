@@ -65,7 +65,7 @@
   },
   "development_evaluations": {
     "unified_first_swing_gn_decomposition_v3_20261119": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "unified_first_swing_gn_decomposition_v3",
       "authority": "explicit_operator_gn_decomposition_zero_update",
       "allowed_roles": [
@@ -96,7 +96,13 @@
         "gradients": 0,
         "fits": 0,
         "optimizer_updates": 0
-      }
+      },
+      "run_id": "unified_first_swing_gn_decomposition_v3-probe-20261119T074514989765Z-5637f04a-73c62955",
+      "result_manifest_sha256": "ee0f918259cddf86cc6938b93dc2460fd020ca577b36991e9c0508e0e310ded2",
+      "result_receipt_path": "docs/reports/unified_first_swing_gn_decomposition_v3_20261119_evidence.json",
+      "result_receipt_sha256": "5cc5da2b2ddf0ba94a3605ad65715fef6326a56f56d3d4bdda899a8d2f3594e2",
+      "process_status": "PASS",
+      "scientific_pass": false
     },
     "unified_first_swing_probes_v2_20261119": {
       "status": "consumed",
