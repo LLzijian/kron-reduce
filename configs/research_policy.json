@@ -65,7 +65,7 @@
   },
   "development_evaluations": {
     "unified_first_swing_v1_20261119": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "unified_first_swing_v1",
       "authority": "explicit_operator_first_swing_train_val_ablation",
       "allowed_roles": [
@@ -97,7 +97,12 @@
         "gradients": 117,
         "val_checks": 8,
         "checkpoint_loads": 2
-      }
+      },
+      "run_id": "unified_first_swing_v1-fit-20261119T051218221066Z-fdfecba6-4c03db51",
+      "result_manifest_sha256": "18f1314d936cb70bffbdaff231c983deb409c59bcd27a593009e522ad5f60534",
+      "result_receipt_path": "docs/reports/unified_first_swing_fit_20261119_evidence.json",
+      "result_receipt_sha256": "378c8e1e9709d172209e41c9c83c8bc328c94c17ed7881f19cc805a01f19ee26",
+      "scientific_pass": false
     },
     "kiki_a04_development_20261023": {
       "status": "consumed",

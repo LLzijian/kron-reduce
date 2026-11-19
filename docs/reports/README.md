@@ -30,6 +30,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [TASK3 M1 first-swing loss ablation](unified_first_swing_fit_20261119_zh.md) | Complete train and val, 18 updates per group, both selecting the shared starting checkpoint |
 | [TASK3 train momentum and work](kiki_topology_memory_balance_20261116_zh.md) | Complete train 346, signed work and momentum with causal initialization and 33 matched witness windows |
 | [TASK3 train fixed modal damping](kiki_machine_local_topology_modal_damping_20261115_zh.md) | Complete train, shared causal starts, stable residual gate failed in all three controls |
 | [TASK3 frozen spatial damping](kiki_machine_local_topology_spatial_damping_20261115_zh.md) | Complete cohorts, val 106/107, test 70 correct with two unresolved, independent scoring audit passed |
