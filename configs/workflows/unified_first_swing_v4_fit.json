@@ -1,0 +1,29 @@
+{
+  "workflow": "unified_first_swing_v4_fit",
+  "experiment": "unified_first_swing_v4_fit",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "synthetic", "fit", "test"],
+  "transitions": {"scaffold": "synthetic", "synthetic": "fit", "fit": "test"},
+  "terminal_stages": ["test"],
+  "approval_required": ["fit", "test"],
+  "stage_evidence_contracts": {
+    "synthetic": {
+      "required_fields": ["status", "source_commit", "result_dir", "artifact_manifest", "claim_boundary", "plan_sha256", "real_data_reads"],
+      "non_empty_fields": ["source_commit", "claim_boundary", "plan_sha256"],
+      "allowed_values": {"status": ["PASS"], "real_data_reads": [0]}
+    },
+    "fit": {
+      "required_fields": ["status", "process_status", "source_commit", "data_policy", "promotion_decision", "result_dir", "artifact_manifest", "frozen_model_manifest", "claim_boundary"],
+      "non_empty_fields": ["source_commit", "claim_boundary"],
+      "allowed_values": {"status": ["PASS"], "process_status": ["PASS"],
+        "data_policy": ["kiki_official_train_test_v1"], "promotion_decision": ["KEEP_BASELINE"]}
+    },
+    "test": {
+      "required_fields": ["status", "process_status", "source_commit", "data_policy", "promotion_decision", "result_dir", "artifact_manifest", "frozen_model_manifest", "claim_boundary"],
+      "non_empty_fields": ["source_commit", "claim_boundary"],
+      "allowed_values": {"status": ["PASS"], "process_status": ["PASS"],
+        "data_policy": ["kiki_official_train_test_v1"], "promotion_decision": ["KEEP_BASELINE"]}
+    }
+  }
+}

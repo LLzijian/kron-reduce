@@ -64,6 +64,41 @@
     }
   },
   "development_evaluations": {
+    "unified_first_swing_v4_fit_20261119": {
+      "status": "active",
+      "experiment": "unified_first_swing_v4_fit",
+      "authority": "explicit_operator_direct_v4_paired_fit",
+      "allowed_roles": [
+        "train",
+        "val"
+      ],
+      "train_cases": 346,
+      "val_cases": 107,
+      "test_cases": 0,
+      "source_cache_open_limit": 3,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "fit_attempts": 2,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "plan_path": "configs/experiments/unified_first_swing_v4_fit.toml",
+      "plan_sha256": "62c137f5f09655a8105d3e9d79f61c07dbee719cd864f4c199bc89c67a2e699f",
+      "operation_limits": {
+        "rollouts": 35833,
+        "torch_rhs": 103147200,
+        "tangent_rhs": 6054000,
+        "qr": 116710,
+        "svd": 116710,
+        "triangular_solves": 116710,
+        "matrix_products": 116710,
+        "observed_rhs": 237120,
+        "checkpoint_loads": 2,
+        "gradients": 114,
+        "fits": 2,
+        "optimizer_updates": 36,
+        "val_checks": 14
+      }
+    },
     "unified_first_swing_gn_decomposition_v3_20261119": {
       "status": "consumed",
       "experiment": "unified_first_swing_gn_decomposition_v3",

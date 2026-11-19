@@ -3144,6 +3144,41 @@
       ],
       "test_authorization": "kiki_machine_local_topology_spatial_relaxation_test_v1_20261116"
     },
+    "unified_first_swing_v4_fixture": {
+      "module": "kron_reduce.workflows.unified_first_swing_v4_fit",
+      "workflow": "unified_first_swing_v4_fit",
+      "stage": "synthetic",
+      "config": "unified_first_swing_v4_fit.toml",
+      "status": "gated",
+      "dataset": "synthetic_benchmark_registry_v1",
+      "reads_test_performance": false
+    },
+    "unified_first_swing_v4_fit": {
+      "module": "kron_reduce.workflows.unified_first_swing_v4_fit",
+      "workflow": "unified_first_swing_v4_fit",
+      "stage": "fit",
+      "required_gate": "fit",
+      "config": "unified_first_swing_v4_fit.toml",
+      "status": "gated",
+      "dataset": "kiki_ieee39_v1",
+      "data_policy": "kiki_official_train_test_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "input_contract_id": "measured_history_100ms_zoh_v1",
+      "training_split": "train",
+      "internal_resplit": false,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "execution_mode": "bounded_kiki_official_cli_only",
+      "val_use": "official_val_for_preregistered_selection",
+      "reads_validation_performance": true,
+      "reads_test_performance": false,
+      "paired_comparison": [
+        "hard_r",
+        "soft_2r"
+      ],
+      "development_authorization_id": "unified_first_swing_v4_fit_20261119"
+    },
     "unified_first_swing_gn_decomposition_fixture_v3": {
       "module": "kron_reduce.workflows.unified_first_swing_gn_decomposition",
       "workflow": "unified_first_swing_gn_decomposition_v3",

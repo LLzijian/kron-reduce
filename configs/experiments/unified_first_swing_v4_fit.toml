@@ -1,0 +1,78 @@
+task_type = "unified_first_swing_v4_fit"
+dataset = "kiki_ieee39_v1"
+stage = "fit"
+development_authorization_id = "unified_first_swing_v4_fit_20261119"
+fit_authorization = "unified_first_swing_v4_fit_20261119"
+test_authorization = "unified_first_swing_v4_test_20261119"
+protocol = "docs/protocols/unified_first_swing_v4_fit_zh.md"
+source_contract = "configs/proposals/kiki_machine_local_full_fit_v1.json"
+backbone_archive = "results/backup/kiki_a03_a17_subsets/KIKI_a06.zip"
+anchor_receipt = "docs/reports/unified_first_swing_fit_20261119_evidence.json"
+initializer_receipt = "docs/reports/unified_first_swing_gn_decomposition_v3_20261119_evidence.json"
+
+[settings]
+updates = 18
+train_batch = 128
+eval_batch = 32
+val_interval = 3
+learning_rate = 0.002
+gradient_clip = 1.0
+huber_delta = 1.0
+gradient_ratio = 1.1
+unstable_first_swing_weight = 8.0
+trust_weight = 1.0
+prior_weight = 0.000001
+minimum_port = 0.01
+energy_weight = 0.1
+max_val_fp = 2
+target_val_fp = 1
+max_val_stable_median = 0.21
+max_val_tn_mean = 0.24
+witness_relative_limit = 0.8
+
+[fit_operation_limits]
+rollouts = 35833
+torch_rhs = 103147200
+tangent_rhs = 6054000
+qr = 116710
+svd = 116710
+triangular_solves = 116710
+matrix_products = 116710
+observed_rhs = 237120
+checkpoint_loads = 2
+gradients = 114
+fits = 2
+optimizer_updates = 36
+val_checks = 14
+
+[test_operation_limits]
+rollouts = 2212
+torch_rhs = 6522240
+tangent_rhs = 379200
+qr = 3040
+svd = 3040
+triangular_solves = 3040
+matrix_products = 3040
+observed_rhs = 0
+checkpoint_loads = 3
+gradients = 0
+fits = 0
+optimizer_updates = 0
+val_checks = 0
+
+[bindings]
+"configs/workflows/unified_first_swing_v4_fit.json" = "e9b8531cbc8075d95e15a20168099f4f95a6f3ec9531d0a3e96748b537645430"
+"docs/protocols/unified_first_swing_v4_fit_zh.md" = "e07f59a1be60fadb74c29864323a7c8bf3cc930cb3f55cb028065c03dcc56e07"
+"configs/input_contracts.json" = "6c31fb878d3bed1d43bf70acf84995b5ec5d6d1f2ae64a1809febe0c00b3f83c"
+"configs/proposals/kiki_task3_split_reference_v1.json" = "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2"
+"configs/proposals/kiki_machine_local_full_fit_v1.json" = "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed"
+"requirements/constraints-py312.txt" = "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9"
+"docs/reports/unified_first_swing_fit_20261119_evidence.json" = "378c8e1e9709d172209e41c9c83c8bc328c94c17ed7881f19cc805a01f19ee26"
+"docs/reports/unified_first_swing_gn_decomposition_v3_20261119_evidence.json" = "5cc5da2b2ddf0ba94a3605ad65715fef6326a56f56d3d4bdda899a8d2f3594e2"
+"src/kron_reduce/models/first_swing_fit.py" = "81a8fd2f091a9cf72cf1a73383f583d134749d8adb33332a9b4103e4c341bddc"
+"src/kron_reduce/evaluation/first_swing_balanced_fit.py" = "a5207c96a82de9d7b1729ba988bff17066def4aa7596d55278b380a40ee0229b"
+"src/kron_reduce/workflows/unified_first_swing_v4_fit.py" = "c1c0cd9c9134d0b12248d3df7e75514617995a5ece670028a692b4c2be010968"
+"tests/test_first_swing_v4_fit.py" = "86da803d92c758659e20a7aee5e7e144bd1e7f11e7ff6442386b51a594fb2f5b"
+"tests/test_first_swing_v4_model.py" = "43024603975445098c7f64f61bbb9243f4569b691fcca0bcc994b433883d0039"
+"tests/test_first_swing_gn_grid.py" = "002206dda99529d512067a2323329c03d42c9930416ef4a56b54e5795affac1a"
+"tests/test_unified_first_swing.py" = "9f5f8a30aea36e7b225ccf85cdad77331565417827da4c6aaee80476e0bfe145"
