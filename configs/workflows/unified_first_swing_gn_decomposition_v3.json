@@ -1,0 +1,24 @@
+{
+  "workflow": "unified_first_swing_gn_decomposition_v3",
+  "experiment": "unified_first_swing_gn_decomposition_v3",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "synthetic", "probe"],
+  "transitions": {"scaffold": "synthetic", "synthetic": "probe"},
+  "terminal_stages": ["probe"],
+  "approval_required": ["probe"],
+  "stage_evidence_contracts": {
+    "synthetic": {
+      "required_fields": ["status", "source_commit", "result_dir", "artifact_manifest", "claim_boundary", "plan_sha256", "real_data_reads"],
+      "non_empty_fields": ["source_commit", "claim_boundary", "plan_sha256"],
+      "allowed_values": {"status": ["PASS"], "real_data_reads": [0]}
+    },
+    "probe": {
+      "required_fields": ["status", "process_status", "source_commit", "data_policy", "promotion_decision", "scientific_pass", "result_dir", "artifact_manifest", "claim_boundary"],
+      "non_empty_fields": ["source_commit", "claim_boundary"],
+      "allowed_values": {"status": ["PASS"], "process_status": ["PASS"],
+        "data_policy": ["kiki_official_train_test_v1"], "promotion_decision": ["KEEP_BASELINE"],
+        "scientific_pass": [true, false]}
+    }
+  }
+}

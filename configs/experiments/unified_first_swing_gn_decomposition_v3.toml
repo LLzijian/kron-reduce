@@ -1,0 +1,77 @@
+task_type = "unified_first_swing_gn_decomposition"
+dataset = "kiki_ieee39_v1"
+stage = "probe"
+development_authorization_id = "unified_first_swing_gn_decomposition_v3_20261119"
+protocol = "docs/protocols/unified_first_swing_gn_decomposition_v3_zh.md"
+fixed_receipt = "docs/reports/unified_first_swing_fit_20261119_evidence.json"
+adaptive_receipt = "docs/reports/unified_first_swing_probes_v2_20261119_evidence.json"
+batch_size = 64
+quantiles = [85, 90]
+
+[[mode]]
+name = "prior_hard"
+prior = "quadratic"
+radius_multiplier = 1.0
+
+[[mode]]
+name = "fixed_soft_1p4"
+prior = "fixed"
+radius_multiplier = 1.4
+
+[[mode]]
+name = "fixed_soft_1p6"
+prior = "fixed"
+radius_multiplier = 1.6
+
+[[mode]]
+name = "fixed_soft_1p8"
+prior = "fixed"
+radius_multiplier = 1.8
+
+[[mode]]
+name = "fixed_soft_2p0"
+prior = "fixed"
+radius_multiplier = 2.0
+
+[[mode]]
+name = "hinge_p85_soft_1p6"
+prior = "hinge"
+radius_multiplier = 1.6
+quantile = 85
+
+[[mode]]
+name = "hinge_p90_soft_1p6"
+prior = "hinge"
+radius_multiplier = 1.6
+quantile = 90
+
+[gates]
+relative_limit = 0.8
+stable_8s_mean_max = 0.24
+false_alarms_max = 1
+
+[operation_limits]
+rollouts = 44508
+torch_rhs = 131229440
+tangent_rhs = 7629600
+qr = 63420
+svd = 63420
+triangular_solves = 63420
+matrix_products = 63420
+observed_rhs = 115200
+checkpoint_loads = 2
+gradients = 0
+fits = 0
+optimizer_updates = 0
+
+[bindings]
+"configs/experiments/unified_first_swing_v1.toml" = "374f0404703d713ee3cac29420c8707673b3751debda4eb3b0ff4e44d82a6051"
+"configs/experiments/unified_first_swing_probes_v2.toml" = "2c2b674aa3f64df734ff90eb2618a634a25d096df005500ebcc01eb8b83e0843"
+"configs/workflows/unified_first_swing_gn_decomposition_v3.json" = "b879aa85be64d245afaef199dc9f5ce9b38644654407aaea487232ef8b6b2c88"
+"docs/protocols/unified_first_swing_gn_decomposition_v3_zh.md" = "1d3b0a7f288a799df637c89252004231ab8bb02d5bcfd5fb0ec432ef1bf86310"
+"docs/reports/unified_first_swing_fit_20261119_evidence.json" = "378c8e1e9709d172209e41c9c83c8bc328c94c17ed7881f19cc805a01f19ee26"
+"docs/reports/unified_first_swing_probes_v2_20261119_evidence.json" = "d075c5a314736d796f14801fafdb0310344660fa64619bb9f84e0a3761332615"
+"src/kron_reduce/models/first_swing_gn_grid.py" = "2c15160ae87c5b5d1821943dafb91d75736a303c02d3e19cc9fd3e2913921ead"
+"src/kron_reduce/evaluation/first_swing_gn_decomposition.py" = "97e3e150c18917d5286fb62c838aa8d8c4390c136615d603a84657863cac2317"
+"src/kron_reduce/workflows/unified_first_swing_gn_decomposition.py" = "720da1314a0d108ea88e4bf291fb5496a743f48971e40ecf4d71676c27f2285d"
+"tests/test_first_swing_gn_grid.py" = "002206dda99529d512067a2323329c03d42c9930416ef4a56b54e5795affac1a"
