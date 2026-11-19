@@ -340,12 +340,15 @@ def _restore_branch_initial_state(proposal, radial_radius, dynamic_radius, width
 def predict_from_topology_history(model, q, v, power, equilibrium, scale, count, *, max_step, spend,
                                   memory_radius=1., prior_weight=0., exact_memory_ball=False,
                                   fit_dynamic_coupling=False, dynamic_radius=.6,
-                                  return_observation_jacobian=False, branch_log_coordinates=False):
+                                  return_observation_jacobian=False, branch_log_coordinates=False,
+                                  adaptive_prior_reference=None):
     """Fit latent initial conditions and propagate optional zero-start topology states.
 
     For topology-memory ROMs, dynamic coordinates stay zero unless explicitly
     fitted. The optional observation Jacobian is the unregularized design from
     the final Gauss–Newton linearization, before its update, in physical coordinates.
+    The adaptive variant estimates memory in smooth radial coordinates and
+    fixes each event's prior from its zero-memory residual before updating it.
     """
     q, v, power, equilibrium, scale = map(model._tensor, (q, v, power, equilibrium, scale))
     n, r = model.n_nodes, model.memory_dimension
@@ -375,6 +378,13 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
     hidden = q.new_zeros((len(q), fitted_dimension))
     singular = None
     prior, diagnostics, observation_jacobian = None, [], None
+    adaptive = adaptive_prior_reference is not None
+    if adaptive:
+        if (not np.isfinite(adaptive_prior_reference) or adaptive_prior_reference <= 0.
+                or not prior_weight or not r or fitted_dimension != r or exact_memory_ball):
+            raise ValueError("adaptive prior requires a positive reference and memory-only fitting")
+        coordinate = hidden
+        soft_limit = 2.*memory_radius
     if exact_memory_ball and (not r or model.topology_dimension or fit_dynamic_coupling):
         raise ValueError("the exact ball candidate requires memory with fixed topology")
     if prior_weight:
@@ -394,6 +404,22 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
                     model, hidden, design, residual, observed, fixed, power, equilibrium, scale, prior,
                     radius=memory_radius, max_step=max_step, spend=spend)
                 diagnostics.append(record)
+                continue
+            if adaptive:
+                if iteration == 0:
+                    zero_residual_squared = residual.square().mean(dim=1)
+                    adapt = (1.+zero_residual_squared/adaptive_prior_reference**2).reciprocal()
+                    adaptive_prior = adapt.sqrt()[:, None]*prior
+                _, radial_scale = _radial_coordinate(coordinate, soft_limit)
+                # Differentiate the radial map at the current physical memory.
+                design = radial_scale[:, :, None]*(design
+                    -(design @ hidden[..., None])*hidden[:, None, :]/soft_limit**2)
+                design = torch.cat((design, torch.diag_embed(adaptive_prior)), dim=1)
+                residual = torch.cat((residual, -coordinate*adaptive_prior), dim=1)
+                result = solve_hidden_batch(design, residual, spend=spend)
+                coordinate = coordinate+result["hidden_start"]
+                hidden, _ = _radial_coordinate(coordinate, soft_limit)
+                singular = result["singular"]
                 continue
             if prior_weight:
                 # The linearized solve penalizes the new absolute hidden state.
@@ -419,6 +445,8 @@ def predict_from_topology_history(model, q, v, power, equilibrium, scale, count,
     origin = torch.cat((observed[:, -1], history[:, -1, 2*n:]), dim=1)
     forecast = model.rollout(origin, power, equilibrium, count, max_step=max_step, spend=spend)
     result = {"hidden_start": hidden, "history": history, "forecast": forecast, "singular": singular}
+    if adaptive:
+        result.update(zero_history_nrmse=zero_residual_squared.sqrt(), adaptive_prior_weight=prior_weight*adapt)
     if return_observation_jacobian:
         if observation_jacobian is None:
             observation_jacobian = q.new_zeros((len(q), 20*n, model.latent_dimension))

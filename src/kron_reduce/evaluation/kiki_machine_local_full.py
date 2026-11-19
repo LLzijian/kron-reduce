@@ -66,7 +66,10 @@ def batch_objective(model, batch, population, scales, budget, *, return_events=F
 
 
 def train_updates(model, events, scales, budget, directory, settings, *, stiffness_bounds=None,
-                  damping_bounds=None, spatial_rate_limit=None, predictor=None, learning_rate=.01, gradient_clip=10.):
+                  damping_bounds=None, spatial_rate_limit=None, predictor=None, learning_rate=.01, gradient_clip=10.,
+                  objective_fn=None, minimum_port=None):
+    if minimum_port is not None and (model.port_kind != "local" or not 0. < minimum_port < float("inf")):
+        raise ValueError("a positive finite port floor requires local ports")
     parameters = (model.port_parameter, model.rate_parameter)
     scalar = getattr(model, 'log_stiffness_factor', None)
     if (scalar is None) != (stiffness_bounds is None):
@@ -96,10 +99,19 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
             previous = snapshot(model)
             optimizer.zero_grad(set_to_none=True)
             objective = 0.
+            terms = {}
             try:
                 for offset in range(0, len(events), settings['train_batch']):
                     batch = events[offset:offset+settings['train_batch']]
-                    value = batch_objective(model, batch, len(events), scales, budget, predictor=predictor)
+                    if objective_fn is None:
+                        value = batch_objective(model, batch, len(events), scales, budget, predictor=predictor)
+                    else:
+                        value, components = objective_fn(model, batch, len(events), scales, budget)
+                        if not torch.isfinite(value) or not all(torch.isfinite(x) for x in components.values()):
+                            raise FloatingPointError('nonfinite train objective')
+                        for name in components:
+                            terms[name] = terms.get(name, 0.)+float(components[name].detach())
+                        del components
                     budget.spend('gradients')
                     value.backward()
                     objective += float(value.detach())
@@ -127,6 +139,9 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                 if rates is not None:
                     with torch.no_grad():
                         rates.clamp_(0., spatial_rate_limit)
+                if minimum_port is not None:
+                    with torch.no_grad():
+                        model.port_parameter.clamp_min_(np.log(minimum_port))
                 completed += 1
             except NUMERICAL_ERRORS as error:
                 np.savez_compressed(directory/'failed_parameters.npz',
@@ -140,6 +155,8 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                 break
             row = {'update': update+1, 'train_nmse_1s_3s': objective,
                    'gradient_norm': float(norm), 'elapsed_seconds': time.perf_counter()-started}
+            if objective_fn is not None:
+                row.update(terms, train_objective=objective)
             if scalar is not None:
                 row.update(log_factor_before_projection=log_factor_before_projection,
                            log_factor=float(scalar.detach()),
@@ -149,7 +166,8 @@ def train_updates(model, events, scales, budget, directory, settings, *, stiffne
                 row['spatial_gradient_norm'] = float(spatial_norm)
             stream.write(json.dumps(row, allow_nan=False)+'\n')
             stream.flush()
-            print(f"{directory.name} update {completed}/{settings['updates']} train NMSE={objective:.6g}", flush=True)
+            quantity = "NMSE" if objective_fn is None else "objective"
+            print(f"{directory.name} update {completed}/{settings['updates']} train {quantity}={objective:.6g}", flush=True)
             yield row
     return {'status': status, 'completed_updates': completed, 'message': message,
             'selection': 'fixed_endpoint_or_last_completed_update_on_numerical_failure'}

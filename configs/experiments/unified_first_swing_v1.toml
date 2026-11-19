@@ -1,0 +1,74 @@
+task_type = "unified_first_swing"
+dataset = "kiki_ieee39_v1"
+stage = "fit"
+development_authorization_id = "unified_first_swing_v1_20261119"
+protocol = "docs/protocols/unified_first_swing_v1_zh.md"
+source_contract = "configs/proposals/kiki_machine_local_full_fit_v1.json"
+anchor_contract = "configs/proposals/kiki_machine_local_topology_spatial_relaxation_fit_v1.json"
+
+[anchor_archives]
+backbone = "results/backup/kiki_a03_a17_subsets/KIKI_a06.zip"
+topology = "results/backup/machine_local_group_subsets/03_kiki_baseline_memory.zip"
+
+[settings]
+updates = 18
+train_batch = 128
+eval_batch = 32
+val_interval = 6
+learning_rate = 0.006
+prior_weight = 0.000001
+large_event_weight = 8.0
+history_kinetic_fraction = 0.15
+lambda_asym = 1.0
+lambda_momentum = 0.5
+minimum_port = 0.01
+origin_energy_weight = 0.1
+origin_energy_radius_multiplier = 2.0
+min_val_tp = 11
+max_val_fp = 3
+max_val_unsettled = 1
+max_val_stable_nrmse = 0.25
+matched_train_witnesses = true
+reference_witness_median = 2.551
+witness_reference_tolerance = 0.01
+witness_relative_limit = 0.8
+
+[operation_limits]
+rollouts = 26355
+torch_rhs = 75623040
+tangent_rhs = 4429200
+qr = 100240
+svd = 100240
+triangular_solves = 100240
+matrix_products = 100240
+observed_rhs = 61440
+fits = 2
+optimizer_updates = 36
+gradients = 117
+val_checks = 8
+checkpoint_loads = 2
+
+[bindings]
+"configs/input_contracts.json" = "6c31fb878d3bed1d43bf70acf84995b5ec5d6d1f2ae64a1809febe0c00b3f83c"
+"configs/proposals/kiki_machine_local_full_fit_v1.json" = "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed"
+"configs/proposals/kiki_machine_local_topology_spatial_relaxation_fit_v1.json" = "9ed059664a42a99d21b6c4f8c987fc8cf69724f9f29891c2627867302137ab22"
+"configs/proposals/kiki_task3_split_reference_v1.json" = "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2"
+"configs/workflows/unified_first_swing_v1.json" = "4fd702bda227622b626833d63f9968fe942d29fb5f672b0fe56bd3646c4d4f87"
+"docs/protocols/unified_first_swing_v1_zh.md" = "b389e6d3b94d91b6b657d4a614093a23ef1a933ce9612c551f67866190349609"
+"project_harness/runner.py" = "572b5bb3105c559787d83b1c16bbf50dde781aa3a41c3107fd94a15e82c67b77"
+"requirements/constraints-py312.txt" = "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9"
+"src/kron_reduce/data/task3_full.py" = "14f5b7681f1993822a41615e1905f5e7916554371e29f02213a0382d6291cd2d"
+"src/kron_reduce/evaluation/first_swing_loss.py" = "6248ca7006ccafff67b9d228bf745ce7ba30a007c8a614d5fcc1c1d7ea86f3f9"
+"src/kron_reduce/evaluation/kiki_first_swing.py" = "5505452bbaefd77c4ffe429e11fb63d7c2401fd2d68642472c70d39c05b65a24"
+"src/kron_reduce/evaluation/kiki_machine_local_full.py" = "b0a0078d2e9dfc3af37996f9ab7dea78c96c7152cef7a8014e5d4e1fc0ebc38a"
+"src/kron_reduce/evaluation/kiki_machine_local_topology.py" = "5328fc7c88a4ed1194e72ed84cda46f4209a370a7e7883e5b2b770e02e536df1"
+"src/kron_reduce/evaluation/kiki_topology_bridge.py" = "b0eceeaca751fce153cad34df8c9bf64ad940c68ae8967ffd4dd8f9d1b6d4e31"
+"src/kron_reduce/evaluation/kiki_topology_momentum.py" = "cb3376ce1972dd694aee16f78164a74cd3f63815326e655ad251b3e1bb6ad782"
+"src/kron_reduce/evaluation/machine_local_topology_truth.py" = "e8bbcc439cca6aa60fea156b6e5d8caa9b3df6fcf83d4ca1273a6f499576b98d"
+"src/kron_reduce/evaluation/state_port_training.py" = "87493cd714c5229cba8895113f1d63f83ae69e762dc4bc9c445b964fb32db962"
+"src/kron_reduce/models/differentiable_history.py" = "d6b7dc4dd0170cb5e943539b72fe37e1a1842e1fb0799613f19bd8844a60e9b2"
+"src/kron_reduce/models/machine_local.py" = "3f79959b41a1ee99c96fad3de2307ecbe4f5d2e3d466bca25786bf0e6501fc6b"
+"src/kron_reduce/models/machine_local_topology.py" = "fffbb40e679d14fbf13b4ed69d1641f9e2cc4a698157a7087c19070235bcbf5a"
+"src/kron_reduce/models/nonlinear_history.py" = "f8ce5dd063219c9460fbc67c7b6b3620520153c56258ee6d6be98f7f89d49087"
+"src/kron_reduce/workflows/unified_first_swing.py" = "a5d5d8532026529469ebf3fde2f5c7473b6e1ca5d73d9a54d75b5a2a432d45cf"
+"tests/test_unified_first_swing.py" = "9f5f8a30aea36e7b225ccf85cdad77331565417827da4c6aaee80476e0bfe145"

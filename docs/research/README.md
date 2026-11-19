@@ -6,6 +6,12 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [M1 first-swing protocol](../protocols/unified_first_swing_v1_zh.md)
+tests the weighted rollout, one-sided speed and weak momentum objective on the
+fixed T0M1 start with machine-local angle damping. The first paired fit follows
+the synthetic check and scoped approval. The adaptive history initializer and
+spatial coupling each have a separate paired comparison design.
+
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,
 deletion rules and phased validation for future explicit reduced models.

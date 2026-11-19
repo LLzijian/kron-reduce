@@ -64,6 +64,41 @@
     }
   },
   "development_evaluations": {
+    "unified_first_swing_v1_20261119": {
+      "status": "pending",
+      "experiment": "unified_first_swing_v1",
+      "authority": "pending_explicit_operator_approval_for_first_swing_pair",
+      "allowed_roles": [
+        "train",
+        "val"
+      ],
+      "train_cases": 346,
+      "val_cases": 107,
+      "test_cases": 0,
+      "source_cache_open_limit": 3,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "fit_attempts": 2,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "plan_path": "configs/experiments/unified_first_swing_v1.toml",
+      "plan_sha256": "374f0404703d713ee3cac29420c8707673b3751debda4eb3b0ff4e44d82a6051",
+      "operation_limits": {
+        "rollouts": 26355,
+        "torch_rhs": 75623040,
+        "tangent_rhs": 4429200,
+        "qr": 100240,
+        "svd": 100240,
+        "triangular_solves": 100240,
+        "matrix_products": 100240,
+        "observed_rhs": 61440,
+        "fits": 2,
+        "optimizer_updates": 36,
+        "gradients": 117,
+        "val_checks": 8,
+        "checkpoint_loads": 2
+      }
+    },
     "kiki_a04_development_20261023": {
       "status": "consumed",
       "approved_date": "2026-10-23",
