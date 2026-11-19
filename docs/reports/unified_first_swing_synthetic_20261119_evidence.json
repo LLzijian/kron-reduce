@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "real_data_reads": 0,
+  "source_commit": "4f7c040ad667306674d433e08d50138a0b49ac28",
+  "claim_boundary": "Known-truth and engineering fixtures.",
+  "plan_sha256": "374f0404703d713ee3cac29420c8707673b3751debda4eb3b0ff4e44d82a6051",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\.venv-cu130\\Scripts\\python.exe",
+  "torch": "2.13.0+cu130",
+  "pytest": "9.1.1",
+  "workflow": "unified_first_swing_v1",
+  "stage": "synthetic",
+  "run_id": "unified_first_swing_fixture_v1-synthetic-20261119T045408141342Z-4f7c040a-7298d370",
+  "tests_passed": 9,
+  "artifact_manifest_sha256": "d51a7f272790c67ceae9c5dde44b12b12ad86d9365a60abf68b17963bb98c3d7",
+  "pytest_log_sha256": "99809352f304eef933c29d2c4bce87a8f2350f3203bfac4a6b42c591dcf7a629",
+  "synthetic_summary_sha256": "d19389c8d78dffb97588fd6b6a789a48ff8ea5d5daccfa007d804240c595bd1c"
+}
