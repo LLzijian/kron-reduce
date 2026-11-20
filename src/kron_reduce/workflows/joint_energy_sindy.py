@@ -21,13 +21,14 @@ MODULE = "kron_reduce.workflows.joint_energy_sindy"
 SYNTHETIC = "joint_energy_sindy_synthetic_v1"
 SYNTHETIC_V2 = "joint_energy_sindy_synthetic_v2"
 SYNTHETIC_RESTART = "joint_energy_sindy_synthetic_v2_restart"
+SYNTHETIC_CONTINUE = "joint_energy_sindy_synthetic_v2_continue"
 TASK3 = "kiki_joint_energy_sindy_v1"
 
 
 def _experiment_name(stage, requested=None):
     if stage == "synthetic":
         name = requested or SYNTHETIC
-        if name not in (SYNTHETIC, SYNTHETIC_V2, SYNTHETIC_RESTART):
+        if name not in (SYNTHETIC, SYNTHETIC_V2, SYNTHETIC_RESTART, SYNTHETIC_CONTINUE):
             raise RuntimeError("unregistered joint ES-SINDy synthetic experiment")
     else:
         if stage not in ("fit", "test"):
@@ -36,6 +37,21 @@ def _experiment_name(stage, requested=None):
         if requested is not None and requested != name:
             raise RuntimeError("a synthetic experiment does not authorize a TASK3 run")
     return name
+
+
+def _verify_resume_source(root, policy, plan):
+    resume = plan["resume"]
+    old = policy["bounded_synthetic_evaluations"][resume["authorization"]]
+    receipt_path = old["result_receipt_path"]
+    verify_bound_file(root, receipt_path, old["result_receipt_sha256"])
+    receipt = json.loads((root/receipt_path).read_bytes())
+    run_id = resume["run_id"]
+    if (old["status"] != "consumed" or old["experiment"] != SYNTHETIC_RESTART
+            or run_id != old["run_id"] or run_id != receipt["run_id"] or Path(run_id).name != run_id
+            or receipt["status"] != "PROCESS_INTERRUPTED"
+            or resume["checkpoint_update"] != receipt["latest_checkpoint_update"]):
+        raise RuntimeError("resume must use the exact reviewed checkpoint of the interrupted fit")
+    verify_artifact_directory(root/"results"/run_id, manifest=receipt["local_artifact_sha256"], strict=True)
 
 
 def authorize(root, stage, experiment_name=None):
@@ -69,17 +85,26 @@ def authorize(root, stage, experiment_name=None):
     for field in ("plan", "review"):
         verify_bound_file(root, auth[f"{field}_path"], auth[f"{field}_sha256"])
     plan, review = (json.loads((root/auth[f"{field}_path"]).read_bytes()) for field in ("plan", "review"))
+    resume = plan.get("resume")
+    planned_updates = plan["settings"]["updates"] if attempts else 0
+    resumed_at = resume["checkpoint_update"] if resume is not None else 0
+    if ((resume is not None) != (name == SYNTHETIC_CONTINUE)
+            or type(resumed_at) is not int
+            or (resume is not None and not 0 < resumed_at < planned_updates)):
+        raise RuntimeError("registered continuation requires an earlier completed checkpoint")
     if (plan["stage"] != stage or plan["workflow"] != workflow
             or plan["experiment"] != name or plan["authorization"] != authorization
             or plan["plan_path"] != auth["plan_path"]
             or plan["operation_limits"] != auth["operation_limits"]
             or plan["operation_limits"]["fits"] != attempts
-            or plan["operation_limits"]["optimizer_updates"] != (plan["settings"]["updates"] if attempts else 0)
+            or plan["operation_limits"]["optimizer_updates"] != planned_updates-resumed_at
             or review.get("approved") is not True or review.get("plan_sha256") != auth["plan_sha256"]
             or review.get("implementation_bindings") != plan["implementation_bindings"]):
         raise RuntimeError("exact reviewed joint ES-SINDy budget and implementation required")
     for path, digest in plan["implementation_bindings"].items():
         verify_bound_file(root, path, digest)
+    if resume is not None:
+        _verify_resume_source(root, policy, plan)
     if not analytic:
         from kron_reduce.data.task3_full import REFERENCE, source_plan
 
@@ -114,7 +139,7 @@ def authorize(root, stage, experiment_name=None):
     pins = dict(line.split("==") for line in (root/"requirements/constraints-py312.txt").read_text().splitlines()
                 if line and not line.startswith("#"))
     packages = ("numpy", "scipy", "torch", "filelock", "h5py")
-    if name in (SYNTHETIC_V2, SYNTHETIC_RESTART):
+    if name in (SYNTHETIC_V2, SYNTHETIC_RESTART, SYNTHETIC_CONTINUE):
         device = plan["settings"].get("device")
         if device not in ("cpu", "cuda"):
             raise RuntimeError("synthetic v2 must explicitly register cpu or cuda")

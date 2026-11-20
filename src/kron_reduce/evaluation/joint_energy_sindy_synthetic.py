@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import math
+import shutil
 import time
 
 import numpy as np
@@ -81,7 +82,34 @@ def trajectory_objective(model, observed, rows, power, equilibrium, scale, hscal
     return value
 
 
-def _fit(model, observed, roles, power, equilibrium, scale, hscale, settings, budget, *, directory=None):
+def _restore_fit(model, optimizer, source, update, settings, checkpoints):
+    with (source/"training.jsonl").open(encoding="utf-8") as stream:
+        prefix = [row for line in stream if (row := json.loads(line))["actual_updates"] <= update]
+    train = {row["train"]["update"]: row["train"] for row in prefix if row["train"] is not None}
+    val = [row["val"] for row in prefix if row["val"] is not None]
+    if (list(train) != list(range(1, update+1))
+            or [row["update"] for row in val] != list(range(0, update+1, settings["val_interval"]))
+            or not val or val[-1]["update"] != update or val[-1]["nmse"] is None):
+        raise ValueError("resume requires the complete history through a saved val checkpoint")
+    successful = [row for row in val if row["nmse"] is not None]
+    selected = min(successful, key=lambda row: row["nmse"])
+    source_checkpoints = source/"checkpoints"
+    latest = torch.load(source_checkpoints/f"update-{update:03d}.pt", map_location="cpu", weights_only=True)
+    adam = latest["optimizer"]["state"]
+    if latest["update"] != update or not adam or any(int(state["step"]) != update for state in adam.values()):
+        raise ValueError("resume checkpoint and Adam step differ from the registered update")
+    model.load_state_dict(latest["model"], strict=True)
+    optimizer.load_state_dict(latest["optimizer"])
+    selected_update = selected["update"]
+    selected_state = latest["model"] if selected_update == update else torch.load(
+        source_checkpoints/f"update-{selected_update:03d}.pt", map_location="cpu", weights_only=True)["model"]
+    for row in successful:
+        name = f"update-{row['update']:03d}.pt"
+        shutil.copyfile(source_checkpoints/name, checkpoints/name)
+    return list(train.values()), val, (selected["nmse"], selected_update, selected_state), prefix
+
+
+def _fit(model, observed, roles, power, equilibrium, scale, hscale, settings, budget, *, directory=None, resume=None):
     train, val = (np.flatnonzero(roles == role) for role in ("train", "val"))
     controls = training_controls(settings)
     batch_size = settings.get("train_batch", 2)
@@ -100,9 +128,17 @@ def _fit(model, observed, roles, power, equilibrium, scale, hscale, settings, bu
     if directory is not None and settings.get("save_checkpoints", False):
         checkpoints = directory/"checkpoints"
         checkpoints.mkdir()
+    prefix = []
+    if resume is not None:
+        if checkpoints is None or controls["support_policy"] != "dense":
+            raise ValueError("resume requires the saved dense checkpoints")
+        source, completed = resume
+        train_curve, val_curve, best, prefix = _restore_fit(model, optimizer, source, completed, settings, checkpoints)
+        print(f"joint synthetic resumed update {completed}; retained {len(val_curve)} full val checks", flush=True)
     if progress is not None:
-        with progress.open("x", encoding="utf-8"):
-            pass
+        with progress.open("x", encoding="utf-8") as stream:
+            for row in prefix:
+                stream.write(json.dumps(row, allow_nan=False)+"\n")
 
     def objective(rows, count, training):
         return trajectory_objective(model, observed, rows, power, equilibrium, scale, hscale, count,
@@ -121,7 +157,8 @@ def _fit(model, observed, roles, power, equilibrium, scale, hscale, settings, bu
             with progress.open("a", encoding="utf-8") as stream:
                 stream.write(json.dumps(row, allow_nan=False)+"\n")
 
-    for update in range(settings["updates"]+1):
+    first_update = completed+1 if resume is not None else 0
+    for update in range(first_update, settings["updates"]+1):
         before = snapshot(model)
         if update:
             limit = settings.get("max_training_seconds")
@@ -320,7 +357,17 @@ def execute(root, directory, plan, budget):
         "weak_initialization": seed,
     })
     p, e, s, hs = map(model._tensor, (power, eq, scale, hscale))
-    fit = _fit(model, visible, roles, p, e, s, hs, settings, budget, directory=directory)
+    resume = None
+    if "resume" in plan:
+        binding = plan["resume"]
+        source = root/"results"/binding["run_id"]
+        with np.load(source/"truth.npz", allow_pickle=False) as previous:
+            if not np.array_equal(truth, previous["truth"]):
+                raise ValueError("resume truth differs from the checkpoint run")
+        resume = (source, binding["checkpoint_update"])
+    fit = _fit(model, visible, roles, p, e, s, hs, settings, budget, directory=directory, resume=resume)
+    if resume is not None:
+        fit["resumed_from"] = plan["resume"]
     fit["weak_seed"] = seed
     _write(directory/"fit.json", fit)
     np.savez_compressed(directory/"selected-equation.npz", **{k: v.cpu().numpy() for k, v in snapshot(model).items()})

@@ -1,0 +1,90 @@
+{
+  "experiment": "joint_energy_sindy_synthetic_v2_restart",
+  "authorization": "joint_energy_sindy_synthetic_v2_restart_20261119",
+  "run_id": "joint_energy_sindy_synthetic_v2_restart-synthetic-20261119T000204328981Z-08dddb8b-32f83eda",
+  "source_commit": "08dddb8b4f497e2b62b2b3af989f7193d4dfcf44",
+  "plan_sha256": "570fa469fc0a94c206c95acb9680cb74ea7afb735b19070cc93d096b026c4af6",
+  "status": "PROCESS_INTERRUPTED",
+  "last_operation_utc": "2026-11-19T12:55:49.465163+00:00",
+  "data_policy": "analytic_synthetic_only",
+  "real_data_reads": 0,
+  "observed_optimizer_updates": 93,
+  "latest_checkpoint_update": 84,
+  "checkpoint_verified": {
+    "model_finite": true,
+    "adam_steps_match": true,
+    "weights_only_load": true
+  },
+  "val_checkpoints": [
+    {
+      "update": 0,
+      "nmse": 0.6050978422321244,
+      "train_nmse_after_update": 0.1420665998910405
+    },
+    {
+      "update": 12,
+      "nmse": 0.5233520257171206,
+      "train_nmse_after_update": 0.1293190457640373
+    },
+    {
+      "update": 24,
+      "nmse": 0.4844510996937247,
+      "train_nmse_after_update": 0.11781656852846083
+    },
+    {
+      "update": 36,
+      "nmse": 0.4455635602992584,
+      "train_nmse_after_update": 0.11097540105451678
+    },
+    {
+      "update": 48,
+      "nmse": 0.4041465903558962,
+      "train_nmse_after_update": 0.10168245102403219
+    },
+    {
+      "update": 60,
+      "nmse": 0.3625949507219437,
+      "train_nmse_after_update": 0.09278054886215255
+    },
+    {
+      "update": 72,
+      "nmse": 0.31496822639581695,
+      "train_nmse_after_update": 0.08473832768089208
+    },
+    {
+      "update": 84,
+      "nmse": 0.29015208788508673,
+      "train_nmse_after_update": 0.07890952050760427
+    }
+  ],
+  "operation_counts": {
+    "numpy_rhs": 155520,
+    "fits": 1,
+    "val_checks": 8,
+    "rollouts": 9856,
+    "tangent_rhs": 492800,
+    "torch_rhs": 1589760,
+    "qr": 12720,
+    "svd": 12720,
+    "matrix_products": 12720,
+    "triangular_solves": 12720,
+    "gradients": 1128,
+    "optimizer_updates": 93
+  },
+  "local_artifact_sha256": {
+    "checkpoints/update-000.pt": "a0111ffe67467dd4e4d49691eb2f5d01da6fa30e839d4fdb0ed22ec8f11b92bc",
+    "checkpoints/update-012.pt": "23b8ac0aedbf4e983c47cc49d478bbd47e704448ee16529d083b5171c2e8dc61",
+    "checkpoints/update-024.pt": "34a3a77e17e8604b362c520d359a334a140b0302054a4d9ef9d6031ac20a3fea",
+    "checkpoints/update-036.pt": "4bc68b7e8cccc6b94feb9225d2545cf285b2ebe29c446a07cf283002b40ea975",
+    "checkpoints/update-048.pt": "646e8d5ccd1ca7668ebc93d49db0babcea9eaf2eaee5866b2d24c40bd23e617a",
+    "checkpoints/update-060.pt": "d4c3af0b7e6c1e7c0b282476ed6009d4e5c088d0d014bef184b4f1c9c5215bcd",
+    "checkpoints/update-072.pt": "e28f35ce43dc58f0122c70a0bb3ceae4053d98d2f18396c9204cee202e7bb855",
+    "checkpoints/update-084.pt": "89949b5bf17c7fe2783c7388e4cc5b54338a6a1db296859b622103427020611f",
+    "initial-coefficients.json": "dbe4f8327456098d56a9446512e64bd98f526f94aa0404bd1aebddac6c3193f1",
+    "operations.jsonl": "e8c7dc914d8a106b2dfbb2124b5f42257118692482b9a39c0edb3dd35eac55a2",
+    "training.jsonl": "9fff201596ed13dbd7666581210079796d93dac4695c49eadbb857058b520b51",
+    "truth.npz": "ab5944c3279d3025e58c885493665f226e397d4d41bbc08fcf278cd8bcbc6c25"
+  },
+  "final_evaluation": null,
+  "scientific_gate_evaluated": false
+}

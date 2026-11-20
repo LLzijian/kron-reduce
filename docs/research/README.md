@@ -18,6 +18,9 @@ stopped the run before model export and final scoring.
 The [restart protocol](../protocols/joint_energy_sindy_synthetic_v2_restart_zh.md)
 records computational work and saves weights and Adam state at each full val
 checkpoint.
+The [continuation protocol](../protocols/joint_energy_sindy_synthetic_v2_continue_zh.md)
+uses the saved update-84 weights and Adam state after the original process
+ended at update 93.
 
 The [from-scratch joint ES-SINDy fit](../reports/joint_energy_sindy_synthetic_20261117_zh.md)
 completes all 48 updates with an explicit energy balance. The frozen model
