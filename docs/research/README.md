@@ -15,6 +15,9 @@ The [GN prior and radius comparison](../reports/unified_first_swing_gn_decomposi
 records the complete zero-update comparison. Fixed priors with soft radii
 detect all val instabilities in two configurations. The joint gate retains
 the original initializer.
+The [V4 paired fit and frozen comparison](../reports/unified_first_swing_v4_20261120_zh.md)
+records the matched 18-update fits and the complete fixed test. Both fits
+select update zero. The soft initializer detects 6/9 test instabilities.
 
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,

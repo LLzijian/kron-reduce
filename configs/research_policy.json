@@ -5425,7 +5425,7 @@
   },
   "official_test_evaluations": {
     "unified_first_swing_v4_test_20261119": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "unified_first_swing_v4_test",
       "authority": "explicit_user_full_dataset_every_round_autonomous_test",
       "allowed_roles": [
@@ -5460,7 +5460,12 @@
         "fits": 0,
         "optimizer_updates": 0,
         "val_checks": 0
-      }
+      },
+      "run_id": "unified_first_swing_v4_test-test-20261120T062857089605Z-e44f1587-a79403a1",
+      "result_manifest_sha256": "2e9583e27caad138d387a161a8f00ea1e7987a03c9f7da4ee28a842bee4e2e4c",
+      "result_receipt_path": "docs/reports/unified_first_swing_v4_test_20261119_evidence.json",
+      "result_receipt_sha256": "596effdaaa3cbff400316eab6c028e39a41b0a01367c29e723a52d290d1c5aaf",
+      "process_status": "PASS"
     },
     "kiki_machine_local_full_test_v1_20261113": {
       "status": "consumed",

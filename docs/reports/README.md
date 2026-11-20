@@ -30,6 +30,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [TASK3 M1 V4 fit and frozen comparison](unified_first_swing_v4_20261120_zh.md) | Both fits selected update zero. The soft initializer detected 6/9 fixed test instabilities with 0 stable false alarms. |
 | [TASK3 M1 GN prior and radius comparison](unified_first_swing_gn_decomposition_v3_20261119_zh.md) | Complete train and val, two fixed-prior soft-radius settings detected 12/12 val instabilities, no setting passed the joint gate |
 | [TASK3 M1 gradient and initializer probes](unified_first_swing_probes_v2_20261119_zh.md) | Full train and val diagnostics with zero updates, adaptive GN detected 12/12 val instabilities and exceeded the stable trajectory limit |
 | [TASK3 M1 first-swing loss ablation](unified_first_swing_fit_20261119_zh.md) | Complete train and val, 18 updates per group, both selecting the shared starting checkpoint |
