@@ -1,0 +1,323 @@
+{
+  "experiment": "unified_discovery_m3_v1",
+  "stage": "discovery",
+  "authorization": "unified_discovery_m3_v1_20261120",
+  "operator_approval": {
+    "approved_at": "2026-11-20T08:02:01.270876+00:00",
+    "actor": "explicit_operator_action"
+  },
+  "run_id": "unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859",
+  "source_commit": "dc27983e7dd9d88524272943ab6f4177ca44027e",
+  "process_status": "PASS",
+  "scientific_pass": false,
+  "decision": "KEEP_BASELINE",
+  "cohorts": {
+    "train": 346,
+    "val": 107
+  },
+  "test_trajectory_reads": 0,
+  "cache_opens": {
+    "static": 1,
+    "development": 2
+  },
+  "plan_sha256": "b31311c1f5c47f76d8c8dbb55a2bbcaa1de2450ec20fc774025fa30ad9189241",
+  "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+  "anchor_sha256": {
+    "A06": "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8",
+    "V4_memory": "ccb7c40557787e6aa9a5603bc63657e3727fe944e631da9dda5498fe03b9289d"
+  },
+  "artifact_count": 116,
+  "artifact_manifest_sha256": "0b389a05a6c58bb755260bbe8d660ca1e0131de86c732899a4653a386c3ebf6f",
+  "artifact_bindings": {
+    "access.jsonl": "9619d14049fd4729fe4184a38c0656046d7007c4e5b682e1f2fd58f1440fad37",
+    "backbone_54d.npz": "fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a",
+    "backbone_74d.npz": "fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a",
+    "curriculum.json": "6e77df61a17a7f7141959431ff0e43f7342e685a154bf1ebcdfcaf4376559710",
+    "curriculum_2a/gradient-calibration.json": "73a8407807d151be8a9f87d1cabcd30edab86291398ba07abc40f1f2d5b096b5",
+    "curriculum_2a/training.jsonl": "af84d623c5b2f08fa65bc4a2f63ae4e9ec7c8a4626f1baeee5900a0b7176d5de",
+    "curriculum_2a/val-check-000.json": "140f6ba1cced63e68730ad883fa2aaa05cba5bed7fdae0834cde1e740d709e06",
+    "curriculum_2a/val-check-003.json": "b7ded729a1038fdcab362c545057ddc8b1966029d1ae7827a927bad5703dba26",
+    "curriculum_2a/val-check-006.json": "ef872a36696cdaba3fbd69cd6f260a48bb0771e25af771f9ee15cb6b08625faf",
+    "curriculum_2a/val-check-009.json": "2b4b2d6ed9247a1ab5af14b0313958ba747df170bf3c5a8fd52d782e6f00d275",
+    "curriculum_2a/val-check-012.json": "86290027e5a9fdabf7368881fcbe1b407007fb8dd3c6a05da359595699dffbcc",
+    "curriculum_2b/gradient-calibration.json": "0d418b25ae9251f9a1e0bb9825ac2278f2be9698d4023cb8cdb81afb9fb5dd39",
+    "curriculum_2b/train.json": "bc0c7c7d6902d0b31dc977c3d5d2c17c4c5713730016a16e7d00baa3bc2d9692",
+    "curriculum_2b/train_predictions.npz": "6bc496c742b6d944a901ea26f1c31b52332c20347f897228005874d5185d5d24",
+    "curriculum_2b/training.jsonl": "70ad9585cfd4b0c2a16ea0782259fa5a972d750e8bc230a0adeae68a9ea33c1a",
+    "curriculum_2b/val-check-000.json": "c4c3e9cac15453c7be868fd55378eb6cda4b787ce78989c490b43cb3abb15fa2",
+    "curriculum_2b/val-check-003.json": "11fb94848c1914446d687b3e5b01774568dd22d5231c6454a1e841446192636e",
+    "curriculum_2b/val-check-006.json": "54152904734b2bfaedb36c0223fb8f189316cdad97e767446f567e76416fa467",
+    "curriculum_2b/val-check-009.json": "88a286029eb5f45b5e1d947c6a3aba9283691b0622ef7ade32a36f5c45cbe97f",
+    "curriculum_2b/val-check-012.json": "3c1c7163d52f4dc6920b34d7b457ace1b5c6dcffd8fa447df67533fdab5b26ca",
+    "curriculum_2b/val.json": "e5605e4b581485d87c0e47eb7661bd38fa3d486ea867800131500a68964bcdb6",
+    "curriculum_2b/val_predictions.npz": "043630624859ceb7fea4649a2f40f57cbbf27c38fd72934fef874bd6e5d53a5f",
+    "freeze.json": "1110f90a1944af327006150dd07b17ce5f13ca3d3618075830f7c705f747e053",
+    "freeze_m3.npz": "fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a",
+    "initial.json": "63cf4e4b7f12faccbcaea1bcb305f33269a18eb7766afc011e8932de998069ae",
+    "initial.npz": "106bf24d73e696f183fef0c062029fa4329523031e8d040330ae2bc997a43d02",
+    "operations.jsonl": "ae161467e5cb5fb97fbcf1a055d20afbb2e33f056ec9bf58e4d5f0b79e8731f2",
+    "preprocessing.json": "c6473edfce144cffcb56fda8fbad589ef5e88b8147629df3fa2a1dee219fce5e",
+    "pruning_table.json": "afe72c45561048336370ec415b8458379544ad17a834b4f9ee485ab3a1a6c60f",
+    "screening_table.json": "a546bde729303cc349dff164ebb0298ef6b75f031df87182923b670c51cd9289",
+    "stage_evidence.json": "0b851540bb447e82d17fd8f45fdaf6a694cfc0c9e961a31cba732b41275ff02a",
+    "summary.json": "fa48ca9a33b94d2df41010a7cf433d0d58f4aee2df9ebe4329444ed027006c1d",
+    "support-G1-G2-G3-G4/checkpoint.npz": "85c01e287c9abc26f92c462a5fb4e5d83c3cfe7dbef346e21ff35b7b78b2ca5b",
+    "support-G1-G2-G3-G4/fit.json": "6bde3e1f474dd682957fbb57a368d603f8d2a165bae7246f3a90418fe4bc89b3",
+    "support-G1-G2-G3-G4/gradient-calibration.json": "b15c73b38244144892e90a8def63eb4ad9459403b502b9829d3caaa94f110f47",
+    "support-G1-G2-G3-G4/train.json": "42bc16008582d6bdf99782ed6b98fb0bf18b4c0951871fd44fec95550c060cc7",
+    "support-G1-G2-G3-G4/train_predictions.npz": "2e2f4ba85c20eac95b6bebca87230e1a7a741c02791a32b2f72249c0fac42678",
+    "support-G1-G2-G3-G4/training.jsonl": "9a814a4333f3f08a274d5c8bbecc87bf10cee7528fed45df32c2b0ffe6b265f9",
+    "support-G1-G2-G3-G4/val-check-000.json": "04d50fcf93d968fe307975530e53b8e958e3981ff738f75c1652f033b8d2be9a",
+    "support-G1-G2-G3-G4/val-check-003.json": "c7bf235ee09011fff8fa7bd2ee41917ed176c76fa7fa232b18f1cc39b99495ef",
+    "support-G1-G2-G3-G4/val-check-006.json": "22bbe0b1350b24fa28fe03c0a01c734bb9373d9f2b1d09844a0b0bb04ae55171",
+    "support-G1-G2-G3-G4/val-check-009.json": "c99ac18620731ada933fb9d97007965308df0a755e200ca23c798476f7457f1f",
+    "support-G1-G2-G3-G4/val-check-012.json": "8cda88d0b5593fb7c7e0418f29f79eb7b46f4d65abf165c78fd9a6c6c79ef355",
+    "support-G1-G2-G3-G4/val-check-015.json": "4f6ca5c506585aed8a46c6c748f116a3802872d5b1940924b2ed819a39c6cbd1",
+    "support-G1-G2-G3-G4/val.json": "9e077f5e1e692f0b93b7106074cb080701e6f05a1190109ecebf1f349b721130",
+    "support-G1-G2-G3-G4/val_predictions.npz": "cf920b0d8f641146ccb0f32a9e465fa96c9d2cccbea6ed82d0a3568a566a9929",
+    "support-G1-G2-G3-G4-G5/checkpoint.npz": "19c7c82f92aa8ae520affa7c3e8bd989287cce53f9131106903c5cd88c154dd1",
+    "support-G1-G2-G3-G4-G5/fit.json": "87608954b7a32645a3f83665397a4a3b8ec88f09eb6b2b27bd8f1c1251161d71",
+    "support-G1-G2-G3-G4-G5/gradient-calibration.json": "79b5240127c306eccb620b11b3af7ef5ac6035da5c12345aafc503d0866f7f3c",
+    "support-G1-G2-G3-G4-G5/train.json": "cfb609462a1e49f0ae7fd4a703531c24e4452ffacb67bc856192e483235ac4fa",
+    "support-G1-G2-G3-G4-G5/train_predictions.npz": "59766af23c19a0193b570d3474d94ba334001b41871d51c16980b2361f3cb04f",
+    "support-G1-G2-G3-G4-G5/training.jsonl": "27f338fc72e66adf44d453897e9711638783b5e4e3674af5f294cc3fdd00af19",
+    "support-G1-G2-G3-G4-G5/val-check-000.json": "9aa42e79534f32e2aa4df9bc4ddb0110761f8b8c45cc10665edb3d7edeca70f5",
+    "support-G1-G2-G3-G4-G5/val-check-003.json": "c9a6423162b9382ee1a9050c988e1f3eacb84aacc02bb868efe78c0cc095996c",
+    "support-G1-G2-G3-G4-G5/val-check-006.json": "c8452841bbfc4928dd7953b9c8075c6ff13795d5d1734b5d672495c8d69da3d7",
+    "support-G1-G2-G3-G4-G5/val-check-009.json": "108fb42fbe1697b4cea8c2816f57092717af0823dd42e76367d79b58988da135",
+    "support-G1-G2-G3-G4-G5/val-check-012.json": "5500c95a3f4d02079c67f7fc6c52e4aa3d0b3fbfb6148f07f21e8d235acab638",
+    "support-G1-G2-G3-G4-G5/val-check-015.json": "60c3d270ddb06eba35f5aabdd6b0f1276a5414648192533d2595dc9db5c21fa8",
+    "support-G1-G2-G3-G4-G5/val.json": "f074362acaf3916db08c9a422290a55b21e1c6b1a0758c041ee4af7f70732428",
+    "support-G1-G2-G3-G4-G5/val_predictions.npz": "0d9122133b382b1cc38a5f19bd39d7581950cbced884c8862f9326fa28c0d580",
+    "support-G1-G2-G3-G5/checkpoint.npz": "cafdb861c7c96e7d3fc1a01b07867dd7b9c3a192e19a33f07ebd60a27258ac82",
+    "support-G1-G2-G3-G5/fit.json": "f02678834bb0aa6f806604600e0c029bfbb87c2015a6c09d50be0d364b23eee8",
+    "support-G1-G2-G3-G5/gradient-calibration.json": "ea2eb333a057ddeb8eaa7cc0136b414849e1ab30039fcd589c0b027437602650",
+    "support-G1-G2-G3-G5/train.json": "1d7cd34808a3739a72d29273a4ece9fabdbe48069a1ecb95247641deb2bdc809",
+    "support-G1-G2-G3-G5/train_predictions.npz": "03b20868a954815145ed275bbde51e2a995eb0b8dc6f1186da40ceac8e2fd7c3",
+    "support-G1-G2-G3-G5/training.jsonl": "339fc5b0f2f1fc79812e45c56a6acada172c4aff16d5fc21728ac2db34eeb031",
+    "support-G1-G2-G3-G5/val-check-000.json": "f4b7ce3b3bdb692ae095b9894b6b22efe17daa719ac960ac8b16740e0ed7fb80",
+    "support-G1-G2-G3-G5/val-check-003.json": "72dd91fefc92f7a45370219838f39fa097eff11e833698cd4a048ef49426eaf8",
+    "support-G1-G2-G3-G5/val-check-006.json": "07b14b2cc618d9b87b4ac50fdca151e459dd1dcd8d0acb7634a4e81af8f6fe7a",
+    "support-G1-G2-G3-G5/val-check-009.json": "6f090039e626dd5b086ba9e365df90a8941dfb135d8493dd3386ce695ad8443c",
+    "support-G1-G2-G3-G5/val-check-012.json": "1ff0d678c5ab080589ad34e1d4b7fd663f71b1331150dda967b8eebf76332f7e",
+    "support-G1-G2-G3-G5/val-check-015.json": "7fc629bf6624ba36abd1e3e74aaac7e9ccb1d6e84e98a5c29792296f2de8a767",
+    "support-G1-G2-G3-G5/val.json": "1b86c7169700ba9ad8fd1c3a2b9d741dd44e8edff2350ef0e6a30a18e760e0b0",
+    "support-G1-G2-G3-G5/val_predictions.npz": "4b04816404d2e1d7240433464737821b4dc9e4ba4dacf519fa97b4792d75f101",
+    "support-G1-G2-G4-G5/checkpoint.npz": "2a424f5cb85e6552b94fa5ec369b899451ee86fb2486d9ca5efe851ee92dac68",
+    "support-G1-G2-G4-G5/fit.json": "bb3859b381c7c32cb691c27eb73bd72bb421b8993c0882a6d5d60cf1f30e6fdf",
+    "support-G1-G2-G4-G5/gradient-calibration.json": "113dc63a3d64a9dd9215402851b6dbcf34058fca066ff03baa7cc8589cd7a45b",
+    "support-G1-G2-G4-G5/train.json": "4bcb52355fe5c90f4b0a1d69c1d231c82a3c4988a74e3477af987f30e251eab0",
+    "support-G1-G2-G4-G5/train_predictions.npz": "6cad6882cdaf71cd59ed246d70f2d9ba6b7108aed130ec39093b8b076372ff49",
+    "support-G1-G2-G4-G5/training.jsonl": "bcda19df4452c87a95cbbe34ea73ae23cd2278010a03d6e73b6dcd3c3610e1aa",
+    "support-G1-G2-G4-G5/val-check-000.json": "65d14eba4322f06e2318132e168403441140e16e1e0b851526ad015ac3598635",
+    "support-G1-G2-G4-G5/val-check-003.json": "af8965c2d210ed27663c7db7dc104115fc6ecac97ab3070ad940f75b7b3705d8",
+    "support-G1-G2-G4-G5/val-check-006.json": "e48d4212f85038adc0d4ea8e3ee2baa961c8a466099f882e2b4612abdfdf0088",
+    "support-G1-G2-G4-G5/val-check-009.json": "735d4894969082819631b63fbc18aff45b6c7ec648bb22168b42dcf85563c0f7",
+    "support-G1-G2-G4-G5/val-check-012.json": "c90d44e58cdec0818d717bca584f4574512922f4ef90d422cb7398becd2389dd",
+    "support-G1-G2-G4-G5/val-check-015.json": "f4ea453298b5742422656a40d5853ddeea6a20730a7799b6b66327b5e6dc6676",
+    "support-G1-G2-G4-G5/val.json": "2a24e79845e938910a5c80d1fecfeb6260c91613842a7689fbedb1c670f348d3",
+    "support-G1-G2-G4-G5/val_predictions.npz": "ce3d4b5b4531444cac6effcfb6ce16f2654522b80b63aed25c0d812a498462f5",
+    "support-G1-G3-G4-G5/checkpoint.npz": "cd3506b3bee7756556fbc3f165a18b3385310e570bfc7d7b57741bf4db50ffa3",
+    "support-G1-G3-G4-G5/fit.json": "020e5b57a4776215359ca8e74514d44f51845a15631514cd6933ced5f8aa732d",
+    "support-G1-G3-G4-G5/gradient-calibration.json": "7360f771e5ccc9f7f024ec23905ba45abbef6e17c7b053df069785bcea63207b",
+    "support-G1-G3-G4-G5/train.json": "5546a08c368f3036eda33b7d3e4b4c51f1b2e044722a52287d44ff3bb83d63dd",
+    "support-G1-G3-G4-G5/train_predictions.npz": "e832063dd6cc1a3bf49a96d80f0cea54899a3d3c3bca734fefa6e86bb3cc2539",
+    "support-G1-G3-G4-G5/training.jsonl": "a01b40a71a63fc7acf4f1ad7da3a8c87eda87d16cc524870129def6a30577069",
+    "support-G1-G3-G4-G5/val-check-000.json": "8ac225384a1201457ef8b32638b311ce2995fc96dfdc63f03a2e00e059e0a4e8",
+    "support-G1-G3-G4-G5/val-check-003.json": "4568bc352971124a62e96faacadf563f0d6a7e9372eca5f6448f9d901fa3f6d5",
+    "support-G1-G3-G4-G5/val-check-006.json": "86162e26e954ff01ceb02db10690e99d7615b85488a8954ab17ee6d22bb33ade",
+    "support-G1-G3-G4-G5/val-check-009.json": "e5488d6a079877e01b20436e791f2de88afcf87e62616c21565910d0bbcdf994",
+    "support-G1-G3-G4-G5/val-check-012.json": "b4931748f2896b61eba231247f7c03784506a7938c868fecf1b585875b72288b",
+    "support-G1-G3-G4-G5/val-check-015.json": "89d6ba8ba51c81ac15720f73fd64fd0b8475e77bc33660f8324e94155e8c602c",
+    "support-G1-G3-G4-G5/val.json": "322d401f465a853b032e993f2741c4ce57442f6202c29de622856a5994a12b3a",
+    "support-G1-G3-G4-G5/val_predictions.npz": "a9739644196799d4c841f54a105a7fbafe40a49fb10cd506f8428d72f3b091b4",
+    "support-G2-G3-G4-G5/checkpoint.npz": "5d227aa40942ecdaf9b665d8188ff7f76c6b6a056fd56e5f5a5f25cb9a9f2069",
+    "support-G2-G3-G4-G5/fit.json": "ece48b648df4259fb95be8f61d69d595dd7b6462cc1bf9b7d6492f7dbba104e5",
+    "support-G2-G3-G4-G5/gradient-calibration.json": "a6e68e1160b83a286d6f9428ad41ef8d6472747496a8f35db19c932ffdd48d40",
+    "support-G2-G3-G4-G5/train.json": "9bdc3c3d0616dd42cb9455f5a38b67e818efca034280d23549e92a6c982e54f1",
+    "support-G2-G3-G4-G5/train_predictions.npz": "2c221d5907b1b0ff2c970f2468f90dcd5af6efd00cf87cf19d3c17f455312a3e",
+    "support-G2-G3-G4-G5/training.jsonl": "2acc861379a62cd36cfe2b327f7497f638215759a5c0a025fe2178dde882240e",
+    "support-G2-G3-G4-G5/val-check-000.json": "45defbe1e2f8cbff8bd0a47671cc7c7b92c981d7c179cee1f70aa8d1407e6f5f",
+    "support-G2-G3-G4-G5/val-check-003.json": "377fbf78856420412d09a351159d04bb1b664ffd67ec1c1e239e9dfe29606241",
+    "support-G2-G3-G4-G5/val-check-006.json": "42ce20d5693dc9eec257c6eaa2d6b7f500bbfba053fa466ffb71e2839ace4bf9",
+    "support-G2-G3-G4-G5/val-check-009.json": "09605aaa2530eda31f528f92d06476dc23c44e77dccfbaccae9846e470e5bae9",
+    "support-G2-G3-G4-G5/val-check-012.json": "133e4b6258947db557d2da588eede475d66cb07589a2a1d48dd079e9cf2e92a7",
+    "support-G2-G3-G4-G5/val-check-015.json": "2f04c30d7680f397fdf899ee2686f696887bc207e48792f87c60981a99296e41",
+    "support-G2-G3-G4-G5/val.json": "fe63e92dbb9038a87c0d4ef2fb591ebc53dcbc9866e7e1c7c54ace38be92ac63",
+    "support-G2-G3-G4-G5/val_predictions.npz": "41741055ff8beeff473b9b6c69302977a4d8d1925cc152c06c05fbe6b7532d7a"
+  },
+  "access_ledger": {
+    "path": "results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/access.jsonl",
+    "sha256": "9619d14049fd4729fe4184a38c0656046d7007c4e5b682e1f2fd58f1440fad37"
+  },
+  "operations_ledger": {
+    "path": "results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/operations.jsonl",
+    "sha256": "ae161467e5cb5fb97fbcf1a055d20afbb2e33f056ec9bf58e4d5f0b79e8731f2"
+  },
+  "operation_counts": {
+    "checkpoint_loads": 2,
+    "fits": 8,
+    "gradients": 780,
+    "matrix_products": 438650,
+    "observed_rhs": 808608,
+    "optimizer_updates": 114,
+    "qr": 438650,
+    "rollouts": 9436,
+    "svd": 438650,
+    "tangent_rhs": 1032000,
+    "torch_rhs": 8678400,
+    "triangular_solves": 438650,
+    "val_checks": 46
+  },
+  "operation_scopes": [
+    {
+      "scope": "anchors",
+      "transition": "returned",
+      "returned_allocations": {
+        "checkpoint_loads": 2
+      }
+    },
+    {
+      "scope": "screening",
+      "transition": "returned",
+      "returned_allocations": {
+        "rollouts": 1596,
+        "tangent_rhs": 273600,
+        "torch_rhs": 328320,
+        "qr": 131480,
+        "svd": 131480,
+        "matrix_products": 131480,
+        "triangular_solves": 131480,
+        "observed_rhs": 218880
+      }
+    },
+    {
+      "scope": "curriculum_2a",
+      "transition": "returned",
+      "returned_allocations": {
+        "rollouts": 756,
+        "tangent_rhs": 67200,
+        "torch_rhs": 651840,
+        "qr": 29490,
+        "svd": 29490,
+        "matrix_products": 29490,
+        "triangular_solves": 29490,
+        "observed_rhs": 63600,
+        "fits": 1,
+        "gradients": 84,
+        "val_checks": 5,
+        "optimizer_updates": 12
+      }
+    },
+    {
+      "scope": "curriculum_2b",
+      "transition": "returned",
+      "returned_allocations": {
+        "rollouts": 868,
+        "tangent_rhs": 86400,
+        "torch_rhs": 982080,
+        "qr": 34020,
+        "svd": 34020,
+        "matrix_products": 34020,
+        "triangular_solves": 34020,
+        "observed_rhs": 63600,
+        "fits": 1,
+        "gradients": 84,
+        "val_checks": 5,
+        "optimizer_updates": 12
+      }
+    },
+    {
+      "scope": "pruning",
+      "transition": "returned",
+      "returned_allocations": {
+        "rollouts": 6216,
+        "tangent_rhs": 604800,
+        "torch_rhs": 6716160,
+        "qr": 243660,
+        "svd": 243660,
+        "matrix_products": 243660,
+        "triangular_solves": 243660,
+        "observed_rhs": 462528,
+        "fits": 6,
+        "gradients": 612,
+        "val_checks": 36,
+        "optimizer_updates": 90
+      }
+    }
+  ],
+  "synthetic": {
+    "run_id": "unified_discovery_m3_fixture_v1-synthetic-20261120T080022320098Z-dc27983e-88ab9cee",
+    "path": "artifact_hashes.json",
+    "sha256": "760d7f7be248565fe225dcf8b9cb35b4489a0d4afebee1c6468ec84944a4b52a",
+    "tests_passed": 40,
+    "real_data_reads": 0
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\.venv-cu130\\Scripts\\python.exe",
+    "torch": "2.13.0+cu130",
+    "cuda_build": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti"
+  },
+  "frozen_model_manifest": {
+    "path": "results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/freeze.json",
+    "sha256": "1110f90a1944af327006150dd07b17ce5f13ca3d3618075830f7c705f747e053"
+  },
+  "frozen_parameters": {
+    "path": "results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/freeze_m3.npz",
+    "sha256": "fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a"
+  },
+  "reference_backbone": {
+    "path": "results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/backbone_74d.npz",
+    "sha256": "fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a"
+  },
+  "selected_support": [
+    "G2"
+  ],
+  "selected_update": 0,
+  "selected_gates": {
+    "numerical_and_coverage": true,
+    "unstable_recall": true,
+    "stable_false_alarms": false,
+    "stable_trajectory": true,
+    "train_witnesses": true
+  },
+  "screening": {
+    "G1": "RETAINED",
+    "G2": "RETAINED",
+    "G3": "RETAINED",
+    "G4": "RETAINED",
+    "G5": "RETAINED"
+  },
+  "curriculum": {
+    "2a": {
+      "active_coefficients": 54,
+      "completed_updates": 12,
+      "selected_update": 12,
+      "stop_reason": "update_cap"
+    },
+    "2b": {
+      "active_coefficients": 74,
+      "completed_updates": 12,
+      "selected_update": 0,
+      "stop_reason": "update_cap"
+    }
+  },
+  "support_fits": 6,
+  "wall_seconds": 35148.14904610001,
+  "report": {
+    "path": "docs/reports/unified_discovery_m3_v1_20261120_zh.md",
+    "sha256": "2ad2b04987049ff8322e2888806eb3c8264f05539917b89ea80429750d46d255"
+  },
+  "convergence_figures": [
+    {
+      "path": "docs/reports/figures/unified_discovery_m3_v1/curriculum_20261120.png",
+      "sha256": "b0c3bb68f9101fd5cfdadca773bb87e7db4f1b7d576568e5dbb17ae36de52219"
+    },
+    {
+      "path": "docs/reports/figures/unified_discovery_m3_v1/curriculum_20261120.svg",
+      "sha256": "00e79e0d52a565013a02ae65797402ccad2af24e818fa862d94f0e1f71a8bdcb"
+    }
+  ]
+}

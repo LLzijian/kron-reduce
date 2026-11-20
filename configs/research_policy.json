@@ -65,7 +65,7 @@
   },
   "development_evaluations": {
     "unified_discovery_m3_v1_20261120": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "unified_discovery_m3_v1",
       "authority": "explicit_operator_m3_train_val_only",
       "allowed_roles": [
@@ -154,7 +154,14 @@
           "triangular_solves": 824960,
           "val_checks": 96
         }
-      }
+      },
+      "run_id": "unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859",
+      "result_manifest_sha256": "0b389a05a6c58bb755260bbe8d660ca1e0131de86c732899a4653a386c3ebf6f",
+      "result_receipt_path": "docs/reports/unified_discovery_m3_v1_20261120_evidence.json",
+      "result_receipt_sha256": "bcdb1a72912c59cbda473dee949778143e1aeef0e42580b35e9d2c25e485a824",
+      "process_status": "PASS",
+      "scientific_pass": false,
+      "test_trajectory_reads": 0
     },
     "unified_first_swing_v4_fit_20261119": {
       "status": "consumed",

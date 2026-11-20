@@ -19,6 +19,10 @@ The [V4 paired fit and frozen comparison](../reports/unified_first_swing_v4_2026
 records the matched 18-update fits and the complete fixed test. Both fits
 select update zero. The soft initializer detects 6/9 test instabilities.
 
+[M3 统一结构发现](../reports/unified_discovery_m3_v1_20261120_zh.md)完成
+54 至 74 维课程和五个物理模块的删块实验。G2 骨架的 `val` 检出为 12/12，
+2 个稳定误报超过正式上限，结论为 `KEEP_BASELINE`。`test` 轨迹读取为 0。
+
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,
 deletion rules and phased validation for future explicit reduced models.
