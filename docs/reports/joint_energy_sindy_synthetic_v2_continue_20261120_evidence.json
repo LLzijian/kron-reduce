@@ -1,0 +1,397 @@
+{
+  "experiment": "joint_energy_sindy_synthetic_v2_continue",
+  "stage": "synthetic",
+  "run_id": "joint_energy_sindy_synthetic_v2_continue-synthetic-20261120T063507700124Z-e98d951c-78b3b8d0",
+  "authorization": "joint_energy_sindy_synthetic_v2_continue_20261120",
+  "source_commit": "e98d951ceddf8a0c52d7d6b69e5653fc0e9a46c3",
+  "plan_sha256": "380da72d458d64dfeefb978d81f545e3a452079fdd78a3e9856474d3e9baaabf",
+  "status": "PASS",
+  "process_status": "PASS",
+  "data_policy": "analytic_synthetic_only",
+  "real_data_reads": 0,
+  "cohorts": {
+    "train": 24,
+    "val": 12,
+    "test": 12
+  },
+  "resume": {
+    "source_run_id": "joint_energy_sindy_synthetic_v2_restart-synthetic-20261119T000204328981Z-08dddb8b-32f83eda",
+    "checkpoint_update": 84,
+    "source_completed_updates": 93,
+    "this_execution_updates": 36,
+    "replayed_updates": [
+      85,
+      93
+    ],
+    "total_completed_updates_across_executions": 129,
+    "logical_updates": 120,
+    "recorded_replay_max_absolute_difference": {
+      "nmse_before_update": 0,
+      "gradient_norm": 0,
+      "learning_rate": 0
+    }
+  },
+  "fit": {
+    "actual_updates": 120,
+    "selected_update": 120,
+    "stop_reason": "update_cap",
+    "training_wall_seconds": 19425.693416399998,
+    "val_curve": [
+      {
+        "update": 0,
+        "nmse": 0.6050978422321244,
+        "train_nmse_after_update": 0.1420665998910405
+      },
+      {
+        "update": 12,
+        "nmse": 0.5233520257171206,
+        "train_nmse_after_update": 0.1293190457640373
+      },
+      {
+        "update": 24,
+        "nmse": 0.4844510996937247,
+        "train_nmse_after_update": 0.11781656852846083
+      },
+      {
+        "update": 36,
+        "nmse": 0.4455635602992584,
+        "train_nmse_after_update": 0.11097540105451678
+      },
+      {
+        "update": 48,
+        "nmse": 0.4041465903558962,
+        "train_nmse_after_update": 0.10168245102403219
+      },
+      {
+        "update": 60,
+        "nmse": 0.3625949507219437,
+        "train_nmse_after_update": 0.09278054886215255
+      },
+      {
+        "update": 72,
+        "nmse": 0.31496822639581695,
+        "train_nmse_after_update": 0.08473832768089208
+      },
+      {
+        "update": 84,
+        "nmse": 0.29015208788508673,
+        "train_nmse_after_update": 0.07890952050760427
+      },
+      {
+        "update": 96,
+        "nmse": 0.2666555192386267,
+        "train_nmse_after_update": 0.07383011978778606
+      },
+      {
+        "update": 108,
+        "nmse": 0.255771419988315,
+        "train_nmse_after_update": 0.06994541872397413
+      },
+      {
+        "update": 120,
+        "nmse": 0.23813058402949724,
+        "train_nmse_after_update": 0.06656106482393676
+      }
+    ],
+    "removed_groups": [],
+    "resumed_from": {
+      "authorization": "joint_energy_sindy_synthetic_v2_restart_20261119",
+      "run_id": "joint_energy_sindy_synthetic_v2_restart-synthetic-20261119T000204328981Z-08dddb8b-32f83eda",
+      "checkpoint_update": 84
+    }
+  },
+  "roles": {
+    "train": {
+      "trajectory": {
+        "3": {
+          "allocated": 24,
+          "qualified": 23,
+          "full_cohort_mean_nrmse": null,
+          "qualified_mean_nrmse": 0.3079606549642454
+        },
+        "8": {
+          "allocated": 24,
+          "qualified": 23,
+          "full_cohort_mean_nrmse": null,
+          "qualified_mean_nrmse": 0.46384637363805703
+        }
+      },
+      "qualified_trajectory_by_truth": {
+        "stable": {
+          "3": 0.0035154460765717895,
+          "8": 0.007028008156995521,
+          "count": 12
+        },
+        "unstable": {
+          "3": 0.6400827010235256,
+          "8": 0.9621936814355786,
+          "count": 11
+        }
+      },
+      "stability": {
+        "tp": 11,
+        "tn": 12,
+        "fp": 0,
+        "fn": 0,
+        "accuracy": null,
+        "accuracy_on_resolved": 1,
+        "recall": null,
+        "fsr": null,
+        "fur": null,
+        "fsr_lower": 0,
+        "fsr_upper": 0.08333333333333333,
+        "fur_lower": 0,
+        "fur_upper": 0,
+        "eligible": 24,
+        "allocated": 24,
+        "resolved": 23,
+        "coverage": 0.9583333333333334,
+        "uncovered": 0,
+        "unresolved": 1,
+        "numerical_failures": 1
+      },
+      "trigger_timing": {
+        "all": {
+          "paired_count": 12,
+          "max_error_s": 0
+        },
+        "qualified": {
+          "paired_count": 11,
+          "max_error_s": 0
+        }
+      },
+      "numerical_qualification_failures": [
+        {
+          "id": "transfer-15",
+          "truth_label": "unstable",
+          "qualification_issues": [
+            "integration_step_disagreement"
+          ],
+          "step_gap": 0.0000931583197017031
+        }
+      ]
+    },
+    "val": {
+      "trajectory": {
+        "3": {
+          "allocated": 12,
+          "qualified": 10,
+          "full_cohort_mean_nrmse": null,
+          "qualified_mean_nrmse": 0.2811120269186104
+        },
+        "8": {
+          "allocated": 12,
+          "qualified": 10,
+          "full_cohort_mean_nrmse": null,
+          "qualified_mean_nrmse": 0.4456627746540033
+        }
+      },
+      "qualified_trajectory_by_truth": {
+        "stable": {
+          "3": 0.0034138990443260612,
+          "8": 0.0069853489920614995,
+          "count": 6
+        },
+        "unstable": {
+          "3": 0.697659218730037,
+          "8": 1.103678913146916,
+          "count": 4
+        }
+      },
+      "stability": {
+        "tp": 4,
+        "tn": 6,
+        "fp": 0,
+        "fn": 0,
+        "accuracy": null,
+        "accuracy_on_resolved": 1,
+        "recall": null,
+        "fsr": null,
+        "fur": null,
+        "fsr_lower": 0,
+        "fsr_upper": 0.3333333333333333,
+        "fur_lower": 0,
+        "fur_upper": 0,
+        "eligible": 12,
+        "allocated": 12,
+        "resolved": 10,
+        "coverage": 0.8333333333333334,
+        "uncovered": 0,
+        "unresolved": 2,
+        "numerical_failures": 2
+      },
+      "trigger_timing": {
+        "all": {
+          "paired_count": 6,
+          "max_error_s": 0
+        },
+        "qualified": {
+          "paired_count": 4,
+          "max_error_s": 0
+        }
+      },
+      "numerical_qualification_failures": [
+        {
+          "id": "transfer-33",
+          "truth_label": "unstable",
+          "qualification_issues": [
+            "integration_step_disagreement"
+          ],
+          "step_gap": 0.00004316743017583736
+        },
+        {
+          "id": "transfer-35",
+          "truth_label": "unstable",
+          "qualification_issues": [
+            "integration_step_disagreement"
+          ],
+          "step_gap": 0.00014456997865959078
+        }
+      ]
+    },
+    "test": {
+      "trajectory": {
+        "3": {
+          "allocated": 12,
+          "qualified": 10,
+          "full_cohort_mean_nrmse": null,
+          "qualified_mean_nrmse": 0.3067933928877955
+        },
+        "8": {
+          "allocated": 12,
+          "qualified": 10,
+          "full_cohort_mean_nrmse": null,
+          "qualified_mean_nrmse": 0.5039994982956209
+        }
+      },
+      "qualified_trajectory_by_truth": {
+        "stable": {
+          "3": 0.0038802310101584436,
+          "8": 0.007434542388955655,
+          "count": 6
+        },
+        "unstable": {
+          "3": 0.7611631357042512,
+          "8": 1.2488469321556188,
+          "count": 4
+        }
+      },
+      "stability": {
+        "tp": 4,
+        "tn": 6,
+        "fp": 0,
+        "fn": 0,
+        "accuracy": null,
+        "accuracy_on_resolved": 1,
+        "recall": null,
+        "fsr": null,
+        "fur": null,
+        "fsr_lower": 0,
+        "fsr_upper": 0.3333333333333333,
+        "fur_lower": 0,
+        "fur_upper": 0,
+        "eligible": 12,
+        "allocated": 12,
+        "resolved": 10,
+        "coverage": 0.8333333333333334,
+        "uncovered": 0,
+        "unresolved": 2,
+        "numerical_failures": 2
+      },
+      "trigger_timing": {
+        "all": {
+          "paired_count": 6,
+          "max_error_s": 0
+        },
+        "qualified": {
+          "paired_count": 4,
+          "max_error_s": 0
+        }
+      },
+      "numerical_qualification_failures": [
+        {
+          "id": "transfer-37",
+          "truth_label": "unstable",
+          "qualification_issues": [
+            "integration_step_disagreement"
+          ],
+          "step_gap": 0.00003336963461442657
+        },
+        {
+          "id": "transfer-47",
+          "truth_label": "unstable",
+          "qualification_issues": [
+            "integration_step_disagreement"
+          ],
+          "step_gap": 0.000017087723536617312
+        }
+      ]
+    }
+  },
+  "engineering_pass": false,
+  "clean_fit_pass": false,
+  "scientific_pass": false,
+  "checks": {
+    "complete_fit": true,
+    "all_numerically_covered": false,
+    "energy_balance": true,
+    "clean_val_trajectory": false,
+    "clean_val_stability_and_timing": true,
+    "mixed_truth_excitations": true,
+    "noisy_val_trajectory": null,
+    "effective_redistribution": false,
+    "effective_memory_kernel": false,
+    "out_of_library_rejected": null
+  },
+  "not_assessed_checks": [
+    "noisy_val_trajectory",
+    "out_of_library_rejected"
+  ],
+  "max_energy_balance_residual": 3.4063404295526897e-16,
+  "max_truth_step_gap": 1.0808053891036213e-7,
+  "mechanisms": {
+    "spatial_truth_rms": 0.07573644431275277,
+    "relative_spatial_error": 0.9737372322748044,
+    "relative_memory_kernel_error": 0.5918163092004952
+  },
+  "forecast_exceptions": [],
+  "operation_counts": {
+    "numpy_rhs": 155520,
+    "fits": 1,
+    "rollouts": 3810,
+    "tangent_rhs": 195600,
+    "torch_rhs": 731521,
+    "qr": 5340,
+    "svd": 5376,
+    "matrix_products": 5340,
+    "triangular_solves": 5340,
+    "gradients": 433,
+    "optimizer_updates": 36,
+    "val_checks": 3,
+    "kernel_exponentials": 20
+  },
+  "elapsed_seconds": 19844.53549489999,
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "filelock": "3.32.2",
+    "h5py": "3.16.0"
+  },
+  "result_manifest_sha256": "84c9ac36daba4c13a65e6d8cddf32aae1e2e64fd6bfbec4b50d8e5690b8fa305",
+  "artifact_count": 21,
+  "key_artifact_sha256": {
+    "summary.json": "d9cc0810750ad5777ed76b094f89eb5b9ff7386d90acaf28936722dae62a50e4",
+    "fit.json": "6e1a816714926eae42a9f42ba3ebbe73a5a42b4239dbbc551dc75ec79ac0136c",
+    "training.jsonl": "50575c0e64b5801a9332ec7fedd7a1db55fadb74649aabd7322aeff28a182e34",
+    "scores.json": "2807c29d354ef785363529ae0a6052647334367721e2afbf5965f696db6bdbca",
+    "selected-equation.npz": "cad72186b7cdcd53ced7f21cde9c8496ad3e9c3aa9883d470caaf8f0eb582458",
+    "checkpoints/update-120.pt": "306e4cdd5ccc4a4b2455eac81fb3750c5fb1cd758035ed89c8be6b3063877f13"
+  },
+  "promotion_decision": "KEEP_BASELINE",
+  "claim_boundary": "One dense causal-gradient fit on the complete clean cohorts; no sparse support, noise-robustness or out-of-library claim."
+}

@@ -5223,14 +5223,22 @@
         "gradients": null,
         "val_checks": null
       },
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_operator_complete_interrupted_fit_20261120",
       "operator_instruction": "继续完成",
       "approved_date": "2026-11-20",
       "plan_path": "configs/proposals/joint_energy_sindy_synthetic_v2_continue.json",
       "plan_sha256": "380da72d458d64dfeefb978d81f545e3a452079fdd78a3e9856474d3e9baaabf",
       "review_path": "docs/research/joint_energy_sindy_synthetic_v2_continue_review_20261120.json",
-      "review_sha256": "c26a1540d1da92272e5476ce767a7cc15d332158ccb35c5bf7ff8f5575b4151c"
+      "review_sha256": "c26a1540d1da92272e5476ce767a7cc15d332158ccb35c5bf7ff8f5575b4151c",
+      "run_id": "joint_energy_sindy_synthetic_v2_continue-synthetic-20261120T063507700124Z-e98d951c-78b3b8d0",
+      "result_manifest_sha256": "84c9ac36daba4c13a65e6d8cddf32aae1e2e64fd6bfbec4b50d8e5690b8fa305",
+      "result_receipt_path": "docs/reports/joint_energy_sindy_synthetic_v2_continue_20261120_evidence.json",
+      "result_receipt_sha256": "d422827892f9fac9a040ddb0b2cf905d28a28161c6839f9533a220f4f658cb80",
+      "result_review_path": "docs/research/joint_energy_sindy_synthetic_v2_continue_result_review_20261120.json",
+      "result_review_sha256": "799074e0c80f77347e516951652124b4c94d8dafa1361eea5b71338bbb176324",
+      "engineering_pass": false,
+      "scientific_pass": false
     }
   },
   "saved_evidence_audits": {

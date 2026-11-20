@@ -21,6 +21,9 @@ checkpoint.
 The [continuation protocol](../protocols/joint_energy_sindy_synthetic_v2_continue_zh.md)
 uses the saved update-84 weights and Adam state after the original process
 ended at update 93.
+The [completed synthetic run](../reports/joint_energy_sindy_synthetic_v2_continue_20261120_zh.md)
+selected update 120, reduced val loss by 60.6%, and reached 43 of 48
+numerically qualified events. The trajectory and mechanism recovery gates failed.
 
 The [from-scratch joint ES-SINDy fit](../reports/joint_energy_sindy_synthetic_20261117_zh.md)
 completes all 48 updates with an explicit energy balance. The frozen model

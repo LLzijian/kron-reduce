@@ -1,0 +1,17 @@
+{
+  "reviewer": "Astra Ultra",
+  "run_id": "joint_energy_sindy_synthetic_v2_continue-synthetic-20261120T063507700124Z-e98d951c-78b3b8d0",
+  "result_receipt_sha256": "d422827892f9fac9a040ddb0b2cf905d28a28161c6839f9533a220f4f658cb80",
+  "result_manifest_sha256": "84c9ac36daba4c13a65e6d8cddf32aae1e2e64fd6bfbec4b50d8e5690b8fa305",
+  "engineering_pass": false,
+  "clean_fit_pass": false,
+  "scientific_pass": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "findings": [
+    "第 84 步的模型与 Adam 状态可用于续算。第 85–93 步的损失、梯度范数和学习率逐项一致。训练按原计划完成 120 步，并在 11 个完整 val 检查中选中第 120 步。",
+    "全部 48 个合成事件均运行评分。train、val、test 分别有 23/24、10/12、10/12 个样本通过数值检查，可判定样本分类全部正确。",
+    "五个数值失败均为失稳样本的预测双步长差超限。三组完整轨迹误差、完整准确率和分类率均保留为 null。",
+    "val 六个失稳样本的原始触发时刻同真值落在同一 10 ms 网格点，其中两个预测未通过双步长检查。能量收支与真值步长检查通过。",
+    "val 合格轨迹误差超过阈值，空间重分配与记忆核恢复未达标。证据范围为干净合成数据，真实 TASK3、噪声和库外第五谐波挑战未评估。"
+  ]
+}

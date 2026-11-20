@@ -28,6 +28,7 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [Completed joint ES-SINDy continuation](joint_energy_sindy_synthetic_v2_continue_20261120_zh.md) | Update 120 frozen, 48 analytic events scored, 43 numerically qualified, original baseline retained |
 | [Joint ES-SINDy with full causal gradients](joint_energy_sindy_synthetic_v2_20261119_zh.md) | 114 dense updates, ten complete val checks, rollout limit reached before frozen scoring |
 | [TASK3 train momentum and work](kiki_topology_memory_balance_20261116_zh.md) | Complete train 346, signed work and momentum with causal initialization and 33 matched witness windows |
 | [TASK3 train fixed modal damping](kiki_machine_local_topology_modal_damping_20261115_zh.md) | Complete train, shared causal starts, stable residual gate failed in all three controls |
