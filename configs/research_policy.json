@@ -64,6 +64,98 @@
     }
   },
   "development_evaluations": {
+    "unified_discovery_m3_v1_20261120": {
+      "status": "active",
+      "experiment": "unified_discovery_m3_v1",
+      "authority": "explicit_operator_m3_train_val_only",
+      "allowed_roles": [
+        "train",
+        "val"
+      ],
+      "train_cases": 346,
+      "val_cases": 107,
+      "test_cases": 0,
+      "source_cache_open_limit": 3,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "fit_attempts": 18,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "plan_path": "configs/experiments/unified_discovery_m3_v1.toml",
+      "plan_sha256": "b31311c1f5c47f76d8c8dbb55a2bbcaa1de2450ec20fc774025fa30ad9189241",
+      "operation_limits": {
+        "checkpoint_loads": 2,
+        "fits": 18,
+        "gradients": 1800,
+        "matrix_products": 1049020,
+        "observed_rhs": 2309760,
+        "optimizer_updates": 264,
+        "qr": 1049020,
+        "rollouts": 286566,
+        "svd": 1049020,
+        "tangent_rhs": 47772000,
+        "torch_rhs": 806001600,
+        "triangular_solves": 1049020,
+        "val_checks": 106
+      },
+      "scope_limits": {
+        "anchors": {
+          "checkpoint_loads": 2
+        },
+        "screening": {
+          "matrix_products": 145320,
+          "observed_rhs": 241920,
+          "qr": 145320,
+          "rollouts": 1764,
+          "svd": 145320,
+          "tangent_rhs": 302400,
+          "torch_rhs": 362880,
+          "triangular_solves": 145320
+        },
+        "curriculum_2a": {
+          "fits": 1,
+          "gradients": 84,
+          "matrix_products": 34840,
+          "observed_rhs": 96960,
+          "optimizer_updates": 12,
+          "qr": 34840,
+          "rollouts": 8246,
+          "svd": 34840,
+          "tangent_rhs": 1351200,
+          "torch_rhs": 22736640,
+          "triangular_solves": 34840,
+          "val_checks": 5
+        },
+        "curriculum_2b": {
+          "fits": 1,
+          "gradients": 84,
+          "matrix_products": 43900,
+          "observed_rhs": 96960,
+          "optimizer_updates": 12,
+          "qr": 43900,
+          "rollouts": 14700,
+          "svd": 43900,
+          "tangent_rhs": 2457600,
+          "torch_rhs": 41766720,
+          "triangular_solves": 43900,
+          "val_checks": 5
+        },
+        "pruning": {
+          "fits": 16,
+          "gradients": 1632,
+          "matrix_products": 824960,
+          "observed_rhs": 1873920,
+          "optimizer_updates": 240,
+          "qr": 824960,
+          "rollouts": 261856,
+          "svd": 824960,
+          "tangent_rhs": 43660800,
+          "torch_rhs": 741135360,
+          "triangular_solves": 824960,
+          "val_checks": 96
+        }
+      }
+    },
     "unified_first_swing_v4_fit_20261119": {
       "status": "consumed",
       "experiment": "unified_first_swing_v4_fit",

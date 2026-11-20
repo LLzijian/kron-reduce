@@ -1,0 +1,24 @@
+{
+  "workflow": "unified_discovery_m3_v1",
+  "experiment": "unified_discovery_m3_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "synthetic", "discovery"],
+  "transitions": {"scaffold": "synthetic", "synthetic": "discovery"},
+  "terminal_stages": ["discovery"],
+  "approval_required": ["discovery"],
+  "stage_evidence_contracts": {
+    "synthetic": {
+      "required_fields": ["status", "source_commit", "result_dir", "artifact_manifest", "claim_boundary", "plan_sha256", "real_data_reads"],
+      "non_empty_fields": ["source_commit", "claim_boundary", "plan_sha256"],
+      "allowed_values": {"status": ["PASS"], "real_data_reads": [0]}
+    },
+    "discovery": {
+      "required_fields": ["status", "process_status", "source_commit", "data_policy", "promotion_decision", "discovery_decision", "scientific_pass", "result_dir", "artifact_manifest", "frozen_model_manifest", "claim_boundary", "test_trajectory_reads"],
+      "non_empty_fields": ["source_commit", "claim_boundary"],
+      "allowed_values": {"status": ["PASS"], "process_status": ["PASS"], "data_policy": ["kiki_official_train_test_v1"],
+        "promotion_decision": ["KEEP_BASELINE"], "discovery_decision": ["SELECTED", "KEEP_BASELINE"],
+        "scientific_pass": [true, false], "test_trajectory_reads": [0]}
+    }
+  }
+}

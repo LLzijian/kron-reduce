@@ -1,0 +1,143 @@
+task_type = "unified_discovery_m3"
+dataset = "kiki_ieee39_v1"
+stage = "discovery"
+development_authorization_id = "unified_discovery_m3_v1_20261120"
+protocol = "docs/protocols/unified_discovery_m3_v1_zh.md"
+source_contract = "configs/proposals/kiki_machine_local_full_fit_v1.json"
+split_reference_sha256 = "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2"
+a06_sha256 = "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8"
+backbone_archive = "results/backup/kiki_a03_a17_subsets/KIKI_a06.zip"
+v4_authorization = "unified_first_swing_v4_fit_20261119"
+v4_receipt = "docs/reports/unified_first_swing_v4_fit_20261119_evidence.json"
+v4_memory_sha256 = "ccb7c40557787e6aa9a5603bc63657e3727fe944e631da9dda5498fe03b9289d"
+
+[settings]
+train_batch = 64
+eval_batch = 64
+screen_batch = 128
+val_interval = 3
+prior_weight = 0.000001
+gradient_clip = 1.0
+gradient_ratio = 1.05
+huber_delta = 1.0
+unstable_first_swing_weight = 8.0
+energy_weight = 0.1
+trust_weight = 1.0
+max_fp = 1
+diagnostic_fp = 2
+stable_median_limit = 0.21
+tn_mean_limit = 0.24
+witness_ratio = 0.8
+parsimony_tolerance = 0.02
+
+[schedule]
+curriculum_updates = 12
+support_updates = 15
+maximum_support_fits = 16
+learning_rate = 0.001
+backbone_learning_rate = 0.0002
+
+[search.G1]
+a = [0.02, 0.12, 0.35, 0.60]
+
+[search.G2]
+rho = [0.05, 0.25, 0.50, 0.6666666666666666, 0.85]
+
+[search.G3]
+mu_c = [0.015, 0.075, 0.225, 0.50]
+
+[search.G4]
+mu_xi = [0.015, 0.075, 0.225, 0.50]
+kappa_xi = [0.05, 0.25, 1.0]
+
+[search.G5]
+gamma_s = [0.05, 0.25, 1.50, 8.0]
+
+[bindings]
+"configs/workflows/unified_discovery_m3_v1.json" = "5fadc68c23d0fc190850f69a01c75320107efe4db9011d3fc1ead4419600c96d"
+"docs/protocols/unified_discovery_m3_v1_zh.md" = "1d62d611404f8eec1a44b454751e9367d2e33a6bb4d765ff7f1e4f460df88de7"
+"configs/proposals/kiki_machine_local_full_fit_v1.json" = "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed"
+"configs/proposals/kiki_task3_split_reference_v1.json" = "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2"
+"configs/input_contracts.json" = "6c31fb878d3bed1d43bf70acf84995b5ec5d6d1f2ae64a1809febe0c00b3f83c"
+"docs/reports/unified_first_swing_v4_fit_20261119_evidence.json" = "b20508d16545440b46b3456483849b0bd9871b58f8cb481ca77e17fd8c74fe4f"
+"requirements/constraints-py312.txt" = "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9"
+"scripts/run_unified_discovery_m3.py" = "b8a86349eefb56806e2452ca7cb002dd8bc69b4e00ee9e4b42e889aeb1f422ad"
+"src/kron_reduce/workflows/unified_discovery_m3.py" = "cd796d782410fc1d2cb0dcc6d4a54ddc862539e73afbf2e85e4e357cef3fcf9b"
+"src/kron_reduce/evaluation/unified_discovery_m3.py" = "6b792ab94b3d2760b9bf07babc60976d09d03666285e39d514d23524a3169ccf"
+"src/kron_reduce/evaluation/unified_discovery_m3_fit.py" = "ea756d0900980ebdc66b75a0275b7523b27b5f8f4d205c91969140cb55f90efa"
+"src/kron_reduce/evaluation/unified_discovery_m3_scores.py" = "1db5c079cd88a7eefb42753b0976757aa3d4de783103d80385fbfb67b140bbf1"
+"src/kron_reduce/models/unified_discovery_m3.py" = "46c295d9763c87b33851bd196823b42cb36a3a037be86971deb467f8eb6037b4"
+"src/kron_reduce/models/first_swing_fit.py" = "81a8fd2f091a9cf72cf1a73383f583d134749d8adb33332a9b4103e4c341bddc"
+"src/kron_reduce/data/task3_full.py" = "14f5b7681f1993822a41615e1905f5e7916554371e29f02213a0382d6291cd2d"
+"tests/test_unified_discovery_m3_model.py" = "a294db06f7263fbaf90d728a7025fb67fcb5f6c644090d084003a47f872c4469"
+"tests/test_unified_discovery_m3_selection.py" = "59b60bbe624cfde3f351961726e97a56a6ba594dbdfe5fa75131c5f52ca46de3"
+
+[operation_limits]
+checkpoint_loads = 2
+fits = 18
+gradients = 1800
+matrix_products = 1049020
+observed_rhs = 2309760
+optimizer_updates = 264
+qr = 1049020
+rollouts = 286566
+svd = 1049020
+tangent_rhs = 47772000
+torch_rhs = 806001600
+triangular_solves = 1049020
+val_checks = 106
+
+[scope_limits.anchors]
+checkpoint_loads = 2
+
+[scope_limits.screening]
+matrix_products = 145320
+observed_rhs = 241920
+qr = 145320
+rollouts = 1764
+svd = 145320
+tangent_rhs = 302400
+torch_rhs = 362880
+triangular_solves = 145320
+
+[scope_limits.curriculum_2a]
+fits = 1
+gradients = 84
+matrix_products = 34840
+observed_rhs = 96960
+optimizer_updates = 12
+qr = 34840
+rollouts = 8246
+svd = 34840
+tangent_rhs = 1351200
+torch_rhs = 22736640
+triangular_solves = 34840
+val_checks = 5
+
+[scope_limits.curriculum_2b]
+fits = 1
+gradients = 84
+matrix_products = 43900
+observed_rhs = 96960
+optimizer_updates = 12
+qr = 43900
+rollouts = 14700
+svd = 43900
+tangent_rhs = 2457600
+torch_rhs = 41766720
+triangular_solves = 43900
+val_checks = 5
+
+[scope_limits.pruning]
+fits = 16
+gradients = 1632
+matrix_products = 824960
+observed_rhs = 1873920
+optimizer_updates = 240
+qr = 824960
+rollouts = 261856
+svd = 824960
+tangent_rhs = 43660800
+torch_rhs = 741135360
+triangular_solves = 824960
+val_checks = 96
