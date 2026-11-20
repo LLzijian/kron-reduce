@@ -1,0 +1,61 @@
+{
+  "workflow": "joint_energy_sindy_synthetic_v2_continue",
+  "experiment": "joint_energy_sindy_synthetic_v2_continue",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": [
+    "scaffold",
+    "synthetic"
+  ],
+  "transitions": {
+    "scaffold": "synthetic"
+  },
+  "terminal_stages": [
+    "synthetic"
+  ],
+  "approval_required": [
+    "synthetic"
+  ],
+  "stage_evidence_contracts": {
+    "synthetic": {
+      "required_fields": [
+        "status",
+        "process_status",
+        "source_commit",
+        "data_policy",
+        "promotion_decision",
+        "result_dir",
+        "artifact_manifest",
+        "claim_boundary",
+        "engineering_pass",
+        "scientific_pass"
+      ],
+      "non_empty_fields": [
+        "source_commit",
+        "claim_boundary"
+      ],
+      "allowed_values": {
+        "status": [
+          "PASS"
+        ],
+        "process_status": [
+          "PASS"
+        ],
+        "data_policy": [
+          "analytic_synthetic_only"
+        ],
+        "promotion_decision": [
+          "KEEP_BASELINE"
+        ],
+        "engineering_pass": [
+          true,
+          false
+        ],
+        "scientific_pass": [
+          true,
+          false
+        ]
+      }
+    }
+  }
+}

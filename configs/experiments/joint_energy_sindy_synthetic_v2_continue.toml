@@ -1,0 +1,13 @@
+task_type = "joint_energy_sindy"
+data_policy = "analytic_synthetic_only"
+dataset = "synthetic_benchmark_registry_v1"
+workflow = "joint_energy_sindy_synthetic_v2_continue"
+stage = "synthetic"
+authorization = "joint_energy_sindy_synthetic_v2_continue_20261120"
+execution_mode = "bounded_synthetic_cli_only"
+protocol = "docs/protocols/joint_energy_sindy_synthetic_v2_continue_zh.md"
+plan = "configs/proposals/joint_energy_sindy_synthetic_v2_continue.json"
+real_data_reads = 0
+fit_attempts = 1
+max_executions = 1
+retry_allowed = false

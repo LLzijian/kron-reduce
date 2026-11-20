@@ -1,0 +1,161 @@
+{
+  "experiment": "joint_energy_sindy_synthetic_v2",
+  "stage": "synthetic",
+  "run_id": "joint_energy_sindy_synthetic_v2-synthetic-20261118T043618913483Z-1d75b821-db9f2dd1",
+  "source_commit": "1d75b8214cd27d13ba1d64a30742f477c56b6b54",
+  "authorization": "joint_energy_sindy_synthetic_v2_20261118",
+  "plan_sha256": "b5fe898633a3c1aa8fcc4c89d6ec63f98526199a2131166a89c30e46a328ef49",
+  "status": "ABORTED_DURING_FIT",
+  "process_status": "FAIL",
+  "failure": {
+    "run_id": "joint_energy_sindy_synthetic_v2-synthetic-20261118T043618913483Z-1d75b821-db9f2dd1",
+    "status": "failed",
+    "error_type": "RuntimeError",
+    "message": "unregistered or exhausted operation budget: rollouts",
+    "automatic_retry": false
+  },
+  "run_created_utc": "2026-11-18T04:36:18.913483+00:00",
+  "failure_recorded_utc": "2026-11-18T17:28:04.503801+00:00",
+  "elapsed_wall_seconds": 46305.590318,
+  "data_policy": "analytic_synthetic_only",
+  "real_data_reads": 0,
+  "cohorts": {
+    "train": 24,
+    "val": 12,
+    "test": 12
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "filelock": "3.32.2",
+    "h5py": "3.16.0"
+  },
+  "fit": {
+    "planned_updates": 120,
+    "actual_updates": 114,
+    "gradient_mode": "full",
+    "support_policy": "dense",
+    "train_batch": 2,
+    "gradient_batches_completed_on_interrupted_update": 2,
+    "val_checks_completed": 10,
+    "best_observed_val_update": 108,
+    "selected_update": null,
+    "last_train_update": {
+      "update": 114,
+      "nmse_before_update": 0.06846973037345758,
+      "gradient_norm": 0.1231835031454471,
+      "learning_rate": 0.003075114076954877
+    },
+    "val_checkpoints": [
+      {
+        "update": 0,
+        "nmse": 0.6050978422321244,
+        "train_nmse_after_update": 0.1420665998910405
+      },
+      {
+        "update": 12,
+        "nmse": 0.5233520257171206,
+        "train_nmse_after_update": 0.1293190457640373
+      },
+      {
+        "update": 24,
+        "nmse": 0.4844510996937247,
+        "train_nmse_after_update": 0.11781656852846083
+      },
+      {
+        "update": 36,
+        "nmse": 0.4455635602992584,
+        "train_nmse_after_update": 0.11097540105451678
+      },
+      {
+        "update": 48,
+        "nmse": 0.4041465903558962,
+        "train_nmse_after_update": 0.10168245102403219
+      },
+      {
+        "update": 60,
+        "nmse": 0.3625949507219437,
+        "train_nmse_after_update": 0.09278054886215255
+      },
+      {
+        "update": 72,
+        "nmse": 0.31496822639581695,
+        "train_nmse_after_update": 0.08473832768089208
+      },
+      {
+        "update": 84,
+        "nmse": 0.29015208788508673,
+        "train_nmse_after_update": 0.07890952050760427
+      },
+      {
+        "update": 96,
+        "nmse": 0.2666555192386267,
+        "train_nmse_after_update": 0.07383011978778606
+      },
+      {
+        "update": 108,
+        "nmse": 0.255771419988315,
+        "train_nmse_after_update": 0.06994541872397413
+      }
+    ]
+  },
+  "operation_counts": {
+    "numpy_rhs": 155520,
+    "torch_rhs": 1936000,
+    "tangent_rhs": 600000,
+    "rollouts": 12000,
+    "qr": 15500,
+    "svd": 15500,
+    "matrix_products": 15500,
+    "triangular_solves": 15500,
+    "weak_cases": 0,
+    "weak_solves": 0,
+    "kernel_exponentials": 0,
+    "fits": 1,
+    "optimizer_updates": 114,
+    "gradients": 1370,
+    "val_checks": 10
+  },
+  "rollouts_at_last_completed_update": 11984,
+  "full_clean_workflow_operation_counts_from_code": {
+    "numpy_rhs": 155520,
+    "torch_rhs": 2167681,
+    "tangent_rhs": 640400,
+    "rollouts": 12706,
+    "qr": 16860,
+    "svd": 16896,
+    "matrix_products": 16860,
+    "triangular_solves": 16860,
+    "weak_cases": 0,
+    "weak_solves": 0,
+    "kernel_exponentials": 20,
+    "fits": 1,
+    "optimizer_updates": 120,
+    "gradients": 1441,
+    "val_checks": 11
+  },
+  "rollouts_breakdown": {
+    "fit_and_checkpoints": 12664,
+    "frozen_forecasts": 42,
+    "registered_limit": 12000
+  },
+  "local_artifact_sha256": {
+    "initial-coefficients.json": "dbe4f8327456098d56a9446512e64bd98f526f94aa0404bd1aebddac6c3193f1",
+    "operations.jsonl": "37871aae8b3f758e7f0808e54da08dfa244a6de18cfbab92606719cb28844d16",
+    "RUN_FAILED.json": "f2c6203a5db3c4c13d2f7845fbb86886da49cccbfd280cb7bad6feb56753ae63",
+    "training.jsonl": "951ed1cff7c3c352dbcd4ca82baeef9d3b45b96902057238b1f8e770706aa7c8",
+    "truth.npz": "ab5944c3279d3025e58c885493665f226e397d4d41bbc08fcf278cd8bcbc6c25"
+  },
+  "frozen_model": null,
+  "frozen_evaluation": null,
+  "engineering_pass": null,
+  "clean_fit_pass": false,
+  "scientific_pass": false,
+  "scientific_gate_evaluated": false,
+  "promotion_decision": "KEEP_BASELINE"
+}

@@ -1,0 +1,17 @@
+{
+  "reviewer": "Astra Ultra",
+  "run_id": "joint_energy_sindy_synthetic_v2-synthetic-20261118T043618913483Z-1d75b821-db9f2dd1",
+  "result_receipt_sha256": "c573262de94a5c4b770c4edec5cd8be23d4e04b8e10a3985d50132ce6ab3f357",
+  "status": "ABORTED_DURING_FIT",
+  "engineering_pass": null,
+  "scientific_pass": false,
+  "scientific_gate_evaluated": false,
+  "promotion_decision": "KEEP_BASELINE",
+  "findings": [
+    "已完成 114 次完整 train 更新和 10 次完整 val 检查。第 115 次更新完成两批梯度后达到了积分调用上限。",
+    "第 0 至 108 步的全部完整 val 检查中，3 s 归一化均方误差逐次下降，从 0.6050978422 降至 0.2557714200。",
+    "第 108 步权重仅保存在退出进程的内存中，现存文件无法恢复冻结模型，三组的最终轨迹、稳定性、失步时序和机制评分均无结果。",
+    "按现有计数规则，120 次更新和 11 次检查点共需 12,664 次积分调用，冻结后的完整双步长评估再需 42 次，合计 12,706 次。",
+    "复核使用本地已保存的合成日志、失败记录、登记方案和计数代码。真实 TASK3 读取次数为 0。"
+  ]
+}

@@ -6,6 +6,25 @@ budget, entry point and stopping gates.
 
 ## Current research scope
 
+The [full-gradient repair](joint_energy_sindy_full_gradient_repair_20261118_zh.md)
+keeps all 127 trainable scalars and all candidate groups. Both train entry points
+now differentiate through causal history inference. The separately registered
+[v2 protocol](../protocols/joint_energy_sindy_synthetic_v2_zh.md) specifies physical
+initial coefficients, 120 dense updates and complete clean-cohort scoring with
+all mechanism groups enabled. Engineering gradient
+checks passed. The [local v2 run](../reports/joint_energy_sindy_synthetic_v2_20261119_zh.md)
+completed 114 updates and lowered the val loss by 57.7%. The operation limit
+stopped the run before model export and final scoring.
+The [restart protocol](../protocols/joint_energy_sindy_synthetic_v2_restart_zh.md)
+records computational work and saves weights and Adam state at each full val
+checkpoint.
+The [continuation protocol](../protocols/joint_energy_sindy_synthetic_v2_continue_zh.md)
+uses the saved update-84 weights and Adam state after the original process
+ended at update 93.
+The [completed synthetic run](../reports/joint_energy_sindy_synthetic_v2_continue_20261120_zh.md)
+selected update 120, reduced val loss by 60.6%, and reached 43 of 48
+numerically qualified events. The trajectory and mechanism recovery gates failed.
+
 The [from-scratch joint ES-SINDy fit](../reports/joint_energy_sindy_synthetic_20261117_zh.md)
 completes all 48 updates with an explicit energy balance. The frozen model
 misses the synthetic trajectory, spatial redistribution, and memory-kernel

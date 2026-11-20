@@ -14,6 +14,14 @@ import torch
 from kron_reduce.data.durable_audit_ledger import AppendOnlyAuditJournal
 from kron_reduce.data.task3_full import Task3FullReader
 from kron_reduce.evaluation.constant_c_observability import write_json
+from kron_reduce.evaluation.joint_energy_sindy_training import (
+    causal_rollout,
+    checkpoint_eligible,
+    group_regularization,
+    prune_due,
+    training_controls,
+    update_learning_rate,
+)
 from kron_reduce.evaluation.joint_energy_sindy_weak import initialize as weak_initialize
 from kron_reduce.evaluation.kiki_machine_local_full import evaluate, inputs
 from kron_reduce.evaluation.kiki_machine_local_r20_r21 import bind, read_json, verified
@@ -87,14 +95,9 @@ def train_objective(model, batch, population, scales, budget, settings, plan):
     count = int(counts.max())
     target = np.stack([np.pad(event["x"][10:11+length], ((0, count-length), (0, 0)), mode="edge")
                        for event, length in zip(batch, counts, strict=True)])
-    # Recover a fresh causal hidden state under the current shared model; differentiate only the future.
-    with torch.no_grad():
-        origin = predict_from_topology_history(model, *inputs(batch, scales["history"]), 0,
-                    max_step=.005, spend=budget.spend, memory_radius=settings["memory_radius"],
-                    prior_weight=settings["prior_weight"])["forecast"][:, 0].detach()
-    future = model.rollout(origin, model._tensor(np.stack([e["p0"] for e in batch])),
-                           model._tensor(np.stack([e["equilibrium"] for e in batch])),
-                           count, max_step=.005, spend=budget.spend)
+    # The same coefficients determine both the inferred origin and the future.
+    future = causal_rollout(model, *inputs(batch, scales["history"]), count,
+                            settings=settings, spend=budget.spend)
     value = loss(future[:, :, :20], model._tensor(target),
                  model._tensor(np.full(len(batch), 1/population)), model._tensor(scales["target"]), counts)
     if not torch.isfinite(value):
@@ -111,17 +114,24 @@ def rank(result, update):
 
 
 def fit(model, train, val, scales, budget, directory, settings, plan):
+    controls = training_controls(settings)
     optimizer = torch.optim.Adam((p for p in model.parameters() if p.requires_grad),
                                  lr=settings["learning_rate"], foreach=False, fused=False)
     best, fallback, latest, checks = None, None, None, []
     completed, reason, failure = 0, "update_cap", None
     pruned = []
+    started = time.perf_counter()
     budget.spend("fits")
     with (directory/"training.jsonl").open("x", encoding="utf-8") as stream:
         for update in range(settings["updates"]+1):
             if update:
+                limit = settings.get("max_training_seconds")
+                if limit is not None and time.perf_counter()-started >= limit:
+                    reason = "wall_time_cap"
+                    break
                 previous = snapshot(model)
                 optimizer.zero_grad(set_to_none=True)
+                learning_rate = update_learning_rate(optimizer, settings, update)
                 objective = 0.
                 try:
                     for offset in range(0, len(train), settings["train_batch"]):
@@ -130,7 +140,9 @@ def fit(model, train, val, scales, budget, directory, settings, plan):
                         budget.spend("gradients")
                         value.backward()
                         objective += float(value.detach())
-                    model.regularization().backward()
+                    penalty = group_regularization(model, settings)
+                    if penalty is not None:
+                        penalty.backward()
                     parameters = [p for p in model.parameters() if p.requires_grad]
                     if any(p.grad is None or not torch.isfinite(p.grad).all() for p in parameters):
                         raise FloatingPointError("nonfinite train gradient")
@@ -153,14 +165,16 @@ def fit(model, train, val, scales, budget, directory, settings, plan):
                                "error_type": type(error).__name__, "message": str(error)}
                     write_json(directory/"training-failure.json", failure)
                     break
-                if update == settings["prune_update"]:
+                if prune_due(settings, update):
                     norms = {key: float(value.detach()) for key, value in model.group_norms().items()}
                     pruned = [key for key, value in norms.items() if key not in ("common", "spatial")
                               and value < settings["support_threshold"]]
                     model.prune_groups(pruned)
                     write_json(directory/"pruning.json", {"update": update, "threshold": settings["support_threshold"],
                                                           "norms_before": norms, "pruned_groups": pruned})
-                latest = {"update": update, "train_nmse_1s": objective,
+                latest = {"update": update, "train_nmse_before_update": objective,
+                          "train_nmse_1s": objective, "train_nmse_timing": "before_update",
+                          "learning_rate": learning_rate,
                           "gradient_norm": float(norm),
                           "group_norms": {key: float(value.detach()) for key, value in model.group_norms().items()}}
                 stream.write(json.dumps(latest, allow_nan=False)+"\n")
@@ -170,13 +184,18 @@ def fit(model, train, val, scales, budget, directory, settings, plan):
                 continue
             budget.spend("val_checks")
             result = score(model, val, scales, budget, directory, "val", settings, plan, save=False)
+            with torch.no_grad():
+                train_after = sum(float(train_objective(model, train[offset:offset+settings["train_batch"]],
+                                      len(train), scales, budget, settings, plan))
+                                  for offset in range(0, len(train), settings["train_batch"]))
             selected_rank = rank(result, update)
             row = {"update": update, "rank": list(selected_rank),
                    "task3_six_term_score": result["task3_six_term_score"],
-                   "stability": result["stability"], "train": latest}
+                   "stability": result["stability"], "train": latest,
+                   "train_nmse_after_update": train_after}
             checks.append(row)
             write_json(directory/f"val-check-{update:03d}.json", row)
-            if update >= settings["prune_update"]:
+            if checkpoint_eligible(settings, update):
                 if best is None or selected_rank < best[0]:
                     best = (selected_rank, snapshot(model))
             elif fallback is None or selected_rank < fallback[0]:
@@ -189,11 +208,15 @@ def fit(model, train, val, scales, budget, directory, settings, plan):
         raise RuntimeError("no full-val checkpoint was assessed")
     model.load_state_dict(best[1])
     model.requires_grad_(False).eval()
-    training = {"status": "NUMERICAL_FAILURE" if failure else "COMPLETED",
+    # Report support from the selected checkpoint, not from a later discarded update.
+    pruned = [name for name, gate in zip(GROUPS, model.group_gate.tolist(), strict=True) if not gate]
+    training = {"status": "NUMERICAL_FAILURE" if failure else ("STOPPED_WALL_TIME" if reason == "wall_time_cap" else "COMPLETED"),
                 "stop_reason": reason, "completed_updates": completed,
                 "selected_update": best[0][-1], "selected_rank": list(best[0]),
                 "val_checks": len(checks), "failure": failure,
-                "prune_update": settings["prune_update"], "support_threshold": settings["support_threshold"],
+                "prune_update": settings.get("prune_update") if controls["support_policy"] == "legacy_threshold" else None,
+                "support_threshold": settings.get("support_threshold") if controls["support_policy"] == "legacy_threshold" else None,
+                "training_wall_seconds": time.perf_counter()-started, **controls,
                 "pruned_groups": pruned, "active_groups": [key for key in model.group_norms() if key not in pruned],
                 "selected_group_norms": {key: float(value) for key, value in model.group_norms().items()}}
     write_json(directory/"selection.json", {"training": training, "checks": checks})
@@ -208,6 +231,7 @@ def execute(root, directory, plan, stage):
     if plan["settings"]["topology_radius"] != .6:
         raise ValueError("registered topology radius differs from causal observer")
     settings = plan["settings"]
+    device = settings.get("device", "cuda")
     budget = Budget(directory/"operations.jsonl", plan["operation_limits"])
     journal = AppendOnlyAuditJournal(directory/"access.jsonl")
     started = time.perf_counter()
@@ -225,9 +249,18 @@ def execute(root, directory, plan, stage):
             write_json(directory/"preprocessing.json", {key: value.tolist() for key, value in scales.items()})
             write_json(directory/"train-scale-population.json", {"ids": [e["id"] for e in train],
                 "history_points": 11, "target_points": [min(300, len(e["x"])-11) for e in train]})
-            model = JointEnergySINDy.from_mass(mass).to("cuda")
-            weak = weak_initialize(model, train, budget, frames=settings["weak_frames"])
+            model = JointEnergySINDy.from_mass(mass, physical_seed=settings.get("physical_seed")).to(device)
+            seed_policy = settings.get("weak_initialization", "train_integral")
+            if seed_policy == "off":
+                weak = {"policy": "off", "reason": "fit the complete physical seed without omitted-term weak calibration"}
+            elif seed_policy == "train_integral":
+                weak = weak_initialize(model, train, budget, frames=settings["weak_frames"])
+                weak["policy"] = seed_policy
+            else:
+                raise ValueError("weak_initialization must be off or train_integral")
             write_json(directory/"weak-initialization.json", weak)
+            write_json(directory/"initial-coefficients.json", {
+                name: value.detach().cpu().tolist() for name, value in model.effective_coefficients().items()})
             initial = freeze(root, directory, "initial", model, scales, plan, None)
             val = reader.load("val", freeze_path=initial)
             training = fit(model, train, val, scales, budget, directory, settings, plan)
@@ -246,7 +279,7 @@ def execute(root, directory, plan, stage):
                                                "sha256": frozen["preprocessing_sha256"]}))
             if set(scales) != {"history", "target", "mass"}:
                 raise RuntimeError("frozen preprocessing keys differ")
-            model = JointEnergySINDy.from_mass(np.asarray(scales["mass"])).to("cuda")
+            model = JointEnergySINDy.from_mass(np.asarray(scales["mass"])).to(device)
             budget.spend("checkpoint_loads")
             load_selected(model, verified(root, {"path": frozen["checkpoint_path"],
                                                  "sha256": frozen["checkpoint_sha256"]}),
@@ -272,8 +305,8 @@ def execute(root, directory, plan, stage):
                               "training": training, "weak_initialization": weak,
                               "wall_seconds": time.perf_counter()-started,
                               "runtime": {"python": sys.version, "executable": sys.executable,
-                                          "device": "cuda", "cuda_build": torch.version.cuda,
-                                          "gpu": torch.cuda.get_device_name(),
+                                          "device": str(model.mass.device), "cuda_build": torch.version.cuda,
+                                          "gpu": torch.cuda.get_device_name() if model.mass.is_cuda else None,
                                           **{p: version(p) for p in ("torch", "numpy", "scipy", "filelock", "h5py")}}}
         write_json(directory/"summary.json", summary)
         write_json(directory/"stage_evidence.json", evidence)
