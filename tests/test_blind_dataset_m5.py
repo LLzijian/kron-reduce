@@ -1,12 +1,15 @@
 import csv
 import json
+import shutil
 from pathlib import Path
 
 import h5py
 import numpy as np
+import pytest
 
 from kron_reduce.data import blind_dataset_m5 as blind
 from kron_reduce.workflows.blind_confirmation_m5 import _load_blind_events
+from scripts.check_kiki_ieee39_blind_v2 import DATASET_DIR, check_bundle
 
 
 def test_seal_retains_failures_excludes_first_frame_collisions_and_reserves_quota(tmp_path, monkeypatch):
@@ -114,3 +117,20 @@ def test_seal_retains_failures_excludes_first_frame_collisions_and_reserves_quot
     assert all(len(event["x"]) < 811 for event in events if event["label"] == "unstable")
     assert events[0]["group"] == "bus_7/L1"
     assert sum(row["stage"] == "event_decoded" for row in access) == 94
+
+
+def test_reuse_check_supports_metadata_only_and_rejects_changed_payload(tmp_path):
+    manifest = (DATASET_DIR / "checksums.sha256").read_text(encoding="utf-8")
+    names = [line.split("  ", 1)[1] for line in manifest.splitlines()]
+    for name in ("checksums.sha256", *names):
+        if name != "dataset.h5":
+            shutil.copyfile(DATASET_DIR / name, tmp_path / name)
+
+    result = check_bundle(tmp_path)
+    assert result["events"] == 94 and result["fault_groups"] == 21
+    assert result["labels"] == {"stable": 62, "unstable": 32}
+    assert not result["hdf5_present"] and result["trajectory_arrays_decoded"] == 0
+
+    (tmp_path / "dataset.h5").write_bytes(b"corrupt copy")
+    with pytest.raises(ValueError, match="SHA256 mismatch for dataset.h5"):
+        check_bundle(tmp_path, verify_hdf5=True)

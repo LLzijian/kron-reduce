@@ -118,7 +118,10 @@
       "expected_events": 94,
       "checksum_manifest": "checksums.sha256",
       "h5": "dataset.h5",
-      "manifest_sha256": "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786"
+      "manifest_sha256": "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786",
+      "documentation": "README.md",
+      "schema": "schema.json",
+      "reuse_check": "scripts/check_kiki_ieee39_blind_v2.py"
     }
   },
   "experiments": {
