@@ -14,6 +14,10 @@ roster has prior exposure and supports comparative reporting on the fixed
 benchmark. Independent confirmation uses a separately registered population.
 Historical experiments retain their original roles and scopes.
 
+The [KIKI IEEE39 blind v2 reuse guide](data/kiki_ieee39_blind_v2/README.md)
+documents the frozen 94-event comparison cohort, its data dictionary, local
+HDF5 verification, and a causal Python reader example.
+
 Spatial clustering is paused: retain ten generator nodes while learning and
 pruning the dynamical/latent modules. Synthetic ground-truth checks continue.
 See `configs/research_policy.json` and
@@ -152,14 +156,11 @@ the timing window.
 
 ## Artifact locations
 
-- Immutable numerical evidence: `results/<run-id>/`
-- Generated summaries: `reports/generated/`
-- Curated research reports: `docs/reports/`
-- Manuscript sources: `paper/`
-- Temporary investigations: `scratch/one_off/<run-id>/`
-
-Do not place report files directly under `reports/`; the harness treats that as an
-artifact-layout error. See `docs/reports/README.md` for the curated report index.
+The [research report and archive index](docs/reports/README.md) links experiments
+to curated reports, evidence receipts, and archive packages.
+Run evidence and generated reports are stored together in `results/<run-id>/`.
+Local archives are stored in `results/backup/`.
+Manuscript sources are in `paper/`, and temporary work is in `scratch/one_off/`.
 
 Full paper runs remain locked until the source baseline is committed, the data
 support audit passes, and `full_run_approved` is explicitly approved.

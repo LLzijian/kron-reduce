@@ -32,7 +32,7 @@ R21 在完整 val 上的 1 秒／3 秒归一化 MSE 更低。按 TASK3 固定尺
 | 70 | 0.30723 | 0.26611 | 0 |
 | 80 | 0.24805 | 0.23867 | 0 |
 
-[训练与 val 曲线](../../reports/generated/kiki_machine_local_r20_r21_20261114/learning-curves.svg)
+[训练与 val 曲线](../../results/backup/retired_layout_20261121T093836Z/machine_local_topology.zip)（包内 `reports/generated/kiki_machine_local_r20_r21_20261114/learning-curves.svg`）
 
 R21 解析刚度梯度通过共同初始化和完整 rollout 的中心差分对照，相对误差为 3.87×10⁻⁷；该工程验证说明梯度路径符合实现检查，不构成真实刚度恢复证据。
 
@@ -139,7 +139,7 @@ val 参与了模型选择。test 使用已曝光的固定比较名单。结果�
 
 - fit run `kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632`（source commit `5aae2e7b821a158df7ead4f295baae0d347c70c2`；artifact manifest SHA-256 `e3536ac99e4369b9fe4f0733b0f059e5577746f987f92fe2fb31829583b95f01`）：[summary](../../results/kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632/summary.json)。
 - test run `kiki_machine_local_r20_r21_test_v1-test-20261113T183739926132Z-78c6722c-5ed5449a`（source commit `78c6722c9714261b401971affaedcecad04dd008`；artifact manifest SHA-256 `6f204939fb9ff940bc21049ee92246a96132abe45c06963812da0a43d613c124`）：[summary](../../results/kiki_machine_local_r20_r21_test_v1-test-20261113T183739926132Z-78c6722c-5ed5449a/summary.json)。fit 与 test 分别耗时 99.0 和 4.0 分钟。
-- [保存数组审核](../../reports/generated/kiki_machine_local_r20_r21_20261114/saved-audit.json)记录逐事件配对结果。六份预测档案各解码一次，未重新调用模型。
+- [保存数组审核](../../results/backup/retired_layout_20261121T093836Z/machine_local_topology.zip)（包内 `reports/generated/kiki_machine_local_r20_r21_20261114/saved-audit.json`）记录逐事件配对结果。六份预测档案各解码一次，未重新调用模型。
 - 执行合同：`measured_history_100ms_zoh_v1`；TASK3 split reference SHA-256 `7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2`；test 固定名单已历史曝光。
 - [Fit 计划](../../configs/proposals/kiki_machine_local_r20_r21_fit_v1.json)及[实现审查](../research/kiki_machine_local_r20_r21_fit_review_20261114.json) SHA-256 `7baa5bbc9b39c69b8c35549a6e5b179f38415dd9d70759660faa969213bf5ebd`；[test 计划](../../configs/proposals/kiki_machine_local_r20_r21_test_v1.json)及[实现审查](../research/kiki_machine_local_r20_r21_test_review_20261114.json) SHA-256 `270dce0d9d25a6a2fbc1b41536432be3ffcceaf5bc9fba2291d672866246df78`。
 - [结果审查](../research/kiki_machine_local_r20_r21_result_review_20261114.json) SHA-256 `9e1087f8162b01c23f3ea2719b9f472024dabbbdcaf1bd4189258f1c9e6e864c`确认完整配对证据与 KEEP_BASELINE 决策。

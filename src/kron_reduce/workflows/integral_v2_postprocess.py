@@ -151,9 +151,6 @@ H=100 pooled omega R2 为 **{acceptance['omega_r2']:.6g}**，严格目标为
 """
     path = result_dir / "round1_method_results_report.md"
     path.write_text(report, encoding="utf-8")
-    generated = root / "reports" / "generated" / f"{run_id}.md"
-    generated.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(path, generated)
 
 
 def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: str) -> None:

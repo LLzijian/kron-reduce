@@ -11,3 +11,5 @@
 - Stability: prospective, rollout-derived, exploratory only.
 - Stop gates: data checksum, support, real model smoke, source commit, explicit
   full-run approval, energy naming gate, and publication gate.
+
+The original card and generated reports are available in the [Paper v1 archive](../../results/backup/retired_layout_20261121T093836Z/paper_v1.zip).

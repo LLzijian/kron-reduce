@@ -1,8 +1,8 @@
 # Curated research report index
 
 This directory is the canonical home for human-curated, version-controlled
-research reports. Numerical source evidence remains in immutable `results/<run-id>/`
-directories; harness-generated summaries belong in `reports/generated/`.
+research reports and experiment cards. Run evidence and generated reports are
+stored together in `results/<run-id>/`. Archived evidence is linked below.
 
 The [S0–S4 topology-memory identification report](topology_memory_rom_synthetic_20261116_zh.md)
 records the complete synthetic structure comparisons and frozen train/val/test scores.
@@ -14,6 +14,20 @@ compares overall and branch-dependent changes and diagnoses their history initia
 [M4 v2 惯量加权与储能分解](postfault_m4_v2_20261121_zh.md)记录慢同调检验和两档步长的能量结果。[储能箱线图与附记](figures/postfault_m4_v2/energy_decomposition_distribution_zh.md)给出五项储能的稳定和失稳分布。
 
 [M5 独立盲测](blind_confirmation_m5_v1_20261121_zh.md)记录 94 个封存事件的完整双步长评分和故障组配对区间。[盲测集封存回执](blind_dataset_build_m5_v1_20261121_evidence.json)记录仿真与零重叠核验。
+
+## Retired top-level archives
+
+原 `experiments/` 和 `reports/` 共 69 个文件，按研究主题归入 6 个本地 ZIP。包内保留原相对路径。
+按旧路径搜索[归档核验回执](retired_layout_20261121t093836z_evidence.json)，可以找到对应的 ZIP、包内条目和 SHA256。
+
+| 研究主题 | 归档包 |
+|---|---|
+| [Paper v1 实验卡](paper_v1.md) | [实验卡、生成报告与原目录说明](../../results/backup/retired_layout_20261121T093836Z/paper_v1.zip) |
+| [Paper v2 积分弱形式](m0_m2a_lyap_integral_v2_method_results.md) | [生成报告](../../results/backup/retired_layout_20261121T093836Z/paper_v2_integral.zip) |
+| [常数 C 历史初始化](constant_c_energy_initializer_20261109_zh.md) | [核验结果与日志](../../results/backup/retired_layout_20261121T093836Z/constant_c_initialization.zip) |
+| [KIKI 能量上界迁移](kiki_energy_cap_transfer_20261110_zh.md) | [数值与元数据核验](../../results/backup/retired_layout_20261121T093836Z/kiki_energy_cap_transfer.zip) |
+| [状态端口试验](state_port_synthetic_20261111_zh.md) | [合成与 KIKI train 核验](../../results/backup/retired_layout_20261121T093836Z/state_port.zip) |
+| [逐机隐状态与拓扑修正](kiki_machine_local_full_20261113_zh.md) | [核验结果、见证样本与训练曲线](../../results/backup/retired_layout_20261121T093836Z/machine_local_topology.zip) |
 
 ## Report contract
 

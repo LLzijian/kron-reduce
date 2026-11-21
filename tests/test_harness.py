@@ -25,10 +25,11 @@ def test_project_audit(root):
     assert audit_project(root)["status"] == "PASS"
 
 
-def test_artifact_layout_rejects_report_at_reports_root(tmp_path):
-    reports = tmp_path / "reports"
-    reports.mkdir()
-    (reports / "manual_result.md").write_text("misplaced", encoding="utf-8")
+@pytest.mark.parametrize("directory", ["experiments", "reports"])
+def test_artifact_layout_rejects_retired_top_level_path(tmp_path, directory):
+    (tmp_path / "docs" / "reports").mkdir(parents=True)
+    assert audit_artifact_layout(tmp_path) == []
+    (tmp_path / directory).mkdir()
     findings = audit_artifact_layout(tmp_path)
     assert findings[0]["check"] == "artifact_layout"
 

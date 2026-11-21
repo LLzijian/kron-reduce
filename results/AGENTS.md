@@ -6,8 +6,8 @@ contract fingerprints match exactly.
 
 Keep failed and interrupted attempts with their evidence. Use the run ID and
 required artifact hashes when recording stage evidence. Inspect completed
-runs through saved artifacts and `loop status`; keep regenerated summaries
-under `reports/generated/`.
+runs through saved artifacts and `loop status`. Store generated summaries in
+the run directory that produces them.
 
 ## Normal operation (default)
 

@@ -3,7 +3,6 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
-import shutil
 import tomllib
 from pathlib import Path
 
@@ -108,6 +107,5 @@ def run(*, root: Path, experiment: dict, stage: str, result_dir: Path, run_id: s
     audit={"status":"PASS","required_models":len(models),"completed_models":sum(row["status"]=="completed" for row in summaries),"test_ids_read":0,"full_run_locked":True}
     (result_dir/"audit.json").write_text(json.dumps(audit,indent=2),encoding="utf-8")
     report_path=result_dir/"smoke_report.md"; write_smoke_report(report_path,run_id,summaries,energy)
-    generated=root/"reports"/"generated"/f"{run_id}.md"; generated.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(report_path,generated)
     artifacts={path.relative_to(result_dir).as_posix():_sha(path) for path in result_dir.rglob("*") if path.is_file() and path.name!="artifact_hashes.json"}
     (result_dir/"artifact_hashes.json").write_text(json.dumps(artifacts,indent=2),encoding="utf-8")

@@ -12,7 +12,7 @@
 - 协议 SHA256：`16d934ffc717d03c4f033ae59b3ad2fa7e18ed118a9fa3f98d194a3c2bc1746e`。
 - 工件清单 SHA256：`3144757fe9023a63edb94b413b3e5f12b94d9f7f51f66770216b5d3215811cfa`。
 - 运行摘要 SHA256：`ab85e544232e6bf90c10529aa84458dee2e8ccaafaf894e04603607ff49fb7ff`。
-- [保存证据算术复核](../../reports/generated/machine_local_synthetic_20261112/s1-saved-audit.json) SHA256：`90aea877fa2b436b84158c7f85593aed70c5636bd6644ea9838899aa84f3bf23`。
+- [保存证据算术复核](../../results/backup/retired_layout_20261121T093836Z/machine_local_topology.zip)（包内 `reports/generated/machine_local_synthetic_20261112/s1-saved-audit.json`） SHA256：`90aea877fa2b436b84158c7f85593aed70c5636bd6644ea9838899aa84f3bf23`。
 
 28 项实现绑定和 68 个运行工件的字节哈希一致。27 个范围全部正常返回；12 次拟合、2,880 次更新和梯度调用、5,808 次轨迹输出、2,526,550 次显式矩阵乘法、14 次矩阵指数、12 次 SVD、6 次 LS、36 次 NumPy RHS 均在冻结预算内。运行耗时 87.20 s，真实数据读取为零。
 

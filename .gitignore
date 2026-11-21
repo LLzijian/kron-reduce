@@ -10,8 +10,6 @@ dist/
 .project_state/
 results/*
 !results/AGENTS.md
-reports/generated/*
-!reports/generated/.gitkeep
 paper/build/
 paper/generated/*
 !paper/generated/.gitkeep

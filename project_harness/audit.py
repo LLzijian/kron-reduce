@@ -24,7 +24,6 @@ REQUIRED = (
     "docs/architecture.md",
     "docs/scientific_contract.md",
     "docs/reports/README.md",
-    "reports/generated",
     "src/kron_reduce/data",
     "src/kron_reduce/models",
     "project_harness",
@@ -200,27 +199,16 @@ def audit_stability_certificate_names(root: Path) -> list[dict]:
 
 
 def audit_artifact_layout(root: Path) -> list[dict]:
-    """Enforce the boundary between evidence, generated output, and prose reports."""
-    findings = []
-    reports = root / "reports"
-    if reports.is_dir():
-        misplaced = sorted(
-            path.name
-            for path in reports.iterdir()
-            if path.is_file() and path.name != "README.md"
-        )
-        for name in misplaced:
-            findings.append(
-                {
-                    "severity": "ERROR",
-                    "check": "artifact_layout",
-                    "message": (
-                        f"manual or generated report at reports/{name}; "
-                        "use docs/reports for curated prose or reports/generated for generated output"
-                    ),
-                }
-            )
-    return findings
+    """Keep retired top-level artifact directories out of active checkouts."""
+    return [
+        {
+            "severity": "ERROR",
+            "check": "artifact_layout",
+            "message": f"retired artifact path {name}/. Store reports in docs/reports and run artifacts in results.",
+        }
+        for name in ("experiments", "reports")
+        if (root / name).exists()
+    ]
 
 
 def _stage_evidence_error(
