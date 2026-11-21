@@ -30,4 +30,4 @@
 
 四个系统、两种先验和两种历史条件的合成 train 均为 24/24 判对，val 与 test 均为 12/12 判对，覆盖率均为 100%。每个 val 和 test 划分均为 TP=6、TN=6、FP=0、FN=0，失稳召回为 100%，漏判率和误报率均为 0。val 与 test 的已命中失步时刻在 10 ms 评分网格上均与真值一致。两档步长、历史残差、逐机记忆与拓扑初态、成对误差与触发时间均保存在不可变运行结果中。
 
-本对照通过工程和科学验收，结论适用于固定真值参数。去掉先验可作为干净合成机制对照。含噪轨迹和隐状态结果支持保留对弱灵敏度方向的约束。原 S0–S4 结构学习辨识仍缺少空间重分配恢复和 S4 库外失配拒绝证据，真实 TASK3 训练、联合精化和独立数据确认待这些条件满足。[执行协议](../../protocols/topology_memory_rom_causal_v1_zh.md) · [运行回执](../topology_memory_rom_causal_20261116_evidence.json) · [主对照结果](topology_memory_rom_synthetic_20261116_zh.md)
+本对照通过工程和科学验收，结论适用于固定真值参数。去掉先验可作为干净合成机制对照。含噪轨迹和隐状态结果支持保留对弱灵敏度方向的约束。原 S0–S4 结构学习辨识仍缺少空间重分配恢复和 S4 库外失配拒绝证据，真实 TASK3 训练、联合精化和独立数据确认待这些条件满足。[执行协议](../../protocols/topology_memory_rom_causal_v1_zh.md) · [运行回执](topology_memory_rom_causal_20261116_evidence.json) · [主对照结果](topology_memory_rom_synthetic_20261116_zh.md)

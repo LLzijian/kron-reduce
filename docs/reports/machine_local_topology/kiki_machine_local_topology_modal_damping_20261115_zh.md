@@ -12,4 +12,4 @@
 
 三个对照的稳定组均未满足残差下降至少 1% 的要求。自由初态的全 train 残差增幅也超过 1%。保留原逐机方程。本轮读取范围为 train，拟合和闭环未来传播次数均为零。
 
-运行 `kiki_machine_local_topology_modal_damping_v1-train_momentum-20261115T124237995489Z-dfc29c8a-a2df2391`。独立复核覆盖完整名单、模式资格、残差比及算子预算。[回执](../kiki_machine_local_topology_modal_damping_20261115_evidence.json) · [独立复核](../../research/kiki_machine_local_topology_modal_damping_result_review_20261115.json)
+运行 `kiki_machine_local_topology_modal_damping_v1-train_momentum-20261115T124237995489Z-dfc29c8a-a2df2391`。独立复核覆盖完整名单、模式资格、残差比及算子预算。[回执](kiki_machine_local_topology_modal_damping_20261115_evidence.json) · [独立复核](../../research/kiki_machine_local_topology_modal_damping_result_review_20261115.json)

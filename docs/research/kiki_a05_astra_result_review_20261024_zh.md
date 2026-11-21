@@ -6,7 +6,7 @@
 
 ## 1. 证据范围与比较对象
 
-原拟合 run 为 `paper_kiki_a05_paired-paired_training-20261023T161958471185Z-12ec8de8-4136b586`，执行提交为 `12ec8de899036e734c7facff90b7ea95ae1eb6cc`。其原始工件清单 SHA256 为 `92116510c442acd36d64d8c4917abbdc3f68839203f4fddd6e0fb29486add0c8`；清单内 61 项工件逐项核验通过。科学计划 SHA256 为 `d2583838e33e82259f09975f7fc91aed1a87352930986ce39bf1ef7d5a230fa5`。逐模型结果、检查点哈希及统筹代理的独立复算见 [A05 证据收据](../reports/kiki_a05_paired_training_20261024_evidence.json)。判定规则沿用 [A05 核心设计](kiki_a05_astra_core_design_20261023_zh.md)，不按结果改变门槛。
+原拟合 run 为 `paper_kiki_a05_paired-paired_training-20261023T161958471185Z-12ec8de8-4136b586`，执行提交为 `12ec8de899036e734c7facff90b7ea95ae1eb6cc`。其原始工件清单 SHA256 为 `92116510c442acd36d64d8c4917abbdc3f68839203f4fddd6e0fb29486add0c8`；清单内 61 项工件逐项核验通过。科学计划 SHA256 为 `d2583838e33e82259f09975f7fc91aed1a87352930986ce39bf1ef7d5a230fa5`。逐模型结果、检查点哈希及统筹代理的独立复算见 [A05 证据收据](../reports/task3_model_refinement/kiki_a05_paired_training_20261024_evidence.json)。判定规则沿用 [A05 核心设计](kiki_a05_astra_core_design_20261023_zh.md)，不按结果改变门槛。
 
 比较限定在原 source train 的冻结内部划分：train 分配 268 个事件、合格 258 个；val 分配 101 个事件、合格 88 个。两组都使用 10 个发电机节点、两维记忆、三个历史时刻的编码器、100 ms 因果历史，以及 `Pm[10]` 的零阶保持。标签在模型、比较规则和轨迹证据冻结后才用于诊断。已存访问审计中，原 source val、test、未来 Pm、隐藏状态以及 Pe／电压读取列表均为空，也没有按来源配置不同预测模型。
 

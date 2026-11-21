@@ -1,6 +1,6 @@
 # KIKI IEEE 39 节点故障后数据 `kiki_ieee39_blind_v2`
 
-本版本包含 94 个 ANDES 2.0.0 原阶仿真事件，其中 62 个稳定、32 个失稳，覆盖 21 个故障组。所有事件位于同一运行点，采用三相总线故障和恢复后的拓扑。M5 已用这批数据完成独立盲测，后续任务可将它作为**已评估的冻结对照集**，用于结果复核、物理分析和冻结模型比较。仓库内的新科学比较沿用项目的登记与预算规则。[封存回执](../../docs/reports/blind_dataset_build_m5_v1_20261121_evidence.json) · [M5 结果](../../docs/reports/blind_confirmation_m5_v1_20261121_zh.md)
+本版本包含 94 个 ANDES 2.0.0 原阶仿真事件，其中 62 个稳定、32 个失稳，覆盖 21 个故障组。所有事件位于同一运行点，采用三相总线故障和恢复后的拓扑。M5 已用这批数据完成独立盲测，后续任务可将它作为**已评估的冻结对照集**，用于结果复核、物理分析和冻结模型比较。仓库内的新科学比较沿用项目的登记与预算规则。[封存回执](../../docs/reports/postfault_structure/blind_dataset_build_m5_v1_20261121_evidence.json) · [M5 结果](../../docs/reports/postfault_structure/blind_confirmation_m5_v1_20261121_zh.md)
 
 ## 找到并校验数据
 
@@ -77,4 +77,4 @@ with h5py.File(directory / "dataset.h5", "r") as store:
     inputs = causal_input(store, event_ids[0])
 ```
 
-TASK3 评分从索引 10 的起报点开始对齐。后续真值取索引 11 到 `min(T, 811) - 1`。稳定事件覆盖起报后 8 秒，失稳事件按实际有效窗计分。原始标签、失步时间、故障组、未来数据、`Pe` 和电压属于评分或诊断侧。复用已有盲测结果时，可以直接读取 [M5 报告和预测回执](../../docs/reports/blind_confirmation_m5_v1_20261121_zh.md)。
+TASK3 评分从索引 10 的起报点开始对齐。后续真值取索引 11 到 `min(T, 811) - 1`。稳定事件覆盖起报后 8 秒，失稳事件按实际有效窗计分。原始标签、失步时间、故障组、未来数据、`Pe` 和电压属于评分或诊断侧。复用已有盲测结果时，可以直接读取 [M5 报告和预测回执](../../docs/reports/postfault_structure/blind_confirmation_m5_v1_20261121_zh.md)。

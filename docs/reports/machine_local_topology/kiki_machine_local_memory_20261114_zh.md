@@ -21,7 +21,7 @@ TASK3 的四个候选均在第 17 次接受迭代后遇到初始记忆力分解�
 | R21 | test | 2.79558 | 67 | 55/72（76.39%） |
 | 动量校准 A、B | test | 38.75363 | 67 | 9/57（15.79%） |
 
-动量校准在 val 判出 12/12 个真实失稳事件，73/95 个真实稳定事件被预测为失步。test 分别为 9/9 和 48/67。完整名单准确率在两份名单上均为 null。另以真实可用时长评分的失稳样本，事件平均归一化 RMSE 为 train 1.6002（35/35）、val 1.1006（12/12）、test 0.9023（9/9）。[R20/R21 报告](../kiki_machine_local_r20_r21_20261114_zh.md)
+动量校准在 val 判出 12/12 个真实失稳事件，73/95 个真实稳定事件被预测为失步。test 分别为 9/9 和 48/67。完整名单准确率在两份名单上均为 null。另以真实可用时长评分的失稳样本，事件平均归一化 RMSE 为 train 1.6002（35/35）、val 1.1006（12/12）、test 0.9023（9/9）。[R20/R21 报告](kiki_machine_local_r20_r21_20261114_zh.md)
 
 fit 运行：`kiki_machine_local_memory_fit_v1-fit-20261114T130732576418Z-d49040be-6b1c9970`。test 运行：`kiki_machine_local_memory_test_v1-test-20261114T131915206009Z-b80b7ea9-5b43bc56`。
 
@@ -134,4 +134,4 @@ A 使用基础方程。B 的函数项由完整 val 选定。由于所选 support
 复核 `docs/research/kiki_machine_local_memory_test_review_20261114.json`：未填写 decision 字段。reviewer=Astra independent scientific review。approved=True。
 
 
-[独立结果复核](../../research/kiki_machine_local_memory_result_review_20261114.json) · [证据收据](../kiki_machine_local_memory_20261114_evidence.json)
+[独立结果复核](../../research/kiki_machine_local_memory_result_review_20261114.json) · [证据收据](kiki_machine_local_memory_20261114_evidence.json)

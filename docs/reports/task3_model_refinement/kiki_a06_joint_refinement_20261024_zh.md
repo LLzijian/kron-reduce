@@ -2,7 +2,7 @@
 
 **A06在三个既有共同训练模型上都降低了val轨迹误差，并将合格失稳样本的漏判从5／6／6例降到1／1／1例，误报保持0。** 全部主终点通过预登记的轨迹、稳定性与数值要求，科学状态为`RETRY / KEEP_BASELINE`。零漏判目标尚未达到。
 
-核心设计和科学判断由Astra Ultra负责。统筹代理独立复算指标、核验原始参数与Adam状态，并绑定[完整证据收据](../kiki_a06_joint_refinement_20261024_evidence.json)。本次执行方案见[A06设计](../../research/kiki_a06_astra_design_20261024_zh.md)，进一步解释见[Astra结果复核](../../research/kiki_a06_astra_result_review_20261024_zh.md)。
+核心设计和科学判断由Astra Ultra负责。统筹代理独立复算指标、核验原始参数与Adam状态，并绑定[完整证据收据](kiki_a06_joint_refinement_20261024_evidence.json)。本次执行方案见[A06设计](../../research/kiki_a06_astra_design_20261024_zh.md)，进一步解释见[Astra结果复核](../../research/kiki_a06_astra_result_review_20261024_zh.md)。
 
 ## 固定比较与结果
 

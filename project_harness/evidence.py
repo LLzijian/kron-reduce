@@ -10,6 +10,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .report_storage import locate_report
+
 SCIENTIFIC_VERDICTS = {"ACCEPT", "REJECT", "RETRY"}
 PROMOTION_DECISIONS = {"PROMOTE", "KEEP_BASELINE"}
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -261,12 +263,14 @@ def _verify_report_bindings(context: EvidenceContext, evidence: dict[str, Any]) 
     if not (acceptance_dir / "acceptance.json").is_file():
         raise EvidenceValidationError("EVIDENCE_ACCEPTANCE_RUN", "bound acceptance run lacks acceptance.json")
     verify_artifact_directory(acceptance_dir, strict=True)
-    report_path = _safe_relative(context.root, evidence.get("report_path"))
-    relative = report_path.relative_to(context.root).as_posix()
+    logical_path = _safe_relative(context.root, evidence.get("report_path"))
+    relative = logical_path.relative_to(context.root).as_posix()
+    binding = evidence.get("report_artifact")
+    expected_sha = binding.get("sha256") if isinstance(binding, dict) else None
+    report_path = _safe_relative(context.root, locate_report(context.root, relative, expected_sha))
     if not relative.startswith(("docs/reports/", "reports/generated/")) or not report_path.is_file():
         raise EvidenceValidationError("EVIDENCE_REPORT_PATH", "report_path must exist under docs/reports or reports/generated")
-    binding = evidence.get("report_artifact")
-    if not isinstance(binding, dict) or binding.get("path") != relative or binding.get("sha256") != sha256_file(report_path):
+    if not isinstance(binding, dict) or binding.get("path") != relative or expected_sha != sha256_file(report_path):
         raise EvidenceValidationError("EVIDENCE_REPORT_HASH", "report_artifact must bind report_path and SHA256")
     if evidence.get("branch_terminal") == "rollback_report":
         rollback = _history_evidence(context, "rollback_report")

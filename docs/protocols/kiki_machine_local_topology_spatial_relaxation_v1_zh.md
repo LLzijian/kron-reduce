@@ -1,6 +1,6 @@
 # TASK3 逐机空间耦合速率配对训练
 
-检验逐机非负速率能否在保持能量收支和非负耗散的同时改变支路重分配的方向。此前的固定速率候选已完成[合成真值辨识](../reports/machine_local_topology_spatial_coupling_causal_20261116_zh.md)和[完整 train 路径诊断](../reports/kiki_machine_local_topology_spatial_coupling_20261116_zh.md)。真实路径的失稳组门失败。本轮按用户授权独立登记，实际拟合并报告两个冻结模型的完整预测。
+检验逐机非负速率能否在保持能量收支和非负耗散的同时改变支路重分配的方向。此前的固定速率候选已完成[合成真值辨识](../reports/machine_local_topology/machine_local_topology_spatial_coupling_causal_20261116_zh.md)和[完整 train 路径诊断](../reports/machine_local_topology/kiki_machine_local_topology_spatial_coupling_20261116_zh.md)。真实路径的失稳组门失败。本轮按用户授权独立登记，实际拟合并报告两个冻结模型的完整预测。
 
 两组均从已冻结 T0M1 第 12 步的权重起步，使用同一逐机功角阻尼 \(\rho=2/3\)、空间混合权重 1。每组学习相同的 22 个共享系数，即整体刚度与阻尼尺度、十机端口强度及十个时间常数。刚度和阻尼尺度相对基础骨架限定在 \([0.5,2]\)。固定刚度对照组使用逐机记忆。空间候选组增加九维动态坐标，历史第一帧取零，并在完整历史上传播。十机速率 \(\gamma_i\in[0,2]\,\mathrm{s}^{-1}\) 均从零开始，因此两组的初始可见预测一致。
 

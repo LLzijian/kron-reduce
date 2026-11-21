@@ -18,6 +18,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, approve, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 WORKFLOW = "blind_confirmation_m5_v1"
@@ -63,7 +64,7 @@ def _authorize(root, stage, experiment):
     else:
         receipt_path = scope["build_receipt_path"]
         verify_bound_file(root, receipt_path, scope["build_receipt_sha256"])
-        receipt = _read(root / receipt_path)
+        receipt = _read(root / locate_report(root, receipt_path, scope["build_receipt_sha256"]))
         prior = next(row["evidence"] for row in state["history"] if row.get("to") == "build")
         for key_name in ("dataset_manifest_sha256", "dataset_checksums_sha256"):
             if not scope[key_name] == receipt[key_name] == prior[key_name]:
@@ -75,8 +76,10 @@ def _authorize(root, stage, experiment):
 
 
 def _freeze_checks(root, plan):
-    v4 = _read(root / plan["v4_receipt"])
-    m3b = _read(root / plan["m3b_receipt"])
+    v4_path = plan["v4_receipt"]
+    m3b_path = plan["m3b_receipt"]
+    v4 = _read(root / locate_report(root, v4_path, plan["bindings"][v4_path]))
+    m3b = _read(root / locate_report(root, m3b_path, plan["bindings"][m3b_path]))
     weights = v4["parameter_checkpoints"] | {"m3": m3b["frozen_parameters"]}
     for name, binding in weights.items():
         expected = plan["m3b_parameters_sha256" if name == "m3" else "v4_parameters_sha256"]

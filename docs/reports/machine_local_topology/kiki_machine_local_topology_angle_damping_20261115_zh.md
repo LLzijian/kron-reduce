@@ -6,11 +6,11 @@
 
 原 T0M1 第 12 步检查点加入功角阻尼系数 \(\rho=2/3\)。保留记忆半径 6.61055385、二次先验 \(10^{-6}\)、100 ms 的 11 帧历史及零阶保持起报功率。预测使用 CUDA float64 的 2.5 ms 和 1.25 ms 步长。三个划分使用冻结的 TASK3 名单和标签，test 为已曝光的固定比较基准。
 
-运行 `kiki_machine_local_topology_angle_damping_test_v1-test-20261115T113623593775Z-9f7cc490-7e35d1af`。独立审核复算 529 条保存预测，评分零差异。[运行回执](../kiki_machine_local_topology_angle_damping_20261115_evidence.json) · [冻结协议](../../protocols/kiki_machine_local_topology_angle_damping_v1_zh.md) · [独立复算](../kiki_machine_local_topology_angle_damping_saved_audit_20261115_evidence.json)
+运行 `kiki_machine_local_topology_angle_damping_test_v1-test-20261115T113623593775Z-9f7cc490-7e35d1af`。独立审核复算 529 条保存预测，评分零差异。[运行回执](kiki_machine_local_topology_angle_damping_20261115_evidence.json) · [冻结协议](../../protocols/kiki_machine_local_topology_angle_damping_v1_zh.md) · [独立复算](kiki_machine_local_topology_angle_damping_saved_audit_20261115_evidence.json)
 
 ## train 路径拟合
 
-用完整 train 346 的 98,341 个实测区间拟合。动量方程投影消去自由记忆初态，346 例的算子均满秩，四点和八点求积的最大差为 \(4.16\times10^{-17}\)。无约束功角系数为 1.16852，按预登记范围截为 \(2/3\)。同口径的常值阻尼倍率为 0.3436767。[拟合回执](../kiki_machine_local_topology_angle_damping_fit_20261115_evidence.json)
+用完整 train 346 的 98,341 个实测区间拟合。动量方程投影消去自由记忆初态，346 例的算子均满秩，四点和八点求积的最大差为 \(4.16\times10^{-17}\)。无约束功角系数为 1.16852，按预登记范围截为 \(2/3\)。同口径的常值阻尼倍率为 0.3436767。[拟合回执](kiki_machine_local_topology_angle_damping_fit_20261115_evidence.json)
 
 | train 分组 | 样本数 | 原始 T0M1 残差平方和 | 常值阻尼候选 | 功角阻尼候选 |
 |---|---:|---:|---:|---:|

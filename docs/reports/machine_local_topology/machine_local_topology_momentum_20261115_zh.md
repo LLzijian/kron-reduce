@@ -11,4 +11,4 @@ train 与 val 的 RMS 比例均约为 0.250，四个错系数条件由 train 得
 
 二次谐波方向可解释纯刚度错配中一部分残差。候选结构仍需独立对照。完整未来信息只参与沿实测路径的诊断，所得代数初态仅刻画现有方程的残差下界。
 
-运行 machine_local_topology_momentum_v1-momentum-20261115T102739144459Z-44546b9e-fb2b4f42。保存证据独立复核通过。480 次 SVD、48 次球约束诊断及 141360 个区间均与登记一致。[执行回执](../machine_local_topology_momentum_20261115_evidence.json) · [协议](../../protocols/machine_local_topology_momentum_v1_zh.md)
+运行 machine_local_topology_momentum_v1-momentum-20261115T102739144459Z-44546b9e-fb2b4f42。保存证据独立复核通过。480 次 SVD、48 次球约束诊断及 141360 个区间均与登记一致。[执行回执](machine_local_topology_momentum_20261115_evidence.json) · [协议](../../protocols/machine_local_topology_momentum_v1_zh.md)

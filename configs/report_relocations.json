@@ -1,0 +1,708 @@
+{
+  "docs/protocols/kiki_machine_local_topology_modal_damping_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/kiki_machine_local_topology_modal_damping_v1_zh.md",
+    "path": "docs/protocols/kiki_machine_local_topology_modal_damping_v1_zh.md",
+    "sha256": "524a33fa94a91006da7eac80e29edac7cd4df45374615ae0446817442cac6261"
+  },
+  "docs/protocols/kiki_machine_local_topology_origin_transfer_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/kiki_machine_local_topology_origin_transfer_v1_zh.md",
+    "path": "docs/protocols/kiki_machine_local_topology_origin_transfer_v1_zh.md",
+    "sha256": "bcbca591345ea2c5d7094288d30f1ee95799cbdb7c3e2a1c14b7f440085d2b1a"
+  },
+  "docs/protocols/kiki_machine_local_topology_radius_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/kiki_machine_local_topology_radius_v1_zh.md",
+    "path": "docs/protocols/kiki_machine_local_topology_radius_v1_zh.md",
+    "sha256": "e490ff0c2fd9ff7b629e85f848d2f28275dacb12988ebc4a126f2764a1f8d5dd"
+  },
+  "docs/protocols/kiki_machine_local_topology_spatial_relaxation_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/kiki_machine_local_topology_spatial_relaxation_v1_zh.md",
+    "path": "docs/protocols/kiki_machine_local_topology_spatial_relaxation_v1_zh.md",
+    "sha256": "363c28bd898bee592a9efbabef75369ce2470379653a9a1fc8e22870579788d0"
+  },
+  "docs/protocols/kiki_machine_local_topology_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/kiki_machine_local_topology_v1_zh.md",
+    "path": "docs/protocols/kiki_machine_local_topology_v1_zh.md",
+    "sha256": "b9c7967b12e011c5b9c03f0fabdb85644612a93909b01deb176bc6f61f3e13b0"
+  },
+  "docs/protocols/machine_local_topology_ball_history_no_prior_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/machine_local_topology_ball_history_no_prior_v1_zh.md",
+    "path": "docs/protocols/machine_local_topology_ball_history_no_prior_v1_zh.md",
+    "sha256": "0d5f6368242eb14ab867eb42084cb6710b0dba23b48fc20cd84b80ddc0bb9b60"
+  },
+  "docs/protocols/machine_local_topology_delayed_damping_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/machine_local_topology_delayed_damping_v1_zh.md",
+    "path": "docs/protocols/machine_local_topology_delayed_damping_v1_zh.md",
+    "sha256": "04bf3f4bc4d12c1436333a4c834889bc3ae26b64c43b71dbdacbc9835f03d7c1"
+  },
+  "docs/protocols/machine_local_topology_delayed_origin_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/machine_local_topology_delayed_origin_v1_zh.md",
+    "path": "docs/protocols/machine_local_topology_delayed_origin_v1_zh.md",
+    "sha256": "7c15fc6ca55fe07ccee59a62ee16b40b39571940d5043e36fa71e54e1f53cd65"
+  },
+  "docs/protocols/machine_local_topology_delayed_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/machine_local_topology_delayed_v1_zh.md",
+    "path": "docs/protocols/machine_local_topology_delayed_v1_zh.md",
+    "sha256": "b5dfc95de2c998d8d838deeaebf5dbb4bcec507fb27ba9932ce9460ef02db0b4"
+  },
+  "docs/protocols/machine_local_topology_margin_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/machine_local_topology_margin_v1_zh.md",
+    "path": "docs/protocols/machine_local_topology_margin_v1_zh.md",
+    "sha256": "49eaad7f28bf1ade5ddc9b7ce95f779d64cdc8479a5833ef0bdabf29a6e78882"
+  },
+  "docs/protocols/machine_local_topology_spatial_coupling_causal_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/machine_local_topology_spatial_coupling_causal_v1_zh.md",
+    "path": "docs/protocols/machine_local_topology_spatial_coupling_causal_v1_zh.md",
+    "sha256": "c5cb7fe9e8646452dc4bd4341ca62e720eab316a1ad33b2837e8c07cbbbac68c"
+  },
+  "docs/protocols/task3_unsettled_15s_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/task3_unsettled_15s_v1_zh.md",
+    "path": "docs/protocols/task3_unsettled_15s_v1_zh.md",
+    "sha256": "24fdffe0a36182cc97fbe0a3451566198421f846ab237882afd151b980fbf737"
+  },
+  "docs/protocols/unified_discovery_m3_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/unified_discovery_m3_v1_zh.md",
+    "path": "docs/protocols/unified_discovery_m3_v1_zh.md",
+    "sha256": "1d62d611404f8eec1a44b454751e9367d2e33a6bb4d765ff7f1e4f460df88de7"
+  },
+  "docs/protocols/unified_first_swing_gn_decomposition_v3_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/unified_first_swing_gn_decomposition_v3_zh.md",
+    "path": "docs/protocols/unified_first_swing_gn_decomposition_v3_zh.md",
+    "sha256": "1d3b0a7f288a799df637c89252004231ab8bb02d5bcfd5fb0ec432ef1bf86310"
+  },
+  "docs/protocols/unified_first_swing_probes_v2_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/unified_first_swing_probes_v2_zh.md",
+    "path": "docs/protocols/unified_first_swing_probes_v2_zh.md",
+    "sha256": "bcc15280e0b0bcbe46292c5c73b12d4eebe9e4f862b3bb6227a9f1ff4efa1cd3"
+  },
+  "docs/protocols/unified_first_swing_v1_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/unified_first_swing_v1_zh.md",
+    "path": "docs/protocols/unified_first_swing_v1_zh.md",
+    "sha256": "b389e6d3b94d91b6b657d4a614093a23ef1a933ce9612c551f67866190349609"
+  },
+  "docs/protocols/unified_first_swing_v4_fit_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/protocols/unified_first_swing_v4_fit_zh.md",
+    "path": "docs/protocols/unified_first_swing_v4_fit_zh.md",
+    "sha256": "e07f59a1be60fadb74c29864323a7c8bf3cc930cb3f55cb028065c03dcc56e07"
+  },
+  "docs/reports/blind_confirmation_m5_v1_20261121_evidence.json": {
+    "path": "docs/reports/postfault_structure/blind_confirmation_m5_v1_20261121_evidence.json"
+  },
+  "docs/reports/blind_confirmation_m5_v1_20261121_zh.md": {
+    "original_path": "docs/reports/postfault_structure/_sealed/blind_confirmation_m5_v1_20261121_zh.md",
+    "path": "docs/reports/postfault_structure/blind_confirmation_m5_v1_20261121_zh.md",
+    "sha256": "ea935aa9d2565e327d0c522ca06d38d9dc5d053776466bdc0fda35d8088c4914"
+  },
+  "docs/reports/blind_dataset_build_m5_v1_20261121_evidence.json": {
+    "path": "docs/reports/postfault_structure/blind_dataset_build_m5_v1_20261121_evidence.json"
+  },
+  "docs/reports/constant_c_100ms_synthetic_20261109_evidence.json": {
+    "path": "docs/reports/short_history_initialization/constant_c_100ms_synthetic_20261109_evidence.json"
+  },
+  "docs/reports/constant_c_100ms_synthetic_20261109_zh.md": {
+    "path": "docs/reports/short_history_initialization/constant_c_100ms_synthetic_20261109_zh.md"
+  },
+  "docs/reports/constant_c_energy_confirmation_20261109_evidence.json": {
+    "path": "docs/reports/short_history_initialization/constant_c_energy_confirmation_20261109_evidence.json"
+  },
+  "docs/reports/constant_c_energy_confirmation_20261109_zh.md": {
+    "original_path": "docs/reports/short_history_initialization/_sealed/constant_c_energy_confirmation_20261109_zh.md",
+    "path": "docs/reports/short_history_initialization/constant_c_energy_confirmation_20261109_zh.md",
+    "sha256": "1907d6c0ab723a008ca323c187224b2dc20612550f0245523fef83aa7867bec3"
+  },
+  "docs/reports/constant_c_energy_initializer_20261109_evidence.json": {
+    "path": "docs/reports/short_history_initialization/constant_c_energy_initializer_20261109_evidence.json"
+  },
+  "docs/reports/constant_c_energy_initializer_20261109_zh.md": {
+    "original_path": "docs/reports/short_history_initialization/_sealed/constant_c_energy_initializer_20261109_zh.md",
+    "path": "docs/reports/short_history_initialization/constant_c_energy_initializer_20261109_zh.md",
+    "sha256": "0c1dc74cfdd5cac0338937b5d81c0a7841420cf99492e661109cb5bf5be8a867"
+  },
+  "docs/reports/data_source_audit_20261023.ipynb": {
+    "path": "docs/reports/research_governance/data_source_audit_20261023.ipynb"
+  },
+  "docs/reports/data_source_audit_20261023.json": {
+    "path": "docs/reports/research_governance/data_source_audit_20261023.json"
+  },
+  "docs/reports/figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.pdf": {
+    "path": "docs/reports/afsd_structure_discovery/figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.pdf"
+  },
+  "docs/reports/figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.png": {
+    "path": "docs/reports/afsd_structure_discovery/figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.png"
+  },
+  "docs/reports/figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.svg": {
+    "path": "docs/reports/afsd_structure_discovery/figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.svg"
+  },
+  "docs/reports/figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.tiff": {
+    "path": "docs/reports/afsd_structure_discovery/figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.tiff"
+  },
+  "docs/reports/figures/m0_afsd_v3_joint_selection_validity/figure_contract_and_qa.md": {
+    "path": "docs/reports/afsd_structure_discovery/figures/m0_afsd_v3_joint_selection_validity/figure_contract_and_qa.md"
+  },
+  "docs/reports/figures/m0_afsd_v3_joint_selection_validity/plot_afsd_v3_evidence.py": {
+    "path": "docs/reports/afsd_structure_discovery/figures/m0_afsd_v3_joint_selection_validity/plot_afsd_v3_evidence.py"
+  },
+  "docs/reports/figures/m0_afsd_v3_joint_selection_validity/source_excitation_fault_lines.csv": {
+    "path": "docs/reports/afsd_structure_discovery/figures/m0_afsd_v3_joint_selection_validity/source_excitation_fault_lines.csv"
+  },
+  "docs/reports/figures/m0_afsd_v3_joint_selection_validity/v2_conditional_rollout_metrics.csv": {
+    "path": "docs/reports/afsd_structure_discovery/figures/m0_afsd_v3_joint_selection_validity/v2_conditional_rollout_metrics.csv"
+  },
+  "docs/reports/figures/m0_afsd_v3_joint_selection_validity/validate_report_evidence.py": {
+    "path": "docs/reports/afsd_structure_discovery/figures/m0_afsd_v3_joint_selection_validity/validate_report_evidence.py"
+  },
+  "docs/reports/figures/postfault_m4_v1/origin_storage.png": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v1/origin_storage.png"
+  },
+  "docs/reports/figures/postfault_m4_v1/origin_storage.svg": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v1/origin_storage.svg"
+  },
+  "docs/reports/figures/postfault_m4_v1/top10_topology.png": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v1/top10_topology.png"
+  },
+  "docs/reports/figures/postfault_m4_v1/top10_topology.svg": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v1/top10_topology.svg"
+  },
+  "docs/reports/figures/postfault_m4_v2/energy_decomposition_auroc.png": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v2/energy_decomposition_auroc.png"
+  },
+  "docs/reports/figures/postfault_m4_v2/energy_decomposition_auroc.svg": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v2/energy_decomposition_auroc.svg"
+  },
+  "docs/reports/figures/postfault_m4_v2/energy_decomposition_distribution.png": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v2/energy_decomposition_distribution.png"
+  },
+  "docs/reports/figures/postfault_m4_v2/energy_decomposition_distribution.svg": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v2/energy_decomposition_distribution.svg"
+  },
+  "docs/reports/figures/postfault_m4_v2/energy_decomposition_distribution_zh.md": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v2/energy_decomposition_distribution_zh.md"
+  },
+  "docs/reports/figures/postfault_m4_v2/slow_coherency_comparison.png": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v2/slow_coherency_comparison.png"
+  },
+  "docs/reports/figures/postfault_m4_v2/slow_coherency_comparison.svg": {
+    "path": "docs/reports/postfault_structure/figures/postfault_m4_v2/slow_coherency_comparison.svg"
+  },
+  "docs/reports/figures/unified_discovery_m3_v1/curriculum_20261120.png": {
+    "path": "docs/reports/postfault_structure/figures/unified_discovery_m3_v1/curriculum_20261120.png"
+  },
+  "docs/reports/figures/unified_discovery_m3_v1/curriculum_20261120.svg": {
+    "path": "docs/reports/postfault_structure/figures/unified_discovery_m3_v1/curriculum_20261120.svg"
+  },
+  "docs/reports/kiki_a03_comparison_20261022_zh.md": {
+    "path": "docs/reports/task3_model_refinement/kiki_a03_comparison_20261022_zh.md"
+  },
+  "docs/reports/kiki_a03_stability_task3_20261022_zh.md": {
+    "path": "docs/reports/task3_model_refinement/kiki_a03_stability_task3_20261022_zh.md"
+  },
+  "docs/reports/kiki_a04_development_20261023_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a04_development_20261023_evidence.json"
+  },
+  "docs/reports/kiki_a05_paired_training_20261024_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a05_paired_training_20261024_evidence.json"
+  },
+  "docs/reports/kiki_a06_joint_refinement_20261024_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a06_joint_refinement_20261024_evidence.json"
+  },
+  "docs/reports/kiki_a07_tilted_objective_20261024_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a07_tilted_objective_20261024_evidence.json"
+  },
+  "docs/reports/kiki_a08_memory_order_20261024_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a08_memory_order_20261024_evidence.json"
+  },
+  "docs/reports/kiki_a09_train_mechanism_20261024_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a09_train_mechanism_20261024_evidence.json"
+  },
+  "docs/reports/kiki_a10_train_refinement_20261024_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a10_train_refinement_20261024_evidence.json"
+  },
+  "docs/reports/kiki_a12_record20_20261024_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a12_record20_20261024_evidence.json"
+  },
+  "docs/reports/kiki_a14_integral_history_20261024_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a14_integral_history_20261024_evidence.json"
+  },
+  "docs/reports/kiki_a16_pm_impulse_20261025_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_a16_pm_impulse_20261025_evidence.json"
+  },
+  "docs/reports/kiki_energy_cap_transfer_20261110_evidence.json": {
+    "path": "docs/reports/short_history_initialization/kiki_energy_cap_transfer_20261110_evidence.json"
+  },
+  "docs/reports/kiki_energy_cap_transfer_20261110_zh.md": {
+    "original_path": "docs/reports/short_history_initialization/_sealed/kiki_energy_cap_transfer_20261110_zh.md",
+    "path": "docs/reports/short_history_initialization/kiki_energy_cap_transfer_20261110_zh.md",
+    "sha256": "f4d88246f40ef7b31b48bb3c6074ef328665b90982e0431f61db979d2e83715b"
+  },
+  "docs/reports/kiki_machine_local_full_20261113_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_full_20261113_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_memory_20261114_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_memory_20261114_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_r20_r21_20261114_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_r20_r21_20261114_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_r20_r21_20261114_zh.md": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_r20_r21_20261114_zh.md"
+  },
+  "docs/reports/kiki_machine_local_topology_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_20261115_zh.md"
+  },
+  "docs/reports/kiki_machine_local_topology_angle_damping_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_angle_damping_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_angle_damping_fit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_angle_damping_fit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_angle_damping_saved_audit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_angle_damping_saved_audit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_angle_scale_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_angle_scale_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_damping_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_damping_20261115_zh.md"
+  },
+  "docs/reports/kiki_machine_local_topology_damping_fit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_damping_fit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_damping_saved_audit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_damping_saved_audit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_damping_test_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_damping_test_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_dynamic_coupling_20261116_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_dynamic_coupling_20261116_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_fit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_fit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_modal_damping_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_modal_damping_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_momentum_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_momentum_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_momentum_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_momentum_20261115_zh.md"
+  },
+  "docs/reports/kiki_machine_local_topology_momentum_damping_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_momentum_damping_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_momentum_damping_20261115_zh.md": {
+    "original_path": "docs/reports/machine_local_topology/_sealed/kiki_machine_local_topology_momentum_damping_20261115_zh.md",
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_momentum_damping_20261115_zh.md",
+    "sha256": "100e273bc37485219168009bd765220bf3fc77cfc8a5e51be03e6438cc034a17"
+  },
+  "docs/reports/kiki_machine_local_topology_momentum_damping_saved_audit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_momentum_damping_saved_audit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_no_prior_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_no_prior_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_no_prior_saved_audit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_no_prior_saved_audit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_origin_transfer_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_origin_transfer_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_radius_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_radius_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_radius_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_radius_20261115_zh.md"
+  },
+  "docs/reports/kiki_machine_local_topology_radius_saved_audit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_radius_saved_audit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_restoring_shape_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_restoring_shape_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_restoring_shape_fit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_restoring_shape_fit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_restoring_shape_saved_audit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_restoring_shape_saved_audit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_saved_audit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_saved_audit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_spatial_coupling_20261116_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_spatial_coupling_20261116_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_spatial_coupling_20261116_zh.md": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_spatial_coupling_20261116_zh.md"
+  },
+  "docs/reports/kiki_machine_local_topology_spatial_damping_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_spatial_damping_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_spatial_damping_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_spatial_damping_20261115_zh.md"
+  },
+  "docs/reports/kiki_machine_local_topology_spatial_damping_fit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_spatial_damping_fit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_spatial_damping_saved_audit_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_spatial_damping_saved_audit_20261115_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_spatial_relaxation_20261116_zh.md": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_spatial_relaxation_20261116_zh.md"
+  },
+  "docs/reports/kiki_machine_local_topology_spatial_relaxation_fit_20261116_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_spatial_relaxation_fit_20261116_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_spatial_relaxation_test_20261116_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_spatial_relaxation_test_20261116_evidence.json"
+  },
+  "docs/reports/kiki_machine_local_topology_test_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_machine_local_topology_test_20261115_evidence.json"
+  },
+  "docs/reports/kiki_state_port_train_20261111_evidence.json": {
+    "path": "docs/reports/state_port/kiki_state_port_train_20261111_evidence.json"
+  },
+  "docs/reports/kiki_state_port_train_20261111_zh.md": {
+    "original_path": "docs/reports/state_port/_sealed/kiki_state_port_train_20261111_zh.md",
+    "path": "docs/reports/state_port/kiki_state_port_train_20261111_zh.md",
+    "sha256": "60f4f0be7d41051375adca5fae6dab4904a3905d7eb8b354d985695bc1c166d0"
+  },
+  "docs/reports/kiki_task3_frozen_200ms_20261109_evidence.json": {
+    "path": "docs/reports/task3_model_refinement/kiki_task3_frozen_200ms_20261109_evidence.json"
+  },
+  "docs/reports/kiki_task3_train_witness_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/kiki_task3_train_witness_20261115_evidence.json"
+  },
+  "docs/reports/kiki_task3_train_witness_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/kiki_task3_train_witness_20261115_zh.md"
+  },
+  "docs/reports/kiki_topology_memory_balance_20261116_evidence.json": {
+    "path": "docs/reports/topology_memory/kiki_topology_memory_balance_20261116_evidence.json"
+  },
+  "docs/reports/kiki_topology_memory_balance_20261116_zh.md": {
+    "path": "docs/reports/topology_memory/kiki_topology_memory_balance_20261116_zh.md"
+  },
+  "docs/reports/m0_afsd_v3_joint_selection_validity_research_report_zh.md": {
+    "path": "docs/reports/afsd_structure_discovery/m0_afsd_v3_joint_selection_validity_research_report_zh.md"
+  },
+  "docs/reports/m0_damping_recovery_results_zh.md": {
+    "path": "docs/reports/m0_reintegration_structure/m0_damping_recovery_results_zh.md"
+  },
+  "docs/reports/m0_reintegration_structure_archive_20261121_evidence.json": {
+    "path": "docs/reports/m0_reintegration_structure/m0_reintegration_structure_archive_20261121_evidence.json"
+  },
+  "docs/reports/machine_local_clean_learning_20261113_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_clean_learning_20261113_evidence.json"
+  },
+  "docs/reports/machine_local_clean_learning_20261113_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_clean_learning_20261113_zh.md"
+  },
+  "docs/reports/machine_local_equation_20261114_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_equation_20261114_evidence.json"
+  },
+  "docs/reports/machine_local_equation_20261114_zh.md": {
+    "original_path": "docs/reports/machine_local_topology/_sealed/machine_local_equation_20261114_zh.md",
+    "path": "docs/reports/machine_local_topology/machine_local_equation_20261114_zh.md",
+    "sha256": "7d0cef82cf5bfe39cb7af301f07e8e9adb265f527fcfae75f046b8a115cd66de"
+  },
+  "docs/reports/machine_local_gaussian_oracle_20261112_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_gaussian_oracle_20261112_evidence.json"
+  },
+  "docs/reports/machine_local_gaussian_oracle_20261112_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_gaussian_oracle_20261112_zh.md"
+  },
+  "docs/reports/machine_local_hidden_oracle_20261113_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_hidden_oracle_20261113_evidence.json"
+  },
+  "docs/reports/machine_local_initializer_diagnosis_20261112_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_initializer_diagnosis_20261112_evidence.json"
+  },
+  "docs/reports/machine_local_initializer_diagnosis_20261112_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_initializer_diagnosis_20261112_zh.md"
+  },
+  "docs/reports/machine_local_joint_observer_20261112_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_joint_observer_20261112_evidence.json"
+  },
+  "docs/reports/machine_local_joint_observer_20261112_zh.md": {
+    "original_path": "docs/reports/machine_local_topology/_sealed/machine_local_joint_observer_20261112_zh.md",
+    "path": "docs/reports/machine_local_topology/machine_local_joint_observer_20261112_zh.md",
+    "sha256": "1f88dd9556856347ba265a7dcf659a2c40c77770151639369066df3a7412a2b9"
+  },
+  "docs/reports/machine_local_memory_calibration_20261114_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_memory_calibration_20261114_evidence.json"
+  },
+  "docs/reports/machine_local_memory_diagnosis_20261114_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_memory_diagnosis_20261114_evidence.json"
+  },
+  "docs/reports/machine_local_nonlinear_history_20261113_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_nonlinear_history_20261113_evidence.json"
+  },
+  "docs/reports/machine_local_nonlinear_history_20261113_zh.md": {
+    "original_path": "docs/reports/machine_local_topology/_sealed/machine_local_nonlinear_history_20261113_zh.md",
+    "path": "docs/reports/machine_local_topology/machine_local_nonlinear_history_20261113_zh.md",
+    "sha256": "3039c174f267e2a4329bdc297cc755c806bf6c4def9efd9b878d077738897907"
+  },
+  "docs/reports/machine_local_observer_20261112_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_observer_20261112_evidence.json"
+  },
+  "docs/reports/machine_local_observer_20261112_zh.md": {
+    "original_path": "docs/reports/machine_local_topology/_sealed/machine_local_observer_20261112_zh.md",
+    "path": "docs/reports/machine_local_topology/machine_local_observer_20261112_zh.md",
+    "sha256": "811b7a7443825110b3a4cdac1e3b43ed04a9e39b305b979f92b041b216375107"
+  },
+  "docs/reports/machine_local_s0_20261112_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_s0_20261112_evidence.json"
+  },
+  "docs/reports/machine_local_s0_20261112_zh.md": {
+    "original_path": "docs/reports/machine_local_topology/_sealed/machine_local_s0_20261112_zh.md",
+    "path": "docs/reports/machine_local_topology/machine_local_s0_20261112_zh.md",
+    "sha256": "f36366405132aeb1a1cece66c3fb46d620d544581442bf8e3cc2d3f2345af047"
+  },
+  "docs/reports/machine_local_s1_20261112_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_s1_20261112_evidence.json"
+  },
+  "docs/reports/machine_local_s1_20261112_zh.md": {
+    "original_path": "docs/reports/machine_local_topology/_sealed/machine_local_s1_20261112_zh.md",
+    "path": "docs/reports/machine_local_topology/machine_local_s1_20261112_zh.md",
+    "sha256": "bce2f6b8aa24d7476318175ebcac65fc49b27a1f7a849c6d0c0fc85e879c59f1"
+  },
+  "docs/reports/machine_local_stiffness_calibration_20261114_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_stiffness_calibration_20261114_evidence.json"
+  },
+  "docs/reports/machine_local_topology_angle_damping_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_angle_damping_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_ball_history_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_ball_history_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_ball_history_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_ball_history_20261115_zh.md"
+  },
+  "docs/reports/machine_local_topology_ball_history_no_prior_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_ball_history_no_prior_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_delayed_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_delayed_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_delayed_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_delayed_20261115_zh.md"
+  },
+  "docs/reports/machine_local_topology_delayed_damping_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_delayed_damping_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_delayed_origin_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_delayed_origin_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_delayed_origin_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_delayed_origin_20261115_zh.md"
+  },
+  "docs/reports/machine_local_topology_diagnosis_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_diagnosis_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_dynamic_coupling_20261116_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_dynamic_coupling_20261116_evidence.json"
+  },
+  "docs/reports/machine_local_topology_learning_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_learning_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_margin_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_margin_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_margin_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_margin_20261115_zh.md"
+  },
+  "docs/reports/machine_local_topology_momentum_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_momentum_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_refinement_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_refinement_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_restoring_shape_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_restoring_shape_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_s0_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_s0_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_spatial_coupling_20261116_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_spatial_coupling_20261116_evidence.json"
+  },
+  "docs/reports/machine_local_topology_spatial_coupling_20261116_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_spatial_coupling_20261116_zh.md"
+  },
+  "docs/reports/machine_local_topology_spatial_coupling_causal_20261116_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_spatial_coupling_causal_20261116_evidence.json"
+  },
+  "docs/reports/machine_local_topology_spatial_coupling_causal_20261116_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_spatial_coupling_causal_20261116_zh.md"
+  },
+  "docs/reports/machine_local_topology_spatial_damping_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_spatial_damping_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_transfer_20261115_evidence.json": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_transfer_20261115_evidence.json"
+  },
+  "docs/reports/machine_local_topology_transfer_20261115_zh.md": {
+    "path": "docs/reports/machine_local_topology/machine_local_topology_transfer_20261115_zh.md"
+  },
+  "docs/reports/paper_ieee39_modular_energy_p1_a04_report_f1_seed324-report-20260904T150027Z-45123100_p1_a04_zh.md": {
+    "path": "docs/reports/modular_energy/paper_ieee39_modular_energy_p1_a04_report_f1_seed324-report-20260904T150027Z-45123100_p1_a04_zh.md"
+  },
+  "docs/reports/paper_v1.md": {
+    "path": "docs/reports/early_physics_baselines/paper_v1.md"
+  },
+  "docs/reports/postfault_m4_v1_20261121_evidence.json": {
+    "path": "docs/reports/postfault_structure/postfault_m4_v1_20261121_evidence.json"
+  },
+  "docs/reports/postfault_m4_v1_20261121_zh.md": {
+    "original_path": "docs/reports/postfault_structure/_sealed/postfault_m4_v1_20261121_zh.md",
+    "path": "docs/reports/postfault_structure/postfault_m4_v1_20261121_zh.md",
+    "sha256": "42af2d6610d8240ef67732f87398bdf134e6c639bb6f50c7059401423eb2752e"
+  },
+  "docs/reports/postfault_m4_v2_20261121_evidence.json": {
+    "path": "docs/reports/postfault_structure/postfault_m4_v2_20261121_evidence.json"
+  },
+  "docs/reports/postfault_m4_v2_20261121_zh.md": {
+    "original_path": "docs/reports/postfault_structure/_sealed/postfault_m4_v2_20261121_zh.md",
+    "path": "docs/reports/postfault_structure/postfault_m4_v2_20261121_zh.md",
+    "sha256": "547886b9370bebdae399d0d916cab08268089896272d05d622aef7200daae13b"
+  },
+  "docs/reports/postfault_m4_v2_failed_20261121_evidence.json": {
+    "path": "docs/reports/postfault_structure/postfault_m4_v2_failed_20261121_evidence.json"
+  },
+  "docs/reports/research_governance_20261023_zh.md": {
+    "path": "docs/reports/research_governance/research_governance_20261023_zh.md"
+  },
+  "docs/reports/retired_layout_20261121t093836z_evidence.json": {
+    "path": "docs/reports/research_governance/retired_layout_20261121t093836z_evidence.json"
+  },
+  "docs/reports/state_port_synthetic_20261111_evidence.json": {
+    "path": "docs/reports/state_port/state_port_synthetic_20261111_evidence.json"
+  },
+  "docs/reports/state_port_synthetic_20261111_zh.md": {
+    "original_path": "docs/reports/state_port/_sealed/state_port_synthetic_20261111_zh.md",
+    "path": "docs/reports/state_port/state_port_synthetic_20261111_zh.md",
+    "sha256": "c73c6693d9e2ac31d24649901fc3666114806fa5e29b92e84e9eeedc954de9da"
+  },
+  "docs/reports/task3_three_cohort_comparison_20261121_evidence.json": {
+    "path": "docs/reports/postfault_structure/task3_three_cohort_comparison_20261121_evidence.json"
+  },
+  "docs/reports/task3_three_cohort_comparison_20261121_zh.md": {
+    "original_path": "docs/reports/postfault_structure/_sealed/task3_three_cohort_comparison_20261121_zh.md",
+    "path": "docs/reports/postfault_structure/task3_three_cohort_comparison_20261121_zh.md",
+    "sha256": "0245c7d26fd12da73b267fe68bd7477754538928ce38edbafd90c189322da8ee"
+  },
+  "docs/reports/task3_unsettled_15s_v1_20261122_evidence.json": {
+    "path": "docs/reports/postfault_structure/task3_unsettled_15s_v1_20261122_evidence.json"
+  },
+  "docs/reports/task3_unsettled_15s_v1_20261122_interruption_evidence.json": {
+    "path": "docs/reports/postfault_structure/task3_unsettled_15s_v1_20261122_interruption_evidence.json"
+  },
+  "docs/reports/task3_unsettled_15s_v1_20261122_zh.md": {
+    "original_path": "docs/reports/postfault_structure/_sealed/task3_unsettled_15s_v1_20261122_zh.md",
+    "path": "docs/reports/postfault_structure/task3_unsettled_15s_v1_20261122_zh.md",
+    "sha256": "30e67e897727de996fe4bf674f4c21c7dbbb9565f798ce39cad950180b276731"
+  },
+  "docs/reports/topology_memory_rom_branch_init_v1_20261117_evidence.json": {
+    "path": "docs/reports/topology_memory/topology_memory_rom_branch_init_v1_20261117_evidence.json"
+  },
+  "docs/reports/topology_memory_rom_causal_20261116_evidence.json": {
+    "path": "docs/reports/topology_memory/topology_memory_rom_causal_20261116_evidence.json"
+  },
+  "docs/reports/topology_memory_rom_coupling_strength_v1_20261117_evidence.json": {
+    "path": "docs/reports/topology_memory/topology_memory_rom_coupling_strength_v1_20261117_evidence.json"
+  },
+  "docs/reports/topology_memory_rom_synthetic_20261116_evidence.json": {
+    "path": "docs/reports/topology_memory/topology_memory_rom_synthetic_20261116_evidence.json"
+  },
+  "docs/reports/unified_discovery_m3_v1_20261120_evidence.json": {
+    "path": "docs/reports/postfault_structure/unified_discovery_m3_v1_20261120_evidence.json"
+  },
+  "docs/reports/unified_discovery_m3_v1_20261120_zh.md": {
+    "original_path": "docs/reports/postfault_structure/_sealed/unified_discovery_m3_v1_20261120_zh.md",
+    "path": "docs/reports/postfault_structure/unified_discovery_m3_v1_20261120_zh.md",
+    "sha256": "2ad2b04987049ff8322e2888806eb3c8264f05539917b89ea80429750d46d255"
+  },
+  "docs/reports/unified_discovery_m3b_test_v1_20261121_evidence.json": {
+    "path": "docs/reports/postfault_structure/unified_discovery_m3b_test_v1_20261121_evidence.json"
+  },
+  "docs/reports/unified_discovery_m3b_test_v1_20261121_zh.md": {
+    "original_path": "docs/reports/postfault_structure/_sealed/unified_discovery_m3b_test_v1_20261121_zh.md",
+    "path": "docs/reports/postfault_structure/unified_discovery_m3b_test_v1_20261121_zh.md",
+    "sha256": "57db82bd6e64f09bdd66019c8ee2d3425e5ca20fbd6826c6b7036eb5d9828155"
+  },
+  "docs/reports/unified_discovery_m3b_v1_20261121_evidence.json": {
+    "path": "docs/reports/postfault_structure/unified_discovery_m3b_v1_20261121_evidence.json"
+  },
+  "docs/reports/unified_discovery_m3b_v1_20261121_zh.md": {
+    "original_path": "docs/reports/postfault_structure/_sealed/unified_discovery_m3b_v1_20261121_zh.md",
+    "path": "docs/reports/postfault_structure/unified_discovery_m3b_v1_20261121_zh.md",
+    "sha256": "f8c05e3c7bda25bc6398ce871527e516297705e704b79c2098dea0161d7cd41d"
+  },
+  "docs/reports/unified_first_swing_fit_20261119_evidence.json": {
+    "path": "docs/reports/postfault_structure/unified_first_swing_fit_20261119_evidence.json"
+  },
+  "docs/reports/unified_first_swing_gn_decomposition_v3_20261119_evidence.json": {
+    "path": "docs/reports/postfault_structure/unified_first_swing_gn_decomposition_v3_20261119_evidence.json"
+  },
+  "docs/reports/unified_first_swing_gn_decomposition_v3_20261119_zh.md": {
+    "path": "docs/reports/postfault_structure/unified_first_swing_gn_decomposition_v3_20261119_zh.md"
+  },
+  "docs/reports/unified_first_swing_probes_v2_20261119_evidence.json": {
+    "path": "docs/reports/postfault_structure/unified_first_swing_probes_v2_20261119_evidence.json"
+  },
+  "docs/reports/unified_first_swing_v4_fit_20261119_evidence.json": {
+    "path": "docs/reports/postfault_structure/unified_first_swing_v4_fit_20261119_evidence.json"
+  },
+  "docs/reports/unified_first_swing_v4_test_20261119_evidence.json": {
+    "path": "docs/reports/postfault_structure/unified_first_swing_v4_test_20261119_evidence.json"
+  },
+  "docs/research/constant_c_100ms_synthetic_result_review_20261109_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/constant_c_100ms_synthetic_result_review_20261109_zh.md",
+    "path": "docs/research/constant_c_100ms_synthetic_result_review_20261109_zh.md",
+    "sha256": "120a225a849bdb9685216e572bbd3475a113483a08c97999d8e8b6e1e8e8e9b3"
+  },
+  "docs/research/constant_c_energy_confirmation_result_review_20261109_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/constant_c_energy_confirmation_result_review_20261109_zh.md",
+    "path": "docs/research/constant_c_energy_confirmation_result_review_20261109_zh.md",
+    "sha256": "50cef92c88a6db6654a71fbaedfcdb01929cf5764a139e3e4189d7d77e835a22"
+  },
+  "docs/research/kiki_a05_astra_core_design_20261023_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/kiki_a05_astra_core_design_20261023_zh.md",
+    "path": "docs/research/kiki_a05_astra_core_design_20261023_zh.md",
+    "sha256": "b80e75e24cb3c7a1c8ab47b181ec2b9ffbaa6c3d310042e5de75c3a300ed9ce4"
+  },
+  "docs/research/kiki_a14_integral_history/design_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/kiki_a14_integral_history/design_zh.md",
+    "path": "docs/research/kiki_a14_integral_history/design_zh.md",
+    "sha256": "eed74751bbf1f53761ab8da71ee7d31b31baa586f391d3a344bcb1f06ba88831"
+  },
+  "docs/research/kiki_energy_cap_result_review_20261110_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/kiki_energy_cap_result_review_20261110_zh.md",
+    "path": "docs/research/kiki_energy_cap_result_review_20261110_zh.md",
+    "sha256": "3d708dda6806e3785448450f586b9cd3415c6854d129f8fae570f4d9753e9b55"
+  },
+  "docs/research/kiki_next_phase_20261023_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/kiki_next_phase_20261023_zh.md",
+    "path": "docs/research/kiki_next_phase_20261023_zh.md",
+    "sha256": "95fe566126ba8a53f533fb9ddc5d7cd0cd382a26f99a9f660f9edfd52db62dc4"
+  },
+  "docs/research/machine_local_structure_plan_20261112_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/machine_local_structure_plan_20261112_zh.md",
+    "path": "docs/research/machine_local_structure_plan_20261112_zh.md",
+    "sha256": "665b856adcbd4cb4d6601dd466aad1a56e358b3f26f58d1c580d527d480b8e96"
+  },
+  "docs/research/machine_local_topology_ball_history_plan_20261115_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/machine_local_topology_ball_history_plan_20261115_zh.md",
+    "path": "docs/research/machine_local_topology_ball_history_plan_20261115_zh.md",
+    "sha256": "6af41368c8693b83180b04539b420a15d325593860f42b46798230ea84d16d54"
+  },
+  "docs/research/state_port_result_review_20261111_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/state_port_result_review_20261111_zh.md",
+    "path": "docs/research/state_port_result_review_20261111_zh.md",
+    "sha256": "338484235bf88c5905d511c94e42e2d177030944875a6b245b2403c62bb74d1c"
+  },
+  "docs/research/topology_memory_energy_rom_zh.md": {
+    "original_path": "docs/reports/research_governance/_sealed/docs/research/topology_memory_energy_rom_zh.md",
+    "path": "docs/research/topology_memory_energy_rom_zh.md",
+    "sha256": "162d5aea640f11e24a17296326327085fc249f903e7b80074fa82dc45f80857a"
+  }
+}

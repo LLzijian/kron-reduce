@@ -4,9 +4,9 @@
 
 ## 冻结模型与训练证据
 
-在逐机功角阻尼上加入保持平衡点与线性刚度的支路恢复力项。完整 train 的形状系数为 −0.03621840651061638。工程检查通过。相对零修正，形状候选的弱动量残差平方和在 train 346 例下降 0.87%，稳定 311 例下降 1.40%，失稳 35 例上升 0.28%。失稳组的全局刚度对照下降 0.18%，弱动量科学门未通过。[拟合回执](../kiki_machine_local_topology_restoring_shape_fit_20261115_evidence.json)
+在逐机功角阻尼上加入保持平衡点与线性刚度的支路恢复力项。完整 train 的形状系数为 −0.03621840651061638。工程检查通过。相对零修正，形状候选的弱动量残差平方和在 train 346 例下降 0.87%，稳定 311 例下降 1.40%，失稳 35 例上升 0.28%。失稳组的全局刚度对照下降 0.18%，弱动量科学门未通过。[拟合回执](kiki_machine_local_topology_restoring_shape_fit_20261115_evidence.json)
 
-评分使用自己的候选方程完成 100 ms 历史初始化与未来预测，冻结功率零阶保持、原记忆半径和先验。CUDA float64 使用 2.5 ms 和 1.25 ms 两档步长。train 346、val 107、test 76 均完成预测，独立复算的 529 例得分一致。[执行协议](../../protocols/kiki_machine_local_topology_restoring_shape_v1_zh.md) · [执行回执](../kiki_machine_local_topology_restoring_shape_20261115_evidence.json) · [独立复算](../kiki_machine_local_topology_restoring_shape_saved_audit_20261115_evidence.json)
+评分使用自己的候选方程完成 100 ms 历史初始化与未来预测，冻结功率零阶保持、原记忆半径和先验。CUDA float64 使用 2.5 ms 和 1.25 ms 两档步长。train 346、val 107、test 76 均完成预测，独立复算的 529 例得分一致。[执行协议](../../protocols/kiki_machine_local_topology_restoring_shape_v1_zh.md) · [执行回执](kiki_machine_local_topology_restoring_shape_20261115_evidence.json) · [独立复算](kiki_machine_local_topology_restoring_shape_saved_audit_20261115_evidence.json)
 
 ## 轨迹误差
 
@@ -21,7 +21,7 @@
 | test | 逐机阻尼 | 0.29395（67） | 0.24672（67） | 0.20933（67） | 0.18779（67） | 1.01852（9） |
 | test | 恢复力修正 | 0.29074（67） | 0.24459（67） | 0.20923（67） | 0.18811（67） | 1.05813（9） |
 
-val 的六项轨迹分数从 0.42674 升至 0.43126。恢复力修正的 train 与 val 均通过预登记闭环门，train 两档步长各复现 7/35 个匹配失步窗口。[逐机阻尼对照](../kiki_machine_local_topology_spatial_damping_20261115_zh.md)
+val 的六项轨迹分数从 0.42674 升至 0.43126。恢复力修正的 train 与 val 均通过预登记闭环门，train 两档步长各复现 7/35 个匹配失步窗口。[逐机阻尼对照](kiki_machine_local_topology_spatial_damping_20261115_zh.md)
 
 ## 稳定性
 

@@ -29,7 +29,7 @@
 
 ## 下一项合成对照
 
-完整 train 的固定阻尼对照提高了失步窗口检出，也增加了稳定误报。固定原方程后，放开隐态上界同样产生了稳定与失稳样本之间的冲突。下一项保持原历史半径，检验阻尼随相对功角变化能否保留近平衡点的耗散，同时改善大摆动时的预测。[固定阻尼](../reports/kiki_machine_local_topology_momentum_damping_20261115_zh.md) · [隐态跨时段检验](../reports/machine_local_topology/kiki_machine_local_topology_origin_transfer_20261115_zh.md)
+完整 train 的固定阻尼对照提高了失步窗口检出，也增加了稳定误报。固定原方程后，放开隐态上界同样产生了稳定与失稳样本之间的冲突。下一项保持原历史半径，检验阻尼随相对功角变化能否保留近平衡点的耗散，同时改善大摆动时的预测。[固定阻尼](../reports/machine_local_topology/kiki_machine_local_topology_momentum_damping_20261115_zh.md) · [隐态跨时段检验](../reports/machine_local_topology/kiki_machine_local_topology_origin_transfer_20261115_zh.md)
 
 单一候选取 \(s(q)=\lVert B^\top q\rVert^2/(45\theta_*^2)\)、\(h(q)=s/(1+s)\) 和 \(D(q)=(1-\rho h(q))D_0\)。十机图有 45 条边，\(q\) 为相对于平衡点的功角偏移，\(\theta_*=1\,\mathrm{rad}\)、\(0\leq\rho\leq2/3\)。可见耗散保持速度二次型 \((1-\rho h(q))v^\top D_0v\)，记忆端口和储能沿用原式。令 \(g=1-\rho h\)，阻尼力 \(gD_0v\) 的速度导数为 \(gD_0\)，功角导数为 \(-\rho(D_0v)\nabla_qh^\top\)，其中 \(\nabla_qh=2BB^\top q/[45\theta_*^2(1+s)^2]\)。同一函数和导数用于历史求解和自由预测。
 
@@ -49,7 +49,7 @@
 
 检验功角阻尼能否沿不同机器的摆动方向分配。固定原尺度和 \(\rho=2/3\)，令 \(g(s)=1-\rho s/(1+s)\)，\(s_i=\sum_{j\ne i}(q_i-q_j)^2/9\)。取原阻尼的对称半正定平方根 \(L=D_0^{1/2}\)。候选在现有全局阻尼 \(g(s)D_0\) 与逐机阻尼 \(L\operatorname{diag}(g(s_i))L\) 之间用一个共享系数 \(\lambda\in[0,1]\) 插值。两端均保持近平衡阻尼 \(D_0\)、相同的耗散界及原储能。沿实测路径的力对 \(\lambda\) 为仿射，允许复用同一记忆投影和标量拟合。先在同一初始条件上检验全局与逐机真值、解析切线和因果预测，合成门通过后再按完整 TASK3 协议登记。
 
-合成配对通过。完整 TASK3 上，逐机方案通过 val 门，train 的匹配失步窗口仍为 7/35。固定参考刚度模态的附加阻尼在三种初态对照中均提高了稳定组残差。现有结果支持保留逐机方案并检查大摆动恢复力。[逐机评估](../reports/kiki_machine_local_topology_spatial_damping_20261115_zh.md) · [固定模态诊断](../reports/machine_local_topology/kiki_machine_local_topology_modal_damping_20261115_zh.md)
+合成配对通过。完整 TASK3 上，逐机方案通过 val 门，train 的匹配失步窗口仍为 7/35。固定参考刚度模态的附加阻尼在三种初态对照中均提高了稳定组残差。现有结果支持保留逐机方案并检查大摆动恢复力。[逐机评估](../reports/machine_local_topology/kiki_machine_local_topology_spatial_damping_20261115_zh.md) · [固定模态诊断](../reports/machine_local_topology/kiki_machine_local_topology_modal_damping_20261115_zh.md)
 
 ## 保持近平衡刚度的恢复力对照
 

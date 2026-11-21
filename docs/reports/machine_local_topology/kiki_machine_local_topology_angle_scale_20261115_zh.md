@@ -12,4 +12,4 @@
 
 稳定组要求下降至少 5%，全 train 与失稳组要求增幅至多 1%。三项对照均未达到。结论适用于这两个尺度在当前方程上的实测路径一致性。运行只读取 train，闭环未来求解次数为零，保留原功角尺度。
 
-运行 `kiki_machine_local_topology_angle_scale_v1-train_momentum-20261115T115504524767Z-1d3ecb45-fde33d42`。保存结果复核包括完整名单、双步长历史求解和算子预算。[运行回执](../kiki_machine_local_topology_angle_scale_20261115_evidence.json) · [独立复核](../../research/kiki_machine_local_topology_angle_scale_result_review_20261115.json)
+运行 `kiki_machine_local_topology_angle_scale_v1-train_momentum-20261115T115504524767Z-1d3ecb45-fde33d42`。保存结果复核包括完整名单、双步长历史求解和算子预算。[运行回执](kiki_machine_local_topology_angle_scale_20261115_evidence.json) · [独立复核](../../research/kiki_machine_local_topology_angle_scale_result_review_20261115.json)

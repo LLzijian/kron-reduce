@@ -11,7 +11,7 @@ P1 进度报告记录候选取得、反事实与观测性检查。A04 在 F1 完
 - [P1-A03：模块效应与可辨识性审计进展](ieee39_modular_energy_p1_a03_identifiability_effect_progress_zh.md)
 - [P1-A03 阶段报告：候选获取完成，科学诊断尚未完成](ieee39_modular_energy_p1_a03_progress_zh.md)
 - [IEEE39 模块化能量 P1 A03：共享极点局部可观测性进展](ieee39_modular_energy_p1_a03_shared_pole_observability_progress_zh.md)
-- [IEEE39 模块化能量等值 P1-A04 诊断报告](../paper_ieee39_modular_energy_p1_a04_report_f1_seed324-report-20260904T150027Z-45123100_p1_a04_zh.md)
+- [IEEE39 模块化能量等值 P1-A04 诊断报告](paper_ieee39_modular_energy_p1_a04_report_f1_seed324-report-20260904T150027Z-45123100_p1_a04_zh.md)
 
 ## 任务组归档
 

@@ -1179,7 +1179,7 @@ def run_report(
         raise RuntimeError("report requires a recorded merge or rollback branch")
     acceptance_dir, acceptance_evidence = _bound_result(root, workflow, "acceptance")
     acceptance = _read_json(acceptance_dir / "acceptance.json")
-    relative = f"docs/reports/{run_id}_p1_a04_zh.md"
+    relative = f"docs/reports/modular_energy/{run_id}_p1_a04_zh.md"
     path = root / relative
     if path.exists():
         raise FileExistsError(path)

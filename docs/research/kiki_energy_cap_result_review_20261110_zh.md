@@ -45,4 +45,4 @@ C 相对 I 的未来 M 降低 49.07%/44.54%/47.98%，但仍为 E 的 7.99/8.10/7
 
 原科学运行实际生成 2,664 条路径，积分 RHS 4,690,800 次、物理 RHS 393,564 次，合计 5,084,364；probe 37,199，求根更新/评估 24,132/25,464，attempted 与 returned 一致。补核预算与它分账。默认模型、训练状态及旧 consumed 授权保持原样。
 
-run 为 `kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575`；source commit 为 `891358534869dea5810893083bb651b95c378a32`，封存 manifest SHA256 为 `6abadbc49d115e297fff59c2be018fa936d9f281ceeb9e9208157f5404cb751d`。本科学审核只读代码与封存 JSON，未打开 NPZ 或调用科学算子。完整比较见[结果报告](../reports/kiki_energy_cap_transfer_20261110_zh.md)，机器裁定见[本审核 JSON](kiki_energy_cap_result_review_20261110.json)。
+run 为 `kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575`；source commit 为 `891358534869dea5810893083bb651b95c378a32`，封存 manifest SHA256 为 `6abadbc49d115e297fff59c2be018fa936d9f281ceeb9e9208157f5404cb751d`。本科学审核只读代码与封存 JSON，未打开 NPZ 或调用科学算子。完整比较见[结果报告](../reports/short_history_initialization/kiki_energy_cap_transfer_20261110_zh.md)，机器裁定见[本审核 JSON](kiki_energy_cap_result_review_20261110.json)。

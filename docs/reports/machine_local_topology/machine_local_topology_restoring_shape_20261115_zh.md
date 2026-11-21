@@ -20,4 +20,4 @@
 
 六组预测的稳定性准确率均为 100%。每个真值的 train 均为 TP/TN/FP/FN = 6/18/0/0，val 和 test 均为 3/9/0/0。各组均无未决、未覆盖或数值失败。test 用于报告。
 
-[执行回执](../machine_local_topology_restoring_shape_20261115_evidence.json) · [独立复核](../../research/machine_local_topology_restoring_shape_result_review_20261115.json)
+[执行回执](machine_local_topology_restoring_shape_20261115_evidence.json) · [独立复核](../../research/machine_local_topology_restoring_shape_result_review_20261115.json)

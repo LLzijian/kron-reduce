@@ -11,6 +11,6 @@
 | 径向裁剪，零先验 | test | 0.002150 | 0.001605 | 3/9/0/0 | 12/12 |
 | 精确球约束，零先验 | test | 0.002577 | 0.001943 | 3/9/0/0 | 12/12 |
 
-两组均无未决、未覆盖或数值失败。独立核对了完整名单、操作预算、来源哈希、逐病例和汇总计数。[执行回执](../machine_local_topology_ball_history_no_prior_20261115_evidence.json) · [结果审查](../../research/machine_local_topology_ball_history_no_prior_result_review_20261115.json)
+两组均无未决、未覆盖或数值失败。独立核对了完整名单、操作预算、来源哈希、逐病例和汇总计数。[执行回执](machine_local_topology_ball_history_no_prior_20261115_evidence.json) · [结果审查](../../research/machine_local_topology_ball_history_no_prior_result_review_20261115.json)
 
-保留径向裁剪时，去除原二次先验使 train 和 val 的 8 s 合并归一化 RMSE 分别下降 18.7% 和 24.7%。两个划分的失稳匹配窗口仍分别为 6/6、3/3。球内 9 个非零真值病例的起点隐态恢复误差除以真值范数后最大为 $4.4\times10^{-9}$。这组前后配对支持为原径向方法的零先验候选单独登记真实对照。[原先验合成结果](../machine_local_topology_ball_history_20261115_zh.md)
+保留径向裁剪时，去除原二次先验使 train 和 val 的 8 s 合并归一化 RMSE 分别下降 18.7% 和 24.7%。两个划分的失稳匹配窗口仍分别为 6/6、3/3。球内 9 个非零真值病例的起点隐态恢复误差除以真值范数后最大为 $4.4\times10^{-9}$。这组前后配对支持为原径向方法的零先验候选单独登记真实对照。[原先验合成结果](machine_local_topology_ball_history_20261115_zh.md)

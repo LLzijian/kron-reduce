@@ -229,8 +229,18 @@ def test_v2_report_evidence_uses_real_predecessor_and_artifact_run(tmp_path):
     acceptance = run / "acceptance.json"; acceptance.write_text("{}", encoding="utf-8")
     manifest = run / "artifact_hashes.json"
     manifest.write_text(json.dumps({"evidence.json": sha256_file(artifact), "acceptance.json": sha256_file(acceptance)}), encoding="utf-8")
-    report = tmp_path / "docs" / "reports" / "report.md"
+    report = tmp_path / "docs" / "reports" / "sealed" / "report.md"
     report.parent.mkdir(parents=True); report.write_text("report", encoding="utf-8")
+    report_view = tmp_path / "docs" / "reports" / "topic" / "report.md"
+    report_view.parent.mkdir(parents=True)
+    report_view.write_text("relocated view", encoding="utf-8")
+    relocation_config = tmp_path / "configs" / "report_relocations.json"
+    relocation_config.parent.mkdir()
+    relocation_config.write_text(json.dumps({"docs/reports/report.md": {
+        "path": "docs/reports/topic/report.md",
+        "original_path": "docs/reports/sealed/report.md",
+        "sha256": sha256_file(report),
+    }}), encoding="utf-8")
     negative = tmp_path / "results" / "negative-a"; negative.mkdir()
     negative_file = negative / "negative.json"; negative_file.write_text("{}", encoding="utf-8")
     (negative / "artifact_hashes.json").write_text(json.dumps({"negative.json": sha256_file(negative_file)}), encoding="utf-8")

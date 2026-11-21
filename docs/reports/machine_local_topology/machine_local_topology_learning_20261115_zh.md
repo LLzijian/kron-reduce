@@ -55,4 +55,4 @@ T1M1 的 train 拟合目标从 0.00326 降到末次更新前的 (9.90\times10^{-
 
 计算结束后，运行器因同分支的论文文稿提交改变了 Git HEAD 而退出。原失败文件保留。只读复核确认两次提交之间的改动限于论文文件，核对了 35 个绑定文件与 140 个结果文件，随后用独立证据目录闭合 loop。另有 722 项保存标量检查一致。复核未重算轨迹。
 
-[执行协议](../../protocols/machine_local_topology_learning_v1_zh.md) · [证据收据](../machine_local_topology_learning_20261115_evidence.json) · [独立复核](../../research/machine_local_topology_learning_20261115_result_review.json)
+[执行协议](../../protocols/machine_local_topology_learning_v1_zh.md) · [证据收据](machine_local_topology_learning_20261115_evidence.json) · [独立复核](../../research/machine_local_topology_learning_20261115_result_review.json)

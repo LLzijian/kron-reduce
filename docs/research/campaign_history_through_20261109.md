@@ -255,7 +255,7 @@ calculation.
 The separate TASK3 200 ms frozen retrospective evaluation
 `kiki_task3_frozen_200ms_20261109` completed with `KEEP_BASELINE`. Its one-use
 authorization is consumed and bound to the immutable run and
-[result receipt](../reports/kiki_task3_frozen_200ms_20261109_evidence.json).
+[result receipt](../reports/task3_model_refinement/kiki_task3_frozen_200ms_20261109_evidence.json).
 The [protocol](../protocols/kiki_task3_frozen_200ms_20261109_zh.md) used
 frozen A03 checkpoints, 105 TASK3 `val` events and 75 previously exposed
 TASK3 `test` events, with zero fitting or optimizer updates. Treat the result

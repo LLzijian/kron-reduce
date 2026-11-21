@@ -5,7 +5,7 @@ Paper v1 固定历史 IEEE39 比较口径。Paper v2 用积分弱形式重做因
 ## 历次报告
 
 - [基于积分弱形式与端口哈密顿约束的故障后降阶动力学：方法与单 seed 确认实验报告](m0_m2a_lyap_integral_v2_method_results.md)。 Integral weak-form M0/M2A/LYAP report
-- [Paper v1 experiment card](../paper_v1.md)
+- [Paper v1 experiment card](paper_v1.md)
 
 ## 任务组归档
 

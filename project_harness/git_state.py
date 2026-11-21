@@ -5,6 +5,8 @@ import re
 import subprocess
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
+from .report_storage import locate_report
+
 ARCHIVE_OUTCOMES = ("completed", "rejected", "failed", "abandoned")
 
 
@@ -21,6 +23,7 @@ def verify_bound_file(root: Path, relative: str, expected_sha256: str) -> None:
 
     try:
         root_resolved = root.resolve(strict=True)
+        relative_path = PurePosixPath(locate_report(root_resolved, relative, expected_sha256))
         target = root_resolved.joinpath(*relative_path.parts)
         if target.is_symlink() or (hasattr(target, "is_junction") and target.is_junction()):
             raise RuntimeError(f"BOUND_FILE_SYMLINK: {relative}")

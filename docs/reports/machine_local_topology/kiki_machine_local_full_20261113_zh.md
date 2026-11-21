@@ -60,5 +60,5 @@ test 的可判定准确率为 76.7%，稳定误报率为 25.8%，完整名单准
 - [fit运行](../../../results/backup/machine_local_group_subsets/03_kiki_baseline_memory.zip)（包内 `kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e/summary.json`），逐事件结果及预测在同目录。
 - [test运行](../../../results/backup/machine_local_group_subsets/03_kiki_baseline_memory.zip)（包内 `kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0/summary.json`），逐事件结果及预测在同目录。
 - [保存结果重算](../../../results/backup/machine_local_group_subsets/03_kiki_baseline_memory_saved_checks.zip)（包内 `reports/generated/kiki_machine_local_full_20261113/saved-audit.json`）通过，3份预测档案各解码一次。
-- [证据回执](../kiki_machine_local_full_20261113_evidence.json)记录完整运行身份、源码、清单哈希、实际计算次数与诊断。
+- [证据回执](kiki_machine_local_full_20261113_evidence.json)记录完整运行身份、源码、清单哈希、实际计算次数与诊断。
 - [Astra 结果审查](../../research/kiki_machine_local_full_result_review_20261113_zh.md)及[机读审查](../../research/kiki_machine_local_full_result_review_20261113.json)确认本轮完成且保持基线；[后续已知真值判别计划](../../research/machine_local_hidden_oracle_plan_20261113_zh.md)已经落实为上述独立合成对照。

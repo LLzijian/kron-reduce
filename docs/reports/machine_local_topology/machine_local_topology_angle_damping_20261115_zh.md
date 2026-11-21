@@ -13,7 +13,7 @@ D(q)=\left(1-\rho\frac{s}{1+s}\right)D_0,
 
 两种候选都在 train 实测路径上拟合一个标量；随后冻结参数，再评分 val 和 test。闭环预测仍采用原来的 100 ms 观测历史、径向隐状态初始化、记忆半径 1、先验权重 $10^{-6}$，并以两档积分步长预测 8 s。test 只用于最终报告。
 
-运行 `machine_local_topology_angle_damping_v1-angle_damping-20261115T112513267447Z-ff9676a4-7b106d35`。独立审核从保存的 JSON 复核了四组完整名单、拟合、弱残差、混淆矩阵和门槛。[冻结协议](../../protocols/machine_local_topology_angle_damping_v1_zh.md) · [回执](../machine_local_topology_angle_damping_20261115_evidence.json)
+运行 `machine_local_topology_angle_damping_v1-angle_damping-20261115T112513267447Z-ff9676a4-7b106d35`。独立审核从保存的 JSON 复核了四组完整名单、拟合、弱残差、混淆矩阵和门槛。[冻结协议](../../protocols/machine_local_topology_angle_damping_v1_zh.md) · [回执](machine_local_topology_angle_damping_20261115_evidence.json)
 
 ## 系数恢复与路径残差
 

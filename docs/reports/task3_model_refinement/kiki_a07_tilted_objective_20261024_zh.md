@@ -1,6 +1,6 @@
 # A07：固定目标对照未达到零漏判，拒绝本次终点
 
-**A07 的平均目标组 M 和高误差加权组 T，在三个 seed 上均漏判 2／14 个失稳样本，误报为 0／74；两组都未通过相对 A06 的验收。** 本轮科学状态为 `REJECT / KEEP_BASELINE`，未选组、未选 seed、未晋升模型。完整方案、全部失败和结果保存在[证据收据](../kiki_a07_tilted_objective_20261024_evidence.json)；核心判断见 [Astra 复核](../../research/kiki_a07_astra_result_review_20261024_zh.md)。
+**A07 的平均目标组 M 和高误差加权组 T，在三个 seed 上均漏判 2／14 个失稳样本，误报为 0／74；两组都未通过相对 A06 的验收。** 本轮科学状态为 `REJECT / KEEP_BASELINE`，未选组、未选 seed、未晋升模型。完整方案、全部失败和结果保存在[证据收据](kiki_a07_tilted_objective_20261024_evidence.json)；核心判断见 [Astra 复核](../../research/kiki_a07_astra_result_review_20261024_zh.md)。
 
 ## 固定比较
 

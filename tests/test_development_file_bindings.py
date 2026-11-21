@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import subprocess
 
 import pytest
@@ -57,6 +58,61 @@ def test_normal_lf_blob_passes(tmp_path):
     (root / "design.md").write_bytes(content)
     _commit(root, "design.md")
     verify_bound_file(root, "design.md", _sha(content))
+
+
+def test_relocated_bound_report_verifies_sealed_original_bytes(tmp_path):
+    root = _repo(tmp_path / "repo")
+    original = b"approved historical report\n"
+    digest = _sha(original)
+    sealed = root / "docs" / "reports" / "sealed" / "report.md"
+    view = root / "docs" / "reports" / "topic" / "report.md"
+    sealed.parent.mkdir(parents=True)
+    view.parent.mkdir(parents=True)
+    sealed.write_bytes(original)
+    view.write_text("current navigable view\n", encoding="utf-8", newline="\n")
+    registry = root / "configs" / "report_relocations.json"
+    registry.parent.mkdir()
+    registry.write_text(json.dumps({"docs/reports/report.md": {
+        "path": "docs/reports/topic/report.md",
+        "original_path": "docs/reports/sealed/report.md",
+        "sha256": digest,
+    }}), encoding="utf-8")
+    _commit(root, "configs/report_relocations.json", "docs/reports/sealed/report.md",
+            "docs/reports/topic/report.md")
+
+    verify_bound_file(root, "docs/reports/report.md", digest)
+
+
+@pytest.mark.parametrize("damage", ["sealed_bytes", "unsafe_alias"])
+def test_relocated_bound_report_refuses_tampering_or_unsafe_alias(tmp_path, damage):
+    root = _repo(tmp_path / "repo")
+    original = b"approved historical report\n"
+    digest = _sha(original)
+    sealed = root / "docs" / "reports" / "sealed" / "report.md"
+    view = root / "docs" / "reports" / "topic" / "report.md"
+    sealed.parent.mkdir(parents=True)
+    view.parent.mkdir(parents=True)
+    sealed.write_bytes(original)
+    view.write_text("current navigable view\n", encoding="utf-8", newline="\n")
+    relocation = {
+        "path": "../escape/report.md" if damage == "unsafe_alias" else "docs/reports/topic/report.md",
+        "original_path": "docs/reports/sealed/report.md",
+        "sha256": digest,
+    }
+    registry = root / "configs" / "report_relocations.json"
+    registry.parent.mkdir()
+    registry.write_text(json.dumps({"docs/reports/report.md": relocation}), encoding="utf-8")
+    _commit(root, "configs/report_relocations.json", "docs/reports/sealed/report.md",
+            "docs/reports/topic/report.md")
+    if damage == "sealed_bytes":
+        sealed.write_bytes(b"tampered historical report\n")
+        bound_digest = digest
+    else:
+        bound_digest = _sha(view.read_bytes())
+
+    expected_error = "REPORT_RELOCATION: invalid destination" if damage == "unsafe_alias" else "BOUND_FILE_WORKTREE_MISMATCH"
+    with pytest.raises(RuntimeError, match=expected_error):
+        verify_bound_file(root, "docs/reports/report.md", bound_digest)
 
 
 def test_worktree_edit_is_rejected_when_head_blob_matches(tmp_path):

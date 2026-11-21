@@ -5,6 +5,8 @@
 *.pdf binary
 *.png binary
 *.zip binary
+# Retain the exact bytes of relocated, SHA256-bound documents.
+docs/reports/**/_sealed/** -text
 data/ieee39_postclear_canonical_v1/** -text
 data/kiki_ieee39_v1/** -text
 legacy/source/** -text

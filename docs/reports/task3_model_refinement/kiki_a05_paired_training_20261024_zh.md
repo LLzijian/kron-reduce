@@ -2,7 +2,7 @@
 
 **本次配对试验支持保留物理骨架与记忆模块的共同训练，否定了在当前起点、数据与预算下永久固定骨架的改进方案。** 三个seed中，共同更新组J的val主归一化RMSE均低于固定组F，未来8 s失稳漏判也更少。F的失稳样本可用时段轨迹误差更低，但稳定样本误差更高；这项收益没有转化为更好的失稳检出。
 
-核心设计、运行前科学复核和结果裁定由Astra Ultra承担；统筹代理完成实现集成、预算控制、独立复算和证据保存。详细判断见[Astra结果审查](../../research/kiki_a05_astra_result_review_20261024_zh.md)，完整摘要、SHA256和独立复核项见[结果收据](../kiki_a05_paired_training_20261024_evidence.json)。
+核心设计、运行前科学复核和结果裁定由Astra Ultra承担；统筹代理完成实现集成、预算控制、独立复算和证据保存。详细判断见[Astra结果审查](../../research/kiki_a05_astra_result_review_20261024_zh.md)，完整摘要、SHA256和独立复核项见[结果收据](kiki_a05_paired_training_20261024_evidence.json)。
 
 ## 结果与统计口径
 

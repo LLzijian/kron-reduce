@@ -1,6 +1,6 @@
 # TASK3 train 参考刚度模态的固定阻尼对照
 
-以逐机阻尼模型为参照。全局与逐机方案的 val 稳定性计数相同，逐机方案的预登记六项分数为 0.42674，全局方案为 0.42819。固定逐机混合系数 1、阻尼强度 \(2/3\)、尺度 1 rad、原记忆半径和先验。[完整评估](../reports/kiki_machine_local_topology_spatial_damping_20261115_zh.md)
+以逐机阻尼模型为参照。全局与逐机方案的 val 稳定性计数相同，逐机方案的预登记六项分数为 0.42674，全局方案为 0.42819。固定逐机混合系数 1、阻尼强度 \(2/3\)、尺度 1 rad、原记忆半径和先验。[完整评估](../reports/machine_local_topology/kiki_machine_local_topology_spatial_damping_20261115_zh.md)
 
 从冻结参考刚度 \(K=B\operatorname{diag}(k)B^\top\) 构造 \(M^{-1/2}KM^{-1/2}\)。令 \(w\) 为最大特征值对应向量，取 \(b=M^{1/2}w/\lVert M^{1/2}w\rVert_2\)。要求九个正参考模态、最大特征值相对间隙至少 \(10^{-8}\)，且 \(|\mathbf 1^\top b|\le10^{-10}\)。比较附加阻尼 \(\Delta D=\eta bb^\top\)，其中 \(\eta=\tfrac12 b^\top D_0 b>0\)。这一项增加耗散 \(\eta(b^\top v)^2\)，与刚度、记忆及储能方程共存。
 

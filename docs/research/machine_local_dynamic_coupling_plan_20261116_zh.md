@@ -1,6 +1,6 @@
 # 动态有效耦合与逐机记忆
 
-检验短历史因果预测是否需要随时间演化的有效边刚度。最新完整 TASK3 逐机阻尼在 val 判对 106/107，test 判对 70 例并有 2 例未决。恢复力形状修正的 val 失稳检出为 9/12，逐机阻尼为 11/12。更早的静态耦合 T1M1 在真实数据上由 val 选中第 0 步。动态耦合对失步时序和稳定预测的作用由配对实验衡量。[最新对话](chatgpt-conversation://6af25e1f-db88-83e9-a3ae-d02442950a25) · [逐机阻尼结果](../reports/kiki_machine_local_topology_spatial_damping_20261115_zh.md) · [静态耦合比较](../reports/kiki_machine_local_topology_20261115_zh.md)
+检验短历史因果预测是否需要随时间演化的有效边刚度。最新完整 TASK3 逐机阻尼在 val 判对 106/107，test 判对 70 例并有 2 例未决。恢复力形状修正的 val 失稳检出为 9/12，逐机阻尼为 11/12。更早的静态耦合 T1M1 在真实数据上由 val 选中第 0 步。动态耦合对失步时序和稳定预测的作用由配对实验衡量。[最新对话](chatgpt-conversation://6af25e1f-db88-83e9-a3ae-d02442950a25) · [逐机阻尼结果](../reports/machine_local_topology/kiki_machine_local_topology_spatial_damping_20261115_zh.md) · [静态耦合比较](../reports/machine_local_topology/kiki_machine_local_topology_20261115_zh.md)
 
 ## 方程
 
@@ -29,7 +29,7 @@
 
 通过几何区分、已知真值恢复和全量合成门后，沿完整 TASK3 train 实测路径比较两个阻尼锚点上的零和修正。模型的记忆起报固定为各锚点的因果估计，同时计算自由记忆投影。路径门通过后冻结候选并评估 TASK3 的 train 346、val 107、test 76，全量报告轨迹误差、稳定性与覆盖率。
 
-合成因果对照通过。完整 TASK3 train 在两个阻尼模型下均通过数值、全体和稳定组门，失稳组门失败。逐机功角阻尼下的自由记忆投影表明，保存的零和冲量方向与剩余失稳残差负相关。后续结构对照应检验能够改变空间力方向的耦合动力学，并用相同的固定因果记忆和自由投影核对。新候选走独立登记。[合成结果](../reports/machine_local_topology_spatial_coupling_causal_20261116_zh.md) · [真实 train 结果](../reports/kiki_machine_local_topology_spatial_coupling_20261116_zh.md)
+合成因果对照通过。完整 TASK3 train 在两个阻尼模型下均通过数值、全体和稳定组门，失稳组门失败。逐机功角阻尼下的自由记忆投影表明，保存的零和冲量方向与剩余失稳残差负相关。后续结构对照应检验能够改变空间力方向的耦合动力学，并用相同的固定因果记忆和自由投影核对。新候选走独立登记。[合成结果](../reports/machine_local_topology/machine_local_topology_spatial_coupling_causal_20261116_zh.md) · [真实 train 结果](../reports/machine_local_topology/kiki_machine_local_topology_spatial_coupling_20261116_zh.md)
 
 ## 共同尺度的实验结论
 

@@ -15,6 +15,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 MODULE = "kron_reduce.workflows.machine_local_topology"
@@ -102,7 +103,8 @@ def authorize(root, stage):
                 or previous["result_receipt_sha256"] != source["receipt_sha256"]):
             raise RuntimeError("no-prior comparison requires the verified complete observer cohort")
         verify_bound_file(root, previous["result_receipt_path"], source["receipt_sha256"])
-        evidence = json.loads((root/previous["result_receipt_path"]).read_bytes())
+        receipt_path = previous["result_receipt_path"]
+        evidence = json.loads((root/locate_report(root, receipt_path, source["receipt_sha256"])).read_bytes())
         if evidence["gates"]["clean_recovery"] is not True:
             raise RuntimeError("the frozen no-prior candidate failed clean recovery")
     if stage in ("momentum", "angle_damping", "spatial_damping", "restoring_shape", "dynamic_coupling",
@@ -134,7 +136,8 @@ def authorize(root, stage):
                 or "fits" in plan["operation_limits"]):
             raise RuntimeError("history prior diagnosis requires the closed synthetic comparison and zero fits")
         verify_bound_file(root, source["receipt_path"], source["receipt_sha256"])
-        receipt = json.loads((root/source["receipt_path"]).read_bytes())
+        receipt_path = source["receipt_path"]
+        receipt = json.loads((root/locate_report(root, receipt_path, source["receipt_sha256"])).read_bytes())
         if receipt["selected_by_truth"]["S0"]["gates"]["initial_state_recovery"]["status"] != "FAIL":
             raise RuntimeError("the history prior diagnosis requires the registered fixed-coefficient recovery failure")
     if stage == "topology_memory_rom_coupling_strength":
@@ -207,7 +210,7 @@ def authorize(root, stage):
             raise RuntimeError("damping fit requires the verified origin diagnosis")
         path = diagnosis["result_receipt_path"]
         verify_bound_file(root, path, plan["diagnosis_receipt_sha256"])
-        if "damping" not in json.loads((root/path).read_bytes())["sufficient_interventions"]:
+        if "damping" not in json.loads((root/locate_report(root, path, plan["diagnosis_receipt_sha256"])).read_bytes())["sufficient_interventions"]:
             raise RuntimeError("damping correction did not pass the registered diagnosis")
     if stage == "closeout":
         previous = policy[STUDIES["s0"]+"_20261115"]

@@ -22,4 +22,4 @@
 
 运行 `machine_local_topology_refinement_v1-refinement-20261115T035654984080Z-5ef99a7e-97131108`，源提交 `5ef99a7e6b4d82b7ab7920f2515e43577ca4e182`。存档复核覆盖逐事件标量、检查点选择、工件哈希及算子预算。本轮从已有解重启 Adam，并调整学习率与损失时域，观测到的改进来自这套方案的共同作用。真实 TASK3 尚未启动，本轮部署结论为 `KEEP_BASELINE`。
 
-[执行协议](../../protocols/machine_local_topology_refinement_v1_zh.md) · [证据收据](../machine_local_topology_refinement_20261115_evidence.json) · [结果复核](../../research/machine_local_topology_refinement_20261115_result_review.json)
+[执行协议](../../protocols/machine_local_topology_refinement_v1_zh.md) · [证据收据](machine_local_topology_refinement_20261115_evidence.json) · [结果复核](../../research/machine_local_topology_refinement_20261115_result_review.json)

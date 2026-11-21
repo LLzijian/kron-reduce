@@ -1,6 +1,6 @@
 # TASK3 train 隐藏初态的跨时段动量检验
 
-降低可见阻尼后，匹配失步窗口从 6/35 增至 10/35，val 的稳定轨迹误差也明显上升。原方程的 100 ms 动量诊断中，346 例均为满秩，299 例的约束解达到原半径。检验较大的隐态能否从短历史中稳健求出，并解释之后的实测运动，再决定是否研究新的耗散函数。[闭环对照](../reports/kiki_machine_local_topology_momentum_damping_20261115_zh.md) · [动量诊断](../reports/kiki_machine_local_topology_momentum_20261115_zh.md)
+降低可见阻尼后，匹配失步窗口从 6/35 增至 10/35，val 的稳定轨迹误差也明显上升。原方程的 100 ms 动量诊断中，346 例均为满秩，299 例的约束解达到原半径。检验较大的隐态能否从短历史中稳健求出，并解释之后的实测运动，再决定是否研究新的耗散函数。[闭环对照](../reports/machine_local_topology/kiki_machine_local_topology_momentum_damping_20261115_zh.md) · [动量诊断](../reports/machine_local_topology/kiki_machine_local_topology_momentum_20261115_zh.md)
 
 固定原 T0M1 第 12 步的完整方程，沿用原 ZOH 功率输入。对完整 train 346 的 11 帧历史，分别求 10 ms 无约束和原半径约束解。以每隔一帧保留始末点的 20 ms 观测计算另一个无约束解。比较两档历史起点隐态的差，分母为原半径和 10 ms 无约束解范数中的较大者。
 

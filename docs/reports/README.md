@@ -20,12 +20,14 @@
 
 - 同一问题继续比较时，运行产物放入对应运行目录。影响结论的证据在主题页补一行，链接运行编号或回执。
 - 形成单独引用的结论时，把里程碑报告放进对应主题目录。多个冻结版本并存时，文件名带日期。
-- 主题页链接已登记的报告和回执原件。图件与验证脚本按报告编号保存在 `docs/reports/figures/<report-id>/`。
+- 主题页链接报告、回执和图件。图件与验证脚本按报告编号放到该主题的 `figures/` 下。
 - 正式报告写清实验身份、数据范围、划分、随机种子、输入口径、证据状态和科学终点。定量结论指向运行编号或证据路径，并记录实际访问范围。
+
+历史登记仍可用原路径和原 SHA256 核验。[报告路径迁移清单](../../configs/report_relocations.json)记录现址。正文需要更新链接时，冻结原件随主题存放在 `_sealed/`。
 
 ## Retired top-level archives
 
-原 `experiments/` 和 `reports/` 的 69 个文件已按研究主题归入四个任务组。先读任务组总说明，再按小任务打开包外说明。按旧路径搜索[归档核验回执](retired_layout_20261121t093836z_evidence.json)可定位 ZIP、包内条目和 SHA256。
+原 `experiments/` 和 `reports/` 的 69 个文件已按研究主题归入四个任务组。先读任务组总说明，再按小任务打开包外说明。按旧路径搜索[归档核验回执](research_governance/retired_layout_20261121t093836z_evidence.json)可定位 ZIP、包内条目和 SHA256。
 
 | 任务组总说明 | 新归入的资料 |
 |---|---|
@@ -36,4 +38,4 @@
 
 ## Early M0 report archives
 
-[M0 故障后重积分与结构发现总说明](../../results/SUMMARY_06_m0_reintegration_structure.md)串起数据质量审计、暂态电势验证和 M0-GMD-PM 里程碑，并链接三个小任务各自的包外说明。[归档核验回执](m0_reintegration_structure_archive_20261121_evidence.json)可按原路径查找 52 个文件所在的 ZIP。
+[M0 故障后重积分与结构发现总说明](../../results/SUMMARY_06_m0_reintegration_structure.md)串起数据质量审计、暂态电势验证和 M0-GMD-PM 里程碑，并链接三个小任务各自的包外说明。[归档核验回执](m0_reintegration_structure/m0_reintegration_structure_archive_20261121_evidence.json)可按原路径查找 52 个文件所在的 ZIP。

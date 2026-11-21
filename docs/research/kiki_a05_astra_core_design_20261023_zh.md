@@ -6,7 +6,7 @@
 
 ## 1. 现有证据决定了要检验什么
 
-证据来自不可变 run `paper_kiki_a04_short_history-short_history_learning-20261023T021629566301Z-7bab0f36-e7569872`，结果摘要与全部源工件哈希见 [A04 证据收据](../reports/kiki_a04_development_20261023_evidence.json)。本次只读既有 JSON 和模型参数数组，没有加载真实轨迹重新预测。
+证据来自不可变 run `paper_kiki_a04_short_history-short_history_learning-20261023T021629566301Z-7bab0f36-e7569872`，结果摘要与全部源工件哈希见 [A04 证据收据](../reports/task3_model_refinement/kiki_a04_development_20261023_evidence.json)。本次只读既有 JSON 和模型参数数组，没有加载真实轨迹重新预测。
 
 统筹代理独立复算全部 24 个“模型／角色”主指标，与已存指标的差不超过 `1e-12`。计算记录为 `results/a04-recorded-error-audit-20261023-v1/audit_summary.json`，绑定审计提交 `f98420e53dcfa19205157684779525c2eb2e8c18`、全部源 JSON 哈希及与原 run 一致的工件清单 SHA256 `f26f7db6016764591300508c2fa216d8ab323bc91dd7d3b622a194d5bc4d3c3c`，记录新预测、优化更新和原始轨迹读取均为 0。在同一内部 val 的 88 个事件上，稳定样本的总权重为 `0.8355810855810849`，失稳样本为 `0.1644189144189144`。下表为原主指标平方的组成部分，使用同一总体分母；不是两组各自的平均误差，也不是归一化 RMSE。
 

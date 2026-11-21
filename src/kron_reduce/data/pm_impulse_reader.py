@@ -20,6 +20,7 @@ import numpy as np
 from kron_reduce.data.durable_audit_ledger import AppendOnlyAuditJournal
 from kron_reduce.data.limited_hdf_audit import ROOT_ATTRS
 from kron_reduce.data.limited_npz_audit import MemberSpec, NpzWhitelistReader, _read_npy_header
+from project_harness.report_storage import locate_report
 
 SEEDS = (324, 325, 326)
 SOURCES = ("ieee39_expansion", "ieee39_postfault")
@@ -226,8 +227,9 @@ class PmImpulseReader:
         try:
             for row in self.plan["metadata_files"]:
                 self.io.append({"category": "source_metadata", "path": row["path"], "transition": "attempted", "bytes": row["size_bytes"]})
-                with (self.root / row["path"]).open("rb") as stream:
-                    if (self.root / row["path"]).stat().st_size != row["size_bytes"]:
+                path = self.root / locate_report(self.root, row["path"], row["sha256"])
+                with path.open("rb") as stream:
+                    if path.stat().st_size != row["size_bytes"]:
                         raise ValueError("A16 metadata size differs")
                     raw = stream.read(row["size_bytes"])
                 if len(raw) != row["size_bytes"] or hashlib.sha256(raw).hexdigest() != row["sha256"]:

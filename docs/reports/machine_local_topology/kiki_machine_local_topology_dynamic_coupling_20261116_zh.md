@@ -21,4 +21,4 @@
 
 稳定组的残差下降集中在一部分事件。两档因果记忆条件下，常值阻尼有 76/311 例改善，逐机阻尼有 80/311 例改善。失稳组对应为 3/35 和 4/35。自由记忆投影后，失稳组总残差上升的方向一致。结论适用于本轮冻结的共同尺度、恢复速率与两个原模型。
 
-346 例弱动量算子均为秩 10。阻尼求积最大差为 \(3.91\times10^{-14}\)，耦合坐标和归一化力冲量的双步长最大差分别为 \(1.91\times10^{-9}\) 和 \(3.14\times10^{-8}\)。[执行回执](../kiki_machine_local_topology_dynamic_coupling_20261116_evidence.json) · [独立复核](../../research/kiki_machine_local_topology_dynamic_coupling_result_review_20261116.json)
+346 例弱动量算子均为秩 10。阻尼求积最大差为 \(3.91\times10^{-14}\)，耦合坐标和归一化力冲量的双步长最大差分别为 \(1.91\times10^{-9}\) 和 \(3.14\times10^{-8}\)。[执行回执](kiki_machine_local_topology_dynamic_coupling_20261116_evidence.json) · [独立复核](../../research/kiki_machine_local_topology_dynamic_coupling_result_review_20261116.json)

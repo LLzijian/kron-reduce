@@ -4,8 +4,8 @@
 
 ## 历次报告
 
-- [State-dependent port correctness](../state_port_synthetic_20261111_zh.md) · [核验回执](../state_port_synthetic_20261111_evidence.json)。 Fixed ten-node synthetic structure, Jacobian and propagation-gradient checks; 200 saved-evidence checks passed, original summary-write failure retained, no fitting or real-data reads; KEEP_BASELINE
-- [State-dependent port train comparison](../kiki_state_port_train_20261111_zh.md) · [核验回执](../kiki_state_port_train_20261111_evidence.json)。 Six fixed 40-update fits on 258 eligible train events; weighted trajectory gains over A06 and matched constant ports, one added rule miss per seed; 76 saved-evidence checks passed, REJECT / KEEP_BASELINE
+- [State-dependent port correctness](state_port_synthetic_20261111_zh.md) · [核验回执](state_port_synthetic_20261111_evidence.json)。 Fixed ten-node synthetic structure, Jacobian and propagation-gradient checks; 200 saved-evidence checks passed, original summary-write failure retained, no fitting or real-data reads; KEEP_BASELINE
+- [State-dependent port train comparison](kiki_state_port_train_20261111_zh.md) · [核验回执](kiki_state_port_train_20261111_evidence.json)。 Six fixed 40-update fits on 258 eligible train events; weighted trajectory gains over A06 and matched constant ports, one added rule miss per seed; 76 saved-evidence checks passed, REJECT / KEEP_BASELINE
 
 ## 任务组归档
 

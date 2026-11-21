@@ -18,4 +18,4 @@ train、val、test 的固定名单分别为 12、6、6。每次目标评估从 1
 本轮用原因果隐态估计通过了合成门。真实 TASK3 将用原 T0M1 第 12 步检查点和原半径，在完整 train 上重新拟合阻尼。真实 val 和 test 仍按 107 和 76 例完整报告。部署决定为 `KEEP_BASELINE`。
 
 运行 `machine_local_topology_delayed_damping_v1-delayed_damping-20261115T083744695248Z-02325f0b-ec203ad9`，用时 17.8 秒。
-[执行协议](../../protocols/machine_local_topology_delayed_damping_v1_zh.md) · [证据回执](../machine_local_topology_delayed_damping_20261115_evidence.json) · [结果审核](../../research/machine_local_topology_delayed_damping_result_review_20261115.json)
+[执行协议](../../protocols/machine_local_topology_delayed_damping_v1_zh.md) · [证据回执](machine_local_topology_delayed_damping_20261115_evidence.json) · [结果审核](../../research/machine_local_topology_delayed_damping_result_review_20261115.json)

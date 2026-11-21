@@ -9,7 +9,7 @@
 - 实验：`paper_kiki_a04_short_history`；workflow：`kiki_a04_short_history_v1`，已完成`short_history_learning`。
 - 不可变run：`paper_kiki_a04_short_history-short_history_learning-20261023T021629566301Z-7bab0f36-e7569872`。
 - 执行提交：`7bab0f36bf18600bc357f51dc101205c304dd18a`。
-- [批准条文与范围构造](../../protocols/kiki_a04_development_authorization_20261023_zh.md)、[冻结实验设计](../../protocols/kiki_a04_short_history_design_20261023_zh.md)、[关键结果及全部工件哈希](../kiki_a04_development_20261023_evidence.json)。原模型、轨迹与结果正文保存在本地run，Git跟踪协议、代码与证据清单。
+- [批准条文与范围构造](../../protocols/kiki_a04_development_authorization_20261023_zh.md)、[冻结实验设计](../../protocols/kiki_a04_short_history_design_20261023_zh.md)、[关键结果及全部工件哈希](kiki_a04_development_20261023_evidence.json)。原模型、轨迹与结果正文保存在本地run，Git跟踪协议、代码与证据清单。
 - 114个登记工件全部通过SHA256与文件集合核验；连同`artifact_hashes.json`共115个文件，无`RUN_FAILED.json`。科学方案摘要为`abc50afcb41be1f628656d0a22d294f2677ce1c56725cfd8cf0d50e084457052`，不是方案文件本身的SHA256。
 
 新训练与评价只使用`kiki_ieee39_v1`原source train内已冻结的线路分组，保留十个发电机节点。原source val/test轨迹读取数均为0，未使用canonical数据或新的独立test。来源、故障线路和标签不进入模型或预测路由。

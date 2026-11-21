@@ -23,4 +23,4 @@
 
 原估计耦合误差进入联合模型的长时预测，单独把真值记忆塞回起报点的收益很小。后续使用 1 秒和 3 秒等权目标继续学习共享方程，并使用相同目标选择完整 val 检查点。[长时域精化协议](../../protocols/machine_local_topology_refinement_v1_zh.md)
 
-[诊断协议](../../protocols/machine_local_topology_diagnosis_v1_zh.md) · [证据收据](../machine_local_topology_diagnosis_20261115_evidence.json)
+[诊断协议](../../protocols/machine_local_topology_diagnosis_v1_zh.md) · [证据收据](machine_local_topology_diagnosis_20261115_evidence.json)

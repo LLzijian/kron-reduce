@@ -2,7 +2,7 @@
 
 **全 774 项 .005／.0025 s 轨迹比较通过，支持开展独立的时间误差聚合训练对照。** 最大归一化轨迹差为 `9.140875034162247e-7`，低于事前规定的 `1e-5`。这项指标衡量两个积分步长的差；本轮没有拟合模型，也没有重新评估 val 的失稳漏判。
 
-唯一运行：`paper_kiki_a10_train_refinement-train_refinement-20261024T062534123221Z-161cae52-515f5625`。执行提交 `161cae52d4e56f2c5eea4ceb2747ca57991ab05b`，工件清单 SHA256 为 `41741c4a3ab0973be2053cb23e29efd06ceaac3af02239e72f2cda140dccbc86`。完整结果与计算预算见[证据收据](../kiki_a10_train_refinement_20261024_evidence.json)。
+唯一运行：`paper_kiki_a10_train_refinement-train_refinement-20261024T062534123221Z-161cae52-515f5625`。执行提交 `161cae52d4e56f2c5eea4ceb2747ca57991ab05b`，工件清单 SHA256 为 `41741c4a3ab0973be2053cb23e29efd06ceaac3af02239e72f2cda140dccbc86`。完整结果与计算预算见[证据收据](kiki_a10_train_refinement_20261024_evidence.json)。
 
 | 检查 | 结果 |
 |---|---|

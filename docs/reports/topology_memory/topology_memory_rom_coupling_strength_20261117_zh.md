@@ -31,4 +31,4 @@
 
 每行的 val 和 test 均各有 TP=6、TN=6、FP=0、FN=0，覆盖率及失稳召回率均为 100%，漏判率和误报率均为 0。已命中的失步时刻在 10 ms 评分网格上与真值一致。含第五谐波的真值中，至少一个候选通过了原长时预测门。四种候选在两档积分的 val 200 ms 误差均超出 \(10^{-4}\)，其中固定耦合候选约为 \(8.79\times10^{-4}\)。短时指标能在该合成案例中检出方程缺项。
 
-两轮均通过工程检查，完整科学验收均未通过。两种变化并存时的隐状态恢复、含噪历史和未知系数的结构学习还有待验证，因此本轮真实 TASK3 训练和评估未启动。完整候选结果、逐例评分和预算见运行回执。[首轮回执](../topology_memory_rom_coupling_strength_v1_20261117_evidence.json) · [初值修正回执](../topology_memory_rom_branch_init_v1_20261117_evidence.json)
+两轮均通过工程检查，完整科学验收均未通过。两种变化并存时的隐状态恢复、含噪历史和未知系数的结构学习还有待验证，因此本轮真实 TASK3 训练和评估未启动。完整候选结果、逐例评分和预算见运行回执。[首轮回执](topology_memory_rom_coupling_strength_v1_20261117_evidence.json) · [初值修正回执](topology_memory_rom_branch_init_v1_20261117_evidence.json)

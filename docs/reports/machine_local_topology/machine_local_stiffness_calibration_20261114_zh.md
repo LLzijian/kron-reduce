@@ -48,5 +48,5 @@
 
 - [运行记录](../../../results/backup/machine_local_group_subsets/08_observer_calibration_diagnosis.zip)（包内 `machine_local_stiffness_calibration_v1-calibration-20261113T160423643093Z-659cc6ca-79ec7efe/summary.json`）保存全部九组划分报告、逐事件五个时域指标和双步长 GN 诊断。运行用时 274.0 秒。实际操作账本包含 458 次传播、11 次优化目标、9 次曲线目标和 1 次正确参数目标。
 - [执行协议](../../protocols/machine_local_stiffness_calibration_v1_zh.md)固定样本、选择顺序、双步长及预算。31 项产物哈希与 JSON 保存结果核对通过，覆盖目标账本、逐事件配对差及分类统计。
-- [结果审查](../../research/machine_local_stiffness_calibration_result_review_20261114.json)与[证据回执](../machine_local_stiffness_calibration_20261114_evidence.json)记录本轮结果和边界。
+- [结果审查](../../research/machine_local_stiffness_calibration_result_review_20261114.json)与[证据回执](machine_local_stiffness_calibration_20261114_evidence.json)记录本轮结果和边界。
 - [真实数据配对准备](../../research/machine_local_r20_r21_preparation_20261114_zh.md)将原 20 参数和增加共享刚度后的 21 参数放在同一起点、同等训练预算下比较。二次谐波函数发现采用单独的有项与无项合成对照。真实模型基线维持 KEEP_BASELINE。

@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from .evidence import _safe_relative, sha256_file
+from .report_storage import locate_report
 
 
 def load_policy(root: Path) -> dict:
@@ -29,7 +30,7 @@ def validate_run_policy(
         if frozen is None or dataset != frozen["dataset"]:
             raise RuntimeError("HISTORICAL_IDENTITY: unregistered historical replay")
         for relative, digest in frozen["bindings"].items():
-            if sha256_file(root / relative) != digest:
+            if sha256_file(root / locate_report(root, relative, digest)) != digest:
                 raise RuntimeError(f"HISTORICAL_CONTRACT_CHANGED: {relative}")
         return
     if historical_reproduction:
@@ -95,8 +96,9 @@ def validate_run_policy(
         if audit_only is True and auth["status"] == "consumed" and not path.exists():
             if not isinstance(auth.get("result_receipt_path"), str):
                 raise RuntimeError("TEST_MODEL_FREEZE: consumed metadata receipt is missing")
-            receipt_path = _safe_relative(root, auth["result_receipt_path"])
-            if not receipt_path.is_file() or sha256_file(receipt_path) != auth.get("result_receipt_sha256"):
+            receipt_sha = auth.get("result_receipt_sha256")
+            receipt_path = _safe_relative(root, locate_report(root, auth["result_receipt_path"], receipt_sha))
+            if not receipt_path.is_file() or sha256_file(receipt_path) != receipt_sha:
                 raise RuntimeError("TEST_MODEL_FREEZE: consumed metadata receipt is missing or changed")
             receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
             saved = receipt.get("frozen_model_manifest", {}) if isinstance(receipt, dict) else {}

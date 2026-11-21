@@ -19,6 +19,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 WORKFLOW = "unified_first_swing_probes_v2"
@@ -88,7 +89,7 @@ def _preflight(root, experiment, plan):
     if (prior["status"] != "consumed" or prior["result_receipt_path"] != receipt_path
             or prior["result_receipt_sha256"] != plan["bindings"][receipt_path]):
         raise RuntimeError("probe baseline must be the consumed and archived M1 v1 result")
-    receipt = json.loads((root/receipt_path).read_bytes())
+    receipt = json.loads((root/locate_report(root, receipt_path, plan["bindings"][receipt_path])).read_bytes())
     directory = _safe_relative(root, f"results/{receipt['run_id']}")
     hashes = verify_artifact_directory(directory, strict=True, expected_manifest_sha256=receipt["artifact_manifest_sha256"])
     freeze = json.loads((directory/"freeze.json").read_bytes())

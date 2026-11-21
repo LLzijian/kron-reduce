@@ -26,4 +26,4 @@
 
 ## 证据
 
-结果回执见 [machine_local_topology_dynamic_coupling_20261116_evidence.json](../machine_local_topology_dynamic_coupling_20261116_evidence.json)。独立复核确认名单、训练网格选择、完整评分组、稳定性和能量检查均通过，且未读取真实数据，复核记录见 [machine_local_topology_dynamic_coupling_result_review_20261116.json](../../research/machine_local_topology_dynamic_coupling_result_review_20261116.json)。
+结果回执见 [machine_local_topology_dynamic_coupling_20261116_evidence.json](machine_local_topology_dynamic_coupling_20261116_evidence.json)。独立复核确认名单、训练网格选择、完整评分组、稳定性和能量检查均通过，且未读取真实数据，复核记录见 [machine_local_topology_dynamic_coupling_result_review_20261116.json](../../research/machine_local_topology_dynamic_coupling_result_review_20261116.json)。

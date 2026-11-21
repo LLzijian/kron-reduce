@@ -1,6 +1,6 @@
 # M1 · TASK3 首摆速度与因果初始化消融
 
-M1 检验能量结构约束的十机动态等值能否在首摆保留分离速度，同时维持稳定样本的长时轨迹精度。完整 `train` 的历史诊断在 33 个可观测失步见证上发现了 31 个正向速度残差，带符号中位数为 +2.551 rad/s。首轮用配对训练检验复合损失，随后分别检验自适应初态和空间耦合。共同起点为冻结 T0M1 第 12 步加逐机功角阻尼，历史完整 `val` 检出 11/12，稳定 95 例的 8 s 平均归一化 RMSE 为 0.22020。历史固定 `test` 检出 3/9，4 例漏判、2 例未决，稳定 67 例的 8 s 平均归一化 RMSE 为 0.18779。[动量与做功回执](../reports/kiki_topology_memory_balance_20261116_zh.md) · [共同起点评分](../reports/kiki_machine_local_topology_spatial_relaxation_20261116_zh.md)
+M1 检验能量结构约束的十机动态等值能否在首摆保留分离速度，同时维持稳定样本的长时轨迹精度。完整 `train` 的历史诊断在 33 个可观测失步见证上发现了 31 个正向速度残差，带符号中位数为 +2.551 rad/s。首轮用配对训练检验复合损失，随后分别检验自适应初态和空间耦合。共同起点为冻结 T0M1 第 12 步加逐机功角阻尼，历史完整 `val` 检出 11/12，稳定 95 例的 8 s 平均归一化 RMSE 为 0.22020。历史固定 `test` 检出 3/9，4 例漏判、2 例未决，稳定 67 例的 8 s 平均归一化 RMSE 为 0.18779。[动量与做功回执](../reports/topology_memory/kiki_topology_memory_balance_20261116_zh.md) · [共同起点评分](../reports/machine_local_topology/kiki_machine_local_topology_spatial_relaxation_20261116_zh.md)
 
 ## 数据与起报
 

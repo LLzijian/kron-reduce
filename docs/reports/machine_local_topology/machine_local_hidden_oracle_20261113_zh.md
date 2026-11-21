@@ -66,4 +66,4 @@
 - [执行协议](../../protocols/machine_local_hidden_oracle_v1_zh.md)和[执行审查](../../research/machine_local_hidden_oracle_review_20261113.json)冻结全部 64 个事件、四组对照及计算预算。
 - 正常路径实际使用 224 次 rollout、5,001,728 次 NumPy RHS、629,760 次 Torch RHS、11,520 次切线 RHS，QR/SVD/三角解/右端投影各 768 次，与预定计数完全一致。
 - [保存数组复算](../../../results/backup/machine_local_group_subsets/08_observer_calibration_diagnosis_saved_checks.zip)（包内 `reports/generated/machine_local_hidden_oracle_20261113/saved-audit.json`）通过，13 份档案各解码一次，评分、分类、隐藏状态算术和配对指标差异为零。复算沿用冻结评分实现，参数包只验证哈希。
-- [科学结果审查](../../research/machine_local_hidden_oracle_result_review_20261113_zh.md)、[证据回执](../machine_local_hidden_oracle_20261113_evidence.json)与[下一项单参数校准准备](../../research/machine_local_stiffness_correction_preparation_20261113_zh.md)记录结论和执行边界。
+- [科学结果审查](../../research/machine_local_hidden_oracle_result_review_20261113_zh.md)、[证据回执](machine_local_hidden_oracle_20261113_evidence.json)与[下一项单参数校准准备](../../research/machine_local_stiffness_correction_preparation_20261113_zh.md)记录结论和执行边界。

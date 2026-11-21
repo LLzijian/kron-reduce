@@ -4,7 +4,7 @@
 
 **A06 按预设规则判为 `RETRY`，保留 `KEEP_BASELINE`。** 三个 seed 的主终点都通过轨迹、失稳、覆盖及数值守门条件，合格 val 上的漏判均从 5／6／6 降至 1，误报均为 0；尚未达到零漏判。`RETRY` 是继续研究的证据，不触发自动重训或追加预算。
 
-证据绑定 run `paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996`。原工件清单 SHA256 为 `d1c4cc402dd30207c4ba639a9d4d1f1e86e3051ce0ce51e72ac4d045be17cc01`；本次逐项核验 68 项工件，全部一致。完整指标、原始参数及 Adam 状态重建、预算和访问审计见 [A06 证据收据](../reports/kiki_a06_joint_refinement_20261024_evidence.json)。科学规则沿用 [A06 设计](kiki_a06_astra_design_20261024_zh.md)。
+证据绑定 run `paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996`。原工件清单 SHA256 为 `d1c4cc402dd30207c4ba639a9d4d1f1e86e3051ce0ce51e72ac4d045be17cc01`；本次逐项核验 68 项工件，全部一致。完整指标、原始参数及 Adam 状态重建、预算和访问审计见 [A06 证据收据](../reports/task3_model_refinement/kiki_a06_joint_refinement_20261024_evidence.json)。科学规则沿用 [A06 设计](kiki_a06_astra_design_20261024_zh.md)。
 
 ## 1. 共同微调带来的改善成立
 

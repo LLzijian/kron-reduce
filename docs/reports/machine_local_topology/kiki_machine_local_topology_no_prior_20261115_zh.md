@@ -30,4 +30,4 @@ train 的真值匹配时段内，零先验组的两个步长均复现 5/35 个�
 | 原 T0M1 | test | 0.304603（67） | 0.254362（67） | 0.213347（67） | 0.190670（67） | 0.424230 |
 | 零先验 | test | 0.304014（67） | 0.253759（67） | 0.213123（67） | 0.190526（67） | 0.425514 |
 
-实际运行 kiki_machine_local_topology_no_prior_test_v1-test-20261115T100255429278Z-e5125686-7f041476。保存预测独立复算覆盖全部 529 例，逐例与汇总评分一致。部署决定为 KEEP_BASELINE。[运行回执](../kiki_machine_local_topology_no_prior_20261115_evidence.json) · [保存预测复算](../kiki_machine_local_topology_no_prior_saved_audit_20261115_evidence.json)
+实际运行 kiki_machine_local_topology_no_prior_test_v1-test-20261115T100255429278Z-e5125686-7f041476。保存预测独立复算覆盖全部 529 例，逐例与汇总评分一致。部署决定为 KEEP_BASELINE。[运行回执](kiki_machine_local_topology_no_prior_20261115_evidence.json) · [保存预测复算](kiki_machine_local_topology_no_prior_saved_audit_20261115_evidence.json)

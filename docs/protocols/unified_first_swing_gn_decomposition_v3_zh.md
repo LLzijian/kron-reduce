@@ -1,6 +1,6 @@
 # M1 因果 GN 先验与半径解耦消融
 
-用上一轮冻结的 T0M1 加逐机功角阻尼方程，量化先验衰减和放宽记忆半径各自对首摆速度和稳定轨迹的影响。共享系数和预处理沿用 M1 第 0 步。使用冻结的来源限定名单 `train=346` 和 `val=107`。拟合、梯度、共享参数更新和 `test` 轨迹读取的上限均为零。一次完整执行，先通过合成回归，再登记阶段批准。[第 0 步回执](../reports/unified_first_swing_fit_20261119_evidence.json) · [自适应 GN 回执](../reports/unified_first_swing_probes_v2_20261119_evidence.json)
+用上一轮冻结的 T0M1 加逐机功角阻尼方程，量化先验衰减和放宽记忆半径各自对首摆速度和稳定轨迹的影响。共享系数和预处理沿用 M1 第 0 步。使用冻结的来源限定名单 `train=346` 和 `val=107`。拟合、梯度、共享参数更新和 `test` 轨迹读取的上限均为零。一次完整执行，先通过合成回归，再登记阶段批准。[第 0 步回执](../reports/postfault_structure/unified_first_swing_fit_20261119_evidence.json) · [自适应 GN 回执](../reports/postfault_structure/unified_first_swing_probes_v2_20261119_evidence.json)
 
 ## 对照与参数网格
 

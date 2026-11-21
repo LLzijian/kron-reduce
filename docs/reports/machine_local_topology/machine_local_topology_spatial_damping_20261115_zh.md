@@ -25,4 +25,4 @@
 
 两种真值、两种候选的稳定性计数相同。train 的 TP/TN/FP/FN 为 6/18/0/0，val 与 test 均为 3/9/0/0，完整准确率和覆盖率均为 100%。两个逐机真值候选都复现了 train 6/6 与 val 3/3 个匹配失步窗口。
 
-运行 `machine_local_topology_spatial_damping_v1-spatial_damping-20261115T121431844839Z-ba8eebb1-2d083c3f`。独立复核完成四组全名单、系数、残差和门槛。真实数据读取为零。[回执](../machine_local_topology_spatial_damping_20261115_evidence.json) · [独立复核](../../research/machine_local_topology_spatial_damping_result_review_20261115.json)
+运行 `machine_local_topology_spatial_damping_v1-spatial_damping-20261115T121431844839Z-ba8eebb1-2d083c3f`。独立复核完成四组全名单、系数、残差和门槛。真实数据读取为零。[回执](machine_local_topology_spatial_damping_20261115_evidence.json) · [独立复核](../../research/machine_local_topology_spatial_damping_result_review_20261115.json)

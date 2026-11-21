@@ -12,4 +12,4 @@
 
 原 T0M1 的弱动量系统在 10 ms 和 20 ms 下均为秩 10。放开半径后，仅失稳组达到 20% 残差改善门槛。该检验使用起报后的实测速度评价动力学一致性，未做闭环预测。数据日志验证只读取完整 train，未读取 val 或 test 的轨迹。
 
-运行 `kiki_machine_local_topology_origin_transfer_v1-train_momentum-20261115T110223793521Z-11e9ffa4-23dd8516`。静态和开发缓存各打开一次，使用 692 次 SVD、346 次球约束求解和 103531 个动量区间。保存结果已复核，部署保持 `KEEP_BASELINE`。[运行回执](../kiki_machine_local_topology_origin_transfer_20261115_evidence.json) · [独立审核](../../research/kiki_machine_local_topology_origin_transfer_result_review_20261115.json)
+运行 `kiki_machine_local_topology_origin_transfer_v1-train_momentum-20261115T110223793521Z-11e9ffa4-23dd8516`。静态和开发缓存各打开一次，使用 692 次 SVD、346 次球约束求解和 103531 个动量区间。保存结果已复核，部署保持 `KEEP_BASELINE`。[运行回执](kiki_machine_local_topology_origin_transfer_20261115_evidence.json) · [独立审核](../../research/kiki_machine_local_topology_origin_transfer_result_review_20261115.json)

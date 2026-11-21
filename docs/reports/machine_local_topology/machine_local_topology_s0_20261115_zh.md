@@ -28,4 +28,4 @@
 
 原 S0 运行 `machine_local_topology_v1-s0-20261114T184726142935Z-365ae0c0-7b846990` 保存了全部正向评分和轨迹，写汇总时因负对照的秩为 NumPy 整数而失败。补录 `machine_local_topology_closeout_v1-closeout-20261114T185149479694Z-e942ba8c-da75d03d` 校验原文件的 21 个哈希，再独立计算两个负对照。保留原失败记录和预算。独立复核重算了 165 个误差聚合、16 个正向工程门和 86770 条操作记录。
 
-工程门通过，保留现有基线。下一阶段先固定基础边刚度的相对形状，从偏离真值的共享刚度尺度、阻尼尺度和记忆参数起点检验可学习性。预测仍用同一套 100 ms 有界初始化规则。[研究方案](../../research/machine_local_topology_memory_plan_20261115_zh.md) · [证据收据](../machine_local_topology_s0_20261115_evidence.json)
+工程门通过，保留现有基线。下一阶段先固定基础边刚度的相对形状，从偏离真值的共享刚度尺度、阻尼尺度和记忆参数起点检验可学习性。预测仍用同一套 100 ms 有界初始化规则。[研究方案](../../research/machine_local_topology_memory_plan_20261115_zh.md) · [证据收据](machine_local_topology_s0_20261115_evidence.json)
