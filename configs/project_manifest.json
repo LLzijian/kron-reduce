@@ -3414,7 +3414,10 @@
       "val_use": "official_val_for_preregistered_selection",
       "reads_validation_performance": true,
       "reads_test_performance": false,
-      "paired_comparison": ["rollout_control", "first_swing"],
+      "paired_comparison": [
+        "rollout_control",
+        "first_swing"
+      ],
       "development_authorization_id": "unified_first_swing_v1_20261119"
     },
     "kiki_topology_memory_balance_v1": {
@@ -3437,6 +3440,28 @@
       "reads_validation_performance": false,
       "reads_test_performance": false,
       "development_authorization_id": "kiki_topology_memory_balance_v1_20261116"
+    },
+    "blind_dataset_build_m5_v1": {
+      "module": "kron_reduce.workflows.blind_confirmation_m5",
+      "workflow": "blind_confirmation_m5_v1",
+      "config": "blind_confirmation_m5_v1.toml",
+      "status": "gated",
+      "dataset": "kiki_ieee39_v1",
+      "data_policy": "kiki_official_train_test_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "input_contract_id": "measured_history_100ms_zoh_v1",
+      "training_split": "train",
+      "internal_resplit": false,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "execution_mode": "bounded_kiki_official_cli_only",
+      "reads_validation_performance": false,
+      "reads_test_performance": false,
+      "stage": "build",
+      "required_gate": "build",
+      "val_use": "historical_conditions_and_first_frame_hash_only",
+      "development_authorization_id": "blind_dataset_build_m5_v1_20261121"
     }
   },
   "active_policy": "configs/research_policy.json",

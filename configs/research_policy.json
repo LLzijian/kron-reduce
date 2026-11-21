@@ -92,7 +92,7 @@
       "result_receipt_sha256": "7e4585794553ec47b5208cb211ff3e1299e867aa85abc3081b46fc866d5f2928"
     },
     "postfault_m4_v2_repair_20261121": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "postfault_m4_v2",
       "authority": "explicit_operator_archived_m4_v2_engineering_repair",
       "plan_path": "configs/experiments/postfault_m4_v2_repair.toml",
@@ -113,7 +113,12 @@
       "gradients": 0,
       "optimizer_updates": 0,
       "previous_failed_attempt_receipt": "docs/reports/postfault_m4_v2_failed_20261121_evidence.json",
-      "previous_failed_attempt_sha256": "7e4585794553ec47b5208cb211ff3e1299e867aa85abc3081b46fc866d5f2928"
+      "previous_failed_attempt_sha256": "7e4585794553ec47b5208cb211ff3e1299e867aa85abc3081b46fc866d5f2928",
+      "process_status": "PASS",
+      "run_id": "postfault_m4_v2-analysis-20261121T060746860331Z-c955592a-e210fd93",
+      "result_receipt_path": "docs/reports/postfault_m4_v2_20261121_evidence.json",
+      "result_receipt_sha256": "5e414bcfdea4104be300fdf9c1b2ddf3455b5ba0279f3728dd596fd6de0b58b6",
+      "test_trajectory_reads": 0
     },
     "postfault_m4_v1_20261121": {
       "status": "consumed",
@@ -2174,6 +2179,27 @@
       "result_review_sha256": "47e92af17ca1bf01ad8325c7bb04a1a6a99b73620f0c4b1d045210d65a96ca92",
       "engineering_pass": true,
       "scientific_pass": false
+    },
+    "blind_dataset_build_m5_v1_20261121": {
+      "status": "active",
+      "experiment": "blind_dataset_build_m5_v1",
+      "authority": "explicit_user_same_simulator_independent_blind_build_and_seal",
+      "plan_path": "configs/experiments/blind_confirmation_m5_v1.toml",
+      "plan_sha256": "04db7c59a03a91920356100314121209f3578409893989cec83855cfc7ee367b",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "allowed_roles": [
+        "historical_clearing_frame_hashes"
+      ],
+      "fit_attempts": 0,
+      "gradients": 0,
+      "optimizer_updates": 0,
+      "test_cases": 0,
+      "historical_clearing_frames": 529,
+      "fixed_test_clearing_frames_only": 76,
+      "max_simulations": 210,
+      "expected_new_events": 94,
+      "blind_trajectory_prediction_allowed": false
     }
   },
   "archived_development_results": {

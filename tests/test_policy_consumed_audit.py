@@ -60,6 +60,36 @@ def test_consumed_test_registration_audits_without_reopening_execution(registere
         validate_run_policy(root, "next", manifest["experiments"]["next"])
 
 
+def test_independent_confirmation_requires_seal_and_cannot_run_twice(registered):
+    root, policy, manifest = registered
+    name = "kiki_ieee39_blind_v2"
+    cohort = root / "data" / name
+    cohort.mkdir(parents=True)
+    for filename in ("manifest.json", "checksums.sha256"):
+        (cohort / filename).write_text("sealed metadata", encoding="utf-8")
+    experiment = manifest["experiments"]["next"] | {
+        "dataset": name, "stage": "blind", "execution_mode": "bounded_kiki_independent_cli_only",
+        "blind_authorization": "independent",
+    }
+    auth = {"status": "active", "dataset": name, "experiment": "next", "allowed_roles": ["blind"],
+            "max_executions": 1, "fit_attempts": 0, "gradients": 0, "optimizer_updates": 0,
+            "test_cases": 0, "retry_allowed": False,
+            "dataset_manifest_sha256": sha256_file(cohort / "manifest.json"),
+            "dataset_checksums_sha256": sha256_file(cohort / "checksums.sha256")}
+    config = root / "configs/research_policy.json"
+    policy["independent_confirmations"] = {"independent": auth}
+    config.write_text(json.dumps(policy), encoding="utf-8")
+    validate_run_policy(root, "next", experiment)
+    auth["status"] = "consumed"
+    config.write_text(json.dumps(policy), encoding="utf-8")
+    validate_run_policy(root, "next", experiment, audit_only=True)
+    with pytest.raises(RuntimeError, match="INDEPENDENT_CONFIRMATION"):
+        validate_run_policy(root, "next", experiment)
+    (cohort / "checksums.sha256").write_text("changed", encoding="utf-8")
+    with pytest.raises(RuntimeError, match="sealed checksums.sha256"):
+        validate_run_policy(root, "next", experiment, audit_only=True)
+
+
 @pytest.mark.parametrize("field,value", [
     ("status", "paused"), ("status", "rejected"), ("experiment", "other"),
     ("fit_attempts", 1), ("max_executions", 2), ("retry_allowed", True),

@@ -1,0 +1,2102 @@
+[
+  {
+    "id": "blind_0001",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.071,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0002",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.107,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0003",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.157,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0004",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.071,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0005",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.207,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0006",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.157,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0007",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.071,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0008",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.207,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0009",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.207,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0010",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.071,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0011",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.157,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0012",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.157,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0013",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.071,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0014",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.207,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0015",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.157,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0016",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.071,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0017",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.207,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0018",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.257,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0019",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.071,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0020",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.257,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0021",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.257,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0022",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.111,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0023",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.117,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0024",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.167,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0025",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.111,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0026",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0027",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.167,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0028",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.111,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0029",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0030",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0031",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.111,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0032",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.167,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0033",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.167,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0034",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.111,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0035",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0036",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.167,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0037",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.111,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0038",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0039",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.267,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0040",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.111,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0041",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.267,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0042",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.267,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0043",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.161,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0044",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.127,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0045",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.177,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0046",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.161,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0047",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.227,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0048",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.177,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0049",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.161,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0050",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.227,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0051",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.227,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0052",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.161,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0053",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.177,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0054",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.177,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0055",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.161,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0056",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.227,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0057",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.177,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0058",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.161,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0059",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.227,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0060",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.277,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0061",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.161,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0062",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.277,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0063",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.277,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0064",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.211,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0065",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.137,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0066",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.187,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0067",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.211,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0068",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.237,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0069",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.187,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0070",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.211,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0071",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.237,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0072",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.237,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0073",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.211,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0074",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.187,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0075",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.187,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0076",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.211,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0077",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.237,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0078",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.187,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0079",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.211,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0080",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.237,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0081",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.287,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0082",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.211,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0083",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.287,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0084",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.287,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0085",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.281,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0086",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.147,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0087",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.197,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0088",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.281,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0089",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.247,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0090",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.197,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0091",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.281,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0092",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.247,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0093",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.247,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0094",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.281,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0095",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.197,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0096",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.197,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0097",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.281,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0098",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.247,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0099",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.197,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0100",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.281,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0101",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.247,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0102",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.297,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0103",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.281,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0104",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.297,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0105",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.297,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0106",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.341,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0107",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.167,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0108",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0109",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.341,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0110",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.267,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0111",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0112",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.341,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0113",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.267,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0114",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.267,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0115",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.341,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0116",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0117",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0118",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.341,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0119",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.267,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0120",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.217,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0121",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.341,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0122",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.267,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0123",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.333,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0124",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.341,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0125",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.333,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0126",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.333,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0127",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.411,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0128",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.203,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0129",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.253,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0130",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.411,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0131",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.303,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0132",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.253,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0133",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.411,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0134",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.303,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0135",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.303,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0136",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.411,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0137",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.253,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0138",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.253,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0139",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.411,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0140",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.303,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0141",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.253,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0142",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.411,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0143",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.303,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0144",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.403,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0145",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.411,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0146",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.403,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0147",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.403,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0148",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.471,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0149",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.213,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0150",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.263,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0151",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.471,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0152",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.313,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0153",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.263,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0154",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.471,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0155",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.313,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0156",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.313,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0157",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.471,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0158",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.263,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0159",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.263,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0160",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.471,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0161",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.313,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0162",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.263,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0163",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.471,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0164",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.313,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0165",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.413,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0166",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.471,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0167",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.413,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0168",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.413,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": true
+  },
+  {
+    "id": "blind_0169",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.541,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0170",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.223,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0171",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.273,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0172",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.541,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0173",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.323,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0174",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.273,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0175",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.541,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0176",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.323,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0177",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.323,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0178",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.541,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0179",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.273,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0180",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.273,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0181",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.541,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0182",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.323,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0183",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.273,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0184",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.541,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0185",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.323,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0186",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.423,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0187",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.541,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0188",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.423,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0189",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.423,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0190",
+    "bus": 7,
+    "line": "Line_11",
+    "location": 1.0,
+    "duration_s": 0.591,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0191",
+    "bus": 32,
+    "line": "Line_37",
+    "location": 1.0,
+    "duration_s": 0.233,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0192",
+    "bus": 5,
+    "line": "Line_7",
+    "location": 1.0,
+    "duration_s": 0.283,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0193",
+    "bus": 13,
+    "line": "Line_17",
+    "location": 1.0,
+    "duration_s": 0.591,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0194",
+    "bus": 4,
+    "line": "Line_5",
+    "location": 1.0,
+    "duration_s": 0.333,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0195",
+    "bus": 11,
+    "line": "Line_12",
+    "location": 1.0,
+    "duration_s": 0.283,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0196",
+    "bus": 19,
+    "line": "Line_22",
+    "location": 1.0,
+    "duration_s": 0.591,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0197",
+    "bus": 8,
+    "line": "Line_10",
+    "location": 1.0,
+    "duration_s": 0.333,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0198",
+    "bus": 14,
+    "line": "Line_8",
+    "location": 1.0,
+    "duration_s": 0.333,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0199",
+    "bus": 25,
+    "line": "Line_4",
+    "location": 1.0,
+    "duration_s": 0.591,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0200",
+    "bus": 31,
+    "line": "Line_36",
+    "location": 0.0,
+    "duration_s": 0.283,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0201",
+    "bus": 10,
+    "line": "Line_16",
+    "location": 0.0,
+    "duration_s": 0.283,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0202",
+    "bus": 37,
+    "line": "Line_45",
+    "location": 1.0,
+    "duration_s": 0.591,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0203",
+    "bus": 36,
+    "line": "Line_44",
+    "location": 1.0,
+    "duration_s": 0.333,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0204",
+    "bus": 20,
+    "line": "Line_40",
+    "location": 1.0,
+    "duration_s": 0.283,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0205",
+    "bus": 38,
+    "line": "Line_46",
+    "location": 1.0,
+    "duration_s": 0.591,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0206",
+    "bus": 33,
+    "line": "Line_41",
+    "location": 1.0,
+    "duration_s": 0.333,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0207",
+    "bus": 24,
+    "line": "Line_24",
+    "location": 1.0,
+    "duration_s": 0.433,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0208",
+    "bus": 39,
+    "line": "Line_2",
+    "location": 1.0,
+    "duration_s": 0.591,
+    "xf": 0.001,
+    "unseen_train_val_bus": true,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0209",
+    "bus": 17,
+    "line": "Line_21",
+    "location": 1.0,
+    "duration_s": 0.433,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  },
+  {
+    "id": "blind_0210",
+    "bus": 21,
+    "line": "Line_23",
+    "location": 1.0,
+    "duration_s": 0.433,
+    "xf": 0.001,
+    "unseen_train_val_bus": false,
+    "near_historical_transition": false
+  }
+]

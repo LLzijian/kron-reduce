@@ -95,6 +95,8 @@ def verify_data(root: Path, *, dataset_name: str | None = None) -> dict:
     manifest = load_manifest(root)
     default_name = dataset_name or manifest["default_dataset"]
     entry = manifest["datasets"][default_name]
+    if entry.get("kind") == "sealed_independent_hdf5":
+        raise RuntimeError("SEALED_INDEPENDENT_HDF5: use the dedicated one-use blind evaluation CLI")
     if entry.get("kind") == "external_hdf5_bundle":
         result = _verify_external_bundle(root, entry)
         for name, candidate in manifest["datasets"].items():

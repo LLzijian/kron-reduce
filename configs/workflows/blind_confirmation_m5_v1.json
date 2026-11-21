@@ -1,0 +1,19 @@
+{
+  "workflow": "blind_confirmation_m5_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "build", "blind"],
+  "transitions": {"scaffold": "build", "build": "blind"},
+  "approval_required": ["build", "blind"],
+  "terminal_stages": ["blind"],
+  "stage_evidence_contracts": {
+    "build": {
+      "required_fields": ["status", "process_status", "source_commit", "plan_sha256", "claim_boundary", "artifact_manifest", "dataset_manifest_sha256", "dataset_checksums_sha256", "historical_clearing_frames", "fixed_test_clearing_frames_only", "events", "fits", "gradients", "optimizer_updates", "model_rollouts", "test_full_trajectory_reads"],
+      "allowed_values": {"historical_clearing_frames": [529], "fixed_test_clearing_frames_only": [76], "events": [94], "fits": [0], "gradients": [0], "optimizer_updates": [0], "model_rollouts": [0], "test_full_trajectory_reads": [0]}
+    },
+    "blind": {
+      "required_fields": ["status", "process_status", "source_commit", "plan_sha256", "claim_boundary", "artifact_manifest", "dataset_manifest_sha256", "dataset_checksums_sha256", "events", "blind_container_opens", "fits", "gradients", "optimizer_updates", "test_trajectory_reads"],
+      "allowed_values": {"events": [94], "blind_container_opens": [1], "fits": [0], "gradients": [0], "optimizer_updates": [0], "test_trajectory_reads": [0]}
+    }
+  }
+}

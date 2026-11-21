@@ -1,0 +1,87 @@
+split_reference_sha256 = "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2"
+a06_sha256 = "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8"
+backbone_archive = "results/backup/kiki_a03_a17_subsets/KIKI_a06.zip"
+prior_weight = 1e-06
+v4_parameters_sha256 = "ccb7c40557787e6aa9a5603bc63657e3727fe944e631da9dda5498fe03b9289d"
+m3b_parameters_sha256 = "fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a"
+preprocessing_sha256 = "c6473edfce144cffcb56fda8fbad589ef5e88b8147629df3fa2a1dee219fce5e"
+v4_scope = "unified_first_swing_v4_fit_20261119"
+m3b_scope = "unified_discovery_m3b_v1_20261121"
+v4_receipt = "docs/reports/unified_first_swing_v4_fit_20261119_evidence.json"
+m3b_receipt = "docs/reports/unified_discovery_m3b_v1_20261121_evidence.json"
+source_contract = "configs/proposals/kiki_machine_local_full_fit_v1.json"
+registry_manifest = "data/kiki_ieee39_v1/manifest.json"
+generator = "data/kiki_ieee39_v1/provenance/generate_private_dataset.py"
+generator_config = "data/kiki_ieee39_v1/provenance/private_dataset.json"
+candidate_schedule = "configs/proposals/m5_blind_conditions_v1.json"
+kiki_src = "E:/03-nn_Transfer_Func/kiki/src"
+
+[settings]
+eval_batch = 64
+prior_weight = 1e-06
+bootstrap_seed = 20261121
+
+[operations]
+fits = 0
+gradients = 0
+optimizer_updates = 0
+rollouts = 84
+torch_rhs = 247680
+tangent_rhs = 14400
+qr = 2820
+svd = 2820
+matrix_products = 2820
+triangular_solves = 2820
+
+[kiki_bindings]
+"kiki/data/private_dataset.py" = "615ec905047a81f681620d3f214b6dfa60be3c78af7059de21b232c593d941ee"
+"kiki/physics/coordinates.py" = "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089"
+
+[task3_bindings]
+"src/task3/c2/evaluation.py" = "47b93793b937cc6cc40bca9a4fb8cd45c1cd6e602a66ecaaeaf2cdb11560e323"
+"src/task3/protocol.py" = "c09d9d8a142377b8d7ff414fa477b41d5b28b1e29cc633b8a9378b9d94cc9d59"
+"src/task3/c2/safety.py" = "11d08a18db571bd640429aeb3d4ee5361b9963b018797bd17986c15bed89b45c"
+
+[history_hdf.ieee39_postfault]
+path = "E:/03-nn_Transfer_Func/kiki/private_data/ieee39_postfault/dataset.h5"
+bytes = 2111122968
+archive_sha256 = "480853fa7cdb67dbbdbca60463f09cf9cd44ed972d33c934c7edf1029b1c66e4"
+
+[history_hdf.ieee39_expansion]
+path = "E:/03-nn_Transfer_Func/kiki/private_data/ieee39_expansion/dataset.h5"
+bytes = 1324250705
+archive_sha256 = "c8b4378727b367a6b88dbd35a7533828ff977722093748310301b2e3da5a6116"
+
+[history_hdf.ieee39_holdout_supplement]
+path = "E:/03-nn_Transfer_Func/kiki/private_data/ieee39_holdout_supplement/dataset.h5"
+bytes = 169957630
+
+[bindings]
+"configs/workflows/blind_confirmation_m5_v1.json" = "c7b21a7307802a732d4b7b0f2770a51c63ad13fde2bae63873de3db17093703a"
+"docs/protocols/blind_confirmation_m5_v1_zh.md" = "ff226244ff0cc1abab239d4b8cdb0e33379f4fbfcd33509bdcc5d916fd207338"
+"docs/reports/postfault_m4_v2_20261121_evidence.json" = "5e414bcfdea4104be300fdf9c1b2ddf3455b5ba0279f3728dd596fd6de0b58b6"
+"configs/proposals/kiki_machine_local_full_fit_v1.json" = "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed"
+"data/kiki_ieee39_v1/manifest.json" = "688d564f381f5ba472633cdcc3258f84baf7a3861616c5230432dba9c5e9ecb3"
+"data/kiki_ieee39_v1/provenance/generate_private_dataset.py" = "239b574f7b17b26c2c315f5be6b7aebaf05e82e1c91c61b32d48135caf452ab8"
+"data/kiki_ieee39_v1/provenance/private_dataset.json" = "c6735b3dd07785df0c5018a6ce043b5072c4b236614d1c9714492ea4d73f2555"
+"configs/proposals/m5_blind_conditions_v1.json" = "e4c361aef30a246d35cb6c4c75ef98c2cd530eacc56fd41b96d57f6f31bd2aaa"
+"docs/reports/unified_first_swing_v4_fit_20261119_evidence.json" = "b20508d16545440b46b3456483849b0bd9871b58f8cb481ca77e17fd8c74fe4f"
+"docs/reports/unified_discovery_m3b_v1_20261121_evidence.json" = "d8060ebc30f37fe20a541a31b3927ced5a9c95fc877d11e89300f24e3c45c1c4"
+"configs/proposals/kiki_task3_split_reference_v1.json" = "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2"
+"configs/input_contracts.json" = "6c31fb878d3bed1d43bf70acf84995b5ec5d6d1f2ae64a1809febe0c00b3f83c"
+"requirements/constraints-py312.txt" = "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9"
+"scripts/run_blind_confirmation_m5.py" = "dae2f4b84aefe17298e796ba1468aa73cbd8661bfa446923b36c36af0c369b86"
+"src/kron_reduce/workflows/blind_confirmation_m5.py" = "cf711e607c5245c654729fbf94c9f5197724d64ee72dbf316f30b1d9249417c4"
+"src/kron_reduce/workflows/postfault_m4_v2.py" = "76311f4772bc5b9d05fea2141b2b7b4d0776060f27307f5a55a210c120bcd626"
+"src/kron_reduce/data/blind_dataset_m5.py" = "06bef95da396e92adc9f209ad9eeff6cc226f9a2d5732ec8474741c58f2ea93b"
+"src/kron_reduce/evaluation/blind_confirmation_m5.py" = "ac75d8d1272df9fd2ff0df9c2549ba35a56d663d551b08a0a66403eacaee8a57"
+"src/kron_reduce/evaluation/kiki_machine_local_full.py" = "727d2c84ac3034864b6d5f34a3705ec7a65dc8415810b8a867c1ccd06cfa0652"
+"src/kron_reduce/evaluation/postfault_m4.py" = "14354c74881c20d52c088498eddf3ae731cc5078a97b78c547a3c8ac38e1d5a4"
+"src/kron_reduce/evaluation/postfault_m4_modes.py" = "c08975e790393b8e2af70d9cd1523f81114831b355051fc1830e1d3a5d9d24c7"
+"src/kron_reduce/evaluation/trajectory_stability.py" = "08dbe9c7b2803f4f6cba404c2227a334932d5f37248f6226dd6f15351270142c"
+"src/kron_reduce/physics/coordinates.py" = "9a738d46647ab631407f8e4b5814fe0a7868c717e31fda13963861c10e373089"
+"src/kron_reduce/models/first_swing_fit.py" = "81a8fd2f091a9cf72cf1a73383f583d134749d8adb33332a9b4103e4c341bddc"
+"src/kron_reduce/models/unified_discovery_m3.py" = "46c295d9763c87b33851bd196823b42cb36a3a037be86971deb467f8eb6037b4"
+"src/kron_reduce/models/nonlinear_history.py" = "f8ce5dd063219c9460fbc67c7b6b3620520153c56258ee6d6be98f7f89d49087"
+"project_harness/policy.py" = "aa1b453390000020b3cbf654e6b5431afac6a75708094f635e4e8580eb4e3115"
+"project_harness/runner.py" = "5805b0d09873e5393b2397648f6b5cd15ef71d007e0500ede381b8cb2527b895"

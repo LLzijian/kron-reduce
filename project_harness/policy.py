@@ -36,6 +36,24 @@ def validate_run_policy(
         raise RuntimeError("HISTORICAL_IDENTITY: replay is restricted to the frozen registry")
     if dataset in policy["synthetic_datasets"]:
         return
+    if experiment.get("execution_mode") == "bounded_kiki_independent_cli_only":
+        auth = policy.get("independent_confirmations", {}).get(experiment.get("blind_authorization"), {})
+        statuses = {"active", "consumed"} if audit_only else {"active"}
+        required = {"experiment": name, "dataset": "kiki_ieee39_blind_v2", "allowed_roles": ["blind"],
+                    "max_executions": 1, "retry_allowed": False, "fit_attempts": 0,
+                    "gradients": 0, "optimizer_updates": 0, "test_cases": 0}
+        experiment_fields = {"dataset": required["dataset"], "stage": "blind", "spatial_node_count": 10,
+                             "spatial_clustering": False, "input_contract_id": "measured_history_100ms_zoh_v1"}
+        if (auth.get("status") not in statuses
+                or any(type(auth.get(k)) is not type(v) or auth[k] != v for k, v in required.items())
+                or any(type(experiment.get(k)) is not type(v) or experiment[k] != v
+                       for k, v in experiment_fields.items())):
+            raise RuntimeError("INDEPENDENT_CONFIRMATION: register the sealed, frozen evaluation scope")
+        for field, filename in (("dataset_manifest_sha256", "manifest.json"), ("dataset_checksums_sha256", "checksums.sha256")):
+            path = root / "data" / required["dataset"] / filename
+            if not path.is_file() or sha256_file(path) != auth.get(field):
+                raise RuntimeError(f"INDEPENDENT_CONFIRMATION: sealed {filename} is missing or changed")
+        return
     if dataset != policy["primary_real_dataset"]:
         raise RuntimeError("DATASET_POLICY: new real-data experiments must use registered kiki data")
     if experiment.get("spatial_node_count") != 10 or experiment.get("spatial_clustering") is not False:
