@@ -15,6 +15,8 @@ compares overall and branch-dependent changes and diagnoses their history initia
 
 [M5 独立盲测](blind_confirmation_m5_v1_20261121_zh.md)记录 94 个封存事件的完整双步长评分和故障组配对区间。[盲测集封存回执](blind_dataset_build_m5_v1_20261121_evidence.json)记录仿真与零重叠核验。
 
+[TASK3 文献方法与当前模型的三组名单对照](task3_three_cohort_comparison_20261121_zh.md)并列 `val`、`test` 与 `blind_v2` 的归档评分，复核逐例判别口径并汇总轨迹误差。
+
 ## Report contract
 
 Each new report should state:

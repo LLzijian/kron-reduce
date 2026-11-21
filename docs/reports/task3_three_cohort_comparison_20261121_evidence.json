@@ -1,0 +1,4886 @@
+{
+  "cohorts": {
+    "val": {
+      "n": 107,
+      "labels": {
+        "stable": 95,
+        "unstable": 12
+      },
+      "fault_groups": 8
+    },
+    "test": {
+      "n": 76,
+      "labels": {
+        "stable": 67,
+        "unstable": 9
+      },
+      "fault_groups": 3
+    },
+    "blind_v2": {
+      "n": 94,
+      "labels": {
+        "stable": 62,
+        "unstable": 32
+      },
+      "fault_groups": 21
+    }
+  },
+  "trajectories": [
+    {
+      "release": "kron",
+      "model": "hard_r",
+      "name": "V4 硬 R",
+      "family": "own",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 11,
+            "tn": 95,
+            "fp": 0,
+            "fn": 1,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9906542056074766,
+            "resolved_accuracy": 0.9906542056074766,
+            "confirmed_recall": 0.9166666666666666,
+            "not_confirmed_rate": 0.08333333333333333,
+            "confirmed_miss_rate": 0.08333333333333333,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.2779002892115969,
+              "median": 0.223541843325427,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.2625115338596765,
+              "median": 0.2042706798730608,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.22625491116785723,
+              "median": 0.1980158372949465,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.22020360571964218,
+              "median": 0.19221352224920965,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.7697905746205115,
+            "median": 0.6748330098304476,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "kron-reduce/results/unified_first_swing_v4_fit-fit-20261119T085346160446Z-4256b8a8-2aac3232/hard_r/val.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 3,
+            "tn": 67,
+            "fp": 0,
+            "fn": 4,
+            "unsettled": {
+              "unstable": 2,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9736842105263158,
+            "resolved": 74,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9459459459459459,
+            "confirmed_recall": 0.3333333333333333,
+            "not_confirmed_rate": 0.6666666666666666,
+            "confirmed_miss_rate": 0.4444444444444444,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.2939459818302094,
+              "median": 0.2623783604795079,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.24672173618956117,
+              "median": 0.21655956919822753,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.20932728063236072,
+              "median": 0.17889254444288044,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.18778623378407414,
+              "median": 0.15899127507531624,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.0185218130324025,
+            "median": 1.1361574894260034,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "kron-reduce/results/unified_first_swing_v4_test-test-20261120T062857089605Z-e44f1587-a79403a1/hard_r/test.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 25,
+            "tn": 62,
+            "fp": 0,
+            "fn": 6,
+            "unsettled": {
+              "unstable": 1,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9893617021276596,
+            "resolved": 93,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9354838709677419,
+            "confirmed_recall": 0.78125,
+            "not_confirmed_rate": 0.21875,
+            "confirmed_miss_rate": 0.1875,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3382696841904681,
+              "median": 0.3509008372151897,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.3072220302457152,
+              "median": 0.3313077280460469,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.25671983612437527,
+              "median": 0.2826071926184539,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.24808897450668235,
+              "median": 0.26334761434994003,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.8607546888877042,
+            "median": 0.6630918095100199,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "kron-reduce/results/blind_confirmation_m5_v1-blind-20261121T064636317312Z-26fe26a3-b73dd81d/v4_hard_r/dual_metrics.json"
+        }
+      }
+    },
+    {
+      "release": "kron",
+      "model": "soft_2r",
+      "name": "V4 软 2R",
+      "family": "own",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 12,
+            "tn": 94,
+            "fp": 1,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9906542056074766,
+            "resolved_accuracy": 0.9906542056074766,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.010526315789473684
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3364189426581748,
+              "median": 0.2912050911994445,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.3349486603327303,
+              "median": 0.26551750238136573,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.2784518590427202,
+              "median": 0.21635729790115027,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.26284479914652603,
+              "median": 0.20772091463637132,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.624732486807759,
+            "median": 0.4404582509375241,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "kron-reduce/results/unified_first_swing_v4_fit-fit-20261119T085346160446Z-4256b8a8-2aac3232/soft_2r/val.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 6,
+            "tn": 67,
+            "fp": 0,
+            "fn": 1,
+            "unsettled": {
+              "unstable": 2,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9736842105263158,
+            "resolved": 74,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9864864864864865,
+            "confirmed_recall": 0.6666666666666666,
+            "not_confirmed_rate": 0.3333333333333333,
+            "confirmed_miss_rate": 0.1111111111111111,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.34539954351214835,
+              "median": 0.2926291068452523,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.29459985735143734,
+              "median": 0.2693346382049982,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.23698267797672293,
+              "median": 0.20512659108805653,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.2078601517184991,
+              "median": 0.17583478019079654,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.3817588648551993,
+            "median": 0.7901039689296869,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "kron-reduce/results/unified_first_swing_v4_test-test-20261120T062857089605Z-e44f1587-a79403a1/soft_2r/test.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 27,
+            "tn": 62,
+            "fp": 0,
+            "fn": 5,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 94,
+            "all_accuracy": 0.9468085106382979,
+            "resolved_accuracy": 0.9468085106382979,
+            "confirmed_recall": 0.84375,
+            "not_confirmed_rate": 0.15625,
+            "confirmed_miss_rate": 0.15625,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.36356381319650016,
+              "median": 0.3718131198528284,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.3405122121955949,
+              "median": 0.33272870849875913,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.2750959497390438,
+              "median": 0.25854707383571107,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.25930091917316567,
+              "median": 0.25972374198535564,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.7389570247734694,
+            "median": 0.511060047311604,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "kron-reduce/results/blind_confirmation_m5_v1-blind-20261121T064636317312Z-26fe26a3-b73dd81d/v4_soft_2r/dual_metrics.json"
+        }
+      }
+    },
+    {
+      "release": "kron",
+      "model": "m3b_g2",
+      "name": "M3b G2",
+      "family": "own",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 12,
+            "tn": 93,
+            "fp": 2,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9813084112149533,
+            "resolved_accuracy": 0.9813084112149533,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.021052631578947368
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3187595361393878,
+              "median": 0.2574603818520219,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.32907836569054183,
+              "median": 0.24087152977565784,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.3553914399256729,
+              "median": 0.1988233710810139,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.4383756605580359,
+              "median": 0.1902634090864748,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.6684572096973369,
+            "median": 0.43111976706793664,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "kron-reduce/results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/support-G2/val.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 5,
+            "tn": 67,
+            "fp": 0,
+            "fn": 2,
+            "unsettled": {
+              "unstable": 2,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9736842105263158,
+            "resolved": 74,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.972972972972973,
+            "confirmed_recall": 0.5555555555555556,
+            "not_confirmed_rate": 0.4444444444444444,
+            "confirmed_miss_rate": 0.2222222222222222,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.33688353773314655,
+              "median": 0.2882216649481919,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.28741198642031207,
+              "median": 0.25209436945474356,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.22966720216191072,
+              "median": 0.19521135652049176,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.2008281034455843,
+              "median": 0.16734826432996883,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.373211132952609,
+            "median": 0.8850518832824643,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "kron-reduce/results/unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd/test.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 29,
+            "tn": 62,
+            "fp": 0,
+            "fn": 3,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 94,
+            "all_accuracy": 0.9680851063829787,
+            "resolved_accuracy": 0.9680851063829787,
+            "confirmed_recall": 0.90625,
+            "not_confirmed_rate": 0.09375,
+            "confirmed_miss_rate": 0.09375,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3524654156196989,
+              "median": 0.37061335574663673,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.33788118806332024,
+              "median": 0.34171637575473357,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.26794913852075386,
+              "median": 0.2570650829145053,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.25122263787892235,
+              "median": 0.24764928157547642,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.7318091145402926,
+            "median": 0.5169231785644863,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "kron-reduce/results/blind_confirmation_m5_v1-blind-20261121T064636317312Z-26fe26a3-b73dd81d/m3b_g2/dual_metrics.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "graph_gru_extension1",
+      "name": "Graph-GRU 延长版",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 9,
+            "tn": 93,
+            "fp": 2,
+            "fn": 3,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9532710280373832,
+            "resolved_accuracy": 0.9532710280373832,
+            "confirmed_recall": 0.75,
+            "not_confirmed_rate": 0.25,
+            "confirmed_miss_rate": 0.25,
+            "false_alarm_rate": 0.021052631578947368
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.4309495632226625,
+              "median": 0.32944968932383534,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.4354385330891983,
+              "median": 0.29169249845726913,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.9777276408577372,
+              "median": 0.212315697532701,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 2.97567245005019,
+              "median": 0.1707326754148614,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.5626691199788675,
+            "median": 0.32015560365835943,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/graph_gru_extension1/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 8,
+            "tn": 66,
+            "fp": 1,
+            "fn": 1,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 76,
+            "all_accuracy": 0.9736842105263158,
+            "resolved_accuracy": 0.9736842105263158,
+            "confirmed_recall": 0.8888888888888888,
+            "not_confirmed_rate": 0.1111111111111111,
+            "confirmed_miss_rate": 0.1111111111111111,
+            "false_alarm_rate": 0.014925373134328358
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.4639733066431231,
+              "median": 0.3363280941563642,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.38611077314001513,
+              "median": 0.28655202082849274,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.2777859727499791,
+              "median": 0.19782920624988856,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.22242716823666195,
+              "median": 0.15736915251037312,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.46106533860184157,
+            "median": 0.40330809899861464,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/graph_gru_extension1/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 26,
+            "tn": 62,
+            "fp": 0,
+            "fn": 6,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 94,
+            "all_accuracy": 0.9361702127659575,
+            "resolved_accuracy": 0.9361702127659575,
+            "confirmed_recall": 0.8125,
+            "not_confirmed_rate": 0.1875,
+            "confirmed_miss_rate": 0.1875,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.4739391514730691,
+              "median": 0.4608736364903423,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.4082980654508187,
+              "median": 0.40668009015163226,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.300586336891396,
+              "median": 0.2942873583258652,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.24017068484990894,
+              "median": 0.23494465333843775,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.45094068066486964,
+            "median": 0.3056231518550424,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/graph_gru_extension1/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "gru_seq2seq_extension1",
+      "name": "GRU Seq2Seq 延长版",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 8,
+            "tn": 95,
+            "fp": 0,
+            "fn": 4,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9626168224299065,
+            "resolved_accuracy": 0.9626168224299065,
+            "confirmed_recall": 0.6666666666666666,
+            "not_confirmed_rate": 0.3333333333333333,
+            "confirmed_miss_rate": 0.3333333333333333,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.33431126134713146,
+              "median": 0.27035596585335764,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.2822346347564893,
+              "median": 0.2097863778248778,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.19801208300215287,
+              "median": 0.1475215392852876,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.16399787492976425,
+              "median": 0.12016151024099903,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.5874289160180015,
+            "median": 0.3091130824650465,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/gru_seq2seq_extension1/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 5,
+            "tn": 65,
+            "fp": 0,
+            "fn": 2,
+            "unsettled": {
+              "unstable": 2,
+              "stable": 2
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9473684210526315,
+            "resolved": 72,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9722222222222222,
+            "confirmed_recall": 0.5555555555555556,
+            "not_confirmed_rate": 0.4444444444444444,
+            "confirmed_miss_rate": 0.2222222222222222,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.38487686809770333,
+              "median": 0.220022276190023,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.3284617074604745,
+              "median": 0.18003428751120246,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.24857952853082227,
+              "median": 0.1367333434414088,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.2094115556078966,
+              "median": 0.11264245950969819,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.6383080659009763,
+            "median": 0.5453733221210375,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/gru_seq2seq_extension1/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 24,
+            "tn": 62,
+            "fp": 0,
+            "fn": 8,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 94,
+            "all_accuracy": 0.9148936170212766,
+            "resolved_accuracy": 0.9148936170212766,
+            "confirmed_recall": 0.75,
+            "not_confirmed_rate": 0.25,
+            "confirmed_miss_rate": 0.25,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.31674552376599735,
+              "median": 0.27451065065968316,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.26469693636739466,
+              "median": 0.2399514773078924,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.18237493394493623,
+              "median": 0.16297633022628533,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.14865415430989548,
+              "median": 0.1324077803835625,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.44646807819874984,
+            "median": 0.27366061821779275,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/gru_seq2seq_extension1/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "latent_neural_ode_extension1",
+      "name": "潜 Neural ODE 延长版",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 4,
+            "tn": 95,
+            "fp": 0,
+            "fn": 5,
+            "unsettled": {
+              "unstable": 3,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9719626168224299,
+            "resolved": 104,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9519230769230769,
+            "confirmed_recall": 0.3333333333333333,
+            "not_confirmed_rate": 0.6666666666666666,
+            "confirmed_miss_rate": 0.4166666666666667,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3577573593049974,
+              "median": 0.3202356201734323,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.30506637752243904,
+              "median": 0.27485423082322136,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.21330363332674865,
+              "median": 0.18443479550929304,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.1788914515733393,
+              "median": 0.1538156956415349,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.7257450138051186,
+            "median": 0.5625201549323096,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/latent_neural_ode_extension1/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 3,
+            "tn": 67,
+            "fp": 0,
+            "fn": 6,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 76,
+            "all_accuracy": 0.9210526315789473,
+            "resolved_accuracy": 0.9210526315789473,
+            "confirmed_recall": 0.3333333333333333,
+            "not_confirmed_rate": 0.6666666666666666,
+            "confirmed_miss_rate": 0.6666666666666666,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.42636034968060216,
+              "median": 0.3307440225421445,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.34366320128802574,
+              "median": 0.2808455894831431,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.23508067692835713,
+              "median": 0.19229467103468792,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.193628990649158,
+              "median": 0.15830339991165762,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.9606392979840638,
+            "median": 0.8277463289911059,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/latent_neural_ode_extension1/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 18,
+            "tn": 62,
+            "fp": 0,
+            "fn": 11,
+            "unsettled": {
+              "unstable": 3,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9680851063829787,
+            "resolved": 91,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.8791208791208791,
+            "confirmed_recall": 0.5625,
+            "not_confirmed_rate": 0.4375,
+            "confirmed_miss_rate": 0.34375,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.40522854414542614,
+              "median": 0.4284025438337762,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.34050620555546746,
+              "median": 0.37133723181848555,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.23296776961168272,
+              "median": 0.2525659487117218,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.19115823854270228,
+              "median": 0.2050342729101977,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.4397336508316785,
+            "median": 0.3564076537323261,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/latent_neural_ode_extension1/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "small_transformer",
+      "name": "小型 Transformer",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 0,
+            "tn": 95,
+            "fp": 0,
+            "fn": 6,
+            "unsettled": {
+              "unstable": 6,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9439252336448598,
+            "resolved": 101,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9405940594059405,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 0.5,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.2963834821163296,
+              "median": 0.2576732457278393,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.24776112568568337,
+              "median": 0.20917159199131896,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.1757681659793996,
+              "median": 0.149270934714881,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.1537071816197394,
+              "median": 0.13091090807567454,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.3944990662713759,
+            "median": 1.3354633769283042,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/small_transformer/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 0,
+            "tn": 67,
+            "fp": 0,
+            "fn": 9,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 76,
+            "all_accuracy": 0.881578947368421,
+            "resolved_accuracy": 0.881578947368421,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 1.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.40303096200632144,
+              "median": 0.3058767959962063,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.3200956636965559,
+              "median": 0.2533258095108667,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.22209507124681563,
+              "median": 0.18228948357297187,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.18311599810041218,
+              "median": 0.14960438695993072,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.8573623305174207,
+            "median": 1.84635361509247,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/small_transformer/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 0,
+            "tn": 62,
+            "fp": 0,
+            "fn": 18,
+            "unsettled": {
+              "unstable": 14,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.851063829787234,
+            "resolved": 80,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.775,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 0.5625,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.2911544922903873,
+              "median": 0.27088975737350296,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.24168852811711025,
+              "median": 0.2404351698102396,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.17330199928600862,
+              "median": 0.17197882207612097,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.1558446590293986,
+              "median": 0.15513957528612488,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.329588945099711,
+            "median": 1.3294507414974488,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/small_transformer/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "koopman_shred_faithful",
+      "name": "Koopman-SHRED 渐进适配",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 6,
+            "tn": 95,
+            "fp": 0,
+            "fn": 5,
+            "unsettled": {
+              "unstable": 1,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9906542056074766,
+            "resolved": 106,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9528301886792453,
+            "confirmed_recall": 0.5,
+            "not_confirmed_rate": 0.5,
+            "confirmed_miss_rate": 0.4166666666666667,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3922645503020933,
+              "median": 0.3454658954852258,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.34150067775591725,
+              "median": 0.291547358880954,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.25056305195128376,
+              "median": 0.21520935707311628,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.2007916301094827,
+              "median": 0.17261072253194723,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.7042525752975849,
+            "median": 0.5055089825124304,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/koopman_shred_faithful/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 0,
+            "tn": 67,
+            "fp": 0,
+            "fn": 9,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 76,
+            "all_accuracy": 0.881578947368421,
+            "resolved_accuracy": 0.881578947368421,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 1.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.45127180312751786,
+              "median": 0.3367767552132425,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.35893489457994754,
+              "median": 0.2886675260839155,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.24762613333284814,
+              "median": 0.21809046458257683,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.1981244473238872,
+              "median": 0.17465044521755163,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.8472831547603991,
+            "median": 0.6489522089654035,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/koopman_shred_faithful/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 16,
+            "tn": 62,
+            "fp": 0,
+            "fn": 12,
+            "unsettled": {
+              "unstable": 4,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9574468085106383,
+            "resolved": 90,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.8666666666666667,
+            "confirmed_recall": 0.5,
+            "not_confirmed_rate": 0.5,
+            "confirmed_miss_rate": 0.375,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.4243583921365813,
+              "median": 0.454994556855258,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.36072572361650523,
+              "median": 0.3806359596123501,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.2696302715120724,
+              "median": 0.2758260895330319,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.2154620948571585,
+              "median": 0.2198151112956996,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.4446832995148374,
+            "median": 0.3301275420434381,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/koopman_shred_faithful/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "lass_small_p0",
+      "name": "小型 LASS P0",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 8,
+            "tn": 95,
+            "fp": 0,
+            "fn": 4,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9626168224299065,
+            "resolved_accuracy": 0.9626168224299065,
+            "confirmed_recall": 0.6666666666666666,
+            "not_confirmed_rate": 0.3333333333333333,
+            "confirmed_miss_rate": 0.3333333333333333,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3082496027629441,
+              "median": 0.24684338687919544,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.3191615149844265,
+              "median": 0.24278253895613713,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.24798698607571035,
+              "median": 0.18463997004825247,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.20571838802020373,
+              "median": 0.1548687528191498,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.638606644555216,
+            "median": 0.4690254943401619,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/latest_algorithm_others/lass_small_p0/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 4,
+            "tn": 67,
+            "fp": 0,
+            "fn": 4,
+            "unsettled": {
+              "unstable": 1,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9868421052631579,
+            "resolved": 75,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9466666666666667,
+            "confirmed_recall": 0.4444444444444444,
+            "not_confirmed_rate": 0.5555555555555556,
+            "confirmed_miss_rate": 0.4444444444444444,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.44680711205019397,
+              "median": 0.2971189639334036,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.4476613635351672,
+              "median": 0.2567045735774485,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.3347210498075398,
+              "median": 0.2006042765053579,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.2817471465357797,
+              "median": 0.18628262818276997,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.6786143911212548,
+            "median": 0.6324386749507845,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/latest_algorithm_others/lass_small_p0/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 25,
+            "tn": 62,
+            "fp": 0,
+            "fn": 6,
+            "unsettled": {
+              "unstable": 1,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9893617021276596,
+            "resolved": 93,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9354838709677419,
+            "confirmed_recall": 0.78125,
+            "not_confirmed_rate": 0.21875,
+            "confirmed_miss_rate": 0.1875,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.31723396765096884,
+              "median": 0.323330844277528,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.3303206796233138,
+              "median": 0.32608351946064423,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.2570558939631218,
+              "median": 0.2461514903761887,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.21363143590348552,
+              "median": 0.2090252892221533,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.5053718005305304,
+            "median": 0.39192662077112167,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/lass_small_p0/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "latest_algorithm_extension",
+      "model": "history_deeponet_p0",
+      "name": "历史条件 DeepONet P0",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 7,
+            "tn": 95,
+            "fp": 0,
+            "fn": 3,
+            "unsettled": {
+              "unstable": 2,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9813084112149533,
+            "resolved": 105,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9714285714285714,
+            "confirmed_recall": 0.5833333333333334,
+            "not_confirmed_rate": 0.4166666666666667,
+            "confirmed_miss_rate": 0.25,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.4529974383175682,
+              "median": 0.3593902298932038,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.4415815855008065,
+              "median": 0.32125126887536665,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.34923971721430186,
+              "median": 0.2624214936853857,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.3134121810926816,
+              "median": 0.24091611803744414,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.5514056229855823,
+            "median": 0.40522844651312817,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/latest_algorithm_extension/history_deeponet_p0/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 4,
+            "tn": 56,
+            "fp": 0,
+            "fn": 1,
+            "unsettled": {
+              "unstable": 4,
+              "stable": 11
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.8026315789473685,
+            "resolved": 61,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9836065573770492,
+            "confirmed_recall": 0.4444444444444444,
+            "not_confirmed_rate": 0.5555555555555556,
+            "confirmed_miss_rate": 0.1111111111111111,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.5056422200311738,
+              "median": 0.3313314471801445,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.47243692758311184,
+              "median": 0.3185469603740753,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.4167350291785198,
+              "median": 0.26938208747300013,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.38789662408930436,
+              "median": 0.24460927109714634,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.47282087576022147,
+            "median": 0.44724256247088284,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/latest_algorithm_extension/history_deeponet_p0/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 21,
+            "tn": 62,
+            "fp": 0,
+            "fn": 4,
+            "unsettled": {
+              "unstable": 7,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.925531914893617,
+            "resolved": 87,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9540229885057471,
+            "confirmed_recall": 0.65625,
+            "not_confirmed_rate": 0.34375,
+            "confirmed_miss_rate": 0.125,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3789027768608072,
+              "median": 0.34782225905855957,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.3520281506059949,
+              "median": 0.3430216116354824,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.2903357054545748,
+              "median": 0.2841980200177079,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.2629039069945841,
+              "median": 0.2597036949287721,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.45612858105754706,
+            "median": 0.35861684220809475,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_extension/history_deeponet_p0/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "stan_rotor_p0",
+      "name": "STAN 转子状态适配",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 12,
+            "tn": 68,
+            "fp": 12,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 15
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.8598130841121495,
+            "resolved": 92,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.8695652173913043,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.12631578947368421
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.5425469517422337,
+              "median": 0.3744351866087005,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.8197624193768112,
+              "median": 0.3910061928315606,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 2.2656671678340756,
+              "median": 0.32786343493788966,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 5.176336783366373,
+              "median": 0.39100090172401475,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.47667228483372387,
+            "median": 0.2243382538564071,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/latest_algorithm_others/stan_rotor_p0/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 9,
+            "tn": 39,
+            "fp": 23,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 5
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9342105263157895,
+            "resolved": 71,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.676056338028169,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.34328358208955223
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.7748864459332385,
+              "median": 0.44041239826636314,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 1.0884170377279487,
+              "median": 0.4253568593010011,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 3.301914517676092,
+              "median": 0.41595775687325176,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 10.514420792951668,
+              "median": 0.4831259329866855,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.564829177483553,
+            "median": 0.4116908290526858,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/latest_algorithm_others/stan_rotor_p0/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 32,
+            "tn": 31,
+            "fp": 10,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 21
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.776595744680851,
+            "resolved": 73,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.863013698630137,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.16129032258064516
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.5674632547837355,
+              "median": 0.434161178569493,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.9593611852538579,
+              "median": 0.4721114022022863,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 2.5927114854874342,
+              "median": 0.5350458855191296,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 5.9409596666220335,
+              "median": 0.6680949422236513,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.587422378649542,
+            "median": 0.32182719148061323,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/stan_rotor_p0/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "actnet_history_p0",
+      "name": "历史条件 ActNet",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 5,
+            "tn": 85,
+            "fp": 0,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 7,
+              "stable": 10
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.8411214953271028,
+            "resolved": 90,
+            "all_accuracy": null,
+            "resolved_accuracy": 1.0,
+            "confirmed_recall": 0.4166666666666667,
+            "not_confirmed_rate": 0.5833333333333334,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.5309986967851681,
+              "median": 0.47843994837184567,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.5005414960074653,
+              "median": 0.4199570820656682,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.45552377557709023,
+              "median": 0.36650398930142825,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.44219391456687546,
+              "median": 0.35130509504321283,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.6830793230330906,
+            "median": 0.5437756559311169,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/latest_algorithm_others/actnet_history_p0/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 4,
+            "tn": 32,
+            "fp": 0,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 5,
+              "stable": 35
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.47368421052631576,
+            "resolved": 36,
+            "all_accuracy": null,
+            "resolved_accuracy": 1.0,
+            "confirmed_recall": 0.4444444444444444,
+            "not_confirmed_rate": 0.5555555555555556,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.6241558220504848,
+              "median": 0.5597963537613334,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.6841871051838847,
+              "median": 0.6210539623424927,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.7040612102092353,
+              "median": 0.6243901016725665,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.6866504536186283,
+              "median": 0.5733021397357755,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.6153921488588127,
+            "median": 0.6518603135738794,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/latest_algorithm_others/actnet_history_p0/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 14,
+            "tn": 54,
+            "fp": 0,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 18,
+              "stable": 8
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.723404255319149,
+            "resolved": 68,
+            "all_accuracy": null,
+            "resolved_accuracy": 1.0,
+            "confirmed_recall": 0.4375,
+            "not_confirmed_rate": 0.5625,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.6210428802378489,
+              "median": 0.6808518092644322,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.5566298359559115,
+              "median": 0.5965663931627601,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.4886077593077716,
+              "median": 0.49279820779242844,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.46025743878183206,
+              "median": 0.4588143790594429,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.5772850586378424,
+            "median": 0.4713809853751329,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/actnet_history_p0/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "i_ikno_p0_inferencefix",
+      "name": "I-IKNO 推理修正版",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 12,
+            "tn": 0,
+            "fp": 95,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.11214953271028037,
+            "resolved_accuracy": 0.11214953271028037,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 1.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 5.456340736015147,
+              "median": 6.156942402435343,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 29.94378051920049,
+              "median": 34.056298389589315,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 767.0560672096773,
+              "median": 696.6454866857794,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 16855.729321049315,
+              "median": 8947.832982146881,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.1551456182975526,
+            "median": 0.6409372217327911,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/latest_algorithm_others/i_ikno_p0_inferencefix/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 9,
+            "tn": 0,
+            "fp": 67,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 76,
+            "all_accuracy": 0.11842105263157894,
+            "resolved_accuracy": 0.11842105263157894,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 1.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 2.5360028845783416,
+              "median": 2.216091002262604,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 15.282328588866198,
+              "median": 15.454978399986835,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 419.72075994663425,
+              "median": 359.4289205052313,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 9424.371412308463,
+              "median": 6340.343524141919,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.9708409640927466,
+            "median": 0.7985779176372513,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/latest_algorithm_others/i_ikno_p0_inferencefix/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 32,
+            "tn": 0,
+            "fp": 62,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 94,
+            "all_accuracy": 0.3404255319148936,
+            "resolved_accuracy": 0.3404255319148936,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 1.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 3.885062295271217,
+              "median": 2.819895269028443,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 20.557199159309057,
+              "median": 18.21873456466335,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 642.2143672737884,
+              "median": 527.9655908499836,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 10960.389329580372,
+              "median": 6658.332428237716,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.3845289587177159,
+            "median": 0.48493016381977627,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/i_ikno_p0_inferencefix/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "hankel_dmd",
+      "name": "Hankel-DMD（第二轮）",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 12,
+            "tn": 0,
+            "fp": 95,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.11214953271028037,
+            "resolved_accuracy": 0.11214953271028037,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 1.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 2.1118091737148084,
+              "median": 1.8236146876414538,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 11.53013262434897,
+              "median": 9.127821014150872,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 14739.355702426774,
+              "median": 10170.242777764186,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 20388318.290912375,
+              "median": 14090049.653086696,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.8498968438453866,
+            "median": 0.6155180877168767,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/hankel_dmd/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 9,
+            "tn": 0,
+            "fp": 67,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 76,
+            "all_accuracy": 0.11842105263157894,
+            "resolved_accuracy": 0.11842105263157894,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 1.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 2.588785117242361,
+              "median": 1.2486366102916628,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 21.821717714044365,
+              "median": 3.697782040522833,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 25761.20143563983,
+              "median": 4332.883694077168,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 34154085.60027209,
+              "median": 6087815.988172836,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.2428177706854804,
+            "median": 0.4999680185581157,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/hankel_dmd/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 32,
+            "tn": 0,
+            "fp": 62,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 94,
+            "all_accuracy": 0.3404255319148936,
+            "resolved_accuracy": 0.3404255319148936,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 1.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 3.078570652529563,
+              "median": 3.172082025274669,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 19.752632819053655,
+              "median": 19.500438137616833,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 22609.211781666978,
+              "median": 24134.49700186887,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 30578184.616815135,
+              "median": 34793495.077849,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.1612695955196288,
+            "median": 0.6414544928775183,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/hankel_dmd/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "sindy_shred_faithful_revision1",
+      "name": "SINDy-SHRED 修正配置",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 3,
+            "tn": 0,
+            "fp": 5,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 2
+            },
+            "numerical": {
+              "unstable": 9,
+              "stable": 88
+            },
+            "coverage": 0.07476635514018691,
+            "resolved": 8,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.375,
+            "confirmed_recall": 0.25,
+            "not_confirmed_rate": 0.75,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.05263157894736842
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": null,
+              "median": null,
+              "qualified": 78,
+              "count": 95
+            },
+            "2": {
+              "mean": null,
+              "median": null,
+              "qualified": 29,
+              "count": 95
+            },
+            "5": {
+              "mean": null,
+              "median": null,
+              "qualified": 4,
+              "count": 95
+            },
+            "8": {
+              "mean": null,
+              "median": null,
+              "qualified": 2,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": null,
+            "median": null,
+            "qualified": 9,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/sindy_shred_faithful_revision1/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 0,
+            "tn": 1,
+            "fp": 0,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 9,
+              "stable": 66
+            },
+            "coverage": 0.013157894736842105,
+            "resolved": 1,
+            "all_accuracy": null,
+            "resolved_accuracy": 1.0,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": null,
+              "median": null,
+              "qualified": 48,
+              "count": 67
+            },
+            "2": {
+              "mean": null,
+              "median": null,
+              "qualified": 38,
+              "count": 67
+            },
+            "5": {
+              "mean": null,
+              "median": null,
+              "qualified": 6,
+              "count": 67
+            },
+            "8": {
+              "mean": null,
+              "median": null,
+              "qualified": 1,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": null,
+            "median": null,
+            "qualified": 5,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/sindy_shred_faithful_revision1/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 7,
+            "tn": 0,
+            "fp": 1,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 25,
+              "stable": 61
+            },
+            "coverage": 0.0851063829787234,
+            "resolved": 8,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.875,
+            "confirmed_recall": 0.21875,
+            "not_confirmed_rate": 0.78125,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.016129032258064516
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": null,
+              "median": null,
+              "qualified": 29,
+              "count": 62
+            },
+            "2": {
+              "mean": null,
+              "median": null,
+              "qualified": 10,
+              "count": 62
+            },
+            "5": {
+              "mean": null,
+              "median": null,
+              "qualified": 0,
+              "count": 62
+            },
+            "8": {
+              "mean": null,
+              "median": null,
+              "qualified": 0,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": null,
+            "median": null,
+            "qualified": 22,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/sindy_shred_faithful_revision1/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "sindy_shred_authorized_retry",
+      "name": "SINDy-SHRED STLSQ 补充",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 5,
+            "tn": 14,
+            "fp": 16,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 1
+            },
+            "numerical": {
+              "unstable": 7,
+              "stable": 64
+            },
+            "coverage": 0.32710280373831774,
+            "resolved": 35,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.5428571428571428,
+            "confirmed_recall": 0.4166666666666667,
+            "not_confirmed_rate": 0.5833333333333334,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.16842105263157894
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": null,
+              "median": null,
+              "qualified": 91,
+              "count": 95
+            },
+            "2": {
+              "mean": null,
+              "median": null,
+              "qualified": 77,
+              "count": 95
+            },
+            "5": {
+              "mean": null,
+              "median": null,
+              "qualified": 43,
+              "count": 95
+            },
+            "8": {
+              "mean": null,
+              "median": null,
+              "qualified": 15,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": null,
+            "median": null,
+            "qualified": 11,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/sindy_shred_authorized_retry/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 2,
+            "tn": 3,
+            "fp": 13,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 2
+            },
+            "numerical": {
+              "unstable": 7,
+              "stable": 49
+            },
+            "coverage": 0.23684210526315788,
+            "resolved": 18,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.2777777777777778,
+            "confirmed_recall": 0.2222222222222222,
+            "not_confirmed_rate": 0.7777777777777778,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.19402985074626866
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": null,
+              "median": null,
+              "qualified": 63,
+              "count": 67
+            },
+            "2": {
+              "mean": null,
+              "median": null,
+              "qualified": 51,
+              "count": 67
+            },
+            "5": {
+              "mean": null,
+              "median": null,
+              "qualified": 25,
+              "count": 67
+            },
+            "8": {
+              "mean": null,
+              "median": null,
+              "qualified": 5,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": null,
+            "median": null,
+            "qualified": 8,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/sindy_shred_authorized_retry/TEST.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 19,
+            "tn": 5,
+            "fp": 6,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 3
+            },
+            "numerical": {
+              "unstable": 13,
+              "stable": 48
+            },
+            "coverage": 0.3191489361702128,
+            "resolved": 30,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.8,
+            "confirmed_recall": 0.59375,
+            "not_confirmed_rate": 0.40625,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.0967741935483871
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.5638548519917296,
+              "median": 0.6259828446823605,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": null,
+              "median": null,
+              "qualified": 52,
+              "count": 62
+            },
+            "5": {
+              "mean": null,
+              "median": null,
+              "qualified": 16,
+              "count": 62
+            },
+            "8": {
+              "mean": null,
+              "median": null,
+              "qualified": 8,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": null,
+            "median": null,
+            "qualified": 30,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/sindy_shred_authorized_retry/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign1",
+      "model": "hankel_dmd",
+      "name": "Hankel-DMD（首轮）",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 12,
+            "tn": 0,
+            "fp": 95,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.11214953271028037,
+            "resolved_accuracy": 0.11214953271028037,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 1.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 3.1084341165581573,
+              "median": 2.881650707811459,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 30.997394190699435,
+              "median": 19.51451296017359,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 68840.10136054733,
+              "median": 43682.50758276655,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 193620737.36223373,
+              "median": 119915592.10163683,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.4347660520881143,
+            "median": 1.162539657693195,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign1_hankel_dmd/result.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 32,
+            "tn": 0,
+            "fp": 62,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 94,
+            "all_accuracy": 0.3404255319148936,
+            "resolved_accuracy": 0.3404255319148936,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 1.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 4.1182280535209,
+              "median": 4.348466741919982,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 46.16479242294052,
+              "median": 46.216708677499575,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 89661.44560273559,
+              "median": 84377.28919655003,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 249730458.94771677,
+              "median": 200387236.36177674,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.6176878290469459,
+            "median": 0.5248594762670405,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign1/hankel_dmd/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign1",
+      "model": "gru_seq2seq",
+      "name": "GRU Seq2Seq（首轮）",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 0,
+            "tn": 95,
+            "fp": 0,
+            "fn": 10,
+            "unsettled": {
+              "unstable": 2,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9813084112149533,
+            "resolved": 105,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9047619047619048,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 0.8333333333333334,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.6572757575299057,
+              "median": 0.5714055117424136,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.5531909220254086,
+              "median": 0.46530692706649857,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.392402085711425,
+              "median": 0.338197976661408,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.3236731001983327,
+              "median": 0.2738496285261545,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.7294729944564855,
+            "median": 0.7008404731351215,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign1_gru_seq2seq/result.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 1,
+            "tn": 62,
+            "fp": 0,
+            "fn": 29,
+            "unsettled": {
+              "unstable": 2,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9787234042553191,
+            "resolved": 92,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.6847826086956522,
+            "confirmed_recall": 0.03125,
+            "not_confirmed_rate": 0.96875,
+            "confirmed_miss_rate": 0.90625,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.8453998870559237,
+              "median": 0.8869892302126692,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.6895473161356244,
+              "median": 0.7077344833403332,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.4766511506290866,
+              "median": 0.47439244064440045,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.3867526274297301,
+              "median": 0.37962044306558046,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.8299979471992723,
+            "median": 0.7688753885960606,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign1/gru_seq2seq/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign1",
+      "model": "latent_neural_ode",
+      "name": "潜 Neural ODE（首轮）",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 0,
+            "tn": 95,
+            "fp": 0,
+            "fn": 12,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.8878504672897196,
+            "resolved_accuracy": 0.8878504672897196,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 1.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.610740775924806,
+              "median": 0.5356734471903337,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.5601331560473899,
+              "median": 0.48120565564740847,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.3711370824714691,
+              "median": 0.31411164890336,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.2977195682660598,
+              "median": 0.2508312008997931,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.3744442721591341,
+            "median": 1.1984954106506827,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign1_latent_neural_ode/result.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 0,
+            "tn": 62,
+            "fp": 0,
+            "fn": 32,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 94,
+            "all_accuracy": 0.6595744680851063,
+            "resolved_accuracy": 0.6595744680851063,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 1.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.8195481480207712,
+              "median": 0.8750281407277296,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.7016663800346085,
+              "median": 0.717888244703946,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.4632960424182371,
+              "median": 0.4753656593766461,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.36992806499289066,
+              "median": 0.3798683193190313,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.1705581210868425,
+            "median": 1.0256315628171209,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign1/latent_neural_ode/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign1",
+      "model": "koopman_shred",
+      "name": "Koopman-SHRED（首轮）",
+      "family": "literature",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 0,
+            "tn": 95,
+            "fp": 0,
+            "fn": 12,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.8878504672897196,
+            "resolved_accuracy": 0.8878504672897196,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 1.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.7359147962125103,
+              "median": 0.6429614862961671,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.6247522752379383,
+              "median": 0.5464622411477799,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.4152419295473782,
+              "median": 0.3617765094516564,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.3340832143265874,
+              "median": 0.2911799720887186,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.4327210183321022,
+            "median": 1.2656201797750355,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign1_koopman_shred/result.json"
+        },
+        "blind_v2": {
+          "classification": {
+            "tp": 0,
+            "tn": 62,
+            "fp": 0,
+            "fn": 32,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 94,
+            "all_accuracy": 0.6595744680851063,
+            "resolved_accuracy": 0.6595744680851063,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 1.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.9664958094044693,
+              "median": 0.9966274549227222,
+              "qualified": 62,
+              "count": 62
+            },
+            "2": {
+              "mean": 0.7861121818881338,
+              "median": 0.7927368541896038,
+              "qualified": 62,
+              "count": 62
+            },
+            "5": {
+              "mean": 0.5196994435871295,
+              "median": 0.5235926922324077,
+              "qualified": 62,
+              "count": 62
+            },
+            "8": {
+              "mean": 0.4171587369340451,
+              "median": 0.41886324257860863,
+              "qualified": 62,
+              "count": 62
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.2506936287756785,
+            "median": 1.1305816647004159,
+            "qualified": 32,
+            "count": 32
+          },
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign1/koopman_shred/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "equilibrium",
+      "name": "平衡点保持",
+      "family": "reference",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 0,
+            "tn": 95,
+            "fp": 0,
+            "fn": 12,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.8878504672897196,
+            "resolved_accuracy": 0.8878504672897196,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 1.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.7874612125794517,
+              "median": 0.6968678031076369,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.6361982069294609,
+              "median": 0.5466815653479675,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.4198234712762991,
+              "median": 0.35744047051557803,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.3330185345600573,
+              "median": 0.28285879933027697,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 2.404838639529746,
+            "median": 2.3165137692354856,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/equilibrium/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 0,
+            "tn": 67,
+            "fp": 0,
+            "fn": 9,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 76,
+            "all_accuracy": 0.881578947368421,
+            "resolved_accuracy": 0.881578947368421,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 1.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.6244367542921792,
+              "median": 0.5576092633911139,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.49496627679721067,
+              "median": 0.4305376763658967,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.3256027998402073,
+              "median": 0.2829060562853692,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.25851194402717786,
+              "median": 0.22558257761883896,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 2.0067273378725035,
+            "median": 2.0908340729152646,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/equilibrium/TEST.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "persistence",
+      "name": "末帧保持",
+      "family": "reference",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 1,
+            "tn": 61,
+            "fp": 0,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 11,
+              "stable": 34
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.5794392523364486,
+            "resolved": 62,
+            "all_accuracy": null,
+            "resolved_accuracy": 1.0,
+            "confirmed_recall": 0.08333333333333333,
+            "not_confirmed_rate": 0.9166666666666666,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 1.2862683766414018,
+              "median": 1.2145594679604346,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 1.1217849578016075,
+              "median": 1.014788303539812,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.9717826662058417,
+              "median": 0.8833020022797253,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.9231407744791067,
+              "median": 0.8425039832782215,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.7707033262289694,
+            "median": 0.6678967468891657,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/persistence/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 0,
+            "tn": 47,
+            "fp": 0,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 9,
+              "stable": 20
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.618421052631579,
+            "resolved": 47,
+            "all_accuracy": null,
+            "resolved_accuracy": 1.0,
+            "confirmed_recall": 0.0,
+            "not_confirmed_rate": 1.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.9212945333757301,
+              "median": 0.8935348855252984,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.8013010597986141,
+              "median": 0.7602382731406615,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.6835898301190219,
+              "median": 0.6472637878632208,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.6497648833457501,
+              "median": 0.6159952153179923,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.634320506056165,
+            "median": 0.6360429145345124,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/persistence/TEST.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "TASK2_S23_P0_extension1",
+      "name": "S23 P0 延长版",
+      "family": "task2_p0",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 10,
+            "tn": 90,
+            "fp": 4,
+            "fn": 2,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 1
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9906542056074766,
+            "resolved": 106,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9433962264150944,
+            "confirmed_recall": 0.8333333333333334,
+            "not_confirmed_rate": 0.16666666666666666,
+            "confirmed_miss_rate": 0.16666666666666666,
+            "false_alarm_rate": 0.042105263157894736
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.40705200875126246,
+              "median": 0.3506494050325427,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.49884924703772443,
+              "median": 0.37687704823520657,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.7287227452620743,
+              "median": 0.34296082865044125,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": null,
+              "median": null,
+              "qualified": 94,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.0193332080227548,
+            "median": 1.0883999774619169,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/TASK2_S23_P0_extension1/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 9,
+            "tn": 67,
+            "fp": 0,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 76,
+            "all_accuracy": 1.0,
+            "resolved_accuracy": 1.0,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.32625532043832073,
+              "median": 0.28890552932901115,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.36319604859786253,
+              "median": 0.31049900174968603,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.31450717714761944,
+              "median": 0.27014679569002037,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.2756880023466011,
+              "median": 0.2652224629929394,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.8535725620898401,
+            "median": 0.4661094895493749,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/TASK2_S23_P0_extension1/TEST.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "TASK2_F23_P0_extension1",
+      "name": "F23 P0 延长版",
+      "family": "task2_p0",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 12,
+            "tn": 90,
+            "fp": 4,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 1
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9906542056074766,
+            "resolved": 106,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9622641509433962,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.042105263157894736
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.2472593055155053,
+              "median": 0.1975822845793638,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.28640912228906085,
+              "median": 0.19311085822992055,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.49867951199883576,
+              "median": 0.1578740817715512,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.6540164717606648,
+              "median": 0.12720280911812024,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.5732761285805229,
+            "median": 0.5873151547400361,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/TASK2_F23_P0_extension1/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 9,
+            "tn": 58,
+            "fp": 9,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 76,
+            "all_accuracy": 0.881578947368421,
+            "resolved_accuracy": 0.881578947368421,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.13432835820895522
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.5011015816915941,
+              "median": 0.16348783846779003,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.7261219085770448,
+              "median": 0.16306989540104463,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.8968535912021084,
+              "median": 0.12586645411280298,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.9777233548684242,
+              "median": 0.10141432128667671,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.9029210376999919,
+            "median": 0.3835442007922178,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/TASK2_F23_P0_extension1/TEST.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "m3_pm",
+      "name": "历史 M3",
+      "family": "historical",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 10,
+            "tn": 95,
+            "fp": 0,
+            "fn": 2,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9813084112149533,
+            "resolved_accuracy": 0.9813084112149533,
+            "confirmed_recall": 0.8333333333333334,
+            "not_confirmed_rate": 0.16666666666666666,
+            "confirmed_miss_rate": 0.16666666666666666,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.4927526886014973,
+              "median": 0.4132902112517194,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.5522344636023834,
+              "median": 0.4643987715539111,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.4403534095808517,
+              "median": 0.3915080051670897,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.3658421578863088,
+              "median": 0.33132306455666766,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 1.197555957677269,
+            "median": 0.8750875205844753,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/m3_pm/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 7,
+            "tn": 64,
+            "fp": 2,
+            "fn": 2,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 1
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9868421052631579,
+            "resolved": 75,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9466666666666667,
+            "confirmed_recall": 0.7777777777777778,
+            "not_confirmed_rate": 0.2222222222222222,
+            "confirmed_miss_rate": 0.2222222222222222,
+            "false_alarm_rate": 0.029850746268656716
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.4967843885351493,
+              "median": 0.3783885504837519,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.5274758907873125,
+              "median": 0.40233789898828426,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.5294707047793961,
+              "median": 0.3395220800819469,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.4896232207275014,
+              "median": 0.28316740205743696,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.8110336784717739,
+            "median": 0.690642819704753,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/m3_pm/TEST.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "C3000",
+      "name": "历史 C3000",
+      "family": "historical",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 10,
+            "tn": 95,
+            "fp": 0,
+            "fn": 2,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9813084112149533,
+            "resolved_accuracy": 0.9813084112149533,
+            "confirmed_recall": 0.8333333333333334,
+            "not_confirmed_rate": 0.16666666666666666,
+            "confirmed_miss_rate": 0.16666666666666666,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.23774915577771671,
+              "median": 0.21364625970897058,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.24900225453235494,
+              "median": 0.21282692659810257,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.19807395167328118,
+              "median": 0.1700907627894709,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.15909535915982054,
+              "median": 0.1359896054345334,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.7062722470481644,
+            "median": 0.35341298875328686,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/C3000/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 7,
+            "tn": 65,
+            "fp": 0,
+            "fn": 2,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 2
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.9736842105263158,
+            "resolved": 74,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.972972972972973,
+            "confirmed_recall": 0.7777777777777778,
+            "not_confirmed_rate": 0.2222222222222222,
+            "confirmed_miss_rate": 0.2222222222222222,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.36198144135155236,
+              "median": 0.2565103864786987,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.3358067681501738,
+              "median": 0.23872643719295164,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.263951462344064,
+              "median": 0.16805919382441814,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.23079002760849224,
+              "median": 0.13509524656736835,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.7398584044070251,
+            "median": 0.48328816690058257,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/C3000/TEST.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "F23_0101",
+      "name": "历史 F23",
+      "family": "historical",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 11,
+            "tn": 95,
+            "fp": 0,
+            "fn": 1,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9906542056074766,
+            "resolved_accuracy": 0.9906542056074766,
+            "confirmed_recall": 0.9166666666666666,
+            "not_confirmed_rate": 0.08333333333333333,
+            "confirmed_miss_rate": 0.08333333333333333,
+            "false_alarm_rate": 0.0
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3297418545341727,
+              "median": 0.3033720533586698,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.3424997643010231,
+              "median": 0.2987235494873115,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.2966722152160513,
+              "median": 0.25265466828048044,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.2398544564487351,
+              "median": 0.20471568753848834,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.5713684949736517,
+            "median": 0.2819999965817961,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/F23_0101/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 9,
+            "tn": 50,
+            "fp": 2,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 15
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.8026315789473685,
+            "resolved": 61,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9672131147540983,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.029850746268656716
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.43346771371038995,
+              "median": 0.25164799402709565,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.47236625239965907,
+              "median": 0.25641635762828713,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.6259289128161504,
+              "median": 0.21062430943689214,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.6632024841707812,
+              "median": 0.1699215368021635,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.5151396669492764,
+            "median": 0.463056948119042,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/F23_0101/TEST.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "S23_0101",
+      "name": "历史 S23",
+      "family": "historical",
+      "scores": {
+        "val": {
+          "classification": {
+            "tp": 11,
+            "tn": 93,
+            "fp": 2,
+            "fn": 1,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 1.0,
+            "resolved": 107,
+            "all_accuracy": 0.9719626168224299,
+            "resolved_accuracy": 0.9719626168224299,
+            "confirmed_recall": 0.9166666666666666,
+            "not_confirmed_rate": 0.08333333333333333,
+            "confirmed_miss_rate": 0.08333333333333333,
+            "false_alarm_rate": 0.021052631578947368
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.3617086858527567,
+              "median": 0.33753571410958905,
+              "qualified": 95,
+              "count": 95
+            },
+            "2": {
+              "mean": 0.3910288574513962,
+              "median": 0.3567639556595433,
+              "qualified": 95,
+              "count": 95
+            },
+            "5": {
+              "mean": 0.4456690990024528,
+              "median": 0.31280820884865,
+              "qualified": 95,
+              "count": 95
+            },
+            "8": {
+              "mean": 0.41518341791791763,
+              "median": 0.26149811744171564,
+              "qualified": 95,
+              "count": 95
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.6593767303627438,
+            "median": 0.3407410992234604,
+            "qualified": 12,
+            "count": 12
+          },
+          "score_source": "TASK3/runs/campaign2_final/S23_0101/DEV.json"
+        },
+        "test": {
+          "classification": {
+            "tp": 9,
+            "tn": 52,
+            "fp": 2,
+            "fn": 0,
+            "unsettled": {
+              "unstable": 0,
+              "stable": 13
+            },
+            "numerical": {
+              "unstable": 0,
+              "stable": 0
+            },
+            "coverage": 0.8289473684210527,
+            "resolved": 63,
+            "all_accuracy": null,
+            "resolved_accuracy": 0.9682539682539683,
+            "confirmed_recall": 1.0,
+            "not_confirmed_rate": 0.0,
+            "confirmed_miss_rate": 0.0,
+            "false_alarm_rate": 0.029850746268656716
+          },
+          "stable_trajectory": {
+            "1": {
+              "mean": 0.44208809790398756,
+              "median": 0.2571030144948699,
+              "qualified": 67,
+              "count": 67
+            },
+            "2": {
+              "mean": 0.4806825335338836,
+              "median": 0.28795558387867626,
+              "qualified": 67,
+              "count": 67
+            },
+            "5": {
+              "mean": 0.589772287175582,
+              "median": 0.26511122612143867,
+              "qualified": 67,
+              "count": 67
+            },
+            "8": {
+              "mean": 0.5942823537226963,
+              "median": 0.22039297417443968,
+              "qualified": 67,
+              "count": 67
+            }
+          },
+          "unstable_trajectory": {
+            "mean": 0.5648120316661923,
+            "median": 0.5392788801880007,
+            "qualified": 9,
+            "count": 9
+          },
+          "score_source": "TASK3/runs/campaign2_final/S23_0101/TEST.json"
+        }
+      }
+    }
+  ],
+  "scores_only": [
+    {
+      "release": "campaign1",
+      "model": "gru_classifier",
+      "name": "GRU 分类器（首轮）",
+      "rule": "fixed",
+      "scores": {
+        "val": {
+          "tp": 10,
+          "tn": 90,
+          "fp": 5,
+          "fn": 2,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.9345794392523364,
+          "confirmed_recall": 0.8333333333333334,
+          "false_alarm_rate": 0.05263157894736842,
+          "auroc": 0.9517543859649122,
+          "score_source": "TASK3/runs/campaign1_gru_classifier/result.json"
+        },
+        "blind_v2": {
+          "tp": 30,
+          "tn": 62,
+          "fp": 0,
+          "fn": 2,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.9787234042553191,
+          "confirmed_recall": 0.9375,
+          "false_alarm_rate": 0.0,
+          "auroc": 0.9637096774193549,
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign1/gru_classifier/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "gru_classifier",
+      "name": "GRU 分类器（第二轮）",
+      "rule": "fixed",
+      "scores": {
+        "val": {
+          "tp": 8,
+          "tn": 94,
+          "fp": 1,
+          "fn": 4,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.9532710280373832,
+          "confirmed_recall": 0.6666666666666666,
+          "false_alarm_rate": 0.010526315789473684,
+          "auroc": 0.9473684210526315,
+          "score_source": "TASK3/runs/campaign2_final/gru_classifier/DEV.json"
+        },
+        "test": {
+          "tp": 7,
+          "tn": 67,
+          "fp": 0,
+          "fn": 2,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.9736842105263158,
+          "confirmed_recall": 0.7777777777777778,
+          "false_alarm_rate": 0.0,
+          "auroc": 0.988391376451078,
+          "score_source": "TASK3/runs/campaign2_final/gru_classifier/TEST.json"
+        },
+        "blind_v2": {
+          "tp": 27,
+          "tn": 62,
+          "fp": 0,
+          "fn": 5,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.9468085106382979,
+          "confirmed_recall": 0.84375,
+          "false_alarm_rate": 0.0,
+          "auroc": 0.9506048387096774,
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/gru_classifier/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "gru_classifier",
+      "name": "GRU 分类器（第二轮）",
+      "rule": "dev_selected",
+      "scores": {
+        "val": {
+          "tp": 10,
+          "tn": 90,
+          "fp": 5,
+          "fn": 2,
+          "coverage": 1.0,
+          "threshold": 0.00215034087913224,
+          "accuracy": 0.9345794392523364,
+          "confirmed_recall": 0.8333333333333334,
+          "false_alarm_rate": 0.05263157894736842,
+          "auroc": 0.9473684210526315,
+          "score_source": "TASK3/runs/campaign2_final/gru_classifier/DEV.json"
+        },
+        "test": {
+          "tp": 7,
+          "tn": 66,
+          "fp": 1,
+          "fn": 2,
+          "coverage": 1.0,
+          "threshold": 0.00215034087913224,
+          "accuracy": 0.9605263157894737,
+          "confirmed_recall": 0.7777777777777778,
+          "false_alarm_rate": 0.014925373134328358,
+          "auroc": 0.988391376451078,
+          "score_source": "TASK3/runs/campaign2_final/gru_classifier/TEST.json"
+        },
+        "blind_v2": {
+          "tp": 29,
+          "tn": 62,
+          "fp": 0,
+          "fn": 3,
+          "coverage": 1.0,
+          "threshold": 0.00215034087913224,
+          "accuracy": 0.9680851063829787,
+          "confirmed_recall": 0.90625,
+          "false_alarm_rate": 0.0,
+          "auroc": 0.9506048387096774,
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/gru_classifier/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign1",
+      "model": "extra_trees",
+      "name": "Extra Trees（首轮）",
+      "rule": "fixed",
+      "scores": {
+        "val": {
+          "tp": 6,
+          "tn": 94,
+          "fp": 1,
+          "fn": 6,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.9345794392523364,
+          "confirmed_recall": 0.5,
+          "false_alarm_rate": 0.010526315789473684,
+          "auroc": 0.9671052631578947,
+          "score_source": "TASK3/runs/campaign1_extra_trees/result.json"
+        },
+        "blind_v2": {
+          "tp": 25,
+          "tn": 62,
+          "fp": 0,
+          "fn": 7,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.925531914893617,
+          "confirmed_recall": 0.78125,
+          "false_alarm_rate": 0.0,
+          "auroc": 0.9818548387096774,
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign1/extra_trees/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "extra_trees",
+      "name": "Extra Trees（第二轮）",
+      "rule": "fixed",
+      "scores": {
+        "val": {
+          "tp": 6,
+          "tn": 94,
+          "fp": 1,
+          "fn": 6,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.9345794392523364,
+          "confirmed_recall": 0.5,
+          "false_alarm_rate": 0.010526315789473684,
+          "auroc": 0.9671052631578947,
+          "score_source": "TASK3/runs/campaign2_final/extra_trees/DEV.json"
+        },
+        "test": {
+          "tp": 4,
+          "tn": 67,
+          "fp": 0,
+          "fn": 5,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.9342105263157895,
+          "confirmed_recall": 0.4444444444444444,
+          "false_alarm_rate": 0.0,
+          "auroc": 0.966832504145937,
+          "score_source": "TASK3/runs/campaign2_final/extra_trees/TEST.json"
+        },
+        "blind_v2": {
+          "tp": 25,
+          "tn": 62,
+          "fp": 0,
+          "fn": 7,
+          "coverage": 1.0,
+          "threshold": 0.5,
+          "accuracy": 0.925531914893617,
+          "confirmed_recall": 0.78125,
+          "false_alarm_rate": 0.0,
+          "auroc": 0.9818548387096774,
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/extra_trees/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "extra_trees",
+      "name": "Extra Trees（第二轮）",
+      "rule": "dev_selected",
+      "scores": {
+        "val": {
+          "tp": 12,
+          "tn": 81,
+          "fp": 14,
+          "fn": 0,
+          "coverage": 1.0,
+          "threshold": 0.024,
+          "accuracy": 0.8691588785046729,
+          "confirmed_recall": 1.0,
+          "false_alarm_rate": 0.14736842105263157,
+          "auroc": 0.9671052631578947,
+          "score_source": "TASK3/runs/campaign2_final/extra_trees/DEV.json"
+        },
+        "test": {
+          "tp": 7,
+          "tn": 64,
+          "fp": 3,
+          "fn": 2,
+          "coverage": 1.0,
+          "threshold": 0.024,
+          "accuracy": 0.9342105263157895,
+          "confirmed_recall": 0.7777777777777778,
+          "false_alarm_rate": 0.04477611940298507,
+          "auroc": 0.966832504145937,
+          "score_source": "TASK3/runs/campaign2_final/extra_trees/TEST.json"
+        },
+        "blind_v2": {
+          "tp": 31,
+          "tn": 49,
+          "fp": 13,
+          "fn": 1,
+          "coverage": 1.0,
+          "threshold": 0.024,
+          "accuracy": 0.851063829787234,
+          "confirmed_recall": 0.96875,
+          "false_alarm_rate": 0.20967741935483872,
+          "auroc": 0.9818548387096774,
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/campaign2/extra_trees/evaluation.json"
+        }
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "pcdk_surrogate_diagnostic",
+      "name": "PCDK 启发的代理风险评分",
+      "rule": "val_selected",
+      "scores": {
+        "val": {
+          "tp": 9,
+          "tn": 89,
+          "fp": 6,
+          "fn": 3,
+          "coverage": 1.0,
+          "threshold": 0.5986125472864477,
+          "accuracy": 0.9158878504672897,
+          "confirmed_recall": 0.75,
+          "false_alarm_rate": 0.06315789473684211,
+          "auroc": 0.8087719298245614,
+          "score_source": "TASK3/runs/latest_algorithm_others/pcdk_surrogate_diagnostic/DEV.json"
+        },
+        "test": {
+          "tp": 6,
+          "tn": 65,
+          "fp": 2,
+          "fn": 3,
+          "coverage": 1.0,
+          "threshold": 0.5986125472864477,
+          "accuracy": 0.9342105263157895,
+          "confirmed_recall": 0.6666666666666666,
+          "false_alarm_rate": 0.029850746268656716,
+          "auroc": 0.9485903814262023,
+          "score_source": "TASK3/runs/latest_algorithm_others/pcdk_surrogate_diagnostic/TEST.json"
+        },
+        "blind_v2": {
+          "tp": 20,
+          "tn": 54,
+          "fp": 8,
+          "fn": 12,
+          "coverage": 1.0,
+          "threshold": 0.5986125472864477,
+          "accuracy": 0.7872340425531915,
+          "confirmed_recall": 0.625,
+          "false_alarm_rate": 0.12903225806451613,
+          "auroc": 0.8417338709677419,
+          "score_source": "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/pcdk_surrogate_diagnostic/evaluation.json"
+        }
+      }
+    }
+  ],
+  "crosschecks": {
+    "baseline_blind_access_matches_release": true,
+    "task3_frozen_assets_matched": [
+      "runs/campaign2/preflight/static.npz",
+      "src/task3/c2/audit.py",
+      "src/task3/c2/budget.py",
+      "src/task3/c2/continuations.py",
+      "src/task3/c2/data.py",
+      "src/task3/c2/delivery.py",
+      "src/task3/c2/dmd.py",
+      "src/task3/c2/evaluation.py",
+      "src/task3/c2/figures.py",
+      "src/task3/c2/final_release.py",
+      "src/task3/c2/final_report.py",
+      "src/task3/c2/historical.py",
+      "src/task3/c2/models.py",
+      "src/task3/c2/p0_kernel.py",
+      "src/task3/c2/paper.py",
+      "src/task3/c2/runner.py",
+      "src/task3/c2/safety.py",
+      "src/task3/c2/training.py",
+      "src/task3/c2/__init__.py",
+      "src/task3/campaign.py",
+      "src/task3/models.py",
+      "src/task3/protocol.py",
+      "runs/campaign1_hankel_dmd/result.json",
+      "runs/campaign1_hankel_dmd/normalization.npz",
+      "runs/campaign1_hankel_dmd/model.npz",
+      "runs/campaign1_gru_seq2seq/result.json",
+      "runs/campaign1_gru_seq2seq/normalization.npz",
+      "runs/campaign1_gru_seq2seq/checkpoint.pt",
+      "runs/campaign1_latent_neural_ode/result.json",
+      "runs/campaign1_latent_neural_ode/normalization.npz",
+      "runs/campaign1_latent_neural_ode/checkpoint.pt",
+      "runs/campaign1_koopman_shred/result.json",
+      "runs/campaign1_koopman_shred/normalization.npz",
+      "runs/campaign1_koopman_shred/checkpoint.pt",
+      "runs/campaign1_sindy_shred/failure.json",
+      "runs/campaign1_extra_trees/result.json",
+      "runs/campaign1_extra_trees/normalization.npz",
+      "runs/campaign1_extra_trees/model.joblib",
+      "runs/campaign1_gru_classifier/result.json",
+      "runs/campaign1_gru_classifier/normalization.npz",
+      "runs/campaign1_gru_classifier/checkpoint.pt",
+      "runs/campaign2/sindy_shred_faithful_revision1/result.json",
+      "runs/campaign2/sindy_shred_faithful_revision1/selected.pt",
+      "runs/campaign2/koopman_shred_faithful/result.json",
+      "runs/campaign2/koopman_shred_faithful/selected.pt",
+      "runs/campaign2/hankel_dmd/result.json",
+      "runs/campaign2/hankel_dmd/model.npz",
+      "runs/campaign2/small_transformer/result.json",
+      "runs/campaign2/small_transformer/selected.pt",
+      "runs/campaign2/extra_trees/result.json",
+      "runs/campaign2/extra_trees/model.joblib",
+      "runs/campaign2/gru_classifier/result.json",
+      "runs/campaign2/gru_classifier/selected.pt",
+      "runs/campaign2/graph_gru_extension1/result.json",
+      "runs/campaign2/graph_gru_extension1/selected.pt",
+      "runs/campaign2/gru_seq2seq_extension1/result.json",
+      "runs/campaign2/gru_seq2seq_extension1/selected.pt",
+      "runs/campaign2/latent_neural_ode_extension1/result.json",
+      "runs/campaign2/latent_neural_ode_extension1/selected.pt",
+      "runs/campaign2/sindy_shred_authorized_retry/result.json",
+      "runs/campaign2/sindy_shred_authorized_retry/selected.pt"
+    ],
+    "supplement_frozen_models_matched": [
+      "history_deeponet_p0",
+      "i_ikno_p0_inferencefix",
+      "stan_rotor_p0",
+      "lass_small_p0",
+      "actnet_history_p0"
+    ],
+    "task3_blind_tabular_arithmetic": "17 trajectory rows plus 7 frozen-threshold score rows verified",
+    "rosters_verified_per_endpoint": true,
+    "trajectory_blind_endpoint_count": 20,
+    "source_qualified_split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "test_access_ledger_source_qualified_ids_match": true
+  },
+  "source_sha256": {
+    "kron-reduce/configs/proposals/kiki_machine_local_full_fit_v1.json": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+    "kron-reduce/data/kiki_ieee39_blind_v2/dataset_index.csv": "29834b6721d60aeab3e2c12a81c9e6562bfc9f2a8bbcc733b65ac737a42c2a03",
+    "kron-reduce/data/kiki_ieee39_blind_v2/splits.json": "8b71e16805f3c8ba4bcb4016fd9e4c4b849d32d6b9b1fe2d49b487ac4f7735ec",
+    "kron-reduce/data/kiki_ieee39_blind_v2/checksums.sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f",
+    "TASK3/runs/kron_blind_100ms_20261121/data_access.json": "1df4138b32e2d384cd2506c405f35d45369e81153a64676f7a1c6958a77e063b",
+    "TASK3/runs/campaign2/preflight/campaign1_readonly_manifest.json": "b48d3cc69cdcd7417963ed3c13f05a7edd7a7fb8f113aae1e19a925a58d7e586",
+    "TASK3/runs/campaign2_final/freeze_manifest.json": "180fa58db64cb78848ba09d3423430d8ffb4f2ac7ada1f47e009a574a11a09fa",
+    "TASK3/runs/kron_blind_100ms_20261121/freeze_manifest.json": "ab9257a0dfe996f6b4c9d4ceb7f9e761749fb42216a29a6decd2703f46554491",
+    "TASK3/runs/kron_blind_100ms_20261121/verification.json": "f28667b0d4b75e18215dd870bb8c9a7f329e96f4fe768da51fa6e827b4ccda1d",
+    "TASK3/paper/latest_algorithm_extension/artifact_manifest.json": "e0490056d436e67606ad7ae9c0553182d29943f30cea9a027e548d6af097bb52",
+    "TASK3/paper/latest_algorithm_others/artifact_manifest.json": "496ebeda2cb653dd87df437dc50c2e8d19a42edb680b5308746bf92af0418d1c",
+    "TASK3/runs/latest_algorithm_extension/history_deeponet_p0/endpoint_freeze.json": "175e77e78852016c1dbbf6953f7a79117858d74793ad338f647e06ad5ad15c06",
+    "TASK3/runs/latest_algorithm_others/i_ikno_p0_inferencefix/endpoint_freeze.json": "283a0261d4750ae8e41a3096c49cf8022fd2440d82247077232bc6d6fe6864fa",
+    "TASK3/runs/latest_algorithm_others/stan_rotor_p0/endpoint_freeze.json": "bb572571b4a82851ec0d5dc20e1df33b27127562afc23adfd0a5570881d7c177",
+    "TASK3/runs/latest_algorithm_others/lass_small_p0/endpoint_freeze.json": "dbd2b882950118e6b454f8219ed12f37b702704271247c96596ee57bf18dd03b",
+    "TASK3/runs/latest_algorithm_others/actnet_history_p0/endpoint_freeze.json": "2c16909400a9ea7ff8ee546f546eb83b786b3acc564bfa78c551837a597afed3",
+    "TASK3/runs/latest_algorithm_others/pcdk_surrogate_diagnostic/endpoint_freeze.json": "4ff6237d01c5d112d5879a5c3298bf18fc2909ab0ef67bec574ebd2ef51d76c3",
+    "kron-reduce/docs/reports/unified_first_swing_v4_fit_20261119_evidence.json": "b20508d16545440b46b3456483849b0bd9871b58f8cb481ca77e17fd8c74fe4f",
+    "kron-reduce/docs/reports/unified_first_swing_v4_test_20261119_evidence.json": "596effdaaa3cbff400316eab6c028e39a41b0a01367c29e723a52d290d1c5aaf",
+    "kron-reduce/docs/reports/unified_discovery_m3b_v1_20261121_evidence.json": "d8060ebc30f37fe20a541a31b3927ced5a9c95fc877d11e89300f24e3c45c1c4",
+    "kron-reduce/docs/reports/unified_discovery_m3b_test_v1_20261121_evidence.json": "fef77cdaea95079dbbed31041f778904a91d51a4395d978294402b519f95b22f",
+    "kron-reduce/docs/reports/blind_confirmation_m5_v1_20261121_evidence.json": "2638e173a30695d4d8a7eba142971ce6f4916fbd28e052f901332f7ea1a1a227",
+    "kron-reduce/results/unified_first_swing_v4_fit-fit-20261119T085346160446Z-4256b8a8-2aac3232/hard_r/val.json": "dc053b1bb5bd78e0b6c39310a72824e0bf2af66c857941b5afb9824880afe57d",
+    "kron-reduce/results/unified_first_swing_v4_test-test-20261120T062857089605Z-e44f1587-a79403a1/hard_r/test.json": "742e4593d1be2c6a7821a79fcc0978e7ca0a7a67ed6875f4e585d2f954e047b5",
+    "kron-reduce/results/blind_confirmation_m5_v1-blind-20261121T064636317312Z-26fe26a3-b73dd81d/v4_hard_r/dual_metrics.json": "be7d740360b5999c787973f8fd9ecd9b6e44f5ec07d84f25ca7db6f38c594706",
+    "kron-reduce/results/unified_first_swing_v4_fit-fit-20261119T085346160446Z-4256b8a8-2aac3232/soft_2r/val.json": "6c40062e1f5823eebf99dff1d29d2cd7880a8ca90003ea2f78b75ee84751d301",
+    "kron-reduce/results/unified_first_swing_v4_test-test-20261120T062857089605Z-e44f1587-a79403a1/soft_2r/test.json": "81a0c1f295bdadc2a2e21a1155ec9570809b46d6c86eacbe3488605137a411de",
+    "kron-reduce/results/blind_confirmation_m5_v1-blind-20261121T064636317312Z-26fe26a3-b73dd81d/v4_soft_2r/dual_metrics.json": "e5bacae6a5d2134dc29caeac9615f0d7a3ee3de72766e42b4fe374e5ea45e30e",
+    "kron-reduce/results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/support-G2/val.json": "e5605e4b581485d87c0e47eb7661bd38fa3d486ea867800131500a68964bcdb6",
+    "kron-reduce/results/unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd/test.json": "ced4aaba564bae8a4d8c160e2b6c52f64fe5d7e43930ec4f171bb1367f688dac",
+    "kron-reduce/results/blind_confirmation_m5_v1-blind-20261121T064636317312Z-26fe26a3-b73dd81d/m3b_g2/dual_metrics.json": "6bc3e0134f024540e6b4347c2e932a98d88c591ceda56b8d5289b7b839ccf680",
+    "TASK3/runs/campaign2_final/graph_gru_extension1/DEV.json": "3a471b6d1eefea9eeff125406e55b71dd9ed3d7cb2cb87504a940c5972ed883f",
+    "TASK3/runs/campaign2_final/graph_gru_extension1/TEST.json": "8ad3299254d8ef1aae9d3a586e33d5c065f69f04283a7f24e6df1de2957e1edf",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/graph_gru_extension1/evaluation.json": "5e0911a9561903f0a97d4c8c6d0c673d58b30562bbdf262cb4d62e54b53d4a51",
+    "TASK3/runs/campaign2_final/gru_seq2seq_extension1/DEV.json": "6b8a868478323b22d7e11251736f6a6cb8c91f588896d2479db237203cdb22b4",
+    "TASK3/runs/campaign2_final/gru_seq2seq_extension1/TEST.json": "a96367aaa807d0884ca0514775ad7050418e01096faf445fb2e4632250e138f3",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/gru_seq2seq_extension1/evaluation.json": "1b0d4231ef7abc6269577ed881336a4a6e715c6598c38ac3cde79b2accf8f63d",
+    "TASK3/runs/campaign2_final/latent_neural_ode_extension1/DEV.json": "cc3adb79744ceb62808de332103966d7a0b2a5be805f18b26040ad3b680f8255",
+    "TASK3/runs/campaign2_final/latent_neural_ode_extension1/TEST.json": "85686389d26ba0cc026731dae44f2c5500a11070dc4c903f32f41899c9785e47",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/latent_neural_ode_extension1/evaluation.json": "bbbafae6728ce03b1113971eb13945cfcf67b5b0afd7111e38b513500f7b332b",
+    "TASK3/runs/campaign2_final/small_transformer/DEV.json": "5f762369b0adabf12406bfaf3fd871aae0a9378cd53ae93f16dbf284826f431b",
+    "TASK3/runs/campaign2_final/small_transformer/TEST.json": "c6f533c7c56b71ff3d9d4e205f4833f4b1db708e92547856599a09319a97c37b",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/small_transformer/evaluation.json": "3896909bebc1fdf6bb7683db21184ec867ddda6ebf8d67e93a1e7c551b4746dc",
+    "TASK3/runs/campaign2_final/koopman_shred_faithful/DEV.json": "d26ed656c92d0c9518be25a5196898ff91e87004aba0eff11eea4a0a00a8ca1a",
+    "TASK3/runs/campaign2_final/koopman_shred_faithful/TEST.json": "5f565e74c3778520adf379d47de470fe524d60e4d0f2e61af9a05cfde260cade",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/koopman_shred_faithful/evaluation.json": "c0aa49b36eaccb5889a847f5eda4b2aec8852e61587a3842b5c7976325c7b93c",
+    "TASK3/runs/latest_algorithm_others/lass_small_p0/DEV.json": "c2c824401f629e609638b002312fe05f8feb547083d6bb0ca6fc07787997bf23",
+    "TASK3/runs/latest_algorithm_others/lass_small_p0/TEST.json": "f11c8289b28156fe9d051420788693dc1756dac26ba6b451e50d5b4b79ea881a",
+    "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/lass_small_p0/evaluation.json": "d7fc4b46a45a74de04a59aa4e5e0fae11133bbb79b4cfd01a969d9728cf0d9da",
+    "TASK3/runs/latest_algorithm_extension/history_deeponet_p0/DEV.json": "4ae56cbd1fd63b2ffed0d3ed002039ff56bd7b0abe6f3c71c7223a8d440dcd8d",
+    "TASK3/runs/latest_algorithm_extension/history_deeponet_p0/TEST.json": "0ffaff59c8c91e927d0dcc619ad61370191f9953d1bccc6b4e6f4612c9c4bc13",
+    "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_extension/history_deeponet_p0/evaluation.json": "584b1d286e6695d5c5b6b3d9de88d30c1ab507bf7a1c39a6a8aa06e38932d3ee",
+    "TASK3/runs/latest_algorithm_others/stan_rotor_p0/DEV.json": "784510c0985c85c3d592c7b5601bc19259701b4518a6832a8b70453c701cbfdb",
+    "TASK3/runs/latest_algorithm_others/stan_rotor_p0/TEST.json": "e4fd6b49e2f618789e39e6dcf87d2763119cfc3ed8a117353ea71b6a13bcf8bf",
+    "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/stan_rotor_p0/evaluation.json": "14ec3723a91381e861eeecdfe1ad45513ee5cb745e287a52fb44ee4b84d2fc54",
+    "TASK3/runs/latest_algorithm_others/actnet_history_p0/DEV.json": "a4079628282b3259ea6473e447c56c968b7e81ab503226d3835398190156ca86",
+    "TASK3/runs/latest_algorithm_others/actnet_history_p0/TEST.json": "4c92e936676eff9042e62656b5df07c02179393e4f345020649daf028e7da942",
+    "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/actnet_history_p0/evaluation.json": "82b7d2349b850a6d262cb3bdbafbf194d4ccede53fdc2193bdbf8b6ac4444f66",
+    "TASK3/runs/latest_algorithm_others/i_ikno_p0_inferencefix/DEV.json": "3a3467f4c96504b695e19cc8a072d5c34e732f22de5a12267d41df947ded7791",
+    "TASK3/runs/latest_algorithm_others/i_ikno_p0_inferencefix/TEST.json": "32ea2a6a53de63b099792decc80007ca33262d5c9398806a6186d24a2d798904",
+    "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/i_ikno_p0_inferencefix/evaluation.json": "e6841fdc49be15db5d21137d208e1b64af34662856c42e72dd08bd775e874dc3",
+    "TASK3/runs/campaign2_final/hankel_dmd/DEV.json": "72fbd4356370eda2e299a94acc55abcacf22c7151fa2c9de7b9e3f028a48a819",
+    "TASK3/runs/campaign2_final/hankel_dmd/TEST.json": "633c0c0f4349f2d5fdd99e514189d8ebefcff1f86ef36cf76d64b40aa22e01d4",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/hankel_dmd/evaluation.json": "59149e0cec98c50f3af64da0729aa2555445574d269b0ba57c44f81cba4bbe35",
+    "TASK3/runs/campaign2_final/sindy_shred_faithful_revision1/DEV.json": "b0f84c5b006caba1c785b3d87308cb0c1226be26ee782559da6e1e41bfb047c9",
+    "TASK3/runs/campaign2_final/sindy_shred_faithful_revision1/TEST.json": "7566c308e8c5aca492fc7891d5704257697638c91f652ef4411b6ae346746de8",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/sindy_shred_faithful_revision1/evaluation.json": "add6edf5eb767d3e17c284fdaa216c7ffea0bdd1728b6399d33c7c0bce2b7ca7",
+    "TASK3/runs/campaign2_final/sindy_shred_authorized_retry/DEV.json": "bde99cf31bebb35ea346ccf00f3e983c5322fa270e949da98e2338b6067e8b17",
+    "TASK3/runs/campaign2_final/sindy_shred_authorized_retry/TEST.json": "52b54654eca3fc9dcae19b9b6a46c5d9b75d849b5c03270b57f428565f003733",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/sindy_shred_authorized_retry/evaluation.json": "ac46d8c4d4d70a66182472aa9fc71c5b16fd2df94f4fba0048041d91f2778618",
+    "TASK3/runs/campaign1_hankel_dmd/result.json": "93b0c202121ba9ceec3e12f8ade30b67bf40a97d948b8bbd267256bec29d1d1e",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign1/hankel_dmd/evaluation.json": "7a9508cf7dfec9da2a086547c8c4ea6bd59abfd4ff5e8eb1986e91febf7f3a32",
+    "TASK3/runs/campaign1_gru_seq2seq/result.json": "768524c89c50467c35a2dcef6983544c450bbd98300509b6b62ef60caeff975d",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign1/gru_seq2seq/evaluation.json": "a98b5bf8cc4bbe7342aad326ebd4203abcba5c674f0d8a2d80174219be2e6199",
+    "TASK3/runs/campaign1_latent_neural_ode/result.json": "e6cca166fee5e7ea5ec9ac444c8f8a0d397e9c5c46922e33a9f76f5bf757e564",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign1/latent_neural_ode/evaluation.json": "07133dde052ce51f9ad4757deda0da17624bda7dc668ff63a6d6a91d7b67f52f",
+    "TASK3/runs/campaign1_koopman_shred/result.json": "6e271f89948242680951bde06655f475c4bf4652582f7b47f8a613b3cd40c60c",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign1/koopman_shred/evaluation.json": "06dbae7e75266b478c6a8ca556b77f41acb021daa04a67286bed627037eaa153",
+    "TASK3/runs/campaign2_final/equilibrium/DEV.json": "cb4ecf3028a810b5f014f6d5e1db27e7ae0a67a7eec445413ba9bf4358730cb9",
+    "TASK3/runs/campaign2_final/equilibrium/TEST.json": "38fb3921fc4dc090f5009cb43f511f254e57a8ed483fe07c568f085df12403e7",
+    "TASK3/runs/campaign2_final/persistence/DEV.json": "fa80fcf2d918ad767bd157c6db26a4b5a1d074f37704c5474f2de8659ad7c952",
+    "TASK3/runs/campaign2_final/persistence/TEST.json": "2172ddde3c9ba497f41e7565ab553eeef3e03dcc8d8086d88cf5343d33b0ac5c",
+    "TASK3/runs/campaign2_final/TASK2_S23_P0_extension1/DEV.json": "c4a2e80a6fcafdfacf0d0107ca49730795c8b40e2c3b552d6e6324f7f974fe42",
+    "TASK3/runs/campaign2_final/TASK2_S23_P0_extension1/TEST.json": "d2752132b66aa83abbede970b25cf7d5a41b0b48f8a29d6e7bb71c90235ab594",
+    "TASK3/runs/campaign2_final/TASK2_F23_P0_extension1/DEV.json": "ea69627b72b5b80f15fd8121d7123f138f31f4794f2d1d6c54ef8903a9c91f6b",
+    "TASK3/runs/campaign2_final/TASK2_F23_P0_extension1/TEST.json": "5eead88d243b02fdfccffcd17a616561b1835cf53f53f127bf88e5a806d751e0",
+    "TASK3/runs/campaign2_final/m3_pm/DEV.json": "bf5bac60cd916280879b14fa40b4652a40ab860e0fd8668b2edfab9535636eeb",
+    "TASK3/runs/campaign2_final/m3_pm/TEST.json": "f0bd0d58da6540c003a64cb2064e578af4ec6d7250d6f1af798f85feb6dfa98e",
+    "TASK3/runs/campaign2_final/C3000/DEV.json": "0c4f0be5eeddf024a41272b3b99a1f7091ace08382548b3238db770aa7ad747d",
+    "TASK3/runs/campaign2_final/C3000/TEST.json": "fe057816529519da0203bb373ccc3801c2574015e889a56fdf37923d1530bd07",
+    "TASK3/runs/campaign2_final/F23_0101/DEV.json": "65bf1749a78c299fb3e8e2a9e0196c4a2604af28848434dfa2c0c93049970f3a",
+    "TASK3/runs/campaign2_final/F23_0101/TEST.json": "0408ced9eafbe733cc5614c8bb400c023e00c026747628930afe139f33238348",
+    "TASK3/runs/campaign2_final/S23_0101/DEV.json": "0c8a34354757abec84eb4748cdf42a2864c5358c62e3f5fe6cbd9855c03574cb",
+    "TASK3/runs/campaign2_final/S23_0101/TEST.json": "06d950605e8db3067e7ecf7d08a7f51a92d3fcdeda870af9d147eb717f8673d4",
+    "TASK3/runs/campaign1_gru_classifier/result.json": "0bee912070ac7d4cb10f0b9c98689a6a45354f252708cbdd84e294097e3353a8",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign1/gru_classifier/evaluation.json": "4a522d0c1c42833cd4622133ea32d3899238d30b955e2c11075c17fca246aec0",
+    "TASK3/runs/campaign2_final/gru_classifier/DEV.json": "7a8f989aa62de60e5cf56eecf75ff4b3bcc93847b0f94a2b9b9619ec21b7885a",
+    "TASK3/runs/campaign2_final/gru_classifier/TEST.json": "8c8963fb2b0ec4710f65eef6dfbb55c1da67d8edec8434cd56d1e0fddeae863e",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/gru_classifier/evaluation.json": "3690cddfd27e2586e786c9b10918c9b17caa6722a217099469e91a8628591b9b",
+    "TASK3/runs/campaign1_extra_trees/result.json": "2d777e937a3d42bf69b41718f0a221e1391a754765a3dc8a0f361c83e6288b8f",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign1/extra_trees/evaluation.json": "821a8028c465df74d790d6578bc22e3b0b63cce3b6de2cd2f879911d507a053f",
+    "TASK3/runs/campaign2_final/extra_trees/DEV.json": "2b9de4691c0648b9ef8413d82e58f07f6d9849717dc77f54427ddb471a2c03a1",
+    "TASK3/runs/campaign2_final/extra_trees/TEST.json": "b81919d5e2a1e6fe017aa53b08cab21a90a82f9dc41eb68421d20de3bebf54d6",
+    "TASK3/runs/kron_blind_100ms_20261121/campaign2/extra_trees/evaluation.json": "691a9681677eedefe9e1c30603eaf3ddbdd90b34d7f5a47487e73918378ab879",
+    "TASK3/runs/latest_algorithm_others/pcdk_surrogate_diagnostic/DEV.json": "6a48c51d0d43871514b6fa6225bbffa8a1bfe269c2093be9870034be01cac522",
+    "TASK3/runs/latest_algorithm_others/pcdk_surrogate_diagnostic/TEST.json": "f93fa3061215be348cb762faf69142ef9ab0b9aa2ca32e828df45edfda63e0af",
+    "TASK3/runs/kron_blind_100ms_20261121/latest_algorithm_others/pcdk_surrogate_diagnostic/evaluation.json": "96c8a175963456aac9df80c417ab4c09ef9f659b075ca4bc0700ad3a22a5a2d3",
+    "TASK3/runs/kron_blind_100ms_20261121/trajectory_comparison.csv": "9ec6c6980605e2311f3de1e0015b7c7514f9ff558ba4785cf42b10f7dee63096",
+    "TASK3/runs/kron_blind_100ms_20261121/classifier_metrics.csv": "fee48cc77fc26ae6289a7dd081c92061275d9ca918b8d85d17645e5b329328c8",
+    "kron-reduce/configs/proposals/kiki_task3_split_reference_v1.json": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+    "TASK3/runs/campaign2_final/holdout_access.json": "28f2eec7ffb713cc14408c214190c8779d225ca73b7d6f7cdae5b233af0618d3"
+  },
+  "observation_s": 0.1,
+  "forecast_s": 8,
+  "sample_step_s": 0.01,
+  "scoring_scales": [
+    0.47675314588683515,
+    1.0033667249602924
+  ],
+  "trajectory_arrays_read": 0,
+  "new_rollouts": 0,
+  "fits": 0,
+  "paired_blind_confirmations_m3b_vs_graph_gru_extension": {
+    "both": 24,
+    "m3b_only": 5,
+    "graph_gru_only": 2,
+    "neither": 1
+  },
+  "m3b_val_false_positive_stable_8s_nrmse": {
+    "count": 2,
+    "mean": 10.82819650695323,
+    "max": 18.975704362577652
+  },
+  "report": {
+    "path": "docs/reports/task3_three_cohort_comparison_20261121_zh.md",
+    "sha256": "0245c7d26fd12da73b267fe68bd7477754538928ce38edbafd90c189322da8ee"
+  },
+  "analysis_status": "ARCHIVED_RESULTS_ONLY",
+  "forecast_source_path_prefixes": {
+    "TASK3": "E:/03-nn_Transfer_Func/task3_baselines",
+    "kron-reduce": "E:/03-nn_Transfer_Func/kron-reduce"
+  },
+  "format_version": 1,
+  "classification_note": "Confirmed stability requires the archived window_settled status. Qualified no-LOS but unsettled events and numerically unqualified events are counted separately."
+}
