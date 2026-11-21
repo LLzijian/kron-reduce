@@ -27,10 +27,16 @@ M3b 冻结了单 G2 模型。M4 检查了故障后主模态和起报储能。M5 
 ## M5 封存盲测
 
 - [M5　IEEE 39 节点独立盲测](../blind_confirmation_m5_v1_20261121_zh.md) · [核验回执](../blind_confirmation_m5_v1_20261121_evidence.json)
+- [盲测数据使用说明](../../../data/kiki_ieee39_blind_v2/README.md) · [数据字典](../../../data/kiki_ieee39_blind_v2/schema.json)
 
 其他回执与附件
 
 - [blind_dataset_build_m5_v1_20261121_evidence.json](../blind_dataset_build_m5_v1_20261121_evidence.json)
+
+## TASK3 文献方法对照与未决复评
+
+- 并列 `val`、固定 `test` 和 `blind_v2` 的轨迹评分与失稳判定。[三组名单对照](../task3_three_cohort_comparison_20261121_zh.md) · [核验回执](../task3_three_cohort_comparison_20261121_evidence.json)
+- 对 311 个原 8 秒未决的模型与事件组合延长预测并记录判定变化。[15 秒复评报告](../task3_unsettled_15s_v1_20261122_zh.md) · [核验回执](../task3_unsettled_15s_v1_20261122_evidence.json)
 
 ## 图件与复算
 

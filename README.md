@@ -14,6 +14,10 @@ roster has prior exposure and supports comparative reporting on the fixed
 benchmark. Independent confirmation uses a separately registered population.
 Historical experiments retain their original roles and scopes.
 
+The [KIKI IEEE39 blind v2 reuse guide](data/kiki_ieee39_blind_v2/README.md)
+documents the frozen 94-event comparison cohort, its data dictionary, local
+HDF5 verification, and a causal Python reader example.
+
 Spatial clustering is paused: retain ten generator nodes while learning and
 pruning the dynamical/latent modules. Synthetic ground-truth checks continue.
 See `configs/research_policy.json` and

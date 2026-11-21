@@ -1,0 +1,16 @@
+{
+  "workflow": "task3_unsettled_15s_v1",
+  "experiment": "task3_unsettled_15s_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "reevaluate"],
+  "transitions": {"scaffold": "reevaluate"},
+  "terminal_stages": ["reevaluate"],
+  "approval_required": ["reevaluate"],
+  "stage_evidence_contracts": {
+    "reevaluate": {
+      "required_fields": ["status", "process_status", "source_commit", "plan_sha256", "claim_boundary", "artifact_manifest", "pairs", "fits", "gradients", "optimizer_updates", "raw_future_frames_read"],
+      "allowed_values": {"pairs": [311], "fits": [0], "gradients": [0], "optimizer_updates": [0], "raw_future_frames_read": [0]}
+    }
+  }
+}

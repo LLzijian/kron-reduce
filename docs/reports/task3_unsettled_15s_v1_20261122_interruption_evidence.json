@@ -1,0 +1,33 @@
+{
+  "status": "FAILED_DURING_ARCHIVE_SCORING",
+  "run_id": "task3_unsettled_15s_v1-reevaluate-20261121T173831296967Z-4a0056fc-12340b3f",
+  "plan_path": "configs/proposals/task3_unsettled_15s_v1.json",
+  "plan_sha256": "c040ad7287129897de01d50c8d8825ecd69f2ae769943d663438df831f5e28b0",
+  "fits": 0,
+  "gradients": 0,
+  "optimizer_updates": 0,
+  "raw_future_frames_read": 0,
+  "error": {
+    "type": "KeyError",
+    "cause": "The Campaign 2 final forecast archive contains test IDs, not val IDs."
+  },
+  "completed_pairs": 14,
+  "completed_event_steps": 24,
+  "history_reads": {
+    "val": 54,
+    "test": 53,
+    "blind_v2": 56
+  },
+  "artifact_bindings": {
+    "access.jsonl": "49330e13bd4129daf10119969713d157c1561a78925592dd7005178cc0d925a6",
+    "campaign2--gru_seq2seq_extension1--test.npz": "f19a329b8f4d77cdd3809f250d62b39ba33d207d8eca135ffb18177aff8675e6",
+    "campaign2--latent_neural_ode_extension1--val.npz": "74ad4ff8109e90367ff3b88a9f28dbf5cbbb57f08e464aed8b38df372f4b13db",
+    "kron--hard_r--blind_v2.npz": "7afe80a398109776f64b6a8253ccf2d2837d3de1d01491044ed2a4763694c96c",
+    "kron--hard_r--test.npz": "bf71dc490707608bf9b208a955a8357d7705aa6b11ddb11e424e88c91f8f47d1",
+    "kron--m3b_g2--test.npz": "de7e45dae929dc565955b110642f2562c0aac30db7e952901dc5ef4036cda6a4",
+    "kron--soft_2r--test.npz": "5bbf5573e419b34e9e677dc952183f6fd35574d58e1016aceeb5d135537622d6",
+    "kron_operations.jsonl": "1f7df1a19fe1194f927bcb091bb30e5447e5d1cfb34df201b3a3124402463e94",
+    "operations.jsonl": "c6fd9735ac0323cc2c3601c09c93d300cd16fae136d58afd11ff5ae5ac8541cb",
+    "RUN_FAILED.json": "c488ab2b96c6dc8d9ca5f40ca28a58f8e663b54550d1567801f326cba5d961a4"
+  }
+}

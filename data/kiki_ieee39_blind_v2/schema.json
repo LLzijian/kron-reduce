@@ -1,0 +1,97 @@
+{
+  "schema_id": "kiki_ieee39_blind_v2_layout_v1",
+  "dataset_id": "kiki_ieee39_blind_v2",
+  "frozen_date": "2026-11-21",
+  "purpose": "previously_evaluated_frozen_comparison",
+  "seal": {
+    "file": "checksums.sha256",
+    "sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f"
+  },
+  "cohort": {
+    "role": "blind",
+    "event_count": 94,
+    "labels": {"stable": 62, "unstable": 32},
+    "event_id_pattern": "blind_[0-9]{4}",
+    "qualified_id": "{dataset_id}/{event_id}",
+    "group_columns": ["fault_bus", "fault_line"],
+    "group_count": 21,
+    "event_length_by_label": {"stable": [1501, 1501], "unstable": [16, 130]}
+  },
+  "clock": {
+    "sample_interval_s": 0.01,
+    "t_zero": "first_exported_sample",
+    "nominal_offset_from_clearing_s": 0.0001,
+    "stable_truth_horizon_s": 15.0,
+    "task3_input_contract": "measured_history_100ms_zoh_v1",
+    "task3_observed_frames": 11,
+    "task3_origin_index_zero_based": 10,
+    "task3_forecast_frames_after_origin": 800,
+    "task3_max_record_frames": 811
+  },
+  "system": {
+    "solver": "ANDES 2.0.0",
+    "case": "ieee39/ieee39_full.xlsx",
+    "mva_base": 100.0,
+    "frequency_hz": 60.0,
+    "machine_column_order": ["GENROU_1", "GENROU_2", "GENROU_3", "GENROU_4", "GENROU_5", "GENROU_6", "GENROU_7", "GENROU_8", "GENROU_9", "GENROU_10"],
+    "bus_column_order": "1–39"
+  },
+  "index": {
+    "file": "dataset_index.csv",
+    "encoding": "UTF-8",
+    "csv_boolean_values": ["True", "False"],
+    "columns": {
+      "event_id": {"type": "string", "description": "事件目录键。跨数据集关联时加 dataset_id 前缀。"},
+      "fault_line": {"type": "string", "description": "用于标识总线故障端点的原算例线路名。"},
+      "fault_location": {"type": "number", "description": "线路端点标识，0.0 为 bus1，1.0 为 bus2。"},
+      "fault_bus": {"type": "integer", "description": "原算例母线编号。"},
+      "fault_type": {"type": "string", "description": "故障类型 temporary_bus_three_phase_ground。"},
+      "fault_duration_s": {"type": "number", "unit": "s", "description": "故障从开始到清除的时长。"},
+      "fault_xf": {"type": "number", "unit": "pu", "description": "故障电抗。"},
+      "clearing_time_s": {"type": "number", "unit": "s", "description": "从仿真开始计时的故障清除时刻。"},
+      "record_start_delay_s": {"type": "number", "unit": "s", "description": "最早归档采样点相对清除时刻的延迟。"},
+      "label": {"type": "string", "enum": ["stable", "unstable"], "description": "原阶仿真真值。"},
+      "termination_reason": {"type": "string", "enum": ["stable_horizon_reached", "physical_loss_of_synchronism"], "description": "生成器的正常停止原因。"},
+      "event_time_s": {"type": "number", "unit": "s", "empty_means": "null", "description": "从该条记录 t=0 起算的失步确认时刻，稳定样本为空。"},
+      "trajectory_end_s": {"type": "number", "unit": "s", "description": "最后一个采样点的记录时间。"},
+      "valid_length": {"type": "integer", "unit": "frames", "description": "HDF5 中该事件的有效帧数。"},
+      "postfault_signature": {"type": "string", "description": "恢复拓扑和系统参数指纹。"},
+      "solver_success": {"type": "boolean", "description": "录取事件的原阶仿真成功标记。"},
+      "failed_steps": {"type": "integer", "description": "录取事件的积分失败步数。"},
+      "los_s_from_clearing": {"type": "number", "unit": "s", "empty_means": "null", "description": "从清除时刻算的失步确认时间，等于 event_time_s + record_start_delay_s。稳定样本为空。"},
+      "late_instability": {"type": "boolean", "description": "失步确认时间落在距清除时刻的 0.2–1.5 秒内。"},
+      "unseen_train_val_bus": {"type": "boolean", "description": "母线是否缺席历史 train 与 val 名单。"},
+      "near_historical_transition": {"type": "boolean", "description": "候选设计是否把时长列入历史临界区间附近。"},
+      "exact_clearing_sha256": {"type": "string", "description": "最早归档全动态状态的 little-endian float64 指纹。"},
+      "round_10_decimals_clearing_sha256": {"type": "string", "description": "同一帧舍入到小数点后 10 位并统一符号零的指纹。"}
+    }
+  },
+  "hdf5": {
+    "file": "dataset.h5",
+    "dtype": "float64",
+    "event_group": "/events/{event_id}",
+    "event_arrays": {
+      "t": {"shape": ["T"], "unit": "s", "description": "相对记录起点的时间。"},
+      "delta": {"shape": ["T", 10], "unit": "rad", "description": "发电机转子功角。"},
+      "omega": {"shape": ["T", 10], "unit": "absolute pu", "description": "绝对转速，额定值为 1 pu。"},
+      "Pm": {"shape": ["T", 10], "unit": "system pu", "description": "归档机械输入 GENROU.tm。"},
+      "Pe": {"shape": ["T", 10], "unit": "system pu", "description": "发电机有功输出 GENROU.Pe。"},
+      "Qe": {"shape": ["T", 10], "unit": "system pu", "description": "发电机无功输出 GENROU.Qe。"},
+      "te": {"shape": ["T", 10], "unit": "system pu", "description": "电磁转矩 GENROU.te。"},
+      "terminal_v": {"shape": ["T", 10], "unit": "pu", "description": "发电机端电压幅值。"},
+      "bus_a": {"shape": ["T", 39], "unit": "rad", "description": "母线电压相角。"},
+      "bus_v": {"shape": ["T", 39], "unit": "pu", "description": "母线电压幅值。"},
+      "full_state": {"shape": ["T", 220], "unit": "per variable", "description": "动态状态，列顺序见根属性 state_mapping。"},
+      "algebraic_state": {"shape": ["T", 479], "unit": "per variable", "description": "代数状态，列顺序见根属性 algebraic_names。"}
+    },
+    "static_shapes": {
+      "/inertia": [10],
+      "/equilibrium/delta": [10],
+      "/equilibrium/omega": [10],
+      "/equilibrium/Pm": [10],
+      "/equilibrium/Pe": [10],
+      "/equilibrium/full_state": [220],
+      "/equilibrium/algebraic_state": [479]
+    }
+  }
+}

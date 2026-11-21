@@ -1,0 +1,3547 @@
+{
+  "pairs": 311,
+  "history_reads": {
+    "val": 54,
+    "test": 53,
+    "blind_v2": 56
+  },
+  "raw_future_frames_read": 0,
+  "simulations": 0,
+  "forecast_event_step_attempts": 370,
+  "new_forecast_event_step_attempts": 346,
+  "reused_forecast_event_steps": 24,
+  "kron_operations": {},
+  "torch": "2.13.0+cu130",
+  "cuda": "13.0",
+  "cuda_device": "NVIDIA GeForce RTX 4060 Ti",
+  "status_counts": {
+    "window_no_los_unsettled": 252,
+    "window_settled": 28,
+    "predicted_los": 21,
+    "native_horizon_limited": 2,
+    "numerical_unresolved": 8
+  },
+  "fits": 0,
+  "gradients": 0,
+  "optimizer_updates": 0,
+  "status": "PASS",
+  "process_status": "PASS",
+  "source_commit": "8f0b68620c967f0c6d74a31d34f7f1585d07a7dc",
+  "claim_boundary": "Follow-up of archived 8 s qualified unsettled forecasts on exposed fixed cohorts.",
+  "plan_sha256": "1ced93cecf643cf2e0a6aa3507880ccd779f43b925e82de13f1aa173c20f52ca",
+  "run_id": "task3_unsettled_15s_v1-reevaluate-20261121T174426106655Z-8f0b6862-09b10a2e",
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\.venv-cu130\\Scripts\\python.exe",
+    "seconds": 98.10250019998057
+  },
+  "run_dir": "results/task3_unsettled_15s_v1-reevaluate-20261121T174426106655Z-8f0b6862-09b10a2e",
+  "result_artifact_sha256": "98a5867e758d82adcb31f3add366083e98f08899d27310113aea618ec0202c86",
+  "artifact_bindings": {
+    "access.jsonl": "f01943dcd39bc18dd68d8348e29433218233ff162f59f5d38524e3b01f1e7f5f",
+    "campaign1--gru_seq2seq--blind_v2.npz": "c553d3afe970dc8d45727a5d4a0b8ea96c3615d7248784b09835a878a59fbf2d",
+    "campaign1--gru_seq2seq--val.npz": "5aea5cdc96325f94ba201c13634b07282f7e2637c9dbb1bb71af8f7ed76a212d",
+    "campaign2--C3000--test.npz": "cdfbdebc79143570794d58486391ec7323bcd6f238b361a683a8ee077a2341ec",
+    "campaign2--F23_0101--test.npz": "b36345be0d257beafe642ca77a9ef6e07faaeb65830277a89a957a70fd602a4f",
+    "campaign2--gru_seq2seq_extension1--test.npz": "f19a329b8f4d77cdd3809f250d62b39ba33d207d8eca135ffb18177aff8675e6",
+    "campaign2--koopman_shred_faithful--blind_v2.npz": "91b5d2bafdfac06ee0584823b26bc91408b148e09f7b7b649e3e4c78cd21c302",
+    "campaign2--koopman_shred_faithful--val.npz": "1577586b7f65cae54a9753c313eb380c1f4959ffb81a4d04b61513b4d44d7638",
+    "campaign2--latent_neural_ode_extension1--blind_v2.npz": "770ba23324c409515e9d586f5f3ddbae86e500737799ee789d1258bfb5bfb5e0",
+    "campaign2--latent_neural_ode_extension1--val.npz": "74ad4ff8109e90367ff3b88a9f28dbf5cbbb57f08e464aed8b38df372f4b13db",
+    "campaign2--m3_pm--test.npz": "1b0927dbc73ccec648f1c50e9c25772ab0d0a5269f4ed9d1ea83ade5233bb21b",
+    "campaign2--persistence--test.npz": "5638b3a9ddfefaf313b601872c8cd6b85fc2e4a1b1df9b5c845b0bd3c1cbcc74",
+    "campaign2--persistence--val.npz": "a1ac18e4072909962500b1cb1cad9db74127d13c0646bc56a805e2388f2e5f7f",
+    "campaign2--S23_0101--test.npz": "5f1a54b811c7e93de9392933ae9b13ac2a128ad44271caac0f84fca3ce3f87eb",
+    "campaign2--sindy_shred_authorized_retry--blind_v2.npz": "ce06262860fe34163ec45d71e025936c8d9c43fa08ed5a057a0b81b87bf753fa",
+    "campaign2--sindy_shred_authorized_retry--test.npz": "0da4756366cd764306b00153a2c02776a0d2fbcfa247a00867293065176e5d83",
+    "campaign2--sindy_shred_authorized_retry--val.npz": "89192991ab907904a6cedd7c2f3a3cb2738aabe558030ff689ce72f33db36955",
+    "campaign2--sindy_shred_faithful_revision1--val.npz": "6530034a5a4fbb856a8809910d9b9268fb7d6456407ff982b34ee843f66f5448",
+    "campaign2--small_transformer--blind_v2.npz": "3028b273e52a5cdcc9c5041b3a82f229969aad69ea47190433e96519de08d433",
+    "campaign2--small_transformer--val.npz": "554d7588c1f4e1e64cb08b18106cd3cdc835fda6e4664d44f25eb5febdb671bb",
+    "campaign2--TASK2_F23_P0_extension1--val.npz": "43b302521f4ab1a3f796a90927baca568d487a6bc7204c80d3884dcee51907e8",
+    "campaign2--TASK2_S23_P0_extension1--val.npz": "65ecc0a96b7e811599812f5609e2cc97b977c4fb9a5940f0bce16f33407459cc",
+    "cases.json": "3af787c20d91a2db63c007509899522dbdb563cfb0b3be615ec2c9453d88437a",
+    "kron--hard_r--blind_v2.npz": "7afe80a398109776f64b6a8253ccf2d2837d3de1d01491044ed2a4763694c96c",
+    "kron--hard_r--test.npz": "bf71dc490707608bf9b208a955a8357d7705aa6b11ddb11e424e88c91f8f47d1",
+    "kron--m3b_g2--test.npz": "de7e45dae929dc565955b110642f2562c0aac30db7e952901dc5ef4036cda6a4",
+    "kron--soft_2r--test.npz": "5bbf5573e419b34e9e677dc952183f6fd35574d58e1016aceeb5d135537622d6",
+    "kron_operations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "latest_algorithm_extension--history_deeponet_p0--blind_v2.npz": "7523d1bd1212b46556efb8399acb3751ebcab352feae2fa60b71050ecb01f4bd",
+    "latest_algorithm_extension--history_deeponet_p0--test.npz": "546af46e0082b28ad7b7ca38124080db61a3dc738272b72dd610eb8cce581aa9",
+    "latest_algorithm_extension--history_deeponet_p0--val.npz": "a56501e135c07f0e47b20a9ea8e0fafb61c016d9033dbbb44960a782cfc2fe81",
+    "latest_algorithm_others--actnet_history_p0--blind_v2.npz": "011af6305d1c80a613fce578c04b5208f2c53b75688331acaca40d9116accb61",
+    "latest_algorithm_others--actnet_history_p0--test.npz": "73ba57f92af1c3ae219cb500b2c846b82bb6e55f3b93acb5dbe8a6a5a47dd9c8",
+    "latest_algorithm_others--actnet_history_p0--val.npz": "3a07bb334856216a6d432a6d6949c5fddeb161c85a3f5808744cb31db2a1eead",
+    "latest_algorithm_others--lass_small_p0_last_block_hold--blind_v2.npz": "4cdd9cb9d62263ca875b9aa42424a8e014dd929e7229873bf7c8b8d04805c46e",
+    "latest_algorithm_others--lass_small_p0_last_block_hold--test.npz": "f7a6f6c8a29f80ac9c8350de37ba68c48df2f98009f1082220292d8fff489000",
+    "latest_algorithm_others--stan_rotor_p0--blind_v2.npz": "cb9c30bc45f671e23f429b6d480a11f35c5957c7768d06964895ad0d21d3edac",
+    "latest_algorithm_others--stan_rotor_p0--test.npz": "8d745cdf3a2eda668f2af78e20fda3354d7a30269999e1495e3507f143c72cd5",
+    "latest_algorithm_others--stan_rotor_p0--val.npz": "6b3f193db22bf240a7e21b05f8bf984585d20657c1e8811ce1148b4befc05be6",
+    "operations.jsonl": "94ed089b087a586ce25f41b1a23793058e7f976bd84311568763f67bddd28ab0",
+    "stage_evidence.json": "75520c75d8c8fca14630ac376754fe6139b6d6b8f40297477ff477d4556407ec"
+  },
+  "original_8s_evidence_sha256": "9177c9b97d803b08ef7e16436a4cdb25cf5597af716c1ffa63f7b6375a0d4883",
+  "prior_attempt": {
+    "receipt": "docs/reports/task3_unsettled_15s_v1_20261122_interruption_evidence.json",
+    "reused_forecast_event_steps": 24,
+    "prior_run_id": "task3_unsettled_15s_v1-reevaluate-20261121T173831296967Z-4a0056fc-12340b3f",
+    "receipt_sha256": "d18e5e83b3559c2ae6ee050898b19bbaa9377223a16be648b014968265fc2770"
+  },
+  "report": {
+    "path": "docs/reports/task3_unsettled_15s_v1_20261122_zh.md",
+    "sha256": "30e67e897727de996fe4bf674f4c21c7dbbb9565f798ce39cad950180b276731"
+  },
+  "disposition": {
+    "predicted_los": {
+      "unstable": 19,
+      "stable": 2
+    },
+    "window_settled": {
+      "unstable": 5,
+      "stable": 23
+    },
+    "window_no_los_unsettled": {
+      "unstable": 83,
+      "stable": 169
+    },
+    "native_horizon_limited": {
+      "unstable": 2,
+      "stable": 0
+    },
+    "prefix_mismatch": {
+      "unstable": 0,
+      "stable": 0
+    },
+    "numerical_unresolved": {
+      "unstable": 0,
+      "stable": 8
+    }
+  },
+  "disposition_by_cohort": {
+    "val": {
+      "predicted_los": {
+        "unstable": 5,
+        "stable": 2
+      },
+      "window_settled": {
+        "unstable": 1,
+        "stable": 9
+      },
+      "window_no_los_unsettled": {
+        "unstable": 26,
+        "stable": 50
+      },
+      "native_horizon_limited": {
+        "unstable": 0,
+        "stable": 0
+      },
+      "prefix_mismatch": {
+        "unstable": 0,
+        "stable": 0
+      },
+      "numerical_unresolved": {
+        "unstable": 0,
+        "stable": 3
+      }
+    },
+    "test": {
+      "predicted_los": {
+        "unstable": 0,
+        "stable": 0
+      },
+      "window_settled": {
+        "unstable": 0,
+        "stable": 11
+      },
+      "window_no_los_unsettled": {
+        "unstable": 26,
+        "stable": 93
+      },
+      "native_horizon_limited": {
+        "unstable": 1,
+        "stable": 0
+      },
+      "prefix_mismatch": {
+        "unstable": 0,
+        "stable": 0
+      },
+      "numerical_unresolved": {
+        "unstable": 0,
+        "stable": 2
+      }
+    },
+    "blind_v2": {
+      "predicted_los": {
+        "unstable": 14,
+        "stable": 0
+      },
+      "window_settled": {
+        "unstable": 4,
+        "stable": 3
+      },
+      "window_no_los_unsettled": {
+        "unstable": 31,
+        "stable": 26
+      },
+      "native_horizon_limited": {
+        "unstable": 1,
+        "stable": 0
+      },
+      "prefix_mismatch": {
+        "unstable": 0,
+        "stable": 0
+      },
+      "numerical_unresolved": {
+        "unstable": 0,
+        "stable": 3
+      }
+    }
+  },
+  "summary_rows": [
+    {
+      "release": "kron",
+      "model": "hard_r",
+      "name": "V4 硬 R",
+      "role": "test",
+      "steps_s": [
+        0.0025,
+        0.00125
+      ],
+      "old_8s": {
+        "tp": 3,
+        "tn": 67,
+        "fp": 0,
+        "fn": 4,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9736842105263158,
+        "resolved": 74,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9459459459459459,
+        "confirmed_recall": 0.3333333333333333,
+        "not_confirmed_rate": 0.6666666666666666,
+        "confirmed_miss_rate": 0.4444444444444444,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 3,
+        "tn": 67,
+        "fp": 0,
+        "fn": 4,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9736842105263158,
+        "resolved": 74,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9459459459459459,
+        "confirmed_recall": 0.3333333333333333,
+        "not_confirmed_rate": 0.6666666666666667,
+        "confirmed_miss_rate": 0.4444444444444444,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "kron",
+      "model": "hard_r",
+      "name": "V4 硬 R",
+      "role": "blind_v2",
+      "steps_s": [
+        0.0025,
+        0.00125
+      ],
+      "old_8s": {
+        "tp": 25,
+        "tn": 62,
+        "fp": 0,
+        "fn": 6,
+        "unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9893617021276596,
+        "resolved": 93,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9354838709677419,
+        "confirmed_recall": 0.78125,
+        "not_confirmed_rate": 0.21875,
+        "confirmed_miss_rate": 0.1875,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 25,
+        "tn": 62,
+        "fp": 0,
+        "fn": 6,
+        "unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9893617021276596,
+        "resolved": 93,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9354838709677419,
+        "confirmed_recall": 0.78125,
+        "not_confirmed_rate": 0.21875,
+        "confirmed_miss_rate": 0.1875,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "kron",
+      "model": "soft_2r",
+      "name": "V4 软 2R",
+      "role": "test",
+      "steps_s": [
+        0.0025,
+        0.00125
+      ],
+      "old_8s": {
+        "tp": 6,
+        "tn": 67,
+        "fp": 0,
+        "fn": 1,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9736842105263158,
+        "resolved": 74,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9864864864864865,
+        "confirmed_recall": 0.6666666666666666,
+        "not_confirmed_rate": 0.3333333333333333,
+        "confirmed_miss_rate": 0.1111111111111111,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 6,
+        "tn": 67,
+        "fp": 0,
+        "fn": 1,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9736842105263158,
+        "resolved": 74,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9864864864864865,
+        "confirmed_recall": 0.6666666666666666,
+        "not_confirmed_rate": 0.33333333333333337,
+        "confirmed_miss_rate": 0.1111111111111111,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "kron",
+      "model": "m3b_g2",
+      "name": "M3b G2",
+      "role": "test",
+      "steps_s": [
+        0.0025,
+        0.00125
+      ],
+      "old_8s": {
+        "tp": 5,
+        "tn": 67,
+        "fp": 0,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9736842105263158,
+        "resolved": 74,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.972972972972973,
+        "confirmed_recall": 0.5555555555555556,
+        "not_confirmed_rate": 0.4444444444444444,
+        "confirmed_miss_rate": 0.2222222222222222,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 5,
+        "tn": 67,
+        "fp": 0,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9736842105263158,
+        "resolved": 74,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.972972972972973,
+        "confirmed_recall": 0.5555555555555556,
+        "not_confirmed_rate": 0.4444444444444444,
+        "confirmed_miss_rate": 0.2222222222222222,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "gru_seq2seq_extension1",
+      "name": "GRU Seq2Seq 延长版",
+      "role": "test",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 5,
+        "tn": 65,
+        "fp": 0,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 2
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9473684210526315,
+        "resolved": 72,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9722222222222222,
+        "confirmed_recall": 0.5555555555555556,
+        "not_confirmed_rate": 0.4444444444444444,
+        "confirmed_miss_rate": 0.2222222222222222,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 2
+        },
+        "window_no_los_unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 5,
+        "tn": 67,
+        "fp": 0,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9736842105263158,
+        "resolved": 74,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.972972972972973,
+        "confirmed_recall": 0.5555555555555556,
+        "not_confirmed_rate": 0.4444444444444444,
+        "confirmed_miss_rate": 0.2222222222222222,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "latent_neural_ode_extension1",
+      "name": "潜 Neural ODE 延长版",
+      "role": "val",
+      "steps_s": [
+        0.005,
+        0.01
+      ],
+      "old_8s": {
+        "tp": 4,
+        "tn": 95,
+        "fp": 0,
+        "fn": 5,
+        "unsettled": {
+          "unstable": 3,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9719626168224299,
+        "resolved": 104,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9519230769230769,
+        "confirmed_recall": 0.3333333333333333,
+        "not_confirmed_rate": 0.6666666666666666,
+        "confirmed_miss_rate": 0.4166666666666667,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 5,
+        "tn": 95,
+        "fp": 0,
+        "fn": 5,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9813084112149533,
+        "resolved": 105,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9523809523809523,
+        "confirmed_recall": 0.4166666666666667,
+        "not_confirmed_rate": 0.5833333333333333,
+        "confirmed_miss_rate": 0.4166666666666667,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "latent_neural_ode_extension1",
+      "name": "潜 Neural ODE 延长版",
+      "role": "blind_v2",
+      "steps_s": [
+        0.005,
+        0.01
+      ],
+      "old_8s": {
+        "tp": 18,
+        "tn": 62,
+        "fp": 0,
+        "fn": 11,
+        "unsettled": {
+          "unstable": 3,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9680851063829787,
+        "resolved": 91,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.8791208791208791,
+        "confirmed_recall": 0.5625,
+        "not_confirmed_rate": 0.4375,
+        "confirmed_miss_rate": 0.34375,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 20,
+        "tn": 62,
+        "fp": 0,
+        "fn": 12,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 1.0,
+        "resolved": 94,
+        "all_accuracy": 0.8723404255319149,
+        "resolved_accuracy": 0.8723404255319149,
+        "confirmed_recall": 0.625,
+        "not_confirmed_rate": 0.375,
+        "confirmed_miss_rate": 0.375,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "small_transformer",
+      "name": "小型 Transformer",
+      "role": "val",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 0,
+        "tn": 95,
+        "fp": 0,
+        "fn": 6,
+        "unsettled": {
+          "unstable": 6,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9439252336448598,
+        "resolved": 101,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9405940594059405,
+        "confirmed_recall": 0.0,
+        "not_confirmed_rate": 1.0,
+        "confirmed_miss_rate": 0.5,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 3,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 3,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 3,
+        "tn": 95,
+        "fp": 0,
+        "fn": 6,
+        "unsettled": {
+          "unstable": 3,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9719626168224299,
+        "resolved": 104,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9423076923076923,
+        "confirmed_recall": 0.25,
+        "not_confirmed_rate": 0.75,
+        "confirmed_miss_rate": 0.5,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "small_transformer",
+      "name": "小型 Transformer",
+      "role": "blind_v2",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 0,
+        "tn": 62,
+        "fp": 0,
+        "fn": 18,
+        "unsettled": {
+          "unstable": 14,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.851063829787234,
+        "resolved": 80,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.775,
+        "confirmed_recall": 0.0,
+        "not_confirmed_rate": 1.0,
+        "confirmed_miss_rate": 0.5625,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 7,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 7,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 7,
+        "tn": 62,
+        "fp": 0,
+        "fn": 18,
+        "unsettled": {
+          "unstable": 7,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.925531914893617,
+        "resolved": 87,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.7931034482758621,
+        "confirmed_recall": 0.21875,
+        "not_confirmed_rate": 0.78125,
+        "confirmed_miss_rate": 0.5625,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "koopman_shred_faithful",
+      "name": "Koopman-SHRED 渐进适配",
+      "role": "val",
+      "steps_s": [
+        0.005,
+        0.01
+      ],
+      "old_8s": {
+        "tp": 6,
+        "tn": 95,
+        "fp": 0,
+        "fn": 5,
+        "unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9906542056074766,
+        "resolved": 106,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9528301886792453,
+        "confirmed_recall": 0.5,
+        "not_confirmed_rate": 0.5,
+        "confirmed_miss_rate": 0.4166666666666667,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 6,
+        "tn": 95,
+        "fp": 0,
+        "fn": 5,
+        "unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9906542056074766,
+        "resolved": 106,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9528301886792453,
+        "confirmed_recall": 0.5,
+        "not_confirmed_rate": 0.5,
+        "confirmed_miss_rate": 0.4166666666666667,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "koopman_shred_faithful",
+      "name": "Koopman-SHRED 渐进适配",
+      "role": "blind_v2",
+      "steps_s": [
+        0.005,
+        0.01
+      ],
+      "old_8s": {
+        "tp": 16,
+        "tn": 62,
+        "fp": 0,
+        "fn": 12,
+        "unsettled": {
+          "unstable": 4,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9574468085106383,
+        "resolved": 90,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.8666666666666667,
+        "confirmed_recall": 0.5,
+        "not_confirmed_rate": 0.5,
+        "confirmed_miss_rate": 0.375,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 4,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 16,
+        "tn": 62,
+        "fp": 0,
+        "fn": 12,
+        "unsettled": {
+          "unstable": 4,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9574468085106383,
+        "resolved": 90,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.8666666666666667,
+        "confirmed_recall": 0.5,
+        "not_confirmed_rate": 0.5,
+        "confirmed_miss_rate": 0.375,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "lass_small_p0",
+      "name": "小型 LASS P0",
+      "role": "test",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 4,
+        "tn": 67,
+        "fp": 0,
+        "fn": 4,
+        "unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9868421052631579,
+        "resolved": 75,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9466666666666667,
+        "confirmed_recall": 0.4444444444444444,
+        "not_confirmed_rate": 0.5555555555555556,
+        "confirmed_miss_rate": 0.4444444444444444,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 4,
+        "tn": 67,
+        "fp": 0,
+        "fn": 4,
+        "unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9868421052631579,
+        "resolved": 75,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9466666666666667,
+        "confirmed_recall": 0.4444444444444444,
+        "not_confirmed_rate": 0.5555555555555556,
+        "confirmed_miss_rate": 0.4444444444444444,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "lass_small_p0",
+      "name": "小型 LASS P0",
+      "role": "blind_v2",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 25,
+        "tn": 62,
+        "fp": 0,
+        "fn": 6,
+        "unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9893617021276596,
+        "resolved": 93,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9354838709677419,
+        "confirmed_recall": 0.78125,
+        "not_confirmed_rate": 0.21875,
+        "confirmed_miss_rate": 0.1875,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 25,
+        "tn": 62,
+        "fp": 0,
+        "fn": 6,
+        "unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9893617021276596,
+        "resolved": 93,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9354838709677419,
+        "confirmed_recall": 0.78125,
+        "not_confirmed_rate": 0.21875,
+        "confirmed_miss_rate": 0.1875,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "latest_algorithm_extension",
+      "model": "history_deeponet_p0",
+      "name": "历史条件 DeepONet P0",
+      "role": "val",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 7,
+        "tn": 95,
+        "fp": 0,
+        "fn": 3,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9813084112149533,
+        "resolved": 105,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9714285714285714,
+        "confirmed_recall": 0.5833333333333334,
+        "not_confirmed_rate": 0.4166666666666667,
+        "confirmed_miss_rate": 0.25,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 7,
+        "tn": 95,
+        "fp": 0,
+        "fn": 3,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9813084112149533,
+        "resolved": 105,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9714285714285714,
+        "confirmed_recall": 0.5833333333333334,
+        "not_confirmed_rate": 0.41666666666666663,
+        "confirmed_miss_rate": 0.25,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "latest_algorithm_extension",
+      "model": "history_deeponet_p0",
+      "name": "历史条件 DeepONet P0",
+      "role": "test",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 4,
+        "tn": 56,
+        "fp": 0,
+        "fn": 1,
+        "unsettled": {
+          "unstable": 4,
+          "stable": 11
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8026315789473685,
+        "resolved": 61,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9836065573770492,
+        "confirmed_recall": 0.4444444444444444,
+        "not_confirmed_rate": 0.5555555555555556,
+        "confirmed_miss_rate": 0.1111111111111111,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 4,
+          "stable": 11
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 4,
+        "tn": 56,
+        "fp": 0,
+        "fn": 1,
+        "unsettled": {
+          "unstable": 4,
+          "stable": 11
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8026315789473685,
+        "resolved": 61,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9836065573770492,
+        "confirmed_recall": 0.4444444444444444,
+        "not_confirmed_rate": 0.5555555555555556,
+        "confirmed_miss_rate": 0.1111111111111111,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "latest_algorithm_extension",
+      "model": "history_deeponet_p0",
+      "name": "历史条件 DeepONet P0",
+      "role": "blind_v2",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 21,
+        "tn": 62,
+        "fp": 0,
+        "fn": 4,
+        "unsettled": {
+          "unstable": 7,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.925531914893617,
+        "resolved": 87,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9540229885057471,
+        "confirmed_recall": 0.65625,
+        "not_confirmed_rate": 0.34375,
+        "confirmed_miss_rate": 0.125,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 6,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 21,
+        "tn": 62,
+        "fp": 0,
+        "fn": 5,
+        "unsettled": {
+          "unstable": 6,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9361702127659575,
+        "resolved": 88,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9431818181818182,
+        "confirmed_recall": 0.65625,
+        "not_confirmed_rate": 0.34375,
+        "confirmed_miss_rate": 0.15625,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "stan_rotor_p0",
+      "name": "STAN 转子状态适配",
+      "role": "val",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 12,
+        "tn": 68,
+        "fp": 12,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 15
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8598130841121495,
+        "resolved": 92,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.8695652173913043,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.12631578947368421
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 1
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 6
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 8
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 12,
+        "tn": 74,
+        "fp": 13,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 8
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9252336448598131,
+        "resolved": 99,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.8686868686868687,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.1368421052631579
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "stan_rotor_p0",
+      "name": "STAN 转子状态适配",
+      "role": "test",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 9,
+        "tn": 39,
+        "fp": 23,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 5
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9342105263157895,
+        "resolved": 71,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.676056338028169,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.34328358208955223
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 1
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 4
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 9,
+        "tn": 40,
+        "fp": 23,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 4
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9473684210526315,
+        "resolved": 72,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.6805555555555556,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.34328358208955223
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "stan_rotor_p0",
+      "name": "STAN 转子状态适配",
+      "role": "blind_v2",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 32,
+        "tn": 31,
+        "fp": 10,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 21
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.776595744680851,
+        "resolved": 73,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.863013698630137,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.16129032258064516
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 3
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 18
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 32,
+        "tn": 34,
+        "fp": 10,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 18
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8085106382978723,
+        "resolved": 76,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.868421052631579,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.16129032258064516
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "actnet_history_p0",
+      "name": "历史条件 ActNet",
+      "role": "val",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 5,
+        "tn": 85,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 7,
+          "stable": 10
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8411214953271028,
+        "resolved": 90,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.4166666666666667,
+        "not_confirmed_rate": 0.5833333333333334,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 2
+        },
+        "window_no_los_unsettled": {
+          "unstable": 6,
+          "stable": 8
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 6,
+        "tn": 87,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 6,
+          "stable": 8
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8691588785046729,
+        "resolved": 93,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.5,
+        "not_confirmed_rate": 0.5,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "actnet_history_p0",
+      "name": "历史条件 ActNet",
+      "role": "test",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 4,
+        "tn": 32,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 5,
+          "stable": 35
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.47368421052631576,
+        "resolved": 36,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.4444444444444444,
+        "not_confirmed_rate": 0.5555555555555556,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 7
+        },
+        "window_no_los_unsettled": {
+          "unstable": 5,
+          "stable": 28
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 4,
+        "tn": 39,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 5,
+          "stable": 28
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.5657894736842105,
+        "resolved": 43,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.4444444444444444,
+        "not_confirmed_rate": 0.5555555555555556,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "latest_algorithm_others",
+      "model": "actnet_history_p0",
+      "name": "历史条件 ActNet",
+      "role": "blind_v2",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 14,
+        "tn": 54,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 18,
+          "stable": 8
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.723404255319149,
+        "resolved": 68,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.4375,
+        "not_confirmed_rate": 0.5625,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 5,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 13,
+          "stable": 8
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 19,
+        "tn": 54,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 13,
+          "stable": 8
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.776595744680851,
+        "resolved": 73,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.59375,
+        "not_confirmed_rate": 0.40625,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "sindy_shred_faithful_revision1",
+      "name": "SINDy-SHRED 修正配置",
+      "role": "val",
+      "steps_s": [
+        0.005,
+        0.0025
+      ],
+      "old_8s": {
+        "tp": 3,
+        "tn": 0,
+        "fp": 5,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 2
+        },
+        "numerical": {
+          "unstable": 9,
+          "stable": 88
+        },
+        "coverage": 0.07476635514018691,
+        "resolved": 8,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.375,
+        "confirmed_recall": 0.25,
+        "not_confirmed_rate": 0.75,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.05263157894736842
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 2
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 3,
+        "tn": 0,
+        "fp": 5,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 9,
+          "stable": 90
+        },
+        "coverage": 0.07476635514018691,
+        "resolved": 8,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.375,
+        "confirmed_recall": 0.25,
+        "not_confirmed_rate": 0.75,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.05263157894736842
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "sindy_shred_authorized_retry",
+      "name": "SINDy-SHRED STLSQ 补充",
+      "role": "val",
+      "steps_s": [
+        0.005,
+        0.0025
+      ],
+      "old_8s": {
+        "tp": 5,
+        "tn": 14,
+        "fp": 16,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 1
+        },
+        "numerical": {
+          "unstable": 7,
+          "stable": 64
+        },
+        "coverage": 0.32710280373831774,
+        "resolved": 35,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.5428571428571428,
+        "confirmed_recall": 0.4166666666666667,
+        "not_confirmed_rate": 0.5833333333333334,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.16842105263157894
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 1
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 5,
+        "tn": 14,
+        "fp": 16,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 7,
+          "stable": 65
+        },
+        "coverage": 0.32710280373831774,
+        "resolved": 35,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.5428571428571428,
+        "confirmed_recall": 0.4166666666666667,
+        "not_confirmed_rate": 0.5833333333333333,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.16842105263157894
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "sindy_shred_authorized_retry",
+      "name": "SINDy-SHRED STLSQ 补充",
+      "role": "test",
+      "steps_s": [
+        0.005,
+        0.0025
+      ],
+      "old_8s": {
+        "tp": 2,
+        "tn": 3,
+        "fp": 13,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 2
+        },
+        "numerical": {
+          "unstable": 7,
+          "stable": 49
+        },
+        "coverage": 0.23684210526315788,
+        "resolved": 18,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.2777777777777778,
+        "confirmed_recall": 0.2222222222222222,
+        "not_confirmed_rate": 0.7777777777777778,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.19402985074626866
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 2
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 2,
+        "tn": 3,
+        "fp": 13,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 7,
+          "stable": 51
+        },
+        "coverage": 0.23684210526315788,
+        "resolved": 18,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.2777777777777778,
+        "confirmed_recall": 0.2222222222222222,
+        "not_confirmed_rate": 0.7777777777777778,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.19402985074626866
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "sindy_shred_authorized_retry",
+      "name": "SINDy-SHRED STLSQ 补充",
+      "role": "blind_v2",
+      "steps_s": [
+        0.005,
+        0.0025
+      ],
+      "old_8s": {
+        "tp": 19,
+        "tn": 5,
+        "fp": 6,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 3
+        },
+        "numerical": {
+          "unstable": 13,
+          "stable": 48
+        },
+        "coverage": 0.3191489361702128,
+        "resolved": 30,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.8,
+        "confirmed_recall": 0.59375,
+        "not_confirmed_rate": 0.40625,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0967741935483871
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 3
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 19,
+        "tn": 5,
+        "fp": 6,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 13,
+          "stable": 51
+        },
+        "coverage": 0.3191489361702128,
+        "resolved": 30,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.8,
+        "confirmed_recall": 0.59375,
+        "not_confirmed_rate": 0.40625,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0967741935483871
+      }
+    },
+    {
+      "release": "campaign1",
+      "model": "gru_seq2seq",
+      "name": "GRU Seq2Seq（首轮）",
+      "role": "val",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 0,
+        "tn": 95,
+        "fp": 0,
+        "fn": 10,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9813084112149533,
+        "resolved": 105,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9047619047619048,
+        "confirmed_recall": 0.0,
+        "not_confirmed_rate": 1.0,
+        "confirmed_miss_rate": 0.8333333333333334,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 0,
+        "tn": 95,
+        "fp": 0,
+        "fn": 11,
+        "unsettled": {
+          "unstable": 1,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9906542056074766,
+        "resolved": 106,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.8962264150943396,
+        "confirmed_recall": 0.0,
+        "not_confirmed_rate": 1.0,
+        "confirmed_miss_rate": 0.9166666666666666,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign1",
+      "model": "gru_seq2seq",
+      "name": "GRU Seq2Seq（首轮）",
+      "role": "blind_v2",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 1,
+        "tn": 62,
+        "fp": 0,
+        "fn": 29,
+        "unsettled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9787234042553191,
+        "resolved": 92,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.6847826086956522,
+        "confirmed_recall": 0.03125,
+        "not_confirmed_rate": 0.96875,
+        "confirmed_miss_rate": 0.90625,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 2,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 1,
+        "tn": 62,
+        "fp": 0,
+        "fn": 31,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 1.0,
+        "resolved": 94,
+        "all_accuracy": 0.6702127659574468,
+        "resolved_accuracy": 0.6702127659574468,
+        "confirmed_recall": 0.03125,
+        "not_confirmed_rate": 0.96875,
+        "confirmed_miss_rate": 0.96875,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "persistence",
+      "name": "末帧保持",
+      "role": "val",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 1,
+        "tn": 61,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 11,
+          "stable": 34
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.5794392523364486,
+        "resolved": 62,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.08333333333333333,
+        "not_confirmed_rate": 0.9166666666666666,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 11,
+          "stable": 34
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 1,
+        "tn": 61,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 11,
+          "stable": 34
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.5794392523364486,
+        "resolved": 62,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.08333333333333333,
+        "not_confirmed_rate": 0.9166666666666666,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "persistence",
+      "name": "末帧保持",
+      "role": "test",
+      "steps_s": [
+        0.01
+      ],
+      "old_8s": {
+        "tp": 0,
+        "tn": 47,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 9,
+          "stable": 20
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.618421052631579,
+        "resolved": 47,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.0,
+        "not_confirmed_rate": 1.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 9,
+          "stable": 20
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 0,
+        "tn": 47,
+        "fp": 0,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 9,
+          "stable": 20
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.618421052631579,
+        "resolved": 47,
+        "all_accuracy": null,
+        "resolved_accuracy": 1.0,
+        "confirmed_recall": 0.0,
+        "not_confirmed_rate": 1.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "TASK2_S23_P0_extension1",
+      "name": "S23 P0 延长版",
+      "role": "val",
+      "steps_s": [
+        0.005,
+        0.0025
+      ],
+      "old_8s": {
+        "tp": 10,
+        "tn": 90,
+        "fp": 4,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 1
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9906542056074766,
+        "resolved": 106,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9433962264150944,
+        "confirmed_recall": 0.8333333333333334,
+        "not_confirmed_rate": 0.16666666666666666,
+        "confirmed_miss_rate": 0.16666666666666666,
+        "false_alarm_rate": 0.042105263157894736
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 1
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 10,
+        "tn": 91,
+        "fp": 4,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 1.0,
+        "resolved": 107,
+        "all_accuracy": 0.9439252336448598,
+        "resolved_accuracy": 0.9439252336448598,
+        "confirmed_recall": 0.8333333333333334,
+        "not_confirmed_rate": 0.16666666666666663,
+        "confirmed_miss_rate": 0.16666666666666666,
+        "false_alarm_rate": 0.042105263157894736
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "TASK2_F23_P0_extension1",
+      "name": "F23 P0 延长版",
+      "role": "val",
+      "steps_s": [
+        0.005,
+        0.0025
+      ],
+      "old_8s": {
+        "tp": 12,
+        "tn": 90,
+        "fp": 4,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 1
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9906542056074766,
+        "resolved": 106,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9622641509433962,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.042105263157894736
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 1
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 12,
+        "tn": 90,
+        "fp": 5,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 1.0,
+        "resolved": 107,
+        "all_accuracy": 0.9532710280373832,
+        "resolved_accuracy": 0.9532710280373832,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.05263157894736842
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "m3_pm",
+      "name": "历史 M3",
+      "role": "test",
+      "steps_s": [
+        0.005,
+        0.01
+      ],
+      "old_8s": {
+        "tp": 7,
+        "tn": 64,
+        "fp": 2,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 1
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9868421052631579,
+        "resolved": 75,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9466666666666667,
+        "confirmed_recall": 0.7777777777777778,
+        "not_confirmed_rate": 0.2222222222222222,
+        "confirmed_miss_rate": 0.2222222222222222,
+        "false_alarm_rate": 0.029850746268656716
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 1
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 7,
+        "tn": 65,
+        "fp": 2,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 1.0,
+        "resolved": 76,
+        "all_accuracy": 0.9473684210526315,
+        "resolved_accuracy": 0.9473684210526315,
+        "confirmed_recall": 0.7777777777777778,
+        "not_confirmed_rate": 0.2222222222222222,
+        "confirmed_miss_rate": 0.2222222222222222,
+        "false_alarm_rate": 0.029850746268656716
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "C3000",
+      "name": "历史 C3000",
+      "role": "test",
+      "steps_s": [
+        0.005,
+        0.01
+      ],
+      "old_8s": {
+        "tp": 7,
+        "tn": 65,
+        "fp": 0,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 2
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9736842105263158,
+        "resolved": 74,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.972972972972973,
+        "confirmed_recall": 0.7777777777777778,
+        "not_confirmed_rate": 0.2222222222222222,
+        "confirmed_miss_rate": 0.2222222222222222,
+        "false_alarm_rate": 0.0
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 2
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 7,
+        "tn": 65,
+        "fp": 0,
+        "fn": 2,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 2
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.9736842105263158,
+        "resolved": 74,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.972972972972973,
+        "confirmed_recall": 0.7777777777777778,
+        "not_confirmed_rate": 0.2222222222222222,
+        "confirmed_miss_rate": 0.2222222222222222,
+        "false_alarm_rate": 0.0
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "F23_0101",
+      "name": "历史 F23",
+      "role": "test",
+      "steps_s": [
+        0.005,
+        0.01
+      ],
+      "old_8s": {
+        "tp": 9,
+        "tn": 50,
+        "fp": 2,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 15
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8026315789473685,
+        "resolved": 61,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9672131147540983,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.029850746268656716
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 15
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 9,
+        "tn": 50,
+        "fp": 2,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 15
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8026315789473685,
+        "resolved": 61,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9672131147540983,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.029850746268656716
+      }
+    },
+    {
+      "release": "campaign2",
+      "model": "S23_0101",
+      "name": "历史 S23",
+      "role": "test",
+      "steps_s": [
+        0.005,
+        0.01
+      ],
+      "old_8s": {
+        "tp": 9,
+        "tn": 52,
+        "fp": 2,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 13
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8289473684210527,
+        "resolved": 63,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9682539682539683,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.029850746268656716
+      },
+      "new_disposition": {
+        "predicted_los": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_settled": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "window_no_los_unsettled": {
+          "unstable": 0,
+          "stable": 13
+        },
+        "native_horizon_limited": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "prefix_mismatch": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "numerical_unresolved": {
+          "unstable": 0,
+          "stable": 0
+        }
+      },
+      "sequential_8s_then_15s": {
+        "tp": 9,
+        "tn": 52,
+        "fp": 2,
+        "fn": 0,
+        "unsettled": {
+          "unstable": 0,
+          "stable": 13
+        },
+        "numerical": {
+          "unstable": 0,
+          "stable": 0
+        },
+        "coverage": 0.8289473684210527,
+        "resolved": 63,
+        "all_accuracy": null,
+        "resolved_accuracy": 0.9682539682539683,
+        "confirmed_recall": 1.0,
+        "not_confirmed_rate": 0.0,
+        "confirmed_miss_rate": 0.0,
+        "false_alarm_rate": 0.029850746268656716
+      }
+    }
+  ],
+  "kron_case_outcomes": [
+    {
+      "release": "kron",
+      "model": "hard_r",
+      "role": "test",
+      "forecast_model": "hard_r",
+      "id": "ieee39_holdout_supplement/holdout_0016",
+      "truth_label": "unstable",
+      "forecast_artifact": "kron--hard_r--test.npz",
+      "prefix_8s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 1.785718943804945e-09,
+          "common": 1.5907478069485763e-17
+        }
+      },
+      "forecast_15s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 1.3071094468188237e-09,
+          "common": 1.1630617667089726e-17
+        }
+      },
+      "archive_parity_8s": {
+        "passed": true,
+        "coi": 2.6023750565831736e-15,
+        "common": 1.4111859913554626e-17
+      },
+      "reproduced_8s": true,
+      "status": "window_no_los_unsettled"
+    },
+    {
+      "release": "kron",
+      "model": "hard_r",
+      "role": "test",
+      "forecast_model": "hard_r",
+      "id": "ieee39_holdout_supplement/holdout_0027",
+      "truth_label": "unstable",
+      "forecast_artifact": "kron--hard_r--test.npz",
+      "prefix_8s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 1.8805366315900317e-09,
+          "common": 1.8600243427169684e-17
+        }
+      },
+      "forecast_15s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 1.3760493459960246e-09,
+          "common": 1.3599502698355916e-17
+        }
+      },
+      "archive_parity_8s": {
+        "passed": true,
+        "coi": 1.7132997058743852e-15,
+        "common": 1.8218602963988934e-17
+      },
+      "reproduced_8s": true,
+      "status": "window_no_los_unsettled"
+    },
+    {
+      "release": "kron",
+      "model": "hard_r",
+      "role": "blind_v2",
+      "forecast_model": "hard_r",
+      "id": "kiki_ieee39_blind_v2/blind_0091",
+      "truth_label": "unstable",
+      "forecast_artifact": "kron--hard_r--blind_v2.npz",
+      "prefix_8s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 1.225243870727291e-09,
+          "common": 1.836691450683291e-17
+        }
+      },
+      "forecast_15s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 8.996521167864164e-10,
+          "common": 1.3429735864106697e-17
+        }
+      },
+      "archive_parity_8s": {
+        "passed": true,
+        "coi": 7.788701483063582e-16,
+        "common": 2.1162462646403736e-17
+      },
+      "reproduced_8s": true,
+      "status": "window_no_los_unsettled"
+    },
+    {
+      "release": "kron",
+      "model": "soft_2r",
+      "role": "test",
+      "forecast_model": "soft_2r",
+      "id": "ieee39_holdout_supplement/holdout_0004",
+      "truth_label": "unstable",
+      "forecast_artifact": "kron--soft_2r--test.npz",
+      "prefix_8s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 3.5954907000699266e-08,
+          "common": 1.4338917100613707e-17
+        }
+      },
+      "forecast_15s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 2.6267007485253547e-08,
+          "common": 1.048028009951515e-17
+        }
+      },
+      "archive_parity_8s": {
+        "passed": true,
+        "coi": 2.0944390054728834e-15,
+        "common": 1.3759048553274138e-17
+      },
+      "reproduced_8s": true,
+      "status": "window_no_los_unsettled"
+    },
+    {
+      "release": "kron",
+      "model": "soft_2r",
+      "role": "test",
+      "forecast_model": "soft_2r",
+      "id": "ieee39_holdout_supplement/holdout_0018",
+      "truth_label": "unstable",
+      "forecast_artifact": "kron--soft_2r--test.npz",
+      "prefix_8s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 2.2314735432318847e-08,
+          "common": 1.6974130224355324e-17
+        }
+      },
+      "forecast_15s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 1.630966725950959e-08,
+          "common": 1.2409608862684092e-17
+        }
+      },
+      "archive_parity_8s": {
+        "passed": true,
+        "coi": 6.2175860577009564e-15,
+        "common": 1.8038890018852148e-17
+      },
+      "reproduced_8s": true,
+      "status": "window_no_los_unsettled"
+    },
+    {
+      "release": "kron",
+      "model": "m3b_g2",
+      "role": "test",
+      "forecast_model": "m3b_g2",
+      "id": "ieee39_holdout_supplement/holdout_0004",
+      "truth_label": "unstable",
+      "forecast_artifact": "kron--m3b_g2--test.npz",
+      "prefix_8s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 3.567903484880222e-08,
+          "common": 1.3701757682902734e-17
+        }
+      },
+      "forecast_15s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 2.6066629975695295e-08,
+          "common": 1.0018507861081492e-17
+        }
+      },
+      "archive_parity_8s": {
+        "passed": true,
+        "coi": 1.8908599192998065e-13,
+        "common": 1.2247321358045994e-17
+      },
+      "reproduced_8s": true,
+      "status": "window_no_los_unsettled"
+    },
+    {
+      "release": "kron",
+      "model": "m3b_g2",
+      "role": "test",
+      "forecast_model": "m3b_g2",
+      "id": "ieee39_holdout_supplement/holdout_0018",
+      "truth_label": "unstable",
+      "forecast_artifact": "kron--m3b_g2--test.npz",
+      "prefix_8s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 1.7552276017534382e-08,
+          "common": 1.8125758762183292e-17
+        }
+      },
+      "forecast_15s": {
+        "status": "window_no_los_unsettled",
+        "qualified": true,
+        "predicted_los_time_forecast_s": null,
+        "per_step": [
+          {
+            "step_s": 0.0025,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          },
+          {
+            "step_s": 0.00125,
+            "category": "window_no_los_unsettled",
+            "trigger_index": null,
+            "finite_through_window": true
+          }
+        ],
+        "numerical_comparison": {
+          "passed": true,
+          "coi": 1.2829731830172358e-08,
+          "common": 1.3257760295018422e-17
+        }
+      },
+      "archive_parity_8s": {
+        "passed": true,
+        "coi": 5.467351927398066e-15,
+        "common": 1.6938399603811773e-17
+      },
+      "reproduced_8s": true,
+      "status": "window_no_los_unsettled"
+    }
+  ],
+  "lass_optional_extrapolation": [
+    {
+      "role": "test",
+      "id": "ieee39_holdout_supplement/holdout_0004",
+      "truth_label": "unstable",
+      "status": "native_horizon_limited",
+      "reproduced_8s": true,
+      "outcome": "window_no_los_unsettled",
+      "forecast_time_s": null
+    },
+    {
+      "role": "blind_v2",
+      "id": "kiki_ieee39_blind_v2/blind_0121",
+      "truth_label": "unstable",
+      "status": "native_horizon_limited",
+      "reproduced_8s": true,
+      "outcome": "window_no_los_unsettled",
+      "forecast_time_s": null
+    }
+  ],
+  "prefix_archive_max_normalized_error": {
+    "coi": 4.518073478881324e-07,
+    "common": 3.0575685477911433e-07
+  },
+  "new_numerical_failures_by_method": {
+    "SINDy-SHRED 修正配置": 2,
+    "SINDy-SHRED STLSQ 补充": 6
+  },
+  "classification_state_summary": {
+    "newly_classified": 49,
+    "newly_correct": 42
+  },
+  "tuning_performed": false
+}
