@@ -12,7 +12,7 @@
 - 协议 SHA256：`16d934ffc717d03c4f033ae59b3ad2fa7e18ed118a9fa3f98d194a3c2bc1746e`。
 - 运行工件清单 SHA256：`0d211de1de5e621f275607c08dd21d75cde16c7f9d1d07bd3a261f1feeaa4ac5`。
 - 运行摘要 SHA256：`9db59e20fdb81a6425e9b49d948e341890bf07192038d2dffac8080878fd3bff`。
-- [保存证据算术复核](../../results/backup/retired_layout_20261121T093836Z/machine_local_topology.zip)（包内 `reports/generated/machine_local_synthetic_20261112/s0-saved-audit.json`） SHA256：`b2f622fdf4069306330dae3f354e1eaf2243136dc48e9bc9d8340d4613d4379b`。
+- [保存证据算术复核](../../results/backup/machine_local_group_subsets/01_s0_implementation_saved_checks.zip)（包内 `reports/generated/machine_local_synthetic_20261112/s0-saved-audit.json`） SHA256：`b2f622fdf4069306330dae3f354e1eaf2243136dc48e9bc9d8340d4613d4379b`。
 
 28 项实现绑定及全部运行工件的字节哈希已核对。检查名单与机器计划逐项一致，没有缺项或追加检查。
 

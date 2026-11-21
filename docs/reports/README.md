@@ -17,17 +17,14 @@ compares overall and branch-dependent changes and diagnoses their history initia
 
 ## Retired top-level archives
 
-原 `experiments/` 和 `reports/` 共 69 个文件，按研究主题归入 6 个本地 ZIP。包内保留原相对路径。
-按旧路径搜索[归档核验回执](retired_layout_20261121t093836z_evidence.json)，可以找到对应的 ZIP、包内条目和 SHA256。
+原 `experiments/` 和 `reports/` 的 69 个文件已按研究主题归入四个任务组。先读任务组总说明，再按小任务打开包外说明。按旧路径搜索[归档核验回执](retired_layout_20261121t093836z_evidence.json)可定位 ZIP、包内条目和 SHA256。
 
-| 研究主题 | 归档包 |
+| 任务组总说明 | 新归入的资料 |
 |---|---|
-| [Paper v1 实验卡](paper_v1.md) | [实验卡、生成报告与原目录说明](../../results/backup/retired_layout_20261121T093836Z/paper_v1.zip) |
-| [Paper v2 积分弱形式](m0_m2a_lyap_integral_v2_method_results.md) | [生成报告](../../results/backup/retired_layout_20261121T093836Z/paper_v2_integral.zip) |
-| [常数 C 历史初始化](constant_c_energy_initializer_20261109_zh.md) | [核验结果与日志](../../results/backup/retired_layout_20261121T093836Z/constant_c_initialization.zip) |
-| [KIKI 能量上界迁移](kiki_energy_cap_transfer_20261110_zh.md) | [数值与元数据核验](../../results/backup/retired_layout_20261121T093836Z/kiki_energy_cap_transfer.zip) |
-| [状态端口试验](state_port_synthetic_20261111_zh.md) | [合成与 KIKI train 核验](../../results/backup/retired_layout_20261121T093836Z/state_port.zip) |
-| [逐机隐状态与拓扑修正](kiki_machine_local_full_20261113_zh.md) | [核验结果、见证样本与训练曲线](../../results/backup/retired_layout_20261121T093836Z/machine_local_topology.zip) |
+| [早期物理基线](../../results/SUMMARY_01_early_physics_baselines.md) | Paper v1 实验卡、冒烟检查与完整运行报告，Paper v2 积分弱形式报告 |
+| [逐机隐状态与拓扑修正](../../results/SUMMARY_03_machine_local_topology.md) | S0/S1、逐机初始化、KIKI 基线与拓扑修正的核验材料 |
+| [短历史初始化与能量约束](../../results/SUMMARY_07_constant_c_energy_initialization.md) | 常数 C 合成实验、能量约束比较与确认、KIKI 能量上界迁移 |
+| [状态端口合成与 KIKI train 对照](../../results/SUMMARY_08_state_port.md) | 合成试验和真实数据对照的保存证据核验 |
 
 ## Early M0 report archives
 
