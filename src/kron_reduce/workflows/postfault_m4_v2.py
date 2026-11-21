@@ -123,17 +123,17 @@ def _profiles(root, journal, source, models, refs):
         profiles[role] = {}
         for step, values in diagnostics.items():
             selected = values | {"soft_2r": alternate[step]["hard_r"]}
-            profiles[role][step] = {k: {"energies": energies(m, events, selected[k][0])} for k, m in models.items()}
+            profiles[role][step] = {k: energies(m, events, selected[k][0]) for k, m in models.items()}
         journal.append({"stage": "roster_verified", "role": role, "count": len(events), "ids": [e["id"] for e in events]})
     return profiles
 
 
-def _authorized(root, plan, entry):
+def _authorized(root, plan, entry, relative):
     validate_run_policy(root, WORKFLOW, entry)
     policy = load_policy(root)["development_evaluations"]
     key = plan["authorization"]
     scope = policy[key]
-    expected = {"status": "active", "experiment": WORKFLOW, "plan_path": CONFIG, "plan_sha256": sha256_file(root/CONFIG),
+    expected = {"status": "active", "experiment": WORKFLOW, "plan_path": relative, "plan_sha256": sha256_file(root/relative),
                 "max_executions": 1, "retry_allowed": False, "allowed_roles": ["train", "val"], "fit_attempts": 0,
                 "train_cases": 346, "val_cases": 107, "test_cases": 0, "archive_artifact_opens": 13,
                 "original_data_cache_opens": 0, "new_rollouts": 0, "gradients": 0, "optimizer_updates": 0}
@@ -164,8 +164,9 @@ def run(*, root, experiment, stage, result_dir, run_id):
             or result_dir != root/"results"/run_id or any(result_dir.iterdir())):
         raise RuntimeError("invalid M4 v2 dispatch")
     commit = git_head(root)
-    plan = read_plan(root, CONFIG)
-    key = _authorized(root, plan, experiment)
+    relative = f"configs/experiments/{experiment['config']}"
+    plan = read_plan(root, relative)
+    key = _authorized(root, plan, experiment, relative)
     if not approval_recorded(load_state(root, WORKFLOW), stage) or sys.version_info[:2] != (3, 12):
         raise PermissionError("M4 v2 requires the recorded operator approval and Python 3.12")
     started = time.perf_counter()
@@ -190,7 +191,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
         counts = {"fits": 0, "gradients": 0, "optimizer_updates": 0, "new_rollouts": 0, "new_simulations": 0,
                   "original_data_cache_opens": 0, "test_trajectory_reads": 0, "archive_artifact_opens": 13}
         evidence = {"status": "PASS", "process_status": "PASS", "source_commit": commit,
-                    "plan_sha256": sha256_file(root/CONFIG), "claim_boundary": "Sealed TASK3 post-fault train/val only.",
+                    "plan_sha256": sha256_file(root/relative), "claim_boundary": "Sealed TASK3 post-fault train/val only.",
                     **counts}
         with closing(AppendOnlyAuditJournal(result_dir/"operations.jsonl")) as ledger:
             ledger.append({"stage": "complete", **counts})
@@ -208,10 +209,10 @@ def run(*, root, experiment, stage, result_dir, run_id):
 def main():
     root = project_root()
     assert_clean(root)
-    plan = read_plan(root, CONFIG)
     entry = load_manifest(root)["experiments"][WORKFLOW]
-    _authorized(root, plan, entry)
-    if not approval_recorded(load_state(root, WORKFLOW), "analysis"):
-        approve(root, "analysis", WORKFLOW)
+    relative = f"configs/experiments/{entry['config']}"
+    plan = read_plan(root, relative)
+    _authorized(root, plan, entry, relative)
+    approve(root, "analysis", WORKFLOW)
     with workflow_lock(root, WORKFLOW):
         print(_run_experiment(root, WORKFLOW, "analysis", experiment=entry), flush=True)

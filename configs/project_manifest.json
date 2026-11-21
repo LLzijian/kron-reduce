@@ -3147,7 +3147,7 @@
     "postfault_m4_v2": {
       "module": "kron_reduce.workflows.postfault_m4_v2",
       "workflow": "postfault_m4_v2",
-      "config": "postfault_m4_v2.toml",
+      "config": "postfault_m4_v2_repair.toml",
       "status": "gated",
       "dataset": "kiki_ieee39_v1",
       "data_policy": "kiki_official_train_test_v1",
@@ -3164,7 +3164,7 @@
       "stage": "analysis",
       "required_gate": "analysis",
       "val_use": "archived_physical_analysis",
-      "development_authorization_id": "postfault_m4_v2_20261121"
+      "development_authorization_id": "postfault_m4_v2_repair_20261121"
     },
     "postfault_m4_v1": {
       "module": "kron_reduce.workflows.postfault_m4_m3b",

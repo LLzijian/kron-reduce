@@ -1,0 +1,25 @@
+{
+  "experiment": "postfault_m4_v2",
+  "authorization": "postfault_m4_v2_20261121",
+  "run_id": "postfault_m4_v2-analysis-20261121T060227625654Z-4906e508-e1311f97",
+  "source_commit": "4906e508829b2e56d96297eb6453613d0de37150",
+  "operator_approval": {
+    "approved_at": "2026-11-21T06:02:27.573839+00:00",
+    "actor": "explicit_operator_action"
+  },
+  "process_status": "FAIL",
+  "error_type": "KeyError",
+  "failure": "Archive-energy adapter supplied an extra nesting level.",
+  "old_plan_sha256": "15702d581f0371bab5dba79cf589a4c102f8ecce751c2a573a690495561311e2",
+  "artifact_bindings": {
+    "access.jsonl": "2875f70b9e29b7b988dd240235cf3b20d140b4d71aa56c0df3daf1d1df38e656",
+    "artifact_hashes.json": "519611f8b61951919c6c731ab0da2019f2128d206c9a186bb0691e986b17c5a5",
+    "RUN_FAILED.json": "1b3147bfac3cf74710884302471ac3428894ed377e89c11db7550733f89c8c27"
+  },
+  "archive_artifact_opens": 13,
+  "new_rollouts": 0,
+  "new_simulations": 0,
+  "original_data_cache_opens": 0,
+  "test_trajectory_reads": 0,
+  "retry_of_consumed_authority": false
+}

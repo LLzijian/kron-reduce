@@ -65,7 +65,7 @@
   },
   "development_evaluations": {
     "postfault_m4_v2_20261121": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "postfault_m4_v2",
       "authority": "explicit_operator_archived_zero_rollout_m4_v2",
       "plan_path": "configs/experiments/postfault_m4_v2.toml",
@@ -84,7 +84,36 @@
       "original_data_cache_opens": 0,
       "new_rollouts": 0,
       "gradients": 0,
-      "optimizer_updates": 0
+      "optimizer_updates": 0,
+      "run_id": "postfault_m4_v2-analysis-20261121T060227625654Z-4906e508-e1311f97",
+      "process_status": "FAIL",
+      "test_trajectory_reads": 0,
+      "result_receipt_path": "docs/reports/postfault_m4_v2_failed_20261121_evidence.json",
+      "result_receipt_sha256": "7e4585794553ec47b5208cb211ff3e1299e867aa85abc3081b46fc866d5f2928"
+    },
+    "postfault_m4_v2_repair_20261121": {
+      "status": "active",
+      "experiment": "postfault_m4_v2",
+      "authority": "explicit_operator_archived_m4_v2_engineering_repair",
+      "plan_path": "configs/experiments/postfault_m4_v2_repair.toml",
+      "plan_sha256": "0015484423be51deedeaf1d52e77ee19b8a60c19f4345d9ac9bf2386c5310f39",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "allowed_roles": [
+        "train",
+        "val"
+      ],
+      "train_cases": 346,
+      "val_cases": 107,
+      "test_cases": 0,
+      "archive_artifact_opens": 13,
+      "original_data_cache_opens": 0,
+      "new_rollouts": 0,
+      "gradients": 0,
+      "optimizer_updates": 0,
+      "previous_failed_attempt_receipt": "docs/reports/postfault_m4_v2_failed_20261121_evidence.json",
+      "previous_failed_attempt_sha256": "7e4585794553ec47b5208cb211ff3e1299e867aa85abc3081b46fc866d5f2928"
     },
     "postfault_m4_v1_20261121": {
       "status": "consumed",
