@@ -29,6 +29,10 @@ compares overall and branch-dependent changes and diagnoses their history initia
 | [状态端口试验](state_port_synthetic_20261111_zh.md) | [合成与 KIKI train 核验](../../results/backup/retired_layout_20261121T093836Z/state_port.zip) |
 | [逐机隐状态与拓扑修正](kiki_machine_local_full_20261113_zh.md) | [核验结果、见证样本与训练曲线](../../results/backup/retired_layout_20261121T093836Z/machine_local_topology.zip) |
 
+## Early M0 report archives
+
+[M0 故障后重积分与结构发现总说明](../../results/SUMMARY_06_m0_reintegration_structure.md)串起数据质量审计、暂态电势验证和 M0-GMD-PM 里程碑，并链接三个小任务各自的包外说明。[归档核验回执](m0_reintegration_structure_archive_20261121_evidence.json)可按原路径查找 52 个文件所在的 ZIP。
+
 ## Report contract
 
 Each new report should state:
