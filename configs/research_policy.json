@@ -64,6 +64,107 @@
     }
   },
   "development_evaluations": {
+    "postfault_m4_v1_20261121": {
+      "status": "active",
+      "allowed_roles": [
+        "train",
+        "val"
+      ],
+      "train_cases": 346,
+      "val_cases": 107,
+      "test_cases": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "plan_path": "configs/experiments/postfault_m4_m3b_v1.toml",
+      "plan_sha256": "fce2868b0f0f1b385a2c060ff04b6b78cae1afa05a3156243be8d739f7fdf37f",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "experiment": "postfault_m4_v1",
+      "authority": "explicit_operator_zero_training_postfault_m4",
+      "fit_attempts": 0,
+      "source_cache_open_limit": 0,
+      "result_archive_open_limit": 8
+    },
+    "unified_discovery_m3b_v1_20261121": {
+      "status": "active",
+      "allowed_roles": [
+        "train",
+        "val"
+      ],
+      "train_cases": 346,
+      "val_cases": 107,
+      "test_cases": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "plan_path": "configs/experiments/postfault_m4_m3b_v1.toml",
+      "plan_sha256": "fce2868b0f0f1b385a2c060ff04b6b78cae1afa05a3156243be8d739f7fdf37f",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "experiment": "unified_discovery_m3b_v1",
+      "authority": "explicit_operator_three_supports_and_conditional_fixed_test",
+      "fit_attempts": 3,
+      "source_cache_open_limit": 3,
+      "operation_limits": {
+        "checkpoint_loads": 1,
+        "fits": 3,
+        "gradients": 144,
+        "optimizer_updates": 18,
+        "val_checks": 9,
+        "rollouts": 34104,
+        "torch_rhs": 97974720,
+        "tangent_rhs": 5745600,
+        "observed_rhs": 169920,
+        "qr": 85740,
+        "svd": 85740,
+        "triangular_solves": 85740,
+        "matrix_products": 85740
+      },
+      "scope_limits": {
+        "anchors": {
+          "checkpoint_loads": 1
+        },
+        "support-G2-G3-G5": {
+          "fits": 1,
+          "gradients": 48,
+          "optimizer_updates": 6,
+          "val_checks": 3,
+          "rollouts": 11368,
+          "torch_rhs": 32658240,
+          "tangent_rhs": 1915200,
+          "observed_rhs": 56640,
+          "qr": 28580,
+          "svd": 28580,
+          "triangular_solves": 28580,
+          "matrix_products": 28580
+        },
+        "support-G2-G5": {
+          "fits": 1,
+          "gradients": 48,
+          "optimizer_updates": 6,
+          "val_checks": 3,
+          "rollouts": 11368,
+          "torch_rhs": 32658240,
+          "tangent_rhs": 1915200,
+          "observed_rhs": 56640,
+          "qr": 28580,
+          "svd": 28580,
+          "triangular_solves": 28580,
+          "matrix_products": 28580
+        },
+        "support-G2": {
+          "fits": 1,
+          "gradients": 48,
+          "optimizer_updates": 6,
+          "val_checks": 3,
+          "rollouts": 11368,
+          "torch_rhs": 32658240,
+          "tangent_rhs": 1915200,
+          "observed_rhs": 56640,
+          "qr": 28580,
+          "svd": 28580,
+          "triangular_solves": 28580,
+          "matrix_products": 28580
+        }
+      }
+    },
     "unified_discovery_m3_v1_20261120": {
       "status": "consumed",
       "experiment": "unified_discovery_m3_v1",

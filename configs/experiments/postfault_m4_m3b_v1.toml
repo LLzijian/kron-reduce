@@ -1,0 +1,143 @@
+task_type = "postfault_m4_m3b"
+dataset = "kiki_ieee39_v1"
+protocol = "docs/protocols/postfault_m4_m3b_v1_zh.md"
+source_contract = "configs/proposals/kiki_machine_local_full_fit_v1.json"
+split_reference_sha256 = "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2"
+backbone_sha256 = "fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a"
+a06_sha256 = "a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8"
+backbone_archive = "results/backup/kiki_a03_a17_subsets/KIKI_a06.zip"
+m3_scope = "unified_discovery_m3_v1_20261120"
+v4_scope = "unified_first_swing_v4_fit_20261119"
+v4_test_scope = "unified_first_swing_v4_test_20261119"
+m3_receipt = "docs/reports/unified_discovery_m3_v1_20261120_evidence.json"
+v4_receipt = "docs/reports/unified_first_swing_v4_fit_20261119_evidence.json"
+v4_test_receipt = "docs/reports/unified_first_swing_v4_test_20261119_evidence.json"
+v4_test_receipt_sha256 = "596effdaaa3cbff400316eab6c028e39a41b0a01367c29e723a52d290d1c5aaf"
+m4_authorization = "postfault_m4_v1_20261121"
+fit_authorization = "unified_discovery_m3b_v1_20261121"
+test_authorization = "unified_discovery_m3b_test_v1_20261121"
+
+[settings]
+train_batch = 64
+eval_batch = 64
+screen_batch = 128
+val_interval = 3
+prior_weight = 1e-06
+gradient_clip = 1.0
+gradient_ratio = 1.05
+huber_delta = 1.0
+unstable_first_swing_weight = 8.0
+energy_weight = 0.1
+trust_weight = 1.0
+max_fp = 2
+diagnostic_fp = 2
+stable_median_limit = 0.21
+tn_mean_limit = 0.24
+witness_ratio = 0.8
+parsimony_tolerance = 0.02
+min_train_tp = 33
+
+[schedule]
+support_updates = 6
+learning_rate = 0.001
+backbone_learning_rate = 0.0002
+
+[operation_limits]
+checkpoint_loads = 1
+fits = 3
+gradients = 144
+optimizer_updates = 18
+val_checks = 9
+rollouts = 34104
+torch_rhs = 97974720
+tangent_rhs = 5745600
+observed_rhs = 169920
+qr = 85740
+svd = 85740
+triangular_solves = 85740
+matrix_products = 85740
+
+[test_operation_limits]
+checkpoint_loads = 1
+fits = 0
+gradients = 0
+optimizer_updates = 0
+val_checks = 0
+rollouts = 1106
+torch_rhs = 3261120
+tangent_rhs = 189600
+observed_rhs = 0
+qr = 1520
+svd = 1520
+triangular_solves = 1520
+matrix_products = 1520
+
+[scope_limits."anchors"]
+checkpoint_loads = 1
+
+[scope_limits."support-G2-G3-G5"]
+fits = 1
+gradients = 48
+optimizer_updates = 6
+val_checks = 3
+rollouts = 11368
+torch_rhs = 32658240
+tangent_rhs = 1915200
+observed_rhs = 56640
+qr = 28580
+svd = 28580
+triangular_solves = 28580
+matrix_products = 28580
+
+[scope_limits."support-G2-G5"]
+fits = 1
+gradients = 48
+optimizer_updates = 6
+val_checks = 3
+rollouts = 11368
+torch_rhs = 32658240
+tangent_rhs = 1915200
+observed_rhs = 56640
+qr = 28580
+svd = 28580
+triangular_solves = 28580
+matrix_products = 28580
+
+[scope_limits."support-G2"]
+fits = 1
+gradients = 48
+optimizer_updates = 6
+val_checks = 3
+rollouts = 11368
+torch_rhs = 32658240
+tangent_rhs = 1915200
+observed_rhs = 56640
+qr = 28580
+svd = 28580
+triangular_solves = 28580
+matrix_products = 28580
+
+[bindings]
+"configs/workflows/postfault_m4_m3b_v1.json" = "f2d83f9d4e6b35a8bc3d2b90378710456717aa6faba6b13a2d842df9cbf37062"
+"configs/workflows/unified_discovery_m3b_test_v1.json" = "2f349df6bf0411754db344605640084092b0ba226b3920ffd846fe0e027ca81a"
+"docs/protocols/postfault_m4_m3b_v1_zh.md" = "ff1c843628934985d8de8f2513d619e1c0b4470952181190602a819d2627a9e2"
+"configs/proposals/kiki_task3_split_reference_v1.json" = "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2"
+"configs/proposals/kiki_machine_local_full_fit_v1.json" = "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed"
+"configs/input_contracts.json" = "6c31fb878d3bed1d43bf70acf84995b5ec5d6d1f2ae64a1809febe0c00b3f83c"
+"docs/reports/unified_discovery_m3_v1_20261120_evidence.json" = "bcdb1a72912c59cbda473dee949778143e1aeef0e42580b35e9d2c25e485a824"
+"docs/reports/unified_first_swing_v4_fit_20261119_evidence.json" = "b20508d16545440b46b3456483849b0bd9871b58f8cb481ca77e17fd8c74fe4f"
+"requirements/constraints-py312.txt" = "8205c8ac19716f035dedcd96a5e304de71b17fe758ef92f73c4daf4a8de1d1a9"
+"scripts/analyze_physical_consistency.py" = "8df6ff8ca02d828ba9f39c41eb5b4b1503fb9231dd0a417821e2de7b6ef9ca72"
+"scripts/run_unified_discovery_m3b.py" = "09138c8b2bd1858d752517ff971e934640c53d7597d1b285638825e937199e73"
+"src/kron_reduce/workflows/postfault_m4_m3b.py" = "8b9721556845ce2cd8fe76625890fe85f48302cc3e9f53f5c03e34c8521c8a2f"
+"src/kron_reduce/evaluation/postfault_m4.py" = "14354c74881c20d52c088498eddf3ae731cc5078a97b78c547a3c8ac38e1d5a4"
+"src/kron_reduce/evaluation/postfault_m4_modes.py" = "c08975e790393b8e2af70d9cd1523f81114831b355051fc1830e1d3a5d9d24c7"
+"src/kron_reduce/evaluation/postfault_m4_graph.py" = "c6c67d11af1229fdc0ea6fe6282d52ae424a4f03cf4da63d082fa0e497f27300"
+"src/kron_reduce/evaluation/unified_discovery_m3b.py" = "9927c75d2644599a5ef7db242a0086d6afc1e3741a97ec827ea6bb72198b8f8e"
+"src/kron_reduce/evaluation/unified_discovery_m3.py" = "6b792ab94b3d2760b9bf07babc60976d09d03666285e39d514d23524a3169ccf"
+"src/kron_reduce/evaluation/unified_discovery_m3_scores.py" = "1db5c079cd88a7eefb42753b0976757aa3d4de783103d80385fbfb67b140bbf1"
+"src/kron_reduce/evaluation/unified_discovery_m3_fit.py" = "ea756d0900980ebdc66b75a0275b7523b27b5f8f4d205c91969140cb55f90efa"
+"src/kron_reduce/models/unified_discovery_m3.py" = "46c295d9763c87b33851bd196823b42cb36a3a037be86971deb467f8eb6037b4"
+"src/kron_reduce/data/task3_full.py" = "14f5b7681f1993822a41615e1905f5e7916554371e29f02213a0382d6291cd2d"
+"tests/test_postfault_m4_modes.py" = "482918c27ad3dc12b84525caff0fbe5122ca16a1626ca2504a01ff5b255fe0de"
+"tests/test_postfault_m4_graph.py" = "936a7674176a897f9be685b8eedc6620833c70aa2260df4ac0a089480814a67f"

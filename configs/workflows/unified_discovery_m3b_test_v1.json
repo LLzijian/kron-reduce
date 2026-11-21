@@ -1,0 +1,16 @@
+{
+  "workflow": "unified_discovery_m3b_test_v1",
+  "experiment": "unified_discovery_m3b_test_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "test"],
+  "transitions": {"scaffold": "test"},
+  "terminal_stages": ["test"],
+  "approval_required": ["test"],
+  "stage_evidence_contracts": {
+    "test": {
+      "required_fields": ["status", "process_status", "source_commit", "artifact_manifest", "plan_sha256", "claim_boundary", "frozen_model_manifest", "test_trajectory_reads"],
+      "allowed_values": {"test_trajectory_reads": [76], "promotion_decision": ["KEEP_BASELINE"]}
+    }
+  }
+}

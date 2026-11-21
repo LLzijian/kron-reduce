@@ -1,0 +1,20 @@
+{
+  "workflow": "postfault_m4_m3b_v1",
+  "experiment": "unified_discovery_m3b_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "m4", "fit"],
+  "transitions": {"scaffold": "m4", "m4": "fit"},
+  "terminal_stages": ["fit"],
+  "approval_required": ["m4", "fit"],
+  "stage_evidence_contracts": {
+    "m4": {
+      "required_fields": ["status", "process_status", "source_commit", "artifact_manifest", "plan_sha256", "claim_boundary", "original_data_cache_opens", "test_trajectory_reads"],
+      "allowed_values": {"test_trajectory_reads": [0], "original_data_cache_opens": [0]}
+    },
+    "fit": {
+      "required_fields": ["status", "process_status", "source_commit", "artifact_manifest", "plan_sha256", "claim_boundary", "scientific_pass", "scientific_verdict", "frozen_model_manifest", "test_trajectory_reads"],
+      "allowed_values": {"test_trajectory_reads": [0], "scientific_verdict": ["ACCEPT", "REJECT"]}
+    }
+  }
+}
