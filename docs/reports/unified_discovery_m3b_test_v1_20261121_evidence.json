@@ -1,0 +1,75 @@
+{
+  "experiment": "unified_discovery_m3b_test_v1",
+  "authorization": "unified_discovery_m3b_test_v1_20261121",
+  "run_id": "unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd",
+  "operator_approval": {
+    "approved_at": "2026-11-21T04:40:41.954947+00:00",
+    "actor": "explicit_operator_action"
+  },
+  "source_commit": "7984cefd45d3d914f9dd452946f922fd9cd789a2",
+  "plan_sha256": "fce2868b0f0f1b385a2c060ff04b6b78cae1afa05a3156243be8d739f7fdf37f",
+  "artifact_manifest_sha256": "42282fc6fa5291f167eb374bbaad6f55c851284c6ee373d5e5f1e8d96b483c84",
+  "artifact_bindings": {
+    "access.jsonl": "47225b7cd60664cff1a58e860f8db76783de7b3c4e2e15a2d0205dc04b30daae",
+    "operations.jsonl": "9a38e8fa28a021500a2f614355e7be052cb09786d5c5c15b4123b6fa6a83561e",
+    "runtime.json": "63896145ca9e03f9da2cb61557bedee4fecbd202d70b21c9063b4327c7ec6bdd",
+    "stage_evidence.json": "d7f1ff3d7a79bc3ca73719d56eb9b924501dff18de72df86e7850241176a237b",
+    "summary.json": "6bcfe0d60c30b9be42e51fe9e62f5d09cfd2504ad64b29fe22a9836e3088b15f",
+    "test.json": "ced4aaba564bae8a4d8c160e2b6c52f64fe5d7e43930ec4f171bb1367f688dac",
+    "test_predictions.npz": "bd9f1c25a7c1ed73b8823f4448065b1e39be9c0f38b8ca363900ebe64d4b2df0"
+  },
+  "test_trajectory_reads": 76,
+  "cohorts": {
+    "test": 76
+  },
+  "cache_opens": {
+    "static": 1,
+    "test": 76
+  },
+  "operations": {
+    "checkpoint_loads": 1,
+    "fits": 0,
+    "gradients": 0,
+    "optimizer_updates": 0,
+    "val_checks": 0,
+    "rollouts": 28,
+    "torch_rhs": 82560,
+    "tangent_rhs": 4800,
+    "observed_rhs": 0,
+    "qr": 760,
+    "svd": 760,
+    "triangular_solves": 760,
+    "matrix_products": 760
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\.venv-cu130\\Scripts\\python.exe",
+    "torch": "2.13.0+cu130",
+    "scipy": "1.18.0",
+    "numpy": "2.5.2",
+    "cuda_build": "13.0",
+    "wall_seconds": 25.408019999973476
+  },
+  "access_ledger": {
+    "path": "results/unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd/access.jsonl",
+    "sha256": "47225b7cd60664cff1a58e860f8db76783de7b3c4e2e15a2d0205dc04b30daae"
+  },
+  "operations_ledger": {
+    "path": "results/unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd/operations.jsonl",
+    "sha256": "9a38e8fa28a021500a2f614355e7be052cb09786d5c5c15b4123b6fa6a83561e"
+  },
+  "frozen_model_manifest": {
+    "path": "results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/freeze.json",
+    "sha256": "700c1527a171e6270583121e77c612faac0680d4bd2ade338dbd3d3f84c81d80",
+    "content_utf8": "{\r\n  \"checkpoint_path\": \"results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/freeze_m3b.npz\",\r\n  \"checkpoint_sha256\": \"fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a\",\r\n  \"preprocessing_path\": \"results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/preprocessing.json\",\r\n  \"preprocessing_sha256\": \"c6473edfce144cffcb56fda8fbad589ef5e88b8147629df3fa2a1dee219fce5e\",\r\n  \"initial_checkpoint\": {\r\n    \"path\": \"results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/initial.npz\",\r\n    \"sha256\": \"fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a\"\r\n  },\r\n  \"candidate\": \"support-G2\",\r\n  \"support\": [\r\n    \"G2\"\r\n  ],\r\n  \"selected_update\": 0,\r\n  \"physical_parameters\": {\r\n    \"edge_stiffness\": [\r\n      3.445655329274247,\r\n      3.597268536876274,\r\n      0.0011936407345843408,\r\n      0.0004510611230780064,\r\n      4.30564542481285,\r\n      0.0003135824038606327,\r\n      7.077408099449476e-06,\r\n      0.0007390174999900121,\r\n      5.196058266830271,\r\n      0.0006786706288638103,\r\n      0.23939455081936784,\r\n      0.0004961965343718767,\r\n      0.5121035018678347,\r\n      0.7169889459943564,\r\n      3.888046538386791e-06,\r\n      6.172909109081078e-05,\r\n      3.9826809546218525,\r\n      0.00015510633208853832,\r\n      0.0003673925264223032,\r\n      1.1207390617371351,\r\n      0.00024679771451879823,\r\n      0.9946749396293774,\r\n      0.0009216110698607327,\r\n      2.5431480356358582,\r\n      0.0007485432934521138,\r\n      2.2407800445799304,\r\n      1.1074542141485746,\r\n      0.6176622430168314,\r\n      1.8894868202750426,\r\n      2.1308200448939045,\r\n      0.0006456018945725741,\r\n      0.0005909973878285828,\r\n      0.5327192822698282,\r\n      1.176062712895533,\r\n      1.9416356451247905,\r\n      3.689761382372908,\r\n      1.2943666876366552e-05,\r\n      0.0005221824737713371,\r\n      1.0402526539422583,\r\n      0.8764400305200282,\r\n      1.0392991883056293,\r\n      1.5067643007422549,\r\n      0.6474652055245639,\r\n      2.4577443865949036,\r\n      3.8810823231169738\r\n    ],\r\n    \"damping_coefficients\": [\r\n      0.5741750032340263,\r\n      0.7013460442919928,\r\n      0.8370256531914224,\r\n      0.22350753365511106,\r\n      0.6442553124441146,\r\n      0.44143847445577655,\r\n      1.7029239718456193,\r\n      0.43304660110328547,\r\n      1.423816694124801\r\n    ],\r\n    \"port_gain\": [\r\n      0.82252457894513,\r\n      0.8221800280584689,\r\n      0.8237397963719278,\r\n      0.822765247675927,\r\n      0.8164961601499425,\r\n      0.8227987406062293,\r\n      0.821613216497302,\r\n      0.8215126458713767,\r\n      0.8205705346677331,\r\n      0.7206708062193311\r\n    ],\r\n    \"tau\": [\r\n      0.057642488299136596,\r\n      0.09320478433203284,\r\n      0.13593152621252744,\r\n      0.1964628057051963,\r\n      0.2790211910124946,\r\n      0.409961435125852,\r\n      0.5874086714858775,\r\n      0.8414260445629013,\r\n      1.1907997658544132,\r\n      1.5037518321060739\r\n    ],\r\n    \"damping_basis\": \"uniform_coi_svd\",\r\n    \"modules\": {\r\n      \"G2\": {\r\n        \"rho\": 0.6666666666666666\r\n      }\r\n    }\r\n  },\r\n  \"gates\": {\r\n    \"numerical_and_coverage\": true,\r\n    \"unstable_recall\": true,\r\n    \"stable_false_alarms\": true,\r\n    \"stable_trajectory\": true,\r\n    \"train_witnesses\": true,\r\n    \"train_detection\": true\r\n  },\r\n  \"settings\": {\r\n    \"train_batch\": 64,\r\n    \"eval_batch\": 64,\r\n    \"screen_batch\": 128,\r\n    \"val_interval\": 3,\r\n    \"prior_weight\": 1e-06,\r\n    \"gradient_clip\": 1.0,\r\n    \"gradient_ratio\": 1.05,\r\n    \"huber_delta\": 1.0,\r\n    \"unstable_first_swing_weight\": 8.0,\r\n    \"energy_weight\": 0.1,\r\n    \"trust_weight\": 1.0,\r\n    \"max_fp\": 2,\r\n    \"diagnostic_fp\": 2,\r\n    \"stable_median_limit\": 0.21,\r\n    \"tn_mean_limit\": 0.24,\r\n    \"witness_ratio\": 0.8,\r\n    \"parsimony_tolerance\": 0.02,\r\n    \"min_train_tp\": 33\r\n  },\r\n  \"schedule\": {\r\n    \"support_updates\": 6,\r\n    \"learning_rate\": 0.001,\r\n    \"backbone_learning_rate\": 0.0002\r\n  },\r\n  \"backbone_anchor\": {\r\n    \"path\": \"results/paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996/checkpoint-240-324/model.npz\",\r\n    \"sha256\": \"a7f094d52da465b0fe8214e7e74fe408594dbe06efe78e659163a469351623b8\"\r\n  },\r\n  \"m3_curriculum_checkpoint_sha256\": \"fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a\",\r\n  \"source_contract_sha256\": \"349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed\",\r\n  \"source_commit\": \"ceaa6a72234c5def2e67c1bd7b2b64704767c467\",\r\n  \"plan_sha256\": \"fce2868b0f0f1b385a2c060ff04b6b78cae1afa05a3156243be8d739f7fdf37f\",\r\n  \"split_reference_sha256\": \"7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2\",\r\n  \"selection_closed\": true,\r\n  \"fitting_closed\": true,\r\n  \"decision\": \"SELECTED\",\r\n  \"scoring_steps_s\": [\r\n    0.0025,\r\n    0.00125\r\n  ],\r\n  \"input_contract\": \"measured_history_100ms_zoh_v1\",\r\n  \"test_trajectory_reads\": 0\r\n}"
+  },
+  "reporting_code": {
+    "path": "src/kron_reduce/evaluation/kiki_machine_local_full.py",
+    "sha256": "727d2c84ac3034864b6d5f34a3705ec7a65dc8415810b8a867c1ccd06cfa0652"
+  },
+  "report": {
+    "path": "docs/reports/unified_discovery_m3b_test_v1_20261121_zh.md",
+    "sha256": "57db82bd6e64f09bdd66019c8ee2d3425e5ca20fbd6826c6b7036eb5d9828155"
+  },
+  "fixed_comparison_only": true
+}

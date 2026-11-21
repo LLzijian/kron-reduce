@@ -5642,7 +5642,7 @@
   },
   "official_test_evaluations": {
     "unified_discovery_m3b_test_v1_20261121": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "unified_discovery_m3b_test_v1",
       "authority": "explicit_operator_conditional_on_all_gates",
       "allowed_roles": [
@@ -5681,7 +5681,13 @@
       "reporting_code": {
         "path": "src/kron_reduce/evaluation/kiki_machine_local_full.py",
         "sha256": "727d2c84ac3034864b6d5f34a3705ec7a65dc8415810b8a867c1ccd06cfa0652"
-      }
+      },
+      "run_id": "unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd",
+      "process_status": "PASS",
+      "test_trajectory_reads": 76,
+      "result_manifest_sha256": "42282fc6fa5291f167eb374bbaad6f55c851284c6ee373d5e5f1e8d96b483c84",
+      "result_receipt_path": "docs/reports/unified_discovery_m3b_test_v1_20261121_evidence.json",
+      "result_receipt_sha256": "fef77cdaea95079dbbed31041f778904a91d51a4395d978294402b519f95b22f"
     },
     "unified_first_swing_v4_test_20261119": {
       "status": "consumed",

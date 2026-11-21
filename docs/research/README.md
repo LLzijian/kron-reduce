@@ -27,6 +27,8 @@ select update zero. The soft initializer detects 6/9 test instabilities.
 M3 与原硬 R 模型。共同匹配的主模态频率误差中位数从 0.05023 降至 0.03292 Hz。
 [M3b 三组拟合](../reports/unified_discovery_m3b_v1_20261121_zh.md)在正式误报上限为 2 的规则下冻结单 G2，
 参数与 M3 诊断快照相同。固定 `test` 使用独立的一次性授权。
+[固定 test 回执](../reports/unified_discovery_m3b_test_v1_20261121_zh.md)记录
+单 G2 的 5/9 确认检出、零稳定误报和 2 例未决，V4 软 2R 在同一名单检出 6/9。
 
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,
