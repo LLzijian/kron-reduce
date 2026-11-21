@@ -3494,7 +3494,7 @@
       "execution_mode": "bounded_kiki_official_cli_only",
       "reads_validation_performance": true,
       "reads_test_performance": true,
-      "test_authorization": "task3_unsettled_15s_v1_20261122"
+      "test_authorization": "task3_unsettled_15s_v1_continue_20261122"
     },
     "blind_confirmation_m5_v1": {
       "module": "kron_reduce.workflows.blind_confirmation_m5",

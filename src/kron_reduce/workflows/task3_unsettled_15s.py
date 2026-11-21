@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import sys
 import time
 import tomllib
@@ -25,7 +26,6 @@ from project_harness.policy import load_policy, validate_run_policy
 from project_harness.runner import _run_experiment
 
 WORKFLOW = "task3_unsettled_15s_v1"
-PLAN = f"configs/proposals/{WORKFLOW}.json"
 STAGE = "reevaluate"
 STEPS = (.0025, .00125)
 ZERO = {"fits": 0, "gradients": 0, "optimizer_updates": 0}
@@ -185,6 +185,10 @@ def archived_forecasts(binding, events, access):
     return values
 
 
+def forecast_asset(group):
+    return f"{group['release']}--{group['forecast_model']}--{group['role']}.npz"
+
+
 def execute(root, directory, plan):
     import torch
 
@@ -222,7 +226,7 @@ def execute(root, directory, plan):
                 np.testing.assert_allclose(static["mass"], model.mass.cpu().numpy(), rtol=1e-12, atol=1e-12)
             for group in plan["groups"]:
                 key = group["release"], group["forecast_model"]
-                if key not in forecasters:
+                if key not in forecasters and not group.get("reuse"):
                     forecasters[key] = load_forecaster(task3, *key, static)
             all_events = cached_events(plan, static, access) | blind_events(plan, static, access)
             require(len(all_events) == sum(map(len, plan["events"].values())), "Duplicate input histories")
@@ -230,30 +234,42 @@ def execute(root, directory, plan):
                 require(event["x"].shape == (11, 20) and event["p0"].shape == (10,)
                         and np.isfinite(event["x"]).all() and np.isfinite(event["p0"]).all(),
                         f"Invalid causal inputs: {compound}")
-            rows, attempts = [], 0
+            references = {forecast_asset(group): archived_forecasts(group["archive"],
+                          [all_events[group["role"], name] for name in group["ids"]], access)
+                          for group in plan["groups"]}
+            rows, attempts, reused = [], 0, 0
             for group in plan["groups"]:
                 release, role, model, actual = (group[key] for key in ("release", "role", "model", "forecast_model"))
                 events = [all_events[role, name] for name in group["ids"]]
                 steps = group["steps_s"]
                 args = {"release": release, "model": model, "role": role, "forecast_model": actual}
-                paths = []
-                for step in steps:
-                    keys = ["id", "x", "p0"]
+                artifact = forecast_asset(group)
+                if binding := group.get("reuse"):
+                    path = Path(binding["path"])
+                    access.append({"action": "reuse_completed_15s_forecasts", "path": str(path), **args})
+                    with np.load(path, allow_pickle=False) as prior:
+                        require(prior["ids"].tolist() == group["ids"] and prior["steps_s"].tolist() == steps,
+                                f"The recovered result does not match the registered roster: {path}")
+                        paths = prior["forecasts"]
+                    require(paths.shape == (len(steps), len(events), 1501, 20), "Recovered forecast shape changed")
+                    shutil.copyfile(path, directory / artifact)
+                    reused += len(events) * len(steps)
+                    operations.append({"action": "forecast_reused", **args, "ids": group["ids"], "steps_s": steps})
+                else:
+                    paths = []
+                    keys = ("id", "x", "p0", "mass", "equilibrium_delta") if release == "kron" else ("id", "x", "p0")
                     inputs = [{key: event[key] for key in keys} for event in events]
-                    if release == "kron":
-                        for supplied, event in zip(inputs, events, strict=True):
-                            supplied.update({key: event[key] for key in ("mass", "equilibrium_delta")})
-                    attempts += len(events)
-                    require(attempts <= plan["forecast_event_step_attempts"], "Forecast allocation exceeded")
-                    operations.append({"action": "forecast_reserved", **args, "step_s": step,
-                                       "ids": group["ids"], "horizon_s": 15})
-                    paths.append(forecasters[release, actual](inputs, 15, step))
-                    operations.append({"action": "forecast_returned", **args, "step_s": step,
-                                       "count": len(events)})
-                artifact = f"{release}--{actual}--{role}.npz"
-                np.savez_compressed(directory / artifact, ids=np.array(group["ids"]),
-                                    steps_s=steps, forecasts=np.stack(paths))
-                archived = archived_forecasts(group["archive"], events, access)
+                    for step in steps:
+                        attempts += len(events)
+                        require(attempts <= plan["new_forecast_event_step_attempts"], "Forecast allocation exceeded")
+                        operations.append({"action": "forecast_reserved", **args, "step_s": step,
+                                           "ids": group["ids"], "horizon_s": 15})
+                        paths.append(forecasters[release, actual](inputs, 15, step))
+                        operations.append({"action": "forecast_returned", **args, "step_s": step,
+                                           "count": len(events)})
+                    np.savez_compressed(directory / artifact, ids=np.array(group["ids"]),
+                                        steps_s=steps, forecasts=np.stack(paths))
+                archived = references[artifact]
                 for event, predictions, reference in zip(events, zip(*paths, strict=True), archived, strict=True):
                     before = classify(predictions, event, steps, 8, match_settlement=release == "kron")
                     after = classify(predictions, event, steps, 15, match_settlement=release == "kron")
@@ -266,11 +282,13 @@ def execute(root, directory, plan):
                         "forecast_artifact": artifact, "prefix_8s": before, "forecast_15s": after,
                         "archive_parity_8s": parity, "reproduced_8s": qualified, "status": status})
                 print(f"{role}: {actual} ({len(events)} events)", flush=True)
-            require(attempts == plan["forecast_event_step_attempts"] and len(rows) == plan["pairs"],
+            require(attempts == plan["new_forecast_event_step_attempts"]
+                    and attempts + reused == plan["forecast_event_step_attempts"] and len(rows) == plan["pairs"],
                     "The extension must account for every registered case and step")
     write(directory / "cases.json", rows)
     return {"pairs": len(rows), "history_reads": {role: len(events) for role, events in plan["events"].items()},
-            "raw_future_frames_read": 0, "simulations": 0, "forecast_event_step_attempts": attempts,
+            "raw_future_frames_read": 0, "simulations": 0, "forecast_event_step_attempts": attempts + reused,
+            "new_forecast_event_step_attempts": attempts, "reused_forecast_event_steps": reused,
             "kron_operations": dict(budget.counts), "torch": torch.__version__,
             "cuda": torch.version.cuda, "cuda_device": torch.cuda.get_device_name(),
             "status_counts": dict(Counter(row["status"] for row in rows))}
@@ -279,12 +297,14 @@ def execute(root, directory, plan):
 def authorization(root, experiment):
     validate_run_policy(root, WORKFLOW, experiment)
     scope = load_policy(root)["official_test_evaluations"][experiment["test_authorization"]]
-    require(scope["status"] == "active" and scope["plan_path"] == PLAN, "A fresh bounded approval is required")
-    verify_bound_file(root, PLAN, scope["plan_sha256"])
-    plan = read(root / PLAN)
+    registered_path = scope["plan_path"]
+    require(scope["status"] == "active", "A fresh bounded approval is required")
+    verify_bound_file(root, registered_path, scope["plan_sha256"])
+    plan = read(root / registered_path)
     for path, digest in plan["tracked_sha256"].items():
         verify_bound_file(root, path, digest)
     require(plan["pairs"] == scope["pairs"] and plan["forecast_event_step_attempts"] == scope["forecast_event_step_attempts"]
+            and plan["new_forecast_event_step_attempts"] == scope["new_forecast_event_step_attempts"]
             and plan["forecast_horizon_s"] == 15 and plan["inputs"] == "measured_history_100ms_zoh_v1"
             and all(scope[key] == value for key, value in ZERO.items()), "The approval differs from the forecast scope")
     return plan, scope
@@ -293,7 +313,8 @@ def authorization(root, experiment):
 def run(*, root, experiment, stage, result_dir, run_id):
     plan, scope = authorization(root, experiment)
     require(stage == STAGE and sys.version_info[:2] == (3, 12), "The registered stage requires Python 3.12")
-    write(root / ".project_state" / f"{WORKFLOW}-reserved.json", {"run_id": run_id, "retry_allowed": False})
+    reservation = root / ".project_state" / f"{Path(scope['plan_path']).stem}-reserved.json"
+    write(reservation, {"run_id": run_id, "retry_allowed": False})
     start = time.perf_counter()
     evidence = execute(root, result_dir, plan) | ZERO | {
         "status": "PASS", "process_status": "PASS", "source_commit": git_head(root),
