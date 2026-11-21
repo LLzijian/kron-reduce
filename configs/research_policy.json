@@ -65,7 +65,7 @@
   },
   "development_evaluations": {
     "postfault_m4_v1_20261121": {
-      "status": "active",
+      "status": "consumed",
       "allowed_roles": [
         "train",
         "val"
@@ -82,10 +82,16 @@
       "authority": "explicit_operator_zero_training_postfault_m4",
       "fit_attempts": 0,
       "source_cache_open_limit": 0,
-      "result_archive_open_limit": 8
+      "result_archive_open_limit": 8,
+      "run_id": "postfault_m4_v1-m4-20261121T034423510207Z-ceaa6a72-6fb69813",
+      "result_manifest_sha256": "1932c21566a14864ff40dcf2d46fbb9ae9a3f4098a26e22c393a88a92ebb4179",
+      "result_receipt_path": "docs/reports/postfault_m4_v1_20261121_evidence.json",
+      "result_receipt_sha256": "cffc5ceeb68de55c501cdadc0a4f01d1b074f90c28bdd2b0a847a9d13419b1a3",
+      "process_status": "PASS",
+      "test_trajectory_reads": 0
     },
     "unified_discovery_m3b_v1_20261121": {
-      "status": "active",
+      "status": "consumed",
       "allowed_roles": [
         "train",
         "val"
@@ -163,6 +169,17 @@
           "triangular_solves": 28580,
           "matrix_products": 28580
         }
+      },
+      "run_id": "unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249",
+      "process_status": "PASS",
+      "scientific_pass": true,
+      "test_trajectory_reads": 0,
+      "result_manifest_sha256": "28d667bad1c89ecd3ebd69a1306c4cb191f8c98ae6c9ccb03a2c09f918c5e0d3",
+      "result_receipt_path": "docs/reports/unified_discovery_m3b_v1_20261121_evidence.json",
+      "result_receipt_sha256": "d8060ebc30f37fe20a541a31b3927ced5a9c95fc877d11e89300f24e3c45c1c4",
+      "frozen_model_manifest": {
+        "path": "results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/freeze.json",
+        "sha256": "700c1527a171e6270583121e77c612faac0680d4bd2ade338dbd3d3f84c81d80"
       }
     },
     "unified_discovery_m3_v1_20261120": {
@@ -5624,6 +5641,48 @@
     "kiki_state_port_train_v1": "8db4d1a4ab0435947bef6927e19d9645ba0f086724d7657f0c0751374c50a917"
   },
   "official_test_evaluations": {
+    "unified_discovery_m3b_test_v1_20261121": {
+      "status": "active",
+      "experiment": "unified_discovery_m3b_test_v1",
+      "authority": "explicit_operator_conditional_on_all_gates",
+      "allowed_roles": [
+        "test"
+      ],
+      "train_cases": 0,
+      "val_cases": 0,
+      "test_cases": 76,
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "source_cache_open_limit": 77,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "plan_path": "configs/experiments/postfault_m4_m3b_v1.toml",
+      "plan_sha256": "fce2868b0f0f1b385a2c060ff04b6b78cae1afa05a3156243be8d739f7fdf37f",
+      "frozen_model_manifest": {
+        "path": "results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/freeze.json",
+        "sha256": "700c1527a171e6270583121e77c612faac0680d4bd2ade338dbd3d3f84c81d80"
+      },
+      "operation_limits": {
+        "checkpoint_loads": 1,
+        "fits": 0,
+        "gradients": 0,
+        "optimizer_updates": 0,
+        "val_checks": 0,
+        "rollouts": 1106,
+        "torch_rhs": 3261120,
+        "tangent_rhs": 189600,
+        "observed_rhs": 0,
+        "qr": 1520,
+        "svd": 1520,
+        "triangular_solves": 1520,
+        "matrix_products": 1520
+      },
+      "reporting_code": {
+        "path": "src/kron_reduce/evaluation/kiki_machine_local_full.py",
+        "sha256": "727d2c84ac3034864b6d5f34a3705ec7a65dc8415810b8a867c1ccd06cfa0652"
+      }
+    },
     "unified_first_swing_v4_test_20261119": {
       "status": "consumed",
       "experiment": "unified_first_swing_v4_test",

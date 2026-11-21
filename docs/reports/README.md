@@ -30,6 +30,8 @@ of the same report must coexist. Figures and their validation scripts belong und
 
 | Report | Scope |
 |---|---|
+| [TASK3 M3b 三组配对拟合](unified_discovery_m3b_v1_20261121_zh.md) | 同一 54 维起点的三组双步长评分，按两例误报的上限接受并冻结单 G2。 |
+| [TASK3 M4 故障后物理一致性](postfault_m4_v1_20261121_zh.md) | 完整 `train/val` 归档分析，给出主模态、45 条有效边、失步割集与起报储能。 |
 | [TASK3 M3 统一结构发现](unified_discovery_m3_v1_20261120_zh.md) | 完整 `train/val` 双步长评分。G2 骨架检出 `val` 12/12 例失稳，2 个稳定误报触发 `KEEP_BASELINE`。 |
 | [TASK3 M1 V4 fit and frozen comparison](unified_first_swing_v4_20261120_zh.md) | Both fits selected update zero. The soft initializer detected 6/9 fixed test instabilities with 0 stable false alarms. |
 | [TASK3 M1 GN prior and radius comparison](unified_first_swing_gn_decomposition_v3_20261119_zh.md) | Complete train and val, two fixed-prior soft-radius settings detected 12/12 val instabilities, no setting passed the joint gate |

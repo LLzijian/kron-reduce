@@ -23,6 +23,11 @@ select update zero. The soft initializer detects 6/9 test instabilities.
 54 至 74 维课程和五个物理模块的删块实验。G2 骨架的 `val` 检出为 12/12，
 2 个稳定误报超过正式上限，结论为 `KEEP_BASELINE`。`test` 轨迹读取为 0。
 
+[M4 故障后物理一致性](../reports/postfault_m4_v1_20261121_zh.md)用封存预测和观测比较
+M3 与原硬 R 模型。共同匹配的主模态频率误差中位数从 0.05023 降至 0.03292 Hz。
+[M3b 三组拟合](../reports/unified_discovery_m3b_v1_20261121_zh.md)在正式误报上限为 2 的规则下冻结单 G2，
+参数与 M3 诊断快照相同。固定 `test` 使用独立的一次性授权。
+
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,
 deletion rules and phased validation for future explicit reduced models.

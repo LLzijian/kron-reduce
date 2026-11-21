@@ -276,6 +276,8 @@ def evaluate(model, events, scale, budget, directory, role, settings, *, predict
             ('false_alarm_rate_on_resolved', s['fp'], s['tn']+s['fp'])):
         s[name] = numerator/denominator if denominator else None
     result['stability_events'] = stability_events
+    result['numerical_pass'] = (bool(result['records']) and all(row['qualified'] for row in result['records'])
+                                and all(row['qualified'] for row in stability_events))
     if role == "train" and settings.get("matched_train_witnesses"):
         result["matched_train_witnesses"] = _train_witnesses(events, predictions, stability_events)
     result['failures'] = failures
