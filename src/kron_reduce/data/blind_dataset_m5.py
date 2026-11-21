@@ -419,4 +419,5 @@ def generate_and_seal(plan, destination, *, solver_workdir, evidence_directory):
     checksum = dest / "checksums.sha256"
     _text(checksum, "".join(f"{_sha(path)}  {path.name}\n" for path in sorted(dest.iterdir())))
     return {"status": "PASS", "events": len(selected), "labels": counts, "late_instability_count": len(late_rows),
-            "attempts": sum(attempts.values()), "manifest_sha256": _sha(dest / "manifest.json"), "checksums_sha256": _sha(checksum)}
+            "attempts": sum(attempts.values()), "dataset_manifest_sha256": _sha(dest / "manifest.json"),
+            "dataset_checksums_sha256": _sha(checksum)}

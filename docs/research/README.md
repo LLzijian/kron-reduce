@@ -32,6 +32,8 @@ M3 与原硬 R 模型。共同匹配的主模态频率误差中位数从 0.05023
 
 [M4 v2 惯量加权与储能分解](../reports/postfault_m4_v2_20261121_zh.md)记录慢同调检验和两档步长的能量结果。[储能箱线图与附记](../reports/figures/postfault_m4_v2/energy_decomposition_distribution_zh.md)给出五项储能的稳定和失稳分布。
 
+[M5 独立盲测](../reports/blind_confirmation_m5_v1_20261121_zh.md)显示冻结 M3b G2 在同源新仿真的 32 个失稳事件中确认检出 29 个，62 个稳定事件全部判稳。
+
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,
 deletion rules and phased validation for future explicit reduced models.

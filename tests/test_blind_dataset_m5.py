@@ -83,6 +83,8 @@ def test_seal_retains_failures_excludes_first_frame_collisions_and_reserves_quot
     assert result["labels"] == {"stable": 62, "unstable": 32}
     assert result["late_instability_count"] == 4
     assert result["attempts"] == len(events) - 1
+    assert result["dataset_manifest_sha256"] == blind._sha(dataset / "manifest.json")
+    assert result["dataset_checksums_sha256"] == blind._sha(dataset / "checksums.sha256")
     rows = [json.loads(line) for line in (evidence / "attempts.jsonl").read_text().splitlines()]
     returned = [item for item in rows if item["phase"] == "returned"]
     assert [row["status"] for row in returned[:3]] == ["simulator_failure", "clearing_frame_overlap", "clearing_frame_overlap"]

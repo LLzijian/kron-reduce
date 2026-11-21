@@ -6320,7 +6320,7 @@
   },
   "independent_confirmations": {
     "blind_confirmation_m5_v1_20261121": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "blind_confirmation_m5_v1",
       "dataset": "kiki_ieee39_blind_v2",
       "authority": "explicit_user_one_execution_after_independent_cohort_seal",
@@ -6339,7 +6339,12 @@
       "build_receipt_path": "docs/reports/blind_dataset_build_m5_v1_20261121_evidence.json",
       "build_receipt_sha256": "a3390e1d2fadc4da94a1768731049443c95ba4ba3156e6b725e943223f80c0b9",
       "dataset_manifest_sha256": "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786",
-      "dataset_checksums_sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f"
+      "dataset_checksums_sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f",
+      "process_status": "PASS",
+      "run_id": "blind_confirmation_m5_v1-blind-20261121T064636317312Z-26fe26a3-b73dd81d",
+      "result_receipt_path": "docs/reports/blind_confirmation_m5_v1_20261121_evidence.json",
+      "result_receipt_sha256": "2638e173a30695d4d8a7eba142971ce6f4916fbd28e052f901332f7ea1a1a227",
+      "test_trajectory_reads": 0
     }
   }
 }

@@ -13,6 +13,8 @@ compares overall and branch-dependent changes and diagnoses their history initia
 
 [M4 v2 惯量加权与储能分解](postfault_m4_v2_20261121_zh.md)记录慢同调检验和两档步长的能量结果。[储能箱线图与附记](figures/postfault_m4_v2/energy_decomposition_distribution_zh.md)给出五项储能的稳定和失稳分布。
 
+[M5 独立盲测](blind_confirmation_m5_v1_20261121_zh.md)记录 94 个封存事件的完整双步长评分和故障组配对区间。[盲测集封存回执](blind_dataset_build_m5_v1_20261121_evidence.json)记录仿真与零重叠核验。
+
 ## Report contract
 
 Each new report should state:
