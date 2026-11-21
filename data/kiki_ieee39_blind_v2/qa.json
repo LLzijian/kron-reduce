@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "planned_candidates": 210,
+  "attempted": 158,
+  "results": {
+    "accepted": 94,
+    "allocated_quota_full": 55,
+    "insufficient_100ms_window": 5,
+    "simulator_failure": 4
+  },
+  "accepted_by_label": {
+    "stable": 62,
+    "unstable": 32
+  },
+  "late_range_s_from_clearing": [
+    0.2,
+    1.5
+  ],
+  "late_instability_count": 31,
+  "late_instability_buses": [
+    4,
+    5,
+    7,
+    8,
+    10,
+    11,
+    13,
+    14,
+    17,
+    19,
+    20,
+    21,
+    24,
+    31,
+    32,
+    33,
+    36,
+    38
+  ],
+  "unseen_train_val_buses": [
+    7,
+    13,
+    19,
+    25,
+    37,
+    38,
+    39
+  ],
+  "near_historical_transition_count": 26,
+  "selection_inputs": [
+    "simulator label",
+    "true sustained loss-of-synchronism time",
+    "registered candidate order",
+    "bound duplicate checks and eligibility"
+  ],
+  "model_prediction_reads": 0
+}

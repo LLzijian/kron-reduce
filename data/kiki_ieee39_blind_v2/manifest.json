@@ -1,0 +1,30 @@
+{
+  "dataset_id": "kiki_ieee39_blind_v2",
+  "generation": "truth-only preregistered replay of simulate",
+  "cases": 94,
+  "labels": {
+    "stable": 62,
+    "unstable": 32
+  },
+  "case_sha256": "9c2048dc94201ee48ffe816de65d53831fa1f4b0e7fdf32f24c50f1017edcfe5",
+  "restored_system_signature": "e52c4d30ec9db0ae76c6a2f1f722ca00a7a5803c4dbb01ad3b6718bfcade16d9",
+  "andes_version": "2.0.0",
+  "sample_interval_s": 0.01,
+  "stable_truth_horizon_s": 15.0,
+  "model_eval_max_frames": 811,
+  "source_contract_sha256": "349d5ec16ce9b67245c511f9f441b2e8b4f7be43af31a89b609cf51a32e6f4ed",
+  "generator_sha256": "239b574f7b17b26c2c315f5be6b7aebaf05e82e1c91c61b32d48135caf452ab8",
+  "generator_config_sha256": "c6735b3dd07785df0c5018a6ce043b5072c4b236614d1c9714492ea4d73f2555",
+  "attempts_sha256": "63c525a0e146007a8793b8e701a7082d8b7d9ec67f0ca2829f053edbb59b11ec",
+  "candidate_plan_sha256": "ff7eee43ff982888231e15f9d317fb513909716df6384fedef98e49ceb11f318",
+  "python_executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\.venv-andes20\\Scripts\\python.exe",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "files": [
+    "dataset.h5",
+    "dataset_index.csv",
+    "disjointness_audit.json",
+    "qa.json",
+    "qa_report.md",
+    "splits.json"
+  ]
+}

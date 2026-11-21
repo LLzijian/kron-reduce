@@ -1,0 +1,193 @@
+{
+  "status": "PASS",
+  "process_status": "PASS",
+  "source_commit": "8e63d1d366f83d67c37291c37dd4b7076f87e678",
+  "plan_sha256": "04db7c59a03a91920356100314121209f3578409893989cec83855cfc7ee367b",
+  "claim_boundary": "Independent IEEE39 post-fault cohort.",
+  "fits": 0,
+  "gradients": 0,
+  "optimizer_updates": 0,
+  "events": 94,
+  "labels": {
+    "stable": 62,
+    "unstable": 32
+  },
+  "late_instability_count": 31,
+  "attempts": 158,
+  "manifest_sha256": "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786",
+  "checksums_sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f",
+  "historical_clearing_frames": 529,
+  "fixed_test_clearing_frames_only": 76,
+  "test_full_trajectory_reads": 0,
+  "model_rollouts": 0,
+  "access_sha256": "1eb7a91fc3e136f9e17224edcb215f8c037acb3375daf062ec2b8770ae4450aa",
+  "operations_sha256": "63c525a0e146007a8793b8e701a7082d8b7d9ec67f0ca2829f053edbb59b11ec",
+  "run_id": "blind_dataset_build_m5_v1-build_receipt-20261121T064503861579Z-8e63d1d3-c86e61e2",
+  "frozen_models": {
+    "hard_r": {
+      "path": "results/unified_first_swing_v4_fit-fit-20261119T085346160446Z-4256b8a8-2aac3232/freeze-hard_r.npz",
+      "sha256": "ccb7c40557787e6aa9a5603bc63657e3727fe944e631da9dda5498fe03b9289d"
+    },
+    "soft_2r": {
+      "path": "results/unified_first_swing_v4_fit-fit-20261119T085346160446Z-4256b8a8-2aac3232/freeze-soft_2r.npz",
+      "sha256": "ccb7c40557787e6aa9a5603bc63657e3727fe944e631da9dda5498fe03b9289d"
+    },
+    "m3": {
+      "path": "results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/freeze_m3b.npz",
+      "sha256": "fedd3fb90dd9934115b0f4d6bed3f8ac885ba6d347fb0aafb17f12a12371915a"
+    }
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "E:\\03-nn_Transfer_Func\\kron-reduce\\scratch\\.venv-andes20\\Scripts\\python.exe",
+    "wall_seconds": 1517.7102901999606
+  },
+  "dataset_manifest_sha256": "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786",
+  "dataset_checksums_sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f",
+  "metadata_recovery_only": true,
+  "recovery_new_simulations": 0,
+  "recovery_data_decodes": 0,
+  "simulation_run_id": "blind_dataset_build_m5_v1-build-20261121T061750755801Z-8e63d1d3-a99c1ac9",
+  "simulation_artifact_manifest_sha256": "d13a72aaecdf0b61a84d3836fa2e543beb610e8270c49fa9a24695503b1e2d13",
+  "simulation_runner_failure": {
+    "path": "results/blind_dataset_build_m5_v1-build-20261121T061750755801Z-8e63d1d3-a99c1ac9/RUN_FAILED.json",
+    "sha256": "df6cc5f7ebd44644fae63aa3c4ac360b3d67e6e4384fb35fc2567ee1d442d308",
+    "message": "EVIDENCE_REQUIRED: stage 'build' evidence is missing required fields: ['dataset_manifest_sha256', 'dataset_checksums_sha256']"
+  },
+  "experiment": "blind_dataset_build_m5_v1",
+  "authorization": "blind_dataset_build_m5_v1_20261121",
+  "operator_approval": {
+    "approved_at": "2026-11-21T06:17:50.704961+00:00",
+    "actor": "explicit_operator_action"
+  },
+  "artifact_manifest_sha256": "14c909a528122e393a39aa1030596bc9e2c7f77113699b8c6317064ede9555cc",
+  "artifact_bindings": {
+    "attempts.jsonl": "63c525a0e146007a8793b8e701a7082d8b7d9ec67f0ca2829f053edbb59b11ec",
+    "historical_access.jsonl": "1eb7a91fc3e136f9e17224edcb215f8c037acb3375daf062ec2b8770ae4450aa",
+    "run_receipt.json": "dd9aea95743293459ed371e9169525bc85715bbb1fc0acf3bcc7e42b00db99bd"
+  },
+  "sealed_file_bindings": {
+    "dataset.h5": "8900841882d91eedd71bda6c24c2a1b440ac853a53b595c16c9d62def4dde65a",
+    "dataset_index.csv": "29834b6721d60aeab3e2c12a81c9e6562bfc9f2a8bbcc733b65ac737a42c2a03",
+    "disjointness_audit.json": "eb4070bd358454fe16af7df6010977c2a4801a3ea4f5825c890bba697ecebe25",
+    "manifest.json": "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786",
+    "qa.json": "401d3381f70a0ef0cca8bc3af498157a960580b3995795f4255b4c018a19a9b0",
+    "qa_report.md": "5b2bb48859bbf9b484f1fb770b7992e57d8f844643e70064f1667e82c5400be5",
+    "splits.json": "8b71e16805f3c8ba4bcb4016fd9e4c4b849d32d6b9b1fe2d49b487ac4f7735ec",
+    "checksums.sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f"
+  },
+  "simulator_qa": {
+    "status": "PASS",
+    "planned_candidates": 210,
+    "attempted": 158,
+    "results": {
+      "accepted": 94,
+      "allocated_quota_full": 55,
+      "insufficient_100ms_window": 5,
+      "simulator_failure": 4
+    },
+    "accepted_by_label": {
+      "stable": 62,
+      "unstable": 32
+    },
+    "late_range_s_from_clearing": [
+      0.2,
+      1.5
+    ],
+    "late_instability_count": 31,
+    "late_instability_buses": [
+      4,
+      5,
+      7,
+      8,
+      10,
+      11,
+      13,
+      14,
+      17,
+      19,
+      20,
+      21,
+      24,
+      31,
+      32,
+      33,
+      36,
+      38
+    ],
+    "unseen_train_val_buses": [
+      7,
+      13,
+      19,
+      25,
+      37,
+      38,
+      39
+    ],
+    "near_historical_transition_count": 26,
+    "selection_inputs": [
+      "simulator label",
+      "true sustained loss-of-synchronism time",
+      "registered candidate order",
+      "bound duplicate checks and eligibility"
+    ],
+    "model_prediction_reads": 0
+  },
+  "disjointness": {
+    "historical_cohorts": {
+      "train": 346,
+      "val": 107,
+      "test": 76
+    },
+    "historical_first_frames": 529,
+    "historical_metadata_configurations": 624,
+    "historical_containers": {
+      "ieee39_postfault": {
+        "path": "E:/03-nn_Transfer_Func/kiki/private_data/ieee39_postfault/dataset.h5",
+        "bytes": 2111122968,
+        "archive_sha256": "480853fa7cdb67dbbdbca60463f09cf9cd44ed972d33c934c7edf1029b1c66e4"
+      },
+      "ieee39_expansion": {
+        "path": "E:/03-nn_Transfer_Func/kiki/private_data/ieee39_expansion/dataset.h5",
+        "bytes": 1324250705,
+        "archive_sha256": "c8b4378727b367a6b88dbd35a7533828ff977722093748310301b2e3da5a6116"
+      },
+      "ieee39_holdout_supplement": {
+        "path": "E:/03-nn_Transfer_Func/kiki/private_data/ieee39_holdout_supplement/dataset.h5",
+        "bytes": 169957630
+      }
+    },
+    "container_identity_check": "Bound path and byte count, archived SHA256 metadata when available, and exact HDF5 attributes.",
+    "configuration_key": [
+      "fault_bus",
+      "fault_line",
+      "fault_location",
+      "fault_duration_s"
+    ],
+    "additional_configuration_key": [
+      "fault_bus",
+      "fault_duration_s"
+    ],
+    "state_selection": "full_state[0, :] (first sample after the restored-system check)",
+    "state_encoding": "220 little-endian float64 values in registered state order",
+    "coarse_duplicate_key": "same values rounded to 10 decimal places with canonical signed zero",
+    "record_start_delay_s": {
+      "nominal": 0.0001,
+      "absolute_tolerance": 1e-08
+    },
+    "accepted_overlap_count": 0,
+    "rejected_state_overlaps": 0,
+    "historical_access_ledger_sha256": "1eb7a91fc3e136f9e17224edcb215f8c037acb3375daf062ec2b8770ae4450aa"
+  },
+  "history_container_opens": 3,
+  "independent_fault_groups": 21,
+  "scientific_status": "SEALED",
+  "no_model_forecast_access": true,
+  "solver_runtime": {
+    "andes": "2.0.0",
+    "h5py": "3.16.0",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "torch_import_only": "2.13.0+cpu"
+  }
+}

@@ -109,6 +109,16 @@
       "expected_events": 591,
       "role": "mandatory_primary_real_data",
       "test_status": "prior_exposure_detected_not_fresh"
+    },
+    "kiki_ieee39_blind_v2": {
+      "status": "sealed",
+      "kind": "sealed_independent_hdf5",
+      "path": "data/kiki_ieee39_blind_v2",
+      "revision": "kiki_ieee39_blind_v2",
+      "expected_events": 94,
+      "checksum_manifest": "checksums.sha256",
+      "h5": "dataset.h5",
+      "manifest_sha256": "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786"
     }
   },
   "experiments": {
@@ -3462,6 +3472,23 @@
       "required_gate": "build",
       "val_use": "historical_conditions_and_first_frame_hash_only",
       "development_authorization_id": "blind_dataset_build_m5_v1_20261121"
+    },
+    "blind_confirmation_m5_v1": {
+      "module": "kron_reduce.workflows.blind_confirmation_m5",
+      "workflow": "blind_confirmation_m5_v1",
+      "config": "blind_confirmation_m5_v1.toml",
+      "status": "gated",
+      "dataset": "kiki_ieee39_blind_v2",
+      "stage": "blind",
+      "required_gate": "blind",
+      "execution_mode": "bounded_kiki_independent_cli_only",
+      "input_contract_id": "measured_history_100ms_zoh_v1",
+      "spatial_node_count": 10,
+      "spatial_clustering": false,
+      "training_split": null,
+      "internal_resplit": false,
+      "reads_test_performance": false,
+      "blind_authorization": "blind_confirmation_m5_v1_20261121"
     }
   },
   "active_policy": "configs/research_policy.json",

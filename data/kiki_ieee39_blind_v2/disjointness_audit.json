@@ -1,0 +1,46 @@
+{
+  "historical_cohorts": {
+    "train": 346,
+    "val": 107,
+    "test": 76
+  },
+  "historical_first_frames": 529,
+  "historical_metadata_configurations": 624,
+  "historical_containers": {
+    "ieee39_postfault": {
+      "path": "E:/03-nn_Transfer_Func/kiki/private_data/ieee39_postfault/dataset.h5",
+      "bytes": 2111122968,
+      "archive_sha256": "480853fa7cdb67dbbdbca60463f09cf9cd44ed972d33c934c7edf1029b1c66e4"
+    },
+    "ieee39_expansion": {
+      "path": "E:/03-nn_Transfer_Func/kiki/private_data/ieee39_expansion/dataset.h5",
+      "bytes": 1324250705,
+      "archive_sha256": "c8b4378727b367a6b88dbd35a7533828ff977722093748310301b2e3da5a6116"
+    },
+    "ieee39_holdout_supplement": {
+      "path": "E:/03-nn_Transfer_Func/kiki/private_data/ieee39_holdout_supplement/dataset.h5",
+      "bytes": 169957630
+    }
+  },
+  "container_identity_check": "Bound path and byte count, archived SHA256 metadata when available, and exact HDF5 attributes.",
+  "configuration_key": [
+    "fault_bus",
+    "fault_line",
+    "fault_location",
+    "fault_duration_s"
+  ],
+  "additional_configuration_key": [
+    "fault_bus",
+    "fault_duration_s"
+  ],
+  "state_selection": "full_state[0, :] (first sample after the restored-system check)",
+  "state_encoding": "220 little-endian float64 values in registered state order",
+  "coarse_duplicate_key": "same values rounded to 10 decimal places with canonical signed zero",
+  "record_start_delay_s": {
+    "nominal": 0.0001,
+    "absolute_tolerance": 1e-08
+  },
+  "accepted_overlap_count": 0,
+  "rejected_state_overlaps": 0,
+  "historical_access_ledger_sha256": "1eb7a91fc3e136f9e17224edcb215f8c037acb3375daf062ec2b8770ae4450aa"
+}
