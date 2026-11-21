@@ -1,26 +1,725 @@
 \documentclass[journal]{IEEEtran}
-\usepackage{amsmath,amssymb,booktabs,graphicx}
+\usepackage{amsmath,amssymb,array,booktabs,graphicx,tabularx}
+\usepackage{cite}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{proposition}{Proposition}
+\newcounter{algorithm}
+\DeclareMathOperator{\diag}{diag}
+\newcommand{\hard}{Hard-$R$ Baseline}
+\newcommand{\soft}{Soft-$2R$ Ablation}
+\newcommand{\ours}{ES-ROM}
+\newcommand{\op}[1]{\ensuremath{\mathrm{G}_{#1}}}
+
+\input{tables}
+
 \begin{document}
-\title{Structure-Audited Graph Residual Models for Post-Clear Power-System Dynamics}
-\author{Author information pending publication gate}
+\title{Energy-Structured Grey-Box Dynamic Equivalencing and Operator Selection for Post-Fault Power Systems from 100-ms Observations}
+% Author names, affiliations, and funding require author input.
+\author{Author information pending}
 \maketitle
+
 \begin{abstract}
-This manuscript is intentionally evidence-locked. The abstract will be generated
-after the canonical five-fold experiment, paired statistics, and energy naming
-gate have completed. Smoke results are not paper evidence.
+Forecasting eight seconds of post-fault rotor motion from 100~ms of observations
+requires resolving the first swing while maintaining a numerically reliable
+free rollout.
+We propose an energy-structured reduced-order model (ES-ROM) that couples a
+shifted-sine network potential in center-of-inertia coordinates with
+positive-semidefinite damping and reciprocal machine-local memory, yielding an
+explicit ordinary differential equation with the supply bound
+\(\dot H\le v^\top p\).
+A smooth-radius causal Gauss--Newton initializer, integral momentum screening,
+gradient-balanced backbone fitting, and closed-loop pruning select
+machine-local angle-dependent damping from a five-operator library.
+On 94 held-out IEEE 39-bus events, ES-ROM confirms 29 of 32
+instabilities (90.62\%) with zero false alarms among 62 stable events,
+94 numerically qualified forecasts, and 96.81\% overall accuracy, leading the
+compared zero-false-alarm trajectory models, including Graph-GRU (26/32),
+and improving recall by 12.50 percentage points over the hard-radius
+baseline (95\% fault-group bootstrap interval \([2.78,27.27]\)).
+The same frozen equations yield a median dominant-mode frequency error of
+0.0318~Hz, reproduce 27 of 29 jointly triggered loss-of-synchronism cuts
+exactly, and give a forecast-origin mechanical-energy area under the receiver
+operating characteristic curve (AUROC) of 0.9526.
 \end{abstract}
-\section{Problem formulation}
-We study closed-loop post-clear dynamics from the exact clearing state under a
-declared causal mechanical-power policy. Stability is derived from predicted
-trajectories and is not used as an equation-model input.
-\section{Methods}
-The registered comparison includes M0, graph residual M2A, an energy-structured
-variant, SINDYc, a shared physics-informed neural ODE, and an autoregressive LSTM.
-\section{Results}
-Machine-generated tables are inserted only after the publication workflow gate.
-\InputIfFileExists{generated/main_tables.tex}{}{\emph{Full-run tables are evidence-locked.}}
-\section{Limitations}
-Observed future mechanical power is reported only as conditional-rollout
-sensitivity. Energy-structured models are named according to their numerical
-certificate gate.
+
+\begin{IEEEkeywords}
+Dynamic equivalencing, energy-based modeling, equation discovery,
+transient stability, power system dynamics.
+\end{IEEEkeywords}
+
+\input{task3-introduction}
+
+\section{Problem Formulation and Causal Forecast Protocol}
+\label{sec:problem}
+Consider the electromechanical motion of ten synchronous generators after a
+fault has cleared and the network topology has been restored. Write
+\(M=\diag(m_1,\ldots,m_{10})\), \(m=M\mathbf{1}\), and
+\(P=I-m\mathbf{1}^\top/(\mathbf{1}^\top m)\). With unwrapped rotor angles
+\(\delta\) and a reference equilibrium \(\delta^\star\), the relative state is
+\(q=P^\top(\delta-\delta^\star)\), \(v=P^\top\dot\delta\). Then
+\(m^\top q=m^\top v=0\). The transpose pair \(P^\top,P\) acts on states and
+generalized forces, respectively, and \(v^\top P=v^\top\) on the COI subspace.
+Electrical and control dynamics omitted from the retained rotor equations
+enter through the effective couplings, damping, and hidden states below.
+
+Set \(t=0\) at fault clearing and \(t_o=0.10\)~s at the forecast origin. The
+predictor receives 11 frames of \((q,v)\) sampled every 10~ms through
+\(t_o\), the equilibrium, the inertia, graph priors, and the vector \(p\) of
+mechanical-power deviations available at \(t_o\). The same value \(p\) is held
+constant during history reconstruction and forecasting. After inferring the
+hidden state from the 11 frames, the predictor sets the visible state to the
+last measured frame and integrates the shared frozen ODE freely for 8~s.
+Electrical-power measurements and future mechanical-power schedules are
+outside the predictor input. The future trajectories and their available
+observation lengths enter only offline objectives and scoring. Fault
+identities specify groups, and stability labels are used for weighting
+training terms and evaluating forecasts.
+
+For event \(e\) and a window of \(n_e\) samples, the normalized
+root-mean-square error (NRMSE) is
+\begin{equation}
+ \epsilon_e=
+ \left(\frac{1}{20 n_e}\sum_{j=1}^{n_e}
+ \left[\frac{\|\hat q_j-q_j\|_2^2}{s_q^2}
+     +\frac{\|\hat v_j-v_j\|_2^2}{s_v^2}\right]\right)^{1/2},
+ \label{eq:nrmse}
+\end{equation}
+with \(s_q=0.476753\)~rad and \(s_v=1.003367\)~rad/s.
+We average \(\epsilon_e\) with equal event weights over the stated cohort.
+Stable events use a fixed horizon. Unstable events use the observed
+post-origin interval up to 8~s.
+On the concatenated history and forecast, loss of synchronism requires a span
+of \(q+\delta^\star\) above \(\pi\) and a maximum absolute COI speed
+\(\max_i |v_i|/(2\pi\cdot60)\) above \(0.02\)~p.u.\ for five consecutive
+10-ms samples.
+A forecast is declared stable if it avoids this trigger and the final 100
+samples satisfy angle span below \(\pi\) and maximum absolute COI speed below
+\(0.005\)~p.u. A numerically qualified forecast outside both conditions is
+unsettled. Numerical failures are counted separately. With instability as
+the positive class, confirmed recall is \(\mathrm{TP}/n_{\rm unstable}\)
+and stable false-alarm rate is \(\mathrm{FP}/n_{\rm stable}\). Full-cohort
+accuracy requires a valid decision on every event.
+
+\section{Energy-Structured Grey-Box Model and Operator Library}
+\label{sec:model}
+\subsection{Shared electromechanical backbone}
+Let \(B=[b_1,\ldots,b_{45}]\) be the oriented incidence matrix of the
+complete generator graph, with \(d_e=b_e^\top q\) and
+\(r_e=b_e^\top\delta^\star\). Edge \(e\) contributes a shifted potential
+\begin{align}
+ \Phi_j(d;r)&=\frac{\cos(jr)-\cos(j(r+d))}{j}
+                  -d\sin(jr),\\
+ U_0(q)&=\sum_{e=1}^{45} k_e^0\Phi_1(d_e;r_e),
+ \qquad k_e^0>0.
+ \label{eq:basic_potential}
+\end{align}
+The shift makes the edge force vanish at \(q=0\). For an orthonormal basis
+\(N\) of the Euclidean zero-sum subspace of \(\mathbb R^{10}\), the basic
+damping is \(D_0=N\diag(\beta_1,\ldots,\beta_9)N^\top\), with
+\(\beta_j\ge 0\). Ten reciprocal memory ports pair
+\(C=P\diag(g_1,\ldots,g_{10})\) with the positive decay matrix
+\(\Lambda=\diag(1/\tau_1,\ldots,1/\tau_{10})\).
+Eliminating \(z\) from \(\dot z=C^\top v-\Lambda z\) gives the memory force
+\begin{equation}
+ Cz(t)=Ce^{-\Lambda t}z(0)+
+    \int_0^t Ce^{-\Lambda(t-s)}C^\top v(s)\,ds.
+ \label{eq:memory_kernel}
+\end{equation}
+The first term propagates the unresolved history at the initial time and the
+second accumulates the subsequent rotor motion. The backbone has 74 shared
+coefficients, comprising 45 edge stiffnesses, nine damping coefficients, ten
+port gains, and ten time constants.
+
+\subsection{Augmented dynamics and candidate operators}
+For a support \(\mathcal S\subseteq\mathfrak G=\{\op{1},\ldots,\op{5}\}\),
+let \(\chi=(c,\xi)\) collect the active common and spatial coupling states.
+With all operators active, \(c\in\mathbb R\) and \(\xi\in\mathbb R^9\).
+The augmented storage and equations are
+\begin{align}
+ H(q,v,z,\chi)&=\tfrac12 v^\top M v+U(q,\chi)+\tfrac12 z^\top z\nonumber\\
+      &\quad+\tfrac12\kappa_c c^2+\tfrac12\kappa_\xi\|\xi\|_2^2,
+      \label{eq:storage}\\
+ \dot q&=v,\nonumber\\
+ M\dot v&=P\bigl[p-\nabla_q U-D(q)v\bigr]-C(q)z,\nonumber\\
+ \dot z&=C(q)^\top v-\Lambda z,\nonumber\\
+ \dot\chi&=-G_\chi\nabla_\chi H. \label{eq:mother}
+\end{align}
+Here \(G_\chi=\diag(\mu_c,\mu_\xi I_9)\) on the active blocks.
+Absent coupling blocks and their storage terms are dropped. The full system
+has 40 coordinates and 38 independent states after the two COI constraints.
+The variables \(z\) and \(\chi\) represent effective memory and coupling for
+the observed motion. Their identification targets the input--output dynamics
+of the retained machines.
+
+The operator definitions in Table~\ref{tab:operators} share the same
+mechanical and storage structure. For machine \(i\), define the local angular
+excursion \(s_i(q)=\sum_{e\in\mathcal E_i}d_e^2/|\mathcal E_i|\), where
+\(\mathcal E_i\) is its set of incident edges.
+\begin{itemize}
+ \item \(\op{1}\) replaces \(\Phi_1\) by
+       \((1-2a\cos(2r))\Phi_1+a\cos(r)\Phi_2\) on each edge.
+       This adds a conservative second harmonic while preserving the
+       equilibrium force and the linearized edge stiffness, with
+       \(a\in[0,0.6]\).
+ \item \(\op{2}\) makes damping decrease with the local angular excursion,
+       \begin{equation}
+        D(q)=D_0^{1/2}
+           \left[I-\rho\diag\!\left(\frac{s_i(q)}{1+s_i(q)}\right)\right]
+           D_0^{1/2}.
+        \label{eq:damping}
+       \end{equation}
+       The bound \(0\le \rho\le0.85\) ensures
+       \(D(q)\succeq(1-\rho)D_0\succeq0\).
+ \item \(\op{3}\) contributes a common edge log-multiplier \(c\), and
+       \(\op{4}\) contributes the zero-sum spatial pattern
+       \(|B|^\top N_\chi\xi\), with \(N_\chi\) the Helmert basis of the
+       zero-sum subspace and \(|B|\) the elementwise absolute incidence.
+       Writing the combined pattern as \(u\), use
+       \(k_e=k_e^0\exp(fu_e)\), where
+       \begin{equation}
+        f=\left[1+\sum_e\left\{
+          \left(\frac{(u_e)_+}{\log 2}\right)^8+
+          \left(\frac{(-u_e)_+}{\log 4}\right)^8
+        \right\}\right]^{-1/8}.
+        \label{eq:log_limit}
+       \end{equation}
+       The common scaling keeps each \(k_e/k_e^0\) within \([1/4,2]\).
+       Both blocks move down the same storage gradient, with
+       \(\mu_c,\mu_\xi\in[0,0.5]\), \(\kappa_c=1\), and
+       \(\kappa_\xi\in[0.05,1]\).
+ \item \(\op{5}\) makes the memory port state dependent through
+       \(C(q)=P\diag(g_i/(1+\gamma_s s_i(q)))\), \(\gamma_s\in[0,8]\).
+       The same attenuation appears in both directions of the port.
+\end{itemize}
+\OperatorTable
+
+\begin{proposition}
+Every library support preserves the COI constraints and satisfies
+\begin{equation}
+ \begin{split}
+ \dot H={}&v^\top p-v^\top D(q)v-z^\top\Lambda z\\
+           &-(\nabla_\chi H)^\top G_\chi\nabla_\chi H
+           \le v^\top p.
+ \end{split}
+ \label{eq:supply}
+\end{equation}
+\end{proposition}
+\begin{IEEEproof}
+The forces in \eqref{eq:mother} are zero-sum because
+\(\mathbf{1}^\top P=0\) and \(\mathbf{1}^\top C(q)=0\). Thus
+\(m^\top\dot v=0\), and \(\dot q=v\) preserves the angular constraint.
+Differentiation of \eqref{eq:storage} gives the mechanical terms
+\(v^\top M\dot v+v^\top\nabla_q U\), the memory term \(z^\top\dot z\), and
+the coupling term \((\nabla_\chi H)^\top\dot\chi\).
+Using \(v^\top P=v^\top\) cancels the potential forces. The two port terms
+\(-v^\top C(q)z\) and \(z^\top C(q)^\top v\) cancel pointwise.
+The remaining terms yield \eqref{eq:supply} by positive semidefiniteness.
+\end{IEEEproof}
+
+All 32 operator supports pass the synthetic storage-balance check
+at tolerance \(10^{-12}\). For a constant input the tilted storage
+\(H-p^\top q\) is nonincreasing. The linear reference shift in \(\Phi_1\)
+permits an unbounded potential on the unwrapped angle space, so a global
+stability inference requires separate lower-bound and invariance conditions.
+
+% The shared dynamics and numerical identity are supported by the registered
+% unified discovery protocol and its 2026-11-20 evidence receipt.
+
+\section{Causal Initialization and Automated Operator Discovery}
+\label{sec:discovery}
+\subsection{Nested estimation from a short history}
+The support \(\mathcal S\) and shared coefficients \(\theta\) specify
+both the history model and the forecast. Each evaluation of \((\theta,\mathcal
+S)\) solves for the event's initial hidden state from its 100-ms observation
+window. Model fitting minimizes a cross-event objective on the Training Set
+through this causal solve. The Validation Set determines checkpoints and
+support. In a diagnostic with freely fitted initial memory forces, small
+port gains approaching \(10^{-5}\) could be compensated by large inferred
+memory states. The median forecast-origin hidden storage in the Validation
+Set reached \(4.19\times10^{11}\). Re-estimating memory from the short
+history inside each shared-parameter update ties the training trajectory to
+the initializer available at prediction.
+
+Let \(y_j=(q_j,v_j)\) for \(j=0,\ldots,10\). Initialize the hidden coupling
+states at zero and parameterize the initial memory as
+\begin{equation}
+ z_h(\eta)=\frac{\eta}{\sqrt{1+\|\eta\|_2^2/(2R)^2}}.
+ \label{eq:soft_radius}
+\end{equation}
+Starting the ODE at \((y_0,z_h(\eta),0)\) defines its history prediction
+\(\tilde y_j(\eta;\theta,\mathcal S)\). The inner objective is
+\begin{equation}
+ \frac{1}{200}\sum_{j=1}^{10}
+ \left\|W_h\bigl[\tilde y_j(\eta)-y_j\bigr]\right\|_2^2
+       +\lambda_h\|\eta/R\|_2^2,\qquad
+       \lambda_h=10^{-6},
+ \label{eq:history}
+\end{equation}
+where \(W_h\) contains the inverse history scales fixed on the Training Set.
+Let \(r_h\) be the residual vector stacking \(W_h(\tilde y_j-y_j)/\sqrt{200}\)
+and \(\sqrt{\lambda_h}\eta/R\), and let \(J_h=\partial r_h/\partial\eta\).
+Five Gauss--Newton iterations from \(\eta=0\) use
+\(\Delta\eta=\arg\min_d\|r_h+J_hd\|_2^2\). The analytic ODE tangent and
+the derivative of \eqref{eq:soft_radius} supply \(J_h\). The fitted history
+is reintegrated through \(t_o\), and its terminal hidden state is paired with
+the measured \((q_{10},v_{10})\).
+
+The hard-radius solver projects the history-start memory onto the ball
+\(\|z_h\|_2\le R\). In a matched initializer diagnostic, this saturated
+at \(R^2/2=21.85\) in the model's storage units on a missed unstable
+event. The smooth map raises the admissible memory norm toward \(2R\) and
+keeps the dependence on the estimated coordinates differentiable.
+The fixed light prior damps weakly observed directions in the unconstrained
+coordinates \(\eta/R\). This freedom changes the hidden force that is
+carried to the forecast origin, where the visible kinetic energy is set by
+the observed speed.
+
+\subsection{First-swing loss and local backbone fitting}
+The Training Set contains 311 stable and 35 unstable events. A gradient
+diagnostic on this set at a shared starting equation found norms of 15.81,
+0.24, and 1.33 for weighted trajectory squared error, one-sided speed error,
+and weak momentum, respectively. Their partial derivatives with respect to
+the log damping multiplier were \(-4.95\), \(+0.19\), and \(+1.05\).
+At this point, descent on the trajectory term favors larger damping, while
+the first-swing terms favor smaller damping. This local conflict motivates
+balancing their influence at the beginning of a fit and selecting the
+checkpoint using free trajectories.
+
+The trajectory loss \(\mathcal L_{\rm tr}\) averages the 1- and 3-s
+event losses on the available samples. It uses a unit-transition Huber
+penalty on normalized residuals for stable events and squared error for
+unstable events. The weak-form term evaluates the residual
+\begin{equation}
+ r_{ab}=v(t_b)-v(t_a)
+       -\int_{t_a}^{t_b}M^{-1}F(q,v,h;p)\,dt,
+ \label{eq:weak_momentum}
+\end{equation}
+where \(F\) is the mechanical force in \eqref{eq:mother} and \(h=(z,\chi)\)
+evolves along linearly interpolated measured \((q,v)\), starting with
+the causal forecast-origin hidden state. Dividing momentum by machine mass
+gives a residual in speed units. The loss \(\mathcal L_{\rm mom}\) averages
+its normalized squared components over the complete 0--200 and
+200--400~ms windows after \(t_o\). On the free rollout over the first
+500~ms, \(\mathcal L_{\rm vel}\) penalizes positive
+\(\operatorname{sgn}(v_i)(v_i-\hat v_i)\) after speed normalization.
+Both losses weight an unstable event eight times as much as a stable one.
+With \(\mathcal L_{\rm fs}=\mathcal L_{\rm mom}+\tfrac12\mathcal L_{\rm vel}\),
+the outer objective is
+\begin{equation}
+ \begin{aligned}
+ \mathcal L&=\mathcal L_{\rm tr}+\alpha\mathcal L_{\rm fs}
+                 +\|\theta-\theta_{\rm a}\|_2^2+0.1\mathcal L_E,\\
+ \alpha&=1.05\left.
+          \frac{\|\nabla\mathcal L_{\rm tr}\|_2}{\|\nabla\mathcal L_{\rm fs}\|_2}
+          \right|_{\rm start}.
+ \end{aligned}
+ \label{eq:loss}
+\end{equation}
+The anchor \(\theta_{\rm a}\) is expressed in the fit coordinates, with
+independent log stiffness and damping factors centered at a reference
+backbone. The stiffness and damping multipliers stay within \([0.5,2]\)
+relative to their anchors, \(g_i\ge0.01\), and
+\(\tau_i\in[0.02,5]\)~s. The energy guard \(\mathcal L_E\) uses a squared
+positive excess of the origin memory energy relative to
+\(\tfrac12(2R)^2\). The gradient calibration uses the full Training Set
+at the start of each fit and is subsequently held fixed.
+
+\subsection{Candidate screening, curriculum, and pruning}
+Fig.~\ref{fig:method} and Algorithm~\ref{alg:discovery} summarize the
+offline selection and the causal forecast. The weak-momentum screen fixes
+the backbone and evaluates each operator individually against the model
+with all five switches off. A coefficient grid and local midpoint refinements
+are ranked by the weighted integral residual. The final support candidates
+use blocks whose best point improves unstable-event RMS at both numerical
+step sizes. For backbone fitting, \(\op{2}\) supplies the damping law with
+\(\rho=2/3\). The first stage opens the 45 stiffness and nine damping
+coefficients to let different edges adapt to different disturbance
+patterns. The second stage also opens the gains and decay times.
+Each stage has 12 full Training Set updates, with a complete Validation
+Set check every three updates.
+
+\begin{figure*}[!t]
+ \centering
+ \includegraphics[width=.93\textwidth]{figures/method.pdf}
+ \caption{Offline operator selection and causal forecasting with the
+ energy-structured ODE. The forecast uses the same fitted equation in the
+ history solve and the free rollout.}
+ \label{fig:method}
+\end{figure*}
+
+\par\medskip\noindent
+\begin{minipage}{\columnwidth}
+ \refstepcounter{algorithm}\label{alg:discovery}
+ \hrule\vspace{4pt}
+ \textbf{Algorithm \thealgorithm}\quad Validation-constrained operator selection
+ \par\vspace{4pt}\hrule\vspace{3pt}
+ \begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \item Screen \(\op{1}\)--\(\op{5}\) with two 200-ms momentum windows
+        and retain blocks that improve unstable-event RMS.
+  \item Fit 54 local backbone coefficients and then allow 74 to vary.
+        Use \eqref{eq:history} inside \eqref{eq:loss} and select a
+        checkpoint for each stage on the Validation Set.
+  \item Compare the screened support and nested deletions under equal
+        refit budgets. Apply the numerical, trajectory, and first-swing
+        gates before the 2\% equivalence rule. Freeze the eligible support.
+ \end{enumerate}
+ \vspace{2pt}\hrule
+\end{minipage}
+\par\medskip
+
+The final backward comparison starts the screened support and the nested
+deletions from the same local backbone. Each candidate receives six full
+updates and a checkpoint check at steps 0, 3, and 6. Eligibility at both
+step sizes requires numerical qualification, \(12/12\) Validation Set
+instabilities confirmed, at most \(2/95\) stable false alarms, zero unsettled
+Validation Set cases, and at least \(33/35\) Training Set instabilities
+confirmed. The Validation Set 8-s stable median and true-negative mean
+NRMSE must be at most 0.21 and 0.24, respectively. The signed median speed
+residual across 33 preselected Training Set separation windows must move
+at least 20\% toward zero, with the median absolute residual also improving.
+For eligible supports with equal false-alarm counts, a deletion is
+preferred when the stable median, true-negative mean, and first-500-ms
+peak deficit each stay within 2\% of the larger support. These criteria
+are applied before the frozen Test Set evaluation.
+
+\subsection{Numerical qualification}
+We use fourth-order Runge--Kutta in CUDA double precision, with a
+5-ms training step. Formal ODE forecasts use a 2.5-ms main step and
+a 1.25-ms check, sampled onto the common 10-ms output grid. The
+inter-step COI NRMSE and normalized common-speed discrepancy must both
+be at most \(10^{-3}\). Classification must agree and paired triggers
+must lie within 20~ms. For classification after a trigger, the discrepancy
+is checked through the later trigger. For forecasts without a trigger it is
+checked through the end. Trajectory metrics have their own interval-level
+qualification and full-forecast finiteness is recorded separately.
+
+% Initialization, loss, and selection evidence: the controlled initializer
+% decomposition, first-swing gradient probe, and registered unified discovery
+% and paired pruning reports dated 2026-11-19 through 2026-11-21.
+
+\section{Synthetic Validation and Identifiability Boundaries}
+\label{sec:synthetic}
+The ten-machine synthetic study fits the eight supports of
+\(\{\op{3},\op{4},\op{5}\}\) to five known-truth systems (S0--S4).
+Each truth has 24 fitting, 12 selection, and 12 held-out events.
+Selection uses the 3-s trajectory squared error. In S2 the selected
+model retains the saturating memory port, learning \(\gamma_s=0.464\)
+against a truth of 0.60. The resulting memory kernels along the fitting
+and selection paths differ from the truth by 1.55\%. The five selected
+equations each classify all 12 held-out events correctly. The largest
+normalized storage residual across these experiments is
+\(4.29\times10^{-16}\).
+With known coefficients and a history solve that also estimates
+the coupling coordinates, a separate experiment selects the four
+fixed, common, spatial, and mixed coupling patterns. The mean
+selection-split 8-s errors range from \(4.40\times10^{-9}\) to
+\(6.56\times10^{-6}\) (Table~\ref{tab:synthetic}). The second harmonic
+and state-modulated damping are also selected in their respective
+known-truth systems in a separate two-operator study.
+\SyntheticTable
+
+The fifth-harmonic truth in S4 tests whether the candidate library is
+adequate. At least one in-library candidate passes the long-horizon
+trajectory and timing criteria on these events. In the known-coefficient
+coupling study, all four in-library candidates exceed \(10^{-4}\) on the
+maximum normalized 200-ms momentum error across the selection events
+and both step sizes. The fixed-coupling candidate reaches
+\(8.79\times10^{-4}\). The integral balance over the short window reveals a
+missing restoring-force term under excitation where the 8-s accuracy
+criterion accepts an approximation.
+
+These experiments distinguish three forms of recovery. With common and
+spatial coupling both active, the known-coefficient study obtains a
+selection-split 8-s error of \(6.56\times10^{-6}\) while the worst
+spatial hidden-state error reaches 38.2\%. In the unknown-coefficient fits
+on S1 and S3, selecting by 3-s trajectory error drops the true spatial
+block, which indicates that the excitation and target metric provide weak
+evidence for its coefficients. Finally, the prior matters most along
+low-sensitivity directions. In a fixed-coefficient S3 comparison,
+removing the prior gives a clean-history 8-s error of
+\(1.11\times10^{-8}\), whereas the same change under history noise with
+standard deviation \(10^{-3}\) of the training history scales raises the
+error from 0.001714 to 0.005741. The resulting accuracy of the observed
+trajectory and the recovery of the hidden coordinates test different
+properties of the fit.
+
+\section{Case Study on the IEEE 39-Bus System}
+\label{sec:ieee39}
+\subsection{Dataset construction and benchmark setup}
+We use a higher-order IEEE 39-bus, ten-generator model in ANDES 2.0.0
+\cite{cui2021andes}. The Training Set has 346 events (311 stable and
+35 unstable). The Validation Set has 107 events (95 stable and
+12 unstable) from eight fault groups and is used for model and threshold
+selection. The Test Set is generated separately at the same operating
+point, with three-phase bus faults and restored post-clearing topology.
+Its 94 events include 62 stable and 32 unstable events in 21 bus--line fault
+groups, with seven buses absent from the fitting and selection sets and 26
+near-critical fault conditions. Of the 32 unstable events, 31 trigger
+within 0.2--1.5~s of clearing. The generation protocol fixes the fault
+conditions and inclusion quotas in advance, checks disjointness from the
+fitting and selection events, and retains labels from the higher-order
+simulation with a 15-s window for confirming stable truth.
+The models and operating thresholds are frozen before Test Set inference.
+The benchmark uses the same observation horizon, origin mechanical power,
+COI scoring, label rule for trajectories, and Test Set for all applicable
+models. The class proportions reflect the designed fault sample.
+
+\subsection{Operator selection and component ablations}
+The \(\op{2}\) block gives the largest improvement in the
+Training Set weak-momentum screen, reducing unstable-event RMS by 37.54\%
+and stable-event RMS by 7.33\%. The saturation and common-coupling operators
+\(\op{5}\) and \(\op{3}\) also improve unstable-event RMS, while
+\(\op{1}\) and \(\op{4}\) increase it (Table~\ref{tab:operators}).
+The 54-coefficient curriculum reduces the median signed separation-speed
+residual across 33 Training Set windows from \(+2.551\) to
+\(+1.544\)~rad/s relative to the hard-radius reference. The largest
+individual stiffness adjustment from the backbone anchor is 1.22\%.
+The selected checkpoints are update 12 of the local fit and update 0 of
+the 74-coefficient fit (Fig.~\ref{fig:curriculum}), preserving the
+starting memory gains and time constants. Neither of the larger screened
+supports confirms all 12 Validation Set instabilities. The full screened
+support has true-negative mean 8-s NRMSE 0.31277, compared with 0.21494
+for the single \(\op{2}\) support. The latter meets the stated constraints,
+confirms \(33/35\) Training Set instabilities and \(12/12\) Validation
+Set instabilities, and gives a Validation Set stable median of 0.19026
+with \(2/95\) false alarms. Its selected pruning checkpoint carries forward
+the local backbone at update 0.
+
+\begin{figure*}[!t]
+ \centering
+ \includegraphics[width=.93\textwidth]{figures/curriculum.pdf}
+ \caption{Two-stage backbone fitting. Each stage's training loss is
+ normalized to its own starting value. The trajectory curve uses the
+ median across all 95 stable Validation Set events. The separation
+ diagnostic uses the absolute value of the signed median across 33
+ Training Set windows. Dashed lines mark the acceptance bounds.}
+ \label{fig:curriculum}
+\end{figure*}
+
+The Test Set ablation in Table~\ref{tab:trajectory} compares three
+frozen equations and initializers. The \hard{} and \soft{} use the same
+globally scaled backbone, memory parameters, and angle-dependent damping
+form. The latter changes the hard projection to the smooth \(2R\) map and
+applies the prior in that map's underlying coordinates. ES-ROM pairs the
+same soft initializer with the locally fitted backbone. Confirmed
+unstable recall rises from \(25/32\) to \(27/32\) to \(29/32\), with
+zero false alarms among 62 stable events for all three. The median
+positive deficit in the maximum absolute relative speed over the first
+500~ms of the available trace falls from 1.7609 to 0.9863 to
+0.3210~rad/s. ES-ROM thus reduces the deficit by 81.8\% relative to the
+\hard{} and achieves 96.81\% full-cohort accuracy with \(F_1=0.9508\).
+
+\TrajectoryTable
+\BootstrapTable
+
+The paired bootstrap uses the same 21 group draws for all models in
+each of 10,000 replicates, with replacement and two-sided 95\%
+percentile intervals (Table~\ref{tab:bootstrap}). The recall gain for the
+\soft{} is 6.25 percentage points, with an interval reaching zero.
+Its stable 8-s mean NRMSE rises by 0.0112. For ES-ROM the recall gain
+is 12.50 points \([2.78,27.27]\) and the reduction in median peak
+deficit is \(1.44\)~rad/s \([0.67,1.96]\). The stable 8-s mean
+NRMSE difference is \(+0.0031\) \([-0.0062,0.0143]\), and the stable
+median changes from 0.26335 to 0.24765. Thus the paired interval
+resolves a recall improvement relative to the \hard{} under the
+sampled fault-group design, with a small observed mean stable-error
+difference.
+
+\subsection{Comparison with trajectory models}
+Table~\ref{tab:trajectory} and Fig.~\ref{fig:comparison} compare the
+three physics-model configurations with 17 literature-inspired
+trajectory implementations. The benchmark adapts recurrent and graph
+models, a Transformer, latent neural ODEs, delay-based sparse and modal
+models, and neural operator architectures to this forecast problem
+\cite{cho2014gru,nandanoori2022graph,vaswani2017attention,rubanova2019latent,
+arbabi2017hankel,gao2026shred,lu2021deeponet,pu2026ikno}.
+The STAN, LASS, and ActNet implementations use the rotor-state inputs and
+available supervision of the benchmark
+\cite{stan2026,lass2026,actnet2026}. Continuous-time alternatives are
+scored with their archived integration checks and discrete or time-query
+models use 10-ms outputs.
+The two SINDy-SHRED implementations have 86 and 61 numerical
+classification failures out of 94. I-IKNO and Hankel-DMD have
+stable-event NRMSE on the order of \(10^4\)--\(10^8\) and trigger false
+alarms on all 62 stable events. The STAN adaptation confirms \(32/32\)
+instabilities, with \(10/62\) false alarms, 21 unsettled stable events,
+and 5.94 mean NRMSE on the stable trajectories. ES-ROM yields finite
+8-s trajectories for all 94 cases at both integration steps, with
+all classifications equal across steps and zero unsettled cases.
+
+\begin{figure*}[!t]
+ \centering
+ \includegraphics[width=\textwidth]{figures/trajectory-comparison.pdf}
+ \caption{Test Set instability recall and stable 8-s trajectory error.
+ The dashed line connects the observed Pareto frontier at zero stable false
+ alarms. Squares mark forecasts with unsettled decisions and hollow
+ markers indicate stable false alarms. The right panel uses a logarithmic
+ error scale. The SINDy-SHRED callouts give recall and numerical failures
+ for cases without a full-cohort stable NRMSE.}
+ \label{fig:comparison}
+\end{figure*}
+
+Among trajectory models with zero observed stable false alarms, ES-ROM
+has the highest recall. The strongest recurrent comparator on this
+criterion, Graph-GRU, confirms \(26/32\) at 93.62\% full-cohort accuracy.
+The two methods share 24 confirmations. ES-ROM alone confirms five
+events, Graph-GRU alone confirms two, and one event is unconfirmed by
+both. GRU Seq2Seq and the small Transformer give lower mean stable
+8-s errors (0.14865 and 0.15584) alongside \(24/32\) and \(0/32\)
+confirmed instabilities. The latent neural ODE gives the lowest mean
+NRMSE over observed unstable intervals (0.43973), with \(18/32\)
+confirmed. ES-ROM's mean stable NRMSE is 0.25122 and its recall
+is \(29/32\). The comparisons show how whole-trajectory error and
+confirmed first-swing outcomes rank the predictors differently.
+
+\subsection{Comparison with direct transient stability classifiers}
+Table~\ref{tab:classifiers} compares labels derived from the ES-ROM
+trajectory with direct GRU, Extra Trees, and Koopman-based risk scores
+\cite{chen2021adaptive,geurts2006extra,pcdk2026}. The Validation
+Set-calibrated GRU operating point matches ES-ROM's \(29/32\) confirmed
+instabilities and \(0/62\) false alarms on the Test Set, with \(5/95\)
+false alarms on the Validation Set. At threshold 0.5 that GRU confirms
+\(27/32\), and Extra Trees confirms \(25/32\). An alternative
+fixed-threshold GRU confirms \(30/32\) with zero false alarms. The
+Validation Set-calibrated Extra Trees threshold detects \(31/32\) and
+alarms on \(13/62\) stable events. The Koopman-based risk score on a frozen
+latent neural ODE surrogate detects \(20/32\) with \(8/62\) false alarms.
+ES-ROM obtains its decision
+from the same forecast that supplies modal and machine-separation
+information.
+\ClassifierTable
+
+% Core comparisons use the held-out portion of the registered comparison
+% receipt and the blind-confirmation receipt, both dated 2026-11-21.
+
+\section{Post-Fault Physical Consistency and Methodological Scope}
+\label{sec:physics}
+\subsection{Dominant electromechanical modes}
+We linearize the frozen equations at the reference equilibrium and
+zero projected disturbance input. The Jacobian has dimension 28 after
+eliminating the two COI constraints, and its analytic and automatic
+derivatives differ by less than \(1.5\times10^{-14}\). Experimental
+mode estimates use a block-Hankel shift identification of the
+reference simulated rotor speeds \cite{juang1985era}, using
+0.5--8~s and 1.5--8~s post-origin windows and ranks 6, 10, and 14.
+We assign modes by frequency, damping, and the modal assurance
+criterion (MAC), which is the squared normalized inner product of two
+complex mode shapes. Strong matches use non-growing model modes with
+relative frequency error at most 10\%, absolute damping-ratio error
+at most 0.05, and \(\mathrm{MAC}\ge0.80\).
+The Test Set yields usable reference modes for 53 of the 62 stable
+events. On 52 commonly matched dominant modes, ES-ROM lowers median
+absolute frequency error from the \hard{}'s 0.0506 to 0.0318~Hz
+(7.62\% to 4.79\% relative error), with median MAC 0.9452. Strong
+matches rise from \(41/62\) to \(52/62\).
+For the 63 common matches in the Validation Set, the respective median
+errors are 0.05023 and 0.03292~Hz, with 62 of 63 improving.
+The softening term vanishes at \(q=0\), linking the spectral changes
+to backbone calibration (Table~\ref{tab:physics}).
+
+\subsection{Effective coupling and inertia-weighted coherency}
+Among the ten largest absolute edge adjustments from the stiffness
+anchor, five edges incident on the large-inertia external equivalent
+generator (G10) soften by 1.17--1.22\%. The other five, linking
+generators within New England, stiffen by 1.17--1.22\%
+(Fig.~\ref{fig:stiffness}). The fitted changes thus distinguish the
+inter-area connection pattern within the effective graph.
+We compare bipartitions induced by the second eigenvectors of the
+ordinary stiffness Laplacian and the generalized problem
+\(L(k^0)u=\lambda M u\) \cite{chow1982coherency}. The observed
+reference groups use the final 2~s of COI speed in the 95 stable
+Validation Set events. Including inertia improves agreement from
+\(21/45\) to \(29/45\) generator pairs and increases the adjusted
+Rand index from \(-0.1111\) to \(0.2593\) (Fig.~\ref{fig:coherency}).
+The group containing G10 contracts from seven machines to
+\(\{\mathrm{G1},\mathrm{G2},\mathrm{G10}\}\), while the observed tail
+groups G10 separately. The ratio \(\lambda_3/\lambda_2\approx1.15\)
+indicates closely spaced modes of the stiffness--inertia problem.
+The full linearization also includes damping and memory.
+
+\begin{figure}[!t]
+ \centering
+ \includegraphics[width=\columnwidth]{figures/stiffness.pdf}
+ \caption{The ten largest relative adjustments to the effective edge
+ stiffness anchor. Dashed red edges soften around the external equivalent
+ generator G10, and solid blue edges stiffen within the New England group.}
+ \label{fig:stiffness}
+\end{figure}
+
+\begin{figure}[!t]
+ \centering
+ \includegraphics[width=\columnwidth]{figures/coherency.pdf}
+ \caption{Bipartitions of the ten generators from the ordinary and
+ inertia-weighted stiffness spectra, compared with the reference
+ grouping from the 6--8~s speed record.}
+ \label{fig:coherency}
+\end{figure}
+
+\subsection{Loss-of-synchronism cuts}
+At the first sustained loss-of-synchronism trigger of each trajectory,
+we split the sorted machine angles at their largest adjacent gap.
+The cross-group machine pairs define the cut, and the larger-angle
+group identifies the leading machines. ES-ROM matches the cut
+exactly in \(27/32\) Test Set instabilities, compared with \(23/32\)
+for the \hard{}. Of the 29 events triggered in both ES-ROM and the
+reference trajectory, 27 cuts and 27 leading groups match exactly,
+with mean cut Jaccard similarity 0.9635. The full unstable-event
+denominator combines event confirmation with spatial recovery. The
+joint-trigger denominator measures spatial agreement once both
+trajectories exhibit loss of synchronism.
+\PhysicsTable
+
+\subsection{Forecast-origin mechanical energy and memory storage}
+At \(t_o\), \(E_{\rm mech}=\tfrac12 v^\top Mv+U(q)\) evaluates the
+measured motion in the frozen backbone. The remaining part of \(H\)
+is the inferred memory energy \(E_z=\tfrac12\|z(t_o)\|_2^2\).
+The hard and soft ablations use identical mechanical energies event by
+event, as they share the backbone and visible origin. Their Test Set
+mechanical-energy AUROC is 0.9526, the same as ES-ROM to the shown
+precision. Changing the initializer alone moves total-storage AUROC
+from 0.8926 to 0.7157. For ES-ROM the total and memory energies reach
+0.6956 and 0.5766. Fig.~\ref{fig:energy} shows how a wider admissible
+memory state changes the energy distributions while the mechanical term
+continues to rank the unstable cases highly. The paired initializer
+contrast supports interpreting \(E_z\) as storage associated with the
+effective memory force. The mechanical-energy AUROC measures ranking
+on this fault distribution.
+
+\begin{figure*}[!t]
+ \centering
+ \includegraphics[width=.91\textwidth]{figures/energy.pdf}
+ \caption{Forecast-origin energy and instability discrimination.
+ Panels (a)--(c) give AUROC for the Training, Validation, and Test Sets,
+ respectively. Panels (d) and (e) show the median and interquartile range
+ of memory energy by model and truth label for the Validation and Test
+ Sets. AUROC uses instability as the positive class.}
+ \label{fig:energy}
+\end{figure*}
+
+\subsection{Methodological scope}
+The fitted law describes post-clearing motion at the restored topology.
+Estimating critical clearing time would require a fault-on model and
+a switching rule. Three Test Set instabilities are classified as stable
+under the 100-ms and constant mechanical-power protocol. The benchmark
+covers ten synchronous generators at one operating point. Larger and
+inverter-rich networks require separate validation.
+
+\section{Conclusion}
+\label{sec:conclusion}
+ES-ROM selects a shared explicit post-fault equation with 74 backbone
+coefficients and one local damping softening coefficient. With 100~ms
+of observations, it confirms 90.62\% of Test Set instabilities at
+zero observed stable false alarms and 96.81\% accuracy. The same
+frozen equation gives the mode, cut, and energy information needed
+to interpret the forecast.
+
+A switched energy model coupling fault-on and post-fault dynamics would
+extend the forecast protocol to clearing-time studies. Sparse
+parameterizations of the effective graph and new operator blocks for
+inverter controls would test the portability of the momentum screen and
+energy-consistent selection to larger and more heterogeneous systems.
+
+\bibliographystyle{IEEEtran}
+\bibliography{task3-references}
 \end{document}

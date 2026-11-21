@@ -1,117 +1,67 @@
-% Working title: Structure-Preserving Equation Discovery for Power-System
-% Transients from Partial Observations
 \section{Introduction}
+\label{sec:intro}
+The first few hundred milliseconds after a fault can determine whether
+synchronous generators swing together or lose synchronism
+\cite{hatziargyriou2021stability}. Wide-area phasor measurement units
+\cite{phadke2008phasors} motivate a
+forecasting task in which a short post-clearing record initializes a
+seconds-long prediction of rotor angles and speeds. Such a forecast provides
+the timing and participating machines of an emerging separation. Detailed
+time-domain simulation provides this information when its initial state is
+available, including internal electromagnetic, excitation-system, and load
+states. A dynamic equivalent fitted across multiple disturbances offers a
+way to initialize and run a compact model with a short observed history
+\cite{jiang2020multievent}.
 
-Following a severe disturbance, synchronous generators can swing apart and
-lose synchronism~\cite{hatziargyriou2021stability}. The trajectories of rotor
-angles and speeds show which machines separate, how quickly the separation
-develops, and whether the relative motion settles. Detailed dynamic models
-describe this evolution by representing the network, generators, and their
-controls. Repeated studies over many contingencies also call for compact
-dynamic equivalents that can be integrated efficiently and whose equations can
-be inspected. Multi-event identification has shown how disturbances at
-different locations and of different types can inform a common dynamic
-equivalent~\cite{jiang2020multievent}. We extend this question from fitting an
-equivalent of prescribed form to discovering an explicit equation for
-post-clearing motion. Such an equation can generate the subsequent transient and
-expose the forces and energy exchanges that produce it.
+Data-driven approaches address different parts of this task. Direct transient
+stability assessment with gated recurrent units (GRUs) produces an instability
+score from temporal observations \cite{chen2021adaptive}. Recurrent
+forecasters, attention models, latent neural ordinary differential equations
+(ODEs), and neural operators can produce trajectories
+\cite{rubanova2019latent,vaswani2017attention,lu2021deeponet}. Their generic
+training objectives permit an accurate fitted ringdown alongside an
+underestimated first swing. Sparse equation discovery and delay-coordinate
+methods can also generate trajectories
+\cite{brunton2016sindy,arbabi2017hankel,bakarji2023delay,gao2026shred}.
+With partially observed multi-machine dynamics, these methods need a way to
+close the observed equations and initialize the missing states. Long-horizon
+numerical qualification and confirmed loss-of-synchronism recall are therefore
+central to evaluating these forecasts.
 
-The main difficulty is that the observed rotor angles and speeds need not form
-a closed dynamical state. Two events can reach the same angles and speeds
-under the same external input and still have different rotor accelerations
-because their internal electrical states differ. A model of the form
-\(\dot y=f(y,u)\), where \(y\) is the observed state and \(u\) is the applied
-input, assigns both events the same derivative at that instant. The
-Mori--Zwanzig formalism shows how eliminating dynamic variables can instead
-produce both a memory term driven by the history of the retained variables and
-a contribution from unresolved initial conditions~\cite{gouasmi2017memory,pagnier2025kron}.
-The modeling problem is therefore one of dynamic closure. The reduced state
-must retain enough information about the omitted processes to determine the
-subsequent evolution under the specified input.
+Classical swing equations give the retained rotor coordinates a physical
+meaning. Static Kron reduction preserves an algebraic network relation
+\cite{dorfler2013kron}, while eliminating dynamical states introduces
+memory and a contribution from unresolved initial conditions
+\cite{gouasmi2017memory,pagnier2025kron}. During a large swing, the effective
+restoring force and dissipation can also differ from their local linear
+approximations. We construct a shared ODE with a network potential,
+positive-semidefinite damping, and reciprocal memory ports. A finite library
+adapts the restoring, damping, coupling, and memory laws within the same
+energy balance. Integral momentum screening and closed-loop selection
+connect the chosen operators to the rotor dynamics they must predict
+\cite{messenger2021weak,neary2023compositional}.
 
-Physical reduction supplies a starting point for constructing that state.
-Kron reduction uses a Schur complement to eliminate algebraic network nodes
-while preserving the electrical relation at the retained
-nodes~\cite{dorfler2013kron}. The resulting effective couplings can inform a
-generator-level model. The effect of an omitted device state with its own
-evolution requires a separate closure. Parameter identification within a
-specified dynamical structure can estimate coupling and damping coefficients
-or adjust the internal initial condition, as in structure-preserving
-calibration of port-Hamiltonian models~\cite{gunther2024calibration}. The
-specified structure determines which mechanisms these parameters can
-represent. If a restoring force, dissipation law, or memory process is absent
-from the model family, fitting can shift its effect into the
-terms that are available. This motivates selecting dynamical terms within a
-physically constrained candidate set.
+The contributions are as follows.
+\begin{enumerate}
+ \item We formulate a center-of-inertia (COI) grey-box model with five
+       selectable physical operators and establish an exact
+       supply--dissipation identity for every support.
+ \item We couple a smooth-radius causal Gauss--Newton initializer with
+       weak-momentum screening, gradient-balanced fitting of the local
+       backbone, and backward operator pruning. The formulation targets
+       the first-swing errors associated with saturated hidden
+       initialization and trajectory-loss gradients that favor stronger damping.
+ \item We use known-truth systems to test operator selection, diagnose an
+       omitted restoring-force term with a 200-ms momentum window, and
+       separate visible forecasting accuracy from hidden-state recovery.
+ \item We benchmark the frozen equation on 94 held-out IEEE 39-bus events
+       from 21 fault groups and assess whether the forecasts recover the
+       modal, machine-separation, and energy signatures of the transients.
+\end{enumerate}
 
-Sparse identification of nonlinear dynamics (SINDy) provides a way to select
-equation terms and estimate their coefficients from a library of candidate
-functions~\cite{brunton2016sindy}. Weak formulations replace pointwise
-derivative estimates with integrals against test functions, reducing the
-dependence on numerical differentiation~\cite{messenger2021weak}. In power systems,
-symbolic regression has already incorporated trigonometric terms, measured
-external signals, and physical constraints to refine synchronous-generator
-models~\cite{saric2021symbolic}. With partial observations, however, some
-candidate terms depend on states that are absent from the data. A library
-constructed from angles and speeds alone can attribute a memory effect to an
-instantaneous term that happens to correlate with it on the observed
-trajectories. A more accurate estimate of the observed derivative leaves this
-ambiguity intact. Structure selection must therefore account for both the
-visible terms and the dynamics that close the equations.
-
-Prior work offers several ways to represent missing dynamics. Deep delay
-autoencoders can learn effective coordinates and sparse equations together
-from time-delay embeddings of partial measurements~\cite{bakarji2023delay}.
-Here the generator angles and speeds have specific physical meanings that
-the reduced model must preserve. Data-driven memory models describe how past
-observations influence the present~\cite{lin2021wiener}. To use such a closure
-in a compact continuous-time simulator, one must choose which memory terms to
-realize through auxiliary states and determine those states at the forecast
-origin. Port-Hamiltonian learning provides a way to encode energy exchange,
-dissipation, and subsystem interconnection in the resulting
-equations~\cite{neary2023compositional}. Together these ideas motivate a
-formulation in which the candidate memory terms already have a finite-dimensional
-realization and interact with the retained rotor motion through specified
-energy exchanges. The resulting closure can then be assessed in the physical
-coordinates used to measure and predict the transient.
-
-The central question is whether restoring forces, dissipation, and memory can
-be identified jointly from several partially observed transients as one
-shared, physically structured ordinary differential equation (ODE) that can
-be initialized for a new event using a short record. Shared coefficients
-determine how the model evolves across events, and event-specific initial
-memory determines its starting state. A close fit to one observed interval
-can arise from several combinations of the two. Across events, complementary
-excitation can help distinguish them, provided the data excite the relevant
-effects. An equation fitted to observed trajectories must also be able to
-predict beyond the segment used to infer its initial state. We use the first
-100~ms after clearing as the observation window for this forecast test.
-
-We formulate the task as offline equation discovery followed by causal
-forecasting. Offline, the available portions of the \texttt{train} trajectories
-inform the selection of restoring, dissipative, and memory terms. The fit uses
-the observed trajectories to learn a single equation across events while
-accounting for each event's unobserved initial memory.
-The aim is to retain supported physical terms and represent the selected
-memory by auxiliary equations that evolve alongside the observed rotor
-coordinates. At prediction time, the model parameters and active terms are
-fixed. The short history supplies the observed state and is used to infer the
-memory state of the same equation. For the benchmark forecasts, we hold the
-mechanical-power deviation at its forecast-origin value. From that point,
-the ODE generates the future transient without updates from later observations.
-
-The proposed study combines three contributions. First, it formulates
-structure selection in terms of shared restoring, dissipative, and memory
-components whose effects must be distinguished from each event's initial
-memory. Second, it couples a finite-dimensional realization with an explicit
-energy balance to a short-history initializer for the same ODE. Third, it
-defines tests of function recovery, dynamic response, and initialization on
-known-truth systems, with cross-disturbance trajectory prediction as the main
-test on higher-order simulations of the IEEE 39-bus system generated with
-ANDES~\cite{cui2021andes}. The known-truth controls help distinguish inadequate
-excitation from errors in the chosen dynamics or initial state. Rotor-angle
-stability judgments derived from the forecast trajectories provide an
-additional engineering check. Section~II defines the problem and physical
-constraints, and Section~III describes discovery, realization, and
-initialization. Section~IV presents the validation and power-system case study,
-and Section~V discusses the scope of the results.
+Section~\ref{sec:problem} specifies the causal forecast and scoring protocol.
+Sections~\ref{sec:model} and~\ref{sec:discovery} develop the model and the
+operator selection method. Section~\ref{sec:synthetic} examines controlled
+mechanism recovery. Sections~\ref{sec:ieee39} and~\ref{sec:physics} report the
+IEEE 39-bus comparison and physical analyses. Section~\ref{sec:conclusion}
+concludes the paper.
