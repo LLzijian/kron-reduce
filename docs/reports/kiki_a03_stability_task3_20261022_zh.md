@@ -117,6 +117,6 @@ TASK3 的 train 已包含 A03 此次内部 val。直接将 TASK3 冻结模型在
 - [TASK3 直接分类器指标](/E:/03-nn_Transfer_Func/kron-reduce/results/paper_kiki_a03_stability-stability_evaluation-20261022T112337Z-bc5ea01b/task3_direct_classifiers.csv)
 - [访问与覆盖记录](/E:/03-nn_Transfer_Func/kron-reduce/results/paper_kiki_a03_stability-stability_evaluation-20261022T112337Z-bc5ea01b/data_access_audit.json)
 - [预登记评分协议](/E:/03-nn_Transfer_Func/kron-reduce/docs/protocols/kiki_a03_stability_20261022_zh.md)
-- [独立重算与保存复现核验](/E:/03-nn_Transfer_Func/kron-reduce/docs/reports/kiki_a03_stability_20261022_verification.json)
+- [独立重算与保存复现核验](/E:/03-nn_Transfer_Func/kron-reduce/docs/reports/task3_model_refinement/kiki_a03_stability_20261022_verification.json)
 
 TASK3 来源文件哈希及逐事件计数复算见本轮 `lineage.json` 和 `pre_evaluation_freeze.json`。本次相关回归检查共 36 项；未宣称本次重新执行全仓测试。两套原始数据、TASK3 和既有 A03 检查点均未修改。没有稳定区域、裕度或 Level 6 证书主张。

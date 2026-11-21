@@ -106,6 +106,6 @@ A01 的两个早期运行保持不变：
 
 A02 的证据门、模态最小实现和评价合同已修订，全量测试 255 项通过，但真实候选
 获取在迁移旧 `margin: NaN` 时失败。状态停在 `plan_registered`；实现与科学验收
-不能因测试通过而跳过。完整过程见 `docs/reports/ieee39_modular_energy_p1_a02_progress_zh.md`。
+不能因测试通过而跳过。完整过程见 `docs/reports/modular_energy/ieee39_modular_energy_p1_a02_progress_zh.md`。
 本轮未合并或晋级。A03 须保留旧结构文件的原始字节，以单独说明文件绑定，而不是
 改写未定义的科学数值；完整五臂执行与总工作流引用验收仍未完成。

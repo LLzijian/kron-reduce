@@ -1,6 +1,6 @@
 # 固定逐机记忆的动量方程一致性诊断
 
-在原 T0M1 上，去掉历史先验后，train 和 val 的 8 s 混淆计数保持一致，train 实测时段内的失步窗口从 6/35 变为 5/35。两种精确球约束对照分别在先验偏差和球外病例的未来轨迹门处失败。下一项诊断固定 T0M1 第 12 步权重，在完整 train 检验现有方程能否解释实测运动。[零先验 TASK3 报告](../reports/kiki_machine_local_topology_no_prior_20261115_zh.md)
+在原 T0M1 上，去掉历史先验后，train 和 val 的 8 s 混淆计数保持一致，train 实测时段内的失步窗口从 6/35 变为 5/35。两种精确球约束对照分别在先验偏差和球外病例的未来轨迹门处失败。下一项诊断固定 T0M1 第 12 步权重，在完整 train 检验现有方程能否解释实测运动。[零先验 TASK3 报告](../reports/machine_local_topology/kiki_machine_local_topology_no_prior_20261115_zh.md)
 
 ## 沿实测轨迹消去隐藏初态
 
@@ -29,7 +29,7 @@
 
 ## 下一项合成对照
 
-完整 train 的固定阻尼对照提高了失步窗口检出，也增加了稳定误报。固定原方程后，放开隐态上界同样产生了稳定与失稳样本之间的冲突。下一项保持原历史半径，检验阻尼随相对功角变化能否保留近平衡点的耗散，同时改善大摆动时的预测。[固定阻尼](../reports/kiki_machine_local_topology_momentum_damping_20261115_zh.md) · [隐态跨时段检验](../reports/kiki_machine_local_topology_origin_transfer_20261115_zh.md)
+完整 train 的固定阻尼对照提高了失步窗口检出，也增加了稳定误报。固定原方程后，放开隐态上界同样产生了稳定与失稳样本之间的冲突。下一项保持原历史半径，检验阻尼随相对功角变化能否保留近平衡点的耗散，同时改善大摆动时的预测。[固定阻尼](../reports/kiki_machine_local_topology_momentum_damping_20261115_zh.md) · [隐态跨时段检验](../reports/machine_local_topology/kiki_machine_local_topology_origin_transfer_20261115_zh.md)
 
 单一候选取 \(s(q)=\lVert B^\top q\rVert^2/(45\theta_*^2)\)、\(h(q)=s/(1+s)\) 和 \(D(q)=(1-\rho h(q))D_0\)。十机图有 45 条边，\(q\) 为相对于平衡点的功角偏移，\(\theta_*=1\,\mathrm{rad}\)、\(0\leq\rho\leq2/3\)。可见耗散保持速度二次型 \((1-\rho h(q))v^\top D_0v\)，记忆端口和储能沿用原式。令 \(g=1-\rho h\)，阻尼力 \(gD_0v\) 的速度导数为 \(gD_0\)，功角导数为 \(-\rho(D_0v)\nabla_qh^\top\)，其中 \(\nabla_qh=2BB^\top q/[45\theta_*^2(1+s)^2]\)。同一函数和导数用于历史求解和自由预测。
 
@@ -37,19 +37,19 @@
 
 ## 功角尺度诊断
 
-功角阻尼通过完整 val 门，train 稳定误报为 3 例。三个误报贡献了稳定组 8 s 平均误差增量的 99.55%，起报记忆储能的变化均小于 0.016。下一项检验中等摆幅是否需要更强的耗散。[完整 TASK3 评估](../reports/kiki_machine_local_topology_angle_damping_20261115_zh.md)
+功角阻尼通过完整 val 门，train 稳定误报为 3 例。三个误报贡献了稳定组 8 s 平均误差增量的 99.55%，起报记忆储能的变化均小于 0.016。下一项检验中等摆幅是否需要更强的耗散。[完整 TASK3 评估](../reports/machine_local_topology/kiki_machine_local_topology_angle_damping_20261115_zh.md)
 
 保持 \(\rho=2/3\)，令 \(s=\lVert B^\top q\rVert^2/45\)，比较 \(h_{\theta}=s/(s+\theta^2)\) 的原尺度 1 rad 与预设 1.25 rad。增大尺度提高中等摆幅的耗散，渐近阻尼仍为原值的三分之一。使用同一完整 train 346 和 100 ms 历史，在原功角阻尼模型上以 2.5 ms 和 1.25 ms 各解一次逐例历史初态。在配对的两个尺度上固定这些初态，沿实测速度传播逐机记忆，评分起报后最多 3 s 的可用动量区间。另对相同未来区间消去自由记忆初态，核查方向是否依赖于初态补偿。
 
 两档冻结初态及自由初态投影三组均须满足稳定 311 例的残差平方和下降至少 5%，全 train 和失稳 35 例的残差增幅各不超过 1%。需保留全名单、满秩和求积资格。通过后再独立登记已知真值和完整预测。该诊断无系数拟合和闭环未来求解，使用范围为 train。
 
-1.25 rad 对照在三组初态下均增加了稳定及失稳样本的动量残差，保留原尺度。[固定初态结果](../reports/kiki_machine_local_topology_angle_scale_20261115_zh.md)
+1.25 rad 对照在三组初态下均增加了稳定及失稳样本的动量残差，保留原尺度。[固定初态结果](../reports/machine_local_topology/kiki_machine_local_topology_angle_scale_20261115_zh.md)
 
 ## 下一项空间对照
 
 检验功角阻尼能否沿不同机器的摆动方向分配。固定原尺度和 \(\rho=2/3\)，令 \(g(s)=1-\rho s/(1+s)\)，\(s_i=\sum_{j\ne i}(q_i-q_j)^2/9\)。取原阻尼的对称半正定平方根 \(L=D_0^{1/2}\)。候选在现有全局阻尼 \(g(s)D_0\) 与逐机阻尼 \(L\operatorname{diag}(g(s_i))L\) 之间用一个共享系数 \(\lambda\in[0,1]\) 插值。两端均保持近平衡阻尼 \(D_0\)、相同的耗散界及原储能。沿实测路径的力对 \(\lambda\) 为仿射，允许复用同一记忆投影和标量拟合。先在同一初始条件上检验全局与逐机真值、解析切线和因果预测，合成门通过后再按完整 TASK3 协议登记。
 
-合成配对通过。完整 TASK3 上，逐机方案通过 val 门，train 的匹配失步窗口仍为 7/35。固定参考刚度模态的附加阻尼在三种初态对照中均提高了稳定组残差。现有结果支持保留逐机方案并检查大摆动恢复力。[逐机评估](../reports/kiki_machine_local_topology_spatial_damping_20261115_zh.md) · [固定模态诊断](../reports/kiki_machine_local_topology_modal_damping_20261115_zh.md)
+合成配对通过。完整 TASK3 上，逐机方案通过 val 门，train 的匹配失步窗口仍为 7/35。固定参考刚度模态的附加阻尼在三种初态对照中均提高了稳定组残差。现有结果支持保留逐机方案并检查大摆动恢复力。[逐机评估](../reports/kiki_machine_local_topology_spatial_damping_20261115_zh.md) · [固定模态诊断](../reports/machine_local_topology/kiki_machine_local_topology_modal_damping_20261115_zh.md)
 
 ## 保持近平衡刚度的恢复力对照
 
@@ -61,7 +61,7 @@ k_e\left[f+\alpha\left(\cos e\,f_2-2\cos(2e)f\right)\right].
 
 用正、负和零修正的已知真值分别检验符号辨识、功率恒等式、解析切线及完整因果预测。固定候选范围与门槛后，再登记真实 train 方向检验。完整 TASK3 的预测和失步阈值沿用原协议，候选由 train 和预登记 val 门确定。
 
-三个合成真值均通过。真实 train 的共享系数为 \(-0.0362184\)，稳定组和失稳组单独用保存统计得到的无约束最优值分别为 \(-0.0856605\) 和 \(-0.0155482\)。共享系数使稳定组动量残差平方和下降 1.40%，失稳组上升 0.28%。完整评估的 train 稳定误报从 3 降至 2。val 的失稳检出从 11/12 降至 9/12，六项轨迹分数从 0.42674 升至 0.43126。依照 val 保留逐机功角阻尼作为研究锚点。[完整评估](../reports/kiki_machine_local_topology_restoring_shape_20261115_zh.md)
+三个合成真值均通过。真实 train 的共享系数为 \(-0.0362184\)，稳定组和失稳组单独用保存统计得到的无约束最优值分别为 \(-0.0856605\) 和 \(-0.0155482\)。共享系数使稳定组动量残差平方和下降 1.40%，失稳组上升 0.28%。完整评估的 train 稳定误报从 3 降至 2。val 的失稳检出从 11/12 降至 9/12，六项轨迹分数从 0.42674 升至 0.43126。依照 val 保留逐机功角阻尼作为研究锚点。[完整评估](../reports/machine_local_topology/kiki_machine_local_topology_restoring_shape_20261115_zh.md)
 
 ## 按摆动方向调节阻尼
 

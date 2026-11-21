@@ -1,6 +1,6 @@
 # 逐机拓扑与记忆闭包结构发现方向
 
-2026-11-15。首轮 S0 已通过已知共享系数下的工程门。[S0 结果](../reports/machine_local_topology_s0_20261115_zh.md)
+2026-11-15。首轮 S0 已通过已知共享系数下的工程门。[S0 结果](../reports/machine_local_topology/machine_local_topology_s0_20261115_zh.md)
 
 ## 研究目标
 
@@ -105,7 +105,7 @@ U(q;a)=\sum_{(i,j)} k_{ij}(a)\,[\cos\delta^0_{ij}-\cos(\eta_{ij}+\delta^0_{ij})-
 
 ### 独立激励验证与首个函数项对照
 
-[起报点交叉诊断](../reports/machine_local_topology_diagnosis_20261115_zh.md)显示联合模型对耦合修正更敏感；[长时域精化](../reports/machine_local_topology_refinement_20261115_zh.md)用 1 秒与 3 秒等权闭环目标，使两个含记忆模型在原合成名单上通过共享系数、记忆核与轨迹门槛。这批真值全部稳定。
+[起报点交叉诊断](../reports/machine_local_topology/machine_local_topology_diagnosis_20261115_zh.md)显示联合模型对耦合修正更敏感；[长时域精化](../reports/machine_local_topology/machine_local_topology_refinement_20261115_zh.md)用 1 秒与 3 秒等权闭环目标，使两个含记忆模型在原合成名单上通过共享系数、记忆核与轨迹门槛。这批真值全部稳定。
 
 下一轮先冻结四种现有模型。无记忆组使用 S1 选中方程，含记忆组使用长时域精化选中方程。用四种新真值系统交叉评价四个模型，以同一仿真初值和输入设计对齐四种真值系统。每种真值预设 24 例，`train=12`、`val=6`、`test=6`，每个划分各含一半低能量和高速激励。执行协议在生成前冻结种子、完整名单和幅值，高速激励以起报后发生失步为设计目标。按冻结规则从轨迹派生标签，保留每个预设事件；历史资格或正负标签覆盖不足时记录失败。各真值系统的尺度来自完整 train，模型沿用 100 ms 初始化与 GPU 双步长 8 秒推理。在完整名单和两类激励上报告轨迹误差、稳定性与覆盖。这轮检验参数迁移和模块作用。
 
@@ -155,7 +155,7 @@ U(q;a)=\sum_{(i,j)} k_{ij}(a)\,[\cos\delta^0_{ij}-\cos(\eta_{ij}+\delta^0_{ij})-
 
 [七条件替换诊断](../reports/machine_local_topology_delayed_origin_20261115_zh.md)显示，固定同一真值起报隐态时，仅换真值阻尼即恢复合成 train 的 6/6 和 val 的 3/3 个匹配失步窗口。给定学习系数，单换起报隐态没有恢复。全真值方程用原因果估计可恢复全部窗口。因此将阻尼作为下一项单因素候选。
 
-[单参数因果拟合](../reports/machine_local_topology_delayed_damping_20261115_zh.md)仅用可见 train 轨迹评估 19 次目标，从 1.323438 拟合到 0.997339，每次按候选阻尼重新估计 100 ms 隐态。合成 train 与 val 恢复全部匹配失步窗口。val 和 test 在 8 秒各判对 6/6，三划分数值资格完整。该结果允许准备真实 TASK3 的独立阻尼对照。
+[单参数因果拟合](../reports/machine_local_topology/machine_local_topology_delayed_damping_20261115_zh.md)仅用可见 train 轨迹评估 19 次目标，从 1.323438 拟合到 0.997339，每次按候选阻尼重新估计 100 ms 隐态。合成 train 与 val 恢复全部匹配失步窗口。val 和 test 在 8 秒各判对 6/6，三划分数值资格完整。该结果允许准备真实 TASK3 的独立阻尼对照。
 
 真实对照锚定原 T0M1 第 12 步检查点、原记忆半径、先验权重 1e-6 和冻结 train 归一化尺度。只从原正阻尼尺度出发，在对数空间左右各 log 2，用同一固定九点加至多 24 次有界细化的程序优化完整 train 346 的可见 1/3 秒轨迹损失。每次候选从原因果历史估计隐态。刚度和记忆参数固定。真实参数由真实 train 确定，合成证据用于选择参数组和拟合方法。
 

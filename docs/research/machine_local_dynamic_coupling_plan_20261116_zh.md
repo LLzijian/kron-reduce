@@ -33,4 +33,4 @@
 
 ## 共同尺度的实验结论
 
-固定、动态、静态恢复力三组合成真值均选中匹配的网格候选，完整预测通过门槛。真实 train 诊断中，两档因果记忆下的共同耦合使常值阻尼和逐机阻尼的失稳组残差平方和分别上升 6.95% 和 7.28%。自由记忆投影下分别上升 16.88% 和 17.26%。当前共同尺度停在路径诊断。后续独立检查零和空间分配，先用已知真值确认共同尺度与支路重分配能被区分。[合成对照](../reports/machine_local_topology_dynamic_coupling_20261116_zh.md) · [真实 train 诊断](../reports/kiki_machine_local_topology_dynamic_coupling_20261116_zh.md)
+固定、动态、静态恢复力三组合成真值均选中匹配的网格候选，完整预测通过门槛。真实 train 诊断中，两档因果记忆下的共同耦合使常值阻尼和逐机阻尼的失稳组残差平方和分别上升 6.95% 和 7.28%。自由记忆投影下分别上升 16.88% 和 17.26%。当前共同尺度停在路径诊断。后续独立检查零和空间分配，先用已知真值确认共同尺度与支路重分配能被区分。[合成对照](../reports/machine_local_topology/machine_local_topology_dynamic_coupling_20261116_zh.md) · [真实 train 诊断](../reports/machine_local_topology/kiki_machine_local_topology_dynamic_coupling_20261116_zh.md)
