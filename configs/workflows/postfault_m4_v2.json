@@ -1,0 +1,19 @@
+{
+  "workflow": "postfault_m4_v2",
+  "experiment": "postfault_m4_v2",
+  "evidence_contract_version": 2,
+  "initial_stage": "scaffold",
+  "stages": ["scaffold", "analysis"],
+  "transitions": {"scaffold": "analysis"},
+  "terminal_stages": ["analysis"],
+  "approval_required": ["analysis"],
+  "stage_evidence_contracts": {
+    "analysis": {
+      "required_fields": ["status", "process_status", "source_commit", "plan_sha256", "claim_boundary", "artifact_manifest", "archive_artifact_opens", "fits", "gradients", "optimizer_updates", "new_rollouts", "new_simulations", "original_data_cache_opens", "test_trajectory_reads"],
+      "allowed_values": {
+        "archive_artifact_opens": [13], "fits": [0], "gradients": [0], "optimizer_updates": [0],
+        "new_rollouts": [0], "new_simulations": [0], "original_data_cache_opens": [0], "test_trajectory_reads": [0]
+      }
+    }
+  }
+}

@@ -64,6 +64,28 @@
     }
   },
   "development_evaluations": {
+    "postfault_m4_v2_20261121": {
+      "status": "active",
+      "experiment": "postfault_m4_v2",
+      "authority": "explicit_operator_archived_zero_rollout_m4_v2",
+      "plan_path": "configs/experiments/postfault_m4_v2.toml",
+      "plan_sha256": "15702d581f0371bab5dba79cf589a4c102f8ecce751c2a573a690495561311e2",
+      "fit_attempts": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "allowed_roles": [
+        "train",
+        "val"
+      ],
+      "train_cases": 346,
+      "val_cases": 107,
+      "test_cases": 0,
+      "archive_artifact_opens": 13,
+      "original_data_cache_opens": 0,
+      "new_rollouts": 0,
+      "gradients": 0,
+      "optimizer_updates": 0
+    },
     "postfault_m4_v1_20261121": {
       "status": "consumed",
       "allowed_roles": [
