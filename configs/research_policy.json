@@ -5753,7 +5753,7 @@
       "result_receipt_sha256": "d18e5e83b3559c2ae6ee050898b19bbaa9377223a16be648b014968265fc2770"
     },
     "task3_unsettled_15s_v1_continue_20261122": {
-      "status": "active",
+      "status": "consumed",
       "experiment": "task3_unsettled_15s_v1",
       "authority": "explicit_user_extend_all_previous_unsettled_to_15s_20261122",
       "allowed_roles": ["val", "test", "blind_v2"],
@@ -5778,7 +5778,12 @@
       "frozen_model_manifest": {
         "path": "configs/proposals/task3_unsettled_15s_v1_continue.json",
         "sha256": "1ced93cecf643cf2e0a6aa3507880ccd779f43b925e82de13f1aa173c20f52ca"
-      }
+      },
+      "process_status": "PASS",
+      "run_id": "task3_unsettled_15s_v1-reevaluate-20261121T174426106655Z-8f0b6862-09b10a2e",
+      "result_manifest_sha256": "98a5867e758d82adcb31f3add366083e98f08899d27310113aea618ec0202c86",
+      "result_receipt_path": "docs/reports/task3_unsettled_15s_v1_20261122_evidence.json",
+      "result_receipt_sha256": "0dd0c5d0812475a1b9eb2356c23ffb7a3e6633405d1df1aa60027721b528c29b"
     },
     "unified_discovery_m3b_test_v1_20261121": {
       "status": "consumed",

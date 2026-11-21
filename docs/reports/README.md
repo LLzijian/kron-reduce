@@ -17,6 +17,8 @@ compares overall and branch-dependent changes and diagnoses their history initia
 
 [TASK3 文献方法与当前模型的三组名单对照](task3_three_cohort_comparison_20261121_zh.md)并列 `val`、`test` 与 `blind_v2` 的归档评分，复核逐例判别口径并汇总轨迹误差。
 
+[TASK3 三组名单的 15 秒未决复评](task3_unsettled_15s_v1_20261122_zh.md)记录 311 个模型与事件组合及按需延长预测后的判定变化。
+
 ## Report contract
 
 Each new report should state:
