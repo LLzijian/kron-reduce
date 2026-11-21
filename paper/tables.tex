@@ -1,9 +1,10 @@
 % Each command places one IEEE table. Decimal values are rounded from the
 % registered result receipts or their linked summaries as indicated below.
+% Evidence receipts are identified by filename under docs/reports.
 
 % Sources: docs/protocols/unified_discovery_m3_v1_zh.md,
-% docs/reports/postfault_structure/unified_discovery_m3_v1_20261120_evidence.json,
-% docs/reports/postfault_structure/unified_discovery_m3b_v1_20261121_evidence.json.
+% unified_discovery_m3_v1_20261120_evidence.json,
+% unified_discovery_m3b_v1_20261121_evidence.json.
 \newcommand{\OperatorTable}{%
 \begin{table}[!t]
 \centering
@@ -40,9 +41,9 @@ The three closed-loop fits had no unresolved Validation Set events.}
 \end{table}%
 }
 
-% Sources: docs/reports/topology_memory/topology_memory_rom_synthetic_20261116_evidence.json,
-% docs/reports/topology_memory/topology_memory_rom_causal_20261116_evidence.json,
-% docs/reports/topology_memory/topology_memory_rom_branch_init_v1_20261117_evidence.json.
+% Sources: topology_memory_rom_synthetic_20261116_evidence.json,
+% topology_memory_rom_causal_20261116_evidence.json,
+% topology_memory_rom_branch_init_v1_20261117_evidence.json.
 \newcommand{\SyntheticTable}{%
 \begin{table*}[!t]
 \centering
@@ -91,9 +92,9 @@ history scale before center-of-inertia projection.}
 \end{table*}%
 }
 
-% Sources: docs/reports/postfault_structure/task3_three_cohort_comparison_20261121_evidence.json,
+% Sources: task3_three_cohort_comparison_20261121_evidence.json,
 % all trajectories with scores.blind_v2, and
-% docs/reports/postfault_structure/blind_confirmation_m5_v1_20261121_evidence.json.
+% blind_confirmation_m5_v1_20261121_evidence.json.
 \newcommand{\TrajectoryTable}{%
 \begin{table*}[!t]
 \centering
@@ -151,7 +152,7 @@ parentheses show qualified/total events.}
 \end{table*}%
 }
 
-% Source: docs/reports/postfault_structure/blind_confirmation_m5_v1_20261121_evidence.json,
+% Source: blind_confirmation_m5_v1_20261121_evidence.json,
 % paired-bootstrap metrics for the 2.5 ms step.
 \newcommand{\BootstrapTable}{%
 \begin{table}[!t]
@@ -186,8 +187,8 @@ observed window up to 500\,ms after forecast origin, for each of the
 \end{table}%
 }
 
-% Sources: docs/reports/postfault_structure/task3_three_cohort_comparison_20261121_evidence.json
-% (scores_only) and docs/reports/postfault_structure/blind_confirmation_m5_v1_20261121_evidence.json.
+% Sources: task3_three_cohort_comparison_20261121_evidence.json
+% (scores_only) and blind_confirmation_m5_v1_20261121_evidence.json.
 \newcommand{\ClassifierTable}{%
 \begin{table}[!t]
 \centering
@@ -219,9 +220,9 @@ predicted trajectories.}
 \end{table}%
 }
 
-% Sources: docs/reports/postfault_structure/postfault_m4_v1_20261121_evidence.json,
-% docs/reports/postfault_structure/postfault_m4_v2_20261121_evidence.json, and
-% docs/reports/postfault_structure/blind_confirmation_m5_v1_20261121_evidence.json.
+% Sources: postfault_m4_v1_20261121_evidence.json,
+% postfault_m4_v2_20261121_evidence.json, and
+% blind_confirmation_m5_v1_20261121_evidence.json.
 % Validation modal and cutset analysis used the G2 snapshot identical to
 % the selected ES-ROM checkpoint. Soft-2R shares Hard-R equilibrium spectra.
 \newcommand{\PhysicsTable}{%
