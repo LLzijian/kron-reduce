@@ -5722,6 +5722,32 @@
     "kiki_state_port_train_v1": "8db4d1a4ab0435947bef6927e19d9645ba0f086724d7657f0c0751374c50a917"
   },
   "official_test_evaluations": {
+    "task3_unsettled_15s_v1_20261122": {
+      "status": "active",
+      "experiment": "task3_unsettled_15s_v1",
+      "authority": "explicit_user_extend_all_previous_unsettled_to_15s_20261122",
+      "allowed_roles": ["val", "test", "blind_v2"],
+      "train_cases": 0,
+      "val_cases": 54,
+      "test_cases": 53,
+      "blind_cases": 56,
+      "pairs": 311,
+      "forecast_event_step_attempts": 370,
+      "fit_attempts": 0,
+      "fits": 0,
+      "gradients": 0,
+      "optimizer_updates": 0,
+      "max_executions": 1,
+      "retry_allowed": false,
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "plan_path": "configs/proposals/task3_unsettled_15s_v1.json",
+      "plan_sha256": "c040ad7287129897de01d50c8d8825ecd69f2ae769943d663438df831f5e28b0",
+      "frozen_model_manifest": {
+        "path": "configs/proposals/task3_unsettled_15s_v1.json",
+        "sha256": "c040ad7287129897de01d50c8d8825ecd69f2ae769943d663438df831f5e28b0"
+      }
+    },
     "unified_discovery_m3b_test_v1_20261121": {
       "status": "consumed",
       "experiment": "unified_discovery_m3b_test_v1",
