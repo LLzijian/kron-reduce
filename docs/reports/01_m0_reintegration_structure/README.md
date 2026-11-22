@@ -4,11 +4,12 @@ Round 5 图结构对照和三阶报告记录了不同来源轨迹上的误差。
 
 ## 历次报告
 
-- [M0 三阶模型阻尼恢复：方法、消融结果与接受结论](m0_damping_recovery_results_zh.md)。 M0 damping recovery audit
-- [Round 5 method and results: graph-structured M0](m0_graph_round5_method_results_en.md)。 Round 5 method/results, English
-- [Round 5 方法与结果报告：图结构 M0](m0_graph_round5_method_results_zh.md)。 Round 5 method/results, Chinese
-- [三阶 M0（M0-3/M0-3S/M0-3L）单种子方法与结果报告](m0_third_order_highorder_results_zh.md)。 Third-order high-order-data results
-- [应力门控暂态电势三阶 M0：方法、单种子验证结果与接受结论](m0_transient_emf_third_order_results_zh.md)。 Transient-EMF third-order results
+- 数据质量与单轨迹迁移：[运行归档说明](../../../results/backup/01_m0_reintegration_structure/01_data_quality_audit.DESCRIPTION.md)
+- 暂态电势重积分：[方法与结果报告](m0_transient_emf_third_order_results_zh.md) · [运行归档说明](../../../results/backup/01_m0_reintegration_structure/02_transient_emf_reintegration.DESCRIPTION.md)
+- M0-GMD-PM 里程碑：[相关三阶模型报告](m0_third_order_highorder_results_zh.md) · [里程碑归档说明](../../../results/backup/01_m0_reintegration_structure/03_gmd_pm_milestone.DESCRIPTION.md)
+- M0 三阶阻尼恢复：[报告](m0_damping_recovery_results_zh.md)
+- Round 5 图结构 M0：[中文报告](m0_graph_round5_method_results_zh.md) · [English report](m0_graph_round5_method_results_en.md) · [运行配置](../../../configs/experiments/paper_m0_graph_round5_single_seed.toml) · [验证归档说明](../../../results/backup/00_early_physics_baselines/D_baseline_validations.DESCRIPTION.md)
+- 冻结的 M0-GMD 骨架：[目录说明与原运行记录](../../../results/backup/01_m0_reintegration_structure/m0_gmd_horizon_balanced_backbone/DESCRIPTION.md) · [里程碑归档说明](../../../results/backup/01_m0_reintegration_structure/03_gmd_pm_milestone.DESCRIPTION.md)
 
 其他回执与附件
 
@@ -16,6 +17,17 @@ Round 5 图结构对照和三阶报告记录了不同来源轨迹上的误差。
 
 ## 任务组归档
 
-[任务组总说明和小包入口](../../../results/SUMMARY_01_m0_reintegration_structure.md)
+[任务组总说明](../../../results/SUMMARY_01_m0_reintegration_structure.md)
+
+<details>
+<summary>按小任务找归档（3 个 ZIP）</summary>
+
+| 小任务与包内起读文件 | 文件 |
+|---|---|
+| [01 · 数据质量与单轨迹迁移](../../../results/backup/01_m0_reintegration_structure/01_data_quality_audit.DESCRIPTION.md) | [ZIP](../../../results/backup/01_m0_reintegration_structure/01_data_quality_audit.zip) |
+| [02 · M0-3EG 暂态电势重积分](../../../results/backup/01_m0_reintegration_structure/02_transient_emf_reintegration.DESCRIPTION.md) | [ZIP](../../../results/backup/01_m0_reintegration_structure/02_transient_emf_reintegration.zip) |
+| [03 · M0-GMD-PM 重积分里程碑](../../../results/backup/01_m0_reintegration_structure/03_gmd_pm_milestone.DESCRIPTION.md) | [ZIP](../../../results/backup/01_m0_reintegration_structure/03_gmd_pm_milestone.zip) |
+
+</details>
 
 [返回成果索引](../README.md)

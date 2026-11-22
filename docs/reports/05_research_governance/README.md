@@ -4,12 +4,8 @@
 
 ## 数据源与归档记录
 
-- [聚类、主数据源与工程治理决策](research_governance_20261023_zh.md) · [核验回执](research_governance_20261023_verification.json)。 Clustering pause, mandatory kiki registry, test exposure and automated engineering checks
-
-其他回执与附件
-
-- [retired_layout_20261121t093836z_evidence.json](retired_layout_20261121t093836z_evidence.json)
-- [data_source_audit_20261023.ipynb](data_source_audit_20261023.ipynb)
-- [data_source_audit_20261023.json](data_source_audit_20261023.json)
+- [数据源核验笔记](data_source_audit_20261023.ipynb) · [核验结果](data_source_audit_20261023.json) · [现行 TASK3 对照规范](../../protocols/kiki_official_train_test_v1_zh.md)
+- [聚类、主数据源与工程治理决策](research_governance_20261023_zh.md) · [研究政策](../../../configs/research_policy.json) · [核验回执](research_governance_20261023_verification.json)
+- [原 experiments 和 reports 的归档核验回执](retired_layout_20261121t093836z_evidence.json)
 
 [返回成果索引](../README.md)
