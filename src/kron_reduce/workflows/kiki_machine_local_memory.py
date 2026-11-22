@@ -14,6 +14,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 WORKFLOW = "kiki_machine_local_memory_v1"
@@ -41,7 +42,7 @@ def authorize(root, stage):
         raise RuntimeError("active single-use TASK3 scope differs")
     for field in ("plan", "review"):
         verify_bound_file(root, auth[f"{field}_path"], auth[f"{field}_sha256"])
-    plan, review = (json.loads((root/auth[f"{field}_path"]).read_text(encoding="utf-8")) for field in ("plan", "review"))
+    plan, review = (json.loads((root/locate_report(root, auth[f"{field}_path"], auth[f"{field}_sha256"])).read_text(encoding="utf-8")) for field in ("plan", "review"))
     if (plan["stage"] != stage or auth["operation_limits"] != plan["operation_limits"]
             or review.get("approved") is not True or review.get("plan_sha256") != auth["plan_sha256"]
             or review.get("implementation_bindings") != plan["implementation_bindings"]):
@@ -60,7 +61,7 @@ def authorize(root, stage):
 
     source = plan["source_contract"]
     verify_bound_file(root, source["path"], source["sha256"])
-    source_plan = json.loads((root/source["path"]).read_text(encoding="utf-8"))
+    source_plan = json.loads((root/locate_report(root, source["path"], source["sha256"])).read_text(encoding="utf-8"))
     if stage == "fit" and plan["backbone"] != source_plan["backbone"]:
         raise RuntimeError("starting backbone differs from the registered TASK3 source")
     if stage == "test" and plan["frozen_model_manifest"] != auth["frozen_model_manifest"]:

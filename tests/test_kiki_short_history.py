@@ -17,6 +17,7 @@ from kron_reduce.models.nonlinear_latent import (
     fixed_quadratic_basis,
 )
 from kron_reduce.physics.coordinates import coi_project
+from project_harness.report_storage import locate_report
 from kron_reduce.workflows.kiki_short_history import (
     CANDIDATES,
     SEEDS,
@@ -228,7 +229,7 @@ def test_synthetic_runner_accepts_evidence_without_real_promotion(tmp_path, monk
     for relative in sources:
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(repository / relative, target)
+        shutil.copyfile(repository / locate_report(repository, relative), target)
     # The isolated harness fixture has no Git repository; numerical work and
     # the real evidence validator are deliberately not mocked.
     monkeypatch.setattr(runner, "git_head", lambda _root: "a" * 40)
@@ -309,7 +310,7 @@ def test_development_approval_is_exact_and_not_a_delivery_certificate(tmp_path):
                  "docs/protocols/kiki_a04_development_authorization_20261023_zh.md"):
         target = tmp_path/path
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(repository/path, target)
+        shutil.copyfile(repository / locate_report(repository, path), target)
     config = tomllib.loads((repository/"configs/experiments/paper_kiki_a04_short_history.toml").read_text())
     # Explicit approved snapshot from the execution commit. The active policy
     # is consumed; copying it must never reactivate production authorization.
@@ -344,13 +345,15 @@ def test_consumed_development_approval_cannot_be_reused(tmp_path):
     for relative in ("configs/project_manifest.json", "configs/research_policy.json"):
         target = tmp_path/relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(repository/relative, target)
+        shutil.copyfile(repository / locate_report(repository, relative), target)
     policy = json.loads((tmp_path/"configs/research_policy.json").read_text(encoding="utf-8"))
     authorization = policy["development_evaluations"]["kiki_a04_development_20261023"]
     assert authorization["status"] == "consumed"
     assert authorization["final_fit_attempts"] == 12
     assert authorization["final_confirmed_optimizer_steps"] == 960
-    assert sha256_file(repository/authorization["result_receipt_path"]) == authorization["result_receipt_sha256"]
+    receipt_sha = authorization["result_receipt_sha256"]
+    receipt_path = locate_report(repository, authorization["result_receipt_path"], receipt_sha)
+    assert sha256_file(repository / receipt_path) == receipt_sha
     config = tomllib.loads((repository/"configs/experiments/paper_kiki_a04_short_history.toml").read_text(encoding="utf-8"))
     manifest = json.loads((tmp_path/"configs/project_manifest.json").read_text(encoding="utf-8"))
     # Refuse before even opening the approval protocol or any source payload.
@@ -415,7 +418,7 @@ def test_real_controller_freezes_before_labels_and_resumes_completed_fit(tmp_pat
     for relative in copied:
         target = tmp_path/relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(repository/relative, target)
+        shutil.copyfile(repository / locate_report(repository, relative), target)
     closure, original = samples()
     train = tuple(replace(s, source_dataset="ieee39_postfault") for s in original)
     val = (replace(train[0], event_id="val0", fault_line="val-line", role="val"),)

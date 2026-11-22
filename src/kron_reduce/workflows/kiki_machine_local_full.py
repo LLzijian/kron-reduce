@@ -12,6 +12,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 WORKFLOW = 'kiki_machine_local_full_v1'
@@ -33,8 +34,8 @@ def authorize(root, stage):
         raise RuntimeError('scope not active or differs')
     verify_bound_file(root, auth['plan_path'], auth['plan_sha256'])
     verify_bound_file(root, auth['review_path'], auth['review_sha256'])
-    plan = json.loads((root/auth['plan_path']).read_text(encoding='utf-8'))
-    review = json.loads((root/auth['review_path']).read_text(encoding='utf-8'))
+    plan = json.loads((root/locate_report(root, auth['plan_path'], auth['plan_sha256'])).read_text(encoding='utf-8'))
+    review = json.loads((root/locate_report(root, auth['review_path'], auth['review_sha256'])).read_text(encoding='utf-8'))
     if (review.get('approved') is not True or review['plan_sha256'] != auth['plan_sha256']
             or review['implementation_bindings'] != plan['implementation_bindings']):
         raise RuntimeError('exact implementation scientific review required')

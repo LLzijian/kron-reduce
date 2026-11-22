@@ -15,6 +15,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 WORKFLOW = "kiki_machine_local_topology_v1"
@@ -79,7 +80,7 @@ def authorize(root, stage, *, workflow=WORKFLOW):
         raise RuntimeError("active single-use TASK3 scope differs")
     for field in ("plan", "review"):
         verify_bound_file(root, auth[f"{field}_path"], auth[f"{field}_sha256"])
-    plan, review = (json.loads((root / auth[f"{field}_path"]).read_text(encoding="utf-8"))
+    plan, review = (json.loads((root / locate_report(root, auth[f"{field}_path"], auth[f"{field}_sha256"])).read_text(encoding="utf-8"))
                     for field in ("plan", "review"))
     if (plan["stage"] != stage or plan["device"] != "cuda" or auth["operation_limits"] != plan["operation_limits"]
             or review.get("approved") is not True or review.get("plan_sha256") != auth["plan_sha256"]
@@ -102,7 +103,7 @@ def authorize(root, stage, *, workflow=WORKFLOW):
 
     source = plan["source_contract"]
     verify_bound_file(root, source["path"], source["sha256"])
-    source_plan = json.loads((root / source["path"]).read_text(encoding="utf-8"))
+    source_plan = json.loads((root / locate_report(root, source["path"], source["sha256"])).read_text(encoding="utf-8"))
     if plan["backbone"] != source_plan["backbone"]:
         raise RuntimeError("starting backbone differs from the registered TASK3 source")
     if stage == "test":
@@ -110,7 +111,7 @@ def authorize(root, stage, *, workflow=WORKFLOW):
         if fit_auth["status"] != "consumed" or plan["fit_plan_sha256"] != fit_auth["plan_sha256"]:
             raise RuntimeError("test requires the completed paired fit")
         verify_bound_file(root, fit_auth["plan_path"], fit_auth["plan_sha256"])
-        fit_plan = json.loads((root / fit_auth["plan_path"]).read_text(encoding="utf-8"))
+        fit_plan = json.loads((root / locate_report(root, fit_auth["plan_path"], fit_auth["plan_sha256"])).read_text(encoding="utf-8"))
         if plan["settings"] != fit_plan["settings"]:
             raise RuntimeError("test settings differ from the frozen fit plan")
         if spatial:

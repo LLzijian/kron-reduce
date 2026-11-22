@@ -36,6 +36,7 @@ from project_harness.evidence import sha256_file
 from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.manifest import load_manifest
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment, _verify_development_text_bindings
 
 AUTH = "kiki_a16_development_20261025"
@@ -149,7 +150,7 @@ def authorization(root, experiment, config):
 
 
 def bound_metadata(root, config):
-    plan = validate_plan(read_json(root / config["read_plan_path"]))
+    plan = validate_plan(read_json(root / locate_report(root, config["read_plan_path"], config["read_plan_sha256"])))
     if (plan["authorization"] != AUTH or plan["source_run_id"] != RUN
             or plan["population"]["cache_rows"] != plan["events"]
             or len(plan["population"]["allocated_slots"]) != 268
@@ -491,7 +492,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
     config = tomllib.loads((root / "configs/experiments" / experiment["config"]).read_text(encoding="utf-8"))
     approval = authorization(root, experiment, config)
     plan = bound_metadata(root, config)
-    compute = read_json(root / config["compute_plan_path"])
+    compute = read_json(root / locate_report(root, config["compute_plan_path"], config["compute_plan_sha256"]))
     budget, receipt = reserve(root, run_id, config)
     try:
         summary = _execute(root, result_dir, config, plan, compute, receipt)

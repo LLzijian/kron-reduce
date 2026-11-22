@@ -104,7 +104,8 @@ def authorize(root):
                          (PROTOCOL, approval.get("protocol_sha256")),
                          (review_path, approval.get("review_sha256")), *bindings.items()]:
         verify_bound_file(root, path, digest)
-    plan, review = _read_json(root, PLAN), _read_json(root, review_path)
+    plan, review = (_read_json(root, PLAN, approval["plan_sha256"]),
+                    _read_json(root, review_path, approval["review_sha256"]))
     expected = {"scope": SCOPE, "protocol_path": PROTOCOL,
                 "protocol_sha256": approval["protocol_sha256"], "implementation_bindings": bindings}
     if (any(plan.get(k) != v for k, v in expected.items()) or review.get("approved") is not True

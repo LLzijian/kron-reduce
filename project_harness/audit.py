@@ -199,14 +199,14 @@ def audit_stability_certificate_names(root: Path) -> list[dict]:
 
 
 def audit_artifact_layout(root: Path) -> list[dict]:
-    """Keep retired top-level artifact directories out of active checkouts."""
+    """Keep retired artifact and experiment-document directories out of checkouts."""
     return [
         {
             "severity": "ERROR",
             "check": "artifact_layout",
             "message": f"retired artifact path {name}/. Store reports in docs/reports and run artifacts in results.",
         }
-        for name in ("experiments", "reports")
+        for name in ("experiments", "reports", "docs/research", "docs/protocols")
         if (root / name).exists()
     ]
 

@@ -1,6 +1,6 @@
 # KIKI IEEE 39 节点故障后数据 `kiki_ieee39_blind_v2`
 
-本版本包含 94 个 ANDES 2.0.0 原阶仿真事件，其中 62 个稳定、32 个失稳，覆盖 21 个故障组。所有事件位于同一运行点，采用三相总线故障和恢复后的拓扑。M5 已用这批数据完成独立盲测，后续任务可将它作为**已评估的冻结对照集**，用于结果复核、物理分析和冻结模型比较。仓库内的新科学比较沿用项目的登记与预算规则。[封存回执](../../docs/reports/10_postfault_structure/blind_dataset_build_m5_v1_20261121_evidence.json) · [M5 结果](../../docs/reports/10_postfault_structure/blind_confirmation_m5_v1_20261121_zh.md)
+本版本包含 94 个 ANDES 2.0.0 原阶仿真事件，其中 62 个稳定、32 个失稳，覆盖 21 个故障组。所有事件位于同一运行点，采用三相总线故障和恢复后的拓扑。M5 已用这批数据完成独立盲测，后续任务可将它作为**已评估的冻结对照集**，用于结果复核、物理分析和冻结模型比较。仓库内的新科学比较沿用项目的登记与预算规则。[封存回执](../../docs/reports/10_postfault_structure/m5_blind/_sealed/blind_dataset_build_m5_v1_20261121_evidence.json) · [M5 结果](../../docs/reports/10_postfault_structure/m5_blind/README.md#doc-a2fdc902d881)
 
 ## 找到并校验数据
 
@@ -40,7 +40,7 @@
 | `/events/<event_id>/full_state` · `algebraic_state` | `(T, 220)` · `(T, 479)` | 列含义分别见 HDF5 根属性 `state_mapping`、`algebraic_names`，两者都是 JSON 字符串。 |
 | `/inertia` · `/equilibrium/delta` · `/equilibrium/Pm` | 各 `(10,)` | 共享的系统基准惯量系数、平衡点功角和机械输入。额定角速度见根属性 `omega_s`。 |
 
-失步真值要求功角跨度大于 `π rad` 且最大质心相对转速幅值大于 `0.02 pu`，连续 5 帧满足。失稳记录止于确认帧。稳定记录保留 15 秒并通过原仿真器的尾段稳定判据。62/32 是生成配额，适合报告分组性能。[评估协议](../../docs/protocols/blind_confirmation_m5_v1_zh.md)
+失步真值要求功角跨度大于 `π rad` 且最大质心相对转速幅值大于 `0.02 pu`，连续 5 帧满足。失稳记录止于确认帧。稳定记录保留 15 秒并通过原仿真器的尾段稳定判据。62/32 是生成配额，适合报告分组性能。[评估协议](../../docs/reports/10_postfault_structure/m5_blind/README.md#doc-57be1d11b4ed)
 
 ## Python 读取示例
 
@@ -77,4 +77,4 @@ with h5py.File(directory / "dataset.h5", "r") as store:
     inputs = causal_input(store, event_ids[0])
 ```
 
-TASK3 评分从索引 10 的起报点开始对齐。后续真值取索引 11 到 `min(T, 811) - 1`。稳定事件覆盖起报后 8 秒，失稳事件按实际有效窗计分。原始标签、失步时间、故障组、未来数据、`Pe` 和电压属于评分或诊断侧。复用已有盲测结果时，可以直接读取 [M5 报告和预测回执](../../docs/reports/10_postfault_structure/blind_confirmation_m5_v1_20261121_zh.md)。
+TASK3 评分从索引 10 的起报点开始对齐。后续真值取索引 11 到 `min(T, 811) - 1`。稳定事件覆盖起报后 8 秒，失稳事件按实际有效窗计分。原始标签、失步时间、故障组、未来数据、`Pe` 和电压属于评分或诊断侧。复用已有盲测结果时，可以直接读取 [M5 报告和预测回执](../../docs/reports/10_postfault_structure/m5_blind/README.md#doc-a2fdc902d881)。

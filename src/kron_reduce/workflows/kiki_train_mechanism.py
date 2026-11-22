@@ -20,6 +20,7 @@ from kron_reduce.workflows.kiki_short_history import shared_budget_directory
 from kron_reduce.workflows.nonlinear_history_learning import _write
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import assert_clean, git_head, status_lines
+from project_harness.report_storage import locate_report
 
 AUTH = "kiki_a09_development_20261024"
 SEEDS = (324, 325, 326)
@@ -55,9 +56,9 @@ def authorization(root, experiment, config):
         raise PermissionError("A09 experiment identity changed")
     for path_key, sha_key in (("development_protocol_path", "approval_protocol_sha256"),
                               ("design_path", "design_sha256")):
-        if sha256_file(root/config[path_key]) != config[sha_key]:
+        if sha256_file(root/locate_report(root, config[path_key], config[sha_key])) != config[sha_key]:
             raise PermissionError("A09 approved document bytes changed")
-    if sha256_file(root/approval["scientific_review_path"]) != approval["scientific_review_sha256"]:
+    if sha256_file(root/locate_report(root, approval["scientific_review_path"], approval["scientific_review_sha256"])) != approval["scientific_review_sha256"]:
         raise PermissionError("A09 Astra scientific approval binding changed")
     return approval
 

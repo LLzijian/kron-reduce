@@ -2,18 +2,19 @@
 
 图同调 M0-3EG 对照记录了七节点聚合与十机直接建模的证据。AFSD v3/v4 进一步核对结构选择的有效性。v4 在真实 F1 上记录 SOURCE_EXCITATION_CONFOUNDED，合成门和真实数据结论见各报告。
 
-## 历次报告
+## 实验与研究记录
 
-- 图粗化 M0-3EG：[F2/F3 单 seed 报告](graph_coherent_m0_3eg_results_zh.md) · [运行归档说明](../../../results/backup/02_afsd_structure_discovery/J_cluster_graph_coherent.DESCRIPTION.md)
-- AFSD v3 联合选择有效性：[研究报告](m0_afsd_v3_joint_selection_validity_research_report_zh.md) · [协议](../../../docs/protocols/m0_afsd_v3_joint_selection_validity.md) · [方案配置](../../../configs/experiments/paper_m0_afsd_v3_joint_selection_validity_f1_seed324.toml) · [运行归档说明](../../../results/backup/02_afsd_structure_discovery/C_afsd_v3_joint_selection_validity.DESCRIPTION.md)
-- AFSD v4 图商空间与物理模块发现：[研究报告](m0_afsd_v4_graph_compositional_discovery_research_report_zh_20260818.md) · [协议](../../../docs/protocols/m0_afsd_v4_graph_compositional_discovery.md) · [方案配置](../../../configs/experiments/paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml) · [运行归档说明](../../../results/backup/02_afsd_structure_discovery/D_afsd_v4_graph_module.DESCRIPTION.md)
-- AFSD v1–v2、v5–v8 与激励条件选择：[各轮归档说明索引](../../../results/README.md#backup-包一览)（按本主题的归档目录查看对应 `.DESCRIPTION.md`）
-
-## 图件与复算
-
-**AFSD v3 选择有效性图件**
-
-[fig1_afsd_v3_evidence.pdf](figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.pdf) · [fig1_afsd_v3_evidence.png](figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.png) · [fig1_afsd_v3_evidence.svg](figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.svg) · [fig1_afsd_v3_evidence.tiff](figures/m0_afsd_v3_joint_selection_validity/fig1_afsd_v3_evidence.tiff) · [figure_contract_and_qa.md](figures/m0_afsd_v3_joint_selection_validity/figure_contract_and_qa.md) · [plot_afsd_v3_evidence.py](figures/m0_afsd_v3_joint_selection_validity/plot_afsd_v3_evidence.py) · [source_excitation_fault_lines.csv](figures/m0_afsd_v3_joint_selection_validity/source_excitation_fault_lines.csv) · [v2_conditional_rollout_metrics.csv](figures/m0_afsd_v3_joint_selection_validity/v2_conditional_rollout_metrics.csv) · [validate_report_evidence.py](figures/m0_afsd_v3_joint_selection_validity/validate_report_evidence.py)
+| 轮次与材料 | 同轮资料 |
+|---|---|
+| [graph_coherent_m0_3eg · 图论粗化能否提升基础 M0-3EG：F2/F3 单 seed 研究节点报告](graph_coherent_m0_3eg/README.md) | 报告与结果 · 运行或归档 |
+| [m0_afsd_v3_joint_selection_validity · 数据资格先于阶次选择：M0-AFSD 电力系统动态等值的联合选择有效性研究报告](m0_afsd_v3_joint_selection_validity/README.md) | 执行协议 · 报告与结果 · 复核与历史版本 · 附记 · 运行或归档 |
+| [m0_afsd_v4_graph_compositional_discovery · 面向未知电力系统的图商空间与物理模块联合发现：M0-AFSD v4 关键节点研究报告](m0_afsd_v4_graph_compositional_discovery/README.md) | 执行协议 · 报告与结果 · 运行或归档 |
+| [m0_afsd_structure_selection · Data-level structure selection v1](m0_afsd_structure_selection/README.md) | 执行协议 |
+| [m0_afsd_v1_first_round · M0-AFSD protocol](m0_afsd_v1_first_round/README.md) | 执行协议 |
+| [m0_afsd_v2_module_selection · M0-AFSD v2 module-selection protocol](m0_afsd_v2_module_selection/README.md) | 执行协议 · 运行或归档 |
+| [m0_afsd_v5_unified_quotient_selection · M0-AFSD v5 unified quotient selection protocol](m0_afsd_v5_unified_quotient_selection/README.md) | 执行协议 |
+| [m0_esc_v1 · M0-ESC v1 protocol: excitation-conditioned selection and composition](m0_esc_v1/README.md) | 执行协议 |
+| [ten_machine_physical_discovery · 原始 10 机 M0 主线与端口结构发现协议](ten_machine_physical_discovery/README.md) | 执行协议 |
 
 ## 任务组归档
 

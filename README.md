@@ -21,26 +21,26 @@ HDF5 verification, and a causal Python reader example.
 Spatial clustering is paused: retain ten generator nodes while learning and
 pruning the dynamical/latent modules. Synthetic ground-truth checks continue.
 See `configs/research_policy.json` and
-`docs/reports/05_research_governance/research_governance_20261023_zh.md` for the active decision.
+`docs/reports/05_research_governance/governance_decision_20261023/_sealed/research_governance_20261023_zh.md` for the active decision.
 
 The research policy records active and consumed authorizations. See the
-[research index](docs/research/README.md) for the follow-up scope, protocols
+[research index](docs/reports/05_research_governance/research_history/README.md#doc-0a640a72f9b4) for the follow-up scope, protocols
 and saved results.
 
 New real-data work uses the frozen TASK3-compatible train, val and test lists
-under the [benchmark standard](docs/protocols/kiki_official_train_test_v1_zh.md).
+under the [benchmark standard](docs/reports/05_research_governance/task3_standard/README.md#doc-6c6486ac9f76).
 The exact source-qualified IDs and list hashes are in the
 [split reference](configs/proposals/kiki_task3_split_reference_v1.json). The active
-[joint initial-state study](docs/research/machine_local_joint_observer_plan_20261112_zh.md)
+[joint initial-state study](docs/reports/08_machine_local_topology/joint_observer/README.md#doc-d1b07a56bdcb)
 tests a noise correction before learned-model confirmation and real-data execution.
 
-The current [algorithm design](docs/research/machine_local_structure_plan_v2_20261112_zh.md)
+The current [algorithm design](docs/reports/08_machine_local_topology/synthetic_implementation/README.md#doc-6f0ce03af776)
 implements one hidden state per machine, with separate checks for prediction
-accuracy and structure identifiability. The [synthetic protocol](docs/protocols/machine_local_synthetic_v1_zh.md)
+accuracy and structure identifiability. The [synthetic protocol](docs/reports/08_machine_local_topology/synthetic_implementation/README.md#doc-6888fd388cdf)
 defines S0 and twelve S1-base fits under separate gates and budgets. A06 remains
 the reference; later physical modules and real-data comparisons have their own gates.
-[S0 passed](docs/reports/08_machine_local_topology/machine_local_s0_20261112_zh.md); the twelve-fit
-[S1-base result](docs/reports/08_machine_local_topology/machine_local_s1_20261112_zh.md) failed its prediction
+[S0 passed](docs/reports/08_machine_local_topology/synthetic_implementation/README.md#doc-2a087778b7e9); the twelve-fit
+[S1-base result](docs/reports/08_machine_local_topology/synthetic_implementation/README.md#doc-c290428fd661) failed its prediction
 gate. The current scope is initialization/generalization diagnosis preparation;
 T0 is stopped and both synthetic execution authorities are consumed.
 

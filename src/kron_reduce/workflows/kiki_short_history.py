@@ -36,6 +36,7 @@ from kron_reduce.workflows.kiki_stability_comparison import SCALES, los_classifi
 from kron_reduce.workflows.nonlinear_history_learning import _write
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import git_head, status_lines
+from project_harness.report_storage import locate_report
 
 SEEDS = (324, 325, 326)
 SUPPORT_DEFINITION = "causal_full_history_cross_line_nearest_train_max_v1"
@@ -329,7 +330,7 @@ def run_synthetic_prerequisite(*, root, experiment, stage, result_dir, run_id):
     _write(result_dir / "pre_execution_binding.json", {
         "scope": "analytic_fixture_supplement_to_checksum_locked_registry",
         "registry_modified": False, "config_sha256": sha256_file(config_path),
-        "protocol_sha256": sha256_file(root / config["protocol_path"]),
+        "protocol_sha256": sha256_file(root / locate_report(root, config["protocol_path"])),
         "fixture_source_sha256": sha256_file(root / "src/kron_reduce/workflows/kiki_short_history.py"),
         "seed": 324, "realization_count": 32, "optimizer_updates": 0,
         "real_data_used": False, "candidate_selection_executed": False})
@@ -468,7 +469,7 @@ def development_authorization(root, experiment, config):
     if (not isinstance(path, str) or path != config.get("development_protocol_path") or not approval.get("approved_date")
         or config.get("support_definition") != SUPPORT_DEFINITION
         or config.get("approval_protocol_sha256") != approval.get("approval_protocol_sha256")
-        or sha256_file(root / path) != approval.get("approval_protocol_sha256")):
+        or sha256_file(root / locate_report(root, path, approval.get("approval_protocol_sha256"))) != approval.get("approval_protocol_sha256")):
         raise PermissionError("approved protocol or support-construction binding differs")
     return {"authorization_id": identity, "approval": approval,
             "status": "APPROVED_PRECERTIFICATION_DEVELOPMENT_ONLY",

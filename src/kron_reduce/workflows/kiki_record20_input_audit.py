@@ -41,6 +41,7 @@ from project_harness.evidence import sha256_file
 from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.manifest import load_manifest
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment, _verify_development_text_bindings
 
 AUTH = "kiki_a12_development_20261024"
@@ -150,9 +151,9 @@ def bound_metadata(root, config):
     """Rebuild the fixed train whitelist from already registered metadata."""
     for path_key, sha_key in (("allocation_path", "allocation_sha256"),
                               ("registry_manifest_path", "registry_manifest_sha256")):
-        if sha256_file(root / config[path_key]) != config[sha_key]:
+        if sha256_file(root / locate_report(root, config[path_key], config[sha_key])) != config[sha_key]:
             raise PermissionError(f"A12 frozen metadata changed: {path_key}")
-    plan = read_json(root / config["read_plan_path"])
+    plan = read_json(root / locate_report(root, config["read_plan_path"], config["read_plan_sha256"]))
     allocation = read_json(root / config["allocation_path"])
     registry = read_json(root / config["registry_manifest_path"])
     rows = sorted((r for r in allocation["rows"] if r["source_role"] == r["role"] == "train"),

@@ -9,14 +9,14 @@ cohorts: `train=346` for fitting, `val=107` for predeclared selection, and
 events plus 33 extra holdout events. It is not the official source `test` list
 screened from 105 allocated / 99 length-qualified events; those counts remain
 provenance facts only. Do not create another internal train/val split. The
-[benchmark standard](protocols/kiki_official_train_test_v1_zh.md) defines the
+[benchmark standard](reports/05_research_governance/task3_standard/README.md#doc-6c6486ac9f76) defines the
 source-qualified lists, 100 ms input and TASK3 scoring. The fixed test list has
 prior exposure and supports comparative reporting; independent-confirmation
 claims require a separately registered population. The user has authorized this
 prospective change; exact run budgets and synthetic prerequisites still apply.
 The active rules are machine-checked by `configs/research_policy.json`.
 
-The [Topology–Memory Energy-Constrained ROM design](research/topology_memory_energy_rom_zh.md)
+The [Topology–Memory Energy-Constrained ROM design](reports/09_topology_memory/synthetic_rom/README.md#doc-4d23250443a3)
 governs new explicit topology–memory candidates and their staged comparisons.
 Signed momentum and work on observed paths are diagnostic evidence. Prospective
 performance requires a separately registered causal closed-loop comparison.
@@ -27,7 +27,7 @@ train, following its frozen internal train/val, causal inputs, candidates and
 budget. The empirical input support audit is fitted on train only, is labelled
 uncertified, and does not filter the full comparison or risk denominator.
 That consumed authorization does not open new reads, deployment or promotion.
-See `docs/protocols/kiki_a04_development_authorization_20261023_zh.md`.
+See `docs/reports/04_kiki_a03_a17_pipeline/a04_development/_sealed/kiki_a04_development_authorization_20261023_zh.md`.
 
 - Prediction begins at exact clearing (`t=0`).
 - A history-initialized task declares a different forecast origin and real

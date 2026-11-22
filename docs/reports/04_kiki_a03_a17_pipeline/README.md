@@ -2,34 +2,29 @@
 
 早期资料验证了历史输入和初值恢复的作用，随后逐轮比较短历史、目标函数、记忆阶、记录窗口、积分初始化和机械功率输入。正式结果和回执保留每轮的选择、终点及数据范围。200 ms 项是对冻结检查点的回顾性评分。
 
-## 早期历史输入试验
+## 实验与研究记录
 
-- [隐状态初始化的合成验证与后续算法任务](causal_latent_initialization_20261019_zh.md) · [方案](../../research/causal_latent_initialization_design_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/causal_latent_synth.DESCRIPTION.md)
-- [隐状态学习与 IEEE39 F1 历史输入试验](history_learning_f1_20261019_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/ieee39_p2.DESCRIPTION.md)。方案与输入、训练和评分口径见报告正文。
-- [P2-A03：历史隐状态与非线性骨架的受控试验](nonlinear_history_a03_20261021_zh.md) · [协议](../../protocols/nonlinear_history_a03_v1_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/ieee39_p2.DESCRIPTION.md)
-
-## A03–A17 与冻结比较
-
-- [Kiki 数据上的 A03 五方案横向对照](kiki_a03_comparison_20261022_zh.md) · [协议](../../protocols/kiki_a03_rerun_20261022_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_p2_a03_rerun.DESCRIPTION.md)
-- [当前模型的稳定性预测与 TASK3 算法对照](kiki_a03_stability_task3_20261022_zh.md) · [协议](../../protocols/kiki_a03_stability_20261022_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a03.DESCRIPTION.md)。 Frozen A03 internal-val LOS scoring and unmatched TASK3 algorithm references
-- [A04：100 ms历史模型的冻结开发比较](kiki_a04_development_20261023_zh.md) · [核验回执](kiki_a04_development_20261023_evidence.json) · [方案](../../protocols/kiki_a04_short_history_design_20261023_zh.md) · [授权协议](../../protocols/kiki_a04_development_authorization_20261023_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a04.DESCRIPTION.md)。 Completed 12-fit A04 development comparison, trajectory and LOS findings, numerical failure, consumed authorization and retained baseline
-- [A04工程与合成机制集成结果](kiki_a04_execution_20261023_zh.md) · [核验回执](kiki_a04_execution_20261023_evidence.json) · [执行前置条件](../../protocols/kiki_a04_envelope_prerequisite_20261023_zh.md)。 Astra-reviewed 100 ms engineering tools, synthetic observability findings, real-data prerequisite refusal and preserved failed attempt
-- [下一轮算法设计依据：保留记忆收益，检验物理骨架的共同调整](kiki_a05_recorded_error_audit_20261023_zh.md) · [核验回执](kiki_a05_recorded_error_audit_20261023_evidence.json) · [方案](../../research/kiki_a05_astra_core_design_20261023_zh.md) · [审计协议](../../protocols/kiki_a04_recorded_error_audit_20261023_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/A04_short_history_diag.DESCRIPTION.md)。 JSON-only decomposition of frozen A04 errors, stable/unstable tradeoffs and the proposed fixed-versus-joint backbone training diagnostic
-- [A05：共同训练优于永久固定物理骨架](kiki_a05_paired_training_20261024_zh.md) · [核验回执](kiki_a05_paired_training_20261024_evidence.json) · [方案](../../research/kiki_a05_astra_core_design_20261023_zh.md) · [授权协议](../../protocols/kiki_a05_development_authorization_20261024_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a05.DESCRIPTION.md)。 Completed six-fit F/J comparison, rejection of permanent backbone freezing, retained numerical failure, zero-fit closeout repair and consumed authorization
-- [A06：共同微调将失稳漏判降至每次1例](kiki_a06_joint_refinement_20261024_zh.md) · [核验回执](kiki_a06_joint_refinement_20261024_evidence.json) · [方案](../../research/kiki_a06_astra_design_20261024_zh.md) · [授权协议](../../protocols/kiki_a06_development_authorization_20261024_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a06.DESCRIPTION.md)。 Three full-model refinements, one remaining FN per seed, complete numerical gates, retained coverage and a consumed fixed budget
-- [A07：固定目标对照未达到零漏判，拒绝本次终点](kiki_a07_tilted_objective_20261024_zh.md) · [核验回执](kiki_a07_tilted_objective_20261024_evidence.json) · [方案](../../research/kiki_a07_astra_design_20261024_zh.md) · [授权协议](../../protocols/kiki_a07_development_authorization_20261024_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a07.DESCRIPTION.md)
-- [A08：四维被动记忆改善轨迹，失稳漏判保持 1/14](kiki_a08_memory_order_20261024_zh.md) · [核验回执](kiki_a08_memory_order_20261024_evidence.json) · [方案](../../research/kiki_a08_astra_design_20261024_zh.md) · [授权协议](../../protocols/kiki_a08_development_authorization_20261024_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a08.DESCRIPTION.md)
-- [A09：train 的五点越界形状审计](kiki_a09_train_mechanism_20261024_zh.md) · [核验回执](kiki_a09_train_mechanism_20261024_evidence.json) · [方案](../../research/kiki_a09_astra_design_20261024_zh.md) · [授权协议](../../protocols/kiki_a09_development_authorization_20261024_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a09.DESCRIPTION.md)
-- [A10：全体 train 的积分精化审计](kiki_a10_train_refinement_20261024_zh.md) · [核验回执](kiki_a10_train_refinement_20261024_evidence.json) · [方案](../../research/kiki_a10_astra_design_20261024_zh.md) · [授权协议](../../protocols/kiki_a10_development_authorization_20261024_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a10.DESCRIPTION.md)
-- [268 条 train 通过记录 20 ms 输入合同审计](kiki_a12_record20_20261024_zh.md) · [核验回执](kiki_a12_record20_20261024_evidence.json) · [方案登记](../../../configs/proposals/kiki_a12_record20_reads.json) · [授权协议](../../protocols/kiki_a12_development_authorization_20261024_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a12.DESCRIPTION.md)
-- [固定模型积分初态估计：合成正确性证据](kiki_a13_integral_synthetic_20261024_zh.md) · [核验回执](kiki_a13_integral_synthetic_20261024_evidence.json) · [方案与固定协议](../../research/kiki_a13_integral_synthetic/integral_initializer_fixed_protocol_zh.md) · [本机保存摘要](../../../scratch/one_off/kiki-initializer-synthetic-20261024/run-20261024T181442748/summary.json)
-- [A14：固定模型的积分初态将历史重建误差降低约一半](kiki_a14_integral_history_20261024_zh.md) · [核验回执](kiki_a14_integral_history_20261024_evidence.json) · [方案登记](../../../configs/proposals/kiki_a14_integral_history_reads.json) · [授权协议](../../protocols/kiki_a14_development_authorization_20261024_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a14.DESCRIPTION.md)
-- [A16：历史机械功率近似与初态方程](kiki_a16_pm_impulse_20261025_zh.md) · [核验回执](kiki_a16_pm_impulse_20261025_evidence.json) · [方案](../../research/kiki_a16_pm_impulse/design_zh.md) · [授权协议](../../protocols/kiki_a16_development_authorization_20261025_zh.md) · [归档说明](../../../results/backup/04_kiki_a03_a17_pipeline/KIKI_a16.DESCRIPTION.md)
-
-其他回执与附件
-
-- [kiki_a03_stability_20261022_verification.json](kiki_a03_stability_20261022_verification.json)
-- [TASK3 frozen 200 ms result receipt](kiki_task3_frozen_200ms_20261109_evidence.json) · [方案登记](../../../configs/proposals/kiki_task3_frozen_200ms.json) · [协议](../../protocols/kiki_task3_frozen_200ms_20261109_zh.md) · [val 评分结果](../../../results/kiki_task3_frozen_200ms_20261109-20261109T024831303717Z-aa86374c/val-sine-no-history-loss.json)。 Retrospective A03 checkpoint comparison on 105 `val` and 75 previously exposed `test` events, with a consumed authorization and `KEEP_BASELINE`
+| 轮次与材料 | 同轮资料 |
+|---|---|
+| [causal_latent · 隐状态初始化的合成验证与后续算法任务](causal_latent/README.md) | 研究方案 · 报告与结果 · 运行或归档 |
+| [history_learning_f1 · 隐状态学习与 IEEE39 F1 历史输入试验](history_learning_f1/README.md) | 报告与结果 · 运行或归档 |
+| [a03 · P2-A03：历史隐状态与非线性骨架的受控试验](a03/README.md) | 研究方案 · 执行协议 · 报告与结果 · 运行或归档 |
+| [a03_kiki_rerun · Kiki 数据上的 A03 五方案横向对照](a03_kiki_rerun/README.md) | 执行协议 · 报告与结果 · 运行或归档 |
+| [a03_stability · 当前模型的稳定性预测与 TASK3 算法对照](a03_stability/README.md) | 执行协议 · 报告与结果 · 历史记录 · 回执 · 运行或归档 |
+| [a04_development · A04：100 ms历史模型的冻结开发比较](a04_development/README.md) | 研究方案 · 执行协议 · 报告与结果 · 历史记录 · 回执 · 运行或归档 |
+| [a04_execution · A04工程与合成机制集成结果](a04_execution/README.md) | 执行协议 · 报告与结果 · 历史记录 · 回执 |
+| [a05 · A05：共同训练优于永久固定物理骨架](a05/README.md) | 研究方案 · 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 附记 · 回执 · 运行或归档 |
+| [a05_recorded_error_audit · 下一轮算法设计依据：保留记忆收益，检验物理骨架的共同调整](a05_recorded_error_audit/README.md) | 执行协议 · 报告与结果 · 历史记录 · 回执 · 运行或归档 |
+| [a06 · A06：共同微调将失稳漏判降至每次1例](a06/README.md) | 研究方案 · 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 回执 · 运行或归档 |
+| [a07 · A07：固定目标对照未达到零漏判，拒绝本次终点](a07/README.md) | 研究方案 · 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 回执 · 运行或归档 |
+| [a08 · A08：四维被动记忆改善轨迹，失稳漏判保持 1/14](a08/README.md) | 研究方案 · 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 回执 · 运行或归档 |
+| [a09 · A09：train 的五点越界形状审计](a09/README.md) | 研究方案 · 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 回执 · 运行或归档 |
+| [a10 · A10：全体 train 的积分精化审计](a10/README.md) | 研究方案 · 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 回执 · 运行或归档 |
+| [a12 · 268 条 train 通过记录 20 ms 输入合同审计](a12/README.md) | 研究方案 · 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 回执 · 运行或归档 |
+| [a13 · 固定模型积分初态估计：合成正确性证据](a13/README.md) | 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 附记 · 回执 |
+| [a14 · A14：固定模型的积分初态将历史重建误差降低约一半](a14/README.md) | 研究方案 · 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 附记 · 回执 · 运行或归档 |
+| [a16 · A16：历史机械功率近似与初态方程](a16/README.md) | 研究方案 · 执行协议 · 报告与结果 · 复核与历史版本 · 历史记录 · 回执 · 运行或归档 |
+| [task3_frozen_200ms · TASK3 200 ms 冻结参数评估](task3_frozen_200ms/README.md) | 执行协议 · 复核与历史版本 · 历史记录 · 回执 · 运行或归档 |
 
 ## 任务组归档
 
@@ -63,7 +58,3 @@
 </details>
 
 [返回成果索引](../README.md)
-
-
-
-

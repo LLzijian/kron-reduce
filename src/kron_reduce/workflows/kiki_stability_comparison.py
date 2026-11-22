@@ -19,6 +19,7 @@ from kron_reduce.physics.coordinates import coi_project, coi_project_power
 from kron_reduce.workflows.nonlinear_history_learning import _write
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import git_head, status_lines
+from project_harness.report_storage import locate_report
 
 SCALES = (0.47675314588683515, 1.0033667249602924)
 ORIGIN = 0.2
@@ -318,7 +319,7 @@ def run(*, root, experiment, stage, result_dir, run_id):
         "selected_model_unchanged": freeze["selected"],
         "candidate_checkpoints": freeze["candidate_table"],
         "frozen_run_artifacts_sha256": sha256_file(frozen / "artifact_hashes.json"),
-        "protocol_sha256": sha256_file(root / config["protocol_path"]),
+        "protocol_sha256": sha256_file(root / locate_report(root, config["protocol_path"])),
         "task3_source_hashes": task3_hashes,
         "cohort": "a03_internal_val_from_source_train", "history_points": 21,
         "forecast_horizon_s": 8.0, "output_dt_s": 0.01, "integration_steps_s": [0.005, 0.01],

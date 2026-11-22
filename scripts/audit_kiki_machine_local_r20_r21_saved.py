@@ -15,6 +15,7 @@ from pathlib import Path
 import numpy as np
 
 from project_harness.manifest import project_root
+from project_harness.report_storage import locate_report
 
 AUTHORITY = "kiki_machine_local_r20_r21_saved_audit_v1_20261114"
 REFERENCE = "configs/proposals/kiki_task3_split_reference_v1.json"
@@ -100,7 +101,7 @@ def reserve(root, plan_arg, output_path):
     plan_path = (root / plan_rel).resolve(strict=True)
     if Path(plan_arg).resolve(strict=True) != plan_path:
         raise RuntimeError("supplied plan differs from the one-use registered plan")
-    review_path = (root / review_rel).resolve(strict=True)
+    review_path = (root / locate_report(root, review_rel, auth.get("review_sha256"))).resolve(strict=True)
     plan_hash, review_hash = sha256_file(plan_path), sha256_file(review_path)
     if auth.get("plan_sha256") != plan_hash or auth.get("review_sha256") != review_hash:
         raise RuntimeError("audit plan or review hash differs from authorization")
@@ -116,7 +117,8 @@ def reserve(root, plan_arg, output_path):
         raise RuntimeError("output path must be the new report path bound by the plan")
     for rel, digest in plan["implementation_bindings"].items():
         target = Path(rel)
-        actual = sha256_file(target if target.is_absolute() else root / target)
+        actual = sha256_file(target if target.is_absolute()
+                             else root / locate_report(root, target.as_posix(), digest))
         if actual != digest:
             raise RuntimeError(f"local implementation binding differs: {rel}")
     for absolute, digest in plan["external_code"].items():

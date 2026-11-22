@@ -38,6 +38,7 @@ from kron_reduce.workflows.kiki_stability_comparison import summarize
 from kron_reduce.workflows.nonlinear_history_learning import _write
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import git_head, status_lines
+from project_harness.report_storage import locate_report
 
 AUTH = "kiki_a08_development_20261024"
 GROUPS = ("r2", "r4")
@@ -112,7 +113,7 @@ def authorization(root, experiment, config):
                              ("design_path", "design_sha256")):
         approval_key = "approval_protocol_path" if path_key == "development_protocol_path" else path_key
         if (config[path_key] != approval[approval_key] or config[sha_key] != approval[sha_key]
-            or sha256_file(root / config[path_key]) != config[sha_key]):
+            or sha256_file(root / locate_report(root, config[path_key], config[sha_key])) != config[sha_key]):
             raise PermissionError("A08 protocol or design binding changed")
     fixed = {"updates_per_fit": 240, "checkpoints_at_updates": list(STEPS), "primary_checkpoint_update": 240,
         "learning_rate": .01, "encoder_penalties": [.0001, .0002], "history_weight": 0.,

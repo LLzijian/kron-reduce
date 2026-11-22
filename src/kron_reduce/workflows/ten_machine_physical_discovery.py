@@ -32,6 +32,7 @@ from kron_reduce.models import (
     TransientEmfM0Model,
 )
 from project_harness.archive_storage import archive_path
+from project_harness.report_storage import locate_report
 
 
 def _sha256(path: Path) -> str:
@@ -858,7 +859,7 @@ def _historical_audit(root: Path) -> dict[str, Any]:
         "selection_marker.json",
         "later_raw10_comparison_config": "configs/experiments/paper_m0_3eg_cluster_compare_f2_seed324.toml",
     }
-    paths = {name: archive_path(root, relative) for name, relative in logical_paths.items()}
+    paths = {name: archive_path(root, locate_report(root, relative)) for name, relative in logical_paths.items()}
     config = tomllib.loads(paths["accepted_round6_config"].read_text(encoding="utf-8"))
     gmd = json.loads(paths["accepted_gmd_selection"].read_text(encoding="utf-8"))
     gmd_pm = (

@@ -83,7 +83,7 @@ def authorize(root, stage):
     for path, digest in [(PLAN, auth.get("plan_sha256")), (PROTOCOL, auth.get("protocol_sha256")),
                          (REVIEW, auth.get("review_sha256")), *bindings.items()]:
         verify_bound_file(root, path, digest)
-    plan, review = _read_json(root, PLAN), _read_json(root, REVIEW)
+    plan, review = _read_json(root, PLAN, auth["plan_sha256"]), _read_json(root, REVIEW, auth["review_sha256"])
     if (plan.get("implementation_bindings") != bindings or plan.get("protocol_sha256") != auth["protocol_sha256"]
             or plan.get("protocol_path") != PROTOCOL or plan["stages"][stage].get("scope") != expected
             or review.get("approved") is not True or review.get("plan_path") != PLAN

@@ -31,6 +31,7 @@ from project_harness.evidence import sha256_file
 from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.manifest import load_manifest
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment, _verify_development_text_bindings
 
 AUTH = "kiki_a14_development_20261024"
@@ -102,8 +103,8 @@ def authorization(root, experiment, config):
 def bound_metadata(root, config):
     if sha256_file(root / config["allocation_path"]) != config["allocation_sha256"]:
         raise PermissionError("A14 frozen allocation metadata changed")
-    plan = read_json(root / config["read_plan_path"])
-    inventory = read_json(root / config["inventory_path"])
+    plan = read_json(root / locate_report(root, config["read_plan_path"], config["read_plan_sha256"]))
+    inventory = read_json(root / locate_report(root, config["inventory_path"], config["inventory_sha256"]))
     if plan["population"] != population(read_json(root / config["allocation_path"])):
         raise PermissionError("A14 population/order/weight plan changed")
     expected = {s.key for s in fixed_file_specs()}
@@ -275,7 +276,7 @@ def _execute(root, result_dir, config, plan, inventory, receipt):
     budget = AuditRhsBudget(185760, 17028, 202788, 1548)
     ledgers, integrity, counters = [], [], {"model_loads": 0, "model_constructions": 0}
     try:
-        verify_source_manifests(root, read_json(root / config["inventory_path"]), io)
+        verify_source_manifests(root, read_json(root / locate_report(root, config["inventory_path"], config["inventory_sha256"])), io)
         paths = {key: root / "results" / item["run_id"] / item["relative_path"]
                  for key, item in inventory.items()}
         for phase in ("before",):

@@ -30,6 +30,7 @@ from kron_reduce.workflows.ieee39_modular_energy_p1_diagnosis import (
     _write_legacy_migration,
     validate_p1_candidate_contract,
 )
+from project_harness.report_storage import locate_report
 
 
 def _strict_json(path: Path):
@@ -138,11 +139,12 @@ def real_saved_candidate(tmp_path, monkeypatch):
     )
     for relative in (
         config["previous_retry_evidence"],
+        f"configs/workflows/{WORKFLOW_A03}.json",
         "docs/protocols/ieee39_modular_energy_p1_a03_design_zh.md",
     ):
         destination = tmp_path / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(repo / relative, destination)
+        shutil.copyfile(repo / locate_report(repo, relative), destination)
     plan = tmp_path / "results/p"
     _run_plan(tmp_path, config_path, config, plan, plan.name)
     state_path = tmp_path / ".project_state" / f"{WORKFLOW_A03}_state.json"

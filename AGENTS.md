@@ -14,9 +14,9 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   experiments and entry points. `configs/workflows/` defines stages, gates
   and evidence contracts. The [research policy](configs/research_policy.json)
   governs scientific execution authority.
-- Check the [research index](docs/research/README.md) for follow-up scope and
-  prior decisions. The [report index](docs/reports/README.md) lists results
-  and evidence receipts.
+- Use the [report index](docs/reports/README.md) to find a numbered topic and
+  its experiment dossiers, including prior decisions, protocols, results and
+  evidence receipts.
 
 ## Workflow
 
@@ -42,7 +42,7 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   evaluation. Use the exact source-qualified IDs, not counts alone. Do not create another
   internal train/val split. Freeze the model before test evaluation and match
   TASK3's 100 ms inputs and scoring. See the
-  [split standard](docs/protocols/kiki_official_train_test_v1_zh.md) and frozen
+  [split standard](docs/reports/05_research_governance/task3_standard/README.md#doc-6c6486ac9f76) and frozen
   [source-qualified roster](configs/proposals/kiki_task3_split_reference_v1.json).
   Report this previously exposed test roster as a fixed comparison benchmark.
   Independent confirmation requires independent data. Consumed historical
@@ -105,6 +105,7 @@ closed-loop trajectory accuracy and leakage-free evidence before classification.
   credentials and local environments outside Git.
 - Archive each concluded `codex/` attempt, including failures, before retiring
   its branch. See [harness Git archive instructions](README.md#git-archives).
-- Keep `AGENTS.md` files for durable instructions and pointers. Record campaign
-  work and decisions in research docs, protocols in `docs/protocols/`, and
-  curated results in `docs/reports/`.
+- Keep `AGENTS.md` files for durable instructions and pointers. Record research
+  decisions, the applicable protocol, the report and links to run evidence in
+  the same experiment dossier under `docs/reports/`. Keep frozen originals in
+  the dossier's `_sealed/` directory.

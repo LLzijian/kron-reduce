@@ -13,6 +13,7 @@ from kron_reduce.workflows.ten_machine_physical_discovery import (
     _causal_schedule_invariance_audit,
     _historical_audit,
 )
+from project_harness.report_storage import locate_report
 
 
 class _CausalStub:
@@ -128,7 +129,7 @@ def test_historical_mainline_representation_claim_has_hashed_evidence(
     ):
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(root / relative, target)
+        shutil.copyfile(root / locate_report(root, relative), target)
     old_group = "results/backup/m0_gmd_horizon_balanced_backbone"
     new_group = "results/backup/01_m0_reintegration_structure/m0_gmd_horizon_balanced_backbone"
     relocation = {old_group: new_group}

@@ -69,7 +69,7 @@ def authorize(root, stage):
         raise RuntimeError("active topology and memory scope differs")
     verify_bound_file(root, plan_path, auth["plan_sha256"])
     verify_bound_file(root, review_path, auth["review_sha256"])
-    plan, review = (json.loads((root/path).read_text(encoding="utf-8")) for path in (plan_path, review_path))
+    plan, review = (json.loads((root/locate_report(root, path, auth["plan_sha256"] if path == plan_path else auth["review_sha256"])).read_text(encoding="utf-8")) for path in (plan_path, review_path))
     bindings = plan["implementation_bindings"]
     if (plan["authorization"] != auth_id or plan["dataset"] != expected["dataset"] or plan["stage"] != stage
             or review.get("approved") is not True or review.get("plan_path") != plan_path
@@ -157,7 +157,7 @@ def authorize(root, stage):
             raise RuntimeError("the branch initializer requires the closed known-coefficient comparison and zero fits")
         verify_bound_file(root, source["receipt_path"], source["receipt_sha256"])
         verify_bound_file(root, source["plan_path"], source["plan_sha256"])
-        original = json.loads((root/source["plan_path"]).read_bytes())
+        original = json.loads((root/locate_report(root, source["plan_path"], source["plan_sha256"])).read_bytes())
         same = ("ids", "cohorts", "speed_rad_s", "tau_range", "gates", "seed", "excitation", "truth")
         if (any(plan[key] != original[key] for key in same)
                 or plan["settings"] != original["settings"] | {"branch_log_coordinates": True}):

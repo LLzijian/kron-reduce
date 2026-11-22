@@ -25,6 +25,7 @@ from project_harness.data_check import verify_data
 from project_harness.evidence import verify_artifact_directory
 from project_harness.git_state import git_head, status_lines
 from project_harness.loop import load_state
+from project_harness.report_storage import locate_report
 
 from kron_reduce.data.p1_causal import P1CausalReader, P1RoleManifest
 from kron_reduce.data.p1_pm_targets import PmReadPurpose, read_pm_batch
@@ -248,7 +249,7 @@ def _load_execution_config(root: Path, experiment: Mapping[str, Any]) -> tuple[P
     }
     for key, value in expected_nested.items():
         _require_exact(config.get(key), value, key)
-    _checked_file(root / PROTOCOL_PATH, PROTOCOL_SHA256)
+    _checked_file(root / locate_report(root, PROTOCOL_PATH, PROTOCOL_SHA256), PROTOCOL_SHA256)
     _checked_file(root / ORIGINAL_CONFIG_PATH, config["candidate_config_sha256"])
     _checked_file(root / WORKFLOW_PATH, config["workflow_config_sha256"])
     _checked_file(root / config["previous_retry_evidence"], config["previous_retry_evidence_sha256"])

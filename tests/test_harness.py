@@ -25,8 +25,8 @@ def test_project_audit(root):
     assert audit_project(root)["status"] == "PASS"
 
 
-@pytest.mark.parametrize("directory", ["experiments", "reports"])
-def test_artifact_layout_rejects_retired_top_level_path(tmp_path, directory):
+@pytest.mark.parametrize("directory", ["experiments", "reports", "docs/research", "docs/protocols"])
+def test_artifact_layout_rejects_retired_path(tmp_path, directory):
     (tmp_path / "docs" / "reports").mkdir(parents=True)
     assert audit_artifact_layout(tmp_path) == []
     (tmp_path / directory).mkdir()

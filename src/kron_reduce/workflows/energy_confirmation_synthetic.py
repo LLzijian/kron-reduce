@@ -130,7 +130,8 @@ def authorize(root: Path) -> dict:
     ]:
         verify_bound_file(root, relative, digest)
 
-    plan, review = _read_json(root, PLAN), _read_json(root, review_path)
+    plan, review = (_read_json(root, PLAN, authorization["plan_sha256"]),
+                    _read_json(root, review_path, authorization["review_sha256"]))
     expected = {
         "scope": SCOPE,
         "protocol_path": PROTOCOL,

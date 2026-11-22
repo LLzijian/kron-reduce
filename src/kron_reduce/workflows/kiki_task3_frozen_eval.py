@@ -20,6 +20,7 @@ from kron_reduce.models.nonlinear_latent import LearnedNonlinearModel
 from kron_reduce.physics.coordinates import coi_project, coi_project_power
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.policy import load_policy
+from project_harness.report_storage import locate_report
 
 AUTH = "kiki_task3_frozen_200ms_20261109"
 PROPOSAL = "configs/proposals/kiki_task3_frozen_200ms.json"
@@ -49,7 +50,7 @@ def require(condition, reason):
 
 
 def checked_bytes(root, relative, digest):
-    path = (root / relative).resolve()
+    path = (root / locate_report(root, relative, digest)).resolve()
     require(path.is_relative_to(root), f"out of scope: {relative}")
     value = path.read_bytes()
     require(hashlib.sha256(value).hexdigest() == digest, f"identity mismatch: {relative}")

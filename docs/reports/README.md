@@ -1,6 +1,6 @@
 # 研究成果索引
 
-复盘旧实验，从下表进入编号主题，按实验名或轮次找到记录。同一条记录汇集能对应的方案、协议、报告和运行结果。归档小任务可从主题页直接打开包外说明和 ZIP。
+从下表进入编号主题，再打开对应的实验页。同一页收录这轮的研究方案、执行协议、报告、核验回执和运行结果入口。
 
 主题编号按首轮有记录的研究时间排序，同一主题的后续工作沿用原编号。
 
@@ -20,9 +20,8 @@
 
 ## 如何新增报告
 
-- 在主题页同一条记录里链接该轮的方案、协议、报告和运行结果。归档后把运行链接换成对应的包外说明，有回执的话也放在同一条记录。
-- 形成单独引用的结论时，把里程碑报告放进对应主题目录。多个冻结版本并存时，文件名带日期。
-- 主题页链接报告、回执和图件。图件与验证脚本按报告编号放到该主题的 `figures/` 下。
+- 在主题下按轮次建立一份 README，依次记录方案、执行协议、报告和本轮运行。各 seed、重试和同一轮的冻结复评共享这份页面，有范围差异就分别注明。归档后将运行入口指向对应小包说明。
+- 在本轮页面链接回执、图件和复核记录。冻结原件随本轮存入 `_sealed/`，各版本保留其登记时的正文和文件名。共用的 TASK3 对照规范在 05 主题中维护。
 - 正式报告写清实验身份、数据范围、划分、随机种子、输入口径、证据状态和科学终点。定量结论指向运行编号或证据路径，并记录实际访问范围。
 
 历史登记仍可用原路径和原 SHA256 核验。[报告路径迁移清单](../../configs/report_relocations.json)记录现址。正文需要更新链接时，冻结原件随主题存放在 `_sealed/`。
@@ -31,5 +30,5 @@
 
 ## 按旧文件名查归档
 
-- 原 `experiments/` 和 `reports/` 的 69 个文件可在归档回执中按原路径找到 ZIP、包内条目及 SHA256。[归档核验回执](05_research_governance/retired_layout_20261121t093836z_evidence.json)
-- 原 `results/reports/` 的 52 个 M0 文件按数据质量审计、暂态电势验证和 M0-GMD-PM 里程碑归档。[M0 归档核验回执](01_m0_reintegration_structure/m0_reintegration_structure_archive_20261121_evidence.json)
+- 原 `experiments/` 和 `reports/` 的 69 个文件可在归档回执中按原路径找到 ZIP、包内条目及 SHA256。[归档核验回执](05_research_governance/retired_layout_archive_receipt_20261121/_sealed/retired_layout_20261121t093836z_evidence.json)
+- 原 `results/reports/` 的 52 个 M0 文件按数据质量审计、暂态电势验证和 M0-GMD-PM 里程碑归档。[M0 归档核验回执](01_m0_reintegration_structure/m0_reintegration_archive_20261121/_sealed/m0_reintegration_structure_archive_20261121_evidence.json)

@@ -14,6 +14,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 from project_harness.evidence import EvidenceValidationError, verify_artifact_directory
+from project_harness.report_storage import locate_report
 
 WORKFLOW_A01 = "ieee39_modular_energy_p1_a01_v1"
 WORKFLOW_A02 = "ieee39_modular_energy_p1_a02_v1"
@@ -478,7 +479,7 @@ def _run_plan(
     (result_dir / "frozen_config.toml").write_bytes(config_path.read_bytes())
     registration = _registration(config, run_id)
     if config["protocol_revision"] == WORKFLOW_A03:
-        protocol = root / "docs/protocols/ieee39_modular_energy_p1_a03_design_zh.md"
+        protocol = root / locate_report(root, "docs/protocols/ieee39_modular_energy_p1_a03_design_zh.md")
         frozen_protocol = result_dir / "frozen_protocol.md"
         shutil.copyfile(protocol, frozen_protocol)
         registration["protocol_artifact"] = {"path": frozen_protocol.name, "sha256": _sha256(frozen_protocol)}
@@ -538,7 +539,7 @@ def _find_registered_plan(
         if _sha256(plan_dir / "frozen_config.toml") != _sha256(config_path):
             raise RuntimeError("current config differs from the registered plan")
         if workflow == WORKFLOW_A03:
-            protocol = root / "docs/protocols/ieee39_modular_energy_p1_a03_design_zh.md"
+            protocol = root / locate_report(root, "docs/protocols/ieee39_modular_energy_p1_a03_design_zh.md")
             registration = json.loads((plan_dir / "registration.json").read_text(encoding="utf-8"))
             if registration.get("protocol_artifact") != {"path": "frozen_protocol.md", "sha256": _sha256(protocol)} or _sha256(plan_dir / "frozen_protocol.md") != _sha256(protocol):
                 raise RuntimeError("current protocol differs from the registered plan")
@@ -593,12 +594,13 @@ def _source_snapshot(
     findings = []
     files = []
     for relative in critical_files:
-        current_path = root / relative
+        physical_relative = locate_report(root, relative)
+        current_path = root / physical_relative
         current_sha256 = _sha256(current_path) if current_path.is_file() else None
-        tracked = _git_run(root, "cat-file", "-e", f"HEAD:{relative}").returncode == 0
+        tracked = _git_run(root, "cat-file", "-e", f"HEAD:{physical_relative}").returncode == 0
         head_sha256 = None
         if tracked:
-            head_content = _git_run(root, "show", f"HEAD:{relative}", text=False)
+            head_content = _git_run(root, "show", f"HEAD:{physical_relative}", text=False)
             if head_content.returncode == 0:
                 head_sha256 = hashlib.sha256(head_content.stdout).hexdigest()
             else:
