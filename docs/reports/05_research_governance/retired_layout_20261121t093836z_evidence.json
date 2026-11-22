@@ -7,9 +7,9 @@
   ],
   "packages": {
     "A_paper_v1_workflow_saved_reports": {
-      "path": "results/backup/results_202607_subsets/A_paper_v1_workflow_saved_reports.zip",
-      "description_path": "results/backup/results_202607_subsets/A_paper_v1_workflow_saved_reports.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_01_early_physics_baselines.md",
+      "path": "results/backup/00_early_physics_baselines/A_paper_v1_workflow_saved_reports.zip",
+      "description_path": "results/backup/00_early_physics_baselines/A_paper_v1_workflow_saved_reports.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_00_early_physics_baselines.md",
       "sha256": "701d070ba18d91ba897cc81c495d60c9fe4b03373212d68e3a6d4aa43b8f6e6f",
       "file_count": 7,
       "uncompressed_bytes": 12454,
@@ -45,9 +45,9 @@
       }
     },
     "B_paper_v2_integral_saved_reports": {
-      "path": "results/backup/results_202607_subsets/B_paper_v2_integral_saved_reports.zip",
-      "description_path": "results/backup/results_202607_subsets/B_paper_v2_integral_saved_reports.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_01_early_physics_baselines.md",
+      "path": "results/backup/00_early_physics_baselines/B_paper_v2_integral_saved_reports.zip",
+      "description_path": "results/backup/00_early_physics_baselines/B_paper_v2_integral_saved_reports.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_00_early_physics_baselines.md",
       "sha256": "b9932d0d03885058d983ca86952d10752ee899f7663b9ba122458f005db4ce4b",
       "file_count": 2,
       "uncompressed_bytes": 2275,
@@ -63,9 +63,9 @@
       }
     },
     "01_s0_implementation_saved_checks": {
-      "path": "results/backup/machine_local_group_subsets/01_s0_implementation_saved_checks.zip",
-      "description_path": "results/backup/machine_local_group_subsets/01_s0_implementation_saved_checks.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_03_machine_local_topology.md",
+      "path": "results/backup/08_machine_local_topology/01_s0_implementation_saved_checks.zip",
+      "description_path": "results/backup/08_machine_local_topology/01_s0_implementation_saved_checks.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_08_machine_local_topology.md",
       "sha256": "d8457413f0a1f773973bd2fbef1c4caa8520d1532615acb2ff88a75c09380537",
       "file_count": 1,
       "uncompressed_bytes": 62899,
@@ -77,9 +77,9 @@
       }
     },
     "02_s1_synthetic_learning_saved_checks": {
-      "path": "results/backup/machine_local_group_subsets/02_s1_synthetic_learning_saved_checks.zip",
-      "description_path": "results/backup/machine_local_group_subsets/02_s1_synthetic_learning_saved_checks.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_03_machine_local_topology.md",
+      "path": "results/backup/08_machine_local_topology/02_s1_synthetic_learning_saved_checks.zip",
+      "description_path": "results/backup/08_machine_local_topology/02_s1_synthetic_learning_saved_checks.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_08_machine_local_topology.md",
       "sha256": "867e29aeda5dc51972c1a4e133dda1246576a8ac95cc9d6b521657de7f362edd",
       "file_count": 8,
       "uncompressed_bytes": 351699,
@@ -119,9 +119,9 @@
       }
     },
     "03_kiki_baseline_memory_saved_checks": {
-      "path": "results/backup/machine_local_group_subsets/03_kiki_baseline_memory_saved_checks.zip",
-      "description_path": "results/backup/machine_local_group_subsets/03_kiki_baseline_memory_saved_checks.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_03_machine_local_topology.md",
+      "path": "results/backup/08_machine_local_topology/03_kiki_baseline_memory_saved_checks.zip",
+      "description_path": "results/backup/08_machine_local_topology/03_kiki_baseline_memory_saved_checks.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_08_machine_local_topology.md",
       "sha256": "90d3bf9c7e7d243bc0624dd9f4463e1025a53681e5510f56c4bfcb31c9592d78",
       "file_count": 4,
       "uncompressed_bytes": 3548660,
@@ -145,9 +145,9 @@
       }
     },
     "04_topology_diagnosis_learning_saved_checks": {
-      "path": "results/backup/machine_local_group_subsets/04_topology_diagnosis_learning_saved_checks.zip",
-      "description_path": "results/backup/machine_local_group_subsets/04_topology_diagnosis_learning_saved_checks.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_03_machine_local_topology.md",
+      "path": "results/backup/08_machine_local_topology/04_topology_diagnosis_learning_saved_checks.zip",
+      "description_path": "results/backup/08_machine_local_topology/04_topology_diagnosis_learning_saved_checks.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_08_machine_local_topology.md",
       "sha256": "40d6ba2d4c6a6283bea903837cadb36465112776e124b98d1e4c9342a4b09fd5",
       "file_count": 4,
       "uncompressed_bytes": 3206260,
@@ -171,9 +171,9 @@
       }
     },
     "05_damping_corrections_saved_checks": {
-      "path": "results/backup/machine_local_group_subsets/05_damping_corrections_saved_checks.zip",
-      "description_path": "results/backup/machine_local_group_subsets/05_damping_corrections_saved_checks.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_03_machine_local_topology.md",
+      "path": "results/backup/08_machine_local_topology/05_damping_corrections_saved_checks.zip",
+      "description_path": "results/backup/08_machine_local_topology/05_damping_corrections_saved_checks.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_08_machine_local_topology.md",
       "sha256": "b2d6d4abbe0fb553e2f5133d083b31b472bc35e5bebb638db3739b5c5e56c791",
       "file_count": 3,
       "uncompressed_bytes": 354628,
@@ -193,9 +193,9 @@
       }
     },
     "06_momentum_coupling_saved_checks": {
-      "path": "results/backup/machine_local_group_subsets/06_momentum_coupling_saved_checks.zip",
-      "description_path": "results/backup/machine_local_group_subsets/06_momentum_coupling_saved_checks.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_03_machine_local_topology.md",
+      "path": "results/backup/08_machine_local_topology/06_momentum_coupling_saved_checks.zip",
+      "description_path": "results/backup/08_machine_local_topology/06_momentum_coupling_saved_checks.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_08_machine_local_topology.md",
       "sha256": "853741e98d8ef34618dc3df7ad5e2cd72fa326508bb34120bbf9f570bdbdb570",
       "file_count": 1,
       "uncompressed_bytes": 171412,
@@ -207,9 +207,9 @@
       }
     },
     "07_restoring_delayed_history_saved_checks": {
-      "path": "results/backup/machine_local_group_subsets/07_restoring_delayed_history_saved_checks.zip",
-      "description_path": "results/backup/machine_local_group_subsets/07_restoring_delayed_history_saved_checks.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_03_machine_local_topology.md",
+      "path": "results/backup/08_machine_local_topology/07_restoring_delayed_history_saved_checks.zip",
+      "description_path": "results/backup/08_machine_local_topology/07_restoring_delayed_history_saved_checks.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_08_machine_local_topology.md",
       "sha256": "cf7a9bc8f6e198140c42cf1c795ef9964647cadf07e2fe24e8d400a44c7c3852",
       "file_count": 1,
       "uncompressed_bytes": 171252,
@@ -221,9 +221,9 @@
       }
     },
     "08_observer_calibration_diagnosis_saved_checks": {
-      "path": "results/backup/machine_local_group_subsets/08_observer_calibration_diagnosis_saved_checks.zip",
-      "description_path": "results/backup/machine_local_group_subsets/08_observer_calibration_diagnosis_saved_checks.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_03_machine_local_topology.md",
+      "path": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis_saved_checks.zip",
+      "description_path": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis_saved_checks.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_08_machine_local_topology.md",
       "sha256": "02b2303d15e20c9e0f356844f7f718c77278e351f6b0a352651daf171ae18fb0",
       "file_count": 6,
       "uncompressed_bytes": 193185,
@@ -255,9 +255,9 @@
       }
     },
     "01_constant_c_100ms_synthetic": {
-      "path": "results/backup/constant_c_energy_initialization_subsets/01_constant_c_100ms_synthetic.zip",
-      "description_path": "results/backup/constant_c_energy_initialization_subsets/01_constant_c_100ms_synthetic.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_07_constant_c_energy_initialization.md",
+      "path": "results/backup/06_constant_c_energy_initialization/01_constant_c_100ms_synthetic.zip",
+      "description_path": "results/backup/06_constant_c_energy_initialization/01_constant_c_100ms_synthetic.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_06_constant_c_energy_initialization.md",
       "sha256": "8430a466bbbe58b05515a22b4969749661ceba11bce8dd4ed840fff59c55ea0f",
       "file_count": 7,
       "uncompressed_bytes": 122265,
@@ -293,9 +293,9 @@
       }
     },
     "02_constant_c_energy_initializer": {
-      "path": "results/backup/constant_c_energy_initialization_subsets/02_constant_c_energy_initializer.zip",
-      "description_path": "results/backup/constant_c_energy_initialization_subsets/02_constant_c_energy_initializer.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_07_constant_c_energy_initialization.md",
+      "path": "results/backup/06_constant_c_energy_initialization/02_constant_c_energy_initializer.zip",
+      "description_path": "results/backup/06_constant_c_energy_initialization/02_constant_c_energy_initializer.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_06_constant_c_energy_initialization.md",
       "sha256": "d1ac3f0963feba3f8f4da741dc07563f1c5c137351dc2a63895f776404ed3fc1",
       "file_count": 8,
       "uncompressed_bytes": 55414,
@@ -335,9 +335,9 @@
       }
     },
     "03_constant_c_energy_confirmation": {
-      "path": "results/backup/constant_c_energy_initialization_subsets/03_constant_c_energy_confirmation.zip",
-      "description_path": "results/backup/constant_c_energy_initialization_subsets/03_constant_c_energy_confirmation.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_07_constant_c_energy_initialization.md",
+      "path": "results/backup/06_constant_c_energy_initialization/03_constant_c_energy_confirmation.zip",
+      "description_path": "results/backup/06_constant_c_energy_initialization/03_constant_c_energy_confirmation.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_06_constant_c_energy_initialization.md",
       "sha256": "76feeb85382744c9b03faf7278e55bb9d7293cb852ec25203680b2adb9736513",
       "file_count": 10,
       "uncompressed_bytes": 38220,
@@ -385,9 +385,9 @@
       }
     },
     "04_kiki_energy_cap_transfer": {
-      "path": "results/backup/constant_c_energy_initialization_subsets/04_kiki_energy_cap_transfer.zip",
-      "description_path": "results/backup/constant_c_energy_initialization_subsets/04_kiki_energy_cap_transfer.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_07_constant_c_energy_initialization.md",
+      "path": "results/backup/06_constant_c_energy_initialization/04_kiki_energy_cap_transfer.zip",
+      "description_path": "results/backup/06_constant_c_energy_initialization/04_kiki_energy_cap_transfer.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_06_constant_c_energy_initialization.md",
       "sha256": "8d7ba2c1c99ea3cf9a2e6d361e689d76d31701b591f3451a908f76e4957a7de0",
       "file_count": 5,
       "uncompressed_bytes": 2155995,
@@ -415,9 +415,9 @@
       }
     },
     "01_state_port_synthetic_saved_audit": {
-      "path": "results/backup/state_port_subsets/01_state_port_synthetic_saved_audit.zip",
-      "description_path": "results/backup/state_port_subsets/01_state_port_synthetic_saved_audit.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_08_state_port.md",
+      "path": "results/backup/07_state_port/01_state_port_synthetic_saved_audit.zip",
+      "description_path": "results/backup/07_state_port/01_state_port_synthetic_saved_audit.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_07_state_port.md",
       "sha256": "0551f808175b81a812742c08eb9d640eb178b839f72cf260b6b9d60cf3f8571b",
       "file_count": 1,
       "uncompressed_bytes": 33031,
@@ -429,9 +429,9 @@
       }
     },
     "02_kiki_state_port_train_saved_audit": {
-      "path": "results/backup/state_port_subsets/02_kiki_state_port_train_saved_audit.zip",
-      "description_path": "results/backup/state_port_subsets/02_kiki_state_port_train_saved_audit.DESCRIPTION.md",
-      "summary_path": "results/SUMMARY_08_state_port.md",
+      "path": "results/backup/07_state_port/02_kiki_state_port_train_saved_audit.zip",
+      "description_path": "results/backup/07_state_port/02_kiki_state_port_train_saved_audit.DESCRIPTION.md",
+      "summary_path": "results/SUMMARY_07_state_port.md",
       "sha256": "75dc770b0e22d54876ccc10f123e3b0ece5a5a279f30aa326c1e07489e9c6109",
       "file_count": 1,
       "uncompressed_bytes": 16185,

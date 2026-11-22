@@ -129,10 +129,14 @@ def test_historical_mainline_representation_claim_has_hashed_evidence(
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(root / relative, target)
-    gmd = tmp_path / (
-        "results/backup/m0_gmd_horizon_balanced_backbone/"
-        "m0-gmd-horizon-balanced-f1-seed324-20260731/selection_marker.json"
-    )
+    old_group = "results/backup/m0_gmd_horizon_balanced_backbone"
+    new_group = "results/backup/01_m0_reintegration_structure/m0_gmd_horizon_balanced_backbone"
+    relocation = {old_group: new_group}
+    relocation_path = tmp_path / "configs/archive_relocations.json"
+    relocation_path.parent.mkdir(parents=True, exist_ok=True)
+    relocation_path.write_text(json.dumps(relocation), encoding="utf-8")
+    marker = "m0-gmd-horizon-balanced-f1-seed324-20260731/selection_marker.json"
+    gmd = tmp_path / new_group / marker
     gmd.parent.mkdir(parents=True)
     gmd.write_text(json.dumps({"selected_modal_rank": 2}), encoding="utf-8")
     gmd_pm = tmp_path / (
@@ -151,6 +155,7 @@ def test_historical_mainline_representation_claim_has_hashed_evidence(
     assert audit["accepted_downstream_chain_representation"] == "clustered_7"
     assert audit["later_raw10_runs_were_diagnostic_only"] is True
     assert audit["accepted_gmd_selected_modal_rank"] == 2
+    assert audit["evidence_files"]["accepted_gmd_selection"]["path"] == f"{old_group}/{marker}"
     assert audit["accepted_gmd_pm_selection_available"] is selection_available
     assert audit["accepted_gmd_pm_source_accuracy_model"] == (
         "synthetic-reference" if selection_available else None
@@ -182,8 +187,18 @@ def test_frozen_gmd_checkpoint_uses_archive_without_changing_config(tmp_path: Pa
     )
     with pytest.raises(FileNotFoundError):
         _frozen_gmd_checkpoint(tmp_path, relative)
+    relocation_path = tmp_path / "configs/archive_relocations.json"
+    relocation_path.parent.mkdir(parents=True, exist_ok=True)
+    old_group = "results/backup/m0_gmd_horizon_balanced_backbone"
+    new_group = "results/backup/01_m0_reintegration_structure/m0_gmd_horizon_balanced_backbone"
+    relocation_path.write_text(json.dumps({old_group: new_group}), encoding="utf-8")
     archived.parent.mkdir(parents=True)
     archived.write_bytes(b"saved-model")
+    migrated = tmp_path / new_group / "frozen-run/checkpoints/M0-GMD.npz"
+    migrated.parent.mkdir(parents=True)
+    migrated.write_bytes(b"saved-model")
+    assert _frozen_gmd_checkpoint(tmp_path, relative) == migrated
+    relocation_path.unlink()
     assert _frozen_gmd_checkpoint(tmp_path, relative) == archived
     original.parent.mkdir(parents=True)
     original.write_bytes(b"original-model")

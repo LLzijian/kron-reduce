@@ -1,0 +1,11 @@
+{
+  "results/backup/constant_c_energy_initialization_subsets": "results/backup/06_constant_c_energy_initialization",
+  "results/backup/ieee39_modular_energy_p1p2_subsets": "results/backup/03_modular_energy_p1p2",
+  "results/backup/kiki_a03_a17_subsets": "results/backup/04_kiki_a03_a17_pipeline",
+  "results/backup/m0_gmd_horizon_balanced_backbone": "results/backup/01_m0_reintegration_structure/m0_gmd_horizon_balanced_backbone",
+  "results/backup/m0_reintegration_structure_subsets": "results/backup/01_m0_reintegration_structure",
+  "results/backup/machine_local_group_subsets": "results/backup/08_machine_local_topology",
+  "results/backup/results_202607_subsets": "results/backup/00_early_physics_baselines",
+  "results/backup/results_202608_subsets": "results/backup/02_afsd_structure_discovery",
+  "results/backup/state_port_subsets": "results/backup/07_state_port"
+}

@@ -12,4 +12,4 @@
 - Stop gates: data checksum, support, real model smoke, source commit, explicit
   full-run approval, energy naming gate, and publication gate.
 
-See the [Paper v1 archive guide](../../../results/backup/results_202607_subsets/A_paper_v1_workflow_saved_reports.DESCRIPTION.md) for the original card and generated reports.
+See the [Paper v1 archive guide](../../../results/backup/00_early_physics_baselines/A_paper_v1_workflow_saved_reports.DESCRIPTION.md) for the original card and generated reports.

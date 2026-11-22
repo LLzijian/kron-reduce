@@ -34,6 +34,7 @@ from kron_reduce.physics import (
     project_cluster_consensus,
     reconstruct_cluster_state,
 )
+from project_harness.archive_storage import archive_path
 
 HIGHORDER_SOURCE = "ieee39_highorder_dataset"
 DENSE_SOURCE = "ieee39_near_critical_unstable_v1_dense"
@@ -53,10 +54,11 @@ def _frozen_gmd_checkpoint(root: Path, relative: str) -> Path:
     diagnostics = root / "results/diagnostics"
     # Resolve archived artifacts without changing hashed historical configurations.
     if not checkpoint.is_file() and checkpoint.is_relative_to(diagnostics):
-        archived = (
-            root / "results/backup/m0_gmd_horizon_balanced_backbone"
-            / checkpoint.relative_to(diagnostics)
+        archived_relative = (
+            "results/backup/m0_gmd_horizon_balanced_backbone/"
+            + checkpoint.relative_to(diagnostics).as_posix()
         )
+        archived = archive_path(root, archived_relative)
         if archived.is_file():
             return archived
     if not checkpoint.is_file():

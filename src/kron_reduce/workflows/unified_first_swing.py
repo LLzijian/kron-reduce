@@ -13,6 +13,7 @@ from zipfile import ZipFile
 
 from kron_reduce.evaluation.constant_c_observability import write_json
 from kron_reduce.workflows.machine_local_equation import _cuda_preflight
+from project_harness.archive_storage import archive_path
 from project_harness.evidence import _safe_relative, sha256_file, verify_artifact_directory
 from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
@@ -31,9 +32,8 @@ def _archive_asset(root, binding, archive):
     if original.is_file():
         payload = original.read_bytes()
     else:
-        archive = _safe_relative(root, archive)
         member = original.relative_to(root/"results").as_posix()
-        with ZipFile(archive) as backup:
+        with ZipFile(archive_path(root, archive)) as backup:
             payload = backup.read(member)
     if hashlib.sha256(payload).hexdigest() != binding["sha256"]:
         raise RuntimeError(f"frozen starting asset changed: {binding['path']}")

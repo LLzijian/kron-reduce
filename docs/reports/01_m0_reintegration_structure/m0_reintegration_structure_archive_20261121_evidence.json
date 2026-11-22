@@ -6,7 +6,7 @@
   ],
   "packages": {
     "m0_data_quality_audit": {
-      "path": "results/backup/m0_reintegration_structure_subsets/01_data_quality_audit.zip",
+      "path": "results/backup/01_m0_reintegration_structure/01_data_quality_audit.zip",
       "sha256": "aa462d4de3449f7f72bddc4ff48ecc2c38ac0c53d609d96c7e334b989a5aa697",
       "file_count": 5,
       "uncompressed_bytes": 1010581,
@@ -32,10 +32,10 @@
           "bytes": 128699
         }
       },
-      "description_path": "results/backup/m0_reintegration_structure_subsets/01_data_quality_audit.DESCRIPTION.md"
+      "description_path": "results/backup/01_m0_reintegration_structure/01_data_quality_audit.DESCRIPTION.md"
     },
     "m0_gmd_milestone": {
-      "path": "results/backup/m0_reintegration_structure_subsets/03_gmd_pm_milestone.zip",
+      "path": "results/backup/01_m0_reintegration_structure/03_gmd_pm_milestone.zip",
       "sha256": "459d614f10f9ac749fe4155cdebc56720b3b98c83602a0be6a1ede3644d0f3dd",
       "file_count": 37,
       "uncompressed_bytes": 4944608,
@@ -189,10 +189,10 @@
           "bytes": 569
         }
       },
-      "description_path": "results/backup/m0_reintegration_structure_subsets/03_gmd_pm_milestone.DESCRIPTION.md"
+      "description_path": "results/backup/01_m0_reintegration_structure/03_gmd_pm_milestone.DESCRIPTION.md"
     },
     "m0_transient_emf": {
-      "path": "results/backup/m0_reintegration_structure_subsets/02_transient_emf_reintegration.zip",
+      "path": "results/backup/01_m0_reintegration_structure/02_transient_emf_reintegration.zip",
       "sha256": "4fdee27b3b4c023e329649417232591279e161edc846e4490e064627c85152d0",
       "file_count": 10,
       "uncompressed_bytes": 3176774,
@@ -238,9 +238,9 @@
           "bytes": 72153
         }
       },
-      "description_path": "results/backup/m0_reintegration_structure_subsets/02_transient_emf_reintegration.DESCRIPTION.md"
+      "description_path": "results/backup/01_m0_reintegration_structure/02_transient_emf_reintegration.DESCRIPTION.md"
     }
   },
-  "archive_root": "results/backup/m0_reintegration_structure_subsets",
-  "summary_path": "results/SUMMARY_06_m0_reintegration_structure.md"
+  "archive_root": "results/backup/01_m0_reintegration_structure",
+  "summary_path": "results/SUMMARY_01_m0_reintegration_structure.md"
 }

@@ -151,7 +151,7 @@ M0-3EG 相对旧 M0 的 mean RMSE 改善 37.34%，相对自身二阶锚点改善
 
 最终图采用各来源内 H=100 M0-3EG 误差最接近该来源中位数的验证样本，而非挑选最佳案例。highorder 代表为 `scenario_002`，dense 代表为 `ncunstable_dense_0081`。图中黑线为实际数据，灰线为旧混合来源 M0，蓝线为同源二阶锚点，橙线为 M0-3EG。highorder 中蓝线与橙线严格重合；dense 中三阶模型修正了二阶模型的振荡相位和幅值。
 
-图及可追溯源数据见[暂态电势图件归档说明](../../../results/backup/m0_reintegration_structure_subsets/02_transient_emf_reintegration.DESCRIPTION.md)。使用包内 `results/reports/m0-3eg-transient-emf-f1-seed324-20260730-v3/`。
+图及可追溯源数据见[暂态电势图件归档说明](../../../results/backup/01_m0_reintegration_structure/02_transient_emf_reintegration.DESCRIPTION.md)。使用包内 `results/reports/m0-3eg-transient-emf-f1-seed324-20260730-v3/`。
 
 - `fig_m0_3eg_reintegration_examples.{svg,pdf,png}`
 - `figure_source_data.csv`

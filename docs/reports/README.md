@@ -27,6 +27,8 @@
 
 历史登记仍可用原路径和原 SHA256 核验。[报告路径迁移清单](../../configs/report_relocations.json)记录现址。正文需要更新链接时，冻结原件随主题存放在 `_sealed/`。
 
+归档任务组沿用主题编号。历史配置可用归档时的路径定位到现址。[归档路径迁移清单](../../configs/archive_relocations.json)
+
 ## Retired top-level archives
 
 原 `experiments/` 和 `reports/` 的 69 个文件已按研究主题归入四个任务组。先读任务组总说明，再按小任务打开包外说明。按旧路径搜索[归档核验回执](05_research_governance/retired_layout_20261121t093836z_evidence.json)可定位 ZIP、包内条目和 SHA256。
