@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64/summary.json)
+- [运行结果（包内 `summary.json`）](../../../../results/backup/06_constant_c_energy_initialization/01_constant_c_100ms_synthetic_runs.DESCRIPTION.md#run-1)
 - [归档说明](../../../../results/backup/06_constant_c_energy_initialization/01_constant_c_100ms_synthetic.DESCRIPTION.md)
 
 登记文件与配置

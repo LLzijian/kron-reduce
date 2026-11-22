@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [val 评分结果](../../../../results/kiki_task3_frozen_200ms_20261109-20261109T024831303717Z-aa86374c/val-sine-no-history-loss.json)
+- [val 评分结果（包内 `val-sine-no-history-loss.json`）](../../../../results/backup/04_kiki_a03_a17_pipeline/20_task3_frozen_200ms.DESCRIPTION.md#run-1)
 
 登记文件与配置
 

@@ -13,6 +13,7 @@
 | [cross_campaign_next_phase_20261023 · Kiki 下一阶段研究设计：提前判断、可靠初始化与局部稳定区域](cross_campaign_next_phase_20261023/README.md) | 研究方案 · 复核与历史版本 · 历史记录 · 回执 |
 | [cross_campaign_plan_20261110 · 研究方案：能量球初始化结果后的候选路线](cross_campaign_plan_20261110/README.md) | 研究方案 |
 | [research_history · Research scope and records](research_history/README.md) | 复核与历史版本 · 历史记录 · 回执 |
+| [local_results_archive_20261122 · 已结束运行按研究主题归档](local_results_archive_20261122/README.md) | 批次核验回执 · 小包与论文当前结果入口 |
 
 
 [返回成果索引](../README.md)

@@ -1,0 +1,863 @@
+{
+  "batch_id": "20261122T082222Z",
+  "scope": "Concluded local run directories and interrupted attempts",
+  "verification": "Exact names, byte counts, SHA256 of every original file compared with archive bytes, one sampled extraction per run",
+  "packages": [
+    {
+      "topic": "04_kiki_a03_a17_pipeline",
+      "package": "20_task3_frozen_200ms",
+      "zip": "results/backup/04_kiki_a03_a17_pipeline/20_task3_frozen_200ms.zip",
+      "zip_sha256": "9d6a928088558a9c6df2b78c24649c43c9033d2d8f57f5c0824d5368bcdf05f6",
+      "zip_bytes": 132413516,
+      "original_bytes": 134017633,
+      "runs": [
+        {
+          "files": 19,
+          "bytes": 134017633,
+          "artifact_manifest_sha256": "08fd216a7a479bdcef1661c124a18664e345c09187a85893b7e7024c36dc20fd",
+          "original_manifest": {
+            "members": 18,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "completion.json",
+          "run_id": "kiki_task3_frozen_200ms_20261109-20261109T024831303717Z-aa86374c",
+          "note": "三个配置逐项留存 val、test 评分与覆盖。",
+          "role": "冻结复评",
+          "first": [
+            "test-coverage.json",
+            "val-sine-no-history-loss.json",
+            "completion.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "06_constant_c_energy_initialization",
+      "package": "01_constant_c_100ms_synthetic_runs",
+      "zip": "results/backup/06_constant_c_energy_initialization/01_constant_c_100ms_synthetic_runs.zip",
+      "zip_sha256": "3f86654bd9a92962ad7df64cebb48093c45e73c9778292c230d6f012df181725",
+      "zip_bytes": 13378658,
+      "original_bytes": 219167974,
+      "runs": [
+        {
+          "files": 81,
+          "bytes": 219167974,
+          "artifact_manifest_sha256": "978e6ad9c1f77ace19f3be6e09b0c6834e11861d0e607dfccade69d8ab6fb2d1",
+          "original_manifest": {
+            "members": 80,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64",
+          "note": "保存分场景初态、预测和可辨识性诊断。",
+          "role": "合成对照",
+          "first": [
+            "summary.json",
+            "L100_weakdir.json",
+            "U_hidden_null.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "06_constant_c_energy_initialization",
+      "package": "02_constant_c_energy_initializer_runs",
+      "zip": "results/backup/06_constant_c_energy_initialization/02_constant_c_energy_initializer_runs.zip",
+      "zip_sha256": "89723bb471b852452fe1f89ff8a66eb8ff6d23089eefbd9053a75825c03cd295",
+      "zip_bytes": 12641999,
+      "original_bytes": 173734990,
+      "runs": [
+        {
+          "files": 48,
+          "bytes": 173734990,
+          "artifact_manifest_sha256": "27d195309f723d1b77bfed2f3ab57a5f50b32e0853a92c6e36b592a1b49e7b1e",
+          "original_manifest": {
+            "members": 47,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "constant_c_energy_initializer_v1-synthetic_comparison-20261109T101705739984Z-4d06ae48-ba48733d",
+          "note": "保存无约束和限能量方案的配对结果及模型。",
+          "role": "合成约束对照",
+          "first": [
+            "summary.json",
+            "L100_weakdir.json",
+            "models.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "06_constant_c_energy_initialization",
+      "package": "03_constant_c_energy_confirmation_runs",
+      "zip": "results/backup/06_constant_c_energy_initialization/03_constant_c_energy_confirmation_runs.zip",
+      "zip_sha256": "0aeff8980539d8acec34d16053f08dce752c047d38b134a36e0e459792343a48",
+      "zip_bytes": 5557959,
+      "original_bytes": 6004988,
+      "runs": [
+        {
+          "files": 37,
+          "bytes": 6004988,
+          "artifact_manifest_sha256": "3553fb7b15ab7af22ec5d132305c67437d375869abacf26bc9f27139ca5e4530",
+          "original_manifest": {
+            "members": 36,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "constant_c_energy_confirmation_v1-synthetic_confirmation-20261109T130353444021Z-1edf0ebd-832d4649",
+          "note": "保存逐场景得分、约束触发和冻结配置。",
+          "role": "固定上界对照",
+          "first": [
+            "summary.json",
+            "setup-weak.json",
+            "CW_periodic.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "06_constant_c_energy_initialization",
+      "package": "04_kiki_energy_cap_transfer_runs",
+      "zip": "results/backup/06_constant_c_energy_initialization/04_kiki_energy_cap_transfer_runs.zip",
+      "zip_sha256": "485e680e7097a424eb14f418300c5365470285ef367d2330165b224d99261f0d",
+      "zip_bytes": 194333946,
+      "original_bytes": 2372731042,
+      "runs": [
+        {
+          "files": 23062,
+          "bytes": 2372731042,
+          "artifact_manifest_sha256": "6abadbc49d115e297fff59c2be018fa936d9f281ceeb9e9208157f5404cb751d",
+          "original_manifest": {
+            "members": 23061,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575",
+          "note": "保存逐例轨迹、各方案冻结记录和评分汇总，供迁移及真值窗口审计。",
+          "role": "train 迁移",
+          "first": [
+            "summary.json",
+            "population.json",
+            "stage_evidence.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "07_state_port",
+      "package": "01_state_port_synthetic_runs",
+      "zip": "results/backup/07_state_port/01_state_port_synthetic_runs.zip",
+      "zip_sha256": "ed159cd847419aa4b64baa8c0d5d6ec5fa22d78ffb3af67a9a20120e3e54319c",
+      "zip_bytes": 1163142,
+      "original_bytes": 1305816,
+      "runs": [
+        {
+          "files": 22,
+          "bytes": 1305816,
+          "artifact_manifest_sha256": null,
+          "original_manifest": {
+            "members": 0,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0",
+          "note": "保留原失败标记、不完整汇总和已写出的代数、路径与 Jacobian 记录。",
+          "role": "合成执行",
+          "first": [
+            "RUN_FAILED.json",
+            "algebra.json",
+            "paths.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "07_state_port",
+      "package": "02_kiki_state_port_train_runs",
+      "zip": "results/backup/07_state_port/02_kiki_state_port_train_runs.zip",
+      "zip_sha256": "328976e1fa6ea3c21704fcf72978d00245b668154e0fefc45a8d43cc752f8bd5",
+      "zip_bytes": 287173582,
+      "original_bytes": 445473342,
+      "runs": [
+        {
+          "files": 1170,
+          "bytes": 445473342,
+          "artifact_manifest_sha256": "068db0d5cf048d9c19a96683b868d72206c8bd956359f010fad11bb358f71c4d",
+          "original_manifest": {
+            "members": 1169,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "kiki_state_port_train_v1-train_mechanism-20261111T012130667376Z-5fb30e45-5ac1c107",
+          "note": "保存两档步长下的轨迹、各组评分、冻结模型和规则核查。",
+          "role": "三种子配对",
+          "first": [
+            "summary.json",
+            "paired-line-summary.json",
+            "final-model-freeze.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "09_topology_memory",
+      "package": "01_synthetic_rom",
+      "zip": "results/backup/09_topology_memory/01_synthetic_rom.zip",
+      "zip_sha256": "5bc5ded295b610c1762ac391139d6a438ac1d0a3380d35d04351501998980b67",
+      "zip_bytes": 1938131213,
+      "original_bytes": 1993966612,
+      "runs": [
+        {
+          "files": 424,
+          "bytes": 1993966612,
+          "artifact_manifest_sha256": "8a1ede954ad0498633d49f2460f0ca01dad3c8dd8629ca71faa52465e86db346",
+          "original_manifest": {
+            "members": 423,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "topology_memory_rom_synthetic_v1-topology_memory_rom-20261116T060550614316Z-ddcc4110-deb6b9f1",
+          "note": "保存各候选、数据条件、信号范围、逐例评分和验收判断。",
+          "role": "合成参数与支持筛选",
+          "first": [
+            "summary.json",
+            "stage_evidence.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "09_topology_memory",
+      "package": "02_causal_history",
+      "zip": "results/backup/09_topology_memory/02_causal_history.zip",
+      "zip_sha256": "fc020f3fd7f65730ec5715624f9eb699b46b984edf4123c9e72e156055151666",
+      "zip_bytes": 346042984,
+      "original_bytes": 354531470,
+      "runs": [
+        {
+          "files": 44,
+          "bytes": 354531470,
+          "artifact_manifest_sha256": "3bbe623dd1182fc51018a0481423003f82f7547cce1b2047022b032be30e99a9",
+          "original_manifest": {
+            "members": 43,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "topology_memory_rom_causal_v1-topology_memory_rom_causal-20261116T083655084758Z-6bc27e8c-7c410f18",
+          "note": "按 S0–S3、历史条件和两个积分步长记录隐态与预测。",
+          "role": "因果初态对照",
+          "first": [
+            "summary.json",
+            "stage_evidence.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "09_topology_memory",
+      "package": "03_task3_momentum_work",
+      "zip": "results/backup/09_topology_memory/03_task3_momentum_work.zip",
+      "zip_sha256": "4d02e049a417cbbea0c17b36600894db02ad00cfcfa85e23fec3f0732c150009",
+      "zip_bytes": 103683265,
+      "original_bytes": 108340159,
+      "runs": [
+        {
+          "files": 8,
+          "bytes": 108340159,
+          "artifact_manifest_sha256": "d97ccab465a2f8a2419722b818e9693bd11265abda3886da72c0aba1e9db69a1",
+          "original_manifest": {
+            "members": 7,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "kiki_topology_memory_balance_v1-train_momentum-20261116T052515039351Z-9dd38563-3d74a01a",
+          "note": "保存匹配统计、逐例收支、历史估计差异和数值核对。",
+          "role": "冻结 train 诊断",
+          "first": [
+            "summary.json",
+            "momentum-work-rows.json",
+            "history-estimation-errors.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "09_topology_memory",
+      "package": "04_coupling_strength",
+      "zip": "results/backup/09_topology_memory/04_coupling_strength.zip",
+      "zip_sha256": "86b4a2d6b75303b42ed9c1aba5abb89991bac04ecef874489fb5d10740a72337",
+      "zip_bytes": 522597251,
+      "original_bytes": 535562646,
+      "runs": [
+        {
+          "files": 74,
+          "bytes": 535562646,
+          "artifact_manifest_sha256": "7e51b8d0826e5b5ce796f55e2c6e86b8f42319e26f7f3183cdaa7d5eb3d13c96",
+          "original_manifest": {
+            "members": 73,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "topology_memory_rom_coupling_strength_v1-topology_memory_rom_coupling_strength-20261117T093739105529Z-e0941400-2be1815b",
+          "note": "保存四个候选对五类真值的短时、长时及真实起报状态对照。",
+          "role": "耦合消融",
+          "first": [
+            "summary.json",
+            "stage_evidence.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "09_topology_memory",
+      "package": "05_branch_initialization",
+      "zip": "results/backup/09_topology_memory/05_branch_initialization.zip",
+      "zip_sha256": "aa373af7acd09dda9839c260dfe997e7009b41053154b89e06e5148d28b3d2e0",
+      "zip_bytes": 237450544,
+      "original_bytes": 241446809,
+      "runs": [
+        {
+          "files": 44,
+          "bytes": 241446809,
+          "artifact_manifest_sha256": "fa1b4a5995311639b3b1ac9a0052438773eededb164960e4aa6fce8100052fa5",
+          "original_manifest": {
+            "members": 43,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "topology_memory_rom_branch_init_v1-topology_memory_rom_branch_init-20261117T100024225497Z-8b1fbc63-a2d016a5",
+          "note": "保存原真值和 roster 下的候选逐例结果、双步长对照与验收。",
+          "role": "倍率初态修正",
+          "first": [
+            "summary.json",
+            "stage_evidence.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "01_m1_first_swing",
+      "zip": "results/backup/10_postfault_structure/01_m1_first_swing.zip",
+      "zip_sha256": "49d8d05500aba75c70eb8bcd2def1efc84e5fe6c381a648cc48068e52c4b353d",
+      "zip_bytes": 323606155,
+      "original_bytes": 336126723,
+      "runs": [
+        {
+          "files": 4,
+          "bytes": 1358,
+          "artifact_manifest_sha256": "d51a7f272790c67ceae9c5dde44b12b12ad86d9365a60abf68b17963bb98c3d7",
+          "original_manifest": {
+            "members": 3,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "stage_evidence.json",
+          "run_id": "unified_first_swing_fixture_v1-synthetic-20261119T045408141342Z-4f7c040a-7298d370",
+          "note": "核对训练目标和评分实现。",
+          "role": "合成检查",
+          "first": [
+            "synthetic.json",
+            "stage_evidence.json"
+          ]
+        },
+        {
+          "files": 35,
+          "bytes": 336125365,
+          "artifact_manifest_sha256": "18f1314d936cb70bffbdaff231c983deb409c59bcd27a593009e522ad5f60534",
+          "original_manifest": {
+            "members": 34,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "unified_first_swing_v1-fit-20261119T051218221066Z-fdfecba6-4c03db51",
+          "note": "保存两组训练检查点、初始梯度、见证样本与冻结结果。",
+          "role": "配对拟合",
+          "first": [
+            "summary.json",
+            "initial_gradients.json",
+            "freeze.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "02_m1_probes",
+      "zip": "results/backup/10_postfault_structure/02_m1_probes.zip",
+      "zip_sha256": "38b9fe227790b369bd68b4c144646bdeaa1c20234a5447519f6a21f661d132d1",
+      "zip_bytes": 161637306,
+      "original_bytes": 164971972,
+      "runs": [
+        {
+          "files": 3,
+          "bytes": 597,
+          "artifact_manifest_sha256": "fc5a4f97ad62cac1ba3802fc1f0ffab891c6dd4445a4303e232e87750e3ab38d",
+          "original_manifest": {
+            "members": 2,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "stage_evidence.json",
+          "run_id": "unified_first_swing_probes_fixture_v2-synthetic-20261119T064117731362Z-822c9fed-f98f4336",
+          "note": "记录诊断程序的工程核验。",
+          "role": "合成检查",
+          "first": [
+            "stage_evidence.json"
+          ]
+        },
+        {
+          "files": 16,
+          "bytes": 164971375,
+          "artifact_manifest_sha256": "a901d149c4dd1c94544ec4f0723ff31c9c49a93628bdf16ae33377f437d0e8fa",
+          "original_manifest": {
+            "members": 15,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "unified_first_swing_probes_v2-probe-20261119T064313252198Z-822c9fed-c0907457",
+          "note": "保存逐例分类配对、梯度和首摆分离速度记录。",
+          "role": "冻结初值对照",
+          "first": [
+            "summary.json",
+            "val-speed-peaks.json",
+            "classification-pairs.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "03_m1_gn_decomposition",
+      "zip": "results/backup/10_postfault_structure/03_m1_gn_decomposition.zip",
+      "zip_sha256": "789f4d88a75aa18656c5d4aa9c82403426acd52d27957e8942c4978849334f08",
+      "zip_bytes": 782512427,
+      "original_bytes": 833988874,
+      "runs": [
+        {
+          "files": 3,
+          "bytes": 606,
+          "artifact_manifest_sha256": "6e3d4765e5627a14a8ab94b33f2c065f8a13d86379701c86282dff044b2484fb",
+          "original_manifest": {
+            "members": 2,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "stage_evidence.json",
+          "run_id": "unified_first_swing_gn_decomposition_fixture_v3-synthetic-20261119T074349397796Z-5637f04a-046d46e9",
+          "note": "记录网格、半径实现的工程核验。",
+          "role": "合成检查",
+          "first": [
+            "stage_evidence.json"
+          ]
+        },
+        {
+          "files": 30,
+          "bytes": 833988268,
+          "artifact_manifest_sha256": "ee0f918259cddf86cc6938b93dc2460fd020ca577b36991e9c0508e0e310ded2",
+          "original_manifest": {
+            "members": 29,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "unified_first_swing_gn_decomposition_v3-probe-20261119T074514989765Z-5637f04a-73c62955",
+          "note": "保存各配置的逐例 train、val 分数、速度峰值和见证。",
+          "role": "零更新比较",
+          "first": [
+            "summary.json",
+            "val-targeted.json",
+            "train-witnesses.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "04_m1_v4",
+      "zip": "results/backup/10_postfault_structure/04_m1_v4.zip",
+      "zip_sha256": "43f1e9fa7eb34cce5dc4c03e0f5c79d4c168bc27a2ebec6f0ae7f3016d0ca21d",
+      "zip_bytes": 377854621,
+      "original_bytes": 394966039,
+      "runs": [
+        {
+          "files": 3,
+          "bytes": 600,
+          "artifact_manifest_sha256": "35cc158058d45f73b61e46d8d3e4e240f07ba9efcbe58029e65010b89a88e30c",
+          "original_manifest": {
+            "members": 2,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "stage_evidence.json",
+          "run_id": "unified_first_swing_v4_fixture-synthetic-20261119T085054575598Z-4256b8a8-b11be387",
+          "note": "保存配对拟合前的工程检查回执。",
+          "role": "合成检查",
+          "first": [
+            "stage_evidence.json"
+          ]
+        },
+        {
+          "files": 43,
+          "bytes": 339890742,
+          "artifact_manifest_sha256": "d62d8e95397581c002014af7fe8f0e73c1606e12286ea9767f984b2bfda5e943",
+          "original_manifest": {
+            "members": 42,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "unified_first_swing_v4_fit-fit-20261119T085346160446Z-4256b8a8-2aac3232",
+          "note": "保存硬、软半径各自的训练过程、逐例 val 评分和冻结参数。",
+          "role": "train 拟合与 val 选点",
+          "first": [
+            "summary.json",
+            "freeze.json",
+            "hard_r/val.json",
+            "soft_2r/val.json"
+          ]
+        },
+        {
+          "files": 11,
+          "bytes": 55074697,
+          "artifact_manifest_sha256": "2e9583e27caad138d387a161a8f00ea1e7987a03c9f7da4ee28a842bee4e2e4c",
+          "original_manifest": {
+            "members": 10,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "unified_first_swing_v4_test-test-20261120T062857089605Z-e44f1587-a79403a1",
+          "note": "保存两个冻结候选在同一固定名单上的结果。",
+          "role": "固定 test 评分",
+          "first": [
+            "summary.json",
+            "hard_r/test.json",
+            "soft_2r/test.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "05_m3_discovery",
+      "zip": "results/backup/10_postfault_structure/05_m3_discovery.zip",
+      "zip_sha256": "0675af434292081c2f71bdbb0930e19602735f168d500dd41e0ba4897b582115",
+      "zip_bytes": 786925334,
+      "original_bytes": 894762097,
+      "runs": [
+        {
+          "files": 3,
+          "bytes": 556,
+          "artifact_manifest_sha256": "760d7f7be248565fe225dcf8b9cb35b4489a0d4afebee1c6468ec84944a4b52a",
+          "original_manifest": {
+            "members": 2,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "stage_evidence.json",
+          "run_id": "unified_discovery_m3_fixture_v1-synthetic-20261120T080022320098Z-dc27983e-88ab9cee",
+          "note": "保存结构注册和执行入口的工程检查。",
+          "role": "合成检查",
+          "first": [
+            "stage_evidence.json"
+          ]
+        },
+        {
+          "files": 117,
+          "bytes": 894761541,
+          "artifact_manifest_sha256": "0b389a05a6c58bb755260bbe8d660ca1e0131de86c732899a4653a386c3ebf6f",
+          "original_manifest": {
+            "members": 116,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859",
+          "note": "保存候选评分、逐步损失、剪枝记录、冻结模型合同和参数。",
+          "role": "结构发现与课程拟合",
+          "first": [
+            "summary.json",
+            "screening_table.json",
+            "curriculum.json",
+            "pruning_table.json",
+            "freeze.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "06_m3b_frozen_evaluation",
+      "zip": "results/backup/10_postfault_structure/06_m3b_frozen_evaluation.zip",
+      "zip_sha256": "d874de6a33d9159f31631c9a3153a95dab56f74022d3e0bd4eeb01b5d595ff9a",
+      "zip_bytes": 363537088,
+      "original_bytes": 396760152,
+      "runs": [
+        {
+          "files": 46,
+          "bytes": 369265741,
+          "artifact_manifest_sha256": "28d667bad1c89ecd3ebd69a1306c4cb191f8c98ae6c9ccb03a2c09f918c5e0d3",
+          "original_manifest": {
+            "members": 45,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249",
+          "note": "保存三组拟合、剪枝比较、冻结模型合同和 val 逐例评分。",
+          "role": "配对拟合与选型",
+          "first": [
+            "summary.json",
+            "freeze.json",
+            "support-G2/val.json"
+          ]
+        },
+        {
+          "files": 8,
+          "bytes": 27494411,
+          "artifact_manifest_sha256": "42282fc6fa5291f167eb374bbaad6f55c851284c6ee373d5e5f1e8d96b483c84",
+          "original_manifest": {
+            "members": 7,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd",
+          "note": "保存两档步长的轨迹与五点失步判定。",
+          "role": "冻结 test 评分",
+          "first": [
+            "summary.json",
+            "test.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "07_m4_physical_consistency",
+      "zip": "results/backup/10_postfault_structure/07_m4_physical_consistency.zip",
+      "zip_sha256": "221d7d9788f2fa3ea1ebfbd374ac2d0401d488e83e5a7caf1b2bc8893c1dc948",
+      "zip_bytes": 1347731,
+      "original_bytes": 5661445,
+      "runs": [
+        {
+          "files": 10,
+          "bytes": 5661445,
+          "artifact_manifest_sha256": "1932c21566a14864ff40dcf2d46fbb9ae9a3f4098a26e22c393a88a92ebb4179",
+          "original_manifest": {
+            "members": 9,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "postfault_m4_v1-m4-20261121T034423510207Z-ceaa6a72-6fb69813",
+          "note": "保存主模态匹配、刚度图和事件储能统计。",
+          "role": "冻结物理分析",
+          "first": [
+            "summary.json",
+            "modes.json",
+            "graph.json",
+            "event_physics.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "08_m4_v2_energy",
+      "zip": "results/backup/10_postfault_structure/08_m4_v2_energy.zip",
+      "zip_sha256": "d00d78e00bb4d52548d1cb0196252f4928eb4b30560794dbdc0e998fa9b1489c",
+      "zip_bytes": 671630,
+      "original_bytes": 1741184,
+      "runs": [
+        {
+          "files": 3,
+          "bytes": 18871,
+          "artifact_manifest_sha256": "519611f8b61951919c6c731ab0da2019f2128d206c9a186bb0691e986b17c5a5",
+          "original_manifest": {
+            "members": 1,
+            "missing": [],
+            "extra": [
+              "RUN_FAILED.json"
+            ],
+            "mismatches": []
+          },
+          "sample": "RUN_FAILED.json",
+          "run_id": "postfault_m4_v2-analysis-20261121T060227625654Z-4906e508-e1311f97",
+          "note": "原失败标记及已落盘核验文件。",
+          "role": "首次分析中止",
+          "first": [
+            "RUN_FAILED.json",
+            "artifact_hashes.json"
+          ]
+        },
+        {
+          "files": 11,
+          "bytes": 1722313,
+          "artifact_manifest_sha256": "688d457aac2bf1c760ee6e1215690d3243f6c865153db724d1af90b8608a3807",
+          "original_manifest": {
+            "members": 10,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "summary.json",
+          "run_id": "postfault_m4_v2-analysis-20261121T060746860331Z-c955592a-e210fd93",
+          "note": "保存慢同调、储能分解与覆盖。",
+          "role": "完成的冻结分析",
+          "first": [
+            "summary.json",
+            "slow_coherency.json",
+            "energy_decomposition.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "09_m5_blind_dataset_build",
+      "zip": "results/backup/10_postfault_structure/09_m5_blind_dataset_build.zip",
+      "zip_sha256": "aa7479996582ca18119c275f89e93649007dec0c2449a27ba4f38590bdc9b78b",
+      "zip_bytes": 148905,
+      "original_bytes": 634652,
+      "runs": [
+        {
+          "files": 6,
+          "bytes": 318030,
+          "artifact_manifest_sha256": "d13a72aaecdf0b61a84d3836fa2e543beb610e8270c49fa9a24695503b1e2d13",
+          "original_manifest": {
+            "members": 4,
+            "missing": [],
+            "extra": [
+              "RUN_FAILED.json"
+            ],
+            "mismatches": []
+          },
+          "sample": "stage_evidence.json",
+          "run_id": "blind_dataset_build_m5_v1-build-20261121T061750755801Z-8e63d1d3-a99c1ac9",
+          "note": "保留原失败状态、运行回执及落盘清单。",
+          "role": "首次构建执行",
+          "first": [
+            "RUN_FAILED.json",
+            "run_receipt.json"
+          ]
+        },
+        {
+          "files": 4,
+          "bytes": 316622,
+          "artifact_manifest_sha256": "14c909a528122e393a39aa1030596bc9e2c7f77113699b8c6317064ede9555cc",
+          "original_manifest": {
+            "members": 3,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "run_receipt.json",
+          "run_id": "blind_dataset_build_m5_v1-build_receipt-20261121T064503861579Z-8e63d1d3-c86e61e2",
+          "note": "保存用于 M5 评分的封存记录与工件哈希。",
+          "role": "构建回执",
+          "first": [
+            "run_receipt.json",
+            "artifact_hashes.json"
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "10_postfault_structure",
+      "package": "10_task3_15s_interruption",
+      "zip": "results/backup/10_postfault_structure/10_task3_15s_interruption.zip",
+      "zip_sha256": "9eb88d5050f9b1a9006c0a48529cdf6471e193e4a73850c950d05e7496e17d53",
+      "zip_bytes": 5532864,
+      "original_bytes": 5944459,
+      "runs": [
+        {
+          "files": 10,
+          "bytes": 5944459,
+          "artifact_manifest_sha256": null,
+          "original_manifest": {
+            "members": 0,
+            "missing": [],
+            "extra": [],
+            "mismatches": []
+          },
+          "sample": "RUN_FAILED.json",
+          "run_id": "task3_unsettled_15s_v1-reevaluate-20261121T173831296967Z-4a0056fc-12340b3f",
+          "note": "保存失败标记、可复用预测文件及中断前已经落盘的执行记录。",
+          "role": "首次中断",
+          "first": [
+            "RUN_FAILED.json"
+          ]
+        }
+      ]
+    }
+  ],
+  "live_runs": [
+    "blind_confirmation_m5_v1-blind-20261121T064636317312Z-26fe26a3-b73dd81d",
+    "task3_unsettled_15s_v1-reevaluate-20261121T174426106655Z-8f0b6862-09b10a2e"
+  ],
+  "updated_experiment_pages": [
+    "docs/reports/04_kiki_a03_a17_pipeline/task3_frozen_200ms/README.md",
+    "docs/reports/06_constant_c_energy_initialization/constant_c_100ms_synthetic/README.md",
+    "docs/reports/06_constant_c_energy_initialization/constant_c_energy_confirmation/README.md",
+    "docs/reports/06_constant_c_energy_initialization/constant_c_energy_initializer/README.md",
+    "docs/reports/06_constant_c_energy_initialization/kiki_energy_cap_transfer/README.md",
+    "docs/reports/07_state_port/state_port_synthetic/README.md",
+    "docs/reports/07_state_port/state_port_train/README.md",
+    "docs/reports/09_topology_memory/branch_initialization/README.md",
+    "docs/reports/09_topology_memory/causal_history/README.md",
+    "docs/reports/09_topology_memory/coupling_strength/README.md",
+    "docs/reports/09_topology_memory/synthetic_rom/README.md",
+    "docs/reports/09_topology_memory/task3_momentum_work/README.md",
+    "docs/reports/10_postfault_structure/m1_first_swing/README.md",
+    "docs/reports/10_postfault_structure/m1_gn_decomposition/README.md",
+    "docs/reports/10_postfault_structure/m1_probes/README.md",
+    "docs/reports/10_postfault_structure/m1_v4/README.md",
+    "docs/reports/10_postfault_structure/m3/README.md",
+    "docs/reports/10_postfault_structure/m4_m3b/README.md",
+    "docs/reports/10_postfault_structure/m4_v2/README.md",
+    "docs/reports/10_postfault_structure/m5_blind/README.md",
+    "docs/reports/10_postfault_structure/task3_15s/README.md"
+  ]
+}

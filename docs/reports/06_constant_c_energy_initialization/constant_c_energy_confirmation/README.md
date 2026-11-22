@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/constant_c_energy_confirmation_v1-synthetic_confirmation-20261109T130353444021Z-1edf0ebd-832d4649/summary.json)
+- [运行结果（包内 `summary.json`）](../../../../results/backup/06_constant_c_energy_initialization/03_constant_c_energy_confirmation_runs.DESCRIPTION.md#run-1)
 - [归档说明](../../../../results/backup/06_constant_c_energy_initialization/03_constant_c_energy_confirmation.DESCRIPTION.md)
 
 登记文件与配置

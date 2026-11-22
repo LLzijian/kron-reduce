@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859)
+- [运行结果（归档）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2)
 
 登记文件与配置
 
@@ -98,7 +98,7 @@
 
 1.25 ms 参照中，稳定组两个窗口分别覆盖 311/311 和 311/311，失稳组分别覆盖 26/35 和 14/35。组 RMS 分别为 0.64476 和 1.57364。
 
-全部搜索点见[初筛表](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/screening_table.json)。
+全部搜索点见[初筛表（包内 `screening_table.json`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2)。
 
 
 <a id="doc-3583b3e069a1-课程学习与-45-条边变化"></a>
@@ -136,7 +136,7 @@
 | 2a | 0.44093 | 3.50069 | 0.13225 | 0.52187 |
 | 2b | 0.67231 | 2.95220 | 0.23912 | -0.23244 |
 
-[课程信息和选中系数](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/curriculum.json) · [2a 逐步损失](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/curriculum_2a/training.jsonl) · [2b 逐步损失](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/curriculum_2b/training.jsonl)
+[课程信息和选中系数（包内 `curriculum.json`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2) · [2a 逐步损失（包内 `curriculum_2a/training.jsonl`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2) · [2b 逐步损失（包内 `curriculum_2b/training.jsonl`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2)
 
 
 <a id="doc-3583b3e069a1-支持重拟合与后向剪枝"></a>
@@ -161,7 +161,7 @@
 
 关闭 G5 后，选中点在两档步长均检出 `val` 的 12/12 例失稳，稳定误报 1 个。稳定轨迹 8 秒 NRMSE 中位数为 0.23828，真阴性均值为 0.33194，33 个见证绝对残差中位数为 3.09301 rad/s。该组的 `train` 事件 `ieee39_expansion/expansion_0062` 的 8 秒轨迹两步长一致性检查未通过，分类检查合格。
 
-自动剪枝路径为 `support-G1-G2-G3-G4-G5`。[逐次删除和等价带比较](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/pruning_table.json)
+自动剪枝路径为 `support-G1-G2-G3-G4-G5`。[逐次删除和等价带比较（包内 `pruning_table.json`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2)
 
 
 <a id="doc-3583b3e069a1-冻结快照完整评分"></a>
@@ -189,7 +189,7 @@
 
 主步长下 `val` 稳定误报事件及其 8 s NRMSE 为 `ieee39_postfault/pilot_0150`（18.97570）、`ieee39_postfault/pilot_0237`（2.68069）。
 
-[逐例 train 轨迹评分与分类](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/curriculum_2b/train.json) · [逐例 val 轨迹评分与分类](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/curriculum_2b/val.json)
+[逐例 train 轨迹评分与分类（包内 `curriculum_2b/train.json`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2) · [逐例 val 轨迹评分与分类（包内 `curriculum_2b/val.json`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2)
 
 
 <a id="doc-3583b3e069a1-33-个固定见证"></a>
@@ -239,7 +239,7 @@
 | 原硬半径绝对残差中位数 |  |  | 2.62025 | 2.62025 |
 | 带符号中位数距零降幅 |  |  | +39.49% | +39.49% |
 
-[冻结参数](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/freeze_m3.npz) · [冻结合同](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/freeze.json) · [访问账本](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/access.jsonl) · [操作账本](../../../../results/unified_discovery_m3_v1-discovery-20261120T080201366232Z-dc27983e-6970d859/operations.jsonl)
+[冻结参数（包内 `freeze_m3.npz`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2) · [冻结合同（包内 `freeze.json`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2) · [访问账本（包内 `access.jsonl`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2) · [操作账本（包内 `operations.jsonl`）](../../../../results/backup/10_postfault_structure/05_m3_discovery.DESCRIPTION.md#run-2)
 
 ## 回执与附件
 

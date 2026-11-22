@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/constant_c_energy_initializer_v1-synthetic_comparison-20261109T101705739984Z-4d06ae48-ba48733d/summary.json)
+- [运行结果（包内 `summary.json`）](../../../../results/backup/06_constant_c_energy_initialization/02_constant_c_energy_initializer_runs.DESCRIPTION.md#run-1)
 - [归档说明](../../../../results/backup/06_constant_c_energy_initialization/02_constant_c_energy_initializer.DESCRIPTION.md)
 
 登记文件与配置

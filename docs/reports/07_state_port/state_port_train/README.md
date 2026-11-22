@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/kiki_state_port_train_v1-train_mechanism-20261111T012130667376Z-5fb30e45-5ac1c107/summary.json)
+- [运行结果（包内 `summary.json`）](../../../../results/backup/07_state_port/02_kiki_state_port_train_runs.DESCRIPTION.md#run-1)
 - [保存审核归档说明](../../../../results/backup/07_state_port/02_kiki_state_port_train_saved_audit.DESCRIPTION.md)
 
 登记文件与配置

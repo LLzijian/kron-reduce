@@ -5,7 +5,7 @@
 ## 运行结果与归档
 
 - [运行结果](../../../../results/task3_unsettled_15s_v1-reevaluate-20261121T174426106655Z-8f0b6862-09b10a2e)
-- [首次中断运行结果](../../../../results/task3_unsettled_15s_v1-reevaluate-20261121T173831296967Z-4a0056fc-12340b3f)
+- [首次中断运行结果（归档）](../../../../results/backup/10_postfault_structure/10_task3_15s_interruption.DESCRIPTION.md#run-1)
 
 登记文件与配置
 

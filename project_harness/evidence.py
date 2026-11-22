@@ -64,6 +64,7 @@ class EvidenceContext:
     target: str
     state: dict[str, Any] | None = None
     predecessor: str | None = None
+    allow_archived_runs: bool = False
 
 
 def is_empty(value: object) -> bool:
@@ -101,6 +102,16 @@ def _safe_relative(root: Path, relative: object) -> Path:
     except ValueError as exc:
         raise EvidenceValidationError("EVIDENCE_PATH", f"artifact path escapes directory: {relative!r}") from exc
     return root / candidate
+
+
+def _artifact_directory_missing(path: Path) -> bool:
+    try:
+        path.lstat()
+    except FileNotFoundError:
+        return True
+    except OSError as exc:
+        raise EvidenceValidationError("ARTIFACT_DIRECTORY", "cannot inspect artifact directory") from exc
+    return False
 
 
 def verify_artifact_directory(
@@ -206,12 +217,16 @@ def _verify_registered_artifact_manifest(context: EvidenceContext, evidence: dic
         raise EvidenceValidationError("EVIDENCE_ARTIFACT_PATH", "artifact_manifest path must be artifact_hashes.json")
     if not isinstance(digest, str) or not SHA256_RE.fullmatch(digest.lower()):
         raise EvidenceValidationError("EVIDENCE_ARTIFACT_SHA", "artifact_manifest sha256 is invalid")
-    directory = context.root / "results" / run_id
+    directory = _safe_relative(context.root / "results", run_id)
     if context.target == "model_unit_gate" and evidence.get("result_dir") != run_id:
         raise EvidenceValidationError("EVIDENCE_ARTIFACT_RUN", "model_unit_gate result_dir must equal artifact_manifest run_id")
-    verify_artifact_directory(
-        directory, expected_manifest_sha256=digest.lower(), strict=True
-    )
+    archived = False
+    if context.allow_archived_runs and _artifact_directory_missing(directory):
+        from .archive_storage import verify_archived_run
+
+        archived = verify_archived_run(context.root, run_id, digest.lower())
+    if not archived:
+        verify_artifact_directory(directory, expected_manifest_sha256=digest.lower(), strict=True)
     if context.target == "report" and evidence.get("acceptance_run") != run_id:
         raise EvidenceValidationError("EVIDENCE_ARTIFACT_RUN", "report acceptance_run must equal artifact_manifest run_id")
 

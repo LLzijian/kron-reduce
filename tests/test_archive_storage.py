@@ -8,7 +8,13 @@ from pathlib import Path
 import pytest
 
 from kron_reduce.workflows.unified_first_swing import _archive_asset
-from project_harness.archive_storage import archive_path
+from project_harness.archive_storage import archive_path, read_run_artifact
+from project_harness.audit import _stage_evidence_error
+from project_harness.evidence import (
+    EvidenceContext,
+    EvidenceValidationError,
+    validate_stage_evidence,
+)
 
 
 def _relocations(root: Path, locations: dict[str, str]) -> None:
@@ -63,3 +69,54 @@ def test_archive_asset_reads_relocated_zip_member_and_checks_sha(tmp_path: Path)
     binding["sha256"] = hashlib.sha256(b"changed checkpoint").hexdigest()
     with pytest.raises(RuntimeError, match="frozen starting asset changed"):
         _archive_asset(tmp_path, binding, old_archive)
+
+
+def test_archived_run_preserves_history_and_hash_bound_reads(tmp_path: Path) -> None:
+    run_id = "frozen-run"
+    relative = "metrics/summary.json"
+    payload = b'{"status": "PASS"}'
+    digest = hashlib.sha256(payload).hexdigest()
+    manifest = json.dumps({relative: digest}).encode()
+    archive_pathname = "results/backup/10_topic/runs.zip"
+    archive = tmp_path / archive_pathname
+    archive.parent.mkdir(parents=True)
+    _relocations(tmp_path, {f"results/{run_id}": archive_pathname})
+    workflow = {"evidence_contract_version": 2}
+    evidence = {
+        "status": "PASS",
+        "result_dir": run_id,
+        "artifact_manifest": {
+            "run_id": run_id,
+            "path": "artifact_hashes.json",
+            "sha256": hashlib.sha256(manifest).hexdigest(),
+        },
+    }
+
+    with zipfile.ZipFile(archive, "w") as stream:
+        stream.writestr(f"{run_id}/artifact_hashes.json", manifest)
+        stream.writestr(f"{run_id}/{relative}", payload)
+        stream.writestr("another-run/summary.json", b"other result")
+
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold") is None
+    with pytest.raises(EvidenceValidationError, match="ARTIFACT_DIRECTORY"):
+        validate_stage_evidence(EvidenceContext(tmp_path, workflow, "fit"), evidence)
+    assert read_run_artifact(tmp_path, run_id, relative, digest) == payload
+
+    live_run = tmp_path / "results" / run_id
+    live_run.mkdir()
+    with pytest.raises(EvidenceValidationError, match="ARTIFACT_MISSING"):
+        read_run_artifact(tmp_path, run_id, relative, digest)
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_MANIFEST:")
+    live_run.rmdir()
+
+    with zipfile.ZipFile(archive, "w") as stream:
+        stream.writestr(f"{run_id}/artifact_hashes.json", manifest)
+        stream.writestr(f"{run_id}/{relative}", b"changed result")
+
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_HASH:")
+    with pytest.raises(EvidenceValidationError, match="ARTIFACT_HASH"):
+        read_run_artifact(tmp_path, run_id, relative, digest)
+
+    with zipfile.ZipFile(archive, "a") as stream:
+        stream.writestr(f"{run_id}/../unsafe.json", b"extra")
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_ARCHIVE_PATH:")

@@ -4,9 +4,9 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249)
-- [运行结果](../../../../results/unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd)
-- [运行结果](../../../../results/postfault_m4_v1-m4-20261121T034423510207Z-ceaa6a72-6fb69813/summary.json)
+- [运行结果（归档）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1)
+- [运行结果（归档）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-2)
+- [运行结果（包内 `summary.json`）](../../../../results/backup/10_postfault_structure/07_m4_physical_consistency.DESCRIPTION.md#run-1)
 
 登记文件与配置
 
@@ -73,7 +73,7 @@
 | 原硬 R | (0.613, 0.196)，(0.673, 0.283)，(0.843, 0.199)，(0.853, 0.412)，(1.002, 0.380)，(1.125, 0.288)，(1.263, 0.219)，(1.430, 0.199) |
 | 冻结 M3 G2 | (0.463, 0.912)，(0.632, 0.179)，(0.695, 0.258)，(0.871, 0.188)，(0.900, 0.364)，(1.051, 0.344)，(1.170, 0.259)，(1.316, 0.199)，(1.486, 0.179) |
 
-[两份完整雅可比、全部特征值和逐例匹配](../../../../results/postfault_m4_v1-m4-20261121T034423510207Z-ceaa6a72-6fb69813/modes.json)
+[两份完整雅可比、全部特征值和逐例匹配（包内 `modes.json`）](../../../../results/backup/10_postfault_structure/07_m4_physical_consistency.DESCRIPTION.md#run-1)
 
 
 <a id="doc-82d48d3bb40e-45-条边刚度与机组同调"></a>
@@ -84,7 +84,7 @@
 
 ![十机有效耦合和前十条刚度变化](_sealed/figures/top10_topology.png)
 
-95/95 例稳定 `val` 的尾段同调参照为 G10 与其余九台。A06、原硬 R 和 M3 的 Fiedler 二分一致，均为 G5、G8、G9 与其余七台。静态分群与实测参照相符的机组对为 21/45，调整兰德指数为 −0.1111。[全 45 边、谱间隙和实测亲和度](../../../../results/postfault_m4_v1-m4-20261121T034423510207Z-ceaa6a72-6fb69813/graph.json)
+95/95 例稳定 `val` 的尾段同调参照为 G10 与其余九台。A06、原硬 R 和 M3 的 Fiedler 二分一致，均为 G5、G8、G9 与其余七台。静态分群与实测参照相符的机组对为 21/45，调整兰德指数为 −0.1111。[全 45 边、谱间隙和实测亲和度（包内 `graph.json`）](../../../../results/backup/10_postfault_structure/07_m4_physical_consistency.DESCRIPTION.md#run-1)
 
 
 <a id="doc-82d48d3bb40e-领先失步割集与起报储能"></a>
@@ -109,7 +109,7 @@ M3 复现了原硬 R 漏判的 `expansion_0189` 的领先 G7 割集。`pilot_023
 | `val` | 原硬 R | 0.9333 | 0.9386 | 0.8895 | 0.5877 |
 | `val` | 冻结 M3 G2 | 0.6702 | 0.9386 | 0.8895 | 0.5623 |
 
-`val` 中，硬 R 和 M3 的总储能 AUROC 分别为 0.9333 和 0.6702，两者的可见动能均为 0.9386。可见动能由起报转速和惯量确定。M3 总储能的两类分布重叠较多。AUROC 衡量这些已标注事件的排序区分度。[逐事件储能、分量四分位和割集](../../../../results/postfault_m4_v1-m4-20261121T034423510207Z-ceaa6a72-6fb69813/event_physics.json)
+`val` 中，硬 R 和 M3 的总储能 AUROC 分别为 0.9333 和 0.6702，两者的可见动能均为 0.9386。可见动能由起报转速和惯量确定。M3 总储能的两类分布重叠较多。AUROC 衡量这些已标注事件的排序区分度。[逐事件储能、分量四分位和割集（包内 `event_physics.json`）](../../../../results/backup/10_postfault_structure/07_m4_physical_consistency.DESCRIPTION.md#run-1)
 
 ![硬 R 与 M3 起报储能分布](_sealed/figures/origin_storage.png)
 
@@ -141,7 +141,7 @@ M3b 通过拟合验收后，冻结 `{G2}`，以 2.5 ms 和 1.25 ms 对同一 `te
 
 M3b 观察到 5/9 个确认失稳、2 个漏判、2 个未决和 0 个稳定误报。两档轨迹与分类的数值资格检查结果为全部通过。
 
-[全名单逐例评分](../../../../results/unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd/test.json) · [数值与两档预测](../../../../results/unified_discovery_m3b_test_v1-test-20261121T044042004702Z-7984cefd-3f6fcbfd/test_predictions.npz) · [SHA256 回执](_sealed/unified_discovery_m3b_test_v1_20261121_evidence.json)
+[全名单逐例评分（包内 `test.json`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-2) · [数值与两档预测（包内 `test_predictions.npz`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-2) · [SHA256 回执](_sealed/unified_discovery_m3b_test_v1_20261121_evidence.json)
 
 <a id="doc-42c15fb6425a"></a>
 
@@ -178,7 +178,7 @@ M3b 观察到 5/9 个确认失稳、2 个漏判、2 个未决和 0 个稳定误�
 
 从 `{G2,G5}` 删除 G5 后符合登记的闭环删除判据。
 
-[两档逐支持结果与删块判定](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/pruning_table.json)
+[两档逐支持结果与删块判定（包内 `pruning_table.json`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1)
 
 
 <a id="doc-42c15fb6425a-逐步检查"></a>
@@ -197,7 +197,7 @@ M3b 观察到 5/9 个确认失稳、2 个漏判、2 个未决和 0 个稳定误�
 | `{G2}` | 3 | 12/12 / 2 / 0 | 0.44380 | 1.54533 |
 | `{G2}` | 6 | 12/12 / 2 / 0 | 0.44606 | 1.54413 |
 
-三组逐步训练损失见 [{G2,G3,G5}](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/support-G2-G3-G5/training.jsonl) · [{G2,G5}](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/support-G2-G5/training.jsonl) · [{G2}](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/support-G2/training.jsonl)。
+三组逐步训练损失见 [{G2,G3,G5}（包内 `support-G2-G3-G5/training.jsonl`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1) · [{G2,G5}（包内 `support-G2-G5/training.jsonl`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1) · [{G2}（包内 `support-G2/training.jsonl`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1)。
 
 
 <a id="doc-42c15fb6425a-冻结快照双步长评分"></a>
@@ -218,7 +218,7 @@ M3b 观察到 5/9 个确认失稳、2 个漏判、2 个未决和 0 个稳定误�
 | `val` | 2.5 | 0.31876 / 0.32908 / 0.35539 / 0.43838 | 0.19026 | 0.21494 | 0.66846 |
 | `val` | 1.25 | 0.31876 / 0.32908 / 0.35539 / 0.43838 | 0.19026 | 0.21494 | 0.66846 |
 
-[完整 train 逐例评分](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/support-G2/train.json) · [完整 val 逐例评分](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/support-G2/val.json) · [33 个见证的双步长记录](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/support-G2/fit.json) · [冻结参数](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/freeze_m3b.npz) · [冻结评估合同](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/freeze.json) · [访问账本](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/access.jsonl) · [计算账本](../../../../results/unified_discovery_m3b_v1-fit-20261121T034533646318Z-ceaa6a72-4795a249/operations.jsonl)
+[完整 train 逐例评分（包内 `support-G2/train.json`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1) · [完整 val 逐例评分（包内 `support-G2/val.json`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1) · [33 个见证的双步长记录（包内 `support-G2/fit.json`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1) · [冻结参数（包内 `freeze_m3b.npz`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1) · [冻结评估合同（包内 `freeze.json`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1) · [访问账本（包内 `access.jsonl`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1) · [计算账本（包内 `operations.jsonl`）](../../../../results/backup/10_postfault_structure/06_m3b_frozen_evaluation.DESCRIPTION.md#run-1)
 
 拟合阶段 `test` 轨迹读取为 0。固定对照另行登记为 `unified_discovery_m3b_test_v1`。
 

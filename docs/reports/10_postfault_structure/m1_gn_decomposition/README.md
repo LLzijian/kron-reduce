@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/unified_first_swing_gn_decomposition_v3-probe-20261119T074514989765Z-5637f04a-73c62955)
+- [运行结果（归档）](../../../../results/backup/10_postfault_structure/03_m1_gn_decomposition.DESCRIPTION.md#run-2)
 
 登记文件与配置
 

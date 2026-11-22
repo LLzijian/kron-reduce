@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [原运行结果（含失败状态）](../../../../results/state_port_synthetic_v1-synthetic_correctness-20261110T161605071933Z-992738b0-967f4fb0/summary.json)
+- [原运行结果（含失败状态）（包内 `summary.json`）](../../../../results/backup/07_state_port/01_state_port_synthetic_runs.DESCRIPTION.md#run-1)
 - [保存审核归档说明](../../../../results/backup/07_state_port/01_state_port_synthetic_saved_audit.DESCRIPTION.md)
 
 登记文件与配置

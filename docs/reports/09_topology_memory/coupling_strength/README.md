@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/topology_memory_rom_coupling_strength_v1-topology_memory_rom_coupling_strength-20261117T093739105529Z-e0941400-2be1815b)
+- [运行结果（归档）](../../../../results/backup/09_topology_memory/04_coupling_strength.DESCRIPTION.md#run-1)
 
 登记文件与配置
 

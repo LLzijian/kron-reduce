@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/topology_memory_rom_synthetic_v1-topology_memory_rom-20261116T060550614316Z-ddcc4110-deb6b9f1)
+- [运行结果（归档）](../../../../results/backup/09_topology_memory/01_synthetic_rom.DESCRIPTION.md#run-1)
 
 登记文件与配置
 

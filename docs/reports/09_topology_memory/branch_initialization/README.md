@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/topology_memory_rom_branch_init_v1-topology_memory_rom_branch_init-20261117T100024225497Z-8b1fbc63-a2d016a5)
+- [运行结果（归档）](../../../../results/backup/09_topology_memory/05_branch_initialization.DESCRIPTION.md#run-1)
 
 登记文件与配置
 

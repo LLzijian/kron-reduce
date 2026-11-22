@@ -4,8 +4,8 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/unified_first_swing_v1-fit-20261119T051218221066Z-fdfecba6-4c03db51)
-- [运行结果](../../../../results/unified_first_swing_fixture_v1-synthetic-20261119T045408141342Z-4f7c040a-7298d370)
+- [运行结果（归档）](../../../../results/backup/10_postfault_structure/01_m1_first_swing.DESCRIPTION.md#run-2)
+- [运行结果（归档）](../../../../results/backup/10_postfault_structure/01_m1_first_swing.DESCRIPTION.md#run-1)
 
 登记文件与配置
 

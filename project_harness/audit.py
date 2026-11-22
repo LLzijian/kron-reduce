@@ -216,7 +216,10 @@ def _stage_evidence_error(
 ) -> str | None:
     try:
         validate_stage_evidence(
-            EvidenceContext(root=root, workflow=workflow, target=stage, state=state, predecessor=predecessor),
+            EvidenceContext(
+                root=root, workflow=workflow, target=stage, state=state, predecessor=predecessor,
+                allow_archived_runs=True,
+            ),
             evidence,
         )
     except EvidenceValidationError as exc:

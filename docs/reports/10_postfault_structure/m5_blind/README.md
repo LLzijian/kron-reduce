@@ -5,7 +5,7 @@
 ## 运行结果与归档
 
 - [运行结果](../../../../results/blind_confirmation_m5_v1-blind-20261121T064636317312Z-26fe26a3-b73dd81d)
-- [数据集构建运行结果](../../../../results/blind_dataset_build_m5_v1-build_receipt-20261121T064503861579Z-8e63d1d3-c86e61e2)
+- [数据集构建运行结果（归档）](../../../../results/backup/10_postfault_structure/09_m5_blind_dataset_build.DESCRIPTION.md#run-2)
 
 登记文件与配置
 

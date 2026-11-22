@@ -4,7 +4,7 @@
 
 ## 运行结果与归档
 
-- [运行结果](../../../../results/kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575/summary.json)
+- [运行结果（包内 `summary.json`）](../../../../results/backup/06_constant_c_energy_initialization/04_kiki_energy_cap_transfer_runs.DESCRIPTION.md#run-1)
 - [归档说明](../../../../results/backup/06_constant_c_energy_initialization/04_kiki_energy_cap_transfer.DESCRIPTION.md)
 
 登记文件与配置
