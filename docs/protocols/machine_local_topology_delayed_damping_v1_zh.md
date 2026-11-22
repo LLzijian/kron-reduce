@@ -8,4 +8,4 @@
 
 保存冻结权重后完整评价 train、val、test。候选依然只用因果隐态估计，沿用 GPU 2.5/1.25 ms 双步长、8 秒轨迹和稳定性规则。train 和 val 各自要求完整数值覆盖、匹配失步全部恢复、8 秒全体正确且无误报和未决。两划分失稳余量 RMSE 各降低至少 5%，整体及稳定组的 3/8 秒轨迹 RMSE 至多为对照的 105%。test 只报告。部署决定为 `KEEP_BASELINE`。
 
-一次执行、一项标量拟合。预算为三次 NPZ 解码、33 次完整 train 目标评估、581 次传播、1,127,040 次 Torch RHS、73,200 次切线 RHS，QR、SVD、三角求解和对应乘法各 2,460 次。无梯度和 Adam 更新。包含候选最终评分的逐例数值隔离预算。真实数据读取为零。[真值参数替换的依据](../reports/machine_local_topology/machine_local_topology_delayed_origin_20261115_zh.md)
+一次执行、一项标量拟合。预算为三次 NPZ 解码、33 次完整 train 目标评估、581 次传播、1,127,040 次 Torch RHS、73,200 次切线 RHS，QR、SVD、三角求解和对应乘法各 2,460 次。无梯度和 Adam 更新。包含候选最终评分的逐例数值隔离预算。真实数据读取为零。[真值参数替换的依据](../reports/08_machine_local_topology/machine_local_topology_delayed_origin_20261115_zh.md)

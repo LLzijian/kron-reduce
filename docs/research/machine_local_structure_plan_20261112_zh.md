@@ -12,8 +12,8 @@
 
 当前证据支持选择新的结构问题，但没有证明“两个共享状态”是所有失败的唯一原因：
 
-- [A1 train 结果](../reports/state_port/kiki_state_port_train_20261111_zh.md)：三个 seed 上，状态端口相对 A06 的 train 主归一化 MSE 改善 1.68%–1.81%，但 258 个合格事件中的 21 个真值规则触发，漏触发由 17 增至 18；237 个非触发事件的额外触发均为 0。裁定为 `REJECT / KEEP_BASELINE`。平均误差收益不能代替规则保护。
-- [能量球迁移结果](../reports/short_history_initialization/kiki_energy_cap_transfer_20261110_zh.md)：固定模型中的事后初始化替换被拒绝。新结构必须在训练与预测中使用同一初始化链，不能直接填入旧模型的隐藏状态。
+- [A1 train 结果](../reports/07_state_port/kiki_state_port_train_20261111_zh.md)：三个 seed 上，状态端口相对 A06 的 train 主归一化 MSE 改善 1.68%–1.81%，但 258 个合格事件中的 21 个真值规则触发，漏触发由 17 增至 18；237 个非触发事件的额外触发均为 0。裁定为 `REJECT / KEEP_BASELINE`。平均误差收益不能代替规则保护。
+- [能量球迁移结果](../reports/06_constant_c_energy_initialization/kiki_energy_cap_transfer_20261110_zh.md)：固定模型中的事后初始化替换被拒绝。新结构必须在训练与预测中使用同一初始化链，不能直接填入旧模型的隐藏状态。
 - [结构发现路线图](../structure_discovery_roadmap.md)已有局部储能、衰减记忆、振荡记忆和整模块删减的目标；历史上模块整体有预测贡献，并不代表各个模块都被独立辨识。
 
 原 A1 程序保持关闭；B0 的不同初始化器研究独立保留，退出当前首位。势能、状态依赖端口、机械功率闭合和时间目标不混入第一轮逐机结构比较。

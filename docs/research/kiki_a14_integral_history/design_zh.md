@@ -65,7 +65,7 @@ A10:183–200、271 明确以独立关键字保存六个真值输入成员；A09
 
 ### 3.2 旧物理证据的继承
 
-源物理资格只继承已归档 A10 科学审核 `docs/research/kiki_a10_astra_result_review_20261024_zh.md`，SHA `43f3f6f5add1f2d5e3bf46fc53c9ccc202aa4c2fcb2453aea03090902756313b`，及独立收据 `docs/reports/task3_model_refinement/kiki_a10_train_refinement_20261024_evidence.json`，SHA `1337b2f8c4cc9b8827a38a37cf47a15c916ed4a66cce05ca61314d4a1bb235ab`。两文件分别 7,901、23,492 字节；各前后一次字节校验共 62,786 字节，不解析其诊断正文。
+源物理资格只继承已归档 A10 科学审核 `docs/research/kiki_a10_astra_result_review_20261024_zh.md`，SHA `43f3f6f5add1f2d5e3bf46fc53c9ccc202aa4c2fcb2453aea03090902756313b`，及独立收据 `docs/reports/04_kiki_a03_a17_pipeline/kiki_a10_train_refinement_20261024_evidence.json`，SHA `1337b2f8c4cc9b8827a38a37cf47a15c916ed4a66cce05ca61314d4a1bb235ab`。两文件分别 7,901、23,492 字节；各前后一次字节校验共 62,786 字节，不解析其诊断正文。
 
 A09 `path_physics` 对 history+future 联合取最大误差，A10 复用同函数；已通过的联合上界蕴含其中 history 的上界。这里准确称为继承既有证据，不称新历史独立物理检查，也不额外调用旧路径 energy_identity。A09 原 .01/.005 精化失败仍保留；本轮依赖 A10 完成的 .005/.0025 验证，不改写 A09 结论。
 

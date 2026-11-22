@@ -1,6 +1,6 @@
 # M3 统一结构发现与 74 维闭环拟合
 
-在同一十机显式方程中检验逐边刚度、基础阻尼和记忆端口的联合调整，以及五个候选物理模块对首摆和长时轨迹的影响。使用冻结的 `train=346`（311 个稳定、35 个失稳）和 `val=107`（95 个稳定、12 个失稳）来源限定名单。一次正式执行，`test` 轨迹读取上限为 0。[冻结名单](../../configs/proposals/kiki_task3_split_reference_v1.json) · [V4 拟合回执](../reports/postfault_structure/unified_first_swing_v4_fit_20261119_evidence.json)
+在同一十机显式方程中检验逐边刚度、基础阻尼和记忆端口的联合调整，以及五个候选物理模块对首摆和长时轨迹的影响。使用冻结的 `train=346`（311 个稳定、35 个失稳）和 `val=107`（95 个稳定、12 个失稳）来源限定名单。一次正式执行，`test` 轨迹读取上限为 0。[冻结名单](../../configs/proposals/kiki_task3_split_reference_v1.json) · [V4 拟合回执](../reports/10_postfault_structure/unified_first_swing_v4_fit_20261119_evidence.json)
 
 ## 共同方程和因果初态
 

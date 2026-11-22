@@ -11,42 +11,42 @@ tests the weighted rollout, one-sided speed and weak momentum objective on the
 fixed T0M1 start with machine-local angle damping. The first paired fit follows
 the synthetic check and scoped approval. The adaptive history initializer and
 spatial coupling each have a separate paired comparison design.
-The [GN prior and radius comparison](../reports/postfault_structure/unified_first_swing_gn_decomposition_v3_20261119_zh.md)
+The [GN prior and radius comparison](../reports/10_postfault_structure/unified_first_swing_gn_decomposition_v3_20261119_zh.md)
 records the complete zero-update comparison. Fixed priors with soft radii
 detect all val instabilities in two configurations. The joint gate retains
 the original initializer.
-The [V4 paired fit and frozen comparison](../reports/postfault_structure/unified_first_swing_v4_20261120_zh.md)
+The [V4 paired fit and frozen comparison](../reports/10_postfault_structure/unified_first_swing_v4_20261120_zh.md)
 records the matched 18-update fits and the complete fixed test. Both fits
 select update zero. The soft initializer detects 6/9 test instabilities.
 
-[M3 统一结构发现](../reports/postfault_structure/unified_discovery_m3_v1_20261120_zh.md)完成
+[M3 统一结构发现](../reports/10_postfault_structure/unified_discovery_m3_v1_20261120_zh.md)完成
 54 至 74 维课程和五个物理模块的删块实验。G2 骨架的 `val` 检出为 12/12，
 2 个稳定误报超过正式上限，结论为 `KEEP_BASELINE`。`test` 轨迹读取为 0。
 
-[M4 故障后物理一致性](../reports/postfault_structure/postfault_m4_v1_20261121_zh.md)用封存预测和观测比较
+[M4 故障后物理一致性](../reports/10_postfault_structure/postfault_m4_v1_20261121_zh.md)用封存预测和观测比较
 M3 与原硬 R 模型。共同匹配的主模态频率误差中位数从 0.05023 降至 0.03292 Hz。
-[M3b 三组拟合](../reports/postfault_structure/unified_discovery_m3b_v1_20261121_zh.md)在正式误报上限为 2 的规则下冻结单 G2，
+[M3b 三组拟合](../reports/10_postfault_structure/unified_discovery_m3b_v1_20261121_zh.md)在正式误报上限为 2 的规则下冻结单 G2，
 参数与 M3 诊断快照相同。固定 `test` 使用独立的一次性授权。
-[固定 test 回执](../reports/postfault_structure/unified_discovery_m3b_test_v1_20261121_zh.md)记录
+[固定 test 回执](../reports/10_postfault_structure/unified_discovery_m3b_test_v1_20261121_zh.md)记录
 单 G2 的 5/9 确认检出、零稳定误报和 2 例未决，V4 软 2R 在同一名单检出 6/9。
 
-[M4 v2 惯量加权与储能分解](../reports/postfault_structure/postfault_m4_v2_20261121_zh.md)记录慢同调检验和两档步长的能量结果。[储能箱线图与附记](../reports/postfault_structure/figures/postfault_m4_v2/energy_decomposition_distribution_zh.md)给出五项储能的稳定和失稳分布。
+[M4 v2 惯量加权与储能分解](../reports/10_postfault_structure/postfault_m4_v2_20261121_zh.md)记录慢同调检验和两档步长的能量结果。[储能箱线图与附记](../reports/10_postfault_structure/figures/postfault_m4_v2/energy_decomposition_distribution_zh.md)给出五项储能的稳定和失稳分布。
 
-[M5 独立盲测](../reports/postfault_structure/blind_confirmation_m5_v1_20261121_zh.md)显示冻结 M3b G2 在同源新仿真的 32 个失稳事件中确认检出 29 个，62 个稳定事件全部判稳。
+[M5 独立盲测](../reports/10_postfault_structure/blind_confirmation_m5_v1_20261121_zh.md)显示冻结 M3b G2 在同源新仿真的 32 个失稳事件中确认检出 29 个，62 个稳定事件全部判稳。
 
 The [Topology–Memory Energy-Constrained ROM](topology_memory_energy_rom_zh.md)
 defines the common storage, topology and memory states, candidate library,
 deletion rules and phased validation for future explicit reduced models.
 The first stage is the [complete train momentum and work diagnosis](../protocols/kiki_topology_memory_balance_v1_zh.md).
-The [completed diagnosis](../reports/topology_memory/kiki_topology_memory_balance_20261116_zh.md)
+The [completed diagnosis](../reports/09_topology_memory/kiki_topology_memory_balance_20261116_zh.md)
 isolates release from driven memory and records a positive separation residual
-in 31 of the 33 witnessed unstable train events. The [completed S0–S4 comparison](../reports/topology_memory/topology_memory_rom_synthetic_20261116_zh.md)
+in 31 of the 33 witnessed unstable train events. The [completed S0–S4 comparison](../reports/09_topology_memory/topology_memory_rom_synthetic_20261116_zh.md)
 recovers memory saturation in S2 and omits branch-dependent changes in coupling
 strength in S1 and S3. The [fixed-coefficient history prior comparison](../protocols/topology_memory_rom_causal_v1_zh.md)
-passes its [fixed-truth recovery gates](../reports/topology_memory/topology_memory_rom_causal_20261116_zh.md)
+passes its [fixed-truth recovery gates](../reports/09_topology_memory/topology_memory_rom_causal_20261116_zh.md)
 and exposes greater hidden-state error without the prior under noise. Full TASK3
 training remains gated on structure recovery and rejection of out-of-library mismatch.
-The [coupling comparison and follow-up](../reports/topology_memory/topology_memory_rom_coupling_strength_20261117_zh.md)
+The [coupling comparison and follow-up](../reports/09_topology_memory/topology_memory_rom_coupling_strength_20261117_zh.md)
 distinguish overall from branch-dependent changes with known coefficients after
 improving the history solve. Joint hidden-state recovery remains below the
 registered accuracy requirement when both changes occur.
@@ -59,27 +59,27 @@ The [first protocol](../protocols/machine_local_topology_dynamic_coupling_v1_zh.
 compares it with a static restoring term at equal fitting budgets and uses the
 same 100 ms causal history contract. Phase-dependent damping remains a separate
 candidate in the momentum plan.
-The [synthetic comparison](../reports/machine_local_topology/machine_local_topology_dynamic_coupling_20261116_zh.md)
-passes all three primary regimes. The [complete TASK3 train diagnosis](../reports/machine_local_topology/kiki_machine_local_topology_dynamic_coupling_20261116_zh.md)
+The [synthetic comparison](../reports/08_machine_local_topology/machine_local_topology_dynamic_coupling_20261116_zh.md)
+passes all three primary regimes. The [complete TASK3 train diagnosis](../reports/08_machine_local_topology/kiki_machine_local_topology_dynamic_coupling_20261116_zh.md)
 finds that fixed common-mode dynamics increase unstable momentum residuals
 under both damping references and all three memory controls. The registered
 comparison closes at the observed-path gate.
 The [zero-sum spatial coupling protocol](../protocols/machine_local_topology_spatial_coupling_v1_zh.md)
 compares bounded redistribution of branch log stiffness against common-scale
 change and fixed coupling on the same complete synthetic cohorts.
-The [first zero-sum comparison](../reports/machine_local_topology/machine_local_topology_spatial_coupling_20261116_zh.md)
+The [first zero-sum comparison](../reports/08_machine_local_topology/machine_local_topology_spatial_coupling_20261116_zh.md)
 selects the generating spatial rate and fails three separation gates. The
-[causal history control](../reports/machine_local_topology/machine_local_topology_spatial_coupling_causal_20261116_zh.md)
+[causal history control](../reports/08_machine_local_topology/machine_local_topology_spatial_coupling_causal_20261116_zh.md)
 passes the separation thresholds and recovers the synthetic memory on all
 train and val cases at both step sizes.
-The [complete TASK3 train diagnosis](../reports/machine_local_topology/kiki_machine_local_topology_spatial_coupling_20261116_zh.md)
+The [complete TASK3 train diagnosis](../reports/08_machine_local_topology/kiki_machine_local_topology_spatial_coupling_20261116_zh.md)
 finds lower overall residuals and closes at the unstable-group gate. Under
 spatial damping, the observed-path correction has negative alignment with the
 remaining unstable residual after free memory projection.
 The [paired spatial relaxation protocol](../protocols/kiki_machine_local_topology_spatial_relaxation_v1_zh.md)
 learns machine-specific nonnegative relaxation rates on the complete TASK3 train
 roster from a shared starting checkpoint, with frozen val and test scoring.
-The [complete paired result](../reports/machine_local_topology/kiki_machine_local_topology_spatial_relaxation_20261116_zh.md)
+The [complete paired result](../reports/08_machine_local_topology/kiki_machine_local_topology_spatial_relaxation_20261116_zh.md)
 shows lower train loss after 18 updates, with both models selecting update 0
 on val. Full test yields 70 correct, including 3 of 9 unstable cases, and two
 unresolved cases.
@@ -88,100 +88,100 @@ The [topology and memory plan](machine_local_topology_memory_plan_20261115_zh.md
 introduces event-conditioned edge stiffness and reciprocal machine-local memory.
 The [S0 protocol](../protocols/machine_local_topology_v1_zh.md) tests four known-
 coefficient combinations and the 100 ms initialization before shared-parameter
-learning and function selection. The [S0 evidence](../reports/machine_local_topology/machine_local_topology_s0_20261115_zh.md)
+learning and function selection. The [S0 evidence](../reports/08_machine_local_topology/machine_local_topology_s0_20261115_zh.md)
 passes the engineering checks for clean synthetic histories. The
-[shared-coefficient comparison](../reports/machine_local_topology/machine_local_topology_learning_20261115_zh.md)
+[shared-coefficient comparison](../reports/08_machine_local_topology/machine_local_topology_learning_20261115_zh.md)
 recovers both no-memory models and identifies recovery gaps in the two memory
-models. The [origin-state diagnosis](../reports/machine_local_topology/machine_local_topology_diagnosis_20261115_zh.md)
+models. The [origin-state diagnosis](../reports/08_machine_local_topology/machine_local_topology_diagnosis_20261115_zh.md)
 finds that the combined model's eight-second val error is more sensitive to the
-coupling correction than to the memory state. Subsequent [long-horizon refinement](../reports/machine_local_topology/machine_local_topology_refinement_20261115_zh.md)
+coupling correction than to the memory state. Subsequent [long-horizon refinement](../reports/08_machine_local_topology/machine_local_topology_refinement_20261115_zh.md)
 passes the trajectory, effective-stiffness and memory-kernel recovery gates for
 both fixed supports on the original clean synthetic rosters. The [independent
-excitation check](../reports/machine_local_topology/machine_local_topology_transfer_20261115_zh.md) passes
+excitation check](../reports/08_machine_local_topology/machine_local_topology_transfer_20261115_zh.md) passes
 all matched gates on fresh stable and unstable events. All 16 combinations
 classify the designed excitations correctly. Closed-loop errors distinguish the
-frozen equations on the memory truth systems. The [full TASK3 comparison](../reports/machine_local_topology/kiki_machine_local_topology_20261115_zh.md)
+frozen equations on the memory truth systems. The [full TASK3 comparison](../reports/08_machine_local_topology/kiki_machine_local_topology_20261115_zh.md)
 completed train 346, val 107 and test 76 for both frozen equations. Both models
 classified 67 stable test events correctly and detected zero of nine unstable
 events. The six saved forecasts were independently rescored. The objective
 remains full-cohort test stability accuracy above 90%. On val, each model detected
 8 of 12 unstable events, with three classified stable and one unresolved.
-The [memory radius comparison](../reports/machine_local_topology/kiki_machine_local_topology_radius_20261115_zh.md)
+The [memory radius comparison](../reports/08_machine_local_topology/kiki_machine_local_topology_radius_20261115_zh.md)
 isolated the initialization radius on the same frozen T0M1 equation and completed
 all three rosters. Doubling the radius yielded 70 correct test judgments, with
 three unresolved. The val guard failed on the unresolved count and the eight-second
 stable trajectory error. Both the evaluation and saved-forecast audit are closed.
-The [five-point witness audit](../reports/machine_local_topology/kiki_task3_train_witness_20261115_zh.md)
+The [five-point witness audit](../reports/08_machine_local_topology/kiki_task3_train_witness_20261115_zh.md)
 found a physical witness within the available three-second interval in all 35
 officially unstable train events. Each radius reproduced it in six events in the
 matched interval. A CUDA gradient check passed through the existing history
-initializer and rollout. The [paired known-truth training check](../reports/machine_local_topology/machine_local_topology_margin_20261115_zh.md)
+initializer and rollout. The [paired known-truth training check](../reports/08_machine_local_topology/machine_local_topology_margin_20261115_zh.md)
 completed both twenty-update fits and all 24 synthetic events. The margin term
 changed the val unstable margin RMSE by 0.041% relative to the trajectory-only
 fit. Both fits recovered all matched triggers and classified the six val events.
-The margin improvement gate failed. The subsequent [delayed-excitation check](../reports/machine_local_topology/machine_local_topology_delayed_20261115_zh.md)
+The margin improvement gate failed. The subsequent [delayed-excitation check](../reports/08_machine_local_topology/machine_local_topology_delayed_20261115_zh.md)
 reproduced six matched train misses at the shared start and measured both
 loss gradients. Norm calibration changed the first Adam update substantially
 while improving its projected margin descent by 0.16%. Neither twenty-update
-fit recovered a matched witness. In the [seven-condition diagnosis](../reports/machine_local_topology/machine_local_topology_delayed_origin_20261115_zh.md),
+fit recovered a matched witness. In the [seven-condition diagnosis](../reports/08_machine_local_topology/machine_local_topology_delayed_origin_20261115_zh.md),
 damping substitution recovered every matched train and val witness at a
-fixed true origin. The [causal damping fit](../reports/machine_local_topology/machine_local_topology_delayed_damping_20261115_zh.md)
+fixed true origin. The [causal damping fit](../reports/08_machine_local_topology/machine_local_topology_delayed_damping_20261115_zh.md)
 recovered these witnesses from visible train trajectories and passed the
-synthetic gate. The [full TASK3 damping comparison](../reports/machine_local_topology/kiki_machine_local_topology_damping_20261115_zh.md)
+synthetic gate. The [full TASK3 damping comparison](../reports/08_machine_local_topology/kiki_machine_local_topology_damping_20261115_zh.md)
 reduced the short-horizon train objective by 18.85%. Val instability detection
 fell from 8/12 to 1/12, and the full test accuracy remained unresolved. All
 three rosters and saved-prediction checks are complete. The next candidate is the
 [ball-constrained history solve](machine_local_topology_ball_history_plan_20261115_zh.md)
-on the original T0M1 equation. The [48-case synthetic comparison](../reports/machine_local_topology/machine_local_topology_ball_history_20261115_zh.md)
+on the original T0M1 equation. The [48-case synthetic comparison](../reports/08_machine_local_topology/machine_local_topology_ball_history_20261115_zh.md)
 recovered the feasible clean states with zero prior. The original-prior condition
 failed the trajectory and active-bound gates. The [matched no-prior protocol](../protocols/machine_local_topology_ball_history_no_prior_v1_zh.md)
 compares the exact and radial updates with the same frozen zero prior. Its
-[results](../reports/machine_local_topology/machine_local_topology_ball_history_no_prior_20261115_zh.md)
+[results](../reports/08_machine_local_topology/machine_local_topology_ball_history_no_prior_20261115_zh.md)
 show lower constrained history error and higher forecast error with the exact
 solve. Removing the prior within the radial method improves the matched
-train and val trajectories. The [fixed-weight TASK3 comparison](../reports/machine_local_topology/kiki_machine_local_topology_no_prior_20261115_zh.md)
+train and val trajectories. The [fixed-weight TASK3 comparison](../reports/08_machine_local_topology/kiki_machine_local_topology_no_prior_20261115_zh.md)
 completed all three real cohorts and independent score recomputation. Val had
 one unresolved case and test had four. Train reproduced five of 35 matched
 instability windows. The [momentum-consistency diagnosis](machine_local_topology_momentum_plan_20261115_zh.md)
-isolates signed force errors along observed paths. The [known-truth controls](../reports/machine_local_topology/machine_local_topology_momentum_20261115_zh.md)
-recovered stiffness and damping perturbations. The [complete TASK3 train diagnosis](../reports/machine_local_topology/kiki_machine_local_topology_momentum_20261115_zh.md)
+isolates signed force errors along observed paths. The [known-truth controls](../reports/08_machine_local_topology/machine_local_topology_momentum_20261115_zh.md)
+recovered stiffness and damping perturbations. The [complete TASK3 train diagnosis](../reports/08_machine_local_topology/kiki_machine_local_topology_momentum_20261115_zh.md)
 selected a positive damping factor of 0.3436767365, reducing the projected
-residual SSE in stable and unstable events. The [frozen damping comparison](../reports/machine_local_topology/kiki_machine_local_topology_momentum_damping_20261115_zh.md)
+residual SSE in stable and unstable events. The [frozen damping comparison](../reports/08_machine_local_topology/kiki_machine_local_topology_momentum_damping_20261115_zh.md)
 reproduced 10 of 35 matched train instability windows, with five stable false
 alarms. Val classified all 107 events, with 105 correct and one stable false
 alarm. The eight-second val error on the 95 stable events increased from 0.218
 to 0.464. The full test returned 71 correct judgments and two unresolved cases.
 The val guard failed, the baseline was retained and independent rescoring
 confirmed every saved judgment.
-The [history-only origin transfer check](../reports/machine_local_topology/kiki_machine_local_topology_origin_transfer_20261115_zh.md)
+The [history-only origin transfer check](../reports/08_machine_local_topology/kiki_machine_local_topology_origin_transfer_20261115_zh.md)
 kept the original equation fixed. Removing the history bound reduced subsequent
 observed-path momentum SSE by 41.92% on unstable train events and increased it
 by 33.54% on stable train events. The sampling and transfer gates failed, so
 this comparison supplies no basis to relax the bound globally.
-The [paired angle-damping check](../reports/machine_local_topology/machine_local_topology_angle_damping_20261115_zh.md)
+The [paired angle-damping check](../reports/08_machine_local_topology/machine_local_topology_angle_damping_20261115_zh.md)
 recovered the known coefficient and passed trajectory and stability gates.
-The [full TASK3 angle-damping comparison](../reports/machine_local_topology/kiki_machine_local_topology_angle_damping_20261115_zh.md)
+The [full TASK3 angle-damping comparison](../reports/08_machine_local_topology/kiki_machine_local_topology_angle_damping_20261115_zh.md)
 used the complete train estimate at the frozen upper bound. Val classified
 106/107 correctly with no stable false alarm and passed its trajectory gate.
 Three train false alarms account for 99.55% of the increase in the mean stable
 eight-second error. Test returned 69 correct judgments with three unresolved.
-The complete rosters have been independently rescored. The [damping scale check](../reports/machine_local_topology/kiki_machine_local_topology_angle_scale_20261115_zh.md)
+The complete rosters have been independently rescored. The [damping scale check](../reports/08_machine_local_topology/kiki_machine_local_topology_angle_scale_20261115_zh.md)
 qualified all 346 train cases. At fixed causal origins and after free-origin
 projection, increasing the scale from 1 to 1.25 rad raised residuals in both
 stable and unstable train events. The change failed its registered gate.
-The [synthetic spatial damping check](../reports/machine_local_topology/machine_local_topology_spatial_damping_20261115_zh.md)
+The [synthetic spatial damping check](../reports/08_machine_local_topology/machine_local_topology_spatial_damping_20261115_zh.md)
 recovered both reference distributions and separated spatial allocation from
-the trace-matched control. The [full TASK3 spatial comparison](../reports/machine_local_topology/kiki_machine_local_topology_spatial_damping_20261115_zh.md)
+the trace-matched control. The [full TASK3 spatial comparison](../reports/08_machine_local_topology/kiki_machine_local_topology_spatial_damping_20261115_zh.md)
 retained 106/107 correct on val with zero stable false alarms and a six-term
 score of 0.42674. Test returned 70 correct judgments and two unresolved, all
-independently rescored. The [fixed modal probe](../reports/machine_local_topology/kiki_machine_local_topology_modal_damping_20261115_zh.md)
+independently rescored. The [fixed modal probe](../reports/08_machine_local_topology/kiki_machine_local_topology_modal_damping_20261115_zh.md)
 qualified all train cases. Adding the fixed reference-stiffness mode increased
 stable residuals at both causal starts and under free-memory projection.
-The [paired restoring-force check](../reports/machine_local_topology/machine_local_topology_restoring_shape_20261115_zh.md)
+The [paired restoring-force check](../reports/08_machine_local_topology/machine_local_topology_restoring_shape_20261115_zh.md)
 recovered signed coefficients on the spatial damping model while preserving
 the equilibrium and linearized stiffness. The positive and negative known
 systems passed the complete causal trajectory checks.
-The [full TASK3 restoring-force comparison](../reports/machine_local_topology/kiki_machine_local_topology_restoring_shape_20261115_zh.md)
+The [full TASK3 restoring-force comparison](../reports/08_machine_local_topology/kiki_machine_local_topology_restoring_shape_20261115_zh.md)
 passed both train and val trajectory guards. Val classified 104/107 with
 nine detected unstable events. Test classified 70 correctly with two
 unresolved. All 529 saved predictions passed independent scoring. The
@@ -189,20 +189,20 @@ spatial damping anchor retains the stronger val stability and six-term score.
 The [momentum plan](machine_local_topology_momentum_plan_20261115_zh.md#按摆动方向调节阻尼)
 defines the next train mechanism check.
 
-The [coefficient substitutions](../reports/machine_local_topology/machine_local_memory_diagnosis_20261114_zh.md)
+The [coefficient substitutions](../reports/08_machine_local_topology/machine_local_memory_diagnosis_20261114_zh.md)
 showed compensation between the fitted visible and memory coefficients across
 all three known-truth train rosters. The subsequent
-[momentum calibration](../reports/machine_local_topology/machine_local_memory_calibration_20261114_zh.md)
+[momentum calibration](../reports/08_machine_local_topology/machine_local_memory_calibration_20261114_zh.md)
 passed all fixed-support recovery gates.
 [Independent result review](machine_local_memory_calibration_result_review_20261114.json).
-The [TASK3 momentum comparison](../reports/machine_local_topology/kiki_machine_local_memory_20261114_zh.md)
+The [TASK3 momentum comparison](../reports/08_machine_local_topology/kiki_machine_local_memory_20261114_zh.md)
 completed the full train, val and test rosters. All four fits stopped at a
 rank-deficient nuisance block. The selected models share the same equation,
 with all ten port amplitudes at the coefficient floor and degraded trajectory
 and stability scores. The result is `KEEP_BASELINE`.
 [Independent result review](kiki_machine_local_memory_result_review_20261114.json).
 
-The [paired R20/R21 report](../reports/machine_local_topology/kiki_machine_local_r20_r21_20261114_zh.md)
+The [paired R20/R21 report](../reports/08_machine_local_topology/kiki_machine_local_r20_r21_20261114_zh.md)
 covers both models on all 346 train, 107 val and 76 test events. Both selected
 update 80 by the registered full-val rule and reached the update cap while the
 val objective was still improving. On the fixed test roster, R21 had lower
@@ -218,18 +218,18 @@ one forty-update fit on all 346 train events, followed by all 107 val and 76 tes
 events. Each update covers the complete train roster through gradient accumulation.
 The test stage binds the saved model and preprocessing after fitting closes.
 All roles report trajectory errors and stability judgments regardless of RMSE.
-The [completed full-cohort report](../reports/machine_local_topology/kiki_machine_local_full_20261113_zh.md)
+The [completed full-cohort report](../reports/08_machine_local_topology/kiki_machine_local_full_20261113_zh.md)
 now contains all 529 predictions and their stability scores. Saved-array
 recomputation found zero discrepancies. Fit, test and saved-audit authorities
 are consumed. Train-only diagnosis found that the observed-history residual
 does not establish the cause of the future error. The next preparation separates
 initialization from dynamics with synthetic true-hidden-state controls.
-That [complete 64-case comparison](../reports/machine_local_topology/machine_local_hidden_oracle_20261113_zh.md)
+That [complete 64-case comparison](../reports/08_machine_local_topology/machine_local_hidden_oracle_20261113_zh.md)
 is now finished: matched dynamics recover the hidden state, while fixed stiffness
 mismatch is partly absorbed by the initializer and changes future errors in both
 directions. All four groups complete train/val/test with full stability coverage;
 saved-array recomputation has zero discrepancies. Its scientific and saved-audit
-authorities are consumed. The [shared stiffness calibration](../reports/machine_local_topology/machine_local_stiffness_calibration_20261114_zh.md)
+authorities are consumed. The [shared stiffness calibration](../reports/08_machine_local_topology/machine_local_stiffness_calibration_20261114_zh.md)
 recovered the known scalar after 11 full train objectives. The fitted model
 passed hidden-state recovery and trajectory checks on all 64 synthetic events.
 The [paired design](machine_local_r20_r21_preparation_20261114_zh.md)
@@ -239,22 +239,22 @@ extends synthetic checks to 74 original-equation coefficients and separate
 harmonic-potential and modulated-damping controls. The [first protocol](../protocols/machine_local_equation_v1_zh.md)
 used causal-history training at 0.5 s and 1 s with formal CUDA inference.
 
-The [machine-local initializer diagnosis](../reports/machine_local_topology/machine_local_initializer_diagnosis_20261112_zh.md)
+The [machine-local initializer diagnosis](../reports/08_machine_local_topology/machine_local_initializer_diagnosis_20261112_zh.md)
 passed its numerical and saved-evidence checks. Its route is
 `INITIALIZER_LIMITATION_PRIORITY`: the exact conditional encoder still fails
 the val target under true dynamics. Its authority and saved audit are consumed.
-The [discrete-history observer](../reports/machine_local_topology/machine_local_observer_20261112_zh.md)
+The [discrete-history observer](../reports/08_machine_local_topology/machine_local_observer_20261112_zh.md)
 recovered clean hidden states, but failed the 1% noise gate. Its run and saved
-arithmetic audit are consumed. The [joint initial-state correction](../reports/machine_local_topology/machine_local_joint_observer_20261112_zh.md)
+arithmetic audit are consumed. The [joint initial-state correction](../reports/08_machine_local_topology/machine_local_joint_observer_20261112_zh.md)
 reduced paired train/val errors, while fresh noisy cases still failed the target.
 Its saved-array audit and scientific review are complete; that authority is consumed.
-The [Gaussian information diagnosis](../reports/machine_local_topology/machine_local_gaussian_oracle_20261112_zh.md)
+The [Gaussian information diagnosis](../reports/08_machine_local_topology/machine_local_gaussian_oracle_20261112_zh.md)
 passed technical and saved-array checks. Under its frozen generating distribution,
 the local 100 ms noisy conditional risk exceeds the original target; the same-posterior
 visible reset adds risk. This one-use authority and saved audit are consumed.
 The user's 2026-11-13 update prioritizes quick clean predictions and complete
 val/test evaluation after every frozen training round, regardless of RMSE.
-The [clean learning round](../reports/machine_local_topology/machine_local_clean_learning_20261113_zh.md)
+The [clean learning round](../reports/08_machine_local_topology/machine_local_clean_learning_20261113_zh.md)
 completed one 240-update fit of twenty machine-local port/time-scale parameters
 through a differentiable 100 ms history solver. Truth, initial and final models
 all received train/val/test scores. Numerical, gradient, truth-control, accuracy
@@ -266,7 +266,7 @@ response solver is not an exact initializer for the sine backbone.
 The [clean nonlinear history protocol](../protocols/machine_local_nonlinear_history_v1_zh.md)
 completed six fixed cases and two parameter controls. Nonlinear recovery,
 gradients and numerical gates passed; both controls received all train/val/test
-trajectory and stability scores. The [report](../reports/machine_local_topology/machine_local_nonlinear_history_20261113_zh.md)
+trajectory and stability scores. The [report](../reports/08_machine_local_topology/machine_local_nonlinear_history_20261113_zh.md)
 and [result review](machine_local_nonlinear_history_result_review_20261113_zh.md)
 retain the saved-audit schema failure and its JSON-only reconciliation. No arrays
 were reread for that correction. The next registered comparison uses the full
@@ -277,8 +277,8 @@ is deferred. Existing noise results and consumed scopes remain unchanged.
 Future real fits use TASK3's exact frozen train 346 / val 107 / test 76 cohorts;
 accuracy gates govern promotion, not whether to report held-out predictions.
 
-[Machine-local S0](../reports/machine_local_topology/machine_local_s0_20261112_zh.md) passed all 112
-frozen checks. The [S1-base comparison](../reports/machine_local_topology/machine_local_s1_20261112_zh.md)
+[Machine-local S0](../reports/08_machine_local_topology/machine_local_s0_20261112_zh.md) passed all 112
+frozen checks. The [S1-base comparison](../reports/08_machine_local_topology/machine_local_s1_20261112_zh.md)
 completed all twelve fits and its saved arithmetic audit. Observation, physical
 and numerical checks passed; all six required prediction pairs failed. Both
 one-use authorities and saved audits are consumed: REJECT / KEEP_BASELINE /
@@ -310,14 +310,14 @@ all numerical checks, then failed while serializing the final summary. Its
 scientific authority is consumed and the failed run remains immutable. The
 [separate saved-evidence review](../protocols/state_port_saved_review_20261111_zh.md)
 completed 200 checks with zero mismatches and zero new model or trajectory
-calls. The [result report](../reports/state_port/state_port_synthetic_20261111_zh.md) records
+calls. The [result report](../reports/07_state_port/state_port_synthetic_20261111_zh.md) records
 `PASS_FROM_SAVED_EVIDENCE` while preserving the failed process. The
 [scientific result review](state_port_result_review_20261111_zh.md) accepts
 these finite checks; both execution authorities are consumed. Real train
 comparisons require their own design and registration; keep the baseline and
 default deployment initializer.
 
-The [A1 train comparison](../reports/state_port/kiki_state_port_train_20261111_zh.md)
+The [A1 train comparison](../reports/07_state_port/kiki_state_port_train_20261111_zh.md)
 completed all six 40-update fits and its separate saved arithmetic audit
 (76 checks, zero mismatches). State-dependent ports improved weighted trajectory
 MSE over both references, but added one train rule miss in every seed. The
@@ -338,7 +338,7 @@ its implementation review and all completed evidence frozen.
 
 ## Precursor evidence
 
-The [constant-C synthetic study](../reports/short_history_initialization/constant_c_100ms_synthetic_20261109_zh.md)
+The [constant-C synthetic study](../reports/06_constant_c_energy_initialization/constant_c_100ms_synthetic_20261109_zh.md)
 completed its one registered execution: 17 cases separate discrete observation
 information, initialization error and visible future equivalence. Its authority
 is consumed; review the saved evidence rather than rerunning it. The fixed main
@@ -355,7 +355,7 @@ preserve the original preparation and source identities.
 The separate [execution protocol](../protocols/constant_c_energy_execution_v1_zh.md)
 and [exact implementation approval](constant_c_energy_execution_review_20261109_zh.md)
 now bind the saved-input reader, conditional propagation and complete budgets.
-The [completed comparison](../reports/short_history_initialization/constant_c_energy_initializer_20261109_zh.md)
+The [completed comparison](../reports/06_constant_c_energy_initialization/constant_c_energy_initializer_20261109_zh.md)
 retains all 27 records. The fixed bound controls energy inflation and improves
 visible futures in the weak-coupling noisy case; hidden-state recovery still
 fails its threshold. Both positive bounds remain inactive in the stiffness
@@ -365,7 +365,7 @@ Authority `constant_c_energy_initializer_v1_20261109` is consumed; phase-one
 authority also remains consumed. Read-only evidence synthesis and preparation
 of an independently registered follow-up remain available. No later candidate
 stage or real-data comparison is authorized by this result.
-The separate [fixed-radius confirmation](../reports/short_history_initialization/constant_c_energy_confirmation_20261109_zh.md)
+The separate [fixed-radius confirmation](../reports/06_constant_c_energy_initialization/constant_c_energy_confirmation_20261109_zh.md)
 completed its six new parameter/noise cases within the already exposed matched
 linear family. All frozen future thresholds and noninferiority criteria passed;
 both weak-coupling noisy cases exercised the bound. The [result review](constant_c_energy_confirmation_result_review_20261109_zh.md)
@@ -376,7 +376,7 @@ still failed in all three weak-coupling cases. Authority
 independent validation. Further comparisons require their own design, exact
 review and registration; the result does not start another execution.
 
-The [encoder-referenced energy-ball comparison](../reports/short_history_initialization/kiki_energy_cap_transfer_20261110_zh.md)
+The [encoder-referenced energy-ball comparison](../reports/06_constant_c_energy_initialization/kiki_energy_cap_transfer_20261110_zh.md)
 completed all 774 fixed-A06 train slots with `REJECT / KEEP_BASELINE`:
 `V=true`, the constraint was active in 666 slots, `G_I=true`, `G_E=false`,
 and `D=false`. C improved the unconstrained initializer but retained roughly

@@ -1,8 +1,8 @@
 # 逐机记忆的能量约束历史求解
 
-原始 T0M1 先求无约束的 Gauss–Newton 更新，再将新的历史起点隐态沿径向缩回能量球。原方法在 train 的 284/346 例、val 的 98/107 例触及半径。历史对不同记忆方向的灵敏度不同时，径向投影通常偏离带约束的最小二乘最优解。触顶比例给出检验该机制的依据。[半径对照](../reports/machine_local_topology/kiki_machine_local_topology_radius_20261115_zh.md)
+原始 T0M1 先求无约束的 Gauss–Newton 更新，再将新的历史起点隐态沿径向缩回能量球。原方法在 train 的 284/346 例、val 的 98/107 例触及半径。历史对不同记忆方向的灵敏度不同时，径向投影通常偏离带约束的最小二乘最优解。触顶比例给出检验该机制的依据。[半径对照](../reports/08_machine_local_topology/kiki_machine_local_topology_radius_20261115_zh.md)
 
-真实阻尼校准使 train 的 1 s／3 s 目标下降 18.85%，同时 train 检出的真失稳从 24/35 降至 9/35，val 从 8/12 降至 1/12。下一轮在原 T0M1 第 12 步方程上单独检验初始化求解。沿用 100 ms 测量、半径 6.61055385191009、先验权重 $10^{-6}$、train 尺度和末点可见状态重置。[阻尼试验](../reports/machine_local_topology/kiki_machine_local_topology_damping_20261115_zh.md)
+真实阻尼校准使 train 的 1 s／3 s 目标下降 18.85%，同时 train 检出的真失稳从 24/35 降至 9/35，val 从 8/12 降至 1/12。下一轮在原 T0M1 第 12 步方程上单独检验初始化求解。沿用 100 ms 测量、半径 6.61055385191009、先验权重 $10^{-6}$、train 尺度和末点可见状态重置。[阻尼试验](../reports/08_machine_local_topology/kiki_machine_local_topology_damping_20261115_zh.md)
 
 ## 绝对隐态的约束最小二乘
 

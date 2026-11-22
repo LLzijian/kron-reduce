@@ -53,4 +53,4 @@ c_{ik}^{new}=\frac{c_{ik}a(t_k)}{\sum_jc_{ij}a(t_j)},
 
 上述路线分别检验端口机制、初始化与动力学目标一致性、势能形状和时间目标。它们是独立候选，不合并成一次多因素实验。当前首选 A1 仅表示有限预算下的设计顺序；若首要问题改为“联合训练能否修复初始化迁移”，应直接优先 B。
 
-本计划不改变已消耗的实验授权、被冻结的结果、训练状态或默认部署初始化。任何候选启动前均须另行登记数据范围、方案、预算、门槛和实现审核；机器执行权限仍由 `configs/research_policy.json` 管理。既有结果见[能量球结果报告](../reports/short_history_initialization/kiki_energy_cap_transfer_20261110_zh.md)和[科学审核](kiki_energy_cap_result_review_20261110_zh.md)。
+本计划不改变已消耗的实验授权、被冻结的结果、训练状态或默认部署初始化。任何候选启动前均须另行登记数据范围、方案、预算、门槛和实现审核；机器执行权限仍由 `configs/research_policy.json` 管理。既有结果见[能量球结果报告](../reports/06_constant_c_energy_initialization/kiki_energy_cap_transfer_20261110_zh.md)和[科学审核](kiki_energy_cap_result_review_20261110_zh.md)。
