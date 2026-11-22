@@ -698,12 +698,21 @@ on this fault distribution.
 \end{figure*}
 
 \subsection{Methodological scope}
-The fitted law describes post-clearing motion at the restored topology.
-Estimating critical clearing time would require a fault-on model and
-a switching rule. Three Test Set instabilities are classified as stable
-under the 100-ms and constant mechanical-power protocol. The benchmark
-covers ten synchronous generators at one operating point. Larger and
-inverter-rich networks require separate validation.
+The fitted law covers post-clearing motion at the restored topology.
+Critical clearing time requires fault-on dynamics and a switching rule.
+The 100-ms constant-power protocol classifies three Test Set
+instabilities as stable. During deep terminal-voltage depression and
+large swings, the shifted-sine potential assumes fixed equivalent
+internal voltage and can overstate restoring torque. It omits
+nonconservative transfer conductance. Constant mechanical power from
+\(t_o=0.10\)~s omits later governor action, and the model omits late
+excitation limits during borderline swings. Reciprocal ports and
+positive-semidefinite damping ensure \(\dot{H}\le v^\top p\) across
+supports, covering damped recovery and first-swing separation.
+Control-driven negative damping of low-frequency modes requires active
+energy input. The Test Set covers unseen faults at one ten-generator
+operating point. Other operating points, larger grids, and inverter-rich
+networks require separate validation.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -714,11 +723,13 @@ zero observed stable false alarms and 96.81\% accuracy. The same
 frozen equation gives the mode, cut, and energy information needed
 to interpret the forecast.
 
-A switched energy model coupling fault-on and post-fault dynamics would
-extend the forecast protocol to clearing-time studies. Sparse
-parameterizations of the effective graph and new operator blocks for
-inverter controls would test the portability of the momentum screen and
-energy-consistent selection to larger and more heterogeneous systems.
+A switched fault-on and post-fault energy model would support
+clearing-time studies. Extensions include dynamic mechanical-power
+states for later governor action, voltage-sensitive or nonconservative
+terms for severe voltage depression, and bounded non-passive ports with
+closed-loop stability certificates for active oscillations. Sparse
+graphs and inverter-control operators would test momentum screening
+and energy-consistent selection on larger, heterogeneous grids.
 
 \bibliographystyle{IEEEtran}
 \bibliography{task3-references}
