@@ -22,6 +22,7 @@ from kron_reduce.physics.coordinates import coi_project
 from kron_reduce.workflows.nonlinear_history_learning import _write
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import git_head, status_lines
+from project_harness.report_storage import locate_report
 
 
 def available_prefix(samples, horizon):
@@ -178,9 +179,9 @@ def execute_study(*, root, config, config_path, result_dir, run_id, provider):
         result_dir / "planning_binding.json",
         {
             "planning_path": config["planning_path"],
-            "planning_sha256": sha256_file(root / config["planning_path"]),
+            "planning_sha256": sha256_file(root / locate_report(root, config["planning_path"])),
             "protocol_path": config["protocol_path"],
-            "protocol_sha256": sha256_file(root / config["protocol_path"]),
+            "protocol_sha256": sha256_file(root / locate_report(root, config["protocol_path"])),
         },
     )
     _write(result_dir / "data_quality.json", provider.access_audit())

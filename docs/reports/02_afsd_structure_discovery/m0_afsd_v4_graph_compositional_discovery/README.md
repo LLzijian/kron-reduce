@@ -1,0 +1,635 @@
+# 面向未知电力系统的图商空间与物理模块联合发现：M0-AFSD v4 关键节点研究报告
+
+[返回主题页](../README.md)
+
+## 运行结果与归档
+
+- [运行归档说明](../../../../results/backup/02_afsd_structure_discovery/D_afsd_v4_graph_module.DESCRIPTION.md)
+
+登记文件与配置
+
+[方案配置](../../../../configs/experiments/paper_m0_afsd_v4_graph_compositional_discovery_f1_seed324.toml)
+
+## 执行协议
+
+<a id="doc-003d951c65d4"></a>
+
+<a id="doc-003d951c65d4-m0-afsd-v4-graph-compositional-discovery-protocol"></a>
+
+### M0-AFSD v4 graph-compositional discovery protocol
+
+
+<a id="doc-003d951c65d4-scope"></a>
+
+#### Scope
+
+This immutable F1/seed324 workflow identifies the minimum predictable graph
+quotient and registered physical-module composition supported by Q-A training
+trajectories.  It uses **conditional rollout with observed Pm**.  It is not an
+autonomous causal deployment experiment.
+
+The workflow does not read test, F2--F5, or v1--v3 result artifacts and never
+mutates canonical data.  Validation is confirmation-only after train-internal
+rules are frozen.  Q-B trajectories are post-freeze robustness cases only.
+
+
+<a id="doc-003d951c65d4-ordered-evidence-chain"></a>
+
+#### Ordered evidence chain
+
+Every scientific round is represented by immutable artifacts in this order:
+
+1. hypothesis registration;
+2. controlled experiment;
+3. residual diagnosis;
+4. adversarial review;
+5. acceptance, rejection, or a preregistered information-limited terminal state.
+
+The controlled experiment contains governance Round 0, synthetic graph gates
+G1--G2, synthetic module/search gates G3--G5, and only then F1 qualification.
+An upstream hard gate fails closed: later structure fits are recorded as not
+run, never silently replaced by a weaker selector.
+
+
+<a id="doc-003d951c65d4-spatial-structure"></a>
+
+#### Spatial structure
+
+For partition membership matrix S and declared positive mass M,
+
+\[
+P_C=S(S^TMS)^{-1}S^TM,\qquad Q_C=I-P_C.
+\]
+
+Every candidate must pass projector algebra, mass conservation, COI
+compatibility, input heterogeneity, within-cluster energy, repeatable modal
+loss, held-out closure, and equal-capacity ridge-Hankel CPIG checks.  Graph
+contraction starts at ten singleton machines and uses certificate-gated Beam
+search with widths 3, 5, and 10.  A failed hard cluster may add the smallest
+train-derived mass-orthogonal internal-mode basis.  Validation and test never
+construct a partition or a basis.
+
+
+<a id="doc-003d951c65d4-dynamic-structure"></a>
+
+#### Dynamic structure
+
+The search space is restricted to ten typed modules whose ports, units,
+parameter domains, equilibrium anchors, storage/dissipation conditions,
+allowed connections, and description lengths are preregistered.  Residuals
+are separated by node/edge location, instantaneous/memory character,
+conservative/dissipative role, input-channel alignment, and smooth/switching
+behavior.  Device names are prohibited without independent post-freeze
+measurements.
+
+Tier 1 uses weak-form screening, Tier 2 uses H=100 closure, and Tier 3 is
+reserved for final leaves at H=100, 500, and 1000.  MCTS is disabled unless a
+synthetic paired-module audit proves that every preregistered Beam width misses
+the exhaustive oracle.  Different state dimensions are never averaged.
+
+
+<a id="doc-003d951c65d4-selection-and-stopping"></a>
+
+#### Selection and stopping
+
+Selection is lexicographic: qualification, physical/numerical hard gates,
+10-second rollout, 1/5-second rollout, relative modal gates, absolute modal
+gates, stability, then description length.  A complex structure requires at
+least 2% equal-fault-line improvement, positive 95% cluster CI lower bound,
+4/5 directional fold agreement, zero integration failures, COI drift below
+1e-10, RK4 convergence, no modal degradation, and at least 80% structural
+support.
+
+Permitted scientific terminal states are those listed in the frozen workflow
+plan, including `SOURCE_EXCITATION_CONFOUNDED`, `INSUFFICIENT_EXCITATION`,
+`GRAPH_SUPPORT_NOT_IDENTIFIABLE`, and `MODEL_CLASS_INADEQUATE`.  A negative
+terminal must identify the rejected hypothesis, direct evidence and interval,
+alternatives, why more computation cannot repair the design, and the new
+observations or excitation needed.  The final merge gate always requires
+explicit approval.
+
+## 报告与结果
+
+<a id="doc-230efe78b45b"></a>
+
+<a id="doc-230efe78b45b-面向未知电力系统的图商空间与物理模块联合发现m0-afsd-v4-关键节点研究报告"></a>
+
+### 面向未知电力系统的图商空间与物理模块联合发现：M0-AFSD v4 关键节点研究报告
+
+**项目：** `kron-reduce`<br>
+**工作流：** `m0_afsd_v4_graph_compositional_discovery`<br>
+**数据范围：** canonical IEEE39 post-clear dataset，F1，seed 324，train/validation<br>
+**输入政策：** `conditional rollout with observed Pm`<br>
+**报告日期：** 2026-08-18<br>
+**正式实现提交：** `0265aa5b851af248d07810058121c4c3cad18880`<br>
+**merge gate：** 2026-08-18 经显式批准并通过<br>
+**正式科学终态：** `SOURCE_EXCITATION_CONFOUNDED`<br>
+
+> 本报告是正式论文前的关键节点报告。它区分两条证据链：第一，已进入项目 harness 并通过 merge gate 的 M0-AFSD v4 正式证据；第二，位于 `scratch/one_off`、尚未迁移到正式工作流的 PQSC 与结构森林原型证据。后者只支持算法开发，不支持 IEEE39 F1 上的结构结论。
+
+
+<a id="doc-230efe78b45b-摘要"></a>
+
+#### 摘要
+
+从有限扰动轨迹识别未知电力系统的动态等值模型，不能简化为在固定节点数和固定方程库中选择最低轨迹误差的模型。空间聚合会删除簇内自由度，动态降阶会产生非 Markov 记忆，机械输入异质性又可能被错误吸收到网络残差中；如果这些因素未被区分，较低误差既可能来自真实结构恢复，也可能只是正则化、数据源差异或输入泄漏。为解决这一问题，本工作提出 M0-AFSD v4：在二阶摆动方程 B2 上，分别发现图拓扑、图商空间和动态物理模块，并用数据资格、投影代数、条件预测信息增益、闭合误差、模态保真、输入异质性、长视界重积分和结构稳定性构成不可相互补偿的证书链。物理模块采用带端口、单位、平衡点锚定、正参数域和储能/耗散条件的语法；积分弱形式与 typed-SINDy 只在冻结模块内部辨识本构参数，Beam 或受限 MCTS 负责模块组合，而不是任意生成完整右端项。
+
+正式 v4 合成门全部通过。质量正交投影的幂等、自伴与正交误差分别为 $1.11\times10^{-16}$、$4.44\times10^{-16}$ 和 $7.09\times10^{-17}$；算法区分了精确可聚合、不可聚合及“聚类加一个内部模态”三类系统。小型模块搜索中，Beam 与八模型穷举 oracle 选择一致，仅执行 3 次完整闭环拟合，而 oracle 需要 8 次。真实 F1 审计则发现决定性的数据设计阻断：结构发现可用的 Q-A train 轨迹为 95 条、覆盖 23 个 fault-line clusters，但两个数据源在“幅值×丰富度”单元上只有 1 个共同单元，且其中 dense 数据源仅有 1 个 fault-line cluster，低于预注册阈值 5；共出现 7 个欠支持 source-cell。由于增加优化轮数或 bootstrap 次数不能创造缺失的独立扰动簇，工作流按预注册规则停止，未执行 F1 联合图/模块拟合，也未生成最终方程、边支撑、模态或 1/5/10 s 重积分结果。正式结论因此不是“七节点失败”或“B2 足够”，而是：当前 F1 Q-A 设计不能在排除数据源效应后识别联合图商空间与物理模块。
+
+在正式结果冻结后，我们进一步实现了 PQSC 和 typed weak-SINDy 结构森林原型。54 项测试及 8 个参数化子测试显示，该原型能够保留低能量但高输出敏感的内部模态，区分 B2、静态势能、节点滞后、边滞后、双时间尺度记忆、稳定延迟链和饱和，并在三机向量摆动系统上把真实边滞后模型的 10 s 条件重积分 RMSE 降至 $3.39\times10^{-6}$，相比 B2 的 $2.34\times10^{-3}$ 降低约 689 倍，同时保持零积分失败和小于 $5\times10^{-18}$ 的 COI 漂移。该证据证明了下一版算法的可执行性，但尚不能替代真实 F1 的受控实验。下一步最高信息增益实验不是继续增加联合搜索算力，而是把该原型迁移为新的不可变工作流，先在两个数据源内分别进行 F1 train-only 结构发现，再检验跨源共识；若要声称“激励提高导致阶次或空间分辨率提高”，仍需补足源间重叠的 Q-A fault-line excitations。
+
+**关键词：** 电力系统动态等值；图商空间；相干聚类；SINDy；积分弱形式；结构发现；记忆闭包；长视界重积分
+
+
+<a id="doc-230efe78b45b-1-研究背景与问题定义"></a>
+
+#### 1. 研究背景与问题定义
+
+动态等值的目标不是逐项复制原系统的全部设备参数，而是在指定观测、输入和预测任务下，构造一个更低成本、可重积分、能保留关键振荡与稳定性特征的显式系统。传统相干聚合通常先识别共同运动的发电机，再聚合设备与网络；慢相干理论和惯性聚合说明，恰当的分组可以保留区域间低频模态，但错误聚合也会使等值网络变硬并移动振荡频率。经典研究已经表明，相干分组、聚合规则和网络约化是彼此关联但不同的步骤，并且模态保持必须通过动态响应而非静态拓扑单独判断 [[1]](https://doi.org/10.1109/59.387903)。图动力学中的外部公平分区进一步给出了精确商动力学存在的结构条件 [[2]](https://doi.org/10.1063/1.4961065)。
+
+数据驱动辨识提供了另一条路线。SINDy 从候选函数库中稀疏选择控制方程 [[3]](https://doi.org/10.1073/pnas.1517384113)，弱形式 SINDy 通过积分变换降低点导数对噪声的敏感性 [[4]](https://doi.org/10.1137/20M1343166)，Ensemble-SINDy 则用重采样后的包含概率表达结构不确定性 [[5]](https://doi.org/10.1098/rspa.2021.0904)。然而，原始 SINDy 默认状态坐标、候选库和状态阶次已经给定；它能在库内解线性或稀疏回归，却不能自动回答“十台机是否可聚为七个节点”“缺失项应是簇内模式、边记忆还是输入通道松弛”。降阶投影还会产生记忆核，这与 Mori–Zwanzig 形式中“被消除自由度对保留变量形成非 Markov 作用”的结论一致 [[6]](https://doi.org/10.1137/21M1401759)。
+
+本研究因此把问题重新表述为：给定扰动集合、观测变量、observed $P_m(t)$ 输入政策和 1/5/10 s 预测视界，识别满足预测与物理要求的最小可预测图商空间及物理模块组合。该定义有两个重要边界。第一，未被数据充分激发的模块只能被判为不可辨识，不能被宣称为物理上不存在。第二，所有当前重积分结果均为 `conditional rollout with observed Pm`，不代表仅由清除状态自主预测未来机械功率的因果部署模型。
+
+
+<a id="doc-230efe78b45b-2-核心科学问题与预注册假设"></a>
+
+#### 2. 核心科学问题与预注册假设
+
+v4 预注册了六个可证伪假设：
+
+| 编号 | 假设 | 主要证伪条件 |
+|---|---|---|
+| H1-GRAPH-QUOTIENT | Q-A F1 train 支持低维预测图商空间 | 所有收缩均被 CPIG、闭合、模态、输入或稳定性门拒绝 |
+| H2-INTERNAL-MODES | 失败的硬聚类可由少量质量正交内部模态修复 | 必须恢复完整分辨率，或内部基在 bootstrap 中不稳定 |
+| H3-MODULE-LOCATION | 可重复残差能定位一个注册的静态或动态模块 | 残差不稳定、结构输入输出等价或超出物理语法 |
+| H4-GRAPH-SUPPORT | 稀疏互易的动态等值边支撑可辨识 | 支持率、跨折 Jaccard、knockout 或互易性门失败 |
+| H5-SEARCH | 有限 Beam 以更少完整拟合复现小型穷举 oracle | 与 oracle 不一致、候选顺序敏感或遗漏成对协同模块 |
+| H6-DESIGN | 两数据源在 Q-A 激励层具有足够重叠 | 任一已表示单元中，任一数据源少于 5 个 fault-line clusters |
+
+H6-DESIGN 被预注册为优先终止门。这一顺序体现第一性原理：如果“数据源”和“激励层级”在实验设计中共线，则任何阶次、聚类或模块变化都同时具有两种解释。再复杂的优化器只能在已有样本上降低经验误差，不能创造缺失的反事实比较。
+
+
+<a id="doc-230efe78b45b-3-方法"></a>
+
+#### 3. 方法
+
+
+<a id="doc-230efe78b45b-31-基础动力学与输入边界"></a>
+
+##### 3.1 基础动力学与输入边界
+
+所有候选以 COI 坐标中的二阶摆动框架为根节点：
+
+\[
+\dot\delta=\omega,
+\]
+
+\[
+M\dot\omega=
+\Delta P_m(t)-D_n\omega
+-B\left[f_\theta(\eta,z)+D_e\odot B^\top\omega\right],
+\qquad \eta=B^\top\delta,
+\]
+
+\[
+\dot z=A_z z+G_z\Phi(\eta,B^\top\omega).
+\]
+
+其中 (M,D_n,D_e>0)，(A_z) 必须稳定，(B) 表示待发现的动态等值图。机械功率统一使用
+
+\[
+\Delta P_m(t)=P_m(t)-P_{m,\mathrm{eq}}.
+\]
+
+本阶段在 RK4 各阶段使用观测到的 (P_m(t)) 插值，因此结果是给定真实机械功率日程的条件动力学上界。`Pe`、电压、稳定标签、事件时间、valid length、mask、fault metadata 和未来统计均不进入主模型特征；其中 valid length 与 fault line 只用于资格审计和分组推断。
+
+
+<a id="doc-230efe78b45b-32-数据资格激励分层与混杂门"></a>
+
+##### 3.2 数据资格、激励分层与混杂门
+
+轨迹先按完整视界、数值有限性、采样连续性、COI 一致性、持续激励、Hankel 条件数和模态重复性分为 Q-A、Q-B、Q-C。只有 Q-A train 可以生成分区、内部模态、边支撑和模块支撑；Q-B 仅用于冻结后的参数稳健性或外推，Q-C 排除。
+
+激励幅值采用质量加权指标
+
+\[
+A=\int \omega^\top M\omega\,dt+
+\alpha\int \|B^\top(\delta-\delta_{\rm eq})\|_2^2\,dt,
+\]
+
+动力学丰富度由块 Hankel 有效秩、谱间隙、重复主频、参与熵、ERA/DMD 模态稳定性和簇内/簇间能量共同决定。幅值与丰富度分别离散为 $A$-low/mid/high 和 $R$-low/high/uncertain。随后构造
+
+\[
+\text{source}\times\text{amplitude}\times\text{richness}\times
+\text{quality}\times\text{fault line}\times\text{valid horizon}
+\]
+
+资格表。推断的统计单位是 fault-line cluster，而不是单个事件或采样点；这避免一条线路的大量相似轨迹支配结构选择。
+
+
+<a id="doc-230efe78b45b-33-质量正交图商空间"></a>
+
+##### 3.3 质量正交图商空间
+
+对候选分区 (C)，令 (S_C) 为分区指示矩阵，定义
+
+\[
+P_C=S_C(S_C^\top MS_C)^{-1}S_C^\top M,
+\qquad Q_C=I-P_C.
+\]
+
+(P_Cx) 表示簇间保留运动，(Q_Cx) 表示被硬聚类删除的簇内运动。合法投影必须满足
+
+\[
+P_C^2=P_C,\qquad P_C^\top M=MP_C,\qquad P_CQ_C=0,
+\]
+
+并守恒聚类后惯量、保持 COI 坐标，在完整分辨率退化为逐点恒等映射。
+
+聚类不是由一个加权总分决定，而由以下互不补偿的证书共同约束。
+
+**簇内能量。**
+
+\[
+\rho_{\rm intra}=
+\frac{\sum_t\|Q_Cx(t)\|_M^2}
+{\sum_t\|x(t)\|_M^2+\epsilon}.
+\]
+
+它适合筛除明显错误分区，但低能量不等于低输出影响。
+
+**条件预测信息增益。** 对视界 (H)，比较相同容量探测器只使用 ((P_Cx,u)) 与同时使用 ((P_Cx,Q_Cx,u)) 时的 held-out 损失：
+
+\[
+\operatorname{CPIG}_H(C)=
+\frac{E_H(P_Cx,u)-E_H(P_Cx,Q_Cx,u)}
+{E_H(P_Cx,u)+\epsilon}.
+\]
+
+如果加入 (Q_Cx) 对未来保留输出仍有超出容差的独立增益，硬聚类不闭合。后续 PQSC 原型进一步采用 Frisch–Waugh–Lovell 部分回归，同时从未来目标与隐藏坐标中消除保留状态和因果输入，以避免相关但无增量信息的簇内方向被选中。
+
+**输入异质性。**
+
+\[
+\rho_{P_m}=
+\frac{\sum_t\|Q_CM^{-1}\Delta P_m(t)\|_M^2}
+{\sum_t\|M^{-1}\Delta P_m(t)\|_M^2+\epsilon}.
+\]
+
+若同一簇内的 (P_m/M) 不同，硬聚类会删除真实外部驱动方向；该误差只能由显式内部受迫模态或输入模块解释，不能交给自由网络记忆吸收。
+
+**闭合与模态。** 比较 $P_C\dot x=\hat f_c(P_Cx,u)$ 与加入 $Q_Cx$ 的完整探测器，并检查重复模态的频率、阻尼、MAC、谱重叠及
+
+\[
+\rho_{\rm modal}=
+\frac{\|(I-P_C)\Phi_{\rm active}\|_M^2}
+{\|\Phi_{\rm active}\|_M^2+\epsilon}.
+\]
+
+只有跨窗口、跨 fault line 可重复的模态才进入证书。
+
+
+<a id="doc-230efe78b45b-34-从硬聚类到内部模态"></a>
+
+##### 3.4 从硬聚类到内部模态
+
+若分区接近可聚合但硬投影未闭合，模型使用
+
+\[
+x=P_Cx_c+U_r\xi,
+\qquad U_r^\top MU_r=I,
+\qquad U_r^\top MS_C=0.
+\]
+
+(U_r) 只从内层 train 的可重复簇内模态或条件 Hankel 子空间构造。算法从 (r=0) 开始增加最少内部自由度，终态为 `HARD_CLUSTER_ADMISSIBLE`、`CLUSTER_PLUS_INTERNAL_MODES`、`FULL_RESOLUTION_REQUIRED`、`PARTITION_UNSTABLE` 或 `INSUFFICIENT_EXCITATION`。因此，“七节点”不再是预设结论，而只是可能被证书接受的一种分区。
+
+
+<a id="doc-230efe78b45b-35-物理模块语法与-typed-sindy"></a>
+
+##### 3.5 物理模块语法与 typed-SINDy
+
+v4 注册十类中性模块：转子惯量、节点阻尼、正弦边势能、边阻尼、静态非线性势能、节点滞后储能、边滞后储能、双时间尺度边记忆、(P_m) 通道松弛和饱和/死区。每个模块显式定义 `state`、`input_ports`、`output_ports`、单位、本构律、参数域、初态政策、平衡点锚定、储能/耗散条件、合法连接和描述长度。
+
+模块内部优先使用正约束积分弱形式：
+
+\[
+\int_{t_a}^{t_b}M\dot\omega\,dt
+=M(\omega_b-\omega_a),
+\]
+
+并把阻尼、势能和已注册模块的积分特征堆叠为一次约束回归。这样既避免点导数放大噪声，也保留线性可分参数的一次求解本质。typed-SINDy 只在模块端口、单位和能量符号固定后选择本构项；它不负责决定状态位于节点、边还是输入通道，也不得改变图连接。符号回归只有在瞬时残差跨至少 80% bootstrap 稳定、记忆证据不足且模块结构冻结后才允许启动。
+
+
+<a id="doc-230efe78b45b-36-残差引导的结构生长"></a>
+
+##### 3.6 残差引导的结构生长
+
+残差先分解为节点/边、瞬时/记忆、保守/耗散、线性/非线性和光滑/切换分量。与节点速度同相的残差触发节点耗散；与边速度差同相触发边耗散；与角差相关且近似无旋触发势能；稳定相位滞后触发单时间尺度储能；两个重复极点群触发双时间尺度记忆；位于 (Q_C) 子空间的残差触发 split 或内部模态；与 (P_m) 对齐的残差只允许进入输入通道；重复平台或死区才触发饱和模块。只在少数异常轨迹出现或 bootstrap 不稳定的残差不会使模型升阶。
+
+
+<a id="doc-230efe78b45b-37-beam结构森林与-mcts"></a>
+
+##### 3.7 Beam、结构森林与 MCTS
+
+搜索根节点是通过空间证书的 B2。每个搜索状态包含分区、内部模态、动态等值图、活跃模块、参数、残差签名、物理证书、验证表现、描述长度和 lineage。搜索动作只来自注册语法，包括增删/替换模块、分裂时间尺度、增删边、合并/拆分节点及增删内部模态。
+
+计算分三级：Tier 1 用弱形式与硬物理门筛选；Tier 2 只做 H=100 的短程 held-out 重积分；Tier 3 仅对最终叶节点执行 1/5/10 s 重积分、模态、RK4 收敛和能量审计。默认 Beam Search；只有合成配对模块证明所有注册 Beam 宽度都会漏解时，才启用同一物理语法下的 MCTS。
+
+后续结构森林原型借鉴随机森林的重采样和随机子空间思想，但不把不同维度 ODE 的预测平均。每棵树对 fault-line clusters bootstrap，在 in-bag 上拟合、在不相交的 out-of-bag fault lines 上评分，并随机开放合法结构动作子集。最终输出分区、模块和边的支持率，再在共识结构上从头拟合一个显式方程。这一设计与稳定性选择利用重采样评估结构支持的思想一致 [[7]](https://doi.org/10.1111/j.1467-9868.2010.00740.x)，但推断单位和物理门针对电力系统重新定义。
+
+
+<a id="doc-230efe78b45b-38-选择统计与命名"></a>
+
+##### 3.8 选择、统计与命名
+
+选择采用字典序硬门：数据资格；物理与数值；10 s 重积分；1/5 s 重积分；模态相对门；模态绝对门；结构稳定性；最小描述长度。复杂模型只有在 10 s 外层 held-out mean RMSE 至少改善 2%、fault-line 95% CI 支持、至少 4/5 折同向、零积分失败、COI 漂移低于 (10^{-10})、RK4 收敛、模态不退化且结构支持率不低于 80% 时才能晋级。绝对模态门要求主频相对误差中位数不超过 10%、阻尼绝对误差中位数不超过 0.05、MAC 中位数不低于 0.8。
+
+轨迹通过而模态失败的模型只能称为 `rollout-accurate dynamic equivalent`。节点滞后、边滞后和输入通道松弛若在现有输入输出下不可区分，则返回 `STRUCTURE_EQUIVALENCE_CLASS`。学习边只称为动态等值边，不解释为真实 IEEE39 输电线路；潜在状态在缺少电压、(P_e,Q_e) 或控制器观测时不得命名为 governor、exciter、PSS、RL、RC 或暂态电势。
+
+
+<a id="doc-230efe78b45b-4-实验与结果"></a>
+
+#### 4. 实验与结果
+
+
+<a id="doc-230efe78b45b-41-治理与复现状态"></a>
+
+##### 4.1 治理与复现状态
+
+正式工作流依次完成假设登记、受控实验、残差诊断、对抗审查、acceptance 和经批准的 merge gate。canonical 数据的 30 个文件校验通过，数据集版本为 `ieee39_postclear_canonical_v1`，build ID 为 `canonical_rebuild_20260722T022739`，共 315 个事件。正式运行未读取 test ID，未读取 F2–F5，也未修改 canonical 文件。Q-B 从未进入结构或支撑选择，validation 未用于生成分区或模块支撑。
+
+当前代码复核结果为：正式测试 107 项全部通过；后续原型测试 54 项及 8 个参数化子测试全部通过；v4 相关正式文件和原型文件的定向 Ruff 检查通过；`project_harness audit`、`git-check` 和 `data-check` 均为 PASS。全仓库 Ruff 仍报告 88 条既有格式和代码质量告警，主要位于历史模型与工作流；它们不改变 v4 的数值结果，但属于正式投稿前应单独清理的工程债务。
+
+
+<a id="doc-230efe78b45b-42-正式合成图商空间门"></a>
+
+##### 4.2 正式合成图商空间门
+
+| 检查项 | 结果 |
+|---|---:|
+| $\|P_C^2-P_C\|$ | $1.11\times10^{-16}$ |
+| $\|P_C^TM-MP_C\|$ | $4.44\times10^{-16}$ |
+| $\|P_CQ_C\|$ | $7.09\times10^{-17}$ |
+| 聚类惯量守恒误差 | 0 |
+| 精确分区角度簇内能量 | $1.30\times10^{-32}$ |
+| 精确分区速度簇内能量 | $1.28\times10^{-32}$ |
+| 不可聚合系统角度簇内能量 | 0.0309 |
+| 不可聚合系统速度簇内能量 | 0.1762 |
+| 异质输入检验 $\rho_{P_m}$ | 1.0，正确拒绝吸收 |
+| 单内部模态恢复 | rank 1，质量正交误差 $2.22\times10^{-16}$ |
+
+小型图收缩测试从四节点完整分辨率出发，正确选择 ({0,1}) 与 ({2,3}) 两个簇，并拒绝动态距离高的错误合并；13 个候选被记录在图收缩树中。该结果只证明实现能够识别合成真值，不说明 F1 应选择相同节点数。
+
+
+<a id="doc-230efe78b45b-43-正式合成模块与搜索门"></a>
+
+##### 4.3 正式合成模块与搜索门
+
+残差提议器在合成数据中正确区分：角度瞬时残差对应 `STATIC_NONLINEAR_POTENTIAL`；具有 8 步稳定滞后的边速度残差对应 `EDGE_LAG_STORAGE`；未激发残差返回 `INSUFFICIENT_INFORMATION`；平台比例为 0.40125 的响应对应 `SATURATION_OR_DEADBAND`，而不是用高阶多项式拟合。所有示例的 fault-line bootstrap 支持率为 1.0。
+
+在八模型可穷举候选空间中，Beam 与 oracle 选择相同结构。Beam 的 Tier 1、Tier 2、Tier 3 评估次数分别为 8、7、3；穷举需要 8 次完整拟合，因此 Tier 3 完整闭环拟合减少 5 次。配对模块测试还能检测“贪心/窄 Beam 会漏掉协同结构”的场景，并正确触发 MCTS 条件，而不是默认扩大到任意方程搜索。
+
+
+<a id="doc-230efe78b45b-44-f1-数据设计阻断"></a>
+
+##### 4.4 F1 数据设计阻断
+
+F1 的正式资格审计得到 95 条 Q-A train 轨迹和 23 个独立 fault-line clusters，共表示 5 个“幅值×丰富度”单元。两个数据源只有 $A$-low/$R$-low 一个共同单元；即使在该单元，high-order 数据源有 31 个事件、11 个 fault-line clusters，而 dense 数据源只有 4 个事件、1 个 fault-line cluster。预注册最低要求为每个数据源每单元 5 个独立 fault-line clusters，因此该共同单元仍不能支持源间比较。
+
+| 幅值/丰富度单元 | high-order fault lines | dense fault lines | 是否两个源均达到 5 |
+|---|---:|---:|---|
+| A-low / R-low | 11 | 1 | 否 |
+| A-low / R-high | 6 | 0 | 否 |
+| A-mid / R-low | 0 | 7 | 否 |
+| A-mid / R-high | 1 | 0 | 否 |
+| A-high / R-low | 0 | 1 | 否 |
+
+全部 source-cell 中有 7 个欠支持项。该事实是有限 F1 设计的精确计数，不是由 bootstrap 估计出的随机波动；重采样无法在空单元或仅含一个 fault line 的单元中产生新的独立激励。因此 H6-DESIGN 被拒绝，工作流进入 `SOURCE_EXCITATION_CONFOUNDED`。受控实验明确记录：`f1_joint_fit_permitted=false`，`f1_joint_fit_performed=false`。
+
+
+<a id="doc-230efe78b45b-45-正式-f1-结论的边界"></a>
+
+##### 4.5 正式 F1 结论的边界
+
+由于混杂门先于模型拟合失败，下列结果均被设计性地标记为未运行或未识别：
+
+- 1/5/10 s F1 重积分：`NOT_RUN_BY_DESIGN_GATE`；
+- F1 显式最终方程：`NOT_IDENTIFIED`；
+- 模块和边支持：`NOT_IDENTIFIED`；
+- 参数置信区间、模态表和失败轨迹：未生成科学估计量。
+
+因此，正式证据不支持“七节点优于十机”“十机优于七节点”“B2 足够”“需要三阶/记忆”中的任何一个真实 F1 结论。它只支持：现有 F1 Q-A 数据不能把 apparent branch change 归因于激励层级，因为数据源本身同时变化。质量筛选也可能以不同方式保留两个源的激励范围，而未激发的簇内或设备模态仍可能在观测上缺失。
+
+
+<a id="doc-230efe78b45b-5-正式冻结后的算法原型进展"></a>
+
+#### 5. 正式冻结后的算法原型进展
+
+
+<a id="doc-230efe78b45b-51-pqsc把是否聚类改写为等价性证书"></a>
+
+##### 5.1 PQSC：把“是否聚类”改写为等价性证书
+
+后续原型将聚类判据正式化为 Partition Qualification and Sufficiency Certificate（PQSC）。它不寻找单一“最佳聚类指标”，而依次检查资格/激励、投影代数、未解析输入、预测闭合等价、Markov 充分性、模态保持和闭环确认。真正 CPIG 使用严格的等价性门；block-permuted 隐藏坐标只作为单侧证伪控制。若隐藏方向未被激发，返回 `INSUFFICIENT_EXCITATION`，而不是误判硬聚类可接受。
+
+10 个合成随机种子的 train-only null calibration 给出：CPIG 容差 0.02，归一化空间增益分辨率下限约 0.00470，观测噪声匹配的弱模块分辨率下限约 0.00733。重要修正是：不可预测的未来输入会抬高基础预测误差，因此不能把“基础误差/目标方差”当作数值分辨率；正确统计量应是加入隐藏表示带来的正绝对误差下降除以目标方差。
+
+
+<a id="doc-230efe78b45b-52-结构森林typed-weak-sindy-与时间尺度选择"></a>
+
+##### 5.2 结构森林、typed weak-SINDy 与时间尺度选择
+
+结构森林原型保留 bootstrap multiplicity，并强制 in-bag 拟合与 OOB fault-line 评分分离。每棵树从 B2 开始，只允许残差触发的合法模块进入；模块增长同时要求 OOB 残差高于绝对分辨率下限和相对改善门，从而阻止积分误差生成伪记忆。节点滞后时间常数 $0.5\,\mathrm{s}$ 和三阶稳定延迟 $(\tau=0.1\,\mathrm{s},q=3)$ 均由树内 fault-line CV 恢复，外层 OOB 数据不参与超参数选择。
+
+当 12 个候选模块包含必须成对加入的协同结构时，语法约束 MCTS 能以少于 4096 个子集枚举的评估找到真值；Beam 充分时 MCTS 不启动，且任何搜索动作都不能绕过硬物理门。该机制使 SINDy 负责“模块内采用什么本构项”，结构搜索负责“模块位于哪个端口以及需要哪些状态”，从而超越固定方程后的参数拟合。
+
+
+<a id="doc-230efe78b45b-53-三机向量摆动系统的长视界验证"></a>
+
+##### 5.3 三机向量摆动系统的长视界验证
+
+在三机 incidence-constrained 合成系统中，原型区分 B2、节点滞后、边滞后和两级稳定延迟；所有内部模块力之和为零，学习阻尼和耦合保持非负。对真实边滞后系统，最终显式模型的条件重积分结果为：
+
+| 模型 | 10 s RMSE | 积分失败 | 最大 COI 漂移 |
+|---|---:|---:|---:|
+| B2 | $2.34\times10^{-3}$ | 0 | 满足门限 |
+| 学习的边滞后模型 | $3.39\times10^{-6}$ | 0 | $<5\times10^{-18}$ |
+
+`dt`、`dt/2`、`dt/4` 的差异按预期收缩。该实验说明，当被消除的边状态确实产生稳定记忆时，新增正确位置的动态状态能显著提高长视界重积分；它不意味着 IEEE39 F1 已被证明需要边记忆。
+
+
+<a id="doc-230efe78b45b-54-原型对抗审查发现的九类错误"></a>
+
+##### 5.4 原型对抗审查发现的九类错误
+
+1. **近零误差下相对增益发散。** 增加绝对分辨率门后，数值噪声不再被解释为高阶结构。
+2. **特征分解正交化改变模态顺序。** 改用顺序保持的 Cholesky 正交化。
+3. **边际隐藏回归选择相关的无关方向。** 对目标和隐藏坐标同时执行 FWL 部分回归。
+4. **B2 积分误差生长为伪滞后。** 模块增长必须同时超过绝对和相对门。
+5. **旧接口不能证明交叉拟合。** 评估器改为显式接收不相交的 fit/evaluation fault lines。
+6. **结构树过少抬高共线模块支持率。** 合成测试中 5 棵树使伪边滞后支持率达到 100%，15 棵树降至 66.7%；正式搜索仍要求至少 500/5000 次 bootstrap。
+7. **负控制被错误写成双侧等价检验。** 改为只在打乱坐标仍显著改善时证伪。
+8. **模块身份与本构超参数混为一谈。** 先确定模块族，再在内层 fault-line CV 选择 (	au)、延迟阶数或饱和尺度。
+9. **不可约预测误差被当作数值下限。** 改用隐藏表示的正绝对增益校准分辨率。
+
+这些修正说明，结构发现中的主要风险不是优化器“训练不够久”，而是统计问题定义错误。多轮 epoch 无法修复不恰当的归一化、非交叉拟合、源间混杂或未激发状态。
+
+
+<a id="doc-230efe78b45b-6-讨论"></a>
+
+#### 6. 讨论
+
+
+<a id="doc-230efe78b45b-61-数据如何决定是否聚类"></a>
+
+##### 6.1 数据如何决定是否聚类
+
+本工作得到的最重要方法学结论是：不存在与分区、视界、输出和激励无关的万能聚类指标。低簇内能量只说明被删除状态幅值较小；如果该方向对未来输出具有高增益，它仍不可删除。相反，较高簇内能量也未必要求完整十机模型，如果少量质量正交内部模态即可恢复闭合与模态。合理的决策对象因此不是“7 或 10”这个整数，而是最小表示 $\operatorname{span}(S_C,U_r)$ 及其证书。
+
+这也解释了历史 high-order 数据上七节点较好的现象为何不能直接迁移到 dense 数据。聚类可以像空间低通滤波器一样抑制弱、噪声敏感和高度共线的簇内特征，从而改善条件数与泛化；但 dense 扰动若激发了簇内模态或异质 (P_m/M) 输入，同一低通操作会删除预测所需信息。当前 F1 又把 high-order/low-amplitude 与 dense/mid-high-amplitude 大体绑定，因此还不能判定性能变化究竟来自激励增强还是数据源参数/生成机制不同。
+
+
+<a id="doc-230efe78b45b-62-sindy-在-afsd-中扮演什么角色"></a>
+
+##### 6.2 SINDy 在 AFSD 中扮演什么角色
+
+SINDy 的“学习”本质上确实是解稀疏回归方程，而不是像 LSTM 那样依靠大量 epoch 逐步学习表示。多窗口积分弱形式把同一物理方程在不同轨迹和时间区间的约束堆叠为一个更稳定的方程组；窗口数和视界不是训练轮数。AFSD 的算法创新不在于让同一个 SINDy 方程多训练几轮，而在于先发现适当状态空间、端口位置、模块组合与图支撑，再在每个冻结模块内部一次或有限次辨识参数。短程闭环优化只能是固定支撑后的校正，且必须由 held-out 长视界结果晋级。
+
+
+<a id="doc-230efe78b45b-63-为什么当前不能给出真实-f1-方程"></a>
+
+##### 6.3 为什么当前不能给出真实 F1 方程
+
+在科学上，拒绝拟合是本轮正确结果。如果忽略 H6-DESIGN，算法很可能学到一个能区分 high-order 与 dense 数据源的“结构”，然后被错误解释为随扰动幅值增加而升阶。这样的模型即使在混合 validation 上 RMSE 较低，也不能回答论文的核心因果问题。`SOURCE_EXCITATION_CONFOUNDED` 不是计算不足，而是可辨识性边界：缺少源间重叠的独立 fault-line clusters 时，结构变化的两种解释没有数据上的反事实对照。
+
+
+<a id="doc-230efe78b45b-64-物理意义应如何验证"></a>
+
+##### 6.4 物理意义应如何验证
+
+等值方程的物理意义应分三层报告。第一层是结构合法性：COI 平移不变、内部力平衡、正惯量/阻尼、稳定潜变量和能量/供能关系。第二层是工程动力学保持：1/5/10 s 轨迹、主导频率、阻尼比、衰减包络、MAC、谱重叠和参与因子。第三层才是设备语义：潜变量是否与电压、暂态电势、调速器、励磁或 PSS 的独立观测、时间尺度和端口关系一致。当前 v4 正式工作只到第一层的合成正确性；真实 F1 的第二、三层均未执行。物理约束能够提高模型稳定性，但约束本身不能替代长时间响应验证；相关工作也表明，稳定性约束应作为数据驱动模型的结构条件和诊断，而不应被误写为自动获得正确动力学 [[8]](https://doi.org/10.1103/PhysRevFluids.6.094401)。
+
+
+<a id="doc-230efe78b45b-7-对抗性审查与论文主张边界"></a>
+
+#### 7. 对抗性审查与论文主张边界
+
+正式对抗审查逐项考虑了以下替代解释：聚类收益可能只是正则化；记忆可能吸收错误机械输入；边支撑可能只是数据源标记；节点状态和边状态可能输入输出等价；低 CPIG 可能来自未充分激发；observed $P_m$ 可能掩盖部署误差。由于 F1 在联合拟合前被 H6 阻断，这些解释均未被虚假的性能结果覆盖。
+
+当前可以支持的主张是：
+
+- v4 实现了可审计的图商空间、内部模态和物理模块联合发现骨架；
+- 合成门证明该骨架能在已知真值上区分可聚合、内部模态和完整分辨率，并能以少于穷举的完整拟合复现小型 oracle；
+- F1 Q-A 设计存在源—激励混杂，不能支持与数据源无关的联合图/模块分枝；
+- PQSC/结构森林原型通过了更强的合成与向量摆动测试，值得迁入下一正式工作流。
+
+当前不能支持的主张是：
+
+- F1 已识别出七节点、十机或“七节点加一个内部模态”；
+- F1 已证明 B2、M0-3EG、节点滞后或边记忆中的任一结构最优；
+- 未入选模块在真实系统中不存在；
+- 学习边对应真实 IEEE39 物理线路；
+- 潜变量具有 governor、exciter、PSS、RL、RC 或暂态电势的唯一语义；
+- observed $P_m(t)$ 条件重积分等价于自主因果部署；
+- 单 fold、单 seed 结论可泛化到 F2–F5、test 或其他电力系统。
+
+
+<a id="doc-230efe78b45b-8-下一阶段研究路线"></a>
+
+#### 8. 下一阶段研究路线
+
+下一阶段应创建新的不可变工作流，而不是续写 v4 结果。建议按以下顺序推进：
+
+1. **正式迁移 PQSC 与结构森林。** 将已通过的 FWL 条件内部模态、绝对分辨率校准、OOB fault-line 评分、树内时间尺度选择和语法约束 MCTS 移入 `src/`，增加十机图收缩、联合模块和学习边支撑的合成测试。
+2. **先做源内 F1 搜索。** 分别在 high-order 与 dense 的 Q-A train 上独立发现分区和模块，使用源内参数；只有在每个源中支持率均不低于 80% 的结构才能称为跨源共识。若两源结构不同，只报告源特异等价类或继续保留 `SOURCE_EXCITATION_CONFOUNDED`，不得归因于激励。
+3. **完成正式计算门。** 搜索阶段不少于 500 次 bootstrap，冻结候选 5000 次；将 Beam/MCTS Tier 3 拟合数与小型 oracle 比较；对最终显式方程运行 1/5/10 s 条件重积分、RK4 收敛、COI、模态和能量审计。
+4. **补足源间激励重叠。** 若论文必须声称“不同扰动激发不同组件，从而自适应选择阶次”，需要每个已表示的幅值—丰富度单元中，每个数据源至少 5 个独立 Q-A fault-line clusters，或给出能够取消源比较的独立实验设计。
+5. **再处理因果 $P_m$。** 只有空间/动态结构和长视界模态达到门限后，才把 observed $P_m(t)$ 上界与从 $P_{m,\rm clear}$ 出发的稳定 $P_m$ ODE 对照。否则输入模型误差会与网络记忆再次混淆。
+6. **按权限逐步扩展。** F2–F5、test 和第二个独立系统必须继续经过单独批准；选择规则和阈值应在读取 test 前冻结。
+
+延迟坐标和 Hankel 嵌入对不完整观测、多时间尺度系统的建模已有理论与算法基础 [[9]](https://doi.org/10.1137/18M1188227)，但在本项目中它们只应作为稳定记忆证据或低容量探测器，不能成为掩盖物理端口的高容量黑箱。
+
+
+<a id="doc-230efe78b45b-9-结论"></a>
+
+#### 9. 结论
+
+M0-AFSD v4 将电力系统动态等值从“在预设方程中拟合参数”推进为“在物理语法下联合检验空间分辨率、内部模态、图支撑和动态模块”的可证伪程序。合成实验和搜索 oracle 证明了正式算法骨架的正确性与计算筛选能力；后续 PQSC/结构森林原型进一步证明，低能量高增益模态、稳定记忆、时间尺度和协同模块可以在受控系统中被正确恢复，并能显著改善 10 s 条件重积分。
+
+然而，当前真实 F1 证据的决定性结果是源—激励混杂，而不是某个模型分枝胜出。工作流正确地拒绝了在欠支持设计上生成七节点、十机、B2 或高阶模块结论。这个负结果明确了论文下一步最有价值的工作：先获得源内可重复结构并补足跨源激励重叠，再讨论扰动驱动的自适应阶次；先证明条件重积分和模态保持，再讨论自主 (P_m) 与稳定性预测。这样的证据顺序虽然比直接报告最低 RMSE 更严格，却是把“动态等值参数”提升为可信系统结构发现所必需的边界。
+
+
+<a id="doc-230efe78b45b-10-术语表"></a>
+
+#### 10. 术语表
+
+| 规范术语 | 定义与使用约束 |
+|---|---|
+| M0-AFSD v4 | 图商空间与物理模块联合发现工作流 |
+| B2 | 二阶摆动基础分枝，不等于“真实系统绝对二阶” |
+| 图商空间 | 由 (P_C) 保留的聚类坐标空间 |
+| 内部模态 | 位于 (Q_C) 子空间、为恢复闭合而保留的质量正交方向 |
+| 动态等值图 | 学习到的互易耦合支撑，不等于真实 39 母线拓扑 |
+| 物理模块 | 具有端口、单位、参数域、平衡锚定和储能/耗散条件的注册组件 |
+| PQSC | Partition Qualification and Sufficiency Certificate，分区资格与充分性证书 |
+| 结构森林 | 用 fault-line bootstrap 和随机合法动作稳定结构支持的搜索集成；最终模型不做 ODE 平均 |
+| typed-SINDy | 只在冻结模块内部、受单位和物理端口约束的稀疏本构发现 |
+| 条件重积分 | 使用 observed $P_m(t)$ 的闭环状态重积分，不代表自主输入预测 |
+| fault-line cluster | 统计重采样和外层划分的基本单位 |
+
+
+<a id="doc-230efe78b45b-11-主张证据映射"></a>
+
+#### 11. 主张—证据映射
+
+| 主张 | 证据 | 状态 |
+|---|---|---|
+| 质量正交图商投影实现正确 | 合成投影误差 (10^{-16}) 量级，完整分辨率恒等测试 | 已支持 |
+| 算法可区分硬聚类、内部模态与完整分辨率 | 正式合成 G1–G2 与后续 PQSC 测试 | 已支持，限合成数据 |
+| Beam 可减少完整闭环拟合且不漏掉小型 oracle 最优解 | 3 次 Tier 3 对 8 次穷举，结构一致 | 已支持，限注册小空间 |
+| 结构森林可恢复注册的静态/动态模块 | 54 项原型测试及 8 个子测试 | 已支持，限算法开发 |
+| 正确边记忆能提高长视界重积分 | 三机合成 10 s RMSE $3.39\times10^{-6}$ 对 B2 $2.34\times10^{-3}$ | 已支持，限合成条件重积分 |
+| F1 存在源—激励混杂 | 95 条 Q-A、23 个 fault lines、1 个共同单元、7 个欠支持 source-cells | 已支持 |
+| F1 的最优空间/动态分枝已识别 | 未执行联合拟合 | 不支持 |
+| 方法可自主预测未来机械功率 | 当前使用 observed $P_m(t)$ | 不支持 |
+| 方法可泛化到其他 fold、test 或未知系统 | 尚未获批或运行 | 需要新实验 |
+
+
+<a id="doc-230efe78b45b-12-复现与证据索引"></a>
+
+#### 12. 复现与证据索引
+
+- 正式 acceptance：`results/paper_m0_afsd_v4_acceptance_f1_seed324-acceptance-20260818T024715Z-0265aa5b/acceptance.json`
+- 正式受控实验：`results/paper_m0_afsd_v4_controlled_f1_seed324-controlled_experiment-20260818T024627Z-0265aa5b/`
+- 正式残差诊断：`results/paper_m0_afsd_v4_residual_f1_seed324-residual_diagnosis-20260818T024709Z-0265aa5b/`
+- 正式对抗审查：`results/paper_m0_afsd_v4_adversarial_f1_seed324-adversarial_review-20260818T024712Z-0265aa5b/`
+- 工作流状态：`.project_state/m0_afsd_v4_graph_compositional_discovery_state.json`
+- 后续算法设计与原型：`scratch/one_off/m0-afsd-v4-next-design-20260818/`
+
+
+<a id="doc-230efe78b45b-参考文献"></a>
+
+#### 参考文献
+
+1. Chow, J. H., Galarza, R., Accari, P. & Price, W. W. Inertial and slow coherency aggregation algorithms for power system dynamic model reduction. *IEEE Transactions on Power Systems* **10**, 680–685 (1995). [doi:10.1109/59.387903](https://doi.org/10.1109/59.387903).
+2. Schaub, M. T. *et al.* Graph partitions and cluster synchronization in networks of oscillators. *Chaos* **26**, 094821 (2016). [doi:10.1063/1.4961065](https://doi.org/10.1063/1.4961065).
+3. Brunton, S. L., Proctor, J. L. & Kutz, J. N. Discovering governing equations from data by sparse identification of nonlinear dynamical systems. *Proceedings of the National Academy of Sciences* **113**, 3932–3937 (2016). [doi:10.1073/pnas.1517384113](https://doi.org/10.1073/pnas.1517384113).
+4. Messenger, D. A. & Bortz, D. M. Weak SINDy: Galerkin-based data-driven model selection. *Multiscale Modeling & Simulation* **19**, 1474–1497 (2021). [doi:10.1137/20M1343166](https://doi.org/10.1137/20M1343166).
+5. Fasel, U., Kutz, J. N., Brunton, B. W. & Brunton, S. L. Ensemble-SINDy: robust sparse model discovery in the low-data, high-noise limit, with active learning and control. *Proceedings of the Royal Society A* **478**, 20210904 (2022). [doi:10.1098/rspa.2021.0904](https://doi.org/10.1098/rspa.2021.0904).
+6. Lin, Y. T., Tian, Y., Livescu, D. & Anghel, M. Data-driven learning for the Mori–Zwanzig formalism: a generalization of the Koopman learning framework. *SIAM Journal on Applied Dynamical Systems* **20**, 2558–2601 (2021). [doi:10.1137/21M1401759](https://doi.org/10.1137/21M1401759).
+7. Meinshausen, N. & Bühlmann, P. Stability selection. *Journal of the Royal Statistical Society: Series B* **72**, 417–473 (2010). [doi:10.1111/j.1467-9868.2010.00740.x](https://doi.org/10.1111/j.1467-9868.2010.00740.x).
+8. Kaptanoglu, A. A. *et al.* Promoting global stability in data-driven models of quadratic nonlinear dynamics. *Physical Review Fluids* **6**, 094401 (2021). [doi:10.1103/PhysRevFluids.6.094401](https://doi.org/10.1103/PhysRevFluids.6.094401).
+9. Champion, K. P., Brunton, S. L. & Kutz, J. N. Discovery of nonlinear multiscale systems: sampling strategies and embeddings. *SIAM Journal on Applied Dynamical Systems* **18**, 312–333 (2019). [doi:10.1137/18M1188227](https://doi.org/10.1137/18M1188227).
+
+---
+
+**作者核查提示：** 本报告的核心论证、结果数字和边界均来自本地不可变工件与可复现测试；正式投稿前仍需由作者逐项核对参考文献格式、补充目标期刊要求，并在任何外部提交中披露适用的 AI 辅助写作与代码辅助范围。
+
+<details>
+<summary>原件与版本</summary>
+
+- [docs/protocols/m0_afsd_v4_graph_compositional_discovery.md](_sealed/m0_afsd_v4_graph_compositional_discovery.md)
+- [docs/reports/02_afsd_structure_discovery/m0_afsd_v4_graph_compositional_discovery_research_report_zh_20260818.md](_sealed/m0_afsd_v4_graph_compositional_discovery_research_report_zh_20260818.md)
+
+</details>

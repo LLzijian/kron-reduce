@@ -31,6 +31,8 @@ from kron_reduce.models import (
     RunContext,
     TransientEmfM0Model,
 )
+from project_harness.archive_storage import archive_path
+from project_harness.report_storage import locate_report
 
 
 def _sha256(path: Path) -> str:
@@ -844,21 +846,20 @@ def _assess(
 
 
 def _historical_audit(root: Path) -> dict[str, Any]:
-    paths = {
-        "accepted_round6_config": root
-        / "configs/experiments/paper_m0_gmd_pm_round6_f1_single_seed.toml",
-        "accepted_round6_protocol": root / "docs/m0_gmd_pm_round6_protocol.md",
-        "paper_manifest": root / "configs/project_manifest.json",
-        "accepted_gmd_selection": root
-        / "results/backup/m0_gmd_horizon_balanced_backbone/m0-gmd-horizon-balanced-f1-seed324-20260731/selection_marker.json",
+    logical_paths = {
+        "accepted_round6_config": "configs/experiments/paper_m0_gmd_pm_round6_f1_single_seed.toml",
+        "accepted_round6_protocol": "docs/m0_gmd_pm_round6_protocol.md",
+        "paper_manifest": "configs/project_manifest.json",
+        "accepted_gmd_selection": "results/backup/m0_gmd_horizon_balanced_backbone/"
+        "m0-gmd-horizon-balanced-f1-seed324-20260731/selection_marker.json",
         # historical M0-GMD-PM selection marker was removed during results archival;
         # it is no longer recoverable. It is read tolerantly below (unavailable if
         # absent) so the audit records the loss instead of crashing or fabricating.
-        "accepted_gmd_pm_selection": root
-        / "results/diagnostics/m0-gmd-pm-modal-tgov-bound-f1-seed324-20260801-r4/selection_marker.json",
-        "later_raw10_comparison_config": root
-        / "configs/experiments/paper_m0_3eg_cluster_compare_f2_seed324.toml",
+        "accepted_gmd_pm_selection": "results/diagnostics/m0-gmd-pm-modal-tgov-bound-f1-seed324-20260801-r4/"
+        "selection_marker.json",
+        "later_raw10_comparison_config": "configs/experiments/paper_m0_3eg_cluster_compare_f2_seed324.toml",
     }
+    paths = {name: archive_path(root, locate_report(root, relative)) for name, relative in logical_paths.items()}
     config = tomllib.loads(paths["accepted_round6_config"].read_text(encoding="utf-8"))
     gmd = json.loads(paths["accepted_gmd_selection"].read_text(encoding="utf-8"))
     gmd_pm = (
@@ -896,7 +897,7 @@ def _historical_audit(root: Path) -> dict[str, Any]:
         "accepted_gmd_pm_selection_available": gmd_pm is not None,
         "evidence_files": {
             name: {
-                "path": path.relative_to(root).as_posix(),
+                "path": logical_paths[name],
                 "sha256": _sha256(path) if path.exists() else None,
                 "available": path.exists(),
             }

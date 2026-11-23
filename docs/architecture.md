@@ -13,10 +13,10 @@
 ## 证据与报告目录
 
 - `results/<immutable-run-id>/` 保存可由程序核验的试验证据、参数、指标、哈希、检查记录和本次运行生成的报告。运行目录不可变，获批的本地归档存放在 `results/backup/`。
-- `docs/reports/` 保存纳入 Git 的研究报告和试验卡片。[报告索引](reports/README.md)将各主题关联到运行证据或归档，每项定量结论须标明证据来源。
+- `docs/reports/` 按研究主题编号。每个试验档案页汇总计划、协议、报告和证据链接，`_sealed/` 保留历史登记绑定的原始文件。参见[报告索引](reports/README.md)。
 - `paper/` 保存论文和投稿源文件，可链接到整理后的报告。运行证据由 `results/` 保管。
 
-研究方案放在 `docs/research/`，执行协议放在 `docs/protocols/`，架构和[科学约束](scientific_contract.md)放在 `docs/`。临时或尚未验收的检查放在 `scratch/one_off/<run-id>/`。`project_harness audit` 会标记已停用的顶层 `experiments/` 和 `reports/` 路径。
+仓库架构与[科学约束](scientific_contract.md)放在 `docs/`。一次性检查放在 `scratch/one_off/<run-id>/`。`project_harness audit` 会标记已停用的 `experiments/`、`reports/`、`docs/research/` 和 `docs/protocols/` 路径。
 
 `project_harness` 负责登记、Git 状态、运行管理和阶段审批。模型及评价实现在 `src/kron_reduce`，通过调用方接收配置，避免写入任务编号或结果目录常量。
 

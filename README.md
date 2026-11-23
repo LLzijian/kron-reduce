@@ -10,13 +10,13 @@
 
 | 研究 | 结果与评价范围 |
 | --- | --- |
-| [M5 独立盲测](docs/reports/blind_confirmation_m5_v1_20261121_zh.md) | 冻结的 M3b G2 使用 100 ms 历史，在同源新仿真的 94 个事件中检出 29/32 个失稳样本，62 个稳定样本均判稳。按冻结 TASK3 规则的全名单准确率为 96.81%，1.25 ms 与 2.5 ms 积分步长的判定逐例一致。 |
-| [TASK3 方法对照](docs/reports/task3_three_cohort_comparison_20261121_zh.md) | 对齐起报输入、误差尺度和稳定性判定规则，逐名单报告轨迹误差、失稳检出及可判定覆盖率。 |
-| [M4 物理一致性检查](docs/reports/postfault_m4_v1_20261121_zh.md) | 在冻结的十机模型上核查故障后主模态和物理结构。起报储能分布见 [M4 v2](docs/reports/postfault_m4_v2_20261121_zh.md)。 |
+| [M5 独立盲测](docs/reports/10_postfault_structure/m5_blind/README.md#doc-a2fdc902d881) | 冻结的 M3b G2 使用 100 ms 历史，在同源新仿真的 94 个事件中检出 29/32 个失稳样本，62 个稳定样本均判稳。按冻结 TASK3 规则的全名单准确率为 96.81%，1.25 ms 与 2.5 ms 积分步长的判定逐例一致。 |
+| [TASK3 方法对照](docs/reports/10_postfault_structure/task3_comparison/README.md) | 对齐起报输入、误差尺度和稳定性判定规则，逐名单报告轨迹误差、失稳检出及可判定覆盖率。 |
+| [M4 物理一致性检查](docs/reports/10_postfault_structure/m4_m3b/README.md) | 在冻结的十机模型上核查故障后主模态和物理结构。起报储能分布见 [M4 v2](docs/reports/10_postfault_structure/m4_v2/README.md)。 |
 
 ## 研究范围
 
-现行 KIKI 对照采用固定的 TASK3 名单，`train=346` 用于拟合，`val=107` 用于按预先声明的规则选择模型，`test=76` 用于模型冻结后的评价。已有使用记录的 `test` 名单用于固定对照。独立确认使用另行登记的数据。名单、100 ms 输入和评分细则见 [TASK3 对照规范](docs/protocols/kiki_official_train_test_v1_zh.md)与[冻结名单](configs/proposals/kiki_task3_split_reference_v1.json)。
+现行 KIKI 对照采用固定的 TASK3 名单，`train=346` 用于拟合，`val=107` 用于按预先声明的规则选择模型，`test=76` 用于模型冻结后的评价。已有使用记录的 `test` 名单用于固定对照。独立确认使用另行登记的数据。名单、100 ms 输入和评分细则见 [TASK3 对照规范](docs/reports/05_research_governance/task3_standard/README.md#doc-6c6486ac9f76)与[冻结名单](configs/proposals/kiki_task3_split_reference_v1.json)。
 
 每套轨迹数据拟合一个共享模型。真实数据试验保留十机分辨率，另外用已知真值的合成数据核验隐状态、物理模块和稳定性证书。新轮次的执行权限见[研究政策](configs/research_policy.json)，结构辨识目标见[路线图](docs/structure_discovery_roadmap.md)。
 

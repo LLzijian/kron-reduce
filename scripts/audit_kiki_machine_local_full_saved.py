@@ -15,6 +15,7 @@ from pathlib import Path
 import numpy as np
 
 from project_harness.manifest import project_root
+from project_harness.report_storage import locate_report
 
 AUTHORITY = "kiki_machine_local_full_saved_audit_v1_20261113"
 REFERENCE = Path("configs/proposals/kiki_task3_split_reference_v1.json")
@@ -104,7 +105,7 @@ def reserve(root: Path, fit_arg: Path, test_arg: Path, output_arg: Path):
     if not isinstance(entry, dict) or entry.get("status") != "active" or entry.get("max_executions") != 1 or entry.get("retry_allowed") is not False:
         raise RuntimeError("saved-evidence audit authorization is not active and one-use")
     plan_path = (root / entry["plan_path"]).resolve(strict=True)
-    review_path = (root / entry["review_path"]).resolve(strict=True)
+    review_path = (root / locate_report(root, entry["review_path"], entry.get("review_sha256"))).resolve(strict=True)
     plan_hash, review_hash = sha256_file(plan_path), sha256_file(review_path)
     if entry.get("plan_sha256") != plan_hash or entry.get("review_sha256") != review_hash:
         raise RuntimeError("audit plan or review hash differs from active authorization")
@@ -143,7 +144,7 @@ def reserve(root: Path, fit_arg: Path, test_arg: Path, output_arg: Path):
         if target.is_absolute():
             actual = sha256_file(target)
         else:
-            actual = sha256_file(root / target)
+            actual = sha256_file(root / locate_report(root, target.as_posix(), digest))
         if actual != digest:
             raise RuntimeError(f"audit implementation binding differs: {relative}")
     for absolute, digest in plan.get("external_code", {}).items():

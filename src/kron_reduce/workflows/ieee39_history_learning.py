@@ -19,6 +19,7 @@ from kron_reduce.physics.units import effective_mass
 from kron_reduce.workflows.learned_causal_latent import execute_learning_study
 from project_harness.data_check import verify_data
 from project_harness.evidence import sha256_file
+from project_harness.report_storage import locate_report
 
 
 class AuthorizedHistorySamples:
@@ -199,7 +200,7 @@ def run(
         json.dumps(
             {
                 "protocol_path": config["protocol_path"],
-                "protocol_sha256": sha256_file(root / config["protocol_path"]),
+                "protocol_sha256": sha256_file(root / locate_report(root, config["protocol_path"])),
                 "config_sha256": sha256_file(config_path),
                 "role_manifest_sha256": audit["role_manifest_sha256"],
             },

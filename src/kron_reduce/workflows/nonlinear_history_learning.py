@@ -26,6 +26,7 @@ from kron_reduce.workflows.ieee39_history_learning import AuthorizedHistorySampl
 from project_harness.data_check import verify_data
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import git_head, status_lines
+from project_harness.report_storage import locate_report
 
 
 def _write(path, value):
@@ -329,7 +330,7 @@ def execute_study(*, root, config, config_path, result_dir, run_id, provider=Non
             "working_tree_status": status_lines(root),
             "source_sha256": {path: sha256_file(root / path) for path in sources},
             "config_sha256": sha256_file(config_path),
-            "protocol_sha256": sha256_file(root / config["protocol_path"]),
+            "protocol_sha256": sha256_file(root / locate_report(root, config["protocol_path"])),
             "data_policy": config["data_policy"],
         },
     )

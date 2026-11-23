@@ -38,7 +38,9 @@ ordered key and a short semantic label, e.g. `05_damping_corrections`,
 
 For each sub-bundle produce:
 
-1. `<sub-bundle>.zip` under `results/backup/<group>_subsets/`. It contains, for
+1. `<sub-bundle>.zip` under `results/backup/<numbered-topic>/`. Use the
+   directory name of the matching theme in the [report index](../docs/reports/README.md).
+   Each ZIP contains, for
    every run in that sub-bundle, ONLY the conclusion + model artifacts:
    - KEEP: `summary.json`, `acceptance.json`, `stage_evidence.json`,
      `audit.json`, `selection*.json`, `verdict`/`closeout` JSON, model bodies
@@ -56,7 +58,7 @@ For each sub-bundle produce:
 
 ### Phase 2 — batch ledger + research summary + removal
 
-3. A batch ledger `results/backup/<group>_subsets/LEDGER_<batch>.md` that
+3. A batch ledger `results/backup/<numbered-topic>/LEDGER_<batch>.md` that
    records, for every run: what was attempted and what was obtained (status,
    fit ok/fail, key metrics), with the run ID.
 4. A research-level summary `results/SUMMARY_*.md` written from the research
@@ -90,7 +92,7 @@ results/
 ├── README.md                      # index of SUMMARY_* and backup packages
 ├── SUMMARY_*.md                   # research-level summaries (aggregate several packages)
 ├── backup/
-│   └── <group>_subsets/
+│   └── <numbered-topic>/
 │       ├── <sub-bundle>.zip
 │       ├── <sub-bundle>.DESCRIPTION.md   # outside the zip, readable
 │       └── LEDGER_<batch>.md

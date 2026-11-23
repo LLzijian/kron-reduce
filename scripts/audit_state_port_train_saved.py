@@ -20,6 +20,8 @@ from pathlib import Path, PurePosixPath
 
 import numpy as np
 
+from project_harness.report_storage import locate_report
+
 AUTH = "kiki_state_port_train_v1_20261111"
 PLAN = "configs/proposals/kiki_state_port_train_v1.json"
 SOURCES = "configs/proposals/kiki_state_port_train_sources_v1.json"
@@ -785,7 +787,7 @@ def authorize_and_reserve(root: Path):
         raise RuntimeError("saved train audit requires a clean checkout")
     plan_path = root / PLAN
     sources_path = root / SOURCES
-    protocol_path = root / PROTOCOL
+    protocol_path = root / locate_report(root, PROTOCOL, approval.get("protocol_sha256"))
     script_path = root / SCRIPT
     plan, sources = read_json(plan_path), read_json(sources_path)
     policy = read_json(root / "configs/research_policy.json")
@@ -821,7 +823,7 @@ def authorize_and_reserve(root: Path):
         raise RuntimeError("saved train audit plan, approval or source bindings mismatch")
     bindings = approval.get("implementation_bindings", {})
     for relative, expected_hash in bindings.items():
-        if sha256(root / relative) != expected_hash:
+        if sha256(root / locate_report(root, relative, expected_hash)) != expected_hash:
             raise RuntimeError(f"saved train implementation binding mismatch: {relative}")
     if (bindings.get(SCRIPT) != sha256(script_path)
             or bindings.get(SOURCES) != sha256(sources_path)):

@@ -18,6 +18,8 @@ from pathlib import Path
 
 import numpy as np
 
+from project_harness.report_storage import locate_report
+
 EXPECTED_LOGICAL = {
     "numpy_rhs": 69017,
     "torch_rhs": 9769,
@@ -179,11 +181,11 @@ def authorize_and_reserve(root: Path) -> tuple[dict, dict, dict, Path]:
     sources_sha = sha256(sources_path)
     script_path = Path(__file__).resolve(strict=True)
     script_sha = sha256(script_path)
-    protocol_path = root / plan["protocol_path"]
+    protocol_path = root / locate_report(root, plan["protocol_path"], plan.get("protocol_sha256"))
     protocol_sha = sha256(protocol_path)
     source_plan_path = root / plan["source_plan_path"]
     source_plan_sha = sha256(source_plan_path)
-    review_path = root / entry["review_path"]
+    review_path = root / locate_report(root, entry["review_path"], entry.get("review_sha256"))
     review_sha = sha256(review_path)
     review = read_json(review_path)
     if (entry.get("plan_path") != PLAN_RELATIVE.as_posix()

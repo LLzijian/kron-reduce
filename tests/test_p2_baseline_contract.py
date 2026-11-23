@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from kron_reduce.workflows import p2_baseline_contract as p2
+from project_harness.report_storage import locate_report
 
 
 def _root() -> Path:
@@ -66,9 +67,8 @@ def test_p2_workflow_branches_only_after_scientific_acceptance() -> None:
 
 def test_p2_main_table_excludes_native_solver_mismatch() -> None:
     root = _root()
-    protocol = (
-        root / "docs/protocols/ieee39_modular_energy_p2_a01_baseline_contract_v1_zh.md"
-    ).read_text(encoding="utf-8")
+    protocol_path = locate_report(root, p2.PROTOCOL_PATH)
+    protocol = (root / protocol_path).read_text(encoding="utf-8")
     assert "原生离散 LSTM" in protocol
     assert "不能进入同积分器主表" in protocol
     assert "LIN-ODE-10" in protocol

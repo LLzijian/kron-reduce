@@ -17,6 +17,7 @@ from project_harness.audit import audit_project
 from project_harness.data_check import verify_data
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import git_head, status_lines
+from project_harness.report_storage import locate_report
 
 WORKFLOW = "ieee39_modular_energy_p2_a01_v1"
 CONFIG_NAME = "paper_ieee39_modular_energy_p2_a01_f1_seed324.toml"
@@ -141,7 +142,7 @@ def _verify_historical_evidence(root: Path, inventory: Mapping[str, Any]) -> lis
                 }
             )
         else:
-            path = root / reference
+            path = root / locate_report(root, reference, finding.get("evidence_sha256"))
             digest = sha256_file(path)
             if digest != finding.get("evidence_sha256"):
                 raise RuntimeError(f"P2-A01 historical evidence changed: {reference}")
@@ -166,7 +167,7 @@ def _lineage(*, root: Path, result_dir: Path, run_id: str, stage: str, config_pa
             "workflow": WORKFLOW,
             "stage": stage,
             "protocol_path": PROTOCOL_PATH,
-            "protocol_sha256": sha256_file(root / PROTOCOL_PATH),
+            "protocol_sha256": sha256_file(root / locate_report(root, PROTOCOL_PATH)),
             "config_path": config_path.relative_to(root).as_posix(),
             "config_sha256": sha256_file(config_path),
             "inventory_path": INVENTORY_PATH,
@@ -181,7 +182,7 @@ def _run_plan(root: Path, config_path: Path, result_dir: Path, run_id: str) -> N
         "schema": "kron_reduce.p2_a01_plan_registration.v1",
         "run_id": run_id,
         "protocol_path": PROTOCOL_PATH,
-        "protocol_sha256": sha256_file(root / PROTOCOL_PATH),
+        "protocol_sha256": sha256_file(root / locate_report(root, PROTOCOL_PATH)),
         "config_path": config_path.relative_to(root).as_posix(),
         "config_sha256": sha256_file(config_path),
         "workflow_path": f"configs/workflows/{WORKFLOW}.json",

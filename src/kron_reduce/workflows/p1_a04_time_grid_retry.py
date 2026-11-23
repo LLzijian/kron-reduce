@@ -26,6 +26,7 @@ from kron_reduce.workflows.p1_counterfactual_execution import _seal
 from kron_reduce.workflows.p1_five_arm_execution import _write_json, file_sha256
 from project_harness.evidence import merge_evidence_commit, verify_artifact_directory
 from project_harness.loop import load_state
+from project_harness.report_storage import locate_report
 
 PROTOCOL_REVISION = "ieee39_modular_energy_p1_a04_time_grid_retry_v1"
 WORKFLOW = "ieee39_modular_energy_p1_a04_v1"
@@ -112,7 +113,7 @@ def _load_config(root: Path, experiment: Mapping[str, Any]) -> tuple[Path, dict[
         },
         "time_grid",
     )
-    parent._checked_file(root / PROTOCOL_PATH, PROTOCOL_SHA256)
+    parent._checked_file(root / locate_report(root, PROTOCOL_PATH, PROTOCOL_SHA256), PROTOCOL_SHA256)
     parent._checked_file(root / WORKFLOW_PATH, WORKFLOW_SHA256)
     parent._checked_file(root / str(config["previous_failure_report"]), FAILURE_REPORT_SHA256)
     parent._checked_file(root / str(config["candidate_config"]), str(config["candidate_config_sha256"]))

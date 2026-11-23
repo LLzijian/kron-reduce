@@ -2,7 +2,7 @@
 
 ## Literature facts
 
-- Structure-preserving power-network reduction must preserve the relationship between inertia, synchronising coupling, inputs and retained coordinates; topology-only grouping is insufficient for dynamic equivalence. Source status: background literature already cited in `docs/reports/afsd_structure_discovery/graph_coherent_m0_3eg_results_zh.md`.
+- Structure-preserving power-network reduction must preserve the relationship between inertia, synchronising coupling, inputs and retained coordinates; topology-only grouping is insufficient for dynamic equivalence. Source status: background literature already cited in `docs/reports/02_afsd_structure_discovery/graph_coherent_m0_3eg/_sealed/graph_coherent_m0_3eg_results_zh.md`.
 - Port-Hamiltonian and energy-structured models can encode storage, dissipation and reciprocal ports by construction, but a structural form alone does not establish trajectory accuracy or a useful stability region. Source status: project reports and Level 6 contract in `docs/structure_discovery_roadmap.md`.
 - Empirical DMD visibility depends on excitation. A shared physical equation can contain modes that are not repeated in every individual disturbance. Source: synthetic and IEEE39 evidence from M0-AFSD v8 and M0-ESC v1 immutable runs.
 

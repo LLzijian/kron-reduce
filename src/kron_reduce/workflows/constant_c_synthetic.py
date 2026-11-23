@@ -17,6 +17,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 AUTH = "constant_c_100ms_synthetic_v1_20261109"
@@ -70,9 +71,9 @@ REQUIRED_BINDINGS = frozenset({
 })
 
 
-def _read_json(root: Path, relative: str) -> dict[str, Any]:
+def _read_json(root: Path, relative: str, expected_sha256: str | None = None) -> dict[str, Any]:
     try:
-        value = json.loads((root / relative).read_text(encoding="utf-8"))
+        value = json.loads((root / locate_report(root, relative, expected_sha256)).read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
         raise RuntimeError(f"CONSTANT_C_SYNTHETIC_JSON_INVALID: {relative}") from error
     if not isinstance(value, dict):
@@ -157,8 +158,8 @@ def authorize(root: Path) -> dict[str, Any]:
     for relative, digest in bindings.items():
         verify_bound_file(root, relative, digest)
 
-    plan = _read_json(root, PLAN)
-    review = _read_json(root, review_path)
+    plan = _read_json(root, PLAN, plan_sha)
+    review = _read_json(root, review_path, review_sha)
     if (plan.get("protocol_path") != PROTOCOL or plan.get("protocol_sha256") != protocol_sha
             or plan.get("implementation_bindings") != bindings):
         raise RuntimeError("CONSTANT_C_SYNTHETIC_PLAN_BINDING_MISMATCH")

@@ -4,7 +4,7 @@
 
 自 2026 年 10 月 23 日起，新的真实数据试验使用已登记的 KIKI 来源，保留十台发电机节点，暂停空间聚类。合成真值检验及明确要求的历史复现按各自已登记的范围执行。现行规则由 [`configs/research_policy.json`](../configs/research_policy.json) 检查。
 
-自 2026 年 11 月 12 日起，新 KIKI 对照使用冻结的 TASK3 名单，`train=346` 用于拟合，`val=107` 用于事先声明的选择，`test=76` 用于冻结后的最终评价。`train` 内不得再次划分。当前 `test` 来自 TASK3 Campaign 2，包含 43 个 expansion 事件和 33 个额外 holdout 事件。原始来源的 `test` 分配 105 个事件，其中 99 个满足 100 ms 长度要求，这两个数仅用于说明数据来源。按来源限定的样本 ID、100 ms 输入和评分方法见[对照规范](protocols/kiki_official_train_test_v1_zh.md)及[冻结名单](../configs/proposals/kiki_task3_split_reference_v1.json)。
+自 2026 年 11 月 12 日起，新 KIKI 对照使用冻结的 TASK3 名单，`train=346` 用于拟合，`val=107` 用于事先声明的选择，`test=76` 用于冻结后的最终评价。`train` 内不得再次划分。当前 `test` 来自 TASK3 Campaign 2，包含 43 个 expansion 事件和 33 个额外 holdout 事件。原始来源的 `test` 分配 105 个事件，其中 99 个满足 100 ms 长度要求，这两个数仅用于说明数据来源。按来源限定的样本 ID、100 ms 输入和评分方法见[对照规范](reports/05_research_governance/task3_standard/README.md#doc-6c6486ac9f76)及[冻结名单](../configs/proposals/kiki_task3_split_reference_v1.json)。
 
 这份已有使用记录的 `test` 用于固定基准比较。独立确认须另行登记数据。后续轮次继续遵守其各自的运行预算和合成试验前置要求。
 
@@ -20,11 +20,11 @@
 
 每套轨迹数据拟合一套方程与参数。`train`、`val` 中的不同激励工况可用于筛选受数据支持的备选模块，候选模块合并后在同一模型内联合拟合，再按完整模块裁剪。数据来源、激励工况、故障身份、事件时刻、稳定性标签、`Pe`、电压、掩码、有效长度及未来汇总量不得进入模型特征，也不得用来决定样本交给哪个模型。
 
-新的显式拓扑与记忆候选模型及分阶段对照遵循[能量约束约化模型设计](research/topology_memory_energy_rom_zh.md)。观测路径上的有符号动量和做功用于诊断，前瞻预测表现通过另行登记的因果闭环比较评估。
+新的显式拓扑与记忆候选模型及分阶段对照遵循[能量约束约化模型设计](reports/09_topology_memory/synthetic_rom/README.md#doc-4d23250443a3)。观测路径上的有符号动量和做功用于诊断，前瞻预测表现通过另行登记的因果闭环比较评估。
 
 模型预测未来的 `delta` 与 `omega`，稳定性判定由预测轨迹派生，作为探索性结果。能量结构模型通过相应门槛后，在固定故障后输入和拓扑下还可报告无需积分的清除状态稳定裕度。该裕度与轨迹标签、训练流程各自按原有约定执行。模型只在认证的激励范围内提供结果，已登记的有界评价按授权范围执行。
 
-历史授权 `kiki_a04_development_20261023` 允许在原始来源 `train` 内按冻结的内部 `train`、`val`、因果输入、候选项和预算进行一次认证前开发评价。经验输入支持范围只用 `train` 拟合，标为未认证。完整对照范围和风险分母须保留全部名单成员。授权已用完，新增数据读取、部署与模型晋升各自需要相应权限。见[原授权](protocols/kiki_a04_development_authorization_20261023_zh.md)。
+历史授权 `kiki_a04_development_20261023` 允许在原始来源 `train` 内按冻结的内部 `train`、`val`、因果输入、候选项和预算进行一次认证前开发评价。经验输入支持范围只用 `train` 拟合，标为未认证。完整对照范围和风险分母须保留全部名单成员。授权已用完，新增数据读取、部署与模型晋升各自需要相应权限。见[原授权](reports/04_kiki_a03_a17_pipeline/a04_development/_sealed/kiki_a04_development_authorization_20261023_zh.md)。
 
 ## 模型冻结和轨迹评分
 

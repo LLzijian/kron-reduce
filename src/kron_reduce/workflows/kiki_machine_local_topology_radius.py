@@ -14,6 +14,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 WORKFLOW = "kiki_machine_local_topology_radius_v2"
@@ -45,7 +46,8 @@ COMPARISONS = {"R2": (WORKFLOW, EXPERIMENT, AUTHORIZATION),
 
 def _bound_json(root, binding):
     verify_bound_file(root, binding["path"], binding["sha256"])
-    return json.loads((root/binding["path"]).read_bytes())
+    path = locate_report(root, binding["path"], binding["sha256"])
+    return json.loads((root/path).read_bytes())
 
 
 def _result_file(root, binding):

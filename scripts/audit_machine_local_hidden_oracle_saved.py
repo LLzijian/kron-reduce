@@ -15,6 +15,7 @@ from pathlib import Path
 import numpy as np
 
 from project_harness.manifest import project_root
+from project_harness.report_storage import locate_report
 
 EXPECTED_OUTPUT = Path("reports/generated/machine_local_hidden_oracle_20261113/saved-audit.json")
 PLAN_SCHEMA = "machine_local_hidden_oracle_saved_audit.v1"
@@ -106,7 +107,7 @@ def authorize(root: Path, plan_arg: Path, run_arg: Path, output_arg: Path):
             or entry.get("plan_sha256") != plan_hash or entry.get("max_npz_decodes") != 13
             or entry.get("new_model_calls") != 0):
         raise RuntimeError("saved-array audit authorization is not active and exactly bound")
-    review_path = (root / entry["review_path"]).resolve(strict=True)
+    review_path = (root / locate_report(root, entry["review_path"], entry.get("review_sha256"))).resolve(strict=True)
     if root.resolve() not in review_path.parents or sha256_file(review_path) != entry.get("review_sha256"):
         raise RuntimeError("saved-array audit review hash differs")
     review = read_json(review_path)
@@ -127,7 +128,8 @@ def authorize(root: Path, plan_arg: Path, run_arg: Path, output_arg: Path):
         raise RuntimeError("audit output must be the new registered generated report path")
     for relative, digest in plan.get("implementation_bindings", {}).items():
         path = Path(relative)
-        actual = sha256_file(path if path.is_absolute() else root / path)
+        actual = sha256_file(path if path.is_absolute()
+                             else root / locate_report(root, path.as_posix(), digest))
         if actual != digest:
             raise RuntimeError(f"saved-audit implementation binding differs: {relative}")
     if not plan.get("implementation_bindings"):

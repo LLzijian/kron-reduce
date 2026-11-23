@@ -16,6 +16,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 STUDIES = {"diagnosis": "machine_local_memory_diagnosis_v1", "calibration": "machine_local_memory_calibration_v1"}
@@ -40,7 +41,7 @@ def registration(root, stage):
         raise RuntimeError("active one-use memory study scope differs")
     for field in ("plan", "review"):
         verify_bound_file(root, auth[f"{field}_path"], auth[f"{field}_sha256"])
-    plan, review = (json.loads((root/auth[f"{field}_path"]).read_text(encoding="utf-8")) for field in ("plan", "review"))
+    plan, review = (json.loads((root/locate_report(root, auth[f"{field}_path"], auth[f"{field}_sha256"])).read_text(encoding="utf-8")) for field in ("plan", "review"))
     if (plan["authorization"] != authorization or plan["stage"] != stage
             or plan["operation_limits"] != auth["operation_limits"] or not review.get("approved")
             or review.get("plan_path") != auth["plan_path"] or review.get("plan_sha256") != auth["plan_sha256"]

@@ -23,6 +23,7 @@ from project_harness.git_state import assert_clean, git_head, verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import load_manifest, project_root
 from project_harness.policy import load_policy, validate_run_policy
+from project_harness.report_storage import locate_report
 from project_harness.runner import _run_experiment
 
 WORKFLOW = "unified_first_swing_v4_fit"
@@ -54,7 +55,7 @@ def _synthetic(root, directory, run_id, commit):
 
 
 def _file(root, binding):
-    path = _safe_relative(root, binding["path"])
+    path = _safe_relative(root, locate_report(root, binding["path"], binding["sha256"]))
     if not path.is_file() or sha256_file(path) != binding["sha256"]:
         raise RuntimeError(f"frozen file differs from its binding: {binding['path']}")
     return path
@@ -68,7 +69,7 @@ def _receipt(root, declared, path, plan):
     if (declared["status"] != "consumed" or declared["result_receipt_path"] != path
             or declared["result_receipt_sha256"] != plan["bindings"][path]):
         raise RuntimeError("upstream reference receipt must be the exact consumed scope")
-    receipt = _json(root/path)
+    receipt = _json(_file(root, {"path": path, "sha256": plan["bindings"][path]}))
     if (receipt["run_id"], receipt["artifact_manifest_sha256"]) != (declared["run_id"], declared["result_manifest_sha256"]):
         raise RuntimeError("upstream result manifest differs from the consumed scope")
     return receipt

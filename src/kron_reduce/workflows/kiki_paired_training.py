@@ -29,6 +29,7 @@ from kron_reduce.workflows.kiki_stability_comparison import summarize
 from kron_reduce.workflows.nonlinear_history_learning import _write
 from project_harness.evidence import sha256_file, verify_artifact_directory
 from project_harness.git_state import git_head, status_lines
+from project_harness.report_storage import locate_report
 
 AUTH = "kiki_a05_development_20261024"
 GROUPS = ("F", "J")
@@ -111,7 +112,7 @@ def authorization(root, experiment, config):
         raise PermissionError("A05 experiment identity mismatch")
     protocol = approval["approval_protocol_path"]
     if (protocol != config["development_protocol_path"]
-        or sha256_file(root / protocol) != approval["approval_protocol_sha256"]
+        or sha256_file(root / locate_report(root, protocol, approval["approval_protocol_sha256"])) != approval["approval_protocol_sha256"]
         or config["approval_protocol_sha256"] != approval["approval_protocol_sha256"]):
         raise PermissionError("A05 authorization protocol changed")
     proposal = json.loads((root / PROPOSAL).read_text(encoding="utf-8"))
