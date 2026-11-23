@@ -1,170 +1,55 @@
 # kron-reduce
 
-Physics-structured IEEE39 post-fault dynamics with reproducible experiments.
+**IEEE 39 节点系统故障后动态等值建模**
 
-New KIKI comparisons use TASK3's frozen roles: `train=346` for fitting,
-`val=107` for predeclared selection, and `test=76` for final evaluation. The
-76-event test roster contains 43 expansion and 33 additional holdout events;
-it is not derived by screening the official 105-event test allocation. The
-original source split allocated train 369 / val 117 / test 105; after the
-100 ms length screen those source roles contain 346 / 107 / 99 events. These
-source counts describe provenance, while the TASK3 76-event list is the current
-main test population. Do not create another internal train/val split. The test
-roster has prior exposure and supports comparative reporting on the fixed
-benchmark. Independent confirmation uses a separately registered population.
-Historical experiments retain their original roles and scopes.
+项目保留十台发电机的空间分辨率，在统一的动力学模型中辨识恢复力、耗散与记忆效应，预测故障清除后的功角和转速。模型从清除瞬间的状态或固定长度的观测历史起报，用预测状态推进后续轨迹，并从轨迹判定稳定性。
 
-The [KIKI IEEE39 blind v2 reuse guide](data/kiki_ieee39_blind_v2/README.md)
-documents the frozen 94-event comparison cohort, its data dictionary, local
-HDF5 verification, and a causal Python reader example.
+[研究成果](docs/reports/README.md) · [项目架构](docs/architecture.md) · [科学约束](docs/scientific_contract.md) · [Harness 使用说明](project_harness/AGENTS.md)
 
-Spatial clustering is paused: retain ten generator nodes while learning and
-pruning the dynamical/latent modules. Synthetic ground-truth checks continue.
-See `configs/research_policy.json` and
-`docs/reports/research_governance_20261023_zh.md` for the active decision.
+## 代表性结果
 
-The research policy records active and consumed authorizations. See the
-[research index](docs/research/README.md) for the follow-up scope, protocols
-and saved results.
+| 研究 | 结果与评价范围 |
+| --- | --- |
+| [M5 独立盲测](docs/reports/blind_confirmation_m5_v1_20261121_zh.md) | 冻结的 M3b G2 使用 100 ms 历史，在同源新仿真的 94 个事件中检出 29/32 个失稳样本，62 个稳定样本均判稳。按冻结 TASK3 规则的全名单准确率为 96.81%，1.25 ms 与 2.5 ms 积分步长的判定逐例一致。 |
+| [TASK3 方法对照](docs/reports/task3_three_cohort_comparison_20261121_zh.md) | 对齐起报输入、误差尺度和稳定性判定规则，逐名单报告轨迹误差、失稳检出及可判定覆盖率。 |
+| [M4 物理一致性检查](docs/reports/postfault_m4_v1_20261121_zh.md) | 在冻结的十机模型上核查故障后主模态和物理结构。起报储能分布见 [M4 v2](docs/reports/postfault_m4_v2_20261121_zh.md)。 |
 
-New real-data work uses the frozen TASK3-compatible train, val and test lists
-under the [benchmark standard](docs/protocols/kiki_official_train_test_v1_zh.md).
-The exact source-qualified IDs and list hashes are in the
-[split reference](configs/proposals/kiki_task3_split_reference_v1.json). The active
-[joint initial-state study](docs/research/machine_local_joint_observer_plan_20261112_zh.md)
-tests a noise correction before learned-model confirmation and real-data execution.
+## 研究范围
 
-The current [algorithm design](docs/research/machine_local_structure_plan_v2_20261112_zh.md)
-implements one hidden state per machine, with separate checks for prediction
-accuracy and structure identifiability. The [synthetic protocol](docs/protocols/machine_local_synthetic_v1_zh.md)
-defines S0 and twelve S1-base fits under separate gates and budgets. A06 remains
-the reference; later physical modules and real-data comparisons have their own gates.
-[S0 passed](docs/reports/machine_local_s0_20261112_zh.md); the twelve-fit
-[S1-base result](docs/reports/machine_local_s1_20261112_zh.md) failed its prediction
-gate. The current scope is initialization/generalization diagnosis preparation;
-T0 is stopped and both synthetic execution authorities are consumed.
+现行 KIKI 对照采用固定的 TASK3 名单，`train=346` 用于拟合，`val=107` 用于按预先声明的规则选择模型，`test=76` 用于模型冻结后的评价。已有使用记录的 `test` 名单用于固定对照。独立确认使用另行登记的数据。名单、100 ms 输入和评分细则见 [TASK3 对照规范](docs/protocols/kiki_official_train_test_v1_zh.md)与[冻结名单](configs/proposals/kiki_task3_split_reference_v1.json)。
 
-## Scientific scope
+每套轨迹数据拟合一个共享模型。真实数据试验保留十机分辨率，另外用已知真值的合成数据核验隐状态、物理模块和稳定性证书。新轮次的执行权限见[研究政策](configs/research_policy.json)，结构辨识目标见[路线图](docs/structure_discovery_roadmap.md)。
 
-The primary task is closed-loop prediction of `delta(t), omega(t)` from the
-exact clearing state. The default post-clear mechanical-power policy is a
-zero-order hold at `Pm(tc)`. A run with the observed synchronous `Pm(t)` is a
-separately reported conditional-rollout sensitivity, not a causal forecast.
-Stability scores are derived from predicted trajectories and are exploratory.
+## 快速开始
 
-Main methods are M0, M2A, energy-structured M2A, SINDYc, a shared
-physics-informed neural ODE, and an autoregressive LSTM. Operator forecasts and
-direct prefix classifiers are supplementary because they use a different
-information budget.
-
-## Research workflow
+在仓库根目录使用项目共用的 Python 3.12。首次安装依赖时运行第一条带 `pip` 的命令，后续可直接查看登记和审计结果。
 
 ```powershell
-./.venv/Scripts/python.exe -m project_harness audit
-./.venv/Scripts/python.exe -m project_harness list
-./.venv/Scripts/python.exe -m project_harness loop --workflow kiki_a06_refinement_v1 plan
+$repoPython = '../.venv/Scripts/python.exe'
+& $repoPython -m pip install -e '.[dev]' -c requirements/constraints-py312.txt
+& $repoPython -m project_harness list
+& $repoPython -m project_harness loop --workflow postfault_m4_v2 plan
+& $repoPython -m project_harness audit
 ```
 
-1. **Inspect.** `audit` checks repository contracts and saved evidence. `list`
-   shows the dataset and experiment registry. `loop plan` shows the current
-   and next stages, the evidence contract, pending approvals, and matching
-   experiment registrations with their execution modes and authorization status.
-   Entries registered at the workflow level appear separately.
-   `loop status` shows the full saved history. These inspection commands read
-   repository metadata and saved evidence.
-2. **Execute one step.** Use `loop run-one` for a built-in check. For an
-   authorized experiment, use its registered entry point and stage. Generic
-   experiments use `run <experiment> --stage <stage>`. Dedicated audits use the
-   module and procedure in their approved protocol. `loop approve <gate>`
-   records an explicit operator approval. `loop advance <stage> --evidence-file
-   <file>` records externally produced evidence for the next stage.
-3. **Review.** The loop advances after the evidence passes validation. A
-   scientific verdict can route to acceptance or rollback according to the
-   registered workflow. Each attempted experiment keeps its own run directory.
+`list`、`loop plan` 和 `audit` 查看登记、阶段和已存证据。运行试验须按[工作流说明](project_harness/AGENTS.md)使用登记入口。CUDA 环境与逐机模型的性能实测见[架构文档](docs/architecture.md#machine-local-cuda)。
 
-Use `--workflow <name>` before a loop subcommand. The default `paper_v1` is
-the historical paper workflow. Workflow definitions live in `configs/workflows/`.
-`git-check` checks the clean-checkout gate. `data-check --dataset <name>` checks
-registered metadata and source hashes separately from the workflow preview.
-Contributor rules are in [AGENTS.md](AGENTS.md) and the
-[harness instructions](project_harness/AGENTS.md).
+## 仓库导航
 
-Set `KIKI_DATA_ROOT` to the directory containing `ieee39_postfault` and
-`ieee39_expansion`; the local fallback is `../kiki/private_data`. The raw HDF5
-files remain external. Metadata, checksums and exposure records are versioned.
-An old canonical run additionally requires `--historical-reproduction`; its
-workflow still permits only its registered next stage and original approvals.
+| 位置 | 内容 |
+| --- | --- |
+| [`src/kron_reduce/`](src/kron_reduce/) | 物理模型、轨迹推演、训练和评价 |
+| [`project_harness/`](project_harness/) 与 [`configs/`](configs/) | 试验登记、运行管理、证据审计和审批 |
+| [`data/`](data/) | 数据登记和校验信息。KIKI 原始 HDF5 文件保存在仓库外，通过 `KIKI_DATA_ROOT` 指向包含 `ieee39_postfault` 和 `ieee39_expansion` 的目录 |
+| [`docs/reports/`](docs/reports/README.md) 与本地 `results/` | 研究方案、结果、证据回执和归档索引 |
+| [`paper/`](paper/) | 论文源码与投稿检查项 |
 
-The private GitHub remote is `https://github.com/LLzijian/kron-reduce`.
-GitHub Actions checks policy and synthetic fixtures on pushes and pull requests.
-Install with `pip install -e '.[dev]' -c requirements/constraints-py312.txt` on
-Python 3.12; the constraint file records tested core versions.
+<a id="git-archives" name="git-archives"></a>
 
-### Git archives
+### Git 归档
 
-Commit the final code and evidence receipt on the attempt's `codex/` branch.
-Run the harness from that clean worktree and record the outcome and reason.
+在试验的 `codex/` 分支提交最终代码和证据回执，按 [Harness 归档说明](project_harness/AGENTS.md#git-archives)发布带注释的归档标签。
 
-```powershell
-python -m project_harness git-archive --outcome rejected --message "Trajectory RMSE missed the promotion gate" --push
-```
+## 使用许可
 
-Choose `completed`, `rejected`, `failed`, or `abandoned`. The annotated tag
-`attempt/<branch>/<full-commit>` records the branch, outcome, summary, and exact
-commit. Include the run ID or receipt path in the summary when available.
-`--push` publishes that tag to `origin`. Keep the branch until the push
-succeeds, and retry with the same outcome and message if publishing fails.
-Use `git fetch --tags` to retrieve the archives, `git tag --list 'attempt/*'`
-to list them, and `git show <tag>` to inspect a record after branch deletion.
-
-### CUDA for machine-local forecasts
-
-On Windows with a compatible NVIDIA driver, install the pinned CUDA build in
-a separate Python 3.12 environment. See the [official PyTorch CUDA 13.0 wheel index](https://download.pytorch.org/whl/cu130/torch/).
-
-```powershell
-py -3.12 -m venv scratch/.venv-cu130
-./scratch/.venv-cu130/Scripts/python.exe -m pip install torch==2.13.0 --index-url https://download.pytorch.org/whl/cu130
-./scratch/.venv-cu130/Scripts/python.exe -m pip install -e '.[dev]' -c requirements/constraints-py312.txt
-$env:CUBLAS_WORKSPACE_CONFIG = ':4096:8'
-./scratch/.venv-cu130/Scripts/python.exe -m pytest tests/test_nonlinear_history.py -k cuda
-```
-
-Move a loaded `FrozenMachineLocalForecaster` to CUDA with `.to('cuda')`.
-`predict_batch` returns tensors on the model device, and `predict` returns a
-NumPy array. Checkpoints saved on CUDA load on CPU. For a new registered
-paired experiment, bind `"device": "cuda:0"` in the exact fit or test plan and
-pass the registered ID through `--experiment` to its workflow entry point.
-With no `device` in the plan, the entry point uses CPU.
-
-The CUDA forecast groups ten 10 ms output frames in a replayable GPU graph.
-RHS and hidden-state solve budgets still count stages and events, respectively.
-The CPU and CUDA paths both use float64, projected RK4 and three Gauss–Newton
-updates. The rank check and the final trajectory check run outside the graph.
-
-On an i5-13400F and RTX 4060 Ti, the median of five warmed runs on a synthetic
-64-event batch was as follows. Training includes a 3 s rollout at 5 ms,
-backpropagation and one Adam update. Forecasting includes the initializer and
-an 8 s rollout at 2.5 ms. The benchmark measures model work with inputs already
-on the selected device. Dataset reads, operation logs and scoring are outside
-the timing window.
-
-| Workload | CPU before optimization | CPU after optimization | CUDA after optimization |
-|---|---:|---:|---:|
-| Training batch | 8.03 s | 4.66 s | 9.52 s |
-| Frozen forecast batch | 9.42 s | 5.74 s | 2.11 s |
-
-## Artifact locations
-
-The [research report and archive index](docs/reports/README.md) links experiments
-to curated reports, evidence receipts, and archive packages.
-Run evidence and generated reports are stored together in `results/<run-id>/`.
-Local archives are stored in `results/backup/`.
-Manuscript sources are in `paper/`, and temporary work is in `scratch/one_off/`.
-
-Full paper runs remain locked until the source baseline is committed, the data
-support audit passes, and `full_run_approved` is explicitly approved.
-After approval, the registered `paper_v1_full` runner freezes every fold/seed
-selection record before opening test trajectories. Summarization, automated
-adversarial checks, LaTeX table generation, and manuscript assembly are separate
-one-stage commands in the project manifest; publication remains a human gate.
+论文发表前，项目原创代码与文档保留全部权利。使用和再分发须依据现有授权或取得著作权人事先书面许可。详见 [LICENSE](LICENSE)。

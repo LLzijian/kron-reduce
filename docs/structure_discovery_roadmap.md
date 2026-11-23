@@ -1,175 +1,106 @@
-# Structure discovery beyond a hand-written swing equation
+# 动力学结构发现路线图
 
-Current policy override (2026-10-23): spatial clustering is paused, new real-data
-work uses registered kiki sources at ten-node resolution, and old test exposure
-requires new independent kiki confirmation data. The roadmap below is historical
-context; `configs/research_policy.json` governs prospective work. Temporal/model
-order reduction, physical module discovery and Level 6 correctness remain goals.
+自 2026 年 10 月 23 日起，新试验采用已登记的 KIKI 真实数据，保留十个发电机节点，暂停空间聚类。旧 `test` 名单用于固定对照，独立确认须使用新登记的数据。动力学阶数约简、物理模块辨识和 Level 6 证书仍是研究目标。下文记录历史路线图，现行试验按[研究政策](../configs/research_policy.json)执行。
 
-Revision 4, 2026-08-28. Supersedes roadmap v3 (in git history). The main
-selection unit is now the complete supplied trajectory corpus: one data-level
-cluster decision is followed by one block-prunable physical model. Excitation
-strata are validation views created after the model is frozen, not training
-routers.
+第 4 版，2026 年 8 月 28 日修订。第 3 版保存在 Git 历史中。对一整套轨迹数据统一判断是否需要空间聚类，再建立一个可按模块裁剪的物理模型。模型冻结后，按激励工况分组验证。
 
-## 0. What changed since v1 of this roadmap
+## 0. AFSD 对路线图的影响
 
-The AFSD line (v1–v7b, all stages completed with immutable evidence) answered
-the *validity* question for the current IEEE39 F1 corpus:
+AFSD v1–v7b 完成了 IEEE39 F1 数据上的聚类可行性检查，保留了各阶段的原始证据。
 
-- v5: no tested hard contraction suffices for the union of observed
-  excitations → full ten-machine resolution is required *for this corpus*
-  (`FULL_RESOLUTION_REQUIRED`).
-- v6: the full-model route SS-DM is a **rollout-accurate dynamic equivalent**
-  (10 s mean RMSE 0.153, zero failures); clustering is not better
-  (`CLUSTER_NOT_BETTER`); the absolute modal gate FAILs.
-- v7/v7b: passive resonance modules are noninferior but do not meet the 2%
-  promotion gate; both REJECTED for promotion.
-- v3/v4: a single unified clustering/order is **not** uniformly supported
-  across excitation regimes (`SOURCE_EXCITATION_CONFOUNDED`-class stop).
+- v5 在已观测激励的并集上验证硬聚类，结果要求该数据保留十机分辨率（`FULL_RESOLUTION_REQUIRED`）。
+- v6 的 SS-DM 十机模型在 10 s 轨迹评价中录得平均 RMSE 0.153、零失败。聚类方案未改善结果（`CLUSTER_NOT_BETTER`），绝对模态检查未通过。
+- v7/v7b 的被动共振模块通过非劣性检查，未达到 2% 的晋升门槛。
+- v3/v4 因不同激励工况对聚类和阶数的支持不一致而停止，记录为 `SOURCE_EXCITATION_CONFOUNDED` 类结果。
 
-Under the current framing these results motivate a direct data-level loss
-test. A corpus is clustered only when discarded state information, input
-heterogeneity, modal loss, synchronising closure and spectral separation all
-fit inside fixed budgets. Otherwise the same algorithm retains full spatial
-resolution. Mechanisms supported by different excitations are composed as
-removable blocks inside the same model; they do not create a routed model
-library.
+空间聚类前，对整套数据检查状态信息损失、输入差异、模态损失、同步作用的闭合误差和谱分离。各项满足预设限值后才采用聚类坐标，其他情况保留完整分辨率。不同激励所支持的机制合入同一个模型，每项机制作为可单独移除的模块。
 
-## 1. Target algorithm
+## 1. 目标算法
 
-For an unknown system observed via post-disturbance trajectories:
+从观测到的扰动后轨迹中辨识系统动力学。
 
 ```text
-observed trajectories
-  → one fast cluster-loss calculation on fit/selection groups
-  → clustered coordinates if every loss budget passes; otherwise full resolution
-  → one B2-rooted model containing supported potential, dissipation,
-    node-storage, decaying-memory and oscillating-memory blocks
-  → whole-block backward deletion with 1/5/10 s closed-loop noninferiority
-  → one frozen energy-structure-preserving model
-  → certified outputs:
-      a) high-accuracy rollout inside the envelope
-      b) low-FSR stability prediction from the rollout
-      c) identified oscillation frequencies (when support gates pass)
-      d) Lyapunov/storage certificate + stability region/margin estimate
-         WITHOUT integration (the differentiating output)
-  → refusal outside every certified envelope
+观测到的轨迹
+  → 在拟合和选择数据上计算一次聚类损失
+  → 各项损失达标时采用聚类坐标，其他情况保留完整分辨率
+  → 以 B2 为基础，加入受数据支持的势能、耗散、节点储能、衰减记忆和振荡记忆模块
+  → 逐个删除完整模块，核查 1、5、10 s 闭环轨迹的非劣性
+  → 冻结保留能量结构的模型
+  → 按各自通过的检查提供结果
+      a) 在认证范围内高精度推演轨迹
+      b) 基于推演轨迹给出失稳漏判率（FSR）低的稳定性判定
+      c) 报告数据支持的振荡频率
+      d) 给出李雅普诺夫或储能证书，无需积分即可估计稳定区域和裕度
+  → 超出认证范围时拒绝预测
 ```
 
-## 2. Discovery hierarchy (Levels 1–5 retained, reframed)
+## 2. 结构发现的五个层级
 
-Levels 1–5 of roadmap v1 remain in force:
+沿用第 1 版的 Level 1–5。
 
-- Level 1: invariant coordinates and dynamical order (block-Hankel,
-  singular-value stability across folds/sources, principal angles, poles).
-- Level 2: graph support from a declared candidate supergraph under
-  group-sparse weak regression with symmetry/PSD constraints.
-- Level 3: constitutive law per retained edge from a symmetry-compatible
-  overcomplete library, weak/integral form, support-preserving.
-- Level 4: energy, dissipation and ports — `x_dot = [J(x)−R(x)]∇H + G(x)u`
-  with exact structural parameterizations.
-- Level 5: identifiability before interpretation (persistent excitation,
-  condition/profile width, selection frequency, synthetic recovery,
-  held-out reintegration, invariance audits).
+- Level 1 确定不变坐标和动力学阶数。检查块 Hankel 矩阵、不同验证分组和数据来源的奇异值稳定性、主夹角及极点。
+- Level 2 确定保留哪些边。在预先声明、包含全部候选边的图上，用带对称性和半正定约束的组稀疏弱形式回归辨识图结构。
+- Level 3 确定各条保留边的本构关系。在满足对称性的过完备函数库中，以弱形式或积分形式辨识关系，保留已确定的边。
+- Level 4 辨识能量、耗散和端口。用参数化方式严格满足 `x_dot = [J(x)−R(x)]∇H + G(x)u` 的结构要求。
+- Level 5 确认可辨识性后再解释结果。检查持续激励、条件数或剖面宽度、变量入选频率、合成真值恢复、在留出数据上重新积分及不变性。
 
-Reframing: the *selection unit* is the supplied corpus. Non-uniform mechanism
-support is handled by composition inside the unified block model and by
-whole-block validation, rather than by producing several deployment models.
+结构选择以整套轨迹数据为单位，在统一模型内组合不同激励支持的机制，并逐个检验完整模块。
 
-## 3. Level 6 — stability certificates and regions
+<a id="level-6-stability-certificates-and-regions" name="level-6-stability-certificates-and-regions"></a>
 
-A candidate that claims more than rollout accuracy must carry an energy
-structure by construction and pass a numerical certificate suite (reviving
-and extending the M2A-LYAP gates):
+## 3. Level 6 稳定性证书与稳定区域
 
-- exact supply identity (dissipation inequality) to solver tolerance;
-- storage Hessian positive curvature at the certified equilibrium;
-- PSD dissipation and interconnection reciprocity;
-- RK4 convergence and COI drift gates (existing).
+报告稳定性证书的候选模型须在结构上满足能量约束，并通过从 M2A-LYAP 扩展而来的数值检查。
 
-On passing, the model earns the name **stability-certified equivalent** and
-may output:
+- 供能恒等式（耗散不等式）在求解器容差内成立。
+- 认证平衡点处的储能函数 Hessian 具有正曲率。
+- 耗散项半正定，互连满足互易性。
+- 通过现有的 RK4 收敛性和 COI 漂移检查。
 
-- a Lyapunov/storage function `V(x)`;
-- a certified stability region estimate `{x : V(x) ≤ c}` with `c` from the
-  controlling-UEP or largest-sublevel-set construction;
-- a stability margin for a trajectory *without* integrating it
-  (e.g. `c − V(x_clear)`), validated against numerical ground truth.
+通过数值检查及第 6 节的区域和裕度验收后，方可使用正式名称 `stability-certified equivalent`。该模型可输出以下结果。
 
-Metrics (new evaluation axis, pre-registered per experiment):
+- 李雅普诺夫函数或储能函数 `V(x)`。
+- 认证稳定区域估计 `{x : V(x) ≤ c}`，由控制不稳定平衡点（UEP）或最大子水平集确定 `c`。
+- 无需积分即可计算的稳定裕度，例如 `c − V(x_clear)`，用数值真值验证。
 
-- stability-margin error vs Monte-Carlo numerical margin;
-- certified-region fidelity vs numerical region of attraction
-  (symmetric-difference ratio, and conservativeness: certified ⊆ numerical);
-- missed-instability rate (FSR) of the *integration-free* judgement, gated
-  separately from the rollout-based classifier.
+每项试验须预先登记以下评价指标。
 
-Known hardness (recorded so gate design respects it): classical
-structure-preserving models with transfer conductances admit only
-path-dependent energy functions; learned Lyapunov functions with certified
-regions are an open problem. M2A-LYAP (2026-07-24) passed its certificates
-but failed trajectory accuracy (test ω R² 0.5998) — accuracy and certificate
-are gated *jointly*, not sequentially. This axis is developed
-synthetic-first (§5). The sample-based certification machinery lives in
-`src/kron_reduce/evaluation/stability_region.py`.
+- 稳定裕度相对于蒙特卡洛数值裕度的误差。
+- 认证区域与数值吸引域的对称差比例，以及认证区域是否包含于数值吸引域。
+- 无需积分的稳定性判定所产生的失稳漏判率。基于推演轨迹的分类结果按其自身门槛评价。
 
-## 4. Composition principle
+含转移电导的经典保结构模型只能使用路径相关的能量函数。辨识具有认证稳定区域的李雅普诺夫函数仍是开放问题。2026 年 7 月 24 日的 M2A-LYAP 通过数值证书检查，`test` 转速轨迹的 R² 为 0.5998，未达到轨迹精度要求。Level 6 要求轨迹精度和证书同时通过，先在合成真值上验证（见第 5 节）。基于样本的认证实现在 `src/kron_reduce/evaluation/stability_region.py`。
 
-Different excitations can expose different mechanisms. Candidate generation
-may use that evidence, but composition occurs inside one explicit equation:
-each mechanism is a storage, dissipation or memory block with reciprocal
-ports. The final structure is selected jointly on the corpus and is frozen
-before amplitude, information-richness or coupling-strength slices are
-reported. Deployment therefore receives one model and one certified
-excitation envelope, with refusal outside that envelope rather than a
-training-time model router.
+## 4. 组合原则
 
-## 5. Evidence base
+不同激励可支持不同机制的辨识。每种机制用带互易端口的储能、耗散或记忆模块表示，全部模块在同一个显式方程内联合选择。冻结后可按激励幅值、信息丰富程度或耦合强度分组报告。部署使用一个模型和经认证的激励范围，超出范围时拒绝预测。
 
-"Correctness of structure discovery" (frequency identification, stability
-region) is only falsifiable against known ground truth. The evidence pyramid
-is ordered:
+## 5. 证据基础
 
-1. **Synthetic benchmark registry (primary)**: a versioned family of
-   multi-machine systems with known modal frequencies, known stability
-   boundaries, and controlled excitation richness. Every new selection or
-   certificate claim must recover ground truth here first.
-2. **IEEE39 canonical (flagship)**: existing rules unchanged — F1/seed 324
-   development, frozen validation read once per frozen branch, test and
-   F2–F5 locked behind explicit gates, observed-Pm rollouts labelled as
-   conditional sensitivities, without an upper-bound interpretation.
-3. Cross-dataset replication tests as the registered evidence base grows.
+频率与稳定区域的辨识是否正确，须用已知真值检验。按以下顺序积累证据。
 
-## 6. Status ledger and next implementations
+1. **合成基准**。登记多个版本的多机系统，提供已知模态频率、稳定边界和可控的激励条件。新的结构选择方法或证书须先在此恢复真值。
+2. **历史 canonical IEEE39 数据**。F1 与随机种子 324 用于开发，每个冻结分支只读取一次冻结的 `val`，`test` 与 F2–F5 均须显式批准后开启。使用观测 `Pm` 的推演按条件敏感性分析报告，禁止解读为性能上界。
+3. 随登记数据增加，开展跨数据集复现检查。
 
-| Item | State (2026-08-28) | Under this roadmap |
-|------|--------------------|--------------------|
-| M0-3EG-DF | accepted single-seed anchor (F1) | retained as a fixed comparison baseline |
-| SS-DM full model | rollout-accurate dynamic equivalent (v6) | retained; naming unchanged until modal/stability gates pass |
-| v7/v7b resonant modules | rejected for promotion | retained as candidate-module evidence; their noninferiority evidence stays |
-| v8 modal identifiability | completed: `MODAL_ENVELOPE_MAP_CREATED`; no shared modal promotion | use shared-equation poles plus excitation-local observability; do not claim unsupported frequencies |
-| ESC v1 | completed historical per-envelope library | immutable historical evidence only; not the deployment architecture |
-| high-order cluster validation | `VALIDATED_REFUSAL`, selected rank 10 | freeze the ten-machine spatial resolution for the current data level |
-| combined ten-machine candidate | `IDENTIFICATION_FAILED`; physical and numerical gates pass, trajectory and modal gates fail | keep as a failed candidate and P1 diagnostic target; do not promote |
-| M2A-LYAP | dormant since 2026-07-24 | certificate suite revived inside Level 6 |
-| IEEE39 Level 6 boundary audit data | not registered | create a new checksum-locked version; never alter canonical v1 |
+## 6. 状态记录与后续实现
 
-Recommended next implementations, in order:
+| 项目 | 状态（2026-08-28） | 本路线图中的处理 |
+|------|--------------------|------------------|
+| M0-3EG-DF | 已接受的单随机种子基准（F1） | 保留为固定对比基线 |
+| SS-DM 完整模型 | 轨迹回放准确的动态等效模型（v6） | 保留；通过模态/稳定性门控前不更改命名 |
+| v7/v7b 共振模块 | 未获准晋升 | 保留为候选模块证据；保留其非劣性证据 |
+| v8 模态可辨识性 | 已完成：`MODAL_ENVELOPE_MAP_CREATED`；未晋升为共享模态 | 使用共享方程极点和激励局部可观测性；不声称存在证据不支持的频率 |
+| ESC v1 | 已完成的历史逐范围模型库 | 仅作为不可变历史证据；不作为部署架构 |
+| 高阶聚类验证 | `VALIDATED_REFUSAL`，选定阶数为 10 | 当前数据层级冻结为十机空间分辨率 |
+| 联合十机候选模型 | `IDENTIFICATION_FAILED`；物理与数值门控通过，轨迹与模态门控未通过 | 保留为失败候选及 P1 诊断目标；不晋升 |
+| M2A-LYAP | 自 2026-07-24 起休眠 | 在 Level 6 中恢复证书测试组 |
+| IEEE39 Level 6 边界审计数据 | 尚未注册 | 创建新的校验和锁定版本；绝不修改规范版 v1 |
 
-1. **P1 failure diagnosis** — reproduce the combined ten-machine failure and
-   separate block contribution, causal mechanical-power closure, objective
-   scaling, identifiability, and modal-audit causes.
-2. **P2 comparison contract** — freeze causal B2, M0-3EG-DF, M0-GMD-PM,
-   SS-DM, and registered data-driven baselines under identical roles,
-   horizons, integrator, and statistics.
-3. **P3/P4 unified block model** — generate candidates from excitation views,
-   fit the union as one model, and perform whole-block backward deletion on
-   F1 train/selection/internal-audit data only.
-4. **P5 Level 6 evidence** — verify algorithms on registered synthetic ground
-   truth, then acquire an independent IEEE39 boundary-audit dataset. The
-   Level 6 name additionally requires FSR 95% upper bound at most 5%, stable
-   envelope coverage at least 50%, conservative certified regions, and the
-   registered margin gates.
-5. Only after P4 and P5 acceptance may F1–F5/seed 324 confirmation begin; no
-   extra seed is read as a failed-confirmation rescue.
+历史路线图中的实现顺序如下。
+
+1. **P1 失败诊断**。复现联合十机候选模型的失败，分别检查模块贡献、因果机械功率闭合项、目标函数尺度、可辨识性和模态评价。
+2. **P2 对照规范**。在一致的数据角色、推演时长、积分器和统计口径下，冻结因果 B2、M0-3EG-DF、M0-GMD-PM、SS-DM 及已登记的数据驱动基线。
+3. **P3/P4 统一分块模型**。按激励工况提出候选模块，在一个模型中联合拟合，仅用 F1 历史协议中分配给 `train`、`selection` 和 `internal-audit` 的数据逐项试删完整模块。
+4. **P5 Level 6 证据**。先在已登记的合成真值上验证算法，再获取独立的 IEEE39 边界审计数据。Level 6 的正式名称同时要求失稳漏判率的 95% 上界不超过 5%、稳定范围覆盖率至少 50%、认证区域保持保守性，并通过登记的裕度门槛。
+5. P4 与 P5 均验收后，方可用 F1–F5、随机种子 324 开展确认。确认失败后不得追加种子重试。
