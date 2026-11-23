@@ -17,7 +17,6 @@ from kron_reduce.models.nonlinear_latent import (
     fixed_quadratic_basis,
 )
 from kron_reduce.physics.coordinates import coi_project
-from project_harness.report_storage import locate_report
 from kron_reduce.workflows.kiki_short_history import (
     CANDIDATES,
     SEEDS,
@@ -33,6 +32,7 @@ from kron_reduce.workflows.kiki_short_history import (
     synthetic_truth,
     trajectory_refinement,
 )
+from project_harness.report_storage import locate_report
 
 
 def samples():

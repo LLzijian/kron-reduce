@@ -787,11 +787,11 @@ def authorize_and_reserve(root: Path):
         raise RuntimeError("saved train audit requires a clean checkout")
     plan_path = root / PLAN
     sources_path = root / SOURCES
-    protocol_path = root / locate_report(root, PROTOCOL, approval.get("protocol_sha256"))
     script_path = root / SCRIPT
     plan, sources = read_json(plan_path), read_json(sources_path)
     policy = read_json(root / "configs/research_policy.json")
     approval = policy.get("development_evaluations", {}).get(AUTH, {})
+    protocol_path = root / locate_report(root, PROTOCOL, approval.get("protocol_sha256"))
     postrun = plan.get("postrun_saved_arithmetic_audit", {})
     expected = plan.get("scope", {})
     checks = (

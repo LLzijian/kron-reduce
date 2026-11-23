@@ -14,13 +14,14 @@ def locate_report(root: Path, relative: str, expected_sha256: str | None = None)
     if not registry.is_file():
         return relative
     locations = json.loads(registry.read_text(encoding="utf-8"))
+    # Binding checks handle registry validation errors as RuntimeError.
     if not isinstance(locations, dict):
-        raise RuntimeError("REPORT_RELOCATION: expected an object")
+        raise RuntimeError("REPORT_RELOCATION: expected an object")  # noqa: TRY004
     if relative not in locations:
         return relative
     entry = locations[relative]
     if not isinstance(entry, dict):
-        raise RuntimeError(f"REPORT_RELOCATION: invalid entry for {relative}")
+        raise RuntimeError(f"REPORT_RELOCATION: invalid entry for {relative}")  # noqa: TRY004
     target = entry.get("path")
     if expected_sha256 is not None and expected_sha256 == entry.get("sha256"):
         target = entry.get("original_path", target)
@@ -33,6 +34,10 @@ def locate_report(root: Path, relative: str, expected_sha256: str | None = None)
             or ":" in target or candidate.name != PurePosixPath(relative).name):
         raise RuntimeError(f"REPORT_RELOCATION: unsafe destination for {relative}")
     absolute = root.resolve().joinpath(*candidate.parts)
-    if absolute.resolve() != absolute or absolute.is_symlink() or absolute.is_junction():
+    if (
+        absolute.resolve() != absolute
+        or absolute.is_symlink()
+        or (hasattr(absolute, "is_junction") and absolute.is_junction())
+    ):
         raise RuntimeError(f"REPORT_RELOCATION: linked destination for {relative}")
     return target

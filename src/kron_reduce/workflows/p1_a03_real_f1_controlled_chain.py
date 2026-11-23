@@ -20,13 +20,6 @@ from typing import Any
 
 import numpy as np
 
-from project_harness.audit import audit_project
-from project_harness.data_check import verify_data
-from project_harness.evidence import verify_artifact_directory
-from project_harness.git_state import git_head, status_lines
-from project_harness.loop import load_state
-from project_harness.report_storage import locate_report
-
 from kron_reduce.data.p1_causal import P1CausalReader, P1RoleManifest
 from kron_reduce.data.p1_pm_targets import PmReadPurpose, read_pm_batch
 from kron_reduce.data.store import CanonicalStore
@@ -59,7 +52,12 @@ from kron_reduce.workflows.p1_module_support_execution import (
     evaluate_saved_module_support,
     verify_module_support_artifacts,
 )
-
+from project_harness.audit import audit_project
+from project_harness.data_check import verify_data
+from project_harness.evidence import verify_artifact_directory
+from project_harness.git_state import git_head, status_lines
+from project_harness.loop import load_state
+from project_harness.report_storage import locate_report
 
 PROTOCOL_REVISION = "ieee39_modular_energy_p1_a03_real_f1_controlled_chain_v1"
 WORKFLOW = "ieee39_modular_energy_p1_a03_v1"
