@@ -1,93 +1,39 @@
-# Scientific contract
+# 科学约束
 
-Effective 2026-10-23: new real-data experiments use the registered kiki sources
-and retain ten generator nodes; spatial clustering is paused. Synthetic truth
-checks and explicitly requested historical replay retain their separate roles.
-Effective 2026-11-12, new KIKI comparisons use the frozen TASK3-compatible
-cohorts: `train=346` for fitting, `val=107` for predeclared selection, and
-`test=76` for final evaluation. The test list is TASK3 Campaign 2's 43 expansion
-events plus 33 extra holdout events. It is not the official source `test` list
-screened from 105 allocated / 99 length-qualified events; those counts remain
-provenance facts only. Do not create another internal train/val split. The
-[benchmark standard](reports/05_research_governance/task3_standard/README.md#doc-6c6486ac9f76) defines the
-source-qualified lists, 100 ms input and TASK3 scoring. The fixed test list has
-prior exposure and supports comparative reporting; independent-confirmation
-claims require a separately registered population. The user has authorized this
-prospective change; exact run budgets and synthetic prerequisites still apply.
-The active rules are machine-checked by `configs/research_policy.json`.
+## 数据范围与名单
 
-The [Topology–Memory Energy-Constrained ROM design](reports/09_topology_memory/synthetic_rom/README.md#doc-4d23250443a3)
-governs new explicit topology–memory candidates and their staged comparisons.
-Signed momentum and work on observed paths are diagnostic evidence. Prospective
-performance requires a separately registered causal closed-loop comparison.
+自 2026 年 10 月 23 日起，新的真实数据试验使用已登记的 KIKI 来源，保留十台发电机节点，暂停空间聚类。合成真值检验及明确要求的历史复现按各自已登记的范围执行。现行规则由 [`configs/research_policy.json`](../configs/research_policy.json) 检查。
 
-The historical `kiki_a04_development_20261023` exception permitted one
-registered pre-certification development evaluation inside original source
-train, following its frozen internal train/val, causal inputs, candidates and
-budget. The empirical input support audit is fitted on train only, is labelled
-uncertified, and does not filter the full comparison or risk denominator.
-That consumed authorization does not open new reads, deployment or promotion.
-See `docs/reports/04_kiki_a03_a17_pipeline/a04_development/_sealed/kiki_a04_development_authorization_20261023_zh.md`.
+自 2026 年 11 月 12 日起，新 KIKI 对照使用冻结的 TASK3 名单，`train=346` 用于拟合，`val=107` 用于事先声明的选择，`test=76` 用于冻结后的最终评价。`train` 内不得再次划分。当前 `test` 来自 TASK3 Campaign 2，包含 43 个 expansion 事件和 33 个额外 holdout 事件。原始来源的 `test` 分配 105 个事件，其中 99 个满足 100 ms 长度要求，这两个数仅用于说明数据来源。按来源限定的样本 ID、100 ms 输入和评分方法见[对照规范](reports/05_research_governance/task3_standard/README.md#doc-6c6486ac9f76)及[冻结名单](../configs/proposals/kiki_task3_split_reference_v1.json)。
 
-- Prediction begins at exact clearing (`t=0`).
-- A history-initialized task declares a different forecast origin and real
-  observation count in `configs/input_contracts.json`; it is never pooled with
-  clearing-state prediction or a different observation budget as one ranking.
-- Primary rollout receives `delta(0)`, `omega(0)`, `Pm_equilibrium`,
-  `Pm_clear`, equilibrium and declared graph/inertia priors. It evolves with
-  `Pm_clear` held constant after clearing and uses
-  `Delta Pm = Pm - Pm_equilibrium` in the swing equation. `Pm0` is a
-  deprecated compatibility alias for `Pm_clear`, never for equilibrium power.
-- Observed `Pm(t)` is a conditional-rollout sensitivity and is never mixed with
-  the causal-ZOH main table.
-- A fitted governor is a causal ablation. It is trained on train-only observed
-  `Pm(t)` and deployed from `Pm_clear`, equilibrium and predicted speed; it
-  never reads the future observed schedule.
-- A discovered reduced `Pm` ODE follows the same causality rule. Its learned
-  modal poles and cross-node response are reduced closed-loop structure, not
-  machine-level governor parameters. Accuracy and long-horizon stability are
-  gated separately.
-- Predictions are future `delta, omega`; trajectory-derived stability remains
-  post hoc and exploratory. A separately gated energy-structured model may
-  additionally report an integration-free clearing-state margin under fixed
-  post-clear input and topology, without changing the trajectory labels or
-  training route.
-- `test` IDs may not enter fitting, normalization, checkpoint selection,
-  calibration, or gate construction.
-- In each newly authorized round, freeze the model and evaluation contract,
-  then evaluate the complete frozen `train=346`, `val=107`, and `test=76`
-  rosters from the first assessment. Do not use two-case or other subset pilots
-  unless the user specifically asks for one. Produce complete trajectory and
-  stability results for all three splits regardless of whether RMSE passes its
-  promotion gate. `test` results are reporting-only and never feed tuning or
-  model revision. A quick assessment without added noise still covers all three
-  complete rosters; it does not replace the full frozen evaluation. Missing,
-  nonfinite, or otherwise invalid results
-  are reported as explicit failures with coverage, never as zero or fabricated
-  metrics.
-- For real TASK3 stability, retain the frozen official truth labels and counts;
-  derive predicted labels from the frozen LOS rule and report their agreement
-  with the official labels without relabeling them. For synthetic known-truth
-  data, derive both labels from the truth and predicted trajectories using the
-  frozen thresholds and time window. Treat instability as positive and report
-  accuracy, TP/TN/FP/FN, unstable recall, missed-instability rate, and stable
-  false-alarm rate separately for `train`, `val`, and `test`. An unresolved
-  prediction is not stable: report unresolved/uncovered cases and numerical
-  failures separately. If any case is unresolved, uncovered, or numerically
-  failed, full-cohort accuracy is `null`; also report accuracy among
-  classifiable cases and coverage. Any zero metric denominator is `null`.
-  `test` stability results do not tune thresholds or revise the model.
-- One supplied trajectory corpus produces one final equation and one parameter
-  set. Fit/selection excitation views may support different candidate modules,
-  but their union is fitted jointly and pruned as whole blocks. Source,
-  excitation regime, fault identity, event time, stability label, `Pe`,
-  voltage, masks, valid length, and future summaries are never model features
-  or routing keys.
-- Prefix tasks use a fixed number of real observations. Short cases and cases
-  whose event occurred in the observation window are ineligible for the
-  prospective cohort.
-- Report mean, median, pooled metrics, failure rate, and fault-line clustered
-  uncertainty. Never turn failed predictions or empty populations into zeros.
-- M0 and static M2A are single weak-form constrained solves. Multi-horizon
-  rollout optimisation is an optional support-preserving candidate and may
-  replace that solve only after a predeclared val improvement gate.
+这份已有使用记录的 `test` 用于固定基准比较。独立确认须另行登记数据。后续轮次继续遵守其各自的运行预算和合成试验前置要求。
+
+## 起报点和因果输入
+
+- 清除状态预测从故障清除瞬间（`t=0`）开始。历史起报任务在 [`configs/input_contracts.json`](../configs/input_contracts.json) 声明起报时刻和真实观测点数。不同起报时刻或不同观测预算的任务分别评价和排名。
+- 主任务输入为 `delta(0)`、`omega(0)`、`Pm_equilibrium`、`Pm_clear`、平衡点以及声明的网络和惯量先验。清除后对 `Pm_clear` 作零阶保持，即把它维持在清除时的值，摆动方程使用 `Delta Pm = Pm - Pm_equilibrium`。`Pm0` 是 `Pm_clear` 的旧兼容名。
+- 使用实测同步 `Pm(t)` 的条件推演作为单独的敏感性分析报告。由数据拟合的调速器是因果消融对照，只在 `train` 使用实测 `Pm(t)` 拟合，推演时使用 `Pm_clear`、平衡点及预测转速。
+- 从数据辨识的约化 `Pm` 常微分方程遵循相同因果约束。其模态极点和跨节点响应描述约化闭环动力学，轨迹精度和长时稳定性分别验收。
+- 固定历史窗口任务使用指定数量的真实观测点。纳入前瞻评价的样本须满足观测长度要求，且事件不发生在观测窗口内。
+
+## 模型结构和适用边界
+
+每套轨迹数据拟合一套方程与参数。`train`、`val` 中的不同激励工况可用于筛选受数据支持的备选模块，候选模块合并后在同一模型内联合拟合，再按完整模块裁剪。数据来源、激励工况、故障身份、事件时刻、稳定性标签、`Pe`、电压、掩码、有效长度及未来汇总量不得进入模型特征，也不得用来决定样本交给哪个模型。
+
+新的显式拓扑与记忆候选模型及分阶段对照遵循[能量约束约化模型设计](reports/09_topology_memory/synthetic_rom/README.md#doc-4d23250443a3)。观测路径上的有符号动量和做功用于诊断，前瞻预测表现通过另行登记的因果闭环比较评估。
+
+模型预测未来的 `delta` 与 `omega`，稳定性判定由预测轨迹派生，作为探索性结果。能量结构模型通过相应门槛后，在固定故障后输入和拓扑下还可报告无需积分的清除状态稳定裕度。该裕度与轨迹标签、训练流程各自按原有约定执行。模型只在认证的激励范围内提供结果，已登记的有界评价按授权范围执行。
+
+历史授权 `kiki_a04_development_20261023` 允许在原始来源 `train` 内按冻结的内部 `train`、`val`、因果输入、候选项和预算进行一次认证前开发评价。经验输入支持范围只用 `train` 拟合，标为未认证。完整对照范围和风险分母须保留全部名单成员。授权已用完，新增数据读取、部署与模型晋升各自需要相应权限。见[原授权](reports/04_kiki_a03_a17_pipeline/a04_development/_sealed/kiki_a04_development_authorization_20261023_zh.md)。
+
+## 模型冻结和轨迹评分
+
+- `test` 名单只用于冻结后的评估。`test` 的 ID 和结果不得用于拟合、归一化、检查点选择、校准、制定门槛、调整阈值或修改模型。
+- 每轮获准后先冻结模型和评价约定，从首次评估起覆盖全部 `train=346`、`val=107`、`test=76`。小样本试跑须由用户明确要求。快速无附加噪声评估同样覆盖完整名单，随后完成全部冻结评估。无论轨迹 RMSE 是否达到晋升门槛，都提供三组完整的轨迹与稳定性结果。
+- 报告均值、中位数、合并所有有效观测点计算的指标、失败率和按故障线路聚类估计的不确定性。缺失、非有限值和其他无效结果记为失败并报告覆盖情况。预测失败和无样本时禁止填入零或编造指标。
+
+## 稳定性报告
+
+- 真实 TASK3 数据沿用冻结的官方真值标签和计数。用固定的 TASK3 失步规则、阈值和时间窗口从预测轨迹派生预测标签，再与官方真值比较。合成已知真值数据对真值轨迹和预测轨迹应用同一冻结规则。
+- 失稳为正类，分别对 `train`、`val`、`test` 报告准确率、TP/TN/FP/FN、失稳召回率、失稳漏判率及稳定误报率。
+- 未决、未覆盖与数值失败分别记录。须满足安定判据才计为稳定。存在任一未决、未覆盖或数值失败时，全名单准确率填 `null`，并报告可判定样本准确率和覆盖率。任何指标分母为零时填 `null`。
