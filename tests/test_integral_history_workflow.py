@@ -316,7 +316,8 @@ def test_population_preserves_268_allocated_258_eligible_order_and_weights(tmp_p
     with pytest.raises(PermissionError, match="population/order/weight plan changed"):
         workflow.bound_metadata(tmp_path, {
             "allocation_path": "allocation.json", "allocation_sha256": sha256_file(allocation_path),
-            "read_plan_path": "plan.json", "inventory_path": "inventory.json",
+            "read_plan_path": "plan.json", "read_plan_sha256": sha256_file(plan_path),
+            "inventory_path": "inventory.json", "inventory_sha256": sha256_file(inventory_path),
         })
 
 

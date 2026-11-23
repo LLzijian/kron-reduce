@@ -64,7 +64,9 @@ def _authorize_fixture(tmp_path, monkeypatch, *, status="active", approved=True,
         "plan_sha256": "plan-digest",
         "implementation_bindings": bindings,
     }
-    monkeypatch.setattr(workflow, "_read_json", lambda _root, path: plan if path == workflow.PLAN else review)
+    monkeypatch.setattr(
+        workflow, "_read_json", lambda _root, path, _digest=None: plan if path == workflow.PLAN else review,
+    )
     return plan, auth, verified
 
 

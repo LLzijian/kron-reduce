@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 import kron_reduce.workflows.kiki_tilted_training as tilted
+from project_harness.report_storage import locate_report
 
 SEEDS = (324, 325, 326)
 
@@ -132,7 +133,8 @@ def _authorization_fixture(tmp_path):
     config = tomllib.loads((repository / "configs/experiments/paper_kiki_a07_tilted.toml")
                            .read_text(encoding="utf-8"))
     for key in ("development_protocol_path", "design_path"):
-        shutil.copyfile(repository / config[key], tmp_path / config[key])
+        relative = config[key]
+        shutil.copyfile(repository / locate_report(repository, relative), tmp_path / relative)
     manifest = json.loads((tmp_path / "configs/project_manifest.json").read_text(encoding="utf-8"))
     experiment = manifest["experiments"]["paper_kiki_a07_tilted"]
     return tmp_path, experiment, config

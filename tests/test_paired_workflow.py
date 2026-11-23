@@ -6,6 +6,7 @@ import pytest
 from kron_reduce.workflows import kiki_paired_training as workflow
 from project_harness.evidence import EvidenceContext, sha256_file, validate_stage_evidence
 from project_harness.loop import next_stage
+from project_harness.report_storage import locate_report
 
 
 def registration(root):
@@ -21,7 +22,9 @@ def test_authorization_binds_both_plan_and_source(root, tmp_path):
     policy = json.loads((root / "configs/research_policy.json").read_text(encoding="utf-8"))
     approval = policy["development_evaluations"][workflow.AUTH]
     assert approval["status"] in ("user_approved", "consumed")
-    assert sha256_file(root / approval["approval_protocol_path"]) == approval["approval_protocol_sha256"]
+    digest = approval["approval_protocol_sha256"]
+    protocol = locate_report(root, approval["approval_protocol_path"], digest)
+    assert sha256_file(root / protocol) == digest
     if approval["status"] == "consumed":
         with pytest.raises(PermissionError):
             workflow.authorization(root, experiment, config)

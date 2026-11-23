@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 import kron_reduce.workflows.kiki_memory_order as memory
+from project_harness.report_storage import locate_report
 
 SEEDS = (324, 325, 326)
 
@@ -79,7 +80,8 @@ def _authorization_fixture(tmp_path):
     config = tomllib.loads((repository / "configs/experiments/paper_kiki_a08_memory.toml")
                            .read_text(encoding="utf-8"))
     for key in ("development_protocol_path", "design_path"):
-        shutil.copyfile(repository / config[key], tmp_path / config[key])
+        relative = config[key]
+        shutil.copyfile(repository / locate_report(repository, relative), tmp_path / relative)
     policy_path = tmp_path / "configs/research_policy.json"
     policy = json.loads(policy_path.read_text(encoding="utf-8"))
     policy["development_evaluations"][memory.AUTH]["status"] = "user_approved"

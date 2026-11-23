@@ -10,6 +10,7 @@ import pytest
 
 from kron_reduce.evaluation.train_mechanism_audit import audit_event
 from kron_reduce.workflows import kiki_train_refinement as workflow
+from project_harness.report_storage import locate_report
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 AUTH = workflow.AUTH
@@ -34,7 +35,8 @@ def _copy_approval_fixture(destination: Path):
     for relative in relatives:
         target = destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(PROJECT_ROOT / relative, target)
+        source = locate_report(PROJECT_ROOT, relative.as_posix())
+        shutil.copyfile(PROJECT_ROOT / source, target)
 
     # Reconstruct the pre-run approval only in this temporary fixture.
     policy["development_evaluations"][AUTH]["status"] = "user_approved"

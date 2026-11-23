@@ -46,11 +46,12 @@ def test_evaluate_scores_full_roster_after_batch_failure_and_keeps_invalids(
         seen["ids"] = [event["id"] for event in scoring_events]
         seen["invalid_b"] = bool(np.isnan(predictions[1]).any())
         assert len(comparison) == len(events)
+        records = [{"qualified": i != 1} for i in range(len(scoring_events))]
         return {
             "summary": {},
+            "records": records,
             "classifications": [
-                {"predicted_los": False, "window_settled": True, "qualified": i != 1}
-                for i in range(len(scoring_events))
+                {"predicted_los": False, "window_settled": True, **record} for record in records
             ],
             "selection_score": None,
         }
@@ -79,6 +80,7 @@ def test_evaluate_scores_full_roster_after_batch_failure_and_keeps_invalids(
     assert seen == {"ids": ["a", "b", "c"], "invalid_b": True}
     assert len(predict_calls) == 8  # failed batch and per-event retries at both step sizes
     assert result["task3_six_term_score"] is None
+    assert result["numerical_pass"] is False
     assert result["stability"]["numerical_failures"] == 1
     assert result["stability"]["accuracy"] is None
     assert sum(failure.get("id") == "b" for failure in result["failures"]) == 2

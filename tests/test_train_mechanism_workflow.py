@@ -29,6 +29,7 @@ from kron_reduce.workflows.kiki_train_mechanism import (
     path_physics,
     summarize_audit,
 )
+from project_harness.report_storage import locate_report
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_REL = Path("configs/experiments/paper_kiki_a09_train_mechanism.toml")
@@ -53,7 +54,8 @@ def _copy_auth_fixture(destination: Path):
     for relative in relatives:
         target = destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(PROJECT_ROOT / relative, target)
+        source = locate_report(PROJECT_ROOT, relative.as_posix())
+        shutil.copyfile(PROJECT_ROOT / source, target)
     # Reconstruct the pre-execution approval only inside this isolated fixture;
     # the repository's consumed authorization is never changed or reused.
     policy["development_evaluations"][AUTH]["status"] = "user_approved"
