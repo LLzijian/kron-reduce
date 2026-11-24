@@ -1,6 +1,8 @@
 name: Research engineering checks
 on:
   push:
+    branches: ['**']
+    tags-ignore: ['attempt/**']
   pull_request:
   workflow_dispatch:
 permissions:
