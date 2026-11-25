@@ -1,67 +1,51 @@
 \section{Introduction}
 \label{sec:intro}
-The first few hundred milliseconds after a fault can determine whether
-synchronous generators swing together or lose synchronism
-\cite{hatziargyriou2021stability}. Wide-area phasor measurement units
-\cite{phadke2008phasors} motivate a
-forecasting task in which a short post-clearing record initializes a
-seconds-long prediction of rotor angles and speeds. Such a forecast provides
-the timing and participating machines of an emerging separation. Detailed
-time-domain simulation provides this information when its initial state is
-available, including internal electromagnetic, excitation-system, and load
-states. A dynamic equivalent fitted across multiple disturbances offers a
-way to initialize and run a compact model with a short observed history
-\cite{jiang2020multievent}.
+Post-fault rotor trajectories reveal when synchronous machines separate and
+which machines participate~\cite{hatziargyriou2021stability}. Synchrophasor
+measurements support dynamic state estimation of
+generators~\cite{phadke2008phasors,singh2014dynamic}. Coherency-based reduction
+aggregates generators with similar motion, and multi-event identification
+uses distinct disturbances to fit equivalent
+loads~\cite{chow1982coherency,jiang2020multievent}. Our task is to initialize a
+shared dynamic equivalent from 100~ms of post-clearing rotor observations and
+forecast 8~s of motion.
 
-Data-driven approaches address different parts of this task. Direct transient
-stability assessment with gated recurrent units (GRUs) produces an instability
-score from temporal observations \cite{chen2021adaptive}. Recurrent
-forecasters, attention models, latent neural ordinary differential equations
-(ODEs), and neural operators can produce trajectories
-\cite{rubanova2019latent,vaswani2017attention,lu2021deeponet}. Their generic
-training objectives permit an accurate fitted ringdown alongside an
-underestimated first swing. Sparse equation discovery and delay-coordinate
-methods can also generate trajectories
-\cite{brunton2016sindy,arbabi2017hankel,bakarji2023delay,gao2026shred}.
-With partially observed multi-machine dynamics, these methods need a way to
-close the observed equations and initialize the missing states. Long-horizon
-numerical qualification and confirmed loss-of-synchronism recall are therefore
-central to evaluating these forecasts.
+Recurrent and spatiotemporal graph models provide direct transient stability
+decisions~\cite{chen2021adaptive,liu2022graph}. Nandanoori et al. study graph
+and Koopman models for forecasting grid trajectories from streaming
+measurements and topology~\cite{nandanoori2022graph}. Misyris et al. use
+swing-equation residuals to train a neural surrogate for rotor angle and
+frequency in a single-machine infinite-bus system~\cite{misyris2020pinn}.
+Multi-machine post-fault forecasts must resolve both stable ringdown and
+first-swing separation.
 
-Classical swing equations give the retained rotor coordinates a physical
-meaning. Static Kron reduction preserves an algebraic network relation
-\cite{dorfler2013kron}, while eliminating dynamical states introduces
-memory and a contribution from unresolved initial conditions
-\cite{gouasmi2017memory,pagnier2025kron}. During a large swing, the effective
-restoring force and dissipation can also differ from their local linear
-approximations. We construct a shared ODE with a network potential,
-positive-semidefinite damping, and reciprocal memory ports. A finite library
-adapts the restoring, damping, coupling, and memory laws within the same
-energy balance. Integral momentum screening and closed-loop selection
-connect the chosen operators to the rotor dynamics they must predict
-\cite{messenger2021weak,neary2023compositional}.
+Static Kron reduction preserves an algebraic network
+relation~\cite{dorfler2013kron}. Eliminating dynamical states introduces memory
+and a contribution from unresolved initial
+states~\cite{gouasmi2017memory,pagnier2025kron}. Sparse identification selects
+equation terms from data, and weak formulations use integral
+residuals~\cite{brunton2016sindy,messenger2021weak}. Delay coordinates and
+recurrent decoders learn from partial observations~\cite{bakarji2023delay,gao2026shred}.
+Port-Hamiltonian learning builds interconnection and dissipation into learned
+dynamics, including latent reduced models~\cite{neary2023compositional,rettberg2025latent}.
+ES-ROM uses a shared explicit ordinary differential equation (ODE) to select
+restoring, damping, coupling, and memory operators under one energy balance.
 
-The contributions are as follows.
+We make four contributions.
 \begin{enumerate}
- \item We formulate a center-of-inertia (COI) grey-box model with five
-       selectable physical operators and establish an exact
-       supply--dissipation identity for every support.
- \item We couple a smooth-radius causal Gauss--Newton initializer with
-       weak-momentum screening, gradient-balanced fitting of the local
-       backbone, and backward operator pruning. The formulation targets
-       the first-swing errors associated with saturated hidden
-       initialization and trajectory-loss gradients that favor stronger damping.
- \item We use known-truth systems to test operator selection, diagnose an
-       omitted restoring-force term with a 200-ms momentum window, and
-       separate visible forecasting accuracy from hidden-state recovery.
- \item We benchmark the frozen equation on 94 held-out IEEE 39-bus events
-       from 21 fault groups and assess whether the forecasts recover the
-       modal, machine-separation, and energy signatures of the transients.
+ \item We formulate a center-of-inertia (COI) grey-box model and prove an
+       exact supply--dissipation identity for every subset of five operators.
+ \item We address first-swing errors from radius clipping and damping-biased
+       gradients through smooth-radius causal Gauss--Newton initialization,
+       weak-momentum screening, gradient-balanced local fitting, and pruning.
+ \item We test selection and hidden-state recovery in known-truth systems
+       and use a 200-ms momentum window to diagnose a missing restoring term.
+ \item We benchmark the frozen model on 94 IEEE 39-bus events from 21 fault
+       groups and assess modal, separation, and energy consistency.
 \end{enumerate}
 
-Section~\ref{sec:problem} specifies the causal forecast and scoring protocol.
-Sections~\ref{sec:model} and~\ref{sec:discovery} develop the model and the
-operator selection method. Section~\ref{sec:synthetic} examines controlled
-mechanism recovery. Sections~\ref{sec:ieee39} and~\ref{sec:physics} report the
-IEEE 39-bus comparison and physical analyses. Section~\ref{sec:conclusion}
-concludes the paper.
+Section~\ref{sec:problem} defines the protocol.
+Sections~\ref{sec:model} and~\ref{sec:discovery} develop the model and selection.
+Section~\ref{sec:synthetic} gives synthetic tests.
+Sections~\ref{sec:ieee39} and~\ref{sec:physics} report the grid case and
+physical analyses. Section~\ref{sec:conclusion} concludes.
