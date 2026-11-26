@@ -190,7 +190,7 @@ def _metric_value(roster_data: dict[str, Any], scenario: str, model: str,
 def _endpoint_recall(step_output: dict[str, Any], endpoint: int) -> float | None:
     strata = step_output.get("endpoint_strata", {})
     stratum = strata.get(str(endpoint), {}) if isinstance(strata, dict) else {}
-    all_events = stratum.get("all", {}) if isinstance(stratum, dict) else {}
+    all_events = stratum.get("all", stratum) if isinstance(stratum, dict) else {}
     return _finite(all_events.get("confirmed_recall")) if isinstance(all_events, dict) else None
 
 

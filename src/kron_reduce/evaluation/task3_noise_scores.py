@@ -256,8 +256,9 @@ def _metrics(rows):
     for field in ("stable_8s_nrmse", "unstable_available_nrmse", "positive_peak_deficit_rad_s",
                   "exact_cut", "cut_jaccard"):
         values = [row[field] for row in rows if row[field] is not None]
-        summary[field] = {"allocated": len(rows), "available": len(values),
-                          "coverage": _safe_ratio(len(values), len(rows)),
+        allocated = summary["eligible_stable" if field == "stable_8s_nrmse" else "eligible_unstable"]
+        summary[field] = {"allocated": allocated, "available": len(values),
+                          "coverage": _safe_ratio(len(values), allocated),
                           "mean": float(np.mean(values)) if values else None,
                           "median": float(np.median(values)) if values else None,
                           "exact_rate": float(np.mean(values)) if values and field == "exact_cut" else None}
