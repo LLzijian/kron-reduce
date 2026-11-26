@@ -2,6 +2,7 @@
 \usepackage{amsmath,amssymb,array,booktabs,graphicx,tabularx}
 \usepackage{cite}
 \usepackage[hidelinks]{hyperref}
+
 \newtheorem{proposition}{Proposition}
 \newcounter{algorithm}
 \DeclareMathOperator{\diag}{diag}
@@ -12,7 +13,11 @@
 
 \input{tables}
 
+% Allow one additional body-text line per column for the expanded bibliography.
+\addtolength{\textheight}{12pt}
+
 \begin{document}
+\bstctlcite{esrom:reference_style}
 \title{Energy-Structured Grey-Box Dynamic Equivalencing and Operator Selection for Post-Fault Power Systems from 100-ms Observations}
 % Author names, affiliations, and funding require author input.
 \author{Author information pending}
@@ -731,7 +736,6 @@ closed-loop stability certificates for active oscillations. Sparse
 graphs and inverter-control operators would test momentum screening
 and energy-consistent selection on larger, heterogeneous grids.
 
-\IEEEtriggeratref{22} % Balance the references on the final page.
 \bibliographystyle{IEEEtran}
 \bibliography{task3-references}
 \end{document}

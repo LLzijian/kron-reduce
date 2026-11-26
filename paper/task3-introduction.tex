@@ -1,51 +1,53 @@
 \section{Introduction}
 \label{sec:intro}
-Post-fault rotor trajectories reveal when synchronous machines separate and
-which machines participate~\cite{hatziargyriou2021stability}. Synchrophasor
-measurements support dynamic state estimation of
-generators~\cite{phadke2008phasors,singh2014dynamic}. Coherency-based reduction
-aggregates generators with similar motion, and multi-event identification
-uses distinct disturbances to fit equivalent
-loads~\cite{chow1982coherency,jiang2020multievent}. Our task is to initialize a
-shared dynamic equivalent from 100~ms of post-clearing rotor observations and
-forecast 8~s of motion.
+Rotor trajectories reveal post-fault machine separation~\cite{hatziargyriou2021stability}.
+Synchrophasors support generator state estimation and low-order
+equivalencing~\cite{phadke2008phasors,singh2014dynamic,shiroei2016pmu}.
+Coherency analysis and Koopman modes identify groups with similar
+swings~\cite{chow1982coherency,susuki2011koopman}. Multi-event fitting estimates
+equivalent loads, and electrical-distance grouping aggregates external
+generators~\cite{jiang2020multievent,jardim2017robust}.
 
-Recurrent and spatiotemporal graph models provide direct transient stability
-decisions~\cite{chen2021adaptive,liu2022graph}. Nandanoori et al. study graph
-and Koopman models for forecasting grid trajectories from streaming
-measurements and topology~\cite{nandanoori2022graph}. Misyris et al. use
-swing-equation residuals to train a neural surrogate for rotor angle and
-frequency in a single-machine infinite-bus system~\cite{misyris2020pinn}.
-Multi-machine post-fault forecasts must resolve both stable ringdown and
-first-swing separation.
+Recurrent and graph models make transient stability
+decisions~\cite{chen2021adaptive,liu2022graph}. Graph and Koopman forecasters
+predict trajectories~\cite{nandanoori2022graph}. Physics-informed neural
+simulators use swing-equation residuals and can couple learned component
+responses~\cite{misyris2020pinn,stiasny2024pinnsim}.
 
-Static Kron reduction preserves an algebraic network
-relation~\cite{dorfler2013kron}. Eliminating dynamical states introduces memory
-and a contribution from unresolved initial
-states~\cite{gouasmi2017memory,pagnier2025kron}. Sparse identification selects
-equation terms from data, and weak formulations use integral
-residuals~\cite{brunton2016sindy,messenger2021weak}. Delay coordinates and
-recurrent decoders learn from partial observations~\cite{bakarji2023delay,gao2026shred}.
-Port-Hamiltonian learning builds interconnection and dissipation into learned
-dynamics, including latent reduced models~\cite{neary2023compositional,rettberg2025latent}.
-ES-ROM uses a shared explicit ordinary differential equation (ODE) to select
-restoring, damping, coupling, and memory operators under one energy balance.
+Transient-energy methods compare disturbance energy with a critical threshold,
+and structure-preserving models retain network
+topology~\cite{athay1979energy,bergen1981structure}. Kron reduction preserves
+terminal behavior in algebraic networks and selected dynamic
+circuits~\cite{dorfler2013kron,caliskan2014kron}. Eliminating dynamic states
+yields memory and unresolved initial-state
+terms~\cite{mori1965memory,gouasmi2017memory,pagnier2025kron}.
 
-We make four contributions.
+Sparse discovery selects equation terms, and integral formulations avoid
+pointwise derivatives~\cite{brunton2016sindy,schaeffer2017integral,messenger2021weak}.
+Autoencoders learn coordinates, and delay embeddings and recurrent decoders
+address partial observations~\cite{champion2019coordinates,bakarji2023delay,gao2026shred}.
+Operator inference fits reduced dynamics, and constrained regression can
+impose energy or stability properties~\cite{peherstorfer2016opinf,loiseau2018galerkin,goyal2025quadratic}.
+Port-Hamiltonian formulations encode power-conserving interconnection and
+dissipation in graph models, nonlinear projection, and learned
+dynamics~\cite{vanderschaft2013graphs,chaturantabut2016ph,neary2023compositional,rettberg2025latent}.
+
+ES-ROM selects restoring, damping, coupling, and memory operators in a
+shared explicit ODE and forecasts 8~s from 100~ms of post-clearing rotor
+history. We make four contributions.
 \begin{enumerate}
- \item We formulate a center-of-inertia (COI) grey-box model and prove an
-       exact supply--dissipation identity for every subset of five operators.
- \item We address first-swing errors from radius clipping and damping-biased
-       gradients through smooth-radius causal Gauss--Newton initialization,
-       weak-momentum screening, gradient-balanced local fitting, and pruning.
- \item We test selection and hidden-state recovery in known-truth systems
-       and use a 200-ms momentum window to diagnose a missing restoring term.
+ \item We prove an exact supply--dissipation identity for every subset of
+       five physical operators in a center-of-inertia (COI) grey-box model.
+ \item Smooth-radius causal Gauss--Newton, weak-momentum screening,
+       gradient-balanced local fitting, and backward pruning target
+       first-swing errors from clipped initial states and excess damping.
+ \item Known-truth tests assess operator selection and hidden-state recovery
+       and expose an omitted restoring term with a 200-ms momentum window.
  \item We benchmark the frozen model on 94 IEEE 39-bus events from 21 fault
        groups and assess modal, separation, and energy consistency.
 \end{enumerate}
 
-Section~\ref{sec:problem} defines the protocol.
-Sections~\ref{sec:model} and~\ref{sec:discovery} develop the model and selection.
-Section~\ref{sec:synthetic} gives synthetic tests.
-Sections~\ref{sec:ieee39} and~\ref{sec:physics} report the grid case and
-physical analyses. Section~\ref{sec:conclusion} concludes.
+Section~\ref{sec:problem} defines the protocol. Sections~\ref{sec:model}
+and~\ref{sec:discovery} develop the method. Sections~\ref{sec:synthetic}--\ref{sec:physics}
+report the synthetic tests, grid benchmark, and physical analyses.
+Section~\ref{sec:conclusion} concludes.
