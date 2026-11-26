@@ -106,8 +106,8 @@ def test_clean_observations_exactly_route_to_original_five_gn(model, step):
         torch.testing.assert_close(new[key], original[key], atol=1e-10, rtol=0.)
 
 
-def test_joint_solver_recovers_clean_nonstationary_start_below_1e_minus_10(model):
-    step = .0025
+@pytest.mark.parametrize("step", [.0025, .00125])
+def test_joint_solver_recovers_clean_nonstationary_start_below_1e_minus_10(model, step):
     truth, power, equilibrium, scale = _truth(model, step=step, zero_memory=True)
     # The memory prior is centered on this known truth. Gate zero exposes the
     # actual 28-coordinate solve on the small nonzero Simpson truncation error.
@@ -117,8 +117,8 @@ def test_joint_solver_recovers_clean_nonstationary_start_below_1e_minus_10(model
     assert float((result["history"][:, 0]-truth[:, 0]).abs().max()) < 1e-10
 
 
-def test_ten_sigma_first_and_last_frame_outliers_and_l2_ablation(model):
-    step = .0025
+@pytest.mark.parametrize("step", [.0025, .00125])
+def test_ten_sigma_first_and_last_frame_outliers_and_l2_ablation(model, step):
     truth, power, equilibrium, scale = _truth(model, step=step, zero_memory=True, batch=2)
     observed = truth.clone()
     spike = np.zeros(10)
@@ -148,32 +148,42 @@ def test_ten_sigma_first_and_last_frame_outliers_and_l2_ablation(model):
         torch.testing.assert_close(value, before[key], atol=0., rtol=0.)
 
 
-def test_frozen_energy_balance_at_filtered_origin_below_1e_minus_12(model):
-    step = .0025
+@pytest.mark.parametrize("step", [.0025, .00125])
+def test_frozen_energy_balance_during_free_rollout_below_1e_minus_12(model, step):
     truth, power, equilibrium, scale = _truth(model, step=step)
     observed = truth.clone()
     perturbation = model._tensor(coi_project(np.arange(10)*.01, model.mass.numpy()))
     observed[:, -1, :10] += perturbation
-    result = predict_mhe(model, *_inputs(observed, power, equilibrium, scale), 0,
+    prediction_model = deepcopy(model).cuda() if torch.cuda.is_available() else model
+    frames = 800 if torch.cuda.is_available() else 10
+    result = predict_mhe(prediction_model, *_inputs(observed, power, equilibrium, scale), frames,
                          max_step=step, spend=_spend, memory_radius=.65)
     assert result["joint_active"].item()
-    origin = result["origin"].detach().requires_grad_(True)
-    gradient, = torch.autograd.grad(model.storage(origin, equilibrium).sum(), origin)
-    rate = (gradient*model.rhs(origin, power, equilibrium)).sum(dim=-1)
-    supplied = (origin[:, 10:20]*power).sum(dim=-1)
-    assert (rate-supplied+model.dissipation(origin, equilibrium)).abs().max() < 1e-12
+    path = result["forecast"][0].detach().requires_grad_(True)
+    held_power = prediction_model._tensor(power).expand(frames + 1, -1)
+    anchor = prediction_model._tensor(equilibrium).expand(frames + 1, -1)
+    gradient, = torch.autograd.grad(prediction_model.storage(path, anchor).sum(), path)
+    rate = (gradient * prediction_model.rhs(path, held_power, anchor)).sum(dim=-1)
+    supplied = (path[:, 10:20] * held_power).sum(dim=-1)
+    assert (rate - supplied + prediction_model.dissipation(path, anchor)).abs().max() < 1e-12
 
 
+@pytest.mark.parametrize("step", [.0025, .00125])
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="requires CUDA graph capture")
-def test_cuda_mixed_clean_and_noisy_batch_matches_cpu_reference(model):
+def test_cuda_mixed_clean_and_noisy_batch_matches_cpu_reference(model, step, monkeypatch):
+    monkeypatch.setenv("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
     gpu = deepcopy(model).cuda()
-    step = .00125
     truth, power, equilibrium, scale = _truth(model, step=step, zero_memory=True, batch=2)
     truth[1, -1, :10] += model._tensor(coi_project(np.arange(10)*.02, model.mass.numpy()))
     inputs = _inputs(truth, power, equilibrium, scale)
     settings = {"max_step": step, "spend": _spend, "memory_radius": .65}
     reference = predict_mhe(model, *inputs, 2, **settings)
-    actual = predict_mhe(gpu, *inputs, 2, **settings)
+    previous = torch.are_deterministic_algorithms_enabled()
+    try:
+        torch.use_deterministic_algorithms(True)
+        actual = predict_mhe(gpu, *inputs, 2, **settings)
+    finally:
+        torch.use_deterministic_algorithms(previous)
     assert actual["joint_active"].tolist() == [False, True]
     assert actual["forecast"].is_cuda and actual["forecast"].dtype == torch.float64
     for key in ("history", "forecast", "map_lambda", "sigma_hat"):

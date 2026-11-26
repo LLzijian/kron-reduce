@@ -110,9 +110,15 @@ def joint_history_with_tangent(model, initial, power, equilibrium, *, max_step, 
     return _JointHistory(model, power, equilibrium, max_step, spend)(initial)
 
 
+def _lower_median(values, dim):
+    # The value-and-index median kernel is nondeterministic on CUDA.
+    ordered = values.sort(dim=dim, stable=True).values
+    return ordered.narrow(dim, (values.size(dim) - 1) // 2, 1)
+
+
 def _mad(values, dim):
-    center = values.median(dim=dim, keepdim=True).values
-    return MAD_FACTOR*(values-center).abs().median(dim=dim, keepdim=True).values
+    center = _lower_median(values, dim)
+    return MAD_FACTOR * _lower_median((values - center).abs(), dim)
 
 
 def history_diagnostics(q, v, scale):
@@ -128,8 +134,8 @@ def _huber_weights(residual, channel_noise, delta):
     channel_scale = torch.maximum(_mad(residual, dim=1), channel_noise).clamp_min(1e-4)
     standardized = residual.abs()/channel_scale
     element_weight = delta/standardized.clamp_min(delta)
-    frame_score = standardized.median(dim=2, keepdim=True).values
-    frame_cutoff = frame_score.median(dim=1, keepdim=True).values+delta*_mad(frame_score, 1).clamp_min(1.)
+    frame_score = _lower_median(standardized, 2)
+    frame_cutoff = _lower_median(frame_score, 1) + delta * _mad(frame_score, 1).clamp_min(1.)
     frame_weight = frame_cutoff/torch.maximum(frame_cutoff, frame_score)
     return element_weight*frame_weight
 
