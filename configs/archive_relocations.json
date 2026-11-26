@@ -1,4 +1,5 @@
 {
+  "results/a04_short_history_synthetic_prerequisite-synthetic_audit-20261023T012249157428Z-055ca2eb-5e887509": "results/backup/04_kiki_a03_a17_pipeline/A04_short_history_diag.zip",
   "results/backup/constant_c_energy_initialization_subsets": "results/backup/06_constant_c_energy_initialization",
   "results/backup/ieee39_modular_energy_p1p2_subsets": "results/backup/03_modular_energy_p1p2",
   "results/backup/kiki_a03_a17_subsets": "results/backup/04_kiki_a03_a17_pipeline",
@@ -10,13 +11,322 @@
   "results/backup/state_port_subsets": "results/backup/07_state_port",
   "results/blind_dataset_build_m5_v1-build-20261121T061750755801Z-8e63d1d3-a99c1ac9": "results/backup/10_postfault_structure/09_m5_blind_dataset_build.zip",
   "results/blind_dataset_build_m5_v1-build_receipt-20261121T064503861579Z-8e63d1d3-c86e61e2": "results/backup/10_postfault_structure/09_m5_blind_dataset_build.zip",
+  "results/causal_latent_initialization_synthetic_v1-synthetic_audit-20261018T173534Z-1b4faf59": "results/backup/04_kiki_a03_a17_pipeline/causal_latent_synth.zip",
   "results/constant_c_100ms_synthetic_v1-synthetic_audit-20261109T072255936025Z-fcbcd287-40178a64": "results/backup/06_constant_c_energy_initialization/01_constant_c_100ms_synthetic_runs.zip",
   "results/constant_c_energy_confirmation_v1-synthetic_confirmation-20261109T130353444021Z-1edf0ebd-832d4649": "results/backup/06_constant_c_energy_initialization/03_constant_c_energy_confirmation_runs.zip",
   "results/constant_c_energy_initializer_v1-synthetic_comparison-20261109T101705739984Z-4d06ae48-ba48733d": "results/backup/06_constant_c_energy_initialization/02_constant_c_energy_initializer_runs.zip",
   "results/kiki_energy_cap_transfer_v1-train_transfer-20261109T150903551189Z-89135853-cf169575": "results/backup/06_constant_c_energy_initialization/04_kiki_energy_cap_transfer_runs.zip",
+  "results/kiki_machine_local_full_fit_v1-fit-20261113T064016336041Z-de0958b6-457f260e": {
+    "archive": "results/backup/08_machine_local_topology/03_kiki_baseline_memory.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_full_test_v1-test-20261113T070041809444Z-b4a70dee-0922b2f0": {
+    "archive": "results/backup/08_machine_local_topology/03_kiki_baseline_memory.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_memory_fit_v1-fit-20261114T130732576418Z-d49040be-6b1c9970": {
+    "archive": "results/backup/08_machine_local_topology/03_kiki_baseline_memory.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_memory_test_v1-test-20261114T131915206009Z-b80b7ea9-5b43bc56": {
+    "archive": "results/backup/08_machine_local_topology/03_kiki_baseline_memory.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_r20_r21_fit_v1-fit-20261113T165433110675Z-5aae2e7b-785f5632": {
+    "archive": "results/backup/08_machine_local_topology/03_kiki_baseline_memory.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_r20_r21_test_v1-test-20261113T183739926132Z-78c6722c-5ed5449a": {
+    "archive": "results/backup/08_machine_local_topology/03_kiki_baseline_memory.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_angle_damping_fit_v1-train_momentum-20261115T113106930456Z-1a15ec96-f10407e4": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_angle_damping_test_v1-test-20261115T113623593775Z-9f7cc490-7e35d1af": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_angle_scale_v1-train_momentum-20261115T115504524767Z-1d3ecb45-fde33d42": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_damping_fit_v1-fit-20261115T090530382303Z-9389f3db-ddaaae58": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_damping_test_v1-test-20261115T091230749822Z-546af593-d23ff98b": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_dynamic_coupling_v1-train_momentum-20261115T163445854081Z-1989d934-c6a8cea4": {
+    "archive": "results/backup/08_machine_local_topology/06_momentum_coupling.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_fit_v1-fit-20261115T050915795025Z-0ec5157a-8103c024": {
+    "archive": "results/backup/08_machine_local_topology/03_kiki_baseline_memory.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_modal_damping_v1-train_momentum-20261115T124237995489Z-dfc29c8a-a2df2391": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_momentum_damping_test_v1-test-20261115T104620540787Z-c909dba9-6d32e340": {
+    "archive": "results/backup/08_machine_local_topology/06_momentum_coupling.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_momentum_v1-train_momentum-20261115T103700298268Z-fc6d0e29-cd3d0e2a": {
+    "archive": "results/backup/08_machine_local_topology/06_momentum_coupling.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_no_prior_test_v1-test-20261115T100255429278Z-e5125686-7f041476": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_origin_transfer_v1-train_momentum-20261115T110223793521Z-11e9ffa4-23dd8516": {
+    "archive": "results/backup/08_machine_local_topology/06_momentum_coupling.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_radius_test_v2-test-20261115T063702092803Z-2f594951-76280f50": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_restoring_shape_fit_v1-train_momentum-20261115T130922046811Z-e48eb847-5d554c3c": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_restoring_shape_test_v1-test-20261115T131333593545Z-67fea899-540b6188": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_spatial_coupling_v1-train_momentum-20261115T180156904594Z-e98bf08e-7dcd89a3": {
+    "archive": "results/backup/08_machine_local_topology/06_momentum_coupling.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_spatial_damping_fit_v1-train_momentum-20261115T122146153611Z-51a98572-eca53882": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_spatial_damping_test_v1-test-20261115T122859502183Z-62f8d5b9-c3e57543": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_spatial_relaxation_fit_v1-fit-20261115T233040485482Z-68164fa3-d3020d1d": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_spatial_relaxation_test_v1-test-20261116T000723345682Z-f5511189-7f5a6571": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/kiki_machine_local_topology_test_v1-test-20261115T055817136229Z-9e5782ad-0ffc5eb1": {
+    "archive": "results/backup/08_machine_local_topology/03_kiki_baseline_memory.zip",
+    "pruned": true
+  },
   "results/kiki_state_port_train_v1-train_mechanism-20261111T012130667376Z-5fb30e45-5ac1c107": "results/backup/07_state_port/02_kiki_state_port_train_runs.zip",
   "results/kiki_task3_frozen_200ms_20261109-20261109T024831303717Z-aa86374c": "results/backup/04_kiki_a03_a17_pipeline/20_task3_frozen_200ms.zip",
   "results/kiki_topology_memory_balance_v1-train_momentum-20261116T052515039351Z-9dd38563-3d74a01a": "results/backup/09_topology_memory/03_task3_momentum_work.zip",
+  "results/learned_causal_latent_synthetic_v1-learning_audit-20261018T175733Z-84496946": "results/backup/04_kiki_a03_a17_pipeline/causal_latent_synth.zip",
+  "results/machine_local_clean_learning_v1-learning-20261112T165600378046Z-df53e09a-8db663f0": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_equation_v1-synthetic-20261114T112046562581Z-2cf72ad4-b66d43aa": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_gaussian_oracle_v1-fixed-20261112T105208760887Z-4ef00ac3-3d2be473": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_hidden_oracle_v1-diagnosis-20261113T072927736746Z-55c75e3e-2ade71a8": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_initializer_diagnosis_v1-diagnosis-20261112T092125479994Z-7ec2f5a9-44e18720": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_joint_observer_v1-fixed-20261112T101522545706Z-6228cbca-99b92ecc": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_memory_calibration_v1-calibration-20261114T125033660720Z-9b1cb1bc-9e0e3c25": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_memory_diagnosis_v1-diagnosis-20261114T123705106338Z-bd856994-79d63e8e": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_nonlinear_history_v1-s0-20261112T173943562172Z-e37ecc21-2e0fd549": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_observer_v1-fixed-20261112T095639821073Z-9d055fc1-374b3b37": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_s0_v1-s0-20261112T075755515521Z-19dfdd52-2a338480": {
+    "archive": "results/backup/08_machine_local_topology/01_s0_implementation.zip",
+    "pruned": true
+  },
+  "results/machine_local_s1_base_v1-s1_base-20261112T081105156529Z-71e9677a-db4918d7": {
+    "archive": "results/backup/08_machine_local_topology/02_s1_synthetic_learning.zip",
+    "pruned": true
+  },
+  "results/machine_local_stiffness_calibration_v1-calibration-20261113T160423643093Z-659cc6ca-79ec7efe": {
+    "archive": "results/backup/08_machine_local_topology/08_observer_calibration_diagnosis.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_angle_damping_v1-angle_damping-20261115T112513267447Z-ff9676a4-7b106d35": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_ball_history_no_prior_v1-ball_history_no_prior-20261115T095113296778Z-4e86baea-b449a9d3": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_ball_history_v1-ball_history-20261115T094142724906Z-01f6e4da-6510defd": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_closeout_v1-closeout-20261114T185149479694Z-e942ba8c-da75d03d": {
+    "archive": "results/backup/08_machine_local_topology/04_topology_diagnosis_learning.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_delayed_damping_v1-delayed_damping-20261115T083744695248Z-02325f0b-ec203ad9": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_delayed_origin_v1-delayed_origin-20261115T082734914398Z-30265e36-1b1b3627": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_delayed_v1-delayed-20261115T075847142292Z-aa3aa014-c7d6d0af": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_diagnosis_v1-diagnosis-20261115T034928620344Z-998dc7af-b195dfd3": {
+    "archive": "results/backup/08_machine_local_topology/04_topology_diagnosis_learning.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_dynamic_coupling_v1-dynamic_coupling-20261115T162201255656Z-deb71c4a-8cddb968": {
+    "archive": "results/backup/08_machine_local_topology/06_momentum_coupling.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_learning_v1-reconciled-20261115T031551190622Z-36e4d4ce-27bc5dea": "results/backup/08_machine_local_topology/04_topology_diagnosis_learning.zip",
+  "results/machine_local_topology_margin_v2-margin_v2-20261115T072851312779Z-b523e31a-05f7989b": {
+    "archive": "results/backup/08_machine_local_topology/04_topology_diagnosis_learning.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_momentum_v1-momentum-20261115T102739144459Z-44546b9e-fb2b4f42": {
+    "archive": "results/backup/08_machine_local_topology/06_momentum_coupling.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_refinement_v1-refinement-20261115T035654984080Z-5ef99a7e-97131108": {
+    "archive": "results/backup/08_machine_local_topology/04_topology_diagnosis_learning.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_restoring_shape_v1-restoring_shape-20261115T130114918126Z-762ec8d6-4803c72b": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_spatial_coupling_causal_v1-spatial_coupling_causal-20261115T175026289855Z-63380e5e-598c211f": {
+    "archive": "results/backup/08_machine_local_topology/06_momentum_coupling.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_spatial_coupling_v1-spatial_coupling-20261115T173629211473Z-436eae58-85b0b0f0": {
+    "archive": "results/backup/08_machine_local_topology/06_momentum_coupling.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_spatial_damping_v1-spatial_damping-20261115T121431844839Z-ba8eebb1-2d083c3f": {
+    "archive": "results/backup/08_machine_local_topology/05_damping_corrections.zip",
+    "pruned": true
+  },
+  "results/machine_local_topology_transfer_v1-transfer-20261115T044343858959Z-cd2990d9-99b9d085": {
+    "archive": "results/backup/08_machine_local_topology/07_restoring_delayed_history.zip",
+    "pruned": true
+  },
+  "results/nonlinear_history_synthetic_a03_v1-mechanism_learning-20261021T071845Z-8bf0522b": "results/backup/04_kiki_a03_a17_pipeline/nonlinear_history_synth.zip",
+  "results/paper_ieee39_modular_energy_p1_a02_plan_registered_f1_seed324-plan_registered-20260831T023343Z-686ab456": "results/backup/02_afsd_structure_discovery/L_ieee39_modular_energy_p1.zip",
+  "results/paper_ieee39_modular_energy_p1_a03_candidate_acquired_f1_seed324-candidate_acquired-20260831T130327Z-93d29d92": "results/backup/02_afsd_structure_discovery/L_ieee39_modular_energy_p1.zip",
+  "results/paper_ieee39_modular_energy_p1_a03_model_unit_gate_f1_seed324-model_unit_gate-20260901T172607Z-78225d2c": "results/backup/03_modular_energy_p1p2/A_p1_a03_phase.zip",
+  "results/paper_ieee39_modular_energy_p1_a03_plan_registered_f1_seed324-plan_registered-20260831T130319Z-93d29d92": "results/backup/02_afsd_structure_discovery/L_ieee39_modular_energy_p1.zip",
+  "results/paper_ieee39_modular_energy_p1_a04_acceptance_f1_seed324-acceptance-20260904T142540Z-8bcecd42": "results/backup/03_modular_energy_p1p2/B_p1_a04_phase.zip",
+  "results/paper_ieee39_modular_energy_p1_a04_adversarial_review_f1_seed324-adversarial_review-20260904T142425Z-8bcecd42": "results/backup/03_modular_energy_p1p2/B_p1_a04_phase.zip",
+  "results/paper_ieee39_modular_energy_p1_a04_controlled_experiment_f1_seed324-controlled_experiment-20260902T014216Z-4259fe1b": {
+    "archive": "results/backup/03_modular_energy_p1p2/B_p1_a04_phase.zip",
+    "pruned": true
+  },
+  "results/paper_ieee39_modular_energy_p1_a04_model_unit_gate_f1_seed324-model_unit_gate-20260902T013831Z-4259fe1b": "results/backup/03_modular_energy_p1p2/B_p1_a04_phase.zip",
+  "results/paper_ieee39_modular_energy_p1_a04_report_f1_seed324-report-20260904T150027Z-45123100": "results/backup/03_modular_energy_p1p2/B_p1_a04_phase.zip",
+  "results/paper_ieee39_modular_energy_p1_a04_residual_diagnosis_f1_seed324-residual_diagnosis-20260904T142350Z-8bcecd42": "results/backup/03_modular_energy_p1p2/B_p1_a04_phase.zip",
+  "results/paper_ieee39_modular_energy_p1_a04_retry_registered_f1_seed324-retry_registered-20260902T013755Z-4259fe1b": "results/backup/03_modular_energy_p1p2/B_p1_a04_phase.zip",
+  "results/paper_ieee39_modular_energy_p2_a01_baseline_inventory_audited_f1_seed324-baseline_inventory_audited-20260905T013522Z-871229e5": "results/backup/03_modular_energy_p1p2/C_p2_a01_phase.zip",
+  "results/paper_ieee39_modular_energy_p2_a01_contract_unit_gate_f1_seed324-contract_unit_gate-20260905T130731Z-b942ecea": "results/backup/03_modular_energy_p1p2/C_p2_a01_phase.zip",
+  "results/paper_ieee39_modular_energy_p2_a01_plan_registered_f1_seed324-plan_registered-20260905T013512Z-871229e5": "results/backup/03_modular_energy_p1p2/C_p2_a01_phase.zip",
+  "results/paper_ieee39_modular_energy_p2_a02_history_f1_seed324-history_learning-20261018T180515Z-88baeaa4": "results/backup/04_kiki_a03_a17_pipeline/ieee39_p2.zip",
+  "results/paper_ieee39_p2_a02_train_val_diagnosis-train_val_diagnosis-20261018T181011Z-d16fbf58": "results/backup/04_kiki_a03_a17_pipeline/ieee39_p2.zip",
+  "results/paper_ieee39_p2_a03_nonlinear_f1_seed324-mechanism_learning-20261021T071856Z-8bf0522b": "results/backup/04_kiki_a03_a17_pipeline/ieee39_p2.zip",
+  "results/paper_kiki_a03_stability-stability_evaluation-20261022T112337Z-bc5ea01b": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a03.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a04_short_history-short_history_learning-20261023T021629566301Z-7bab0f36-e7569872": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a04.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a05_closeout-closeout-20261023T163350182759Z-26c29376-878bf661": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a05.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a06_refinement-joint_refinement-20261024T025925447927Z-9aa5ee65-524be996": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a06.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a07_tilted-tilted_training-20261024T034153861919Z-9f09fc71-86ceb5f4": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a07.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a08_memory-memory_order-20261024T043102837210Z-e106704e-11796d31": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a08.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a09_train_mechanism-train_mechanism-20261024T054046076318Z-ff5ae772-e3d8db5f": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a09.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a10_train_refinement-train_refinement-20261024T062534123221Z-161cae52-515f5625": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a10.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a11_temporal-temporal_training-20261024T074834609949Z-e1f80a4a-53d0adaa": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a11.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a12_record20_input-input_audit-20261024T104504432668Z-71f9615d-d7978c5a": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a12.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a14_integral_history-history_mechanism-20261024T121439628465Z-34de0389-4cf0648f": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a14.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a15_future_transfer-future_transfer-20261024T145313076879Z-f23e9b23-c2066d4e": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a15.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a16_pm_impulse-input_impulse-20261025T023255684964Z-45a2d989-3cb2e832": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a16.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_a17_input_consistency-input_consistency-20261025T083355586536Z-e736e260-f1ffd6d9": {
+    "archive": "results/backup/04_kiki_a03_a17_pipeline/KIKI_a17.zip",
+    "pruned": true
+  },
+  "results/paper_kiki_p2_a03_seed324-kiki_rerun-20261022T095918Z-21a5a23b": "results/backup/04_kiki_a03_a17_pipeline/KIKI_p2_a03_rerun.zip",
   "results/postfault_m4_v1-m4-20261121T034423510207Z-ceaa6a72-6fb69813": "results/backup/10_postfault_structure/07_m4_physical_consistency.zip",
   "results/postfault_m4_v2-analysis-20261121T060227625654Z-4906e508-e1311f97": "results/backup/10_postfault_structure/08_m4_v2_energy.zip",
   "results/postfault_m4_v2-analysis-20261121T060746860331Z-c955592a-e210fd93": "results/backup/10_postfault_structure/08_m4_v2_energy.zip",

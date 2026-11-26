@@ -274,10 +274,24 @@ def _verify_report_bindings(context: EvidenceContext, evidence: dict[str, Any]) 
         raise EvidenceValidationError("EVIDENCE_ACCEPTANCE_RUN", "report acceptance_run must bind the recorded acceptance result_dir")
     if evidence.get("artifact_manifest") != acceptance.get("artifact_manifest"):
         raise EvidenceValidationError("EVIDENCE_ACCEPTANCE_MANIFEST", "report artifact_manifest must equal acceptance history")
-    acceptance_dir = context.root / "results" / str(evidence["acceptance_run"])
-    if not (acceptance_dir / "acceptance.json").is_file():
-        raise EvidenceValidationError("EVIDENCE_ACCEPTANCE_RUN", "bound acceptance run lacks acceptance.json")
-    verify_artifact_directory(acceptance_dir, strict=True)
+    acceptance_run = str(evidence["acceptance_run"])
+    acceptance_dir = context.root / "results" / acceptance_run
+    manifest = evidence.get("artifact_manifest")
+    acceptance_digest = manifest.get("sha256") if isinstance(manifest, dict) else None
+    archived_acceptance = False
+    if context.allow_archived_runs and _artifact_directory_missing(acceptance_dir) and isinstance(acceptance_digest, str):
+        from .archive_storage import verify_archived_run
+
+        archived_acceptance = verify_archived_run(
+            context.root,
+            acceptance_run,
+            acceptance_digest.lower(),
+            required_members=("acceptance.json",),
+        )
+    if not archived_acceptance:
+        if not (acceptance_dir / "acceptance.json").is_file():
+            raise EvidenceValidationError("EVIDENCE_ACCEPTANCE_RUN", "bound acceptance run lacks acceptance.json")
+        verify_artifact_directory(acceptance_dir, strict=True)
     logical_path = _safe_relative(context.root, evidence.get("report_path"))
     relative = logical_path.relative_to(context.root).as_posix()
     binding = evidence.get("report_artifact")

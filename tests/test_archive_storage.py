@@ -8,11 +8,12 @@ from pathlib import Path
 import pytest
 
 from kron_reduce.workflows.unified_first_swing import _archive_asset
-from project_harness.archive_storage import archive_path, read_run_artifact
+from project_harness.archive_storage import archive_path, read_run_artifact, verify_archived_run
 from project_harness.audit import _stage_evidence_error
 from project_harness.evidence import (
     EvidenceContext,
     EvidenceValidationError,
+    _verify_report_bindings,
     validate_stage_evidence,
 )
 
@@ -120,3 +121,124 @@ def test_archived_run_preserves_history_and_hash_bound_reads(tmp_path: Path) -> 
     with zipfile.ZipFile(archive, "a") as stream:
         stream.writestr(f"{run_id}/../unsafe.json", b"extra")
     assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_ARCHIVE_PATH:")
+
+
+def test_pruned_archived_run_verifies_retained_members_and_fails_closed(tmp_path: Path) -> None:
+    run_id = "pruned-run"
+    kept_rel = "metrics/summary.json"
+    dropped_rel = "predictions.npz"
+    kept_bytes = b'{"status": "PASS"}'
+    dropped_bytes = b"bulk predictions"
+    manifest = json.dumps({
+        kept_rel: hashlib.sha256(kept_bytes).hexdigest(),
+        dropped_rel: hashlib.sha256(dropped_bytes).hexdigest(),
+    }).encode()
+    archive_pathname = "results/backup/04_topic/pruned.zip"
+    archive = tmp_path / archive_pathname
+    archive.parent.mkdir(parents=True)
+    _relocations(tmp_path, {f"results/{run_id}": {"archive": archive_pathname, "pruned": True}})
+    workflow = {"evidence_contract_version": 2}
+    evidence = {
+        "status": "PASS",
+        "result_dir": run_id,
+        "artifact_manifest": {
+            "run_id": run_id,
+            "path": "artifact_hashes.json",
+            "sha256": hashlib.sha256(manifest).hexdigest(),
+        },
+    }
+
+    with zipfile.ZipFile(archive, "w") as stream:
+        stream.writestr(f"{run_id}/artifact_hashes.json", manifest)
+        stream.writestr(f"{run_id}/{kept_rel}", kept_bytes)
+
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold") is None
+    with pytest.raises(EvidenceValidationError, match="ARTIFACT_DIRECTORY"):
+        validate_stage_evidence(EvidenceContext(tmp_path, workflow, "fit"), evidence)
+
+    # Unpruned string mapping rejects missing members.
+    _relocations(tmp_path, {f"results/{run_id}": archive_pathname})
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_INVENTORY:")
+
+    # Invalid mapping dict shape fails closed.
+    _relocations(tmp_path, {f"results/{run_id}": {"archive": archive_pathname}})
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_ARCHIVE_PATH:")
+
+    # Restored pruned mapping rejects extra unregistered files, tampered hashes, bad manifest SHA, or empty retained set.
+    _relocations(tmp_path, {f"results/{run_id}": {"archive": archive_pathname, "pruned": True}})
+    with zipfile.ZipFile(archive, "a") as stream:
+        stream.writestr(f"{run_id}/extra.txt", b"unregistered")
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_INVENTORY:")
+
+    with zipfile.ZipFile(archive, "w") as stream:
+        stream.writestr(f"{run_id}/artifact_hashes.json", manifest)
+        stream.writestr(f"{run_id}/{kept_rel}", b'{"status": "TAMPERED"}')
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_HASH:")
+
+    with zipfile.ZipFile(archive, "w") as stream:
+        stream.writestr(f"{run_id}/artifact_hashes.json", b"{}")
+        stream.writestr(f"{run_id}/{kept_rel}", kept_bytes)
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_MANIFEST_SHA:")
+
+    with zipfile.ZipFile(archive, "w") as stream:
+        stream.writestr(f"{run_id}/artifact_hashes.json", manifest)
+    assert _stage_evidence_error(tmp_path, workflow, "fit", evidence, "scaffold").startswith("ARTIFACT_INVENTORY:")
+
+
+def test_archived_report_acceptance_requires_acceptance_json(tmp_path: Path) -> None:
+    acceptance_run = "acc-run"
+    acceptance_bytes = b'{"accepted": true}'
+    extra_bytes = b'{"stage": "acceptance"}'
+    manifest = json.dumps({
+        "acceptance.json": hashlib.sha256(acceptance_bytes).hexdigest(),
+        "stage_evidence.json": hashlib.sha256(extra_bytes).hexdigest(),
+    }).encode()
+    manifest_sha = hashlib.sha256(manifest).hexdigest()
+    archive_rel = "results/backup/03_topic/acc.zip"
+    archive = tmp_path / archive_rel
+    archive.parent.mkdir(parents=True)
+    _relocations(tmp_path, {f"results/{acceptance_run}": {"archive": archive_rel, "pruned": True}})
+
+    report_rel = "docs/reports/acc_report.md"
+    report_path = tmp_path / report_rel
+    report_path.parent.mkdir(parents=True)
+    report_bytes = b"# Report\n"
+    report_path.write_bytes(report_bytes)
+
+    workflow = {"evidence_contract_version": 2}
+    acc_manifest = {"run_id": acceptance_run, "path": "artifact_hashes.json", "sha256": manifest_sha}
+    state = {
+        "history": [{
+            "action": "advance",
+            "from": "review",
+            "to": "acceptance",
+            "evidence": {"result_dir": acceptance_run, "artifact_manifest": acc_manifest},
+        }]
+    }
+    report_evidence = {
+        "status": "PASS",
+        "acceptance_run": acceptance_run,
+        "artifact_manifest": acc_manifest,
+        "report_path": report_rel,
+        "report_artifact": {"path": report_rel, "sha256": hashlib.sha256(report_bytes).hexdigest()},
+    }
+
+    with zipfile.ZipFile(archive, "w") as stream:
+        stream.writestr(f"{acceptance_run}/artifact_hashes.json", manifest)
+        stream.writestr(f"{acceptance_run}/acceptance.json", acceptance_bytes)
+
+    assert verify_archived_run(tmp_path, acceptance_run, manifest_sha, required_members=("acceptance.json",))
+    ctx_archived = EvidenceContext(tmp_path, workflow, "report", state=state, allow_archived_runs=True)
+    validate_stage_evidence(ctx_archived, report_evidence)
+
+    ctx_live = EvidenceContext(tmp_path, workflow, "report", state=state, allow_archived_runs=False)
+    with pytest.raises(EvidenceValidationError, match="EVIDENCE_ACCEPTANCE_RUN"):
+        _verify_report_bindings(ctx_live, report_evidence)
+
+    with zipfile.ZipFile(archive, "w") as stream:
+        stream.writestr(f"{acceptance_run}/artifact_hashes.json", manifest)
+        stream.writestr(f"{acceptance_run}/stage_evidence.json", extra_bytes)
+
+    assert not verify_archived_run(tmp_path, acceptance_run, manifest_sha, required_members=("acceptance.json",))
+    with pytest.raises(EvidenceValidationError, match="EVIDENCE_ACCEPTANCE_RUN"):
+        validate_stage_evidence(ctx_archived, report_evidence)

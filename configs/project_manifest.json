@@ -33,37 +33,26 @@
       ]
     },
     "kiki_energy_dynamics_v1": {
-      "status": "joint_equation_synthetic_complete_recovery_gate_failed",
+      "status": "postfault_m3b_m4_m5_complete",
       "dataset": "kiki_ieee39_v1",
+      "independent_blind_dataset": "kiki_ieee39_blind_v2",
       "spatial_node_count": 10,
       "spatial_clustering": "paused",
       "single_model_per_corpus": true,
       "source_routing": false,
       "synthetic_correctness_checks_retained": true,
-      "fresh_test": "requires_new_independent_kiki_registration",
+      "fresh_test": "kiki_ieee39_blind_v2_consumed_in_m5_further_confirmation_requires_new_registration",
       "historical_program": "ieee39_modular_energy_paper_v1",
-      "current_research_plan": "docs/research/machine_local_joint_equation_plan_20261114_zh.md",
-      "current_priority": "joint_visible_hidden_coefficient_learning_and_function_selection",
-      "current_prerequisite_experiment": "machine_local_equation_v1",
-      "independent_followup_candidates": [
-        "B_joint_initializer_training",
-        "A2_conservative_potential",
-        "C_fixed_time_weights"
-      ],
-      "current_research_stage": "joint_equation_synthetic_complete",
-      "prerequisite_process_status": "PASS",
-      "prerequisite_scientific_verdict": "JOINT_RECOVERY_GATE_FAILED",
-      "current_result_receipt": "docs/reports/machine_local_equation_20261114_evidence.json",
-      "current_design_review": "docs/research/machine_local_equation_review_20261114.json",
-      "current_result_review": "docs/research/machine_local_equation_result_review_20261114.json",
-      "prospective_data_standard": "docs/protocols/kiki_official_train_test_v1_zh.md",
-      "current_diagnostic_route": "DIAGNOSE_SYNTHETIC_MEMORY_KERNEL_RECOVERY",
-      "current_result_report": "docs/reports/machine_local_equation_20261114_zh.md",
-      "current_saved_audit": "reports/generated/machine_local_equation_20261114/saved-check.json",
-      "current_next_step": "prepare_paired_synthetic_memory_recovery_diagnosis",
+      "current_research_stage": "blind_confirmation_and_task3_comparison_complete",
+      "current_frozen_model": "M3b_G2 (ES-ROM)",
+      "current_result_report": "docs/reports/10_postfault_structure/m5_blind/README.md",
+      "current_result_receipt": "docs/reports/10_postfault_structure/m5_blind/_sealed/blind_confirmation_m5_v1_20261121_evidence.json",
+      "current_comparison_report": "docs/reports/10_postfault_structure/task3_comparison/README.md",
+      "current_followup_report": "docs/reports/10_postfault_structure/task3_15s/README.md",
+      "prospective_data_standard": "docs/reports/05_research_governance/task3_standard/README.md",
       "default_real_data_standard": "task3_train346_val107_test76",
       "task3_final_roster": "primary_76_event_benchmark",
-      "current_real_data_result": "docs/reports/kiki_machine_local_r20_r21_20261114_zh.md"
+      "current_next_step": "manuscript_finalization_and_future_multi_operating_point_or_level6_design"
     }
   },
   "datasets": {

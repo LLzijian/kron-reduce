@@ -72,10 +72,26 @@ def _run_archive(root: Path, run_id: str):
         if destination is None:
             yield None
             return
-        if (not isinstance(destination, str) or not destination.startswith("results/backup/")
-                or _member_path(destination).suffix != ".zip"):
-            raise EvidenceValidationError("ARTIFACT_ARCHIVE_PATH", f"invalid ZIP destination for {run_id}")
-        archive = archive_path(root, destination)
+        if isinstance(destination, str):
+            archive_rel, pruned = destination, False
+        elif isinstance(destination, dict):
+            if (set(destination) != {"archive", "pruned"}
+                    or not isinstance(destination["archive"], str)
+                    or not isinstance(destination["pruned"], bool)):
+                raise EvidenceValidationError(
+                    "ARTIFACT_ARCHIVE_PATH", f"invalid ZIP destination for {run_id}"
+                )
+            archive_rel, pruned = destination["archive"], destination["pruned"]
+        else:
+            raise EvidenceValidationError(
+                "ARTIFACT_ARCHIVE_PATH", f"invalid ZIP destination for {run_id}"
+            )
+        if (not archive_rel.startswith("results/backup/")
+                or _member_path(archive_rel).suffix != ".zip"):
+            raise EvidenceValidationError(
+                "ARTIFACT_ARCHIVE_PATH", f"invalid ZIP destination for {run_id}"
+            )
+        archive = archive_path(root, archive_rel)
         if archive.resolve() != root.resolve() / archive.relative_to(root):
             raise EvidenceValidationError("ARTIFACT_ARCHIVE_PATH", f"linked ZIP destination for {run_id}")
         with zipfile.ZipFile(archive) as stream:
@@ -94,19 +110,25 @@ def _run_archive(root: Path, run_id: str):
                     if len(path.parts) < 2:
                         raise EvidenceValidationError("ARTIFACT_ARCHIVE_PATH", f"ZIP entry needs a run directory: {name!r}")
                     members[path.relative_to(run_id).as_posix()] = entry
-            yield stream, members
+            yield stream, members, pruned
     except EvidenceValidationError:
         raise
     except (EOFError, OSError, ValueError, RuntimeError, zipfile.BadZipFile, zlib.error) as exc:
         raise EvidenceValidationError("ARTIFACT_ARCHIVE", f"cannot read archived run {run_id}: {exc}") from exc
 
 
-def verify_archived_run(root: Path, run_id: str, expected_manifest_sha256: str) -> bool:
+def verify_archived_run(
+    root: Path,
+    run_id: str,
+    expected_manifest_sha256: str,
+    *,
+    required_members: tuple[str, ...] = (),
+) -> bool:
     """Replay the registered manifest over an archived run without extracting it."""
     with _run_archive(root, run_id) as archived:
         if archived is None:
             return False
-        stream, members = archived
+        stream, members, pruned = archived
         if any(relative.split("/", 1)[0].casefold() == "run_failed.json" for relative in members):
             raise EvidenceValidationError("ARTIFACT_FAILED_RUN", "artifact archive records a failed run")
         manifest_entry = members.pop("artifact_hashes.json", None)
@@ -118,14 +140,18 @@ def verify_archived_run(root: Path, run_id: str, expected_manifest_sha256: str) 
         manifest = json.loads(stream.read(manifest_entry).decode("utf-8"), object_pairs_hook=_json_object_no_duplicates)
         if not isinstance(manifest, dict) or not manifest:
             raise EvidenceValidationError("ARTIFACT_MANIFEST", "artifact hash manifest must map paths to SHA256 strings")
-        if members.keys() != manifest.keys():
+        valid_inventory = bool(members) and members.keys() <= manifest.keys() if pruned else members.keys() == manifest.keys()
+        if not valid_inventory:
             raise EvidenceValidationError("ARTIFACT_INVENTORY", "ZIP inventory differs from the artifact manifest")
         for relative, expected in manifest.items():
             if not isinstance(expected, str) or not SHA256_RE.fullmatch(expected.lower()):
                 raise EvidenceValidationError("ARTIFACT_HASH", f"invalid SHA256 for {relative!r}")
+        for relative in (members if pruned else manifest):
             with stream.open(members[relative]) as handle:
-                if hashlib.file_digest(handle, "sha256").hexdigest() != expected.lower():
+                if hashlib.file_digest(handle, "sha256").hexdigest() != manifest[relative].lower():
                     raise EvidenceValidationError("ARTIFACT_HASH", f"SHA256 mismatch: {relative}")
+        if required_members and not all(relative in members for relative in required_members):
+            return False
     return True
 
 
@@ -146,7 +172,7 @@ def read_run_artifact(root: Path, run_id: str, relative: str, expected_sha256: s
         with _run_archive(root, run_id) as archived:
             if archived is None or relative not in archived[1]:
                 raise EvidenceValidationError("ARTIFACT_MISSING", f"registered artifact is missing: {relative}")
-            stream, members = archived
+            stream, members, _ = archived
             payload = stream.read(members[relative])
     if hashlib.sha256(payload).hexdigest() != expected_sha256.lower():
         raise EvidenceValidationError("ARTIFACT_HASH", f"SHA256 mismatch: {relative}")
