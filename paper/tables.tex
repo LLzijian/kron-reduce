@@ -1,0 +1,281 @@
+% Each command places one IEEE table. Decimal values are rounded from the
+% registered result receipts or their linked summaries as indicated below.
+% Evidence receipts are identified by filename under docs/reports.
+
+% Sources: docs/protocols/unified_discovery_m3_v1_zh.md,
+% unified_discovery_m3_v1_20261120_evidence.json,
+% unified_discovery_m3b_v1_20261121_evidence.json.
+\newcommand{\OperatorTable}{%
+\begin{table}[!t]
+\centering
+\caption{Candidate operators and closed-loop support selection.}
+\label{tab:operators}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{}l>{\raggedright\arraybackslash}Xrr@{}}
+\toprule
+\multicolumn{4}{@{}l}{\emph{A. Training Set weak-momentum screen}}\\
+Block & Operator & \multicolumn{2}{c@{}}{Unstable RMS change}\\
+\midrule
+$G_1$ & Second harmonic of edge restoring force & \multicolumn{2}{r@{}}{$+1.51\%$}\\
+$G_2$ & Generator-angle-dependent reduction in damping & \multicolumn{2}{r@{}}{$-37.54\%$}\\
+$G_3$ & Scalar, time-varying multiplier on all edge stiffnesses & \multicolumn{2}{r@{}}{$-5.97\%$}\\
+$G_4$ & Zero-sum spatial modulation of log edge stiffnesses & \multicolumn{2}{r@{}}{$+0.14\%$}\\
+$G_5$ & Angle-dependent saturation of reciprocal memory ports & \multicolumn{2}{r@{}}{$-8.70\%$}\\
+\midrule
+\multicolumn{4}{@{}l}{\emph{B. Validation Set closed-loop comparison}}\\
+\multicolumn{2}{@{}l}{Support} & Confirmed & False alarms\\
+\multicolumn{2}{@{}l}{$\{G_2,G_3,G_5\}$} & $11/12$ & $0/95$\\
+\multicolumn{2}{@{}l}{$\{G_2,G_5\}$}     & $11/12$ & $0/95$\\
+\multicolumn{2}{@{}l}{$\{G_2\}$ (ES-ROM)} & $12/12$ & $2/95$\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\parbox{\columnwidth}{\footnotesize
+The signed change compares each block at its best screening coefficient
+with all blocks disabled. It is identical to the shown precision at
+2.5 and 1.25\,ms. The event-weighted RMS uses complete windows
+at 0--200 and 200--400\,ms after forecast origin, available for
+$26/35$ and $14/35$ unstable training events, respectively.
+The three closed-loop fits had no unresolved Validation Set events.}
+\end{table}%
+}
+
+% Sources: topology_memory_rom_synthetic_20261116_evidence.json,
+% topology_memory_rom_causal_20261116_evidence.json,
+% topology_memory_rom_branch_init_v1_20261117_evidence.json.
+\newcommand{\SyntheticTable}{%
+\begin{table*}[!t]
+\centering
+\caption{Known-truth tests of operator selection and 100\,ms history initialization.}
+\label{tab:synthetic}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabularx}{\textwidth}{@{}lXXrr@{}}
+\toprule
+\multicolumn{5}{@{}l}{\emph{A. Structure selected from clean-history rollouts}}\\
+System & Mechanisms in truth & Selected mechanisms & Val.\ 8\,s NRMSE & Test 8\,s NRMSE\\
+\midrule
+S0 & Fixed coupling and constant ports & Fixed coupling and constant ports & 0.002207 & 0.002047\\
+S1 & Common scaling and spatial redistribution of coupling & Common scaling & 0.002666 & 0.002675\\
+S2 & Saturating memory ports & Saturating memory ports & 0.000680 & 0.000668\\
+S3 & Common scaling, spatial redistribution, and saturating ports & Common scaling and saturating ports & 0.001729 & 0.001386\\
+S4 & Restoring force with an out-of-library fifth harmonic & Fixed coupling and constant ports & 0.002289 & 0.002138\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{tabularx}{\textwidth}{@{}lXrr@{}}
+\toprule
+\multicolumn{4}{@{}l}{\emph{B. Fixed true equations and coefficients, with prior $\to$ without prior}}\\
+System & Worst clean history-start latent error & Worst noisy history-start latent error & Noisy Val.\ 8\,s NRMSE\\
+\midrule
+S0 & $0.6624\to 6.55\times10^{-6}$ & $1.681\to3.067$ & $0.005331\to0.005750$\\
+S1 & $0.7496\to 5.78\times10^{-3}$ & $1.654\to3.433$ & $0.005195\to0.009579$\\
+S2 & $0.7312\to 5.48\times10^{-6}$ & $1.628\to2.946$ & $0.001516\to0.001850$\\
+S3 & $0.8005\to 1.19\times10^{-4}$ & $1.734\to3.612$ & $0.001714\to0.005741$\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\parbox{\textwidth}{\footnotesize
+Each system has $24/12/12$ Training, Validation, and Test Set events.
+The 8\,s NRMSE is the mean of event NRMSEs at 2.5\,ms.
+In panel A, the selected supports classified all $12/12$ Test Set events
+per system under clean and noisy histories. The long-horizon gate accepted
+a candidate for S4. In a separate known-coefficient control, all four
+in-library candidates exceeded the $10^{-4}$ Validation Set threshold on
+worst-event 200\,ms momentum NRMSE at both steps for the fifth-harmonic truth
+($8.79\times10^{-4}$ for fixed coupling).
+Panel B reports the maximum relative latent error
+$\|\hat x-x\|_2/\max(\|x\|_2,0.1)$ across 12 Validation Set events.
+The observation-noise standard deviation is $10^{-3}$ of the training
+history scale before center-of-inertia projection.}
+\end{table*}%
+}
+
+% Sources: task3_three_cohort_comparison_20261121_evidence.json,
+% all trajectories with scores.blind_v2, and
+% blind_confirmation_m5_v1_20261121_evidence.json.
+\newcommand{\TrajectoryTable}{%
+\begin{table*}[!t]
+\centering
+\caption{Test Set trajectory comparison on 94 events (62 stable and 32 unstable).}
+\label{tab:trajectory}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{@{}Xccccrrrr@{}}
+\toprule
+& & & & &
+\multicolumn{2}{c}{Stable 8\,s NRMSE} &
+\multicolumn{2}{c@{}}{Unstable window NRMSE}\\
+\cmidrule(lr){6-7}\cmidrule(l){8-9}
+Model & TP/TN/FP/FN & Unres.\ U/S & Num.\ U/S & Acc.\ (\%) &
+Mean & Median & Mean & Median\\
+\midrule
+Hard-$R$ Baseline                 & 25/62/0/6  & 1/0  & 0/0   & --    & 0.24809 & 0.26335 & 0.86075 & 0.66309\\
+Soft-$2R$ Ablation                & 27/62/0/5  & 0/0  & 0/0   & 94.68 & 0.25930 & 0.25972 & 0.73896 & 0.51106\\
+ES-ROM                            & 29/62/0/3  & 0/0  & 0/0   & 96.81 & 0.25122 & 0.24765 & 0.73181 & 0.51692\\
+\midrule
+Graph-GRU (extended)              & 26/62/0/6  & 0/0  & 0/0   & 93.62 & 0.24017 & 0.23494 & 0.45094 & 0.30562\\
+GRU Seq2Seq (extended)            & 24/62/0/8  & 0/0  & 0/0   & 91.49 & 0.14865 & 0.13241 & 0.44647 & 0.27366\\
+Latent Neural ODE (extended)      & 18/62/0/11 & 3/0  & 0/0   & --    & 0.19116 & 0.20503 & 0.43973 & 0.35641\\
+Small Transformer                 & 0/62/0/18  & 14/0 & 0/0   & --    & 0.15584 & 0.15514 & 1.32959 & 1.32945\\
+Koopman-SHRED (progressive)        & 16/62/0/12 & 4/0  & 0/0   & --    & 0.21546 & 0.21982 & 0.44468 & 0.33013\\
+Small LASS                        & 25/62/0/6  & 1/0  & 0/0   & --    & 0.21363 & 0.20903 & 0.50537 & 0.39193\\
+History-conditioned DeepONet      & 21/62/0/4  & 7/0  & 0/0   & --    & 0.26290 & 0.25970 & 0.45613 & 0.35862\\
+STAN (rotor-state adaptation)     & 32/31/10/0 & 0/21 & 0/0   & --    & 5.94096 & 0.66809 & 0.58742 & 0.32183\\
+History-conditioned ActNet        & 14/54/0/0  & 18/8 & 0/0   & --    & 0.46026 & 0.45881 & 0.57729 & 0.47138\\
+I-IKNO                            & 32/0/62/0  & 0/0  & 0/0   & 34.04 & $1.096{\times}10^4$ & $6.658{\times}10^3$ & 1.38453 & 0.48493\\
+Hankel-DMD (revised)               & 32/0/62/0  & 0/0  & 0/0   & 34.04 & $3.058{\times}10^7$ & $3.479{\times}10^7$ & 1.16127 & 0.64145\\
+SINDy-SHRED (revised)              & 7/0/1/0    & 0/0  & 25/61 & --    & \multicolumn{2}{c}{-- ($0/62$)} & \multicolumn{2}{c@{}}{-- ($22/32$)}\\
+SINDy-SHRED (STLSQ)                & 19/5/6/0   & 0/3  & 13/48 & --    & \multicolumn{2}{c}{-- ($8/62$)} & \multicolumn{2}{c@{}}{-- ($30/32$)}\\
+Hankel-DMD (initial)               & 32/0/62/0  & 0/0  & 0/0   & 34.04 & $2.497{\times}10^8$ & $2.004{\times}10^8$ & 1.61769 & 0.52486\\
+GRU Seq2Seq (initial)              & 1/62/0/29  & 2/0  & 0/0   & --    & 0.38675 & 0.37962 & 0.83000 & 0.76888\\
+Latent Neural ODE (initial)        & 0/62/0/32  & 0/0  & 0/0   & 65.96 & 0.36993 & 0.37987 & 1.17056 & 1.02563\\
+Koopman-SHRED (initial)            & 0/62/0/32  & 0/0  & 0/0   & 65.96 & 0.41716 & 0.41886 & 1.25069 & 1.13058\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\parbox{\textwidth}{\footnotesize
+Instability is positive. Confirmed recall is TP/32, and false-alarm rate
+is FP/62. Unres.\ counts numerically qualified, unsettled cases, and Num.\
+counts numerical failures, both in true unstable/stable (U/S) order.
+Acc.\ is $(\mathrm{TP}+\mathrm{TN})/94$ when all events are resolved.
+On resolved cases the denominator is $\mathrm{TP}+\mathrm{TN}+\mathrm{FP}+\mathrm{FN}$.
+For event $i$, $S_i$ is the half-sum of squared center-of-inertia-relative
+angle and speed errors scaled by 0.476753\,rad and 1.003367\,rad/s,
+summed over $n_i$ generator-time pairs after the forecast origin.
+The event NRMSE is $\sqrt{S_i/n_i}$. The macro mean and median give all
+events equal weight. Pooled NRMSE is $\sqrt{\sum_i S_i/\sum_i n_i}$.
+Stable events use the full 8\,s and unstable events use all available
+observed future samples. For incomplete trajectory coverage, the
+parentheses show qualified/total events.}
+\end{table*}%
+}
+
+% Source: blind_confirmation_m5_v1_20261121_evidence.json,
+% paired-bootstrap metrics for the 2.5 ms step.
+\newcommand{\BootstrapTable}{%
+\begin{table}[!t]
+\centering
+\caption{Paired differences from the Hard-$R$ Baseline on the Test Set.}
+\label{tab:bootstrap}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\begin{tabularx}{\columnwidth}{@{}Xrr@{}}
+\toprule
+Metric & Soft-$2R$ Ablation & ES-ROM\\
+\midrule
+Confirmed recall (pp)
+   & $+6.25$ & $+12.50$\\
+95\% interval & $[0.00,16.13]$ & $[2.78,27.27]$\\
+Median peak deficit (rad/s)
+   & $-0.7746$ & $-1.4399$\\
+95\% interval & $[-1.2074,-0.1685]$ & $[-1.9591,-0.6686]$\\
+Mean stable 8\,s NRMSE
+   & $+0.0112$ & $+0.0031$\\
+95\% interval & $[0.0017,0.0222]$ & $[-0.0062,0.0143]$\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\parbox{\columnwidth}{\footnotesize
+Percentile intervals use 10,000 paired draws with replacement from
+21 bus--line fault groups. All draws were valid.
+Peak deficit is the positive part of true minus predicted
+maximum absolute center-of-inertia-relative speed over the common
+observed window up to 500\,ms after forecast origin, for each of the
+32 unstable events. Values at 2.5 and 1.25\,ms agree to the shown precision.}
+\end{table}%
+}
+
+% Sources: task3_three_cohort_comparison_20261121_evidence.json
+% (scores_only) and blind_confirmation_m5_v1_20261121_evidence.json.
+\newcommand{\ClassifierTable}{%
+\begin{table}[!t]
+\centering
+\caption{Direct classification, risk scoring, and trajectory-derived decisions on the Test Set.}
+\label{tab:classifiers}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{}Xlrrr@{}}
+\toprule
+Method & Threshold & TP/32 & FP/62 & AUROC\\
+\midrule
+GRU (initial)       & 0.5                & 30/32 & 0/62  & 0.9637\\
+GRU (revised)       & 0.5                & 27/32 & 0/62  & 0.9506\\
+GRU (revised)       & 0.00215034$^{*}$   & 29/32 & 0/62  & 0.9506\\
+Extra Trees         & 0.5                & 25/32 & 0/62  & 0.9819\\
+Extra Trees         & 0.024$^{*}$        & 31/32 & 13/62 & 0.9819\\
+PCDK-inspired risk  & 0.59861255$^{*}$   & 20/32 & 8/62  & 0.8417\\
+\midrule
+ES-ROM              & Rollout rule       & 29/32 & 0/62  & --\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\parbox{\columnwidth}{\footnotesize
+$^{*}$Threshold selected on the Validation Set and carried forward
+unchanged. Both Extra Trees fits gave the same Test Set entries at 0.5.
+All rows cover 94 events. AUROC uses continuous scores with instability
+positive. ES-ROM uses the loss-of-synchronism and settling criteria on
+predicted trajectories.}
+\end{table}%
+}
+
+% Sources: postfault_m4_v1_20261121_evidence.json,
+% postfault_m4_v2_20261121_evidence.json, and
+% blind_confirmation_m5_v1_20261121_evidence.json.
+% Validation modal and cutset analysis used the G2 snapshot identical to
+% the selected ES-ROM checkpoint. Soft-2R shares Hard-R equilibrium spectra.
+\newcommand{\PhysicsTable}{%
+\begin{table*}[!t]
+\centering
+\caption{Post-fault modal correspondence, separation cutsets, and origin-energy ranking.}
+\label{tab:physics}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{@{}lXrrrrrr@{}}
+\toprule
+& & \multicolumn{3}{c}{Dominant mode (medians)} &
+\multicolumn{3}{c@{}}{Event counts and shape overlap}\\
+\cmidrule(lr){3-5}\cmidrule(l){6-8}
+Set & Model & $|\Delta f|$ (Hz) & Rel.\ error & MAC & Strong matches &
+Exact separation$^{a}$ & Jaccard$^{b}$\\
+\midrule
+Validation & Hard-$R$ Baseline  & 0.05023 & 7.57\% & 0.94727 & 53/95 & 10/12 (10/11) & 0.9144\\
+Validation & ES-ROM             & 0.03292 & 4.95\% & 0.94532 & 58/95 & 10/12 (10/12) & 0.8818\\
+\midrule
+Test & Hard-$R$ Baseline        & 0.05058 & 7.62\% & 0.94709 & 41/62 & 23/32 (23/25) & 0.9576\\
+Test & Soft-$2R$ Ablation       & 0.05058 & 7.62\% & 0.94709 & 41/62 & 26/32 (26/27) & 0.9804\\
+Test & ES-ROM                    & 0.03177 & 4.79\% & 0.94516 & 52/62 & 27/32 (27/29) & 0.9635\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{tabularx}{\textwidth}{@{}Xrrrrrr@{}}
+\toprule
+& \multicolumn{3}{c}{Validation Set AUROC} & \multicolumn{3}{c@{}}{Test Set AUROC}\\
+\cmidrule(lr){2-4}\cmidrule(l){5-7}
+Model & Mechanical & Memory & Total & Mechanical & Memory & Total\\
+\midrule
+Hard-$R$ Baseline & 0.9325 & 0.5877 & 0.9333 & 0.9526 & 0.5282 & 0.8926\\
+Soft-$2R$ Ablation & 0.9325 & 0.6140 & 0.7175 & 0.9526 & 0.5983 & 0.7157\\
+ES-ROM & 0.9316 & 0.5623 & 0.6702 & 0.9526 & 0.5766 & 0.6956\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\parbox{\textwidth}{\footnotesize
+The dominant-mode medians use common matched events (63 Validation Set,
+52 Test Set). MAC is the modal assurance criterion. A strong match uses
+$\leq10\%$ frequency error, $\leq0.05$ absolute damping-ratio error,
+MAC $\geq0.80$, and a non-growing model mode. Its denominator is
+all true stable events in the set.
+$^{a}$Validation Set counts use exact leading-set matches. Test Set
+counts use exact cutsets and equal the exact leading-set counts.
+The denominators are all true unstable events and, in parentheses,
+events that trigger in both truth and prediction.
+$^{b}$Mean cross-group-pair Jaccard similarity uses dual-trigger events.
+Mechanical energy is kinetic plus shifted coupling potential.
+The Hard-$R$ Baseline and Soft-$2R$ Ablation share the same mechanical
+energy per event. ES-ROM has its own potential and attains the same
+Test Set mechanical-energy AUROC to the shown precision. Total storage
+adds the inferred memory energy.}
+\end{table*}%
+}
