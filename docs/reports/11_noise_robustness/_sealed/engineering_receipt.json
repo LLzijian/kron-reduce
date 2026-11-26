@@ -1,0 +1,185 @@
+{
+  "status": "UNMET_REPOSITORY_TEST_AND_LINT_GATES",
+  "baseline_commit": "242a570",
+  "project_harness_audit": {
+    "status": "PASS",
+    "errors": 0,
+    "log": {
+      "path": "results/noise_robustness_engineering-20261126T172631011893Z-d774811e/harness-final.json",
+      "sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912"
+    }
+  },
+  "ruff": {
+    "changed_and_ci_scope": "PASS",
+    "full_repository": "FAIL",
+    "baseline_findings": 183,
+    "baseline_files": 58,
+    "new_findings": 0
+  },
+  "pytest": {
+    "basetemp": "scratch/one_off/pytest_noise_kron_20261126",
+    "temp_removed": true,
+    "scope": {
+      "deselected": [
+        "test_reuse_check_supports_metadata_only_and_rejects_changed_payload",
+        "test_data_checksums"
+      ],
+      "reason": "frozen holdout access gate remained closed"
+    },
+    "passed": 1664,
+    "failed": 5,
+    "errors": 23,
+    "skipped": 1,
+    "baseline_retry_nodes": 28,
+    "baseline_retry_same_failure_nodes": true,
+    "new_noise_tests_passed": 20,
+    "legacy_failure_nodes": [
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[candidate_structure_selection_explicit.json-model_count-True-integer model_count]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[candidate_structure_selection_explicit.json-routing_keys-value2-routing keys]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[candidate_structure_selection_explicit.json-source_routing-True-source_routing=false]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[candidate_structure_selection_explicit.json-terminal_state-ACCEPT-scientific field changed]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[data_access_audit.json-future_observed_pm_read-True-future_observed_pm_read]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[data_access_audit.json-other_folds_read-value6-locked folds]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[data_access_audit.json-test_ids_read-value4-test access evidence]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[data_access_audit.json-test_trajectories_read-False-explicitly zero]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[lineage.json-labels_used-True-input declaration mismatch]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[lineage.json-plan_registered_run-unregistered-plan lineage mismatch]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_contract_rejects_self_consistently_rehashed_metadata_attacks[model_artifact_manifest.json-level_6_claimed-True-cannot claim Level 6]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_candidate_metadata_gate_preserves_claim_boundary"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_registered_plan_cannot_be_rewritten_with_new_local_hash"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_ieee39_modular_energy_p1_diagnosis.py::test_registered_plan_requires_nonempty_independent_hash"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_p1_a03_legacy_migration.py::test_candidate_stage_must_call_contract_validator"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_p1_a03_legacy_migration.py::test_frozen_a03_design_cannot_be_changed_after_registration"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_p1_a03_legacy_migration.py::test_real_legacy_candidate_acquisition_and_metadata_check"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_p1_a03_legacy_migration.py::test_rehashed_real_candidate_still_rejects_semantic_corruption[falsify_audit]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_p1_a03_legacy_migration.py::test_rehashed_real_candidate_still_rejects_semantic_corruption[future_pm]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_p1_a03_legacy_migration.py::test_rehashed_real_candidate_still_rejects_semantic_corruption[new_scientific_claim]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_p1_a03_legacy_migration.py::test_rehashed_real_candidate_still_rejects_semantic_corruption[other_fold]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_p1_a03_legacy_migration.py::test_rehashed_real_candidate_still_rejects_semantic_corruption[test]"
+      },
+      {
+        "kind": "ERROR",
+        "node": "tests/test_p1_a03_legacy_migration.py::test_rehashed_real_candidate_still_rejects_semantic_corruption[zero_missing_margin]"
+      },
+      {
+        "kind": "FAILED",
+        "node": "tests/test_combined_ten_machine_identification.py::test_frozen_cluster_refusal_hash_is_verified"
+      },
+      {
+        "kind": "FAILED",
+        "node": "tests/test_p1_a03_real_f1_controlled_chain.py::test_frozen_execution_config_and_manifest_registration"
+      },
+      {
+        "kind": "FAILED",
+        "node": "tests/test_p1_causal_calibration.py::test_frozen_real_role_metadata_only"
+      },
+      {
+        "kind": "FAILED",
+        "node": "tests/test_p1_time_grid_harmonization.py::test_a04_frozen_config_and_registry_are_single_model_no_extrapolation"
+      },
+      {
+        "kind": "FAILED",
+        "node": "tests/test_p2_baseline_contract.py::test_p2_inventory_binds_real_historical_evidence_without_trajectory_read"
+      }
+    ]
+  },
+  "files": {
+    "closed.json": {
+      "path": "results/noise_robustness_engineering-20261126T172631011893Z-d774811e/closed.json",
+      "sha256": "b8275da15dbffe5bd279ef681edcde27a96dc98c1f5a2cd3efa98a7eb854a733"
+    },
+    "harness-final.json": {
+      "path": "results/noise_robustness_engineering-20261126T172631011893Z-d774811e/harness-final.json",
+      "sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912"
+    },
+    "pytest-baseline-targets.log": {
+      "path": "results/noise_robustness_engineering-20261126T172631011893Z-d774811e/pytest-baseline-targets.log",
+      "sha256": "caf3d77f7a7b7eaeb0cb23d16813ba253a4752516a81695b7c2e585d964f0bf9"
+    },
+    "pytest-noise-tests.log": {
+      "path": "results/noise_robustness_engineering-20261126T172631011893Z-d774811e/pytest-noise-tests.log",
+      "sha256": "657ce050d718073a01e6fb4ebfac53cd9925c7fda9da3dfa79b170e4fd5e3548"
+    },
+    "pytest-pre-freeze.log": {
+      "path": "results/noise_robustness_engineering-20261126T172631011893Z-d774811e/pytest-pre-freeze.log",
+      "sha256": "f5d8988902e4a8415d330f5bd3cee4f0ff9787a558d9fcd75516e2de352ba168"
+    },
+    "ruff-final-result.json": {
+      "path": "results/noise_robustness_engineering-20261126T172631011893Z-d774811e/ruff-final-result.json",
+      "sha256": "a931c7696fc761ca28ff965e0dcdb009a86271a8d5a46c826779c47be785ab69"
+    },
+    "ruff-scoped.log": {
+      "path": "results/noise_robustness_engineering-20261126T172631011893Z-d774811e/ruff-scoped.log",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    }
+  },
+  "artifact_manifest": {
+    "path": "results/noise_robustness_engineering-20261126T172631011893Z-d774811e/artifact_hashes.json",
+    "sha256": "030c14d06994e4aeeeed1959a051ae45ade39b3f94ab80f7d670ac0aece1ad6e"
+  }
+}

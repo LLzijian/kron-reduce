@@ -50,7 +50,7 @@ MODEL_LABELS = {
     "v4_hard_r": "V4 hard-R", "v4_soft_2r": "V4 soft-2R",
     "m3b_g2_orig": "ES-ROM original", "m3b_g2_sg_gn": "ES-ROM SG + GN",
     "m3b_g2_joint_l2_mhe": "ES-ROM joint L2",
-    "m3b_g2_robust_mhe": "Robust MHE selected",
+    "m3b_g2_robust_mhe": "ES-ROM robust MHE",
     "m3b_g2_robust_mhe__B": "Robust MHE candidate B",
     "m3b_g2_robust_mhe__C": "Robust MHE candidate C",
 }
@@ -187,23 +187,19 @@ def _metric_value(roster_data: dict[str, Any], scenario: str, model: str,
     return _mean_and_sd(vals)
 
 
-def _endpoint_recall(step_output: dict[str, Any], endpoint: int) -> float | None:
+def _endpoint_peak(step_output: dict[str, Any], endpoint: int) -> float | None:
     strata = step_output.get("endpoint_strata", {})
     stratum = strata.get(str(endpoint), {}) if isinstance(strata, dict) else {}
     all_events = stratum.get("all", stratum) if isinstance(stratum, dict) else {}
-    return _finite(all_events.get("confirmed_recall")) if isinstance(all_events, dict) else None
+    deficit = all_events.get("positive_peak_deficit_rad_s") if isinstance(all_events, dict) else None
+    return _finite(deficit.get("mean")) if isinstance(deficit, dict) else None
 
 
-def _endpoint_value(roster_data: dict[str, Any], scenario: str, model: str,
-                    step: str, endpoint: int) -> tuple[float | None, float | None]:
-    summary = _summary_metric(
-        roster_data, scenario, model, step, "confirmed_recall", endpoint=str(endpoint)
-    )
-    if summary[0] is not None:
-        return summary
+def _endpoint_value(roster_data: dict[str, Any], model: str, step: str,
+                    endpoint: int) -> tuple[float | None, float | None]:
     vals = _repeat_metric_values(
-        roster_data, scenario, model, step,
-        lambda step_data: _endpoint_recall(step_data, endpoint),
+        roster_data, "outlier_endpoint_10sigma", model, step,
+        lambda step_data: _endpoint_peak(step_data, endpoint),
     )
     return _mean_and_sd(vals)
 
@@ -325,16 +321,18 @@ def _plot_gaussian(roster: str, data: dict[str, Any], step: str, out_dir: Path) 
     specs = (
         ("stable_8s_nrmse", "Stable 8 s NRMSE", None),
         ("unstable_available_nrmse", "Unstable available NRMSE", None),
-        ("confirmed_recall", "Confirmed unstable recall", (0, 1)),
-        ("false_alarm_rate", "Stable false alarm rate", (0, 1)),
+        ("confirmed_recall", "Confirmed unstable recall", "recall"),
+        ("false_alarm_rate", "Stable false alarm rate", "alarm"),
     )
     fig, axes = plt.subplots(2, 2, figsize=(7.4, 5.3))
     for ax, (metric, title, limits) in zip(axes.flat, specs):
         _add_model_lines(ax, data, scenarios, models, step, metric)
         ax.set_title(title, loc="left", pad=4)
         ax.set_ylabel("NRMSE" if "nrmse" in metric else "Rate")
-        if limits:
-            ax.set_ylim(*limits)
+        if limits == "recall":
+            ax.set_ylim(max(0, min(ax.get_ylim()[0], .8)), 1.035)
+        elif limits == "alarm":
+            ax.set_ylim(0, min(1.04, max(.05, ax.get_ylim()[1])))
     for ax in axes[-1, :]:
         ax.set_xlabel("Gaussian condition")
     _add_shared_legend(fig, axes.flat)
@@ -351,48 +349,40 @@ def _plot_heavy_tail_pulse(roster: str, data: dict[str, Any], step: str,
     specs = (
         ("stable_8s_nrmse", "Stable 8 s NRMSE", None),
         ("unstable_available_nrmse", "Unstable available NRMSE", None),
-        ("confirmed_recall", "Confirmed unstable recall", (0, 1)),
-        ("false_alarm_rate", "Stable false alarm rate", (0, 1)),
+        ("confirmed_recall", "Confirmed unstable recall", "recall"),
+        ("false_alarm_rate", "Stable false alarm rate", "alarm"),
     )
     fig, axes = plt.subplots(3, 2, figsize=(7.4, 7.0))
     for ax, (metric, title, limits) in zip(axes[:2].flat, specs):
         _add_model_lines(ax, data, scenarios, models, step, metric)
         ax.set_title(title, loc="left", pad=4)
         ax.set_ylabel("NRMSE" if "nrmse" in metric else "Rate")
-        if limits:
-            ax.set_ylim(*limits)
-    x = np.arange(len(scenarios), dtype=float)
+        if limits == "recall":
+            ax.set_ylim(max(0, min(ax.get_ylim()[0], .8)), 1.035)
+        elif limits == "alarm":
+            ax.set_ylim(0, min(1.04, max(.05, ax.get_ylim()[1])))
+    x = np.arange(len(models), dtype=float)
     for ax, endpoint, endpoint_name in (
         (axes[2, 0], 0, "First input sample (index 0)"),
         (axes[2, 1], 10, "Last input sample (index 10)"),
     ):
         for index, model in enumerate(models):
-            values, spread = [], []
-            for scenario in scenarios:
-                mean, sd = _endpoint_value(data, scenario, model, step, endpoint)
-                values.append(np.nan if mean is None else mean)
-                spread.append(np.nan if mean is None or sd is None else sd)
-            y, s = np.asarray(values, float), np.asarray(spread, float)
-            available = np.isfinite(y)
-            if not available.any():
+            mean, sd = _endpoint_value(data, model, step, endpoint)
+            if mean is None:
                 continue
             color = _model_color(model, index)
-            ax.plot(x, y, color=color, linestyle=MODEL_STYLES.get(model, "-"), marker="o",
-                    label=_model_label(model), zorder=3)
-            with_error = available & np.isfinite(s) & (s > 0)
-            if with_error.any():
-                ax.errorbar(x[with_error], y[with_error], yerr=s[with_error], fmt="none",
-                            ecolor=color, elinewidth=0.65, capsize=1.8, alpha=0.8, zorder=2)
+            ax.errorbar(x[index], mean, yerr=sd, color=color, fmt="o", capsize=1.8,
+                        elinewidth=.65, label=_model_label(model), zorder=3)
         ax.set_xticks(x)
-        ax.set_xticklabels([DISPLAY_SCENARIOS.get(name, name) for name in scenarios], rotation=28,
+        ax.set_xticklabels([_model_label(model) for model in models], rotation=35,
                            ha="right", rotation_mode="anchor")
-        ax.set_title(f"Confirmed recall · {endpoint_name}", loc="left", pad=4)
-        ax.set_ylabel("Recall")
-        ax.set_ylim(0, 1)
+        ax.set_title(endpoint_name, loc="left", pad=4)
+        ax.set_ylabel("Mean peak deficit (rad/s)")
         ax.grid(axis="y", color="#d9dee3", linewidth=0.45)
         ax.set_axisbelow(True)
+    endpoint_max = max(ax.get_ylim()[1] for ax in axes[-1, :])
     for ax in axes[-1, :]:
-        ax.set_xlabel("Heavy-tail or pulse condition")
+        ax.set_ylim(0, endpoint_max)
     _add_shared_legend(fig, axes.flat)
     fig.suptitle(f"Heavy-tail and pulse robustness · {roster} · step {step} s", y=0.995)
     return _finalize(fig, out_dir / f"{roster}_heavy_tail_pulse")
@@ -418,7 +408,7 @@ def _plot_cut_energy(roster: str, data: dict[str, Any], step: str, out_dir: Path
         ax.set_ylim(0, 1)
     axes[-1].set_xlabel("Noise or outlier condition")
     _add_shared_legend(fig, axes)
-    fig.suptitle(f"Failure timing and energy discrimination · {roster} · step {step} s", y=0.995)
+    fig.suptitle(f"Loss-of-synchronism cuts and origin energy · {roster} · step {step} s", y=0.995)
     return _finalize(fig, out_dir / f"{roster}_cut_energy_auroc")
 
 
@@ -480,7 +470,7 @@ def _plot_latency(latency: dict[str, Any], step: str, out_dir: Path) -> list[str
         ax.set_xlabel("Model")
         ax.grid(axis="y", color="#d9dee3", linewidth=0.45)
         ax.set_axisbelow(True)
-    axes[0].set_ylabel("Mean time per trajectory (s)")
+    axes[0].set_ylabel("Mean latency per batch (s)")
     legend = [
         Patch(facecolor=colors["init"], label="Initialization"),
         Patch(facecolor=colors["rollout"], label="Free rollout"),
