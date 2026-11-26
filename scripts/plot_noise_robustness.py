@@ -35,7 +35,7 @@ DISPLAY_SCENARIOS = {
     "clean": "Clean", "gauss_pmu_steady": "Steady PMU",
     "gauss_dse_dynamic": "Dynamic DSE", "gauss_dse_dynamic_pm": "DSE + Pm",
     "gauss_snr30": "30 dB", "gauss_snr20": "20 dB",
-    "nongauss_laplace": "Laplace", "nongauss_student_t3": "Student t₃",
+    "nongauss_laplace": "Laplace", "nongauss_student_t3": "Student t(3)",
     "outlier_random5pct_10sigma": "Random pulse",
     "outlier_endpoint_10sigma": "Endpoint pulse",
 }
@@ -114,7 +114,8 @@ def _mean_and_sd(values: list[Any]) -> tuple[float | None, float | None]:
 
 
 def _summary_metric(roster_data: dict[str, Any], scenario: str, model: str,
-                    step: str, metric: str) -> tuple[float | None, float | None]:
+                    step: str, metric: str, endpoint: str = "all"
+                    ) -> tuple[float | None, float | None]:
     record = roster_data.get(scenario, {}).get(model)
     if not isinstance(record, dict):
         return None, None
@@ -122,7 +123,13 @@ def _summary_metric(roster_data: dict[str, Any], scenario: str, model: str,
     by_step = summary.get("by_step", {}) if isinstance(summary, dict) else {}
     actual = _step_key(by_step, step) if isinstance(by_step, dict) else None
     step_data = by_step.get(actual, {}) if actual else {}
-    item = step_data.get(metric) if isinstance(step_data, dict) else None
+    item = None
+    if isinstance(step_data, dict):
+        endpoint_metrics = step_data.get(endpoint)
+        if isinstance(endpoint_metrics, dict):
+            item = endpoint_metrics.get(metric)
+        if item is None and endpoint == "all":
+            item = step_data.get(metric)
     if not isinstance(item, dict):
         return None, None
     mean, sd = _finite(item.get("mean")), _finite(item.get("sample_std"))
@@ -189,6 +196,11 @@ def _endpoint_recall(step_output: dict[str, Any], endpoint: int) -> float | None
 
 def _endpoint_value(roster_data: dict[str, Any], scenario: str, model: str,
                     step: str, endpoint: int) -> tuple[float | None, float | None]:
+    summary = _summary_metric(
+        roster_data, scenario, model, step, "confirmed_recall", endpoint=str(endpoint)
+    )
+    if summary[0] is not None:
+        return summary
     vals = _repeat_metric_values(
         roster_data, scenario, model, step,
         lambda step_data: _endpoint_recall(step_data, endpoint),

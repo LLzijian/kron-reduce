@@ -388,34 +388,81 @@ def _scenario_step_metrics(rep_output, step):
     }
 
 
+_REPEAT_SUMMARY_DIRECTIONS = {
+    "tp": "higher", "tn": "higher", "fp": "lower", "fn": "lower",
+    "unresolved": "lower", "uncovered": "lower", "numerical_failure": "lower",
+    "accuracy": "higher", "accuracy_on_resolved": "higher", "coverage": "higher",
+    "confirmed_recall": "higher", "confirmed_miss_rate": "lower", "false_alarm_rate": "lower",
+    "mechanical_energy_auroc": "higher", "memory_energy_auroc": "higher",
+}
+
+
+def _repeat_profile(rep_output, step, endpoint):
+    rows = rep_output["steps"][step]["rows"]
+    if endpoint != "all":
+        endpoint_value = int(endpoint)
+        rows = [row for row in rows if row["endpoint_index"] == endpoint_value]
+    classification = _classification_summary(rows)
+    metrics = _metrics(rows)
+    profile = _scenario_step_metrics(rep_output, step) if endpoint == "all" else {
+        "stable_8s_nrmse": metrics["stable_8s_nrmse"]["mean"],
+        "unstable_available_nrmse": metrics["unstable_available_nrmse"]["mean"],
+        "positive_peak_deficit_rad_s": metrics["positive_peak_deficit_rad_s"]["median"],
+        "exact_cut_rate": metrics["exact_cut"]["exact_rate"],
+        "cut_jaccard_mean": metrics["cut_jaccard"]["mean"],
+        "total_energy_auroc": metrics["energy"]["total"]["auroc"],
+        "stable_8s_nrmse_coverage": metrics["stable_8s_nrmse"]["coverage"],
+        "unstable_available_nrmse_coverage": metrics["unstable_available_nrmse"]["coverage"],
+        "positive_peak_deficit_coverage": metrics["positive_peak_deficit_rad_s"]["coverage"],
+        "cut_coverage": metrics["exact_cut"]["coverage"],
+        "total_energy_coverage": metrics["energy"]["total"]["coverage"],
+    }
+    profile.update({key: classification[key] for key in _REPEAT_SUMMARY_DIRECTIONS
+                    if key in classification})
+    profile["mechanical_energy_auroc"] = metrics["energy"]["mechanical"]["auroc"]
+    profile["memory_energy_auroc"] = metrics["energy"]["memory"]["auroc"]
+    return profile
+
+
+def _summarize_repeat_values(values, metric, direction):
+    array = np.asarray([np.nan if value is None else value for value in values], dtype=np.float64)
+    available_indices = np.flatnonzero(np.isfinite(array))
+    available = array[available_indices]
+    complete = len(available) == len(array)
+    worst_offset = (int(np.argmin(available) if direction == "higher" else np.argmax(available))
+                    if len(available) else None)
+    return {
+        "direction": direction, "replicates": len(array), "available_replicates": len(available),
+        "coverage": _safe_ratio(len(available), len(array)),
+        "mean": float(np.mean(available)) if complete else None,
+        "sample_std": float(np.std(available, ddof=1)) if complete and len(available) > 1 else None,
+        "worst_rep": (float(available[worst_offset]) if worst_offset is not None else None),
+        "worst_rep_complete": complete,
+        "worst_rep_index": (int(available_indices[worst_offset]) if worst_offset is not None else None),
+        "valid_subset_mean": float(np.mean(available)) if len(available) else None,
+        "valid_subset_std": float(np.std(available, ddof=1)) if len(available) > 1 else None,
+    }
+
+
 def summarize_reps(reps):
-    """Summarize repeats and make incomplete metric coverage explicit."""
+    """Summarize scores by step and endpoint, preserving per-metric coverage."""
     reps = list(reps)
     if not reps:
         raise ValueError("at least one replicate score is required")
     result = {"replicates": len(reps), "by_step": {}}
     for step in STEPS:
-        by_rep = [_scenario_step_metrics(rep, step) for rep in reps]
-        summary = {}
-        for metric in BOOTSTRAP_METRICS:
-            values = np.asarray([np.nan if row[metric] is None else row[metric] for row in by_rep])
-            available = values[np.isfinite(values)]
-            complete = len(available) == len(values)
-            direction = _METRIC_DIRECTION[metric]
-            worst = ((float(np.min(available)) if direction == "higher" else float(np.max(available)))
-                     if complete else None)
-            summary[metric] = {
-                "direction": direction, "replicates": len(values), "available_replicates": len(available),
-                "coverage": _safe_ratio(len(available), len(values)),
-                "mean": float(np.mean(available)) if complete else None,
-                "sample_std": (float(np.std(available, ddof=1)) if complete and len(available) > 1
-                               else 0.0 if complete else None),
-                "worst_rep": worst,
-                "valid_subset_mean": float(np.mean(available)) if len(available) else None,
-                "valid_subset_std": (float(np.std(available, ddof=1)) if len(available) > 1
-                                     else 0.0 if len(available) == 1 else None),
-            }
-        result["by_step"][step] = summary
+        by_endpoint = {}
+        for endpoint in ("all", 0, 10):
+            by_rep = [_repeat_profile(rep, step, endpoint) for rep in reps]
+            metrics = set().union(*(row.keys() for row in by_rep))
+            summary = {}
+            for metric in metrics:
+                direction = _REPEAT_SUMMARY_DIRECTIONS.get(
+                    metric, _METRIC_DIRECTION.get(metric, "higher"))
+                summary[metric] = _summarize_repeat_values(
+                    [row.get(metric) for row in by_rep], metric, direction)
+            by_endpoint[str(endpoint)] = summary
+        result["by_step"][step] = by_endpoint
     return result
 
 
@@ -565,8 +612,8 @@ def _bootstrap_metric_draws(group_draws, grouped_reps):
     positive_weights = flat_draws * pos_counts[None, :]
     negative_weights = flat_draws * neg_counts[None, :]
     auc_denominator = positive_weights.sum(axis=1) * negative_weights.sum(axis=1)
-    auc_numerator = np.einsum("bi,ij,bj->b", positive_weights, auc_pairs,
-                              negative_weights, optimize=True)
+    # auc_pairs stores the full sum of pairwise wins for each group pair.
+    auc_numerator = np.einsum("bi,ij,bj->b", flat_draws, auc_pairs, flat_draws, optimize=True)
     energy_auc = np.divide(auc_numerator, auc_denominator,
                            out=np.full(batch, np.nan), where=auc_denominator > 0)
 
@@ -599,6 +646,12 @@ def paired_group_bootstrap(candidate_reps, original_reps, seed=20261126):
         raise ValueError("candidate and original need the same nonzero replicate count")
     by_step, draw_hash = {}, hashlib.sha256()
     rng = np.random.default_rng(seed)
+    base_group_draws = rng.multinomial(
+        BOOTSTRAP_GROUP_COUNT, np.full(BOOTSTRAP_GROUP_COUNT, 1 / BOOTSTRAP_GROUP_COUNT),
+        size=BOOTSTRAP_REPLICATES,
+    ).astype(np.int16, copy=False)
+    draw_hash.update(base_group_draws.astype("<i8", copy=False).tobytes())
+    common_groups = None
     for step in STEPS:
         rep_pairs, canonical_groups = [], None
         for candidate, original in zip(candidate_reps, original_reps, strict=True):
@@ -617,11 +670,14 @@ def paired_group_bootstrap(candidate_reps, original_reps, seed=20261126):
             elif groups != canonical_groups:
                 raise ValueError("group roster differs between replicates")
             rep_pairs.append((left_ids, right_ids, groups))
-        draw_counts = rng.multinomial(
-            BOOTSTRAP_GROUP_COUNT, np.full(BOOTSTRAP_GROUP_COUNT, 1 / BOOTSTRAP_GROUP_COUNT),
-            size=(BOOTSTRAP_REPLICATES, len(rep_pairs)),
-        ).astype(np.int16, copy=False)
-        draw_hash.update(draw_counts.astype("<i8", copy=False).tobytes())
+        if common_groups is None:
+            common_groups = canonical_groups
+        elif canonical_groups != common_groups:
+            raise ValueError("group roster differs between steps")
+        draw_counts = np.broadcast_to(
+            base_group_draws[:, None, :],
+            (BOOTSTRAP_REPLICATES, len(rep_pairs), BOOTSTRAP_GROUP_COUNT),
+        )
         point_left = [row for left, _, _ in rep_pairs for row in left.values()]
         point_right = [row for _, right, _ in rep_pairs for row in right.values()]
         left_point, right_point = _metric_values(point_left), _metric_values(point_right)
@@ -652,6 +708,6 @@ def paired_group_bootstrap(candidate_reps, original_reps, seed=20261126):
         "seed": int(seed), "replicates": BOOTSTRAP_REPLICATES,
         "noise_replicates": len(candidate_reps), "unit": "fault_group_resampled_within_rep",
         "groups_per_rep": BOOTSTRAP_GROUP_COUNT, "direction": "candidate_minus_original",
-        "draw_index_sha256": draw_hash.hexdigest(),
+        "shared_group_draws_sha256": draw_hash.hexdigest(),
         "by_step": by_step,
     }

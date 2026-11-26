@@ -82,6 +82,8 @@ def adapt(directory, prior_dir, train, val, models, scales, plan):
         raise PermissionError("the complete train and val lists and a bounded schedule are required")
     initial = json.loads((prior_dir / "selection.json").read_bytes())["candidate"]
     log_params = np.log([initial["alpha"], initial["huber_delta"]])
+    first_moment = np.zeros_like(log_params)
+    second_moment = np.zeros_like(log_params)
     truth = np.stack([event["x"][10] for event in train])
     operations = Counter()
     checkpoints, training = [], []
@@ -94,10 +96,17 @@ def adapt(directory, prior_dir, train, val, models, scales, plan):
                                     _candidate(log_params + sign * delta, initial, "trial"), operations)
                          for sign in (-1, 1))
             gradient[index] = (high - low) / (2 * DIFFERENCE_STEP)
-        log_params = np.clip(log_params - limits["learning_rate"] * gradient, LOG_LIMITS[:, 0], LOG_LIMITS[:, 1])
+        if not np.isfinite(gradient).all():
+            raise FloatingPointError("invalid full-train initializer gradient")
+        first_moment = .9 * first_moment + .1 * gradient
+        second_moment = .999 * second_moment + .001 * gradient**2
+        update_direction = (first_moment / (1 - .9**update)) / (
+            np.sqrt(second_moment / (1 - .999**update)) + 1e-8)
+        log_params = np.clip(log_params - limits["learning_rate"] * update_direction,
+                             LOG_LIMITS[:, 0], LOG_LIMITS[:, 1])
         candidate = _candidate(log_params, initial, f"train_update_{update}")
         measured = _objective(models["m3"], inputs, truth, plan, scales, candidate, operations)
-        if not np.isfinite(measured) or not np.isfinite(gradient).all():
+        if not np.isfinite(measured):
             raise FloatingPointError("invalid full-train initializer loss")
         training.append({"update": update, "sample_count": len(train), "loss": measured,
                          "log_parameter_gradient": gradient.tolist(), "candidate": candidate})
