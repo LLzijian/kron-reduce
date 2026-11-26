@@ -258,6 +258,7 @@ def run(root, experiment, stage, result_dir, run_id):
                     evidence.update(_asset_parity(result_dir, root, plan, val, models, scales, assets))
                 elif stage == "validation":
                     from kron_reduce.evaluation.noise_stress_matrix import (
+                        benchmark,
                         evaluate_matrix,
                         select_candidate,
                     )
@@ -265,6 +266,7 @@ def run(root, experiment, stage, result_dir, run_id):
                     evidence.update(evaluate_matrix(result_dir, {"val": val}, models, scales, plan,
                                                     candidates=plan["candidates"]))
                     selection = select_candidate(result_dir, plan)
+                    benchmark(result_dir, val, models, scales, plan, selection["candidate"])
                     evidence.update(val_cases=len(val), optimizer_updates=0,
                                     scientific_verdict="ACCEPT" if selection["passed"] else "RETRY")
                 elif stage == "adapt":

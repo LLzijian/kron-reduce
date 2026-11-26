@@ -17,14 +17,18 @@ from kron_reduce.evaluation.postfault_m4 import _auc, _crossing_edges, _partitio
 from kron_reduce.physics.coordinates import coi_project
 
 STEPS = ("0.0025", "0.00125")
-SCALE_DELTA = 0.47675314588683515
-SCALE_OMEGA = 1.0033667249602924
+SCALE_DELTA = 0.476753
+SCALE_OMEGA = 1.003367
+PARITY_SCALE_DELTA = 0.47675314588683515
+PARITY_SCALE_OMEGA = 1.0033667249602924
 BOOTSTRAP_REPLICATES = 10_000
 BOOTSTRAP_GROUP_COUNT = 21
 BOOTSTRAP_METRICS = (
     "confirmed_recall", "false_alarm_rate", "coverage", "stable_8s_nrmse",
     "unstable_available_nrmse", "positive_peak_deficit_rad_s", "exact_cut_rate",
-    "cut_jaccard_mean", "total_energy_auroc",
+    "cut_jaccard_mean", "total_energy_auroc", "stable_8s_nrmse_coverage",
+    "unstable_available_nrmse_coverage", "positive_peak_deficit_coverage",
+    "cut_coverage", "total_energy_coverage",
 )
 
 
@@ -115,8 +119,12 @@ def _trigger(path, event, *, start=1):
     angle = np.ptp(future[:, :10] + np.asarray(event["equilibrium"]), axis=1)
     speed = np.max(np.abs(coi_project(future[:, 10:], event["mass"])), axis=1) / float(event["omega_s"])
     flags = (angle > np.pi) & (speed > 0.02)
-    for end in range(max(start + 4, 4), len(flags)):
-        if np.all(flags[end - 4:end + 1]):
+    prospective = flags[start:]
+    if len(prospective) >= 5:
+        windows = np.lib.stride_tricks.sliding_window_view(prospective, 5).all(axis=-1)
+        hits = np.flatnonzero(windows)
+        if len(hits):
+            end = start + int(hits[0]) + 4
             return end, {"maximum_angle_spread_rad": float(np.max(angle)),
                          "maximum_coi_speed_pu": float(np.max(speed))}, bool(finite.all())
     return None, {"maximum_angle_spread_rad": float(np.max(angle)) if len(angle) else None,
@@ -150,7 +158,7 @@ def _step_parity(coarse, fine, coarse_class, fine_class):
         trigger_gap = None
     error = coarse[:end + 1] - fine[:end + 1]
     value = (float(np.sqrt(0.5 * np.mean(
-        (error[:, :10] / SCALE_DELTA) ** 2 + (error[:, 10:] / SCALE_OMEGA) ** 2
+        (error[:, :10] / PARITY_SCALE_DELTA) ** 2 + (error[:, 10:] / PARITY_SCALE_OMEGA) ** 2
     ))) if finite else None)
     return {"qualified": bool(finite and same_los and same_label and trigger_ok
                               and value is not None and value <= 1e-3),
@@ -211,8 +219,9 @@ def _classification_summary(rows):
     tn = sum(row["status"] == "stable" and row["label"] == "stable" for row in rows)
     unresolved, numerical, uncovered = counts["unresolved"], counts["numerical_failure"], counts["uncovered"]
     resolved, total = tp + tn + fp + fn, len(rows)
-    positive = sum(row["label"] == "unstable" for row in rows if row["status"] != "uncovered")
-    negative = sum(row["label"] == "stable" for row in rows if row["status"] != "uncovered")
+    # Fixed roster denominators include uncovered, unresolved, and numerical cases.
+    positive = sum(row["label"] == "unstable" for row in rows)
+    negative = sum(row["label"] == "stable" for row in rows)
     complete = unresolved == 0 and numerical == 0 and uncovered == 0
     return {
         "allocated": total, "tp": tp, "tn": tn, "fp": fp, "fn": fn,
@@ -222,9 +231,10 @@ def _classification_summary(rows):
         "resolved": resolved, "coverage": _safe_ratio(resolved, total),
         "accuracy": _safe_ratio(tp + tn, total) if complete else None,
         "accuracy_on_resolved": _safe_ratio(tp + tn, resolved),
-        "confirmed_recall": _safe_ratio(tp, positive) if complete else None,
-        "confirmed_miss_rate": _safe_ratio(fn, positive) if complete else None,
-        "false_alarm_rate": _safe_ratio(fp, negative) if complete else None,
+        "eligible_unstable": positive, "eligible_stable": negative,
+        "confirmed_recall": _safe_ratio(tp, positive),
+        "confirmed_miss_rate": _safe_ratio(fn, positive),
+        "false_alarm_rate": _safe_ratio(fp, negative),
         "status_counts": dict(sorted(counts.items())),
     }
 
@@ -280,7 +290,7 @@ def score_pair(events, paths, energy, *, endpoint=None) -> dict:
                   "trigger": "angle range > pi AND projected speed > 0.02 pu for 5 consecutive prospective 10 ms points",
                   "window_settled": "complete finite path, no trigger, final 100 points angle range < pi and projected speed < 0.005 pu",
                   "dual_grid": {"joint_state_difference_limit": 1e-3, "trigger_index_tolerance": 2,
-                                "state_scales": {"delta": SCALE_DELTA, "omega": SCALE_OMEGA}},
+                                "state_scales": {"delta": PARITY_SCALE_DELTA, "omega": PARITY_SCALE_OMEGA}},
                   "nrmse_scales": {"delta": SCALE_DELTA, "omega": SCALE_OMEGA},
               }}
     for step in STEPS:
@@ -352,6 +362,9 @@ _METRIC_DIRECTION = {
     "stable_8s_nrmse": "lower", "unstable_available_nrmse": "lower",
     "positive_peak_deficit_rad_s": "lower", "exact_cut_rate": "higher",
     "cut_jaccard_mean": "higher", "total_energy_auroc": "higher",
+    "stable_8s_nrmse_coverage": "higher", "unstable_available_nrmse_coverage": "higher",
+    "positive_peak_deficit_coverage": "higher", "cut_coverage": "higher",
+    "total_energy_coverage": "higher",
 }
 
 
@@ -367,6 +380,11 @@ def _scenario_step_metrics(rep_output, step):
         "exact_cut_rate": profile["exact_cut"]["exact_rate"],
         "cut_jaccard_mean": profile["cut_jaccard"]["mean"],
         "total_energy_auroc": profile["energy"]["total"]["auroc"],
+        "stable_8s_nrmse_coverage": profile["stable_8s_nrmse"]["coverage"],
+        "unstable_available_nrmse_coverage": profile["unstable_available_nrmse"]["coverage"],
+        "positive_peak_deficit_coverage": profile["positive_peak_deficit_rad_s"]["coverage"],
+        "cut_coverage": profile["exact_cut"]["coverage"],
+        "total_energy_coverage": profile["energy"]["total"]["coverage"],
     }
 
 
@@ -413,6 +431,164 @@ def _metric_values(rows):
         "exact_cut_rate": metrics["exact_cut"]["exact_rate"],
         "cut_jaccard_mean": metrics["cut_jaccard"]["mean"],
         "total_energy_auroc": metrics["energy"]["total"]["auroc"],
+        "stable_8s_nrmse_coverage": metrics["stable_8s_nrmse"]["coverage"],
+        "unstable_available_nrmse_coverage": metrics["unstable_available_nrmse"]["coverage"],
+        "positive_peak_deficit_coverage": metrics["positive_peak_deficit_rad_s"]["coverage"],
+        "cut_coverage": metrics["exact_cut"]["coverage"],
+        "total_energy_coverage": metrics["energy"]["total"]["coverage"],
+    }
+
+
+def _group_bootstrap_data(rows, groups):
+    if isinstance(rows, Mapping):
+        rows = rows.values()
+    group_index = {group: index for index, group in enumerate(groups)}
+    data = {name: np.zeros(len(groups), dtype=np.float64) for name in (
+        "total", "positive", "negative", "tp", "fp", "resolved",
+        "stable_nrmse_sum", "stable_nrmse_count", "unstable_nrmse_sum", "unstable_nrmse_count",
+        "peak_sum", "peak_count", "exact_sum", "exact_count", "jaccard_sum", "jaccard_count",
+        "energy_count",
+    )}
+    peak_values, peak_groups, energy_pos, energy_neg = [], [], [[] for _ in groups], [[] for _ in groups]
+    for row in rows:
+        g = group_index[row["group"]]
+        label, status = row["label"], row["status"]
+        data["total"][g] += 1
+        data["positive" if label == "unstable" else "negative"][g] += 1
+        resolved = status in ("unstable", "stable")
+        data["resolved"][g] += resolved
+        data["tp"][g] += status == "unstable" and label == "unstable"
+        data["fp"][g] += status == "unstable" and label == "stable"
+        if row["stable_8s_nrmse"] is not None:
+            data["stable_nrmse_sum"][g] += row["stable_8s_nrmse"]
+            data["stable_nrmse_count"][g] += 1
+        if row["unstable_available_nrmse"] is not None:
+            data["unstable_nrmse_sum"][g] += row["unstable_available_nrmse"]
+            data["unstable_nrmse_count"][g] += 1
+        peak = row["positive_peak_deficit_rad_s"]
+        if peak is not None:
+            peak_values.append(float(peak))
+            peak_groups.append(g)
+            data["peak_sum"][g] += 1
+            data["peak_count"][g] += 1
+        if row["exact_cut"] is not None:
+            data["exact_sum"][g] += bool(row["exact_cut"])
+            data["exact_count"][g] += 1
+        if row["cut_jaccard"] is not None:
+            data["jaccard_sum"][g] += row["cut_jaccard"]
+            data["jaccard_count"][g] += 1
+        energy = row["energy"]["total"]
+        if energy is not None:
+            data["energy_count"][g] += 1
+            (energy_pos if label == "unstable" else energy_neg)[g].append(float(energy))
+    data["peak_values"] = np.asarray(peak_values, dtype=np.float64)
+    data["peak_groups"] = np.asarray(peak_groups, dtype=np.intp)
+    data["energy_pos"] = energy_pos
+    data["energy_neg"] = energy_neg
+    return data
+
+
+def _bootstrap_metric_draws(group_draws, grouped_reps):
+    """Evaluate resamples from group-level sufficient statistics in arrays."""
+    batch, rep_count, group_count = group_draws.shape
+    stats = {name: np.stack([rep[name] for rep in grouped_reps]) for name in (
+        "total", "positive", "negative", "tp", "fp", "resolved",
+        "stable_nrmse_sum", "stable_nrmse_count", "unstable_nrmse_sum", "unstable_nrmse_count",
+        "peak_count", "exact_sum", "exact_count", "jaccard_sum", "jaccard_count", "energy_count",
+    )}
+
+    def weighted_sum(name):
+        return np.einsum("brg,rg->b", group_draws, stats[name], optimize=True)
+
+    total = weighted_sum("total")
+    positive, negative = weighted_sum("positive"), weighted_sum("negative")
+    tp, fp, resolved = weighted_sum("tp"), weighted_sum("fp"), weighted_sum("resolved")
+    stable_n = weighted_sum("stable_nrmse_count")
+    unstable_n = weighted_sum("unstable_nrmse_count")
+    stable_rmse = np.divide(weighted_sum("stable_nrmse_sum"), stable_n,
+                            out=np.full(batch, np.nan), where=stable_n > 0)
+    unstable_rmse = np.divide(weighted_sum("unstable_nrmse_sum"), unstable_n,
+                              out=np.full(batch, np.nan), where=unstable_n > 0)
+    exact_n = weighted_sum("exact_count")
+    exact_rate = np.divide(weighted_sum("exact_sum"), exact_n,
+                           out=np.full(batch, np.nan), where=exact_n > 0)
+    jaccard_n = weighted_sum("jaccard_count")
+    jaccard_mean = np.divide(weighted_sum("jaccard_sum"), jaccard_n,
+                              out=np.full(batch, np.nan), where=jaccard_n > 0)
+    energy_n = weighted_sum("energy_count")
+    energy_coverage = np.divide(energy_n, total, out=np.full(batch, np.nan), where=total > 0)
+
+    peak_values, peak_rep_indices, peak_group_indices = [], [], []
+    energy_positive, energy_negative = [], []
+    for rep_index, rep in enumerate(grouped_reps):
+        peak_values.extend(rep["peak_values"].tolist())
+        peak_rep_indices.extend([rep_index] * len(rep["peak_values"]))
+        peak_group_indices.extend(rep["peak_groups"].tolist())
+        for group_index in range(group_count):
+            energy_positive.append(rep["energy_pos"][group_index])
+            energy_negative.append(rep["energy_neg"][group_index])
+    peak_values = np.asarray(peak_values, dtype=np.float64)
+    if len(peak_values):
+        peak_rep_indices = np.asarray(peak_rep_indices, dtype=np.intp)
+        peak_group_indices = np.asarray(peak_group_indices, dtype=np.intp)
+        order = np.argsort(peak_values, kind="stable")
+        weights = group_draws[:, peak_rep_indices[order], peak_group_indices[order]]
+        cumulative = np.cumsum(weights, axis=1)
+        peak_total = cumulative[:, -1]
+        lower_rank = np.maximum(1, (peak_total + 1) // 2)
+        upper_rank = np.maximum(1, (peak_total + 2) // 2)
+        lower_index = np.argmax(cumulative >= lower_rank[:, None], axis=1)
+        upper_index = np.argmax(cumulative >= upper_rank[:, None], axis=1)
+        peak_median = 0.5 * (peak_values[order[lower_index]] + peak_values[order[upper_index]])
+        peak_median[peak_total == 0] = np.nan
+    else:
+        peak_median = np.full(batch, np.nan)
+
+    # A group-by-group pair matrix turns AUROC into one batched bilinear form.
+    group_rep_count = rep_count * group_count
+    auc_pairs = np.zeros((group_rep_count, group_rep_count), dtype=np.float64)
+    pos_counts = np.zeros(group_rep_count, dtype=np.float64)
+    neg_counts = np.zeros(group_rep_count, dtype=np.float64)
+    for index, values in enumerate(energy_positive):
+        pos_counts[index] = len(values)
+    for index, values in enumerate(energy_negative):
+        neg_counts[index] = len(values)
+    for i, pos in enumerate(energy_positive):
+        if not pos:
+            continue
+        pos = np.asarray(pos, dtype=np.float64)[:, None]
+        for j, neg in enumerate(energy_negative):
+            if neg:
+                neg = np.asarray(neg, dtype=np.float64)[None, :]
+                auc_pairs[i, j] = np.sum((pos > neg) + 0.5 * (pos == neg))
+    flat_draws = group_draws.reshape(batch, group_rep_count)
+    positive_weights = flat_draws * pos_counts[None, :]
+    negative_weights = flat_draws * neg_counts[None, :]
+    auc_denominator = positive_weights.sum(axis=1) * negative_weights.sum(axis=1)
+    auc_numerator = np.einsum("bi,ij,bj->b", positive_weights, auc_pairs,
+                              negative_weights, optimize=True)
+    energy_auc = np.divide(auc_numerator, auc_denominator,
+                           out=np.full(batch, np.nan), where=auc_denominator > 0)
+
+    return {
+        "confirmed_recall": np.divide(tp, positive, out=np.full(batch, np.nan), where=positive > 0),
+        "false_alarm_rate": np.divide(fp, negative, out=np.full(batch, np.nan), where=negative > 0),
+        "coverage": np.divide(resolved, total, out=np.full(batch, np.nan), where=total > 0),
+        "stable_8s_nrmse": stable_rmse,
+        "unstable_available_nrmse": unstable_rmse,
+        "positive_peak_deficit_rad_s": peak_median,
+        "exact_cut_rate": exact_rate,
+        "cut_jaccard_mean": jaccard_mean,
+        "total_energy_auroc": energy_auc,
+        "stable_8s_nrmse_coverage": np.divide(weighted_sum("stable_nrmse_count"), negative,
+                                                out=np.full(batch, np.nan), where=negative > 0),
+        "unstable_available_nrmse_coverage": np.divide(weighted_sum("unstable_nrmse_count"), positive,
+                                                         out=np.full(batch, np.nan), where=positive > 0),
+        "positive_peak_deficit_coverage": np.divide(weighted_sum("peak_count"), positive,
+                                                      out=np.full(batch, np.nan), where=positive > 0),
+        "cut_coverage": np.divide(exact_n, positive,
+                                  out=np.full(batch, np.nan), where=positive > 0),
+        "total_energy_coverage": energy_coverage,
     }
 
 
@@ -421,8 +597,8 @@ def paired_group_bootstrap(candidate_reps, original_reps, seed=20261126):
     candidate_reps, original_reps = list(candidate_reps), list(original_reps)
     if not candidate_reps or len(candidate_reps) != len(original_reps):
         raise ValueError("candidate and original need the same nonzero replicate count")
-    by_step = {}
-    final_draw_indices = None
+    by_step, draw_hash = {}, hashlib.sha256()
+    rng = np.random.default_rng(seed)
     for step in STEPS:
         rep_pairs, canonical_groups = [], None
         for candidate, original in zip(candidate_reps, original_reps, strict=True):
@@ -441,13 +617,11 @@ def paired_group_bootstrap(candidate_reps, original_reps, seed=20261126):
             elif groups != canonical_groups:
                 raise ValueError("group roster differs between replicates")
             rep_pairs.append((left_ids, right_ids, groups))
-        rng = np.random.default_rng(seed)
-        draw_indices = np.empty((BOOTSTRAP_REPLICATES, len(rep_pairs), BOOTSTRAP_GROUP_COUNT), dtype=np.int16)
-        for rep_index in range(len(rep_pairs)):
-            draw_indices[:, rep_index, :] = rng.integers(
-                0, BOOTSTRAP_GROUP_COUNT,
-                size=(BOOTSTRAP_REPLICATES, BOOTSTRAP_GROUP_COUNT), dtype=np.int16)
-        final_draw_indices = draw_indices
+        draw_counts = rng.multinomial(
+            BOOTSTRAP_GROUP_COUNT, np.full(BOOTSTRAP_GROUP_COUNT, 1 / BOOTSTRAP_GROUP_COUNT),
+            size=(BOOTSTRAP_REPLICATES, len(rep_pairs)),
+        ).astype(np.int16, copy=False)
+        draw_hash.update(draw_counts.astype("<i8", copy=False).tobytes())
         point_left = [row for left, _, _ in rep_pairs for row in left.values()]
         point_right = [row for _, right, _ in rep_pairs for row in right.values()]
         left_point, right_point = _metric_values(point_left), _metric_values(point_right)
@@ -456,23 +630,14 @@ def paired_group_bootstrap(candidate_reps, original_reps, seed=20261126):
                      if left_point[metric] is not None and right_point[metric] is not None else None)
             for metric in BOOTSTRAP_METRICS
         }
-        draws = {metric: np.full(BOOTSTRAP_REPLICATES, np.nan, dtype=np.float64)
-                 for metric in BOOTSTRAP_METRICS}
-        for sample_index in range(BOOTSTRAP_REPLICATES):
-            sampled_left, sampled_right = [], []
-            for rep_index, (left, right, groups) in enumerate(rep_pairs):
-                chosen = [groups[int(j)] for j in draw_indices[sample_index, rep_index]]
-                for group in chosen:
-                    sampled_left.extend(row for row in left.values() if row["group"] == group)
-                    sampled_right.extend(row for row in right.values() if row["group"] == group)
-            left_metrics, right_metrics = _metric_values(sampled_left), _metric_values(sampled_right)
-            for metric in BOOTSTRAP_METRICS:
-                a, b = left_metrics[metric], right_metrics[metric]
-                if a is not None and b is not None:
-                    draws[metric][sample_index] = float(a - b)
+        left_grouped = [_group_bootstrap_data(left, groups) for left, _, groups in rep_pairs]
+        right_grouped = [_group_bootstrap_data(right, groups) for _, right, groups in rep_pairs]
+        left_draws = _bootstrap_metric_draws(draw_counts, left_grouped)
+        right_draws = _bootstrap_metric_draws(draw_counts, right_grouped)
         metric_result = {}
         for metric in BOOTSTRAP_METRICS:
-            valid = draws[metric][np.isfinite(draws[metric])]
+            draws = left_draws[metric] - right_draws[metric]
+            valid = draws[np.isfinite(draws)]
             metric_result[metric] = {
                 "candidate_minus_original": point_delta[metric],
                 "percentile_ci95": (np.quantile(valid, [0.025, 0.975]).tolist()
@@ -487,6 +652,6 @@ def paired_group_bootstrap(candidate_reps, original_reps, seed=20261126):
         "seed": int(seed), "replicates": BOOTSTRAP_REPLICATES,
         "noise_replicates": len(candidate_reps), "unit": "fault_group_resampled_within_rep",
         "groups_per_rep": BOOTSTRAP_GROUP_COUNT, "direction": "candidate_minus_original",
-        "draw_index_sha256": hashlib.sha256(final_draw_indices.astype("<i8").tobytes()).hexdigest(),
+        "draw_index_sha256": draw_hash.hexdigest(),
         "by_step": by_step,
     }
