@@ -1,0 +1,84 @@
+task_type = "measurement_noise_outlier_stress"
+scope = "noise_robustness_esrom_v1_20261126"
+baseline_commit = "242a570"
+protocol = "docs/reports/11_noise_robustness/protocol.md"
+input_contract = "measured_history_100ms_zoh_v1"
+baseline_plan = "configs/experiments/blind_confirmation_m5_v1.toml"
+baseline_plan_sha256 = "04db7c59a03a91920356100314121209f3578409893989cec83855cfc7ee367b"
+split_reference_sha256 = "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2"
+blind_manifest_sha256 = "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786"
+blind_checksums_sha256 = "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f"
+device = "cuda:0"
+dtype = "float64"
+steps_s = [0.0025, 0.00125]
+observation_frames = 11
+forecast_frames = 800
+sample_period_s = 0.01
+score_scales = [0.476753, 1.003367]
+original_prior_weight = 1e-6
+causal_sg_window = 5
+causal_sg_order = 2
+v4_batch = 32
+m3b_batch = 64
+bootstrap_seed = 20261126
+bootstrap_replicates = 10000
+timing_repeats = 5
+models = [
+    "v4_hard_r", "v4_soft_2r", "m3b_g2_orig", "m3b_g2_sg_gn",
+    "m3b_g2_joint_l2_mhe", "m3b_g2_robust_mhe",
+]
+scenarios = [
+    "clean", "gauss_pmu_steady", "gauss_dse_dynamic", "gauss_dse_dynamic_pm",
+    "gauss_snr30", "gauss_snr20", "nongauss_laplace", "nongauss_student_t3",
+    "outlier_random5pct_10sigma", "outlier_endpoint_10sigma",
+]
+
+[counts]
+train = 346
+val = 107
+test = 76
+blind_v2 = 94
+
+[gate]
+clean_confirmed_unstable = 12
+maximum_clean_stable_relative_increase = 0.02
+minimum_noisy_relative_improvement = 0.01
+required_scenarios = [
+    "gauss_dse_dynamic", "gauss_snr30", "nongauss_laplace", "nongauss_student_t3",
+    "outlier_random5pct_10sigma", "outlier_endpoint_10sigma",
+]
+
+[[candidates]]
+name = "A"
+gate_rad = 0.0001
+huber_delta = 1.5
+alpha = 0.01
+
+[[candidates]]
+name = "B"
+gate_rad = 0.0003
+huber_delta = 1.5
+alpha = 0.1
+
+[[candidates]]
+name = "C"
+gate_rad = 0.0003
+huber_delta = 1.5
+alpha = 1.0
+
+[conditional_fit]
+train_fit_budget = 15
+validation_interval = 3
+learning_rate = 0.02
+scenario_seed_namespace = "esrom_init_train_noise_v1"
+allowed_parameters = ["alpha", "huber_delta"]
+stop_rule = "first_full_validation_pass_or_update_15"
+select_rule = "earliest_passing_checkpoint"
+
+[limits]
+test_executions = 1
+blind_executions = 1
+clean_val_predictions = 642
+validation_predictions = 78752
+holdout_predictions = 93840
+zero_retrain_optimizer_updates = 0

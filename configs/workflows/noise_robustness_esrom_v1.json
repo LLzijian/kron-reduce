@@ -1,0 +1,46 @@
+{
+  "workflow": "noise_robustness_esrom_v1",
+  "evidence_contract_version": 2,
+  "initial_stage": "registered",
+  "stages": ["registered", "synthetic", "clean", "validation", "adapt", "freeze", "blind", "closed"],
+  "transitions": {
+    "registered": "synthetic",
+    "synthetic": "clean",
+    "clean": "validation",
+    "validation": {"ACCEPT": "freeze", "RETRY": "adapt", "REJECT": "closed"},
+    "adapt": {"ACCEPT": "freeze", "REJECT": "closed"},
+    "freeze": "blind",
+    "blind": "closed"
+  },
+  "approval_required": ["clean", "validation", "adapt", "blind"],
+  "terminal_stages": ["closed"],
+  "stage_evidence_contracts": {
+    "synthetic": {
+      "required_fields": ["source_commit", "plan_sha256", "real_data_reads", "artifact_manifest"],
+      "allowed_values": {"real_data_reads": [0]}
+    },
+    "clean": {
+      "required_fields": ["source_commit", "plan_sha256", "val_cases", "test_trajectory_reads", "blind_container_opens", "archive_match", "artifact_manifest"],
+      "allowed_values": {"val_cases": [107], "test_trajectory_reads": [0], "blind_container_opens": [0], "archive_match": [true]}
+    },
+    "validation": {
+      "required_fields": ["source_commit", "plan_sha256", "val_cases", "test_trajectory_reads", "blind_container_opens", "optimizer_updates", "noise_manifest_sha256", "scientific_verdict", "artifact_manifest"],
+      "allowed_values": {"val_cases": [107], "test_trajectory_reads": [0], "blind_container_opens": [0], "optimizer_updates": [0]}
+    },
+    "adapt": {
+      "required_fields": ["source_commit", "plan_sha256", "train_cases", "val_cases", "test_trajectory_reads", "blind_container_opens", "optimizer_updates", "scientific_verdict", "artifact_manifest"],
+      "allowed_values": {"train_cases": [346], "val_cases": [107], "test_trajectory_reads": [0], "blind_container_opens": [0], "scientific_verdict": ["ACCEPT", "REJECT"]}
+    },
+    "freeze": {
+      "required_fields": ["source_commit", "plan_sha256", "frozen_model_manifest", "test_trajectory_reads", "blind_container_opens", "artifact_manifest"],
+      "allowed_values": {"test_trajectory_reads": [0], "blind_container_opens": [0]}
+    },
+    "blind": {
+      "required_fields": ["source_commit", "plan_sha256", "frozen_model_manifest", "test_cases", "blind_cases", "test_trajectory_reads", "blind_container_opens", "optimizer_updates", "noise_manifest_sha256", "artifact_manifest"],
+      "allowed_values": {"test_cases": [76], "blind_cases": [94], "test_trajectory_reads": [76], "blind_container_opens": [1], "optimizer_updates": [0]}
+    },
+    "closed": {
+      "required_fields": ["report_path", "report_sha256", "scientific_verdict"]
+    }
+  }
+}
