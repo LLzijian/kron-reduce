@@ -75,6 +75,9 @@ def test_replicate_summary_includes_counts_energy_and_endpoint_strata():
     assert summary["all"]["mechanical_energy_auroc"]["mean"] == 1
     assert summary["all"]["memory_energy_auroc"]["mean"] == 0
     assert summary["all"]["tp"]["worst_rep_index"] == 0
+    for step in scored["steps"].values():
+        step.pop("rows")
+    assert summarize_reps([scored, scored])["by_step"]["0.0025"] == summary
 
 
 def test_bootstrap_reuses_one_group_draw_vector_for_every_noise_rep():

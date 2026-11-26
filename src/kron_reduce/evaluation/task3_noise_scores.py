@@ -369,8 +369,7 @@ _METRIC_DIRECTION = {
 }
 
 
-def _scenario_step_metrics(rep_output, step):
-    profile = rep_output["steps"][step]["metrics"]
+def _scenario_step_metrics(profile):
     return {
         "confirmed_recall": profile["confirmed_recall"],
         "false_alarm_rate": profile["false_alarm_rate"],
@@ -399,33 +398,16 @@ _REPEAT_SUMMARY_DIRECTIONS = {
 
 
 def _repeat_profile(rep_output, step, endpoint):
-    rows = rep_output["steps"][step]["rows"]
-    if endpoint != "all":
-        endpoint_value = int(endpoint)
-        rows = [row for row in rows if row["endpoint_index"] == endpoint_value]
-    classification = _classification_summary(rows)
-    metrics = _metrics(rows)
-    profile = _scenario_step_metrics(rep_output, step) if endpoint == "all" else {
-        "stable_8s_nrmse": metrics["stable_8s_nrmse"]["mean"],
-        "unstable_available_nrmse": metrics["unstable_available_nrmse"]["mean"],
-        "positive_peak_deficit_rad_s": metrics["positive_peak_deficit_rad_s"]["median"],
-        "exact_cut_rate": metrics["exact_cut"]["exact_rate"],
-        "cut_jaccard_mean": metrics["cut_jaccard"]["mean"],
-        "total_energy_auroc": metrics["energy"]["total"]["auroc"],
-        "stable_8s_nrmse_coverage": metrics["stable_8s_nrmse"]["coverage"],
-        "unstable_available_nrmse_coverage": metrics["unstable_available_nrmse"]["coverage"],
-        "positive_peak_deficit_coverage": metrics["positive_peak_deficit_rad_s"]["coverage"],
-        "cut_coverage": metrics["exact_cut"]["coverage"],
-        "total_energy_coverage": metrics["energy"]["total"]["coverage"],
-    }
-    profile.update({key: classification[key] for key in _REPEAT_SUMMARY_DIRECTIONS
-                    if key in classification})
+    details = rep_output["steps"][step]
+    metrics = details["metrics"] if endpoint == "all" else details["endpoint_strata"][str(endpoint)]
+    profile = _scenario_step_metrics(metrics)
+    profile.update({key: metrics[key] for key in _REPEAT_SUMMARY_DIRECTIONS if key in metrics})
     profile["mechanical_energy_auroc"] = metrics["energy"]["mechanical"]["auroc"]
     profile["memory_energy_auroc"] = metrics["energy"]["memory"]["auroc"]
     return profile
 
 
-def _summarize_repeat_values(values, metric, direction):
+def _summarize_repeat_values(values, direction):
     array = np.asarray([np.nan if value is None else value for value in values], dtype=np.float64)
     available_indices = np.flatnonzero(np.isfinite(array))
     available = array[available_indices]
@@ -455,13 +437,13 @@ def summarize_reps(reps):
         by_endpoint = {}
         for endpoint in ("all", 0, 10):
             by_rep = [_repeat_profile(rep, step, endpoint) for rep in reps]
-            metrics = set().union(*(row.keys() for row in by_rep))
+            metrics = sorted(set().union(*(row.keys() for row in by_rep)))
             summary = {}
             for metric in metrics:
                 direction = _REPEAT_SUMMARY_DIRECTIONS.get(
                     metric, _METRIC_DIRECTION.get(metric, "higher"))
                 summary[metric] = _summarize_repeat_values(
-                    [row.get(metric) for row in by_rep], metric, direction)
+                    [row.get(metric) for row in by_rep], direction)
             by_endpoint[str(endpoint)] = summary
         result["by_step"][step] = by_endpoint
     return result
