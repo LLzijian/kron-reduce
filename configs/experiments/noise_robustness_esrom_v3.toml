@@ -1,0 +1,103 @@
+task_type = "measurement_noise_outlier_stress_v3"
+scope = "noise_robustness_esrom_v3_20261127"
+baseline_commit = "f1fc017cd4b74b2f4853895abc27dd532d624474"
+protocol = "docs/reports/11_noise_robustness/v3/protocol.md"
+protocol_sha256 = "64702dbd67c68f1e6a442732f746bdb5a6f322761cfb38a59ebed7472711c510"
+v1_plan = "configs/experiments/noise_robustness_esrom_v1.toml"
+v1_plan_sha256 = "6f7e99677ae3ee207c07586c805a1bf26bb751b75c88095428e6afcb212c49b5"
+v1_receipt = "docs/reports/11_noise_robustness/_sealed/study_receipt.json"
+v1_receipt_sha256 = "4c8d9c0ee20d689c3eb798ba94e2a75cde03b544e20d2973ed6c7dec32fdb780"
+v2_receipt = "docs/reports/11_noise_robustness/v2/_sealed/study_receipt.json"
+v2_receipt_sha256 = "dd4f171d2a94051d867f332fb37081b2b419b54b69d7ffa92346e83c34623153"
+v2_synthetic_fixture_sha256 = "8a011a390f0c3e7a7686851a2a23986227b30dff9fc7d09dff67ba1d52c29193"
+noise_engine_sha256 = "f3c4507598e6234c702878222b884752ef8fa580e063de6ea4e9a3b6d99df0e7"
+counterpart = "E:/03-nn_Transfer_Func/task3_baselines/runs/noise_stress_100ms_20261126"
+gate_rad = 0.0003
+huber_delta = 1.5
+trajectory_batch = 256
+
+[synthetic_gate]
+cases_per_track_step = 40
+track_b_truth_stiffness_damping_multiplier = 1.08
+track_a_minimum_reduction_vs_original_gn = 0.10
+
+[gate]
+clean_confirmed_unstable = 12
+maximum_clean_stable_relative_increase = 0.02
+minimum_noisy_relative_improvement = 0.01
+required_scenarios = [
+    "gauss_dse_dynamic", "gauss_snr30", "nongauss_laplace", "nongauss_student_t3",
+    "outlier_random5pct_10sigma", "outlier_endpoint_10sigma",
+]
+
+[[candidates]]
+name = "A"
+alpha = 0.02
+c_var = 2.5
+kappa_term = 1.0
+inverse_snr = true
+
+[[candidates]]
+name = "B"
+alpha = 0.02
+c_var = 2.5
+kappa_term = 2.0
+inverse_snr = true
+
+[[candidates]]
+name = "C"
+alpha = 0.05
+c_var = 1.5
+kappa_term = 1.0
+inverse_snr = true
+
+[[candidates]]
+name = "D"
+alpha = 0.05
+c_var = 2.5
+kappa_term = 1.0
+inverse_snr = true
+
+[[candidates]]
+name = "E"
+alpha = 0.15
+c_var = 1.5
+kappa_term = 1.0
+inverse_snr = true
+
+[[candidates]]
+name = "F"
+alpha = 0.15
+c_var = 2.5
+kappa_term = 2.0
+inverse_snr = true
+
+[[candidates]]
+name = "G"
+alpha = 0.05
+c_var = 1.5
+kappa_term = 1.0
+inverse_snr = false
+
+[[candidates]]
+name = "H"
+alpha = 0.05
+c_var = 2.5
+kappa_term = 1.0
+inverse_snr = false
+
+[conditional_fit]
+train_fit_budget = 15
+validation_interval = 3
+learning_rate = 0.08
+scenario_seed_namespace = "esrom_init_train_noise_v3"
+allowed_parameters = ["alpha", "c_var", "kappa_term", "huber_delta"]
+stop_rule = "first_full_validation_pass_or_update_15"
+select_rule = "earliest_passing_checkpoint"
+
+[limits]
+test_executions = 1
+blind_executions = 1
+validation_predictions = 78752
+holdout_predictions = 93840
+zero_retrain_optimizer_updates = 0
