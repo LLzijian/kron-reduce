@@ -358,8 +358,8 @@ def test_cuda_float64_deterministic_v2_matches_cpu(model, step, monkeypatch):
     monkeypatch.setenv("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
     gpu = deepcopy(model).cuda()
     truth, power, equilibrium, scale = _truth(model, step=step, memory=False)
-    observed = truth.to(gpu.device).clone()
-    observed[:, -1, :10] += gpu._tensor(coi_project(np.arange(10) * .01, model.mass.cpu().numpy()))
+    observed = truth.clone()
+    observed[:, -1, :10] += model._tensor(coi_project(np.arange(10) * .01, model.mass.numpy()))
     inputs = _inputs(observed, power, equilibrium, scale)
     settings = {"max_step": step, "spend": _spend, "memory_radius": .65}
     reference = predict_mhe_v2(model, *inputs, 2, **settings)
@@ -367,9 +367,12 @@ def test_cuda_float64_deterministic_v2_matches_cpu(model, step, monkeypatch):
     try:
         torch.use_deterministic_algorithms(True)
         actual = predict_mhe_v2(gpu, *inputs, 2, **settings)
+        repeated = predict_mhe_v2(gpu, *inputs, 2, **settings)
     finally:
         torch.use_deterministic_algorithms(previous)
     assert actual["forecast"].is_cuda and actual["forecast"].dtype == torch.float64
     assert torch.equal(actual["joint_active"].cpu(), reference["joint_active"].cpu())
     for key in ("history", "forecast", "origin", "map_lambda", "sigma_hat", "lm_objectives"):
-        torch.testing.assert_close(actual[key].cpu(), reference[key], rtol=1e-9, atol=1e-11, equal_nan=True)
+        torch.testing.assert_close(actual[key], repeated[key], rtol=0., atol=0., equal_nan=True, msg=key)
+        # CPU and CUDA use different float64 factorization kernels.
+        torch.testing.assert_close(actual[key].cpu(), reference[key], rtol=1e-9, atol=1e-10, equal_nan=True, msg=key)

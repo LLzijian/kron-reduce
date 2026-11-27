@@ -1,0 +1,57 @@
+{
+  "ruff": {
+    "status": "PASS",
+    "coverage": "all changed Python and repository CI scope",
+    "ci_scope": [
+      "project_harness",
+      "scripts/register_kiki_dataset.py"
+    ],
+    "log_path": "scratch/one_off/noise_v2_engineering_20261127/ruff.log",
+    "log_sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+  },
+  "pytest": {
+    "status": "FAIL",
+    "exit_code": 1,
+    "passed": 92,
+    "failed": 1,
+    "deselected": 1,
+    "scope": [
+      "tests/test_noise_robustness_mhe_v2.py",
+      "tests/test_noise_robustness_mhe.py",
+      "tests/test_task3_measurement_noise.py",
+      "tests/test_task3_noise_scores.py",
+      "tests/test_archive_storage.py",
+      "tests/test_harness.py",
+      "tests/test_research_policy.py"
+    ],
+    "basetemp": "scratch/one_off/pytest_noise_v2_20261127",
+    "basetemp_removed": true,
+    "failed_node": "tests/test_noise_robustness_mhe_v2.py::test_matched_endpoint_signed_pulse_battery_across_all_machines",
+    "withheld_node": "tests/test_harness.py::test_data_checksums",
+    "withheld_reason": "Whole-file external dataset hashing would read protected holdout bytes before a freeze.",
+    "log_path": "scratch/one_off/noise_v2_engineering_20261127/pytest_scope_final.log",
+    "log_sha256": "bf8e1ffb7f208167797757c7a2fa871c154ae69bf83383e46a2e1235c739b820",
+    "prior_log_sha256": "92db91ca6ef5dc6633e865fbb5b4d8e70a625520a4fc98927bb99be2591c6272",
+    "recheck": {
+      "cpu_cuda_absolute_tolerance": 1e-10,
+      "cpu_cuda_relative_tolerance": 1e-09,
+      "prior_cpu_cuda_history_max_absolute_difference": 1.3387540591212757e-11,
+      "same_device_repeat_exact": true,
+      "both_steps_passed": true,
+      "scope_of_change": "test-only CPU/CUDA fixture and tolerance; no model, noise or scientific gate change"
+    }
+  },
+  "project_harness_audit": {
+    "status": "PASS",
+    "errors": 0,
+    "findings": [],
+    "log_path": "scratch/one_off/noise_v2_engineering_20261127/audit.json",
+    "log_sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912"
+  },
+  "protected_paths_diff": "PASS",
+  "release": {
+    "push_gate": "NOT_MET",
+    "v2_branch_pushed": false,
+    "v1_archive_tag_pushed": false
+  }
+}

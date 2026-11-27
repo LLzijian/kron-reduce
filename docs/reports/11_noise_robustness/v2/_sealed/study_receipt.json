@@ -1,0 +1,94 @@
+{
+  "workflow": "noise_robustness_esrom_v2",
+  "scientific_verdict": "REJECT",
+  "terminal_gate": "synthetic",
+  "claim_boundary": "Measurement Noise & Outlier Stress Test of frozen V4 and ES-ROM.",
+  "v1_base_commit": "c2102bea706ddf49db6aee681545b77d9f8671a9",
+  "v1_archive_tag": "attempt/codex/noise-robustness-esrom-v1/c2102bea706ddf49db6aee681545b77d9f8671a9",
+  "registered_candidates": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+  ],
+  "qualifying_candidates_dual_step": [],
+  "synthetic": {
+    "stage_evidence": {
+      "status": "PASS",
+      "result_dir": "noise_robustness_esrom_v2-synthetic-20261126T234531027512Z-ce6188c1-e02e01d9",
+      "source_commit": "ce6188c1fa0e88c2f4d8c172fd0aa38b14dd65b8",
+      "plan_sha256": "e4f1fe9e503037e4ec8bf5a44a14a5f4672bcf714fd337992506939c251b9703",
+      "claim_boundary": "Measurement Noise & Outlier Stress Test of frozen V4 and ES-ROM.",
+      "real_data_reads": 0,
+      "pytest_exit_code": 1,
+      "scientific_verdict": "REJECT",
+      "pytest_sha256": "aef206a37dec21e053a544528ed92957749b3e6e98c341233e634b75699bf2c2",
+      "pulse_diagnostics_sha256": "c618e9ca96fb4fc02b8196916e20eed964048a065a77aa98fc66b81a2bfa0fb0",
+      "result_artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v2-synthetic-20261126T234531027512Z-ce6188c1-e02e01d9",
+        "path": "artifact_hashes.json",
+        "sha256": "bcb5a2f2be4d919db1cef6e9a04d29608c0288207fd789e21c7a802340112261"
+      },
+      "artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v2-synthetic-20261126T234531027512Z-ce6188c1-e02e01d9",
+        "path": "artifact_hashes.json",
+        "sha256": "bcb5a2f2be4d919db1cef6e9a04d29608c0288207fd789e21c7a802340112261"
+      }
+    },
+    "runtime": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "executable": "E:\\03-nn_Transfer_Func\\.venv\\Scripts\\python.exe",
+      "torch": "2.13.0+cu130",
+      "numpy": "2.5.2",
+      "cuda": "13.0",
+      "gpu": "NVIDIA GeForce RTX 4060 Ti",
+      "dtype": "float64",
+      "steps_s": [
+        0.0025,
+        0.00125
+      ]
+    },
+    "case_count_per_step": 40,
+    "predictions_scored": 800,
+    "max_dual_step_case_metric_absolute_difference": {
+      "target_peak_gap": 8.032685350212176e-10,
+      "global_peak_error": 2.0400121869545984e-10,
+      "application_peak_gap": 6.024403198523487e-12,
+      "nrmse": 1.3514448414519986e-10
+    }
+  },
+  "evidence_files": {
+    "docs/reports/11_noise_robustness/v2/README.md": "1d756b725dfadd484c14b8957806a1342b3e9aff7f9f08ac79ce9344adc0be60",
+    "docs/reports/11_noise_robustness/v2/protocol.md": "9b64b69a489949580e6f998a412e1d8b5f222e31076fdc11e1a0385d4c0acdef",
+    "docs/reports/11_noise_robustness/v2/figures/synthetic_endpoint_gate.pdf": "f5075ebc0d0b85e72865ebbfefed1ab580f5478f57d38662f86038129ba8259f",
+    "docs/reports/11_noise_robustness/v2/figures/synthetic_endpoint_gate.png": "938451ffbc71bb1e368bffb3c1ca61f3a5e582736df238f0baab4235c3871a90",
+    "docs/reports/11_noise_robustness/v2/_sealed/synthetic_figure_alignment.json": "394d5acbec44399c06d27f654911cf746bf25a042e01f9f9503f4b0dae6337c8",
+    "docs/reports/11_noise_robustness/v2/_sealed/synthetic_figure_audit.json": "78cd9bb82257e21841a606fc9aa8c2949048065368392409c6fef273d7f5fde0",
+    "docs/reports/11_noise_robustness/v2/_sealed/synthetic_summary.json": "088923bf2fa39ca3e2ba1f7b12003a15e835ee7a7ecffa1061ad0665eb051a50",
+    "scripts/plot_noise_robustness_v2_synthetic.py": "93e83d0935b97e4d956ea08534093f73d4a3ebfebf57e7ace476a359ddd49e50",
+    "src/kron_reduce/data/task3_measurement_noise.py": "f3c4507598e6234c702878222b884752ef8fa580e063de6ea4e9a3b6d99df0e7"
+  },
+  "data_access": {
+    "train_trajectory_reads": 0,
+    "val_trajectory_reads": 0,
+    "test_trajectory_reads": 0,
+    "blind_container_opens": 0,
+    "optimizer_updates": 0,
+    "peer_summary_file_reads": 0
+  },
+  "candidate_freeze": null,
+  "noise_manifest": null,
+  "cross_repository_noise_comparison": {
+    "executed": false,
+    "required": 138,
+    "verified": 0
+  },
+  "holdout_metrics": {
+    "test": null,
+    "blind_v2": null
+  }
+}

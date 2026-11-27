@@ -1,0 +1,17 @@
+{
+  "pixels": [
+    2160,
+    870
+  ],
+  "dpi": [
+    299.9994,
+    299.9994
+  ],
+  "drawn_text_regions": 58,
+  "clipped": [],
+  "overlap": [],
+  "pdf_minimum_font_pt": 7,
+  "rendering_check": "PASS",
+  "rendering_check_method": "Matplotlib Agg final text bounds, clipped ticks excluded",
+  "pymupdf_pdf_collision_audit": "unavailable"
+}
