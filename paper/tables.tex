@@ -279,3 +279,99 @@ Test Set mechanical-energy AUROC to the shown precision. Total storage
 adds the inferred memory energy.}
 \end{table*}%
 }
+
+% Sources: docs/reports/11_noise_robustness/v4/_sealed/study_receipt.json,
+% noise_cross_repository.json (138/138 SHA-256 parity), and
+% results/noise_robustness_esrom_v4-delivery-20261127T022418785703Z-620e133d/
+% cross_repository_comparison.csv (9-noisy-scenario averages at 2.5 ms / native).
+\newcommand{\NoiseStressTable}{%
+\begin{table*}[!t]
+\centering
+\caption{Cross-repository nine-noisy-scenario mean performance across all three IEEE 39-bus cohorts (2.5\,ms / native steps).}
+\label{tab:noise_stress}
+\footnotesize
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}Xrrrrrrrrr@{}}
+\toprule
+& \multicolumn{2}{c}{Validation ($N{=}107$)} &
+  \multicolumn{2}{c}{Fixed Test ($N{=}76$)} &
+  \multicolumn{5}{c@{}}{Test Set ($N{=}94$, 21 fault groups)}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(l){6-10}
+Model (frozen weights) & Strict Acc. & Rec./FPR & Strict Acc. & Rec./FPR &
+Strict Acc. & Rec./FPR & Stab.\ NRMSE (max) & Unst.\ NRMSE & $E_{\rm tot}$ AUROC\\
+\midrule
+ES-ROM (original GN)          & 97.72\% & 95.4/1.9\%  & 93.68\% & 55.1/0.9\% & 95.08\% & 85.6/0.0\%  & 0.265 (0.283) & 0.829 & 0.647\\
+ES-ROM + causal SG            & 97.69\% & 95.4/1.9\%  & 93.68\% & 55.6/0.9\% & 95.08\% & 85.6/0.0\%  & 0.265 (0.287) & 0.830 & 0.648\\
+ES-ROM joint $L_2$-MHE        & 98.40\% & 98.0/1.5\%  & 96.75\% & 73.8/0.2\% & 94.78\% & 84.7/0.0\%  & 0.252 (0.257) & 0.880 & 0.802\\
+\textbf{ES-ROM Pooled MHE V4} & \textbf{98.65\%} & \textbf{99.1}/1.4\% & \textbf{98.45\%} & 87.2/0.0\% & \textbf{96.88\%} & \textbf{90.8/0.0\%} & 0.249 (0.250) & 0.769 & \textbf{0.911}\\
+\midrule
+Graph-GRU (extended)          & 95.29\% & 75.7/2.2\%  & 98.01\% & 88.6/0.7\% & 94.16\% & 83.0/0.1\%  & 0.308 (0.795) & 0.462 & --\\
+GRU Seq2Seq (extended)$^{a}$  & 96.22\% & 66.3/0.0\%  & 94.68\% & 55.1/0.0\% & 91.77\% & 75.8/0.0\%  & 0.153 (0.165) & 0.453 & --\\
+Small LASS                    & 95.97\% & 64.1/0.0\%  & 93.42\% & 44.4/0.0\% & 92.60\% & 78.3/0.0\%  & 0.221 (0.234) & 0.513 & --\\
+Latent Neural ODE (ext.)      & 92.52\% & 33.3/0.0\%  & 92.02\% & 32.6/0.0\% & 85.11\% & 56.2/0.0\%  & 0.192 (0.195) & 0.442 & --\\
+Small Transformer             & 88.79\% & 0.0/0.0\%   & 88.16\% & 0.0/0.0\%  & 65.96\% & 0.0/0.0\%   & 0.156 (0.156) & 1.329 & --\\
+\midrule
+GRU classifier (val thr.)     & 93.02\% & 78.9/5.2\%  & 96.29\% & 77.8/1.2\% & 96.81\% & 90.6/0.0\%  & --            & --    & --\\
+Extra Trees (val thr.)        & 86.67\% & 98.9/14.9\% & 93.33\% & 77.8/4.6\% & 84.52\% & 96.8/21.8\% & --            & --    & --\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\parbox{\textwidth}{\footnotesize
+Each entry averages the nine noisy scenarios (5 paired repeats per scenario,
+138/138 SHA-256 noise parity across repositories). Strict Acc.\ equals
+$(\mathrm{TP}+\mathrm{TN})/N$, penalizing all unsettled or numerically failed
+cases as incorrect; on resolved Test Set predictions, ES-ROM Pooled MHE V4
+attains 97.85\% (99.85\% on Fixed Test). Stable NRMSE (max) reports the
+nine-scenario mean and worst-scenario stable 8\,s NRMSE on the Test Set
+(on the Validation Set, Graph-GRU reaches 2.883 mean / 3.206 max).
+$^{a}$Peer metadata flags GRU Seq2Seq training as underoptimized.}
+\end{table*}%
+}
+
+% Sources: blind_group_bootstrap.json (21 groups, 10,000 draws, 2.5 ms) and
+% results/noise_robustness_esrom_v4-validation-.../latency.json (RTX 4060 Ti).
+\newcommand{\NoiseBootstrapLatencyTable}{%
+\begin{table*}[!t]
+\centering
+\caption{Paired fault-group bootstrap on the 94-event Test Set (Pooled MHE V4 minus original ES-ROM) and RTX 4060 Ti latency.}
+\label{tab:noise_bootstrap_latency}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{@{}Xrrrr@{}}
+\toprule
+\multicolumn{5}{@{}l}{\emph{A. Test Set 21-group paired bootstrap differences [95\% percentile interval], 2.5\,ms step}}\\
+Noise regime & $\Delta$ Stable 8\,s NRMSE & $\Delta$ Unstable NRMSE & $\Delta$ Recall (pp) & $\Delta\,E_{\rm tot}$ AUROC\\
+\midrule
+Steady PMU Gaussian        & $-0.0036\;[-0.0089,+0.0039]$ & $+0.0077\;[-0.0708,+0.0755]$ & $+1.25\;[-8.28,+10.91]$ & $\mathbf{+0.1510}\;[+0.0800,+0.2173]$\\
+Dynamic DSE Gaussian       & $\mathbf{-0.0114}\;[-0.0223,-0.0020]$ & $-0.0037\;[-0.0629,+0.0501]$ & $+3.75\;[-1.54,+11.04]$ & $\mathbf{+0.2979}\;[+0.2375,+0.3714]$\\
+Dynamic DSE + $P_m$        & $\mathbf{-0.0129}\;[-0.0180,-0.0086]$ & $-0.0372\;[-0.1206,+0.0286]$ & $+3.75\;[-2.14,+12.86]$ & $\mathbf{+0.3031}\;[+0.2395,+0.3819]$\\
+Fixed-scale 30\,dB         & $\mathbf{-0.0098}\;[-0.0169,-0.0041]$ & $-0.0358\;[-0.1145,+0.0217]$ & $+5.63\;[+0.00,+15.00]$ & $\mathbf{+0.2910}\;[+0.2281,+0.3595]$\\
+Fixed-scale 20\,dB         & $\mathbf{-0.0352}\;[-0.0448,-0.0270]$ & $\mathbf{-0.1160}\;[-0.1780,-0.0496]$ & $\mathbf{+9.38}\;[+3.89,+16.57]$ & $\mathbf{+0.3140}\;[+0.2385,+0.4005]$\\
+Laplace (heavy-tailed)     & $\mathbf{-0.0126}\;[-0.0185,-0.0073]$ & $-0.0212\;[-0.1011,+0.0411]$ & $+4.37\;[-0.67,+13.08]$ & $\mathbf{+0.2809}\;[+0.2169,+0.3544]$\\
+Student $t_3$              & $\mathbf{-0.0135}\;[-0.0183,-0.0092]$ & $-0.0710\;[-0.1757,+0.0045]$ & $\mathbf{+7.50}\;[+0.77,+17.93]$ & $\mathbf{+0.2435}\;[+0.1840,+0.3146]$\\
+Random 5\% $10\sigma$ pulse & $\mathbf{-0.0300}\;[-0.0396,-0.0224]$ & $\mathbf{-0.1354}\;[-0.2056,-0.0650]$ & $+6.25\;[+0.00,+13.33]$ & $\mathbf{+0.2988}\;[+0.2290,+0.3718]$\\
+Endpoint $10\sigma$ pulse  & $\mathbf{-0.0174}\;[-0.0264,-0.0067]$ & $\mathbf{-0.1297}\;[-0.2174,-0.0567]$ & $+5.63\;[-0.71,+15.38]$ & $\mathbf{+0.2011}\;[+0.1351,+0.2712]$\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{tabularx}{\textwidth}{@{}llrrrr@{}}
+\toprule
+\multicolumn{6}{@{}l}{\emph{B. CUDA float64 initialization and 8\,s rollout latency (mean $\pm$ sample SD across 5 timed trials, s)}}\\
+Step & Batch & Orig.\ ES-ROM init & Orig.\ ES-ROM rollout & Pooled MHE V4 init & Pooled MHE V4 rollout\\
+\midrule
+2.5\,ms  & 1  & $1.356\pm0.257$ & $1.076\pm0.054$ & $0.262\pm0.002$ & $0.980\pm0.006$\\
+2.5\,ms  & 64 & $1.267\pm0.030$ & $1.193\pm0.005$ & $0.871\pm0.016$ & $1.128\pm0.007$\\
+1.25\,ms & 1  & $6.723\pm2.490$ & $2.480\pm0.226$ & $0.458\pm0.002$ & $1.966\pm0.013$\\
+1.25\,ms & 64 & $5.429\pm2.576$ & $2.528\pm0.193$ & $1.236\pm0.010$ & $2.247\pm0.012$\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\parbox{\textwidth}{\footnotesize
+Panel A uses 10,000 paired group draws with replacement across 21 fault groups
+(bold values mark intervals excluding zero; 1.25\,ms zero-crossing conclusions
+are identical). Across all nine noisy regimes, exact cut identification and
+cut Jaccard intervals cross zero while stable FPR remains 0.00\% for both
+models. Panel B times assembled 100\,ms inputs under Validation Set dynamic
+DSE Gaussian noise on an NVIDIA RTX 4060 Ti after one warmup trial.}
+\end{table*}%
+}

@@ -2,7 +2,10 @@
 \label{sec:intro}
 Rotor trajectories reveal post-fault machine separation~\cite{hatziargyriou2021stability}.
 Synchrophasors support generator state estimation and low-order
-equivalencing~\cite{phadke2008phasors,singh2014dynamic,shiroei2016pmu}.
+equivalencing~\cite{phadke2008phasors,singh2014dynamic,shiroei2016pmu,ghahremani2011dynamic},
+although field synchrophasor and state-estimation streams exhibit
+non-Gaussian, heavy-tailed errors and impulsive bad data beyond steady-state
+Gaussian models~\cite{ieee60255_2018,brown2016pmu,wang2018pmu,zhao2017robust}.
 Coherency analysis and Koopman modes identify groups with similar
 swings~\cite{chow1982coherency,susuki2011koopman}. Multi-event fitting estimates
 equivalent loads, and electrical-distance grouping aggregates external
@@ -34,20 +37,26 @@ dynamics~\cite{vanderschaft2013graphs,chaturantabut2016ph,neary2023compositional
 
 ES-ROM selects restoring, damping, coupling, and memory operators in a
 shared explicit ODE and forecasts 8~s from 100~ms of post-clearing rotor
-history. We make four contributions.
+history. We make five contributions.
 \begin{enumerate}
  \item We prove an exact supply--dissipation identity for every subset of
        five physical operators in a center-of-inertia (COI) grey-box model.
  \item Smooth-radius causal Gauss--Newton, weak-momentum screening,
        gradient-balanced local fitting, and backward pruning target
        first-swing errors from clipped initial states and excess damping.
- \item Known-truth tests assess operator selection and hidden-state recovery
-       and expose an omitted restoring term with a 200-ms momentum window.
+ \item Known-truth tests assess operator selection, hidden-state recovery,
+       and endpoint-pulse rejection, exposing an omitted restoring term with
+       a 200-ms momentum window.
  \item We benchmark the frozen model on 94 IEEE 39-bus events from 21 fault
        groups and assess modal, separation, and energy consistency.
+ \item We introduce a zero-retrain pooled empirical-Bayes moving-horizon
+       initializer and evaluate all frozen physics and data-driven models
+       under ten literature-grounded measurement-noise and bad-data regimes
+       with bit-for-bit paired noise banks.
 \end{enumerate}
 
 Section~\ref{sec:problem} defines the protocol. Sections~\ref{sec:model}
-and~\ref{sec:discovery} develop the method. Sections~\ref{sec:synthetic}--\ref{sec:physics}
-report the synthetic tests, grid benchmark, and physical analyses.
-Section~\ref{sec:conclusion} concludes.
+and~\ref{sec:discovery} develop the model, discovery pipeline, and
+noise-robust initializer. Sections~\ref{sec:synthetic}--\ref{sec:noise}
+report the synthetic tests, grid benchmark, physical analyses, and
+measurement-noise stress tests. Section~\ref{sec:conclusion} concludes.

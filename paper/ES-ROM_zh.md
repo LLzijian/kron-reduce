@@ -2,28 +2,29 @@
 
 ## 摘要
 
-由故障清除后 100 ms 的转子观测推演后续 8 s 的运动，需要同时刻画首摆和维持长时自由推演的数值可靠性。本文提出能量结构降阶模型 ES-ROM，将惯量中心坐标下的移位正弦网络势能、半正定阻尼和逐机互易记忆端口写成显式常微分方程，满足供能上界 $\dot H\le v^\top p$。该方法结合软半径因果高斯–牛顿初始化、积分动量初筛、梯度平衡的骨架拟合和闭环剪枝，从五种候选算子中选出随逐机功角偏移减弱的阻尼项。在 IEEE 39 节点系统独立生成的 94 例 `test` 上，ES-ROM 确认 32 例失稳中的 29 例（90.62%），62 例稳定样本无误报，94 例预测均数值合格，全样本准确率为 96.81%，在参与对比的零误报轨迹模型中召回最高（Graph-GRU 为 26/32），相对硬半径基线提升 12.50 个百分点（按故障组重采样的 95% 区间为 [2.78, 27.27] 个百分点）。同一冻结方程的主导模态频率绝对误差中位数为 0.0318 Hz，在真值与预测均触发失步的 29 例中准确复现 27 例割集，起报机械能区分失稳的受试者工作特征曲线下面积（AUROC）为 0.9526。
+由故障清除后 100 ms 的转子观测推演后续 8 s 的运动，需要同时刻画首摆和维持长时自由推演的数值可靠性。本文提出能量结构降阶模型 ES-ROM，将惯量中心坐标下的移位正弦网络势能、半正定阻尼和逐机互易记忆端口写成显式常微分方程，满足供能上界 $\dot H\le v^\top p$。该方法结合软半径因果高斯–牛顿初始化、积分动量初筛、梯度平衡的骨架拟合和闭环剪枝，从五种候选算子中选出随逐机功角偏移减弱的阻尼项。在 IEEE 39 节点系统独立生成的 94 例 `test` 上，ES-ROM 确认 32 例失稳中的 29 例（90.62%），62 例稳定样本无误报，94 例预测均数值合格，全样本准确率为 96.81%，在参与对比的零误报轨迹模型中召回最高（Graph-GRU 为 26/32），相对硬半径基线提升 12.50 个百分点（按故障组重采样的 95% 区间为 [2.78, 27.27] 个百分点）。同一冻结方程的主导模态频率绝对误差中位数为 0.0318 Hz，在真值与预测均触发失步的 29 例中准确复现 27 例割集，起报机械能区分失稳的受试者工作特征曲线下面积（AUROC）为 0.9526。在保持 75 参数冻结方程不变的前提下，进一步引入池化经验贝叶斯鲁棒滚动时域初始化器，并在九档有文献依据的高斯、厚尾与 $10\sigma$ 坏数据压力工况下评测，ES-ROM 在 94 例独立 `test` 上维持 90.62%–91.88% 的失稳确认召回率且全程零误报，在八个带噪工况下显著降低稳定 8 s NRMSE，将起报总储能 AUROC 恢复至 0.841–0.937（较原初始化器提升 +0.151 至 +0.314），同时将单事件初始化延迟缩短至原来的 $1/5.2$。
 
 **关键词**　动态等值、能量建模、方程发现、暂态稳定性、电力系统动力学
 
 ## 一、引言
 
-故障后的转子轨迹可以揭示机组何时失去同步以及哪些机组参与分离 [1]。同步相量量测可用于估计发电机的动态状态和辨识低阶等值模型 [2–4]。同调分析和 Koopman 模态可以识别摆动特征相近的机组 [5, 6]。多事件辨识可用来拟合等值负荷，按电气距离分组可用来聚合外部发电机 [7, 8]。
+故障后的转子轨迹可以揭示机组何时失去同步以及哪些机组参与分离 [1]。同步相量量测可用于估计发电机的动态状态和辨识低阶等值模型 [2–5]，但现场同步相量与状态估计量测往往呈现超出稳态高斯假设的非高斯厚尾误差与脉冲坏数据 [6–9]。同调分析和 Koopman 模态可以识别摆动特征相近的机组 [10, 11]。多事件辨识可用来拟合等值负荷，按电气距离分组可用来聚合外部发电机 [12, 13]。
 
-循环网络和时空图模型已用于直接判定暂态稳定性 [9, 10]。图模型与 Koopman 模型也可预测暂态轨迹 [11]。摆动方程残差可用于训练神经网络预测轨迹，物理信息神经网络也已用于求解各元件的动态响应并通过网络方程耦合 [12, 13]。
+循环网络和时空图模型已用于直接判定暂态稳定性 [14, 15]。图模型与 Koopman 模型也可预测暂态轨迹 [16]。摆动方程残差可用于训练神经网络预测轨迹，物理信息神经网络也已用于求解各元件的动态响应并通过网络方程耦合 [17, 18]。
 
-暂态能量法将扰动后的能量与临界能量比较，保结构模型则在暂态分析中保留网络拓扑 [14, 15]。Kron 降阶可保留代数网络以及满足特定条件的动态电路的端口行为 [16, 17]。消去动态状态后，保留状态的方程会出现记忆项和被消去状态初值的影响 [18–20]。
+暂态能量法将扰动后的能量与临界能量比较，保结构模型则在暂态分析中保留网络拓扑 [19, 20]。Kron 降阶可保留代数网络以及满足特定条件的动态电路的端口行为 [21, 22]。消去动态状态后，保留状态的方程会出现记忆项和被消去状态初值的影响 [23–25]。
 
-稀疏辨识从数据中选择方程项，积分形式可避免逐点计算导数 [21–23]。自编码器可以学习状态坐标，时延嵌入与循环解码器可以处理部分观测下的动力学辨识 [24–26]。算子推断直接拟合降阶动力学，约束回归可为特定模型施加能量或稳定性条件 [27–29]。端口哈密顿方法描述功率守恒的互连与耗散，已有工作将其用于图网络建模、非线性投影降阶与数据辨识 [30–33]。
+稀疏辨识从数据中选择方程项，积分形式可避免逐点计算导数 [26–28]。自编码器可以学习状态坐标，时延嵌入与循环解码器可以处理部分观测下的动力学辨识 [29–31]。算子推断直接拟合降阶动力学，约束回归可为特定模型施加能量或稳定性条件 [32–34]。端口哈密顿方法描述功率守恒的互连与耗散，已有工作将其用于图网络建模、非线性投影降阶与数据辨识 [35–38]。
 
 ES-ROM 在共享的显式常微分方程中选择恢复力、阻尼、耦合与记忆算子，用故障清除后 100 ms 的转子观测初始化，推演后续 8 s 的运动。本文的主要贡献如下。
 
 1. 建立惯量中心（COI）坐标下的灰箱模型，证明五个物理算子的任意组合均满足供能与耗散恒等式。
 2. 结合软半径因果高斯–牛顿初始化、弱动量初筛、梯度平衡的局部拟合与后向剪枝，改善初态截断和阻尼偏大造成的首摆预测误差。
-3. 在真值已知的系统中检验算子选择与隐状态恢复能力，并用 200 ms 动量窗诊断缺失的恢复力项。
+3. 在真值已知的系统中检验算子选择、隐状态恢复与端点脉冲抑制能力，并用 200 ms 动量窗诊断缺失的恢复力项。
 4. 在 IEEE 39 节点系统 21 个故障组的 94 例独立样本上比较冻结模型，检验主导模态、失步机群和能量特征的一致性。
+5. 提出零重训的池化经验贝叶斯滚动时域初始化器，并在十档有文献依据、逐字节对齐的量测噪声与坏数据工况下对比全部冻结物理模型与数据驱动基线，检验稳态保持、储能区分度恢复与推理延迟。
 
-第二节定义预测与评价口径。第三、四节介绍方法。第五至七节分别报告合成验证、IEEE 39 节点系统对比及物理一致性分析。第八节总结。
+第二节定义预测与评价口径。第三、四节介绍灰箱模型、发现流程与抗噪初始化方法。第五至八节分别报告合成验证、IEEE 39 节点系统对比、物理一致性分析与量测噪声压力测试。第九节总结。
 
 ## 二、问题定义与因果预测协议
 
@@ -255,6 +256,41 @@ $$
 
 采用 CUDA 双精度四阶 Runge–Kutta 积分，训练步长为 5 ms。正式 ODE 自由推演采用 2.5 ms 主步长和 1.25 ms 核验步长，均输出到相同的 10 ms 网格。两档结果的 COI NRMSE 和归一化公共转速差均须不超过 $10^{-3}$，分类一致，成对的触发时刻相差不超过 20 ms。触发失步时，核验至两档中较晚的触发时刻，未触发时核验至预测终点。各轨迹指标还按对应的评分区间核验，完整预测是否有限另行记录。
 
+### E. 面向含噪量测与坏数据的池化经验贝叶斯初始化
+
+实际部署中，带噪同步相量或状态估计量测会破坏起报时刻 $t_o$ 的精确对齐，并在轻正则高斯–牛顿求解式（11）中将量测误差直接映射到隐记忆状态 $z(t_o)$。为在不重新训练 75 个冻结方程系数的前提下应对高斯、厚尾与脉冲坏数据，本文引入因果池化经验贝叶斯滚动时域初始化器（Pooled MHE V4）。
+
+首先，由 11 帧内实测功角 $q$ 与梯形积分转速 $v$ 的运动学一致性偏差控制因果分流：当偏差不超过 $\gamma_g=3\times10^{-4}\,\mathrm{rad}$（无噪历史）时，严格旁路至原式（11）以保持无噪完全一致。否则，对 20 个归一化通道 $i$ 分别在 11 帧内进行因果运动学净化：先取全部 $\binom{11}{3}=165$ 组三点精确二次插值系数的逐元素较低中位数，再以残差尺度 $\sigma_{k,i}=\max(\mathrm{MAD}(r_i),\hat\sigma_{\Delta^2,i})$ 执行两轮 Huber（$\delta_k=1.5$）与两轮 Tukey 双权（$c_T=4.685$）迭代重加权最小二乘，得到平滑历史 $\bar y_{j,i}$、在脉冲坏数据上精确归零的权重 $w_{j,i}\in[0,1]$、净化后二阶差分噪声估计 $\hat\sigma_i$，以及净化末帧量测 $y^{\rm term}_{10,i}=(1-w_{10,i})\bar y_{10,i}+w_{10,i}y_{10,i}$。
+
+由于 9 点二阶差分在个别通道上可能低估噪声，对每例分别在 10 个功角通道和 10 个转速通道内设定池化噪声下界：
+
+$$
+\tilde\sigma_i=\max\!\left(\hat\sigma_i,\;0.7\,\operatorname{lmed}_{k\in\mathcal G(i)}\hat\sigma_k\right),
+\tag{14}
+$$
+
+其中 $\mathcal G(i)$ 为与通道 $i$ 同属功角或转速的 10 个通道集合，$\operatorname{lmed}$ 为较低中位数。随后以 7 轮 Levenberg–Marquardt（LM）迭代在 11 帧上联合优化 18 维 COI 投影可见初态坐标与 10 维软半径记忆坐标 $\eta$，采用 $10^{-4}$ 可见初态锚点先验与事件自适应逆信噪比记忆先验 $\lambda_{\rm map}=\lambda_h+\alpha\,\bar\sigma^2/\max(E_{\rm sig},0.01)$（$\bar\sigma$ 为 $\hat\sigma_i$ 均方根，$E_{\rm sig}$ 为拟合信号归一化能量）。前 3 轮仅用运动学尺度，后 4 轮在线估计逐通道模型失配超额方差：
+
+$$
+\hat\tau_i^2=\max\!\left(0,\;
+\frac{\sum_{j=0}^{10}w_{j,i}\,[(\bar y_{j,i}-\tilde y_{j,i})/s_i]^2}
+{\max\!\bigl(\sum_{j=0}^{10}w_{j,i},\,10^{-6}\bigr)}
+-c_{\rm var}\tilde\sigma_i^2\right),
+\tag{15}
+$$
+
+并将 Huber 截断阈值自适应扩展为 $\delta_H\sqrt{\sigma_{k,i}^2+\hat\tau_i^2}$（$\delta_H=1.5$）。在起报时刻 $t_o$，按逐通道经验贝叶斯增益将物理拟合末帧 $\tilde y_{10}$ 与净化末帧量测 $y^{\rm term}_{10}$ 融合并投影回 COI 子空间：
+
+$$
+\begin{aligned}
+K_i &= \frac{\hat\tau_i^2}{\hat\tau_i^2+\kappa_{\rm term}\tilde\sigma_i^2+10^{-12}},\\
+\hat y_{10} &= P_{\rm COI}\!\bigl((1-K)\odot\tilde y_{10}+K\odot y^{\rm term}_{10}\bigr).
+\end{aligned}
+\tag{16}
+$$
+
+将融合可见初态 $\hat y_{10}$ 与拟合末端记忆状态 $z(t_o)$ 配对后，沿未改动的 75 参数冻结方程自由推演 8 s。置 $c_{\rm var}=\infty$ 即令 $\hat\tau_i^2=K_i=0$，对应关闭终端融合的纯物理末帧消融。
+
 ## 五、合成验证与可辨识性边界
 
 十机合成实验在五个已知真值系统 S0–S4 上拟合 $\{\mathrm{G3},\mathrm{G4},\mathrm{G5}\}$ 的八种算子组合。每个真值的合成 `train`、`val`、`test` 分别为 24、12、12 例，以 3 s 轨迹平方误差选模。S2 选出了饱和记忆端口，估计的 $\gamma_s=0.464$，真值为 0.60。沿拟合与选模轨迹的记忆核相对误差为 1.55%。五种真值各自选中的方程均正确判定 12/12 例合成 `test` 样本，最大归一化储能收支残差为 $4.29\times10^{-16}$。
@@ -294,11 +330,13 @@ S4 的真值含候选库之外的五阶谐波，用来检验候选库的覆盖�
 2. **激励覆盖与算子可辨识性。** 在未知系数的 S1 和 S3 上，按 3 s 轨迹误差选模会删去真值中的空间耦合块。该激励和目标指标提供的空间系数辨识信息有限。
 3. **正则化与测量噪声。** 在系数固定的 S3 中，取消先验使无噪声 `val` 的 8 s 等权平均 NRMSE 降至 $1.11\times10^{-8}$。历史噪声的标准差为 `train` 历史尺度的 $10^{-3}$ 时，取消先验使同一指标由 0.001714 增至 0.005741。固定轻先验有助于抑制弱灵敏度方向上的噪声。
 
+在进入真实电网压力测试前，对式（14）–（16）的抗噪初始化器在零失配条件下执行双步长（2.5 与 1.25 ms）40 例端点脉冲核验（覆盖十台机组、首/末帧及正负 $10\sigma$ 功角与转速脉冲叠加稳态 PMU 背景）。全部候选在 80/80 个受扰脉冲元素上均实现 Tukey 权重精确归零，8 s 轨迹有限，COI 与储能收支残差均低于 $10^{-12}$。8 组登记候选中 4 组（C、E、F、H）同时通过双步长两项前置门槛（较原高斯–牛顿降幅 $\ge 80\%$ 且不超过未池化 Huber MHE 对照的 1.02 倍）：候选 F（$\alpha=0.15,c_{\rm var}=8.0,\kappa_{\rm term}=2.0$）将首帧 500 ms 速度峰值误差从 0.018517 降至 0.003002 rad/s（$-83.79\%$），末帧峰值误差从 0.346409 降至 0.003229 rad/s（$-99.07\%$），40 例 8 s NRMSE 从 0.083448 降至 0.005465（$-93.45\%$）；按物理量池化噪声下界将零失配下的正失配方差误触发通道由未池化时的 69/800 降至 F 的 2/800 与关闭融合消融（G、H）的 0/800。候选 A（$\alpha=0.03,c_{\rm var}=4.0,\kappa_{\rm term}=1.0$）较原高斯–牛顿同样大幅降低三项误差 83.5%–98.7%（分别为 0.003061 rad/s、0.004406 rad/s 与 0.008547），仅因较轻的记忆先验在零失配下略高于 1.02 倍未池化上界。
+
 ## 六、IEEE 39 节点系统算例
 
 ### A. 数据与对比口径
 
-采用 ANDES 2.0.0 [34] 建立 IEEE 39 节点十机高阶仿真模型。`train` 含 346 例，其中 311 例稳定、35 例失稳。`val` 含 8 个故障组的 107 例，其中 95 例稳定、12 例失稳，用于模型与阈值选择。
+采用 ANDES 2.0.0 [39] 建立 IEEE 39 节点十机高阶仿真模型。`train` 含 346 例，其中 311 例稳定、35 例失稳。`val` 含 8 个故障组的 107 例，其中 95 例稳定、12 例失稳，用于模型与阈值选择。
 
 `test` 在同一运行点独立生成，采用三相母线故障及恢复后的网络拓扑。94 例中 62 例稳定、32 例失稳，覆盖 21 个母线与线路故障组、7 个 `train` 和 `val` 未见母线及 26 个近临界故障条件。32 例失稳中，31 例在故障清除后 0.2–1.5 s 触发失步。生成前固定故障条件与入组名额，核对 `test` 与 `train`、`val` 的事件互不重叠。真值沿用高阶仿真标签，其中稳定标签由 15 s 的观察窗口确认。
 
@@ -364,7 +402,7 @@ S4 的真值含候选库之外的五阶谐波，用来检验候选库的覆盖�
 
 ### C. 与轨迹预测模型对比
 
-表 3 和图 3 对比三组物理模型以及 17 种基于文献方法实现的轨迹模型。对照覆盖循环网络、图模型、Transformer、潜空间神经 ODE、基于时延的稀疏辨识与模态方法，以及神经算子 [11, 26, 35–40]。STAN、LASS 和 ActNet 的适配使用同一对比任务的转子状态输入与可用监督 [41–43]。连续模型使用归档的积分核验，离散模型和按时间查询的模型使用 10 ms 输出网格。
+表 3 和图 3 对比三组物理模型以及 17 种基于文献方法实现的轨迹模型。对照覆盖循环网络、图模型、Transformer、潜空间神经 ODE、基于时延的稀疏辨识与模态方法，以及神经算子 [16, 31, 40–45]。STAN、LASS 和 ActNet 的适配使用同一对比任务的转子状态输入与可用监督 [46–48]。连续模型使用归档的积分核验，离散模型和按时间查询的模型使用 10 ms 输出网格。
 
 两个 SINDy-SHRED 实现分别有 86/94 和 61/94 例的分类数值不合格。I-IKNO 与 Hankel-DMD 的稳定样本 8 s NRMSE 达到 $10^4$–$10^8$ 量级，均在 62 例稳定样本上报出失步。STAN 适配模型确认 32/32 例失稳，稳定误报 10/62，另有 21 例稳定样本未安定，稳定样本 8 s NRMSE 均值为 5.94。ES-ROM 在两档步长下的全部 94 条 8 s 轨迹均有限，逐例分类一致，未安定数为 0。
 
@@ -376,7 +414,7 @@ GRU Seq2Seq 和小型 Transformer 的稳定样本 8 s NRMSE 均值分别为 0.14
 
 ### D. 与直接暂态稳定分类器对比
 
-表 5 对比 ES-ROM 的轨迹判定与直接 GRU、Extra Trees 及 Koopman 风险评分 [9, 44, 45]。经 `val` 定阈值的 GRU 在 `test` 确认 29/32 例失稳，误报 0/62，与 ES-ROM 一致。该 GRU 在 `val` 误报 5/95。对同一 GRU 使用固定阈值 0.5 时，`test` 确认 27/32 例，Extra Trees 在阈值 0.5 时确认 25/32 例。另一组固定阈值 GRU 确认 30/32 例，稳定误报为零。
+表 5 对比 ES-ROM 的轨迹判定与直接 GRU、Extra Trees 及 Koopman 风险评分 [14, 49, 50]。经 `val` 定阈值的 GRU 在 `test` 确认 29/32 例失稳，误报 0/62，与 ES-ROM 一致。该 GRU 在 `val` 误报 5/95。对同一 GRU 使用固定阈值 0.5 时，`test` 确认 27/32 例，Extra Trees 在阈值 0.5 时确认 25/32 例。另一组固定阈值 GRU 确认 30/32 例，稳定误报为零。
 
 经 `val` 定阈值的 Extra Trees 在 `test` 确认 31/32 例失稳并误报 13/62。以冻结的潜空间神经 ODE 为代理方程的 Koopman 风险评分确认 20/32 例，误报 8/62。ES-ROM 从预测轨迹本身作出稳定性判定，这条轨迹也提供振荡模态和机群分离信息。
 
@@ -398,7 +436,7 @@ GRU Seq2Seq 和小型 Transformer 的稳定样本 8 s NRMSE 均值分别为 0.14
 
 ### A. 主导机电振荡模态
 
-在参考平衡点和零投影扰动输入处线性化冻结方程。扣除两条 COI 约束后，雅可比矩阵为 28 维。解析求导与自动微分的最大绝对差小于 $1.5\times10^{-14}$。从参考仿真的转速记录中，用分块 Hankel 矩阵的移位辨识估计经验模态 [46]。起报后的主窗和复核窗分别为 0.5–8 s 和 1.5–8 s，截断秩为 6、10 和 14。
+在参考平衡点和零投影扰动输入处线性化冻结方程。扣除两条 COI 约束后，雅可比矩阵为 28 维。解析求导与自动微分的最大绝对差小于 $1.5\times10^{-14}$。从参考仿真的转速记录中，用分块 Hankel 矩阵的移位辨识估计经验模态 [51]。起报后的主窗和复核窗分别为 0.5–8 s 和 1.5–8 s，截断秩为 6、10 和 14。
 
 按频率、阻尼和模态保证准则（MAC）配对。MAC 是两个复振型归一化内积的平方幅值。强匹配要求模型极点非增长、相对频率误差至多 10%、阻尼比绝对误差至多 0.05、$\mathrm{MAC}\ge0.80$。
 
@@ -408,7 +446,7 @@ GRU Seq2Seq 和小型 Transformer 的稳定样本 8 s NRMSE 均值分别为 0.14
 
 相对于拟合前的刚度锚点，绝对变化最大的十条边中，有五条连向大惯量的外部等值机 G10，刚度降低 1.17%–1.22%。其余五条连接新英格兰区域内部机组，刚度增加 1.17%–1.22%（图 4）。这些变化在有效耦合图中体现出区间联络与区内联络的差异。
 
-比较普通刚度拉普拉斯矩阵 $L(k^0)$ 的第二特征向量与惯量加权广义特征问题 $L(k^0)u=\lambda Mu$ 的第二特征向量所给出的两组机群 [5]。参考分群来自 `val` 的 95 个稳定样本在起报后末 2 s 的 COI 相对转速。纳入惯量后，与参考分群一致的机组对由 21/45 增至 29/45，调整兰德指数由 $-0.1111$ 增至 0.2593（图 5）。调整兰德指数衡量扣除随机一致性后两种分群的吻合程度。G10 所在组由七台机组缩小到 $\{\mathrm{G1},\mathrm{G2},\mathrm{G10}\}$，观测尾段中 G10 单独成组。$\lambda_3/\lambda_2\approx1.15$ 表明刚度–惯量问题的两个低频模态较接近，完整线性化还含阻尼和记忆效应。
+比较普通刚度拉普拉斯矩阵 $L(k^0)$ 的第二特征向量与惯量加权广义特征问题 $L(k^0)u=\lambda Mu$ 的第二特征向量所给出的两组机群 [10]。参考分群来自 `val` 的 95 个稳定样本在起报后末 2 s 的 COI 相对转速。纳入惯量后，与参考分群一致的机组对由 21/45 增至 29/45，调整兰德指数由 $-0.1111$ 增至 0.2593（图 5）。调整兰德指数衡量扣除随机一致性后两种分群的吻合程度。G10 所在组由七台机组缩小到 $\{\mathrm{G1},\mathrm{G2},\mathrm{G10}\}$，观测尾段中 G10 单独成组。$\lambda_3/\lambda_2\approx1.15$ 表明刚度–惯量问题的两个低频模态较接近，完整线性化还含阻尼和记忆效应。
 
 **图 4　相对刚度锚点调整幅度最大的十条有效耦合边。** 红虚线表示外部等值机 G10 周围软化的连边，蓝实线表示新英格兰区域内部刚化的连边。[原图 PDF](figures/stiffness.pdf)
 
@@ -450,7 +488,7 @@ $^{a}$ 在 `val` 上计领先机群精确匹配，在 `test` 上计割集精确�
 
 在起报时刻 $t_o$，机械暂态能为 $E_{\rm mech}=\tfrac12 v^\top Mv+U(q)$。它使用实测可见状态与冻结骨架的移位势能。总储能 $H$ 的另一部分是估计所得的记忆储能 $E_z=\tfrac12\lVert z(t_o)\rVert_2^2$。
 
-硬 $R$ 基线和软 $2R$ 消融共用骨架和可见起报状态，因此逐例机械能相同。三组模型在 `test` 的机械能 AUROC 均为 0.9526（按表中精度）。只改变初始化方式时，`test` 的总储能 AUROC 由 0.8926 变为 0.7157。ES-ROM 的总储能和记忆储能 AUROC 分别为 0.6956 和 0.5766。图 6 显示放宽记忆状态范围对储能分布的影响。机械项对失稳风险保持较高的排序区分度，配对消融支持将 $E_z$ 解释为与有效记忆力相关的储能。机械能 AUROC 描述的是本次故障分布下的排序性能。
+硬 $R$ 基线和软 $2R$ 消融共用骨架和可见起报状态，因此逐例机械能相同。三组模型在 `test` 的机械能 AUROC 均为 0.9526（按表中精度）。只改变初始化方式时，`test` 的总储能 AUROC 由 0.8926 变为 0.7157。ES-ROM 的总储能和记忆储能 AUROC 分别为 0.6956 和 0.5766。图 6 显示放宽记忆状态范围对储能分布的影响。机械项对失稳风险保持较高的排序区分度，配对消融支持将 $E_z$ 解释为与有效记忆力相关的储能。机械能 AUROC 描述的是本次故障分布下的排序性能。第八节进一步表明，在不改动冻结方程的条件下，池化经验贝叶斯初始化器可在全部带噪工况下恢复记忆储能与总储能的 AUROC 区分度。
 
 **图 6　起报储能与失稳区分度。** 子图（a）–（c）分别给出 `train`、`val` 和 `test` 各能量分量的 AUROC。子图（d）和（e）按模型和真值标签给出 `val` 与 `test` 的记忆储能中位数及四分位区间。AUROC 以失稳为正类。[原图 PDF](figures/energy.pdf)
 
@@ -462,9 +500,86 @@ $^{a}$ 在 `val` 上计领先机群精确匹配，在 `test` 上计割集精确�
 
 `test` 覆盖十机系统同一运行点的未见故障条件。跨运行点迁移、规模更大的电网以及高比例逆变器电源的系统需要独立验证。
 
-## 八、结论
+## 八、量测噪声与坏数据压力测试
 
-ES-ROM 选择出一个共享的显式故障后方程，包含 74 个骨架系数和一个逐机阻尼软化系数。用 100 ms 的转子观测初始化，在 `test` 上确认 90.62% 的失稳样本，稳定误报为零，全样本准确率为 96.81%。同一冻结方程给出的主导模态、失步割集和储能有助于解释预测结果。
+### A. 压力工况与跨仓库逐字节噪声对齐
+
+为在不改动任何已学习动力学权重的前提下检验实际部署抗噪能力，本节冻结 75 参数 ES-ROM 方程、全部物理消融模型以及对侧基准库中 19 个已发表神经网络与树模型（共 28 个模型配置），仅向 11 帧 $(q,v)$ 量测历史与起报机械功率偏差 $p$ 注入扰动，真值轨迹与稳定性标签保持冻结不变。依据同步相量标准与现场实测误差文献设置十档工况：（1）无噪重放；（2）稳态 PMU 高斯噪声（0.0033 rad，0.010 rad/s）[6, 7]；（3）动态状态估计（DSE）高斯噪声（0.010 rad，0.050 rad/s）[3, 5, 6]；（4）动态 DSE 叠加 0.010 p.u. 机械功率高斯噪声 [3, 5]；（5）–（6）相对 $(s_q,s_v)$ 的固定尺度 30 dB 与 20 dB 高斯噪声 [14, 52]；（7）–（8）与动态高斯方差匹配的厚尾 Laplace 与自由度 3 的 Student $t_3$ 噪声 [8, 9]；（9）稳态背景上逐帧逐通道 5% 概率叠加随机符号 $10\sigma$ 脉冲（0.10 rad，0.50 rad/s）[9]；（10）稳态背景上单机首帧或末帧 $10\sigma$ 端点脉冲 [9]。
+
+所有噪声均由 SHA-256 派生的确定性 PCG64 随机流生成（无噪 1 次，其余每档 5 次重复），覆盖三组互不重叠的名单：`val`（$N=107$）、辅助 76 例固定基准测试集（67 例稳定、9 例失稳）以及 94 例独立 `test`（数据集名单 `blind_v2`）。本仓库与对侧基准库的全部 138 组“名单–工况–重复”原始噪声字节 SHA-256 实现 **138/138 逐项完全一致**。
+
+### B. 零重训初始化器选型与消融
+
+8 组登记的 Pooled MHE V4 候选（A–H）在完整 `val` 上执行双步长压力测试（78,752 条预测，0 次参数更新，0 次数值失败），并与同噪声哈希下的原 ES-ROM 及因果 Savitzky–Golay（5 帧二次多项式）高斯–牛顿对照比较。门槛要求无噪档保持 12/12 失稳确认、稳定误报 $\le 2/95$ 且稳定 NRMSE 增幅 $\le 2\%$；同时在六个必验工况（动态 DSE、30 dB、Laplace、Student $t_3$、随机脉冲、端点脉冲）与两档步长下，相对两个对照的四项综合损失（稳定 8 s NRMSE、失稳可用区间 NRMSE、归一化前 500 ms 峰值正欠估及漏判/误报率均值之和）均须至少降低 1%。
+
+8 组中有 7 组（A–G）通过全部门槛，仅强先验且关闭融合的 H 在随机脉冲档未达标。候选 A（$\alpha=0.03,c_{\rm var}=4.0,\kappa_{\rm term}=1.0$，开启逆信噪比先验）排名第一，在全部 24 组“工况–步长–对照”比较中综合损失平均下降 **15.66%**（最小降幅 11.24% 出现在端点脉冲档，最大降幅 25.44% 出现在 Student $t_3$ 档），无噪档与原模型完全一致（12/12 确认、2/95 误报、稳定 NRMSE 比 1.000）。配对消融验证了各模块贡献：开启逆信噪比记忆先验（B 对 C：14.80% 对 12.63%）带来 **+2.17 个百分点**改善；开启经验贝叶斯失配方差与末帧融合（B 对 G：14.80% 对 9.84%）带来 **+4.96 个百分点**改善。候选 A 在零 `train` 读取下冻结后进入留出评估。
+
+### C. 冻结留出表现、储能恢复与推理延迟
+
+冻结配置在 76 例固定基准测试集与 94 例独立 `test` 上一次性完成六种物理模型×十档×双步长共 93,840 条预测，数值失败为 0，双步长逐例配对 100% 合格（分别覆盖 20,976 组与 25,944 组配对；预测与评分落盘后在合并噪声清单时发生独占创建冲突，已保留原失败记录并从 552 份已校验的逐例评分档案逐字节恢复封存，额外推演数为 0）。表 7、表 8 与图 7–10 总结跨仓库对比结果。
+
+**表 7　IEEE 39 节点三组名单九档带噪平均表现跨仓库对比（2.5 ms / 对侧原生步长）**
+
+| 冻结模型 | `val` ($N{=}107$) 严格准确率 | `val` 召回/误报 | 固定测试 ($N{=}76$) 严格准确率 | 固定测试 召回/误报 | 独立 `test` ($N{=}94$) 严格准确率 | 独立 `test` 召回/误报 | 稳定 NRMSE (最差) | 失稳 NRMSE | 总储能 AUROC |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 原 ES-ROM | 97.72% | 95.4/1.9% | 93.68% | 55.1/0.9% | 95.08% | 85.6/0.0% | 0.265 (0.283) | 0.829 | 0.647 |
+| ES-ROM + 因果 SG | 97.69% | 95.4/1.9% | 93.68% | 55.6/0.9% | 95.08% | 85.6/0.0% | 0.265 (0.287) | 0.830 | 0.648 |
+| ES-ROM 联合 $L_2$-MHE | 98.40% | 98.0/1.5% | 96.75% | 73.8/0.2% | 94.78% | 84.7/0.0% | 0.252 (0.257) | 0.880 | 0.802 |
+| **ES-ROM 池化 MHE V4** | **98.65%** | **99.1**/1.4% | **98.45%** | 87.2/0.0% | **96.88%** | **90.8/0.0%** | 0.249 (0.250) | 0.769 | **0.911** |
+| Graph-GRU（扩展版） | 95.29% | 75.7/2.2% | 98.01% | 88.6/0.7% | 94.16% | 83.0/0.1% | 0.308 (0.795) | 0.462 | -- |
+| GRU Seq2Seq（扩展版）$^{a}$ | 96.22% | 66.3/0.0% | 94.68% | 55.1/0.0% | 91.77% | 75.8/0.0% | 0.153 (0.165) | 0.453 | -- |
+| 小型 LASS | 95.97% | 64.1/0.0% | 93.42% | 44.4/0.0% | 92.60% | 78.3/0.0% | 0.221 (0.234) | 0.513 | -- |
+| 潜空间神经 ODE（扩展版） | 92.52% | 33.3/0.0% | 92.02% | 32.6/0.0% | 85.11% | 56.2/0.0% | 0.192 (0.195) | 0.442 | -- |
+| 小型 Transformer | 88.79% | 0.0/0.0% | 88.16% | 0.0/0.0% | 65.96% | 0.0/0.0% | 0.156 (0.156) | 1.329 | -- |
+| GRU 分类器（`val` 阈值） | 93.02% | 78.9/5.2% | 96.29% | 77.8/1.2% | 96.81% | 90.6/0.0% | -- | -- | -- |
+| Extra Trees（`val` 阈值） | 86.67% | 98.9/14.9% | 93.33% | 77.8/4.6% | 84.52% | 96.8/21.8% | -- | -- | -- |
+
+每项为九档带噪工况（每档 5 次配对重复、跨仓库 138/138 噪声一致）的均值。严格准确率按 $(\mathrm{TP}+\mathrm{TN})/N$ 计算，将全部未安定或数值失败样本均按判错计分；仅计已判定样本时，ES-ROM 池化 MHE V4 在独立 `test` 与固定测试集上分别达到 97.85% 与 99.85%。稳定 NRMSE (最差) 给出独立 `test` 九档均值与最差工况值（在 `val` 上 Graph-GRU 均值达 2.883、最差达 3.206）。$^{a}$ 对侧元数据标注 GRU Seq2Seq 训练尚未充分优化。
+
+**表 8　94 例独立 `test` 的 21 组配对 Bootstrap 差值（池化 MHE V4 减原 ES-ROM）与 RTX 4060 Ti 推理延迟**
+
+**A. 21 个故障组 10,000 次配对 Bootstrap 差值与 95% 百分位区间（2.5 ms 步长）**
+
+| 噪声工况 | $\Delta$ 稳定 8 s NRMSE | $\Delta$ 失稳 NRMSE | $\Delta$ 确认召回（百分点） | $\Delta$ 总储能 AUROC |
+|---|---:|---:|---:|---:|
+| 稳态 PMU 高斯 | $-0.0036\;[-0.0089,+0.0039]$ | $+0.0077\;[-0.0708,+0.0755]$ | $+1.25\;[-8.28,+10.91]$ | **$+0.1510$** $[+0.0800,+0.2173]$ |
+| 动态 DSE 高斯 | **$-0.0114$** $[-0.0223,-0.0020]$ | $-0.0037\;[-0.0629,+0.0501]$ | $+3.75\;[-1.54,+11.04]$ | **$+0.2979$** $[+0.2375,+0.3714]$ |
+| 动态 DSE + $P_m$ | **$-0.0129$** $[-0.0180,-0.0086]$ | $-0.0372\;[-0.1206,+0.0286]$ | $+3.75\;[-2.14,+12.86]$ | **$+0.3031$** $[+0.2395,+0.3819]$ |
+| 固定尺度 30 dB | **$-0.0098$** $[-0.0169,-0.0041]$ | $-0.0358\;[-0.1145,+0.0217]$ | $+5.63\;[+0.00,+15.00]$ | **$+0.2910$** $[+0.2281,+0.3595]$ |
+| 固定尺度 20 dB | **$-0.0352$** $[-0.0448,-0.0270]$ | **$-0.1160$** $[-0.1780,-0.0496]$ | **$+9.38$** $[+3.89,+16.57]$ | **$+0.3140$** $[+0.2385,+0.4005]$ |
+| 厚尾 Laplace | **$-0.0126$** $[-0.0185,-0.0073]$ | $-0.0212\;[-0.1011,+0.0411]$ | $+4.37\;[-0.67,+13.08]$ | **$+0.2809$** $[+0.2169,+0.3544]$ |
+| 厚尾 Student $t_3$ | **$-0.0135$** $[-0.0183,-0.0092]$ | $-0.0710\;[-0.1757,+0.0045]$ | **$+7.50$** $[+0.77,+17.93]$ | **$+0.2435$** $[+0.1840,+0.3146]$ |
+| 随机 5% $10\sigma$ 脉冲 | **$-0.0300$** $[-0.0396,-0.0224]$ | **$-0.1354$** $[-0.2056,-0.0650]$ | $+6.25\;[+0.00,+13.33]$ | **$+0.2988$** $[+0.2290,+0.3718]$ |
+| 端点 $10\sigma$ 脉冲 | **$-0.0174$** $[-0.0264,-0.0067]$ | **$-0.1297$** $[-0.2174,-0.0567]$ | $+5.63\;[-0.71,+15.38]$ | **$+0.2011$** $[+0.1351,+0.2712]$ |
+
+**B. RTX 4060 Ti 上 CUDA float64 初始化与 8 s 自由推演延迟（5 次计时均值 $\pm$ 样本标准差，单位：s）**
+
+| 步长 | 批量 | 原 ES-ROM 初始化 | 原 ES-ROM 推演 | 池化 MHE V4 初始化 | 池化 MHE V4 推演 |
+|---|---:|---:|---:|---:|---:|
+| 2.5 ms | 1 | $1.356\pm0.257$ | $1.076\pm0.054$ | $0.262\pm0.002$ | $0.980\pm0.006$ |
+| 2.5 ms | 64 | $1.267\pm0.030$ | $1.193\pm0.005$ | $0.871\pm0.016$ | $1.128\pm0.007$ |
+| 1.25 ms | 1 | $6.723\pm2.490$ | $2.480\pm0.226$ | $0.458\pm0.002$ | $1.966\pm0.013$ |
+| 1.25 ms | 64 | $5.429\pm2.576$ | $2.528\pm0.193$ | $1.236\pm0.010$ | $2.247\pm0.012$ |
+
+A 组加粗数值表示 95% 区间不跨零（1.25 ms 下各区间是否跨零结论一致）；九档中精确割集匹配率与 Jaccard 差值区间均跨零，两模型稳定误报率均为 0.00%。B 组以 `val` 动态 DSE 高斯第 0 次噪声、已组装 100 ms 输入在预热 1 次后计时。
+
+**图 7　94 例独立 `test`（`blind_v2`）在高斯量测噪声下的轨迹误差与稳定分类表现（ES-ROM 步长 2.5 ms，对侧原生步长）。** 点与误差棒为 5 次重复均值 $\pm 1$ 样本标准差，`×` 表示该项缺失。[原图 PDF](figures/noise-gaussian.pdf)
+
+**图 8　94 例独立 `test`（`blind_v2`）在厚尾噪声、脉冲坏数据下的表现与首末帧峰值正欠估（ES-ROM 步长 2.5 ms）。** [原图 PDF](figures/noise-heavytail-pulse.pdf)
+
+**图 9　94 例独立 `test`（`blind_v2`）十档噪声下的失步割集与起报储能 AUROC（2.5 ms 步长）。** [原图 PDF](figures/noise-cut-energy.pdf)
+
+**图 10　RTX 4060 Ti 分口径推理延迟对比：（a）–（b）ES-ROM 系列 2.5 ms 步长下 CUDA 初始化与 8 s 推演拆分耗时；（c）–（d）对侧基线含主机组批与数据传输的端到端原生总耗时。** [原图 PDF](figures/noise-latency.pdf)
+
+1. **稳定判定准确率与逐点轨迹误差的权衡。** 在 94 例独立 `test` 上，池化 MHE V4 在全部九档带噪工况中保持 90.62%–91.88% 的失稳确认召回率与全程 0.00% 稳定误报率，稳定 8 s NRMSE 稳定在 0.2477–0.2499（几乎贴合 0.2512 的无噪物理下界）。即便按将所有未安定预测（独立 `test` 为 42/4,324，固定测试集为 50/3,496）直接扣分的严格准确率计，池化 MHE V4 在三组名单的九档均值中均位列全部 14 个轨迹基线与全名单分类器首位：`val` 98.65%、固定测试集 98.45%、独立 `test` 96.88%（可判定样本 97.85%）。部分纯神经轨迹模型在独立 `test` 上获得更低 NRMSE 是以过度阻尼、漏判失稳为代价的：小型 Transformer 三组召回均为 0.0%，潜空间神经 ODE 漏判 44%–67%，GRU Seq2Seq 漏判 24%–45%，小型 LASS 漏判 22%–56%。最强的神经轨迹对照 Graph-GRU 在独立 `test` 的失稳 NRMSE 更低（0.462 对 0.769，反映 75 参数恒定机械功率 ODE 在无噪时已存在的方程简化上限），但其独立 `test` 召回仅 83.0%，且在含噪条件下出现严重发散（`val` 稳定 NRMSE 均值 2.883 / 最差 3.206，独立 `test` 随机 $10\sigma$ 脉冲下飙升至 0.795）。直接分类器中，经 `val` 定阈值的 Extra Trees 虽在独立 `test` 上达到 96.8% 召回，但伴随不可接受的 21.8% 均值误报率（最高 28.7%）；`val` 阈值 GRU 分类器在独立 `test` 上准确率接近（96.81%），但在 `val`（93.02%）和固定测试集（96.29%）均落后，且无法提供轨迹、割集与物理储能诊断。
+
+2. **对模型失配病态的正则抑制与端点细节。** 在 76 例固定基准测试集上，进入池化 MHE V4 后确认召回率由无噪旁路的 55.56% 跃升至 80.00%–88.89%（含随机脉冲与端点脉冲在内五档达 88.89%），失稳可用区间 NRMSE 由 1.373 降至 0.479–0.537，稳定 NRMSE 保持 0.191–0.227 且均值误报仅 0.03%。这表明 28 维正则联合初始化同时抑制了量测噪声与模型失配诱发的隐状态病态，而保留无噪因果旁路则确保了与原冻结基准的严格等价。端点脉冲下按首末帧分组的峰值正欠估中位数在两组留出名单呈现不同方向（固定测试集首/末帧：$1.848\to3.629$ 与 $0.749\to0.159$ rad/s；独立 `test` 首/末帧：$0.519\to0.457$ 与 $0.536\to0.655$ rad/s）。
+
+3. **配对 Bootstrap、物理储能恢复与延迟。** 表 8(A) 的 21 组配对 Bootstrap 显示，池化 MHE V4 相对原 ES-ROM 在八档带噪工况中显著降低稳定 8 s NRMSE，在 20 dB（$-0.1160$）、随机脉冲（$-0.1354$）与端点脉冲（$-0.1297$）三档显著降低失稳 NRMSE，并在 20 dB（$+9.38$ 个百分点）与 Student $t_3$（$+7.50$ 个百分点）两档显著提高召回率。尤为突出的是，原无正则高斯–牛顿在带噪时会将误差直接灌入 $z(t_o)$，导致记忆储能 AUROC 退化至接近随机水平（0.496–0.595）、总储能 AUROC 跌至 0.619–0.694（图 9）；池化 MHE V4 在全部九档带噪工况中将记忆储能 AUROC 恢复至 0.760–0.879、总储能 AUROC 提升至 0.841–0.937（增幅 $+0.1510$ 至 $+0.3140$，九档 95% 区间全部严格大于零），同时保持 90.5%–93.1% 的精确割集匹配率。延迟方面（表 8(B) 与图 10），池化 MHE V4 在 RTX 4060 Ti 上将 Batch 1 初始化速度较原 ES-ROM 在 2.5 ms 下提升 $5.2\times$（$1.356\to0.262$ s）、在 1.25 ms 下提升 $14.7\times$（$6.723\to0.458$ s），2.5 ms 下 Batch 1 与 Batch 64 总耗时分别为 $1.241\pm0.006$ s 与 $1.999\pm0.022$ s（Batch 64 均摊约 31 ms/例）；与神经单次前向推理（如 GRU 分类器 1.18 ms、Graph-GRU 约 0.6 s）的剩余耗时差异主要来自 8 s 双精度 RK4 物理积分本身。
+
+## 九、结论
+
+ES-ROM 选择出一个共享的显式故障后方程，包含 74 个骨架系数和一个逐机阻尼软化系数。用 100 ms 的转子观测初始化，在 `test` 上确认 90.62% 的失稳样本，稳定误报为零，全样本准确率为 96.81%。同一冻结方程给出的主导模态、失步割集和储能有助于解释预测结果。配合零重训的池化经验贝叶斯滚动时域初始化器，该冻结模型在九档高斯、厚尾与 $10\sigma$ 坏数据工况下维持 90.62%–91.88% 召回率与零稳定误报，在 138/138 跨仓库逐字节对齐的噪声压力测试中三组名单严格分类准确率全面领先 19 个冻结神经与树基线，将总储能 AUROC 恢复至 0.841–0.937，并将单事件初始化速度提升 $5.2\times$。
 
 结合故障期间与故障后动力学的切换能量模型可支持临界切除时间研究。动态机械功率状态可表示观测窗之后的调速器作用，考虑电压变化或非保守效应的网络项可刻画严重电压跌落，带闭环稳定性证书的有界有源端口可用于描述主动振荡。稀疏有效耦合图与逆变器控制算子可用于检验动量初筛和能量一致算子选择方法在规模更大、组成更多样的电网中的适用性。
 
@@ -474,45 +589,51 @@ ES-ROM 选择出一个共享的显式故障后方程，包含 74 个骨架系数
 2. A. G. Phadke and J. S. Thorp, *Synchronized Phasor Measurements and Their Applications*. Springer, 2008. DOI: [10.1007/978-0-387-76537-2](https://doi.org/10.1007/978-0-387-76537-2).
 3. A. K. Singh and B. C. Pal, “Decentralized dynamic state estimation in power systems using unscented transformation,” *IEEE Trans. Power Syst.*, 29(2):794–804, 2014. DOI: [10.1109/TPWRS.2013.2281323](https://doi.org/10.1109/TPWRS.2013.2281323).
 4. M. Shiroei, B. Mohammadi-Ivatloo, and M. Parniani, “Low-order dynamic equivalent estimation of power systems using data of phasor measurement units,” *Int. J. Electr. Power Energy Syst.*, 74:134–141, 2016. DOI: [10.1016/j.ijepes.2015.07.015](https://doi.org/10.1016/j.ijepes.2015.07.015).
-5. P. V. Kokotović, B. Avramović, J. H. Chow, and J. R. Winkelman, “Coherency based decomposition and aggregation,” *Automatica*, 18(1):47–56, 1982. DOI: [10.1016/0005-1098(82)90025-5](https://doi.org/10.1016/0005-1098(82)90025-5).
-6. Y. Susuki and I. Mezić, “Nonlinear Koopman modes and coherency identification of coupled swing dynamics,” *IEEE Trans. Power Syst.*, 26(4):1894–1904, 2011. DOI: [10.1109/TPWRS.2010.2103369](https://doi.org/10.1109/TPWRS.2010.2103369).
-7. Z. Jiang, N. Tong, Y. Liu, Y. Xue, and A. G. Tarditi, “Enhanced dynamic equivalent identification method of large-scale power systems using multiple events,” *Electr. Power Syst. Res.*, 189:106569, 2020. DOI: [10.1016/j.epsr.2020.106569](https://doi.org/10.1016/j.epsr.2020.106569).
-8. J. L. Jardim and A. M. Leite da Silva, “A methodology for computing robust dynamic equivalents of large power systems,” *Electr. Power Syst. Res.*, 143:513–521, 2017. DOI: [10.1016/j.epsr.2016.11.003](https://doi.org/10.1016/j.epsr.2016.11.003).
-9. Q. Chen and H. Wang, “Time-adaptive transient stability assessment based on gated recurrent unit,” *International Journal of Electrical Power & Energy Systems*, 133:107156, 2021. DOI: [10.1016/j.ijepes.2021.107156](https://doi.org/10.1016/j.ijepes.2021.107156).
-10. J. Liu, C. Yao, and L. Chen, “Time-adaptive transient stability assessment based on the gating spatiotemporal graph neural network and gated recurrent unit,” *Frontiers in Energy Research*, 10:885673, 2022. DOI: [10.3389/fenrg.2022.885673](https://doi.org/10.3389/fenrg.2022.885673).
-11. S. P. Nandanoori, S. Guan, S. Kundu, S. Pal, K. Agarwal, Y. Wu, and S. Choudhury, “Graph neural network and Koopman models for learning networked dynamics: A comparative study on power grid transients prediction,” *IEEE Access*, 10, 2022. DOI: [10.1109/ACCESS.2022.3160710](https://doi.org/10.1109/ACCESS.2022.3160710).
-12. G. S. Misyris, A. Venzke, and S. Chatzivasileiadis, “Physics-informed neural networks for power systems,” in *2020 IEEE Power & Energy Society General Meeting (PESGM)*, pp. 1–5. DOI: [10.1109/PESGM41954.2020.9282004](https://doi.org/10.1109/PESGM41954.2020.9282004).
-13. J. Stiasny, B. Zhang, and S. Chatzivasileiadis, “PINNSim: A simulator for power system dynamics based on physics-informed neural networks,” *Electr. Power Syst. Res.*, 235:110796, 2024. DOI: [10.1016/j.epsr.2024.110796](https://doi.org/10.1016/j.epsr.2024.110796).
-14. T. Athay, R. Podmore, and S. Virmani, “A practical method for the direct analysis of transient stability,” *IEEE Trans. Power App. Syst.*, PAS-98(2):573–584, 1979. DOI: [10.1109/TPAS.1979.319407](https://doi.org/10.1109/TPAS.1979.319407).
-15. A. R. Bergen and D. J. Hill, “A structure preserving model for power system stability analysis,” *IEEE Trans. Power App. Syst.*, PAS-100(1):25–35, 1981. DOI: [10.1109/TPAS.1981.316883](https://doi.org/10.1109/TPAS.1981.316883).
-16. F. Dörfler and F. Bullo, “Kron reduction of graphs with applications to electrical networks,” *IEEE Trans. Circuits Syst. I, Reg. Papers*, 60(1):150–163, 2013. DOI: [10.1109/TCSI.2012.2215780](https://doi.org/10.1109/TCSI.2012.2215780).
-17. S. Y. Çalışkan and P. Tabuada, “Towards Kron reduction of generalized electrical networks,” *Automatica*, 50(10):2586–2590, 2014. DOI: [10.1016/j.automatica.2014.08.017](https://doi.org/10.1016/j.automatica.2014.08.017).
-18. H. Mori, “Transport, collective motion, and Brownian motion,” *Prog. Theor. Phys.*, 33(3):423–455, 1965. DOI: [10.1143/PTP.33.423](https://doi.org/10.1143/PTP.33.423).
-19. A. Gouasmi, E. J. Parish, and K. Duraisamy, “A priori estimation of memory effects in reduced-order models of nonlinear systems using the Mori–Zwanzig formalism,” *Proc. R. Soc. A*, 473(2205):20170385, 2017. DOI: [10.1098/rspa.2017.0385](https://doi.org/10.1098/rspa.2017.0385).
-20. L. Pagnier, R. Delabays, and M. Tyloo, “Nontrivial Kron reduction for power grid dynamics modeling,” in *Proc. IEEE Kiel PowerTech*, 2025, pp. 1–6. DOI: [10.1109/PowerTech59965.2025.11180705](https://doi.org/10.1109/PowerTech59965.2025.11180705).
-21. S. L. Brunton, J. L. Proctor, and J. N. Kutz, “Discovering governing equations from data by sparse identification of nonlinear dynamical systems,” *Proc. Natl. Acad. Sci. USA*, 113(15):3932–3937, 2016. DOI: [10.1073/pnas.1517384113](https://doi.org/10.1073/pnas.1517384113).
-22. H. Schaeffer and S. G. McCalla, “Sparse model selection via integral terms,” *Phys. Rev. E*, 96(2):023302, 2017. DOI: [10.1103/PhysRevE.96.023302](https://doi.org/10.1103/PhysRevE.96.023302).
-23. D. A. Messenger and D. M. Bortz, “Weak SINDy: Galerkin-based data-driven model selection,” *Multiscale Model. Simul.*, 19(3):1474–1497, 2021. DOI: [10.1137/20M1343166](https://doi.org/10.1137/20M1343166).
-24. K. Champion, B. Lusch, J. N. Kutz, and S. L. Brunton, “Data-driven discovery of coordinates and governing equations,” *Proc. Natl. Acad. Sci. USA*, 116(45):22445–22451, 2019. DOI: [10.1073/pnas.1906995116](https://doi.org/10.1073/pnas.1906995116).
-25. J. Bakarji, K. Champion, J. N. Kutz, and S. L. Brunton, “Discovering governing equations from partial measurements with deep delay autoencoders,” *Proc. R. Soc. A*, 479(2276):20230422, 2023. DOI: [10.1098/rspa.2023.0422](https://doi.org/10.1098/rspa.2023.0422).
-26. M. L. Gao, J. P. Williams, and J. N. Kutz, “Sparse identification of nonlinear dynamics and Koopman operators with shallow recurrent decoder networks,” *Proceedings of the National Academy of Sciences*, 123(16):e2508144123, 2026. DOI: [10.1073/pnas.2508144123](https://doi.org/10.1073/pnas.2508144123).
-27. B. Peherstorfer and K. E. Willcox, “Data-driven operator inference for nonintrusive projection-based model reduction,” *Comput. Methods Appl. Mech. Eng.*, 306:196–215, 2016. DOI: [10.1016/j.cma.2016.03.025](https://doi.org/10.1016/j.cma.2016.03.025).
-28. J.-C. Loiseau and S. L. Brunton, “Constrained sparse Galerkin regression,” *J. Fluid Mech.*, 838:42–67, 2018. DOI: [10.1017/jfm.2017.823](https://doi.org/10.1017/jfm.2017.823).
-29. P. Goyal, I. Pontes Duff, and P. Benner, “Guaranteed stable quadratic models and their applications in SINDy and operator inference,” *Physica D*, 483:134893, 2025. DOI: [10.1016/j.physd.2025.134893](https://doi.org/10.1016/j.physd.2025.134893).
-30. A. J. van der Schaft and B. M. Maschke, “Port-Hamiltonian systems on graphs,” *SIAM J. Control Optim.*, 51(2):906–937, 2013. DOI: [10.1137/110840091](https://doi.org/10.1137/110840091).
-31. S. Chaturantabut, C. Beattie, and S. Gugercin, “Structure-preserving model reduction for nonlinear port-Hamiltonian systems,” *SIAM J. Sci. Comput.*, 38(5):B837–B865, 2016. DOI: [10.1137/15M1055085](https://doi.org/10.1137/15M1055085).
-32. C. Neary and U. Topcu, “Compositional learning of dynamical system models using Port-Hamiltonian neural networks,” in *Proc. 5th Annu. Learn. Dyn. Control Conf.*, ser. Proc. Mach. Learn. Res., vol. 211, pp. 679–691, 2023. [https://proceedings.mlr.press/v211/neary23a.html](https://proceedings.mlr.press/v211/neary23a.html).
-33. J. Rettberg, J. Kneifl, J. Herb, P. Buchfink, J. Fehr, and B. Haasdonk, “Data-driven identification of latent port-Hamiltonian systems,” *Computational Science and Engineering*, 2:4, 2025. DOI: [10.1007/s44207-025-00007-2](https://doi.org/10.1007/s44207-025-00007-2).
-34. H. Cui, F. Li, and K. Tomsovic, “Hybrid symbolic-numeric framework for power system modeling and analysis,” *IEEE Trans. Power Syst.*, 36(2):1373–1384, 2021. DOI: [10.1109/TPWRS.2020.3017019](https://doi.org/10.1109/TPWRS.2020.3017019).
-35. K. Cho, B. van Merriënboer, C. Gulcehre, D. Bahdanau, F. Bougares, H. Schwenk, and Y. Bengio, “Learning phrase representations using RNN encoder–decoder for statistical machine translation,” in *Proc. Conf. Empirical Methods in Natural Language Processing*, 2014, pp. 1724–1734. DOI: [10.3115/v1/D14-1179](https://doi.org/10.3115/v1/D14-1179).
-36. A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin, “Attention is all you need,” in *Advances in Neural Information Processing Systems*, vol. 30, 2017. [https://arxiv.org/abs/1706.03762](https://arxiv.org/abs/1706.03762).
-37. Y. Rubanova, R. T. Q. Chen, and D. K. Duvenaud, “Latent ODEs for irregularly-sampled time series,” in *Advances in Neural Information Processing Systems*, vol. 32, 2019. [https://arxiv.org/abs/1907.03907](https://arxiv.org/abs/1907.03907).
-38. H. Arbabi and I. Mezić, “Ergodic theory, dynamic mode decomposition, and computation of spectral properties of the Koopman operator,” *SIAM Journal on Applied Dynamical Systems*, 16(4):2096–2126, 2017. DOI: [10.1137/17M1125236](https://doi.org/10.1137/17M1125236).
-39. L. Lu, P. Jin, G. Pang, Z. Zhang, and G. E. Karniadakis, “Learning nonlinear operators via DeepONet based on the universal approximation theorem of operators,” *Nature Machine Intelligence*, 3:218–229, 2021. DOI: [10.1038/s42256-021-00302-5](https://doi.org/10.1038/s42256-021-00302-5).
-40. X. Pu, W. Pei, H. Xiao, J. Xiong, X. Wang, G. Wang, and Y. Sun, “A dynamic trajectory computation method for power systems based on an improved invertible Koopman neural operator,” *Advanced Technology of Electrical Engineering and Energy*, 2026, early access. DOI: [10.12067/ATEEE2601079](https://doi.org/10.12067/ATEEE2601079).
-41. S. Chung, Y. Zhang, M. Yue, and H. Cui, “Network interdependency-informed power system dynamic trajectory prediction utilizing black-box modeling of multiple inverter-based resources,” arXiv:2607.05843, 2026. [https://arxiv.org/abs/2607.05843](https://arxiv.org/abs/2607.05843).
-42. H. Li, L. Mai, C. Xiao, E. Blasch, and Y. Weng, “Predicting power-system dynamic trajectories with foundation models,” arXiv:2604.14991, 2026. [https://arxiv.org/abs/2604.14991](https://arxiv.org/abs/2604.14991).
-43. P. Ellinas, J. Vorwerk, and S. Chatzivasileiadis, “Tools to explain neural networks for power system dynamics,” arXiv:2608.08048, 2026. [https://arxiv.org/abs/2608.08048](https://arxiv.org/abs/2608.08048).
-44. P. Geurts, D. Ernst, and L. Wehenkel, “Extremely randomized trees,” *Machine Learning*, 63(1):3–42, 2006. DOI: [10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1).
-45. Z. Du, S. Shan, and Y. Liu, “Region of attraction estimation for power system transient stability via physics-constrained deep Koopman operator,” *IET Generation, Transmission & Distribution*, 20(1):e70428, 2026. DOI: [10.1049/gtd2.70428](https://doi.org/10.1049/gtd2.70428).
-46. J.-N. Juang and R. S. Pappa, “An eigensystem realization algorithm for modal parameter identification and model reduction,” *Journal of Guidance, Control, and Dynamics*, 8(5):620–627, 1985. DOI: [10.2514/3.20031](https://doi.org/10.2514/3.20031).
+5. E. Ghahremani and I. Kamwa, “Dynamic state estimation in power system by applying the extended Kalman filter with unknown inputs to phasor measurements,” *IEEE Trans. Power Syst.*, 26(4):2556–2566, 2011. DOI: [10.1109/TPWRS.2011.2145396](https://doi.org/10.1109/TPWRS.2011.2145396).
+6. *IEEE/IEC International Standard—Measuring Relays and Protection Equipment—Part 118-1: Synchrophasor for Power Systems—Measurements*, IEEE/IEC Std. IEC/IEEE 60255-118-1:2018, 2018. DOI: [10.1109/IEEESTD.2018.8577045](https://doi.org/10.1109/IEEESTD.2018.8577045).
+7. M. Brown, M. Biswal, S. M. Brahma, S. J. Ranade, and H. Cao, “Characterizing and quantifying noise in PMU data,” in *Proc. IEEE PES Gen. Meeting*, 2016, pp. 1–5. DOI: [10.1109/PESGM.2016.7741972](https://doi.org/10.1109/PESGM.2016.7741972).
+8. S. Wang, J. Zhao, Z. Huang, and R. Diao, “Assessing Gaussian assumption of PMU measurement error using field data,” *IEEE Trans. Power Del.*, 33(6):3233–3236, 2018. DOI: [10.1109/TPWRD.2017.2762927](https://doi.org/10.1109/TPWRD.2017.2762927).
+9. J. Zhao, M. Netto, and L. Mili, “A robust iterated extended Kalman filter for power system dynamic state estimation,” *IEEE Trans. Power Syst.*, 32(4):3205–3216, 2017. DOI: [10.1109/TPWRS.2016.2628344](https://doi.org/10.1109/TPWRS.2016.2628344).
+10. P. V. Kokotović, B. Avramović, J. H. Chow, and J. R. Winkelman, “Coherency based decomposition and aggregation,” *Automatica*, 18(1):47–56, 1982. DOI: [10.1016/0005-1098(82)90025-5](https://doi.org/10.1016/0005-1098(82)90025-5).
+11. Y. Susuki and I. Mezić, “Nonlinear Koopman modes and coherency identification of coupled swing dynamics,” *IEEE Trans. Power Syst.*, 26(4):1894–1904, 2011. DOI: [10.1109/TPWRS.2010.2103369](https://doi.org/10.1109/TPWRS.2010.2103369).
+12. Z. Jiang, N. Tong, Y. Liu, Y. Xue, and A. G. Tarditi, “Enhanced dynamic equivalent identification method of large-scale power systems using multiple events,” *Electr. Power Syst. Res.*, 189:106569, 2020. DOI: [10.1016/j.epsr.2020.106569](https://doi.org/10.1016/j.epsr.2020.106569).
+13. J. L. Jardim and A. M. Leite da Silva, “A methodology for computing robust dynamic equivalents of large power systems,” *Electr. Power Syst. Res.*, 143:513–521, 2017. DOI: [10.1016/j.epsr.2016.11.003](https://doi.org/10.1016/j.epsr.2016.11.003).
+14. Q. Chen and H. Wang, “Time-adaptive transient stability assessment based on gated recurrent unit,” *International Journal of Electrical Power & Energy Systems*, 133:107156, 2021. DOI: [10.1016/j.ijepes.2021.107156](https://doi.org/10.1016/j.ijepes.2021.107156).
+15. J. Liu, C. Yao, and L. Chen, “Time-adaptive transient stability assessment based on the gating spatiotemporal graph neural network and gated recurrent unit,” *Frontiers in Energy Research*, 10:885673, 2022. DOI: [10.3389/fenrg.2022.885673](https://doi.org/10.3389/fenrg.2022.885673).
+16. S. P. Nandanoori, S. Guan, S. Kundu, S. Pal, K. Agarwal, Y. Wu, and S. Choudhury, “Graph neural network and Koopman models for learning networked dynamics: A comparative study on power grid transients prediction,” *IEEE Access*, 10, 2022. DOI: [10.1109/ACCESS.2022.3160710](https://doi.org/10.1109/ACCESS.2022.3160710).
+17. G. S. Misyris, A. Venzke, and S. Chatzivasileiadis, “Physics-informed neural networks for power systems,” in *2020 IEEE Power & Energy Society General Meeting (PESGM)*, pp. 1–5. DOI: [10.1109/PESGM41954.2020.9282004](https://doi.org/10.1109/PESGM41954.2020.9282004).
+18. J. Stiasny, B. Zhang, and S. Chatzivasileiadis, “PINNSim: A simulator for power system dynamics based on physics-informed neural networks,” *Electr. Power Syst. Res.*, 235:110796, 2024. DOI: [10.1016/j.epsr.2024.110796](https://doi.org/10.1016/j.epsr.2024.110796).
+19. T. Athay, R. Podmore, and S. Virmani, “A practical method for the direct analysis of transient stability,” *IEEE Trans. Power App. Syst.*, PAS-98(2):573–584, 1979. DOI: [10.1109/TPAS.1979.319407](https://doi.org/10.1109/TPAS.1979.319407).
+20. A. R. Bergen and D. J. Hill, “A structure preserving model for power system stability analysis,” *IEEE Trans. Power App. Syst.*, PAS-100(1):25–35, 1981. DOI: [10.1109/TPAS.1981.316883](https://doi.org/10.1109/TPAS.1981.316883).
+21. F. Dörfler and F. Bullo, “Kron reduction of graphs with applications to electrical networks,” *IEEE Trans. Circuits Syst. I, Reg. Papers*, 60(1):150–163, 2013. DOI: [10.1109/TCSI.2012.2215780](https://doi.org/10.1109/TCSI.2012.2215780).
+22. S. Y. Çalışkan and P. Tabuada, “Towards Kron reduction of generalized electrical networks,” *Automatica*, 50(10):2586–2590, 2014. DOI: [10.1016/j.automatica.2014.08.017](https://doi.org/10.1016/j.automatica.2014.08.017).
+23. H. Mori, “Transport, collective motion, and Brownian motion,” *Prog. Theor. Phys.*, 33(3):423–455, 1965. DOI: [10.1143/PTP.33.423](https://doi.org/10.1143/PTP.33.423).
+24. A. Gouasmi, E. J. Parish, and K. Duraisamy, “A priori estimation of memory effects in reduced-order models of nonlinear systems using the Mori–Zwanzig formalism,” *Proc. R. Soc. A*, 473(2205):20170385, 2017. DOI: [10.1098/rspa.2017.0385](https://doi.org/10.1098/rspa.2017.0385).
+25. L. Pagnier, R. Delabays, and M. Tyloo, “Nontrivial Kron reduction for power grid dynamics modeling,” in *Proc. IEEE Kiel PowerTech*, 2025, pp. 1–6. DOI: [10.1109/PowerTech59965.2025.11180705](https://doi.org/10.1109/PowerTech59965.2025.11180705).
+26. S. L. Brunton, J. L. Proctor, and J. N. Kutz, “Discovering governing equations from data by sparse identification of nonlinear dynamical systems,” *Proc. Natl. Acad. Sci. USA*, 113(15):3932–3937, 2016. DOI: [10.1073/pnas.1517384113](https://doi.org/10.1073/pnas.1517384113).
+27. H. Schaeffer and S. G. McCalla, “Sparse model selection via integral terms,” *Phys. Rev. E*, 96(2):023302, 2017. DOI: [10.1103/PhysRevE.96.023302](https://doi.org/10.1103/PhysRevE.96.023302).
+28. D. A. Messenger and D. M. Bortz, “Weak SINDy: Galerkin-based data-driven model selection,” *Multiscale Model. Simul.*, 19(3):1474–1497, 2021. DOI: [10.1137/20M1343166](https://doi.org/10.1137/20M1343166).
+29. K. Champion, B. Lusch, J. N. Kutz, and S. L. Brunton, “Data-driven discovery of coordinates and governing equations,” *Proc. Natl. Acad. Sci. USA*, 116(45):22445–22451, 2019. DOI: [10.1073/pnas.1906995116](https://doi.org/10.1073/pnas.1906995116).
+30. J. Bakarji, K. Champion, J. N. Kutz, and S. L. Brunton, “Discovering governing equations from partial measurements with deep delay autoencoders,” *Proc. R. Soc. A*, 479(2276):20230422, 2023. DOI: [10.1098/rspa.2023.0422](https://doi.org/10.1098/rspa.2023.0422).
+31. M. L. Gao, J. P. Williams, and J. N. Kutz, “Sparse identification of nonlinear dynamics and Koopman operators with shallow recurrent decoder networks,” *Proceedings of the National Academy of Sciences*, 123(16):e2508144123, 2026. DOI: [10.1073/pnas.2508144123](https://doi.org/10.1073/pnas.2508144123).
+32. B. Peherstorfer and K. E. Willcox, “Data-driven operator inference for nonintrusive projection-based model reduction,” *Comput. Methods Appl. Mech. Eng.*, 306:196–215, 2016. DOI: [10.1016/j.cma.2016.03.025](https://doi.org/10.1016/j.cma.2016.03.025).
+33. J.-C. Loiseau and S. L. Brunton, “Constrained sparse Galerkin regression,” *J. Fluid Mech.*, 838:42–67, 2018. DOI: [10.1017/jfm.2017.823](https://doi.org/10.1017/jfm.2017.823).
+34. P. Goyal, I. Pontes Duff, and P. Benner, “Guaranteed stable quadratic models and their applications in SINDy and operator inference,” *Physica D*, 483:134893, 2025. DOI: [10.1016/j.physd.2025.134893](https://doi.org/10.1016/j.physd.2025.134893).
+35. A. J. van der Schaft and B. M. Maschke, “Port-Hamiltonian systems on graphs,” *SIAM J. Control Optim.*, 51(2):906–937, 2013. DOI: [10.1137/110840091](https://doi.org/10.1137/110840091).
+36. S. Chaturantabut, C. Beattie, and S. Gugercin, “Structure-preserving model reduction for nonlinear port-Hamiltonian systems,” *SIAM J. Sci. Comput.*, 38(5):B837–B865, 2016. DOI: [10.1137/15M1055085](https://doi.org/10.1137/15M1055085).
+37. C. Neary and U. Topcu, “Compositional learning of dynamical system models using Port-Hamiltonian neural networks,” in *Proc. 5th Annu. Learn. Dyn. Control Conf.*, ser. Proc. Mach. Learn. Res., vol. 211, pp. 679–691, 2023. [https://proceedings.mlr.press/v211/neary23a.html](https://proceedings.mlr.press/v211/neary23a.html).
+38. J. Rettberg, J. Kneifl, J. Herb, P. Buchfink, J. Fehr, and B. Haasdonk, “Data-driven identification of latent port-Hamiltonian systems,” *Computational Science and Engineering*, 2:4, 2025. DOI: [10.1007/s44207-025-00007-2](https://doi.org/10.1007/s44207-025-00007-2).
+39. H. Cui, F. Li, and K. Tomsovic, “Hybrid symbolic-numeric framework for power system modeling and analysis,” *IEEE Trans. Power Syst.*, 36(2):1373–1384, 2021. DOI: [10.1109/TPWRS.2020.3017019](https://doi.org/10.1109/TPWRS.2020.3017019).
+40. K. Cho, B. van Merriënboer, C. Gulcehre, D. Bahdanau, F. Bougares, H. Schwenk, and Y. Bengio, “Learning phrase representations using RNN encoder–decoder for statistical machine translation,” in *Proc. Conf. Empirical Methods in Natural Language Processing*, 2014, pp. 1724–1734. DOI: [10.3115/v1/D14-1179](https://doi.org/10.3115/v1/D14-1179).
+41. A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin, “Attention is all you need,” in *Advances in Neural Information Processing Systems*, vol. 30, 2017. [https://arxiv.org/abs/1706.03762](https://arxiv.org/abs/1706.03762).
+42. Y. Rubanova, R. T. Q. Chen, and D. K. Duvenaud, “Latent ODEs for irregularly-sampled time series,” in *Advances in Neural Information Processing Systems*, vol. 32, 2019. [https://arxiv.org/abs/1907.03907](https://arxiv.org/abs/1907.03907).
+43. H. Arbabi and I. Mezić, “Ergodic theory, dynamic mode decomposition, and computation of spectral properties of the Koopman operator,” *SIAM Journal on Applied Dynamical Systems*, 16(4):2096–2126, 2017. DOI: [10.1137/17M1125236](https://doi.org/10.1137/17M1125236).
+44. L. Lu, P. Jin, G. Pang, Z. Zhang, and G. E. Karniadakis, “Learning nonlinear operators via DeepONet based on the universal approximation theorem of operators,” *Nature Machine Intelligence*, 3:218–229, 2021. DOI: [10.1038/s42256-021-00302-5](https://doi.org/10.1038/s42256-021-00302-5).
+45. X. Pu, W. Pei, H. Xiao, J. Xiong, X. Wang, G. Wang, and Y. Sun, “A dynamic trajectory computation method for power systems based on an improved invertible Koopman neural operator,” *Advanced Technology of Electrical Engineering and Energy*, 2026, early access. DOI: [10.12067/ATEEE2601079](https://doi.org/10.12067/ATEEE2601079).
+46. S. Chung, Y. Zhang, M. Yue, and H. Cui, “Network interdependency-informed power system dynamic trajectory prediction utilizing black-box modeling of multiple inverter-based resources,” arXiv:2607.05843, 2026. [https://arxiv.org/abs/2607.05843](https://arxiv.org/abs/2607.05843).
+47. H. Li, L. Mai, C. Xiao, E. Blasch, and Y. Weng, “Predicting power-system dynamic trajectories with foundation models,” arXiv:2604.14991, 2026. [https://arxiv.org/abs/2604.14991](https://arxiv.org/abs/2604.14991).
+48. P. Ellinas, J. Vorwerk, and S. Chatzivasileiadis, “Tools to explain neural networks for power system dynamics,” arXiv:2608.08048, 2026. [https://arxiv.org/abs/2608.08048](https://arxiv.org/abs/2608.08048).
+49. P. Geurts, D. Ernst, and L. Wehenkel, “Extremely randomized trees,” *Machine Learning*, 63(1):3–42, 2006. DOI: [10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1).
+50. Z. Du, S. Shan, and Y. Liu, “Region of attraction estimation for power system transient stability via physics-constrained deep Koopman operator,” *IET Generation, Transmission & Distribution*, 20(1):e70428, 2026. DOI: [10.1049/gtd2.70428](https://doi.org/10.1049/gtd2.70428).
+51. J.-N. Juang and R. S. Pappa, “An eigensystem realization algorithm for modal parameter identification and model reduction,” *Journal of Guidance, Control, and Dynamics*, 8(5):620–627, 1985. DOI: [10.2514/3.20031](https://doi.org/10.2514/3.20031).
+52. J. J. Q. Yu, D. J. Hill, A. Y. S. Lam, J. Gu, and V. O. K. Li, “Intelligent time-adaptive transient stability assessment system,” *IEEE Trans. Power Syst.*, 33(1):1049–1058, 2018. DOI: [10.1109/TPWRS.2017.2707501](https://doi.org/10.1109/TPWRS.2017.2707501).

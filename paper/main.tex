@@ -45,6 +45,12 @@ The same frozen equations yield a median dominant-mode frequency error of
 0.0318~Hz, reproduce 27 of 29 jointly triggered loss-of-synchronism cuts
 exactly, and give a forecast-origin mechanical-energy area under the receiver
 operating characteristic curve (AUROC) of 0.9526.
+Under nine literature-grounded measurement-noise and bad-data stress regimes
+with the 75-parameter equation held fixed, a pooled empirical-Bayes robust
+moving-horizon initializer maintains 90.62\%--91.88\% recall at zero false
+alarms on the 94-event Test Set, lowers stable 8-s error across eight noisy
+conditions, lifts total-storage AUROC to 0.841--0.937 (+0.151 to +0.314), and
+cuts single-event initialization latency by $5.2\times$.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -399,6 +405,73 @@ is checked through the later trigger. For forecasts without a trigger it is
 checked through the end. Trajectory metrics have their own interval-level
 qualification and full-forecast finiteness is recorded separately.
 
+\subsection{Noise-robust pooled empirical-Bayes initialization}
+\label{sec:robust_init}
+In deployment, noisy synchrophasor and state-estimation histories violate
+exact alignment at \(t_o\) and inject measurement errors into the hidden
+memory state \(z(t_o)\) when using the lightly regularized Gauss--Newton
+solve~\eqref{eq:history}. To handle Gaussian, heavy-tailed, and impulsive
+bad-data streams without retraining the 75 frozen ODE coefficients, we
+augment initialization with a causal pooled empirical-Bayes moving-horizon
+estimator (Pooled MHE V4).
+
+First, a kinematic consistency gate evaluates the 11-frame integral defect
+between measured \(q\) and trapezoidal-integrated \(v\). When the defect is
+at most \(\gamma_g=3\times10^{-4}\)~rad (noiseless histories), the predictor
+bypasses identically to~\eqref{eq:history}, ensuring exact parity on clean
+inputs. Otherwise, each of the 20 normalized channels \(i\) is pre-cleaned
+causally on the 11 frames by taking the elementwise lower median across all
+\(\binom{11}{3}=165\) exact quadratic interpolants, followed by two Huber
+(\(\delta_k=1.5\)) and two Tukey biweight (\(c_T=4.685\)) iteratively
+reweighted least-squares passes using scale
+\(\sigma_{k,i}=\max(\mathrm{MAD}(r_i),\hat\sigma_{\Delta^2,i})\). This yields
+smoothed histories \(\bar y_{j,i}\), outlier weights \(w_{j,i}\in[0,1]\) that
+vanish on impulsive spikes, cleaned second-difference noise estimates
+\(\hat\sigma_i\), and cleaned terminal observations
+\(y^{\rm term}_{10,i}=(1-w_{10,i})\bar y_{10,i}+w_{10,i}y_{10,i}\).
+
+Because nine-sample second-difference scales can under-estimate noise on
+individual channels, we pool the noise floor within the ten angle channels
+and ten speed channels separately for each event:
+\begin{equation}
+ \tilde\sigma_i=\max\!\left(\hat\sigma_i,\;
+ 0.7\,\operatorname{lmed}_{k\in\mathcal G(i)}\hat\sigma_k\right),
+ \label{eq:pooled_noise}
+\end{equation}
+where \(\mathcal G(i)\) indexes the ten channels of the same physical type
+and \(\operatorname{lmed}\) denotes the lower median. Next, seven
+Levenberg--Marquardt iterations jointly optimize the 18 COI-projected initial
+visible coordinates and 10 smooth-radius memory coordinates \(\eta\) over all
+11 frames, using a visible-anchor prior \(10^{-4}\) and an event-adaptive
+inverse-SNR memory prior
+\(\lambda_{\rm map}=\lambda_h+\alpha\,\bar\sigma^2/\max(E_{\rm sig},0.01)\),
+where \(\bar\sigma\) is the RMS of \(\hat\sigma_i\) and \(E_{\rm sig}\) is
+the normalized fitted signal energy. After three kinematic-only iterations,
+each channel's excess plant--model mismatch variance is estimated online as
+\begin{equation}
+ \hat\tau_i^2=\max\!\left(0,\;
+ \frac{\sum_{j=0}^{10}w_{j,i}\,[(\bar y_{j,i}-\tilde y_{j,i})/s_i]^2}
+ {\max\!\bigl(\sum_{j=0}^{10}w_{j,i},\,10^{-6}\bigr)}
+ -c_{\rm var}\tilde\sigma_i^2\right),
+ \label{eq:mismatch_var}
+\end{equation}
+and the Huber cutoff inflates to
+\(\delta_H\sqrt{\sigma_{k,i}^2+\hat\tau_i^2}\) (\(\delta_H=1.5\)).
+At \(t_o\), the physics-fitted terminal visible state \(\tilde y_{10}\) and
+cleaned terminal observation \(y^{\rm term}_{10}\) are fused per channel and
+projected back onto the COI subspace:
+\begin{equation}
+ \begin{aligned}
+ K_i &= \frac{\hat\tau_i^2}{\hat\tau_i^2+\kappa_{\rm term}\tilde\sigma_i^2+10^{-12}},\\
+ \hat y_{10} &= P_{\rm COI}\!\bigl((1-K)\odot\tilde y_{10}+K\odot y^{\rm term}_{10}\bigr).
+ \end{aligned}
+ \label{eq:terminal_fusion}
+\end{equation}
+The fused visible origin \(\hat y_{10}\) is paired with the fitted terminal
+memory state \(z(t_o)\) to integrate the unchanged frozen ODE for 8~s.
+Setting \(c_{\rm var}=\infty\) sets \(\hat\tau_i^2=K_i=0\) as a pure-physics
+ablation without terminal fusion.
+
 % Initialization, loss, and selection evidence: the controlled initializer
 % decomposition, first-swing gradient probe, and registered unified discovery
 % and paired pruning reports dated 2026-11-19 through 2026-11-21.
@@ -448,6 +521,28 @@ standard deviation \(10^{-3}\) of the training history scales raises the
 error from 0.001714 to 0.005741. The resulting accuracy of the observed
 trajectory and the recovery of the hidden coordinates test different
 properties of the fit.
+
+To verify the noise-robust initializer~\eqref{eq:pooled_noise}--\eqref{eq:terminal_fusion}
+before real-grid stress testing, we evaluate 40 zero-mismatch endpoint-pulse
+cases per step (all ten generators, first or last input frame, positive or
+negative \(10\sigma\) angle and speed spikes over steady PMU background) at
+both 2.5 and 1.25~ms. Every candidate achieves exact zero Tukey weight on all
+80/80 pulsed channel elements, finite 8-s trajectories, COI residuals below
+\(10^{-12}\), and storage-balance residuals below \(10^{-12}\). Four of eight
+registered candidates (C, E, F, H) clear both dual-step gates (\(\ge80\%\)
+reduction vs.\ original Gauss--Newton and \(\le1.02\times\) an unpooled Huber
+MHE baseline): candidate~F (\(\alpha=0.15\), \(c_{\rm var}=8.0\),
+\(\kappa_{\rm term}=2.0\)) cuts first-frame 500-ms speed-peak error from
+0.018517 to 0.003002~rad/s (\(-83.79\%\)), last-frame peak error from
+0.346409 to 0.003229~rad/s (\(-99.07\%\)), and 40-case 8-s NRMSE from
+0.083448 to 0.005465 (\(-93.45\%\)). Pooling the per-type noise floor
+reduces spurious positive mismatch-variance triggers on zero-mismatch data
+from 69/800 channels without pooling down to 2/800 for candidate~F and 0/800
+for fusion-off ablations (G, H). Candidate~A (\(\alpha=0.03\),
+\(c_{\rm var}=4.0\), \(\kappa_{\rm term}=1.0\)) also cuts the three synthetic
+errors by 83.5\%--98.7\% vs.\ original Gauss--Newton (0.003061~rad/s,
+0.004406~rad/s, and 0.008547) while exceeding the \(1.02\times\) unpooled
+bound under zero mismatch due to its lighter memory prior.
 
 \section{Case Study on the IEEE 39-Bus System}
 \label{sec:ieee39}
@@ -689,7 +784,9 @@ memory state changes the energy distributions while the mechanical term
 continues to rank the unstable cases highly. The paired initializer
 contrast supports interpreting \(E_z\) as storage associated with the
 effective memory force. The mechanical-energy AUROC measures ranking
-on this fault distribution.
+on this fault distribution. Section~\ref{sec:noise} shows that the pooled
+empirical-Bayes initializer restores memory- and total-storage AUROC across
+all noisy regimes without altering the frozen equation.
 
 \begin{figure*}[!t]
  \centering
@@ -719,6 +816,175 @@ energy input. The Test Set covers unseen faults at one ten-generator
 operating point. Other operating points, larger grids, and inverter-rich
 networks require separate validation.
 
+\section{Measurement Noise and Bad-Data Stress Testing}
+\label{sec:noise}
+\subsection{Stress protocol and cross-repository noise parity}
+To assess deployment resilience without altering any learned dynamics, we
+freeze the 75-parameter ES-ROM equation, all physics ablations, and 19
+published neural and tree-based models from the companion benchmark suite
+(28 model configurations in total) and inject measurement noise solely into
+the 11-frame \((q,v)\) history and origin power deviation \(p\). Ground-truth
+trajectories and stability labels remain unchanged. Ten regimes follow
+synchrophasor standards and field-noise studies: (1)~clean replay;
+(2)~steady-state PMU Gaussian noise (0.0033~rad, 0.010~rad/s)
+\cite{ieee60255_2018,brown2016pmu}; (3)~dynamic DSE Gaussian noise
+(0.010~rad, 0.050~rad/s) \cite{ieee60255_2018,singh2014dynamic,ghahremani2011dynamic};
+(4)~dynamic DSE plus 0.010~p.u.\ mechanical-power noise
+\cite{ghahremani2011dynamic,singh2014dynamic}; (5)--(6)~fixed-scale 30 and
+20~dB Gaussian noise relative to \((s_q,s_v)\)
+\cite{yu2018intelligent,chen2021adaptive}; (7)--(8)~variance-matched
+heavy-tailed Laplace and Student \(t_3\) noise
+\cite{wang2018pmu,zhao2017robust}; (9)~5\% random-frame \(10\sigma\) pulses
+(0.10~rad, 0.50~rad/s) over steady background \cite{zhao2017robust}; and
+(10)~single-machine first- or last-frame \(10\sigma\) endpoint pulses
+\cite{zhao2017robust}.
+
+Noise realizations use deterministic SHA-256-seeded PCG64 streams (one clean
+pass and five noisy replicates per regime) across three disjoint cohorts: the
+Validation Set (\(N=107\)), an auxiliary 76-event Fixed Test Split (67 stable,
+9 unstable), and the primary 94-event Test Set (dataset roster
+\texttt{blind\_v2}). All 138 cohort--regime--replicate raw noise digests
+match bit-for-bit across the physics and baseline repositories (138/138
+SHA-256 parity).
+
+\subsection{Zero-retrain initializer selection and ablations}
+All eight registered Pooled MHE V4 candidates (A--H) were screened on the
+Validation Set (78,752 dual-step predictions, zero optimizer updates, zero
+numerical failures) against archived original ES-ROM and causal
+Savitzky--Golay (5-frame quadratic) Gauss--Newton baselines. Each candidate
+had to preserve clean confirmation (12/12 unstable, \(\le2/95\) false alarms,
+\(\le2\%\) stable NRMSE increase) and reduce a pre-registered four-term
+composite loss (stable 8-s NRMSE, unstable available NRMSE, normalized 500-ms
+peak deficit, and average miss/false-alarm rate) by at least 1\% against both
+baselines across six required stress regimes (dynamic DSE, 30~dB, Laplace,
+Student \(t_3\), random pulse, endpoint pulse) at both 2.5 and 1.25~ms.
+
+Seven of eight candidates (A--G) passed every gate; only the strongly damped
+fusion-off candidate~H failed random pulses. Candidate~A (\(\alpha=0.03\),
+\(c_{\rm var}=4.0\), \(\kappa_{\rm term}=1.0\), inverse-SNR prior enabled)
+ranked first, reducing composite loss by 15.66\% on average across all 24
+regime--step--baseline comparisons (minimum 11.24\% on endpoint pulses,
+maximum 25.44\% on Student \(t_3\)), while keeping clean performance identical
+(12/12 confirmed, 2/95 false alarms, stable NRMSE ratio 1.000). Controlled
+pairs isolate each component: enabling the inverse-SNR memory prior (B vs.\ C,
+14.80\% vs.\ 12.63\%) adds 2.17 percentage points, and enabling
+empirical-Bayes mismatch variance and terminal fusion (B vs.\ G, 14.80\% vs.\
+9.84\%) adds 4.96 percentage points. Candidate~A was frozen with zero
+training-set reads before holdout inference.
+
+\NoiseStressTable
+\NoiseBootstrapLatencyTable
+
+\subsection{Frozen holdout performance, energy recovery, and latency}
+The frozen model completed a one-shot joint holdout on the Fixed Test Split
+and Test Set (93,840 predictions across six physics predictors at 2.5 and
+1.25~ms, zero numerical failures, and 100\% dual-step pairing across 20,976
+and 25,944 event--repeat pairs; a post-scoring file-creation conflict during
+noise-manifest merging was sealed directly from the 552 verified per-case
+score archives with zero additional predictions). Table~\ref{tab:noise_stress}
+and Figs.~\ref{fig:noise_gauss}--\ref{fig:noise_latency} summarize the
+cross-repository results.
+
+\begin{figure*}[!t]
+ \centering
+ \includegraphics[width=.88\textwidth]{figures/noise-gaussian.pdf}
+ \caption{Gaussian measurement-noise degradation on the 94-event Test Set
+ (\texttt{blind\_v2}, 2.5~ms ES-ROM step, native peer steps). Points show
+ five-repeat means with \(\pm1\) sample SD whiskers; crosses mark unavailable
+ metrics.}
+ \label{fig:noise_gauss}
+\end{figure*}
+
+\begin{figure*}[!t]
+ \centering
+ \includegraphics[width=.88\textwidth]{figures/noise-heavytail-pulse.pdf}
+ \caption{Heavy-tailed noise, impulsive bad data, and first-/last-frame
+ endpoint peak-speed deficit on the 94-event Test Set (\texttt{blind\_v2},
+ 2.5~ms ES-ROM step).}
+ \label{fig:noise_stress}
+\end{figure*}
+
+\begin{figure*}[!t]
+ \centering
+ \includegraphics[width=.84\textwidth]{figures/noise-cut-energy.pdf}
+ \caption{Loss-of-synchronism cut identification and forecast-origin energy
+ AUROC across all ten noise regimes on the 94-event Test Set
+ (\texttt{blind\_v2}, 2.5~ms step).}
+ \label{fig:noise_cut_energy}
+\end{figure*}
+
+\begin{figure*}[!t]
+ \centering
+ \includegraphics[width=.85\textwidth]{figures/noise-latency.pdf}
+ \caption{RTX 4060 Ti inference latency by timing protocol: (a)--(b) CUDA
+ initialization and 8-s rollout split for ES-ROM models at 2.5~ms; (c)--(d)
+ end-to-end native peer latency including host assembly and transfers.}
+ \label{fig:noise_latency}
+\end{figure*}
+
+\emph{1) Stability accuracy versus pointwise trajectory error:}
+On the 94-event Test Set, Pooled MHE V4 maintains 90.62\%--91.88\% confirmed
+unstable recall across all nine noisy regimes with 0.00\% false alarms in
+every regime and replicate, while keeping stable 8-s NRMSE flat at
+0.2477--0.2499 (virtually identical to the 0.2512 clean floor). Even under
+strict accuracy that penalizes every unsettled prediction as incorrect
+(42/4,324 on the Test Set; 50/3,496 on Fixed Test), Pooled MHE V4 achieves
+the highest nine-noisy-scenario mean across all three cohorts among all 14
+trajectory baselines and full-cohort classifiers: 98.65\% on Validation,
+98.45\% on Fixed Test, and 96.88\% on the Test Set (97.85\% on resolved
+cases). Pure neural trajectory baselines that achieve lower Test Set NRMSE do
+so by damping large swings toward equilibrium, causing severe instability
+misses---Small Transformer records 0.0\% recall across all cohorts, Latent
+Neural ODE misses 44\%--67\%, GRU Seq2Seq misses 24\%--45\%, and Small LASS
+misses 22\%--56\%. The strongest neural trajectory comparator, Graph-GRU,
+retains lower unstable NRMSE on the Test Set (0.462 vs.\ 0.769, reflecting
+the 75-parameter ZOH-power ODE modeling floor already present on clean data)
+but exhibits 83.0\% Test Set recall and suffers severe noise-induced
+divergence (stable NRMSE 2.883 mean / 3.206 max on Validation and 0.795 under
+Test Set random \(10\sigma\) pulses). Among direct classifiers, Extra Trees
+(validation threshold) attains 96.8\% Test Set recall at an unusable 21.8\%
+mean false-alarm rate (up to 28.7\%), whereas the validation-calibrated GRU
+classifier matches Test Set accuracy (96.81\%) while trailing on Validation
+(93.02\%) and Fixed Test (96.29\%) and supplying no trajectory, cut, or
+energy diagnostics.
+
+\emph{2) Regularization of plant--model mismatch and endpoint nuances:}
+On the 76-event Fixed Test Split, noisy activation of Pooled MHE V4 raises
+confirmed recall from 55.56\% (clean bypass) to 80.00\%--88.89\% (88.89\%
+across five regimes including random and endpoint pulses), lowers unstable
+available NRMSE from 1.373 to 0.479--0.537, and keeps stable NRMSE at
+0.191--0.227 with 0.03\% mean false alarms. Thus, the regularized 28-state
+formulation simultaneously suppresses measurement noise and hidden-state
+ill-conditioning induced by plant--model mismatch, whereas retaining the
+causal clean bypass preserves exact clean baseline parity. Endpoint-pulse
+median peak-speed deficits show mixed directional shifts across cohorts
+(Fixed Test first/last frame: \(1.848\to3.629\) and \(0.749\to0.159\)~rad/s;
+Test Set first/last frame: \(0.519\to0.457\) and \(0.536\to0.655\)~rad/s).
+
+\emph{3) Paired bootstrap, physical energy recovery, and latency:}
+Table~\ref{tab:noise_bootstrap_latency}(A) reports 21-group paired bootstrap
+comparisons (10,000 draws) of Pooled MHE V4 minus original ES-ROM on the Test
+Set. Stable 8-s NRMSE drops significantly in 8 of 9 noisy regimes (all except
+steady PMU), unstable NRMSE drops significantly under 20~dB (\(-0.1160\)),
+random pulses (\(-0.1354\)), and endpoint pulses (\(-0.1297\)), and recall
+improves significantly under 20~dB (\(+9.38\)~pp) and Student \(t_3\)
+(\(+7.50\)~pp). Most notably, unregularized Gauss--Newton maps measurement
+noise directly into \(z(t_o)\), collapsing memory-storage AUROC to near
+chance (0.496--0.595) and total-storage AUROC to 0.619--0.694
+(Fig.~\ref{fig:noise_cut_energy}). Pooled MHE V4 restores memory-storage
+AUROC to 0.760--0.879 and raises total-storage AUROC to 0.841--0.937 across
+all nine noisy regimes (\(+0.1510\) to \(+0.3140\), all nine 95\% intervals
+strictly positive), while maintaining 90.5\%--93.1\% exact cut identification
+(cut intervals cross zero). Finally, Table~\ref{tab:noise_bootstrap_latency}(B)
+and Fig.~\ref{fig:noise_latency} show that Pooled MHE V4 cuts single-event
+initialization latency on an RTX 4060 Ti by \(5.2\times\) at 2.5~ms
+(\(1.356\to0.262\)~s) and \(14.7\times\) at 1.25~ms (\(6.723\to0.458\)~s),
+giving \(1.241\pm0.006\)~s total for batch~1 and \(1.999\pm0.022\)~s for
+batch~64 (\(\approx31\)~ms/event at 2.5~ms), with the 8-s double-precision
+RK4 rollout accounting for the remaining gap relative to neural forward
+passes (e.g., 1.18~ms for the GRU classifier and \(\approx0.6\)~s for
+Graph-GRU under native single-pass timing).
+
 \section{Conclusion}
 \label{sec:conclusion}
 ES-ROM selects a shared explicit post-fault equation with 74 backbone
@@ -726,7 +992,13 @@ coefficients and one local damping softening coefficient. With 100~ms
 of observations, it confirms 90.62\% of Test Set instabilities at
 zero observed stable false alarms and 96.81\% accuracy. The same
 frozen equation gives the mode, cut, and energy information needed
-to interpret the forecast.
+to interpret the forecast. Coupled with a zero-retrain pooled empirical-Bayes
+moving-horizon initializer, the frozen model sustains 90.62\%--91.88\% recall
+at zero false alarms across nine Gaussian, heavy-tailed, and \(10\sigma\)
+bad-data stress regimes, leads strict classification accuracy across all
+three cohorts against 19 frozen neural and tree baselines under 138/138
+paired noise parity, restores total-storage AUROC to 0.841--0.937, and
+accelerates single-event initialization by \(5.2\times\).
 
 A switched fault-on and post-fault energy model would support
 clearing-time studies. Extensions include dynamic mechanical-power
@@ -736,6 +1008,7 @@ closed-loop stability certificates for active oscillations. Sparse
 graphs and inverter-control operators would test momentum screening
 and energy-consistent selection on larger, heterogeneous grids.
 
+\IEEEtriggeratref{50}
 \bibliographystyle{IEEEtran}
 \bibliography{task3-references}
 \end{document}
