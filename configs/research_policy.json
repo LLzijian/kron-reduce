@@ -6336,6 +6336,26 @@
       "result_review_path": "docs/research/kiki_machine_local_topology_spatial_relaxation_test_result_review_20261116.json",
       "result_review_sha256": "cc99cf80d1fec840c4a240876e4c3479e30d40b871b5b931d1c84fa1f3cbd840",
       "scientific_pass": false
+    },
+    "noise_robustness_esrom_v4_test_20261127": {
+      "status": "active",
+      "authority": "explicit_user_v4_joint_holdout_after_accepted_val",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "fit_attempts": 0,
+      "gradients": 0,
+      "optimizer_updates": 0,
+      "plan_path": "configs/experiments/noise_robustness_esrom_v4.toml",
+      "plan_sha256": "3aebcc85c09de1099acaf02a97768d8a9e99c61b0cdb7937be38793b7ff3e885",
+      "joint_scope": "noise_robustness_esrom_v4_20261127",
+      "frozen_model_manifest": {
+        "path": "docs/reports/11_noise_robustness/v4/_sealed/freeze_receipt.json",
+        "sha256": "89e2caaaf6161b99c530d4b788b07a465673d99ab245b6c1abc081c52fc52512"
+      },
+      "experiment": "noise_robustness_esrom_v4_test",
+      "test_population": "task3_campaign2_final_test",
+      "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
+      "test_cases": 76
     }
   },
   "round_evaluation_defaults": {
@@ -6408,6 +6428,31 @@
       "result_receipt_path": "docs/reports/blind_confirmation_m5_v1_20261121_evidence.json",
       "result_receipt_sha256": "2638e173a30695d4d8a7eba142971ce6f4916fbd28e052f901332f7ea1a1a227",
       "test_trajectory_reads": 0
+    },
+    "noise_robustness_esrom_v4_blind_20261127": {
+      "status": "active",
+      "authority": "explicit_user_v4_joint_holdout_after_accepted_val",
+      "max_executions": 1,
+      "retry_allowed": false,
+      "fit_attempts": 0,
+      "gradients": 0,
+      "optimizer_updates": 0,
+      "plan_path": "configs/experiments/noise_robustness_esrom_v4.toml",
+      "plan_sha256": "3aebcc85c09de1099acaf02a97768d8a9e99c61b0cdb7937be38793b7ff3e885",
+      "joint_scope": "noise_robustness_esrom_v4_20261127",
+      "frozen_model_manifest": {
+        "path": "docs/reports/11_noise_robustness/v4/_sealed/freeze_receipt.json",
+        "sha256": "89e2caaaf6161b99c530d4b788b07a465673d99ab245b6c1abc081c52fc52512"
+      },
+      "experiment": "noise_robustness_esrom_v4_blind",
+      "dataset": "kiki_ieee39_blind_v2",
+      "allowed_roles": [
+        "blind"
+      ],
+      "test_cases": 0,
+      "events": 94,
+      "dataset_manifest_sha256": "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786",
+      "dataset_checksums_sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f"
     }
   }
 }
