@@ -142,8 +142,12 @@ def _baseline_parity(root, plan, rows):
 def _synthetic(root, directory, plan):
     pytest_sha = _unit_tests(root, directory)
     prefix, rows = "V3_PULSE_DIAGNOSTICS ", []
-    with (directory / "pulse_diagnostics.log").open("wb") as log, +         (directory / "pulse_diagnostics.stderr").open("wb") as errors, +         subprocess.Popen([sys.executable, "-B", V3_TEST], cwd=root, stdout=subprocess.PIPE,
-                          stderr=errors) as process:
+    with (
+        (directory / "pulse_diagnostics.log").open("wb") as log,
+        (directory / "pulse_diagnostics.stderr").open("wb") as errors,
+        subprocess.Popen([sys.executable, "-B", V3_TEST], cwd=root, stdout=subprocess.PIPE,
+                         stderr=errors) as process,
+    ):
         for line in process.stdout:
             log.write(line)
             if line.startswith(prefix.encode()):
