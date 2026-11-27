@@ -1,62 +1,110 @@
 \section{Introduction}
 \label{sec:intro}
-Rotor trajectories reveal post-fault machine separation~\cite{hatziargyriou2021stability}.
-Synchrophasors support generator state estimation and low-order
-equivalencing~\cite{phadke2008phasors,singh2014dynamic,shiroei2016pmu,ghahremani2011dynamic},
-although field synchrophasor and state-estimation streams exhibit
-non-Gaussian, heavy-tailed errors and impulsive bad data beyond steady-state
-Gaussian models~\cite{ieee60255_2018,brown2016pmu,wang2018pmu,zhao2017robust}.
-Coherency analysis and Koopman modes identify groups with similar
-swings~\cite{chow1982coherency,susuki2011koopman}. Multi-event fitting estimates
-equivalent loads, and electrical-distance grouping aggregates external
-generators~\cite{jiang2020multievent,jardim2017robust}.
+Post-fault rotor-angle and speed trajectories show when synchronous machines
+lose synchronism, which machines separate, and how oscillations decay in
+stable events~\cite{hatziargyriou2021stability}. We study whether the first
+100~ms after fault clearing can initialize an eight-second forecast of this
+motion. A detailed time-domain simulation requires an initial state for
+the generator, excitation, and load dynamics. A dynamic equivalent for this
+forecasting task must represent their effect on rotor motion from a short
+record of the available states.
 
-Recurrent and graph models make transient stability
-decisions~\cite{chen2021adaptive,liu2022graph}. Graph and Koopman forecasters
-predict trajectories~\cite{nandanoori2022graph}. Physics-informed neural
-simulators use swing-equation residuals and can couple learned component
-responses~\cite{misyris2020pinn,stiasny2024pinnsim}.
+Synchronized electrical measurements support dynamic state estimation of
+generators~\cite{phadke2008phasors,singh2014dynamic}. Shiroei et al. fit a
+low-order equivalent to voltage and current phasors at the measurement
+bus~\cite{shiroei2016pmu}. Ghahremani and Kamwa estimate generator states
+when some machine inputs are unavailable~\cite{ghahremani2011dynamic}.
+The forecast protocol in this work starts with a history of rotor angles
+and speeds. The synchrophasor standard specifies measurement performance
+under steady-state and dynamic conditions~\cite{ieee60255_2018}.
+Empirical studies characterize PMU noise and report departures from
+Gaussian errors in field data~\cite{brown2016pmu,wang2018pmu}.
+Robust dynamic state estimation also addresses impulsive outliers~\cite{zhao2017robust}. In an 11-frame history, a first-frame outlier can
+distort the reconstructed motion, and a last-frame outlier can directly
+shift the visible state used to launch the forecast. The history fit can
+also absorb these errors into the inferred memory state.
 
-Transient-energy methods compare disturbance energy with a critical threshold,
-and structure-preserving models retain network
-topology~\cite{athay1979energy,bergen1981structure}. Kron reduction preserves
-terminal behavior in algebraic networks and selected dynamic
-circuits~\cite{dorfler2013kron,caliskan2014kron}. Eliminating dynamic states
-yields memory and unresolved initial-state
-terms~\cite{mori1965memory,gouasmi2017memory,pagnier2025kron}.
+Coherency-based reduction aggregates generators with similar motion, and
+Koopman modes can identify coherent groups in nonlinear swing
+data~\cite{chow1982coherency,susuki2011koopman}. Multi-event identification
+fits equivalent loads across disturbances, and grouping by electrical
+distance yields aggregate equivalents of external
+generators~\cite{jiang2020multievent,jardim2017robust}. To resolve which
+machines separate, we retain individual rotor coordinates and model
+how the omitted electrical and control dynamics act on those coordinates.
 
-Sparse discovery selects equation terms, and integral formulations avoid
-pointwise derivatives~\cite{brunton2016sindy,schaeffer2017integral,messenger2021weak}.
-Autoencoders learn coordinates, and delay embeddings and recurrent decoders
-address partial observations~\cite{champion2019coordinates,bakarji2023delay,gao2026shred}.
-Operator inference fits reduced dynamics, and constrained regression can
-impose energy or stability properties~\cite{peherstorfer2016opinf,loiseau2018galerkin,goyal2025quadratic}.
-Port-Hamiltonian formulations encode power-conserving interconnection and
-dissipation in graph models, nonlinear projection, and learned
-dynamics~\cite{vanderschaft2013graphs,chaturantabut2016ph,neary2023compositional,rettberg2025latent}.
+Time-adaptive recurrent and spatiotemporal graph models infer transient
+stability as observations arrive~\cite{chen2021adaptive,liu2022graph}.
+Graph and Koopman forecasters predict grid trajectories from streaming
+measurements and network topology~\cite{nandanoori2022graph}. Physics-informed
+neural networks have used swing-equation residuals to learn the response
+of a single-machine infinite-bus system~\cite{misyris2020pinn}.
+PINNSim learns dynamic component responses and couples them through a
+network solve~\cite{stiasny2024pinnsim}. In a free rotor forecast, the
+decay of stable oscillations and the size and timing of an unstable first
+swing test different parts of the same dynamics. We assess both trajectory
+agreement and confirmed loss of synchronism.
 
-ES-ROM selects restoring, damping, coupling, and memory operators in a
-shared explicit ODE and forecasts 8~s from 100~ms of post-clearing rotor
-history. We make five contributions.
+Transient-energy methods compare disturbance energy with a critical
+value, and structure-preserving models retain the network topology in
+stability analysis~\cite{athay1979energy,bergen1981structure}. Kron reduction
+preserves terminal behavior in algebraic networks and can be extended to
+particular classes of dynamic circuits~\cite{dorfler2013kron,caliskan2014kron}.
+Eliminating dynamical states more generally can yield a memory term driven
+by past motion and a term determined by the unresolved initial
+state~\cite{mori1965memory,gouasmi2017memory,pagnier2025kron}. The rotor
+equivalent therefore needs a law for the evolving memory force and a way
+to initialize it from the short record.
+
+Sparse equation discovery selects terms from a library. Integral and weak
+formulations recognize their contributions without pointwise
+differentiation~\cite{brunton2016sindy,schaeffer2017integral,messenger2021weak}.
+Autoencoders can learn coordinates in which the dynamics are sparse, and
+delay embeddings and recurrent decoders address partial
+observations~\cite{champion2019coordinates,bakarji2023delay,gao2026shred}.
+Operator inference fits reduced dynamics to trajectory data~\cite{peherstorfer2016opinf}. Constrained regression can enforce
+energy-preserving nonlinearities or encode stability within prescribed
+quadratic model classes~\cite{loiseau2018galerkin,goyal2025quadratic}.
+Port-Hamiltonian models express power-conserving interconnection and
+dissipation. These properties guide graph modeling, nonlinear projection,
+compositional learning, and latent reduced modeling~\cite{vanderschaft2013graphs,chaturantabut2016ph,neary2023compositional,rettberg2025latent}.
+
+ES-ROM joins causal initialization and operator selection in a single
+explicit ordinary differential equation. The 100-ms history determines
+event-specific initial states. A shared equation then forecasts the next
+8~s freely with mechanical power held at its forecast-origin value.
+Reciprocal memory ports represent transient forces from the omitted
+dynamics. Each candidate change to restoring force, damping, coupling, or
+memory obeys the same energy balance. The study makes five contributions.
+
 \begin{enumerate}
- \item We prove an exact supply--dissipation identity for every subset of
-       five physical operators in a center-of-inertia (COI) grey-box model.
- \item Smooth-radius causal Gauss--Newton, weak-momentum screening,
-       gradient-balanced local fitting, and backward pruning target
-       first-swing errors from clipped initial states and excess damping.
- \item Known-truth tests assess operator selection, hidden-state recovery,
-       and endpoint-pulse rejection, exposing an omitted restoring term with
-       a 200-ms momentum window.
- \item We benchmark the frozen model on 94 IEEE 39-bus events from 21 fault
-       groups and assess modal, separation, and energy consistency.
- \item We introduce a zero-retrain pooled empirical-Bayes moving-horizon
-       initializer and evaluate all frozen physics and data-driven models
-       under ten literature-grounded measurement-noise and bad-data regimes
-       with bit-for-bit paired noise banks.
+ \item We formulate the model in center-of-inertia (COI) coordinates and
+       prove an exact supply--dissipation identity for every combination of
+       five physical operators.
+ \item We address two causes of first-swing underprediction. Hard clipping
+       limits the inferred initial memory, and the trajectory loss can favor
+       excess damping. Smooth-radius causal Gauss--Newton initialization,
+       integral momentum screening, gradient-balanced backbone fitting,
+       and backward pruning jointly select the effective dynamics.
+ \item Known-truth systems test operator selection, hidden-state recovery,
+       and robustness to pulses at the observation endpoints. A 200-ms
+       momentum window reveals a missing restoring term even when the
+       long-horizon trajectory error is small.
+ \item We benchmark the frozen model on 94 held-out IEEE 39-bus events
+       across 21 fault groups. The same equation supports evaluation of
+       dominant oscillatory modes, loss-of-synchronism cuts, and
+       forecast-origin mechanical energy.
+ \item We introduce pooled empirical-Bayes moving-horizon initialization
+       for noisy histories, keeping the forecast equation frozen. The
+       initializer pools noise scales within angle and speed channels
+       separately and combines the model fit with the cleaned terminal
+       observation. A clean replay and nine noise and bad-data regimes
+       evaluate the frozen physics and data-driven models with matched
+       perturbations.
 \end{enumerate}
 
-Section~\ref{sec:problem} defines the protocol. Sections~\ref{sec:model}
-and~\ref{sec:discovery} develop the model, discovery pipeline, and
-noise-robust initializer. Sections~\ref{sec:synthetic}--\ref{sec:noise}
-report the synthetic tests, grid benchmark, physical analyses, and
-measurement-noise stress tests. Section~\ref{sec:conclusion} concludes.
+Section~\ref{sec:problem} defines the forecast protocol.
+Sections~\ref{sec:model} and~\ref{sec:discovery} develop the model, operator
+selection, and robust initialization. Sections~\ref{sec:synthetic}--\ref{sec:noise}
+present the synthetic tests, grid benchmark, physical analyses, and
+measurement-noise assessment. Section~\ref{sec:conclusion} concludes.
