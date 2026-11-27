@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "figures": {
+    "blind_v2_cut_energy_auroc": {
+      "pdf_and_png_sha256": {
+        "docs/reports/11_noise_robustness/v4/figures/blind_v2_cut_energy_auroc.pdf": "4499c3fa0ed7cb81fd03727d67f23de596de94390e1ccd33a8517c588360be4f",
+        "docs/reports/11_noise_robustness/v4/figures/blind_v2_cut_energy_auroc.png": "f75525fccaad2cb0dda971291cf1e2709a5936cc459a8d30fd82c9aab47c04fa"
+      },
+      "png_pixels": [
+        2160,
+        2175
+      ],
+      "png_ppi": 300,
+      "alignment": {
+        "fail": 0,
+        "warn": 0,
+        "comparisons": 1,
+        "exemptions": 0
+      },
+      "pdf_collisions": {
+        "fail": 0,
+        "warn": 0,
+        "contained_fill_overlays": 0,
+        "contained_image_overlays": 0
+      }
+    },
+    "blind_v2_gaussian_degradation": {
+      "pdf_and_png_sha256": {
+        "docs/reports/11_noise_robustness/v4/figures/blind_v2_gaussian_degradation.pdf": "39e1e6bea742810b0026cedfa245d2c6d95d778138608535e87889465d3f1cf9",
+        "docs/reports/11_noise_robustness/v4/figures/blind_v2_gaussian_degradation.png": "c1a048dfde9a0849f8a7a1e29cc23ced6a15bf195b72b42af2056af3405a08b9"
+      },
+      "png_pixels": [
+        2160,
+        1245
+      ],
+      "png_ppi": 300,
+      "alignment": {
+        "fail": 0,
+        "warn": 0,
+        "comparisons": 4,
+        "exemptions": 0
+      },
+      "pdf_collisions": {
+        "fail": 0,
+        "warn": 0,
+        "contained_fill_overlays": 0,
+        "contained_image_overlays": 0
+      }
+    },
+    "blind_v2_heavy_tail_pulse": {
+      "pdf_and_png_sha256": {
+        "docs/reports/11_noise_robustness/v4/figures/blind_v2_heavy_tail_pulse.pdf": "6b3c7293e07e51f9f01ce7eb770010ac05fe64dc1a5a1049ccecabb3b86ef8b7",
+        "docs/reports/11_noise_robustness/v4/figures/blind_v2_heavy_tail_pulse.png": "5b87dfee0c5805edeee1bf579621e0733f104b06cb9b33fce34ab9bfb3038dda"
+      },
+      "png_pixels": [
+        2160,
+        1605
+      ],
+      "png_ppi": 300,
+      "alignment": {
+        "fail": 0,
+        "warn": 0,
+        "comparisons": 5,
+        "exemptions": 0
+      },
+      "pdf_collisions": {
+        "fail": 0,
+        "warn": 0,
+        "contained_fill_overlays": 0,
+        "contained_image_overlays": 0
+      }
+    },
+    "blind_v2_latency_initialization_rollout": {
+      "pdf_and_png_sha256": {
+        "docs/reports/11_noise_robustness/v4/figures/blind_v2_latency_initialization_rollout.pdf": "c2ba3a9022d6864d07340c19ed9b8293553c342f7eba8a8c18caf5f22bf58b78",
+        "docs/reports/11_noise_robustness/v4/figures/blind_v2_latency_initialization_rollout.png": "8fcffdbbd1f1bb36a016c0273a6edca7f284873f573a2b2ea55e81337ee919bd"
+      },
+      "png_pixels": [
+        2160,
+        1470
+      ],
+      "png_ppi": 300,
+      "alignment": {
+        "fail": 0,
+        "warn": 0,
+        "comparisons": 4,
+        "exemptions": 0
+      },
+      "pdf_collisions": {
+        "fail": 0,
+        "warn": 0,
+        "contained_fill_overlays": 2,
+        "contained_image_overlays": 0
+      }
+    }
+  }
+}

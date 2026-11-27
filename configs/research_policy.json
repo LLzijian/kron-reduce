@@ -6338,7 +6338,7 @@
       "scientific_pass": false
     },
     "noise_robustness_esrom_v4_test_20261127": {
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_user_v4_joint_holdout_after_accepted_val",
       "max_executions": 1,
       "retry_allowed": false,
@@ -6355,7 +6355,16 @@
       "experiment": "noise_robustness_esrom_v4_test",
       "test_population": "task3_campaign2_final_test",
       "split_reference_sha256": "7940b2a824d41b07a0da9fadd6ce30a530b342d5c89d84a9da4f85e4bb54f8a2",
-      "test_cases": 76
+      "test_cases": 76,
+      "run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676",
+      "result_manifest_sha256": "9744f5930991da0551c8521b4be09621ab7f054702095eff7726d25918284127",
+      "consumed_at": "2026-11-27T02:21:23.138283+00:00",
+      "result_run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676-sealed",
+      "receipt_recovery": {
+        "prediction_run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676",
+        "failure_sha256": "f2884c3a75caf75584a714dda30a769e8df56ce2aabeec896487ceea08a88e73",
+        "provenance_sha256": "dec3d64d43e290379358de60a8c4e531b818c9249a8654f5e29e94f973e5ca6e"
+      }
     }
   },
   "round_evaluation_defaults": {
@@ -6430,7 +6439,7 @@
       "test_trajectory_reads": 0
     },
     "noise_robustness_esrom_v4_blind_20261127": {
-      "status": "active",
+      "status": "consumed",
       "authority": "explicit_user_v4_joint_holdout_after_accepted_val",
       "max_executions": 1,
       "retry_allowed": false,
@@ -6452,7 +6461,16 @@
       "test_cases": 0,
       "events": 94,
       "dataset_manifest_sha256": "96855de7c3e7574875c9182f13f37b11081eac46b1a6c6951d130c5ae144e786",
-      "dataset_checksums_sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f"
+      "dataset_checksums_sha256": "3ae5a16d70547b6aa7ffd2022f101530a34b89424d3ff329acc6d3597091d99f",
+      "run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676",
+      "result_manifest_sha256": "9744f5930991da0551c8521b4be09621ab7f054702095eff7726d25918284127",
+      "consumed_at": "2026-11-27T02:21:23.138283+00:00",
+      "result_run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676-sealed",
+      "receipt_recovery": {
+        "prediction_run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676",
+        "failure_sha256": "f2884c3a75caf75584a714dda30a769e8df56ce2aabeec896487ceea08a88e73",
+        "provenance_sha256": "dec3d64d43e290379358de60a8c4e531b818c9249a8654f5e29e94f973e5ca6e"
+      }
     }
   }
 }

@@ -33,7 +33,15 @@ def main():
         raise ValueError("the local noise manifest differs from the held-out receipt")
     peer_path = Path(plan["counterpart"]) / "noise_manifest.json"
     peer = peer_path.read_bytes()
-    result = compare(json.loads(local), json.loads(peer))
+    publisher = json.loads(peer)
+    if (publisher["namespace"] != "esrom_task3_noise_v1" or publisher["dtype"] != "<f8"
+            or publisher["bit_generator"] != "PCG64"
+            or publisher["layout"] != ["eps_delta[11,10]", "eps_omega[11,10]", "eps_pm[10]"]):
+        raise ValueError("peer noise generator metadata differs from the TASK3 protocol")
+    records = publisher["records"]
+    if any(row["n_events"] != plan["counts"].get(row["roster"]) for row in records):
+        raise ValueError("peer noise groups do not bind the complete registered rosters")
+    result = compare(json.loads(local), records)
     result.update({
         "holdout_run": evidence["artifact_manifest"], "plan_sha256": digest,
         "local_sha256": local_sha, "peer_sha256": hashlib.sha256(peer).hexdigest(),

@@ -17,7 +17,7 @@
 | [08 · 逐机隐状态与拓扑修正](08_machine_local_topology/README.md) | 2026-11-12 | 模型实现、观察器、记忆基线，以及阻尼、耦合和恢复力对照 |
 | [09 · 拓扑记忆与扰动路径](09_topology_memory/README.md) | 2026-11-16 | 已知真值下的记忆识别、历史初值和耦合强度，以及 TASK3 train 做功诊断 |
 | [10 · 故障后统一结构与独立盲测](10_postfault_structure/README.md) | 2026-11-19 | 从首摆损失和初值诊断推进到结构筛选、物理核对和封存盲测 |
-| [11 · 量测噪声与坏数据压力测试](11_noise_robustness/README.md) | 2026-11-27 | 冻结模型压力测试，[V2](11_noise_robustness/v2/README.md)、[V3](11_noise_robustness/v3/README.md)及 [V4 池化初始化器](11_noise_robustness/v4/README.md) |
+| [11 · 量测噪声与坏数据压力测试](11_noise_robustness/README.md) | 2026-11-27 | [V2](11_noise_robustness/v2/README.md) · [V3](11_noise_robustness/v3/README.md) · [V4 零重训通过 val 并完成两个留出名单评测](11_noise_robustness/v4/README.md) |
 
 ## 如何新增报告
 

@@ -1,0 +1,185 @@
+{
+  "workflow": "noise_robustness_esrom_v4",
+  "scientific_verdict": "ACCEPT",
+  "validation_choice": "A",
+  "claim_boundary": "Measurement Noise & Outlier Stress Test of frozen V4 and ES-ROM.",
+  "stages": {
+    "synthetic": {
+      "status": "PASS",
+      "result_dir": "noise_robustness_esrom_v4-synthetic-20261127T005413851172Z-c03c219b-a72edf51",
+      "source_commit": "c03c219b35ad62a8a98c43b734e5749e819e8544",
+      "plan_sha256": "3aebcc85c09de1099acaf02a97768d8a9e99c61b0cdb7937be38793b7ff3e885",
+      "claim_boundary": "Measurement Noise & Outlier Stress Test of frozen V4 and ES-ROM.",
+      "real_data_reads": 0,
+      "pytest_sha256": "0115c3c500b7a97626a1d87c9bb794093e6d9bf5b8c03e8c9ff4b61133afa309",
+      "pulse_diagnostics_sha256": "ff0f792246b648e1edc552d2f2969c556107294678d36d8c860aecff08af6543",
+      "qualifying_candidates": [
+        "C",
+        "E",
+        "F",
+        "H"
+      ],
+      "scientific_verdict": "ACCEPT",
+      "result_artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v4-synthetic-20261127T005413851172Z-c03c219b-a72edf51",
+        "path": "artifact_hashes.json",
+        "sha256": "56cbcc01f63da19a44d413ac0c30fdfeafa7b2f51d26dcab756658e53fa4b462"
+      },
+      "artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v4-synthetic-20261127T005413851172Z-c03c219b-a72edf51",
+        "path": "artifact_hashes.json",
+        "sha256": "56cbcc01f63da19a44d413ac0c30fdfeafa7b2f51d26dcab756658e53fa4b462"
+      }
+    },
+    "validation": {
+      "status": "PASS",
+      "result_dir": "noise_robustness_esrom_v4-validation-20261127T005811983799Z-ec699ea6-3c390a1f",
+      "source_commit": "ec699ea624bab2b5aaef21b15d4dec8fa11233d7",
+      "plan_sha256": "3aebcc85c09de1099acaf02a97768d8a9e99c61b0cdb7937be38793b7ff3e885",
+      "claim_boundary": "Measurement Noise & Outlier Stress Test of frozen V4 and ES-ROM.",
+      "test_trajectory_reads": 0,
+      "blind_container_opens": 0,
+      "val_cases": 107,
+      "optimizer_updates": 0,
+      "noise_manifest_sha256": "e186c88750a1f7082d507f33a588813cf4a11e08ca284f90a52461e499531ba7",
+      "metrics_sha256": "9b70addeb7860e6194fde1466980d2f217995fa85171b1e277cf1c92fb18efd3",
+      "event_predictions": 78752,
+      "scientific_verdict": "ACCEPT",
+      "result_artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v4-validation-20261127T005811983799Z-ec699ea6-3c390a1f",
+        "path": "artifact_hashes.json",
+        "sha256": "e9e7b23dec77338096844d164d67bcc56cb8c414669a3c0584b66e9458659236"
+      },
+      "artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v4-validation-20261127T005811983799Z-ec699ea6-3c390a1f",
+        "path": "artifact_hashes.json",
+        "sha256": "e9e7b23dec77338096844d164d67bcc56cb8c414669a3c0584b66e9458659236"
+      }
+    },
+    "freeze": {
+      "status": "PASS",
+      "result_dir": "noise_robustness_esrom_v4-freeze-20261127T014208637234Z-a23d0356-6825bb07",
+      "source_commit": "a23d0356ccebd69243137fd93d5ae2a93da0a1b2",
+      "plan_sha256": "3aebcc85c09de1099acaf02a97768d8a9e99c61b0cdb7937be38793b7ff3e885",
+      "claim_boundary": "Measurement Noise & Outlier Stress Test of frozen V4 and ES-ROM.",
+      "test_trajectory_reads": 0,
+      "blind_container_opens": 0,
+      "frozen_model_manifest": {
+        "path": "results/noise_robustness_esrom_v4-freeze-20261127T014208637234Z-a23d0356-6825bb07/freeze_receipt.json",
+        "sha256": "89e2caaaf6161b99c530d4b788b07a465673d99ab245b6c1abc081c52fc52512"
+      },
+      "result_artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v4-freeze-20261127T014208637234Z-a23d0356-6825bb07",
+        "path": "artifact_hashes.json",
+        "sha256": "6211680db0a555396016b7345996fc3407f6319ecdcc73b5620a18267b72c7ab"
+      },
+      "artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v4-freeze-20261127T014208637234Z-a23d0356-6825bb07",
+        "path": "artifact_hashes.json",
+        "sha256": "6211680db0a555396016b7345996fc3407f6319ecdcc73b5620a18267b72c7ab"
+      }
+    },
+    "blind": {
+      "source_commit": "620e133d743de82acd6c0340ecd1ab8cdae01e72",
+      "plan_sha256": "3aebcc85c09de1099acaf02a97768d8a9e99c61b0cdb7937be38793b7ff3e885",
+      "claim_boundary": "Measurement Noise & Outlier Stress Test of frozen V4 and ES-ROM.",
+      "test_cases": 76,
+      "blind_cases": 94,
+      "test_trajectory_reads": 76,
+      "blind_container_opens": 1,
+      "optimizer_updates": 0,
+      "frozen_model_manifest": {
+        "path": "docs/reports/11_noise_robustness/v4/_sealed/freeze_receipt.json",
+        "sha256": "89e2caaaf6161b99c530d4b788b07a465673d99ab245b6c1abc081c52fc52512"
+      },
+      "noise_manifest_sha256": "4e6224e27908de25da57ab51dde8071a9f9e905398fdb127997990c299e84ea6",
+      "metrics_sha256": "428c2ae66f45479804d2ee0a6f8f8d9aaaa55b97518e87e9d01a7f0c2a59a4b3",
+      "event_predictions": 93840,
+      "receipt_recovery": {
+        "prediction_run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676",
+        "failure_sha256": "f2884c3a75caf75584a714dda30a769e8df56ce2aabeec896487ceea08a88e73",
+        "provenance_sha256": "dec3d64d43e290379358de60a8c4e531b818c9249a8654f5e29e94f973e5ca6e"
+      },
+      "status": "PASS",
+      "result_dir": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676-sealed",
+      "artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676-sealed",
+        "path": "artifact_hashes.json",
+        "sha256": "9744f5930991da0551c8521b4be09621ab7f054702095eff7726d25918284127"
+      },
+      "result_artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676-sealed",
+        "path": "artifact_hashes.json",
+        "sha256": "9744f5930991da0551c8521b4be09621ab7f054702095eff7726d25918284127"
+      }
+    },
+    "closed": {
+      "status": "PASS",
+      "report_path": "docs/reports/11_noise_robustness/v4/README.md",
+      "report_sha256": "67904f2e0319523c3f3af0933751ac76cb0c7b53be3a20abb33299ead4551b68",
+      "scientific_verdict": "ACCEPT",
+      "holdout_executions": 1,
+      "holdout_predictions": 93840,
+      "matched_noise_sha256_groups": 138
+    }
+  },
+  "experiment_config": {
+    "path": "configs/experiments/noise_robustness_esrom_v4.toml",
+    "sha256": "3aebcc85c09de1099acaf02a97768d8a9e99c61b0cdb7937be38793b7ff3e885"
+  },
+  "freeze": {
+    "path": "docs/reports/11_noise_robustness/v4/_sealed/freeze_receipt.json",
+    "sha256": "89e2caaaf6161b99c530d4b788b07a465673d99ab245b6c1abc081c52fc52512"
+  },
+  "optimizer_updates": 0,
+  "train_trajectory_reads": 0,
+  "val_trajectory_reads": 107,
+  "holdout_executions": 1,
+  "holdout_event_predictions": 93840,
+  "noise_manifest": {
+    "path": "docs/reports/11_noise_robustness/v4/_sealed/noise_manifest.json",
+    "sha256": "4e6224e27908de25da57ab51dde8071a9f9e905398fdb127997990c299e84ea6"
+  },
+  "cross_repository": {
+    "matched": 138,
+    "expected": 138,
+    "path": "docs/reports/11_noise_robustness/v4/_sealed/noise_cross_repository.json",
+    "sha256": "335d4fd9917c931fc55f4e31a84482efe6bceb298ba5c7391e6d1008557181a6"
+  },
+  "blind_group_bootstrap": {
+    "groups": 21,
+    "replicates": 10000,
+    "path": "results/noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676-sealed/blind_group_bootstrap.json",
+    "sha256": "45b3c3a976b345274f547905e7b198486ebb4935660f05fd6e743e10e237f78e"
+  },
+  "data_access": {
+    "path": "results/noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676-sealed/access.jsonl",
+    "sha256": "99693dc8481d1e5ee73a04d702e1a9f42b7e0847fec12db4fe97a6a439f17239"
+  },
+  "delivery_export": {
+    "path": "results/noise_robustness_esrom_v4-delivery-20261127T022418785703Z-620e133d/export_hashes.json",
+    "sha256": "0e36ddbf210e546bd936268c95d8e0f370e6818342a1489a150a0ee61114c08a"
+  },
+  "cross_repository_export": {
+    "path": "results/noise_robustness_esrom_v4-delivery-20261127T022418785703Z-620e133d/comparison_hashes.json",
+    "sha256": "1da10a5561616b5222d11c45cf5481f265f3f78086a157e7281968ee026a9c63"
+  },
+  "published_files": {
+    "docs/reports/11_noise_robustness/v4/_sealed/engineering_receipt.json": "d64983a6e9719edbdd7618f42a51aa0aec7bea6ed196d473f64edf6ff2484b2d",
+    "docs/reports/11_noise_robustness/v4/_sealed/figure_audit.json": "df144004f7ef3fdfa8fb10b34bb5b43d402176ff58f9d25da4e6fed4aed01719",
+    "docs/reports/11_noise_robustness/v4/_sealed/freeze_receipt.json": "89e2caaaf6161b99c530d4b788b07a465673d99ab245b6c1abc081c52fc52512",
+    "docs/reports/11_noise_robustness/v4/_sealed/noise_cross_repository.json": "335d4fd9917c931fc55f4e31a84482efe6bceb298ba5c7391e6d1008557181a6",
+    "docs/reports/11_noise_robustness/v4/_sealed/noise_manifest.json": "4e6224e27908de25da57ab51dde8071a9f9e905398fdb127997990c299e84ea6",
+    "docs/reports/11_noise_robustness/v4/_sealed/synthetic_summary.json": "51212d7514d868abec7d011aab12506e3f9198d449b1e70d84e55480ce955f88",
+    "docs/reports/11_noise_robustness/v4/figures/blind_v2_cut_energy_auroc.pdf": "4499c3fa0ed7cb81fd03727d67f23de596de94390e1ccd33a8517c588360be4f",
+    "docs/reports/11_noise_robustness/v4/figures/blind_v2_cut_energy_auroc.png": "f75525fccaad2cb0dda971291cf1e2709a5936cc459a8d30fd82c9aab47c04fa",
+    "docs/reports/11_noise_robustness/v4/figures/blind_v2_gaussian_degradation.pdf": "39e1e6bea742810b0026cedfa245d2c6d95d778138608535e87889465d3f1cf9",
+    "docs/reports/11_noise_robustness/v4/figures/blind_v2_gaussian_degradation.png": "c1a048dfde9a0849f8a7a1e29cc23ced6a15bf195b72b42af2056af3405a08b9",
+    "docs/reports/11_noise_robustness/v4/figures/blind_v2_heavy_tail_pulse.pdf": "6b3c7293e07e51f9f01ce7eb770010ac05fe64dc1a5a1049ccecabb3b86ef8b7",
+    "docs/reports/11_noise_robustness/v4/figures/blind_v2_heavy_tail_pulse.png": "5b87dfee0c5805edeee1bf579621e0733f104b06cb9b33fce34ab9bfb3038dda",
+    "docs/reports/11_noise_robustness/v4/figures/blind_v2_latency_initialization_rollout.pdf": "c2ba3a9022d6864d07340c19ed9b8293553c342f7eba8a8c18caf5f22bf58b78",
+    "docs/reports/11_noise_robustness/v4/figures/blind_v2_latency_initialization_rollout.png": "8fcffdbbd1f1bb36a016c0273a6edca7f284873f573a2b2ea55e81337ee919bd",
+    "docs/reports/11_noise_robustness/v4/protocol.md": "fe8c89efed61c9015364017eda31f19c92cdf2ab0ef22bfec272fdb3d2504e55",
+    "docs/reports/11_noise_robustness/v4/README.md": "67904f2e0319523c3f3af0933751ac76cb0c7b53be3a20abb33299ead4551b68"
+  }
+}

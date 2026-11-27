@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "allocated": 138,
+  "matched": 138,
+  "missing": [],
+  "unexpected": [],
+  "mismatches": [],
+  "holdout_run": {
+    "run_id": "noise_robustness_esrom_v4-blind-20261127T014602250965Z-620e133d-a8320676-sealed",
+    "path": "artifact_hashes.json",
+    "sha256": "9744f5930991da0551c8521b4be09621ab7f054702095eff7726d25918284127"
+  },
+  "plan_sha256": "3aebcc85c09de1099acaf02a97768d8a9e99c61b0cdb7937be38793b7ff3e885",
+  "local_sha256": "4e6224e27908de25da57ab51dde8071a9f9e905398fdb127997990c299e84ea6",
+  "peer_sha256": "771eecaae0611be0cd99fd43adedb470f1f6a0c8e78b94afcee0ea6f3d81cbfa",
+  "peer_path": "E:/03-nn_Transfer_Func/task3_baselines/runs/noise_stress_100ms_20261126/noise_manifest.json"
+}

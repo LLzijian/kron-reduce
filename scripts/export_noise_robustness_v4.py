@@ -8,6 +8,7 @@ from pathlib import Path
 
 from kron_reduce.evaluation.constant_c_observability import write_json
 from kron_reduce.evaluation.noise_stress_matrix_v4 import V4
+from kron_reduce.evaluation.task3_noise_scores import summarize_reps
 from kron_reduce.workflows.noise_robustness_esrom import _json
 from kron_reduce.workflows.noise_robustness_esrom_v2 import v1_reference
 from kron_reduce.workflows.noise_robustness_esrom_v4 import REPORT_DIR, WORKFLOW, _phase, _plans
@@ -60,9 +61,14 @@ def collect_local(root):
             raise ValueError("the exported val candidate differs from the frozen choice")
     archive, _, _ = v1_reference(root, plan)
     measured = _json(directory / "metrics.json")["rosters"]["val"]
-    base_models = plan["models"][:-1]
-    rosters = {"val": {scenario: {name: archive[scenario][name] for name in base_models}
-                       | {V4: rows[choice["model_key"]]} for scenario, rows in measured.items()}}
+    val = {}
+    for scenario, rows in measured.items():
+        controls = {name: archive[scenario][name] for name in plan["models"][:-1]}
+        # The archived repeats retain classification, energy and endpoint strata.
+        val[scenario] = {name: result | {"summary": summarize_reps(result["repeats"])}
+                         for name, result in controls.items()}
+        val[scenario][V4] = rows[choice["model_key"]]
+    rosters = {"val": val}
     if "blind" in stages:
         folder, _ = stages["blind"]
         heldout = _json(folder / "metrics.json")["rosters"]

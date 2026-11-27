@@ -18,7 +18,12 @@ from kron_reduce.workflows.noise_robustness_esrom_v4 import (
     _phase,
     _plans,
 )
-from project_harness.evidence import _json_object_no_duplicates, _verify_real_git_commit
+from project_harness.evidence import (
+    _json_object_no_duplicates,
+    _verify_real_git_commit,
+    sha256_file,
+    verify_artifact_directory,
+)
 from project_harness.git_state import verify_bound_file
 from project_harness.loop import approval_recorded, load_state, workflow_lock
 from project_harness.manifest import project_root
@@ -207,6 +212,59 @@ def _reservation(root, scope):
     return Path(common) / "m4v2_m5_budgets" / f"{scope}.json"
 
 
+def _recover_prediction_run(root, state, digest, directory, held_out, hashes):
+    recovery = held_out["receipt_recovery"]
+    if not isinstance(recovery, dict) or recovery.keys() != {
+        "prediction_run_id", "failure_sha256", "provenance_sha256",
+    }:
+        raise PermissionError("invalid post-run recovery binding")
+    prediction_run_id = recovery["prediction_run_id"]
+    if (not isinstance(prediction_run_id, str)
+            or re.fullmatch(rf"{WORKFLOW}-blind-[A-Za-z0-9-]+", prediction_run_id) is None
+            or directory.name != f"{prediction_run_id}-sealed"
+            or hashes.get("recovery_receipt.json") != recovery["provenance_sha256"]
+            or hashes.get("source_failure_receipt.json") != recovery["failure_sha256"]):
+        raise PermissionError("sealed receipt does not bind the original prediction run")
+    verify_artifact_directory(
+        directory, strict=True, expected_manifest_sha256=held_out["artifact_manifest"]["sha256"],
+    )
+    provenance, _ = _json_at(directory / "recovery_receipt.json", recovery["provenance_sha256"])
+    source_dir = root / "results" / prediction_run_id
+    if source_dir.resolve(strict=True) != source_dir or not source_dir.is_dir():
+        raise PermissionError("unsafe source directory for recovery")
+    failure, original_failure = _json_at(source_dir / "RUN_FAILED.json", recovery["failure_sha256"])
+    _, sealed_failure = _json_at(directory / "source_failure_receipt.json", recovery["failure_sha256"])
+    if (original_failure != sealed_failure or failure["run_id"] != prediction_run_id
+            or failure["status"] != "failed" or failure["error_type"] != "FileExistsError"
+            or not failure["message"].endswith("noise_manifest.json'") or failure["automatic_retry"] is not False
+            or provenance["prediction_run_id"] != prediction_run_id
+            or type(provenance["additional_predictions"]) is not int
+            or provenance["additional_predictions"] != 0):
+        raise PermissionError("recovery must preserve the original post-prediction write failure")
+
+    source_files = {}
+    for path in source_dir.rglob("*"):
+        if path.resolve(strict=True) != path:
+            raise PermissionError("unsafe source artifact for recovery")
+        if path.is_file():
+            source_files[path.relative_to(source_dir).as_posix()] = sha256_file(path)
+    if source_files != provenance["source_files"]:
+        raise PermissionError("the original result directory differs from the recovery inventory")
+    remapped = {"RUN_FAILED.json": "source_failure_receipt.json", "noise_manifest.json": "heldout_noise_manifest.json"}
+    if (any(hashes.get(remapped.get(name, name)) != sha for name, sha in source_files.items())
+            or hashes.get("metrics.json") != held_out["metrics_sha256"]):
+        raise PermissionError("sealed output hashes differ from the original holdout outputs")
+
+    val_dir, _, val_hashes = _stage(root, state, "validation", digest)
+    val_noise, _ = _json_at(val_dir / "noise_manifest.json", val_hashes["noise_manifest.json"])
+    holdout_noise, _ = _json_at(directory / "heldout_noise_manifest.json", hashes["heldout_noise_manifest.json"])
+    merged_noise, _ = _json_at(directory / "noise_manifest.json", hashes["noise_manifest.json"])
+    if (val_noise.keys() != {"val"} or holdout_noise.keys() != {"test", "blind_v2"}
+            or merged_noise != (val_noise | holdout_noise)):
+        raise PermissionError("sealed noise manifest is not the exact union of the three cohorts")
+    return prediction_run_id
+
+
 def update(root, action):
     state = load_state(root, WORKFLOW)
     valid_stages = {"register": {"freeze"}, "consume": {"blind", "closed"}}[action]
@@ -230,7 +288,7 @@ def update(root, action):
             raise PermissionError("V4 joint holdout has already reserved its one execution")
     else:
         verify_bound_file(root, SEALED_FREEZE, binding["sha256"])
-        _, event, hashes = _stage(root, state, "blind", digest)
+        directory, event, hashes = _stage(root, state, "blind", digest)
         held_out = event["evidence"]
         artifact = held_out["artifact_manifest"]
         run_id = artifact["run_id"]
@@ -241,11 +299,19 @@ def update(root, action):
                 or held_out["test_trajectory_reads"] != plan["counts"]["test"]
                 or held_out["blind_cases"] != plan["counts"]["blind_v2"] or held_out["blind_container_opens"] != 1
                 or held_out["event_predictions"] != plan["limits"]["holdout_predictions"]
-                or hashes["noise_manifest.json"] != held_out["noise_manifest_sha256"]
-                or reservation != {"run_id": run_id, "source_commit": held_out["source_commit"], "retry_allowed": False}):
+                or hashes["noise_manifest.json"] != held_out["noise_manifest_sha256"]):
             raise PermissionError("the joint holdout receipt does not match its reservation and full-roster budgets")
-        consumed = {"status": "consumed", "run_id": run_id, "result_manifest_sha256": artifact["sha256"],
-                    "consumed_at": event["at"]}
+        prediction_run_id = run_id
+        recovery_record = {}
+        if "receipt_recovery" in held_out:
+            prediction_run_id = _recover_prediction_run(root, state, digest, directory, held_out, hashes)
+            recovery_record = {"result_run_id": run_id, "receipt_recovery": held_out["receipt_recovery"]}
+        if reservation != {
+            "run_id": prediction_run_id, "source_commit": held_out["source_commit"], "retry_allowed": False,
+        }:
+            raise PermissionError("the joint holdout receipt does not match its one-use reservation")
+        consumed = {"status": "consumed", "run_id": prediction_run_id, "result_manifest_sha256": artifact["sha256"],
+                    "consumed_at": event["at"], **recovery_record}
 
     for name, entry in entries.items():
         previous = manifest["experiments"].get(name)

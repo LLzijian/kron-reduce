@@ -1,0 +1,44 @@
+{
+  "ruff": {
+    "status": "PASS",
+    "scope": "all V4 added or changed Python plus CI scope",
+    "ci_paths": [
+      "project_harness",
+      "scripts/register_kiki_dataset.py"
+    ],
+    "log": {
+      "path": "scratch/one_off/noise_v4_engineering_20261127/ruff_scope.log",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    }
+  },
+  "pytest": {
+    "status": "PASS",
+    "scope": [
+      "tests/test_noise_robustness_mhe_v4.py",
+      "tests/test_noise_robustness_mhe_v3.py",
+      "tests/test_noise_robustness_mhe.py",
+      "tests/test_task3_measurement_noise.py",
+      "tests/test_task3_noise_scores.py",
+      "tests/test_archive_storage.py",
+      "tests/test_harness.py",
+      "tests/test_research_policy.py"
+    ],
+    "passed": 102,
+    "failed": 0,
+    "basetemp": "scratch/one_off/pytest_noise_v4_20261127",
+    "basetemp_removed": true,
+    "log": {
+      "path": "scratch/one_off/noise_v4_engineering_20261127/pytest_scope.log",
+      "sha256": "174d601b7030134575eb0f04d50270fbc924a7745378cca74fdeafec08d18a0e"
+    }
+  },
+  "audit": {
+    "status": "PASS",
+    "errors": 0,
+    "findings": [],
+    "log": {
+      "path": "scratch/one_off/noise_v4_engineering_20261127/audit.json",
+      "sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912"
+    }
+  }
+}
