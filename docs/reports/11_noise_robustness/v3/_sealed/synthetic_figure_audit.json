@@ -1,0 +1,16 @@
+{
+  "pixels": [
+    2160,
+    1650
+  ],
+  "dpi": [
+    299.9994,
+    299.9994
+  ],
+  "drawn_text_regions": 107,
+  "clipped": [],
+  "overlaps": [],
+  "minimum_pdf_text_pt": 7,
+  "method": "final Agg rendered text bounds and PDF content-stream font inspection",
+  "status": "PASS"
+}

@@ -1,0 +1,1357 @@
+{
+  "source_sha256": "df49ca02d36067896d19e31bc665b2628cd94f44725d8f8b8cba951602591b11",
+  "source_run": "noise_robustness_esrom_v3-synthetic-20261127T002428556816Z-c83b1a66-fb823f5c",
+  "track_a_v2_baseline_parity": {
+    "0.0025": {
+      "orig": 0.0,
+      "v1": 0.0
+    },
+    "0.00125": {
+      "orig": 0.0,
+      "v1": 0.0
+    }
+  },
+  "qualifying_candidates": [],
+  "tracks": [
+    {
+      "track": "A",
+      "step_s": 0.0025,
+      "device": "cuda:0",
+      "device_name": "NVIDIA GeForce RTX 4060 Ti",
+      "dtype": "torch.float64",
+      "truth_stiffness_factor": 1.0,
+      "truth_damping_factor": 1.0,
+      "endpoint_target_peak_means": {
+        "0": {
+          "A": 0.003294962917745837,
+          "B": 0.003267031880048713,
+          "C": 0.004199724610614584,
+          "D": 0.0030821987583828517,
+          "E": 0.004208626532821001,
+          "F": 0.003081145986802775,
+          "G": 0.004205331049636155,
+          "H": 0.0031503413788175373,
+          "orig": 0.018517192631907594,
+          "v1": 0.0033797442811151317
+        },
+        "10": {
+          "A": 0.005514956636121795,
+          "B": 0.005266937532925901,
+          "C": 0.006785842930336277,
+          "D": 0.00471769630110981,
+          "E": 0.0060775984594980915,
+          "F": 0.0037072605005504322,
+          "G": 0.006332295221745269,
+          "H": 0.004152939878532171,
+          "orig": 0.3464087531028711,
+          "v1": 0.003948209032329904
+        }
+      },
+      "gates": {
+        "A": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "B": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "C": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "D": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "E": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "F": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "G": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "H": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        }
+      },
+      "passing_candidates": [],
+      "case_count": 40,
+      "models": {
+        "A": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.010130849800982849,
+          "max_coi_residual": 6.270599344581033e-16
+        },
+        "B": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.009932367556030528,
+          "max_coi_residual": 5.580823843835686e-16
+        },
+        "C": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.008804197681429798,
+          "max_coi_residual": 4.915470204686075e-16
+        },
+        "D": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.007844035137358055,
+          "max_coi_residual": 6.048135544026281e-16
+        },
+        "E": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.007372047430013427,
+          "max_coi_residual": 5.093102907097015e-16
+        },
+        "F": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.00596601128111372,
+          "max_coi_residual": 6.046303958370633e-16
+        },
+        "G": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.007690710360334923,
+          "max_coi_residual": 6.163242488461632e-16
+        },
+        "H": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.0066030971795828985,
+          "max_coi_residual": 5.190038811638527e-16
+        },
+        "orig": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.08344798071661905,
+          "max_coi_residual": 6.991042770378786e-16
+        },
+        "v1": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.005933054200957246,
+          "max_coi_residual": 7.021851899129553e-16
+        }
+      },
+      "support": {
+        "A": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "B": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "C": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 176,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "D": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "E": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 180,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "F": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "G": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 179,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "H": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        }
+      }
+    },
+    {
+      "track": "A",
+      "step_s": 0.00125,
+      "device": "cuda:0",
+      "device_name": "NVIDIA GeForce RTX 4060 Ti",
+      "dtype": "torch.float64",
+      "truth_stiffness_factor": 1.0,
+      "truth_damping_factor": 1.0,
+      "endpoint_target_peak_means": {
+        "0": {
+          "A": 0.0032949629178954994,
+          "B": 0.0032670318799785224,
+          "C": 0.004199724610857057,
+          "D": 0.0030821987591731306,
+          "E": 0.0042086265329074855,
+          "F": 0.00308114598708716,
+          "G": 0.004205331049754304,
+          "H": 0.0031503413794182027,
+          "orig": 0.01851719261613034,
+          "v1": 0.003379744280872358
+        },
+        "10": {
+          "A": 0.0055149566371133305,
+          "B": 0.005266937533914072,
+          "C": 0.006785842930740935,
+          "D": 0.004717696301748722,
+          "E": 0.006077598459783066,
+          "F": 0.0037072605013974596,
+          "G": 0.006332295222080311,
+          "H": 0.004152939879074496,
+          "orig": 0.3464087530593776,
+          "v1": 0.003948209033245459
+        }
+      },
+      "gates": {
+        "A": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "B": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "C": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "D": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "E": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "F": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "G": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "H": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        }
+      },
+      "passing_candidates": [],
+      "case_count": 40,
+      "models": {
+        "A": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.010130849799707976,
+          "max_coi_residual": 5.382267784863284e-16
+        },
+        "B": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.009932367554689056,
+          "max_coi_residual": 5.147088458043026e-16
+        },
+        "C": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.008804197680303253,
+          "max_coi_residual": 6.675061681294053e-16
+        },
+        "D": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.007844035135775734,
+          "max_coi_residual": 5.304260658103618e-16
+        },
+        "E": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.007372047429153979,
+          "max_coi_residual": 5.406378362033657e-16
+        },
+        "F": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.005966011279823411,
+          "max_coi_residual": 5.236175536804586e-16
+        },
+        "G": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.007690710359376265,
+          "max_coi_residual": 5.355725330010743e-16
+        },
+        "H": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.006603097178229274,
+          "max_coi_residual": 5.203383172817787e-16
+        },
+        "orig": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.08344798070980482,
+          "max_coi_residual": 5.972329349789954e-16
+        },
+        "v1": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.005933054199712331,
+          "max_coi_residual": 6.004796838733104e-16
+        }
+      },
+      "support": {
+        "A": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "B": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "C": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 176,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "D": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "E": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 180,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "F": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "G": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 179,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "H": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        }
+      }
+    },
+    {
+      "track": "B",
+      "step_s": 0.0025,
+      "device": "cuda:0",
+      "device_name": "NVIDIA GeForce RTX 4060 Ti",
+      "dtype": "torch.float64",
+      "truth_stiffness_factor": 1.08,
+      "truth_damping_factor": 1.08,
+      "endpoint_target_peak_means": {
+        "0": {
+          "A": 0.003679629762041284,
+          "B": 0.0036312333310086495,
+          "C": 0.004517606111112644,
+          "D": 0.0034998224224189116,
+          "E": 0.004418677518079508,
+          "F": 0.003427542885017581,
+          "G": 0.004395788851648473,
+          "H": 0.0034749137449946754,
+          "orig": 0.01850180336547373,
+          "v1": 0.0037630649510773935
+        },
+        "10": {
+          "A": 0.005734607993528323,
+          "B": 0.005485765449721701,
+          "C": 0.006968842658452524,
+          "D": 0.005161573838621616,
+          "E": 0.006310736586332776,
+          "F": 0.004551320113342982,
+          "G": 0.006549408371028942,
+          "H": 0.004790665138871438,
+          "orig": 0.34674928713777503,
+          "v1": 0.004849228060749652
+        }
+      },
+      "gates": {
+        "A": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "B": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "C": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "D": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "E": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "F": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "G": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "H": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        }
+      },
+      "passing_candidates": [],
+      "case_count": 40,
+      "models": {
+        "A": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.052433655438728,
+          "max_coi_residual": 4.90223149731857e-16
+        },
+        "B": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.0524465881126706,
+          "max_coi_residual": 5.438028694723229e-16
+        },
+        "C": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.05181670260162423,
+          "max_coi_residual": 4.883823834549231e-16
+        },
+        "D": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.051743111893889096,
+          "max_coi_residual": 5.718279071042866e-16
+        },
+        "E": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.05110037977863385,
+          "max_coi_residual": 4.885394210774661e-16
+        },
+        "F": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.05105215006814389,
+          "max_coi_residual": 5.462252707379467e-16
+        },
+        "G": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.05134166480660533,
+          "max_coi_residual": 5.570929933642461e-16
+        },
+        "H": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.051273239749604724,
+          "max_coi_residual": 5.250705846527535e-16
+        },
+        "orig": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.0966706982209284,
+          "max_coi_residual": 6.02957153932553e-16
+        },
+        "v1": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.050444602787122886,
+          "max_coi_residual": 5.334821779689005e-16
+        }
+      },
+      "support": {
+        "A": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 68,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "B": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 68,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "C": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 175,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "D": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "E": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 180,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "F": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 70,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "G": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 178,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "H": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 70,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        }
+      }
+    },
+    {
+      "track": "B",
+      "step_s": 0.00125,
+      "device": "cuda:0",
+      "device_name": "NVIDIA GeForce RTX 4060 Ti",
+      "dtype": "torch.float64",
+      "truth_stiffness_factor": 1.08,
+      "truth_damping_factor": 1.08,
+      "endpoint_target_peak_means": {
+        "0": {
+          "A": 0.0036796297611728815,
+          "B": 0.003631233330065291,
+          "C": 0.004517606109868187,
+          "D": 0.003499822421896641,
+          "E": 0.0044186775179250555,
+          "F": 0.0034275428845667033,
+          "G": 0.0043957888508124,
+          "H": 0.0034749137446609575,
+          "orig": 0.018501803349818463,
+          "v1": 0.003763064950571652
+        },
+        "10": {
+          "A": 0.0057346079932326065,
+          "B": 0.00548576544942269,
+          "C": 0.006968842658692541,
+          "D": 0.005161573837754127,
+          "E": 0.006310736586553678,
+          "F": 0.0045513201119684885,
+          "G": 0.006549408371261662,
+          "H": 0.00479066513782237,
+          "orig": 0.34674928714666153,
+          "v1": 0.004849228059521695
+        }
+      },
+      "gates": {
+        "A": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "B": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "C": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "D": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "E": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "F": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "G": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": false,
+              "last_endpoint_peak": false
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        },
+        "H": {
+          "comparisons": {
+            "orig": {
+              "all_case_nrmse": true,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            },
+            "v1": {
+              "all_case_nrmse": false,
+              "first_endpoint_peak": true,
+              "last_endpoint_peak": true
+            }
+          },
+          "empirical_variance_pass": true,
+          "numerical_pass": true
+        }
+      },
+      "passing_candidates": [],
+      "case_count": 40,
+      "models": {
+        "A": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.05243365544215195,
+          "max_coi_residual": 5.453950394079128e-16
+        },
+        "B": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.052446588116100215,
+          "max_coi_residual": 5.352918501182253e-16
+        },
+        "C": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.051816702604041774,
+          "max_coi_residual": 5.966468859031037e-16
+        },
+        "D": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.051743111896251984,
+          "max_coi_residual": 4.848791292601099e-16
+        },
+        "E": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.05110037978031175,
+          "max_coi_residual": 5.673600754534718e-16
+        },
+        "F": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.051052150069764386,
+          "max_coi_residual": 5.718359379608073e-16
+        },
+        "G": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.05134166480852166,
+          "max_coi_residual": 4.987580180407462e-16
+        },
+        "H": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.05127323975146579,
+          "max_coi_residual": 5.358053467858186e-16
+        },
+        "orig": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.09667069822141297,
+          "max_coi_residual": 6.802673057587912e-16
+        },
+        "v1": {
+          "status": "PASS",
+          "finite_cases": 40,
+          "aggregate_nrmse": 0.05044460278854162,
+          "max_coi_residual": 5.740318712950635e-16
+        }
+      },
+      "support": {
+        "A": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 68,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "B": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 68,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "C": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 175,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "D": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 69,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "E": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 180,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "F": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 70,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "G": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 40,
+          "positive_mismatch_noisy_active_channels": 178,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        },
+        "H": {
+          "adaptive_finite": true,
+          "channels_per_event": 20,
+          "events": 40,
+          "joint_active_events": 40,
+          "lm_objective_monotone": true,
+          "noisy_active_channels": 800,
+          "noisy_active_events": 40,
+          "positive_mismatch_events": 30,
+          "positive_mismatch_noisy_active_channels": 70,
+          "pulse_weight_zero_channels": 80,
+          "pulse_weight_zero_events": 40
+        }
+      }
+    }
+  ]
+}

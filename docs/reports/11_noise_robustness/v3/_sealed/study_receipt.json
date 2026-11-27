@@ -1,0 +1,122 @@
+{
+  "workflow": "noise_robustness_esrom_v3",
+  "scientific_verdict": "REJECT",
+  "terminal_gate": "synthetic",
+  "claim_boundary": "Measurement Noise & Outlier Stress Test of frozen V4 and ES-ROM.",
+  "v2_base_commit": "f1fc017cd4b74b2f4853895abc27dd532d624474",
+  "previous_archive_tags": [
+    "attempt/codex/noise-robustness-esrom-v1/c2102bea706ddf49db6aee681545b77d9f8671a9",
+    "attempt/codex/noise-robustness-esrom-v2/f1fc017cd4b74b2f4853895abc27dd532d624474"
+  ],
+  "registered_candidates": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+  ],
+  "qualifying_candidates": [],
+  "synthetic": {
+    "stage_evidence": {
+      "status": "PASS",
+      "result_dir": "noise_robustness_esrom_v3-synthetic-20261127T002428556816Z-c83b1a66-fb823f5c",
+      "source_commit": "c83b1a6641d2fa3a1d8ea68a4b48c86234a56bcf",
+      "plan_sha256": "4343362cde46d7d3507a09e963f4a21cca8ba96e8f9262232e5cb458491b1c89",
+      "claim_boundary": "Measurement Noise & Outlier Stress Test of frozen V4 and ES-ROM.",
+      "real_data_reads": 0,
+      "pytest_sha256": "f3b90a721d84ce3c26a3d6805e9e1ada4b2ca0092a8f84a1543efa6b21673ff3",
+      "pulse_diagnostics_sha256": "df49ca02d36067896d19e31bc665b2628cd94f44725d8f8b8cba951602591b11",
+      "qualifying_candidates": [],
+      "scientific_verdict": "REJECT",
+      "result_artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v3-synthetic-20261127T002428556816Z-c83b1a66-fb823f5c",
+        "path": "artifact_hashes.json",
+        "sha256": "19414981221d7513b7acb0ef86ae65dfdf2fa619cb1b3a7050ed65b2775ddea3"
+      },
+      "artifact_manifest": {
+        "run_id": "noise_robustness_esrom_v3-synthetic-20261127T002428556816Z-c83b1a66-fb823f5c",
+        "path": "artifact_hashes.json",
+        "sha256": "19414981221d7513b7acb0ef86ae65dfdf2fa619cb1b3a7050ed65b2775ddea3"
+      }
+    },
+    "runtime": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "executable": "E:\\03-nn_Transfer_Func\\.venv\\Scripts\\python.exe",
+      "torch": "2.13.0+cu130",
+      "numpy": "2.5.2",
+      "cuda": "13.0",
+      "gpu": "NVIDIA GeForce RTX 4060 Ti",
+      "dtype": "float64",
+      "steps_s": [
+        0.0025,
+        0.00125
+      ]
+    },
+    "case_count_per_track_step": 40,
+    "predictions_scored": 1600,
+    "finite_predictions": 1600,
+    "track_a_v2_baseline_parity": {
+      "0.0025": {
+        "orig": 0.0,
+        "v1": 0.0
+      },
+      "0.00125": {
+        "orig": 0.0,
+        "v1": 0.0
+      }
+    },
+    "max_dual_step_case_metric_absolute_difference": {
+      "A": {
+        "target_peak_gap": 8.032685350212176e-10,
+        "global_peak_error": 2.0400121869545984e-10,
+        "application_peak_gap": 9.551692770060072e-12,
+        "nrmse": 1.3514448414519986e-10
+      },
+      "B": {
+        "target_peak_gap": 3.7296385424490097e-10,
+        "global_peak_error": 4.2462173360791056e-10,
+        "application_peak_gap": 1.1603829008777211e-11,
+        "nrmse": 7.675003688145665e-11
+      }
+    }
+  },
+  "prior_technical_attempt": {
+    "path": "results/noise_robustness_esrom_v3-synthetic-20261127T002246001944Z-9b904bb1-230cd7fa/RUN_FAILED.json",
+    "sha256": "cc8c6c508cf3287397a5c7e765d655e1337477bb5bc4faf80a5dd512758c8140",
+    "scientific_cells_executed": 0
+  },
+  "evidence_files": {
+    "docs/reports/11_noise_robustness/v3/README.md": "c8cedaa570aae94798137b57e55f87ead5cd6ef14b1f1648f1c52272ef3d5914",
+    "docs/reports/11_noise_robustness/v3/protocol.md": "64702dbd67c68f1e6a442732f746bdb5a6f322761cfb38a59ebed7472711c510",
+    "docs/reports/11_noise_robustness/v3/figures/dual_track_endpoint_gate.pdf": "2202fdc9971fb5a4b3a788bb03f6fb630bb920359847bf5b0f197b220fb4ac91",
+    "docs/reports/11_noise_robustness/v3/figures/dual_track_endpoint_gate.png": "c24ddf797709e40bd726093f71447a8d6bddfb157d9478c9f7d352fefc0affb0",
+    "docs/reports/11_noise_robustness/v3/_sealed/synthetic_figure_alignment.json": "07971133c6c5f86698fdb11b791375e66f7eb3e242ec41682409f6e225cb8a4d",
+    "docs/reports/11_noise_robustness/v3/_sealed/synthetic_figure_audit.json": "d28d74660a8710ebe10b8ab3814435d689b9ae1cccb5505d64164c476a9d4aca",
+    "docs/reports/11_noise_robustness/v3/_sealed/synthetic_summary.json": "5e63995feea8e2836df511e582cb064fa6d6400ea66d04936912b920b63805c5",
+    "scripts/plot_noise_robustness_v3_synthetic.py": "558a4d2c9424b65e63599a36adb269f2527c03105154480604864d47bc3fac39",
+    "scripts/verify_noise_robustness_v3_hashes.py": "05b650e3b98cbdcafb41f27532cbaa7002969010b6dc6423201252914a5afc39",
+    "src/kron_reduce/data/task3_measurement_noise.py": "f3c4507598e6234c702878222b884752ef8fa580e063de6ea4e9a3b6d99df0e7"
+  },
+  "data_access": {
+    "train_trajectory_reads": 0,
+    "val_trajectory_reads": 0,
+    "test_trajectory_reads": 0,
+    "blind_container_opens": 0,
+    "optimizer_updates": 0,
+    "peer_summary_file_reads": 0
+  },
+  "candidate_freeze": null,
+  "noise_manifest": null,
+  "cross_repository_noise_comparison": {
+    "executed": false,
+    "required": 138,
+    "verified": 0
+  },
+  "holdout_metrics": {
+    "test": null,
+    "blind_v2": null
+  }
+}

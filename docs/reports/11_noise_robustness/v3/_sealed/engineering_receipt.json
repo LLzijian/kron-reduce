@@ -1,0 +1,78 @@
+{
+  "ruff": {
+    "status": "PASS",
+    "scope": "all added or modified Python files and repository CI scope",
+    "ci_paths": [
+      "project_harness",
+      "scripts/register_kiki_dataset.py"
+    ],
+    "log": {
+      "path": "scratch/one_off/noise_v3_engineering_20261127/ruff_scope.log",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    },
+    "repository_wide": {
+      "status": "FAIL",
+      "diagnostics": 183,
+      "unchanged_baseline_paths": 58,
+      "changed_paths_with_diagnostics": 0,
+      "log": {
+        "path": "scratch/one_off/noise_v3_engineering_20261127/ruff_repository.json",
+        "sha256": "95bdae992c06e0155e4a95c342c9727bd1dbc39a350e54526aaac38c66d299f1"
+      }
+    }
+  },
+  "pytest": {
+    "status": "PASS",
+    "passed": 88,
+    "failed": 0,
+    "deselected": 1,
+    "exit_code": 0,
+    "basetemp": "scratch/one_off/pytest_noise_v3_20261127",
+    "basetemp_removed": true,
+    "scope": [
+      "tests/test_noise_robustness_mhe_v3.py",
+      "tests/test_noise_robustness_mhe.py",
+      "tests/test_task3_measurement_noise.py",
+      "tests/test_task3_noise_scores.py",
+      "tests/test_archive_storage.py",
+      "tests/test_harness.py",
+      "tests/test_research_policy.py"
+    ],
+    "withheld_node": "tests/test_harness.py::test_data_checksums",
+    "withheld_reason": "Full-file external dataset hashing reads held-out bytes before a freeze.",
+    "log": {
+      "path": "scratch/one_off/noise_v3_engineering_20261127/pytest_scope.log",
+      "sha256": "9669b0482d71da45cbc02d7453245974e10a66494ff2163d7d7c7f812fe3f02a"
+    },
+    "precheck_deviation": {
+      "basetemp": "scratch/one_off/v3-synthetic-engineering-20261127/pytest",
+      "removed": true,
+      "included_in_formal_evidence": false
+    }
+  },
+  "audit": {
+    "status": "PASS",
+    "errors": 0,
+    "findings": [],
+    "log": {
+      "path": "scratch/one_off/noise_v3_engineering_20261127/audit.json",
+      "sha256": "59c213da8e20b27e65f1bc5478f9be2e8d7e069daa0d536ac885a0d0978b6912"
+    }
+  },
+  "protected_paths_diff": "PASS",
+  "paired_matrix_synthetic_smoke": {
+    "status": "PASS",
+    "steps_s": [
+      0.0025,
+      0.00125
+    ],
+    "shared_fit_matches_independent_inference": true
+  },
+  "cross_repository_utility": {
+    "synthetic_138_key_check": "PASS",
+    "missing_and_modified_key_checks": "PASS",
+    "pre_freeze_read_refused": true,
+    "peer_manifest_read": false
+  },
+  "publication_scope": "rejected research archive"
+}
