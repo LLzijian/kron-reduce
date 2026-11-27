@@ -18,39 +18,35 @@
 
 \begin{document}
 \bstctlcite{esrom:reference_style}
-\title{Energy-Structured Grey-Box Dynamic Equivalencing and Operator Selection for Post-Fault Power Systems from 100-ms Observations}
+\title{Passivity-Preserving Reduced-Order Modeling of Post-Fault Power System Dynamics via Causal Memory Closure}
 % Author names, affiliations, and funding require author input.
 \author{Author information pending}
 \maketitle
 
 \begin{abstract}
-Forecasting eight seconds of post-fault rotor motion from 100~ms of observations
-requires resolving the first swing while maintaining a numerically reliable
-free rollout.
-We propose an energy-structured reduced-order model (ES-ROM) that couples a
-shifted-sine network potential in center-of-inertia coordinates with
-positive-semidefinite damping and reciprocal machine-local memory, yielding an
-explicit ordinary differential equation with the supply bound
-\(\dot H\le v^\top p\).
-A smooth-radius causal Gauss--Newton initializer, integral momentum screening,
-gradient-balanced backbone fitting, and closed-loop pruning select
-machine-local angle-dependent damping from a five-operator library.
-On 94 held-out IEEE 39-bus events, ES-ROM confirms 29 of 32
-instabilities (90.62\%) with zero false alarms among 62 stable events,
-94 numerically qualified forecasts, and 96.81\% overall accuracy, leading the
-compared zero-false-alarm trajectory models, including Graph-GRU (26/32),
-and improving recall by 12.50 percentage points over the hard-radius
-baseline (95\% fault-group bootstrap interval \([2.78,27.27]\)).
-The same frozen equations yield a median dominant-mode frequency error of
-0.0318~Hz, reproduce 27 of 29 jointly triggered loss-of-synchronism cuts
-exactly, and give a forecast-origin mechanical-energy area under the receiver
-operating characteristic curve (AUROC) of 0.9526.
-Under nine literature-grounded measurement-noise and bad-data stress regimes
-with the 75-parameter equation held fixed, a pooled empirical-Bayes robust
-moving-horizon initializer maintains 90.62\%--91.88\% recall at zero false
-alarms on the 94-event Test Set, lowers stable 8-s error across eight noisy
-conditions, lifts total-storage AUROC to 0.841--0.937 (+0.151 to +0.314), and
-cuts single-event initialization latency by $5.2\times$.
+Predicting multi-second post-fault electromechanical dynamics from sub-second
+wide-area measurements is vital for online transient stability assessment and
+emergency control.
+Yet detailed physical models are hard to initialize from brief partial
+observations, while purely data-driven predictors often lack physical
+consistency---risking missed first-swing instabilities, long-horizon numerical
+failure, and fragility to measurement noise and bad data.
+We propose an energy-structured reduced-order model (ES-ROM), a grey-box
+ordinary differential equation in center-of-inertia coordinates coupling a
+network restoring potential, positive-semidefinite damping, and reciprocal
+memory ports for eliminated dynamics under an exact supply--dissipation
+structure.
+A causal discovery pipeline selects parsimonious physical operators from short
+histories, complemented by a zero-retrain pooled empirical-Bayes moving-horizon
+initializer against heavy-tailed noise and impulsive outliers.
+On held-out IEEE 39-bus contingencies using 100-ms observations, ES-ROM
+achieves numerically reliable 8-s forecasts with 96.81\% accuracy and 90.62\%
+instability recall at zero false alarms---leading compared zero-false-alarm
+trajectory baselines---while coherently capturing dominant modes, separation
+cutsets, and transient energy.
+Under diverse noise and bad-data regimes without retraining, it sustains top
+strict accuracy, restores physical energy discrimination, and substantially
+accelerates initialization.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -1008,7 +1004,7 @@ closed-loop stability certificates for active oscillations. Sparse
 graphs and inverter-control operators would test momentum screening
 and energy-consistent selection on larger, heterogeneous grids.
 
-\IEEEtriggeratref{40}
+\IEEEtriggeratref{41}
 \bibliographystyle{IEEEtran}
 \bibliography{task3-references}
 \end{document}
